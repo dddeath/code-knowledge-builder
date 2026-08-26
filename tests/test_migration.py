@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import os
 from pathlib import Path
+import sqlite3
 import subprocess
 import sys
 import tempfile
@@ -126,6 +127,39 @@ class MigrationTest(unittest.TestCase):
         self.assertEqual(complete["status"], "complete")
         migration_audit = audit_migration(self.new)
         self.assertEqual(migration_audit["status"], "passed")
+        finalized_plan = json.loads((self.new / "migration/plan.json").read_text(encoding="utf-8"))
+        finalized_state = json.loads((self.new / "state.json").read_text(encoding="utf-8"))
+        self.assertEqual(finalized_plan["status"], "passed")
+        self.assertEqual(finalized_state["migration"]["status"], "passed")
+        self.assertTrue(finalized_plan["mutable_files"])
+        for mutable in finalized_plan["mutable_files"]:
+            baseline = self.new / mutable["baseline_relative_target"]
+            self.assertTrue(baseline.is_file())
+
+        # Hook ingestion and Agent edits legitimately mutate the live layer.
+        # The immutable migration baseline must remain the proof of preserved
+        # input while the live note/database only needs to stay readable.
+        migrated_human_note = self.new / "human/user/人工保留页.md"
+        migrated_human_note.write_text(
+            migrated_human_note.read_text(encoding="utf-8") + "\n后续 Hook 已追加一条会话说明。\n",
+            encoding="utf-8",
+        )
+        automation_database = self.new / "machine/automation.sqlite"
+        connection = sqlite3.connect(automation_database)
+        try:
+            connection.execute("PRAGMA application_id = 1129001521")
+            connection.commit()
+        finally:
+            connection.close()
+        post_hook_audit = audit_migration(self.new)
+        self.assertEqual(post_hook_audit["status"], "passed")
+
+        first_baseline = self.new / finalized_plan["mutable_files"][0]["baseline_relative_target"]
+        baseline_bytes = first_baseline.read_bytes()
+        first_baseline.write_bytes(b"changed")
+        self.assertEqual(audit_migration(self.new)["status"], "failed")
+        first_baseline.write_bytes(baseline_bytes)
+        self.assertEqual(audit_migration(self.new)["status"], "passed")
         new_graph = json.loads((self.new / "graph.json").read_text(encoding="utf-8"))
         new_projection = json.loads((self.new / "markdown/projection.json").read_text(encoding="utf-8"))
         new_entity_by_id = {item["id"]: item for item in new_graph["entities"]}

@@ -18,6 +18,7 @@ from .pipeline import _write_review_pack_templates, build_chunk, initialize, rev
 
 
 MIGRATION_SCHEMA_VERSION = 1
+MUTABLE_BASELINE_DIRECTORY = "migration/preserved-baseline"
 
 
 def _entity_key(entity: dict[str, Any]) -> tuple[Any, ...]:
@@ -73,6 +74,36 @@ def _copy_file(source: Path, target: Path) -> dict[str, Any]:
     }
 
 
+def _mutable_target(output: Path, relative_target: str) -> Path:
+    """Resolve a migration-owned relative path without trusting stale absolutes."""
+    target = (output / Path(relative_target.replace("\\", "/"))).resolve()
+    try:
+        target.relative_to(output.resolve())
+    except ValueError as exc:
+        raise CkbError(f"migration mutable path escapes output: {relative_target}") from exc
+    return target
+
+
+def _add_mutable_baseline(output: Path, record: dict[str, Any]) -> dict[str, Any]:
+    """Keep immutable proof of the bytes initially preserved by migration.
+
+    The live note/database is intentionally mutable after migration because Hook
+    ingestion, deterministic relinking, and Agent notes append to it.  Audits
+    therefore validate this baseline plus the readability/integrity of the live
+    file instead of freezing the live file at its migration-time hash.
+    """
+    relative_target = str(record["relative_target"])
+    live_target = _mutable_target(output, relative_target)
+    baseline_relative = f"{MUTABLE_BASELINE_DIRECTORY}/{relative_target}"
+    baseline = _mutable_target(output, baseline_relative)
+    baseline.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(live_target, baseline)
+    record["baseline_relative_target"] = baseline_relative
+    record["baseline_sha256"] = sha256_file(baseline)
+    record["initial_target_sha256"] = sha256_file(live_target)
+    return record
+
+
 def _generated_paths(vault: Path) -> set[str]:
     manifest = vault / ".ckb-generated-files.json"
     if not manifest.is_file():
@@ -95,7 +126,7 @@ def _preserve_mutable_layers(previous_output: Path, output: Path) -> list[dict[s
             record = _copy_file(source, target)
             record["kind"] = "vault-user-file"
             record["relative_target"] = f"{root_name}/{relative}"
-            records.append(record)
+            records.append(_add_mutable_baseline(output, record))
     for directory in ("notes", "pending-notes", "sessions", "automation"):
         source_root = previous_output / "workspace-meta" / directory
         if not source_root.is_dir():
@@ -106,7 +137,7 @@ def _preserve_mutable_layers(previous_output: Path, output: Path) -> list[dict[s
             record = _copy_file(source, target)
             record["kind"] = "workspace-mutable-file"
             record["relative_target"] = target.relative_to(output).as_posix()
-            records.append(record)
+            records.append(_add_mutable_baseline(output, record))
     old_database = previous_output / "machine" / "automation.sqlite"
     if old_database.is_file():
         new_database = output / "machine" / "automation.sqlite"
@@ -121,14 +152,17 @@ def _preserve_mutable_layers(previous_output: Path, output: Path) -> list[dict[s
             source_connection.close()
         initialize_automation_database(output)
         records.append(
-            {
-                "kind": "automation-database-backup",
-                "source": str(old_database.resolve()),
-                "target": str(new_database.resolve()),
-                "relative_target": new_database.relative_to(output).as_posix(),
-                "sha256": sha256_file(new_database),
-                "size": new_database.stat().st_size,
-            }
+            _add_mutable_baseline(
+                output,
+                {
+                    "kind": "automation-database-backup",
+                    "source": str(old_database.resolve()),
+                    "target": str(new_database.resolve()),
+                    "relative_target": new_database.relative_to(output).as_posix(),
+                    "sha256": sha256_file(new_database),
+                    "size": new_database.stat().st_size,
+                },
+            )
         )
     return records
 
@@ -349,12 +383,41 @@ def audit_migration(output: Path, *, require_complete_reviews: bool = True) -> d
         if path not in reused_records or not reused_records[path].get("migration_reuse")
     ]
     check("reused-files-carry-rekey-proof", not reuse_errors, reuse_errors)
-    mutable_errors = []
+    mutable_errors: list[dict[str, Any]] = []
     for item in plan.get("mutable_files", []):
-        target = Path(item["target"])
-        expected = item.get("post_migration_sha256") or item["sha256"]
-        if not target.is_file() or sha256_file(target) != expected:
-            mutable_errors.append(item.get("relative_target"))
+        relative_target = str(item.get("relative_target") or "")
+        baseline_relative = str(item.get("baseline_relative_target") or "")
+        try:
+            target = _mutable_target(output, relative_target)
+            baseline = _mutable_target(output, baseline_relative)
+        except CkbError as exc:
+            mutable_errors.append({"path": relative_target, "reason": str(exc)})
+            continue
+        expected_baseline = item.get("baseline_sha256")
+        if not baseline.is_file() or not expected_baseline or sha256_file(baseline) != expected_baseline:
+            mutable_errors.append({"path": relative_target, "reason": "preserved-baseline-missing-or-changed"})
+            continue
+        if not target.is_file():
+            mutable_errors.append({"path": relative_target, "reason": "live-mutable-file-missing"})
+            continue
+        try:
+            suffix = target.suffix.casefold()
+            if suffix == ".json":
+                json_load(target)
+            elif suffix == ".md":
+                target.read_text(encoding="utf-8")
+            elif suffix in {".sqlite", ".db"}:
+                connection = sqlite3.connect(f"file:{target.as_posix()}?mode=ro", uri=True)
+                try:
+                    integrity = connection.execute("PRAGMA integrity_check").fetchone()[0]
+                finally:
+                    connection.close()
+                if integrity != "ok":
+                    raise CkbError(f"SQLite integrity_check returned {integrity}")
+            else:
+                target.read_bytes()
+        except (CkbError, OSError, UnicodeError, json.JSONDecodeError, sqlite3.Error) as exc:
+            mutable_errors.append({"path": relative_target, "reason": "live-mutable-file-invalid", "detail": str(exc)})
     check("mutable-layers-preserved", not mutable_errors, mutable_errors)
     review_status = {pack["id"]: pack.get("status") for pack in state.get("review_packs", [])}
     reviews_complete = bool(review_status) and all(value == "passed" for value in review_status.values())
@@ -388,6 +451,11 @@ def audit_migration(output: Path, *, require_complete_reviews: bool = True) -> d
         "counts": {"passed": sum(item["passed"] for item in checks), "total": len(checks)},
         "audited_at_utc": utc_now(),
     }
+    if status == "passed":
+        plan["status"] = "passed"
+        json_write(plan_path, plan)
+        state["migration"] = {**migration, "status": "passed", "audited_at_utc": result["audited_at_utc"]}
+        json_write(output / "state.json", state)
     json_write(output / "migration" / "audit.json", result)
     return result
 
@@ -434,7 +502,7 @@ def relink_preserved_notes(output: Path, graph: dict[str, Any], projection: dict
 
     changed: list[str] = []
     for item in plan.get("mutable_files", []):
-        target = Path(item["target"])
+        target = _mutable_target(output, str(item["relative_target"]))
         if not target.is_file():
             continue
         if target.suffix.casefold() == ".md":

@@ -2974,6 +2974,10 @@ def finalize(output: Path) -> dict[str, Any]:
         json_write(output / "state.json", state)
         write_marker(output, ".failed", {"status": "failed", "audit": str((output / "audit" / "global.json").resolve())})
         raise AuditError(f"global audit failed: {output / 'audit' / 'global.json'}")
+    # audit_migration may promote the nested migration state to ``passed``.
+    # Reopen state so finalize does not overwrite that promotion with the
+    # pre-audit ``pending-agent-review`` value held by this stack frame.
+    state = _load_state(output)
     state["status"] = "complete"
     state["completed_at_utc"] = utc_now()
     json_write(output / "state.json", state)
