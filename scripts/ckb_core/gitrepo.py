@@ -34,6 +34,7 @@ DEFAULT_EXCLUDED_PARTS = {
     "node_modules",
     "vendor",
     "vendors",
+    "_vendor",
     "third_party",
     "third-party",
     "dist",
