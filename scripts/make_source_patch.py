@@ -26,8 +26,10 @@ def main() -> int:
         except UnicodeDecodeError:
             continue
         relative = (Path("code-knowledge-builder") / path.relative_to(ROOT)).as_posix()
-        diff = difflib.unified_diff([], text.splitlines(keepends=True), fromfile="/dev/null", tofile=f"b/{relative}", n=3)
-        chunks.append(f"diff --git a/{relative} b/{relative}\nnew file mode 100644\n" + "".join(diff))
+        diff = "".join(difflib.unified_diff([], text.splitlines(keepends=True), fromfile="/dev/null", tofile=f"b/{relative}", n=3))
+        if not diff.endswith("\n"):
+            diff += "\n"
+        chunks.append(f"diff --git a/{relative} b/{relative}\nnew file mode 100644\n" + diff)
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text("".join(chunks), encoding="utf-8", newline="\n")
     print(output)
