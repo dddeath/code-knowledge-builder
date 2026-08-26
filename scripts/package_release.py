@@ -13,7 +13,7 @@ from pathlib import Path, PurePosixPath
 
 VERSION = "5.1.1"
 ROOT = Path(__file__).resolve().parents[1]
-EXCLUDED_PARTS = {"__pycache__", ".pytest_cache", ".mypy_cache"}
+EXCLUDED_PARTS = {".git", "__pycache__", ".pytest_cache", ".mypy_cache"}
 
 
 def sha256(path: Path) -> str:
