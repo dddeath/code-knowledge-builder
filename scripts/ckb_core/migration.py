@@ -569,11 +569,16 @@ def migration_status(output: Path) -> dict[str, Any]:
     if not migration:
         raise CkbError(f"output is not an incremental migration: {output}")
     pending = [pack for pack in state.get("review_packs", []) if pack.get("status") != "passed"]
+    audit = audit_migration(output, require_complete_reviews=False)
+    if state.get("status") == "complete" and audit.get("status") == "passed":
+        status = "complete"
+    else:
+        status = "pending-agent-review" if pending else "ready-to-finalize"
     return {
         "schema_version": MIGRATION_SCHEMA_VERSION,
-        "status": "pending-agent-review" if pending else "ready-to-finalize",
+        "status": status,
         "migration": migration,
         "pending_review_packs": [pack["id"] for pack in pending],
         "next_review_template": pending[0].get("review_template_path") if pending else None,
-        "audit": audit_migration(output, require_complete_reviews=False),
+        "audit": audit,
     }

@@ -13,7 +13,7 @@ import unittest
 SKILL_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SKILL_ROOT / "scripts"))
 
-from ckb_core.migration import audit_migration, migrate_output
+from ckb_core.migration import audit_migration, migrate_output, migration_status
 from ckb_core.pipeline import build_chunk, finalize, initialize, review_pack
 
 
@@ -127,6 +127,7 @@ class MigrationTest(unittest.TestCase):
         self.assertEqual(complete["status"], "complete")
         migration_audit = audit_migration(self.new)
         self.assertEqual(migration_audit["status"], "passed")
+        self.assertEqual(migration_status(self.new)["status"], "complete")
         finalized_plan = json.loads((self.new / "migration/plan.json").read_text(encoding="utf-8"))
         finalized_state = json.loads((self.new / "state.json").read_text(encoding="utf-8"))
         self.assertEqual(finalized_plan["status"], "passed")
@@ -153,6 +154,7 @@ class MigrationTest(unittest.TestCase):
             connection.close()
         post_hook_audit = audit_migration(self.new)
         self.assertEqual(post_hook_audit["status"], "passed")
+        self.assertEqual(migration_status(self.new)["status"], "complete")
 
         first_baseline = self.new / finalized_plan["mutable_files"][0]["baseline_relative_target"]
         baseline_bytes = first_baseline.read_bytes()
