@@ -9,6 +9,11 @@ import os
 import sys
 from pathlib import Path
 
+# Running the CLI from a clean source repository must not create __pycache__
+# before Git preflight inspects that repository.  Full/lite launchers can still
+# opt into a separate bytecode cache through their host environment if needed.
+sys.dont_write_bytecode = True
+
 SCRIPT_DIR = Path(__file__).resolve().parent
 if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
