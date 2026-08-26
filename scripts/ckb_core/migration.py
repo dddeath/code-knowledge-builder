@@ -7,6 +7,7 @@ from pathlib import Path
 import shutil
 import sqlite3
 from typing import Any
+from urllib.parse import quote
 
 from . import SCHEMA_VERSION, VERSION
 from .automation import initialize_automation_database
@@ -351,7 +352,8 @@ def audit_migration(output: Path, *, require_complete_reviews: bool = True) -> d
     mutable_errors = []
     for item in plan.get("mutable_files", []):
         target = Path(item["target"])
-        if not target.is_file() or sha256_file(target) != item["sha256"]:
+        expected = item.get("post_migration_sha256") or item["sha256"]
+        if not target.is_file() or sha256_file(target) != expected:
             mutable_errors.append(item.get("relative_target"))
     check("mutable-layers-preserved", not mutable_errors, mutable_errors)
     review_status = {pack["id"]: pack.get("status") for pack in state.get("review_packs", [])}
@@ -387,6 +389,108 @@ def audit_migration(output: Path, *, require_complete_reviews: bool = True) -> d
         "audited_at_utc": utc_now(),
     }
     json_write(output / "migration" / "audit.json", result)
+    return result
+
+
+def _semantic_page_key(entity: dict[str, Any]) -> tuple[str, str, str]:
+    kind = "file" if entity.get("kind") == "file" else str(entity.get("kind_original") or entity.get("kind"))
+    return (str(entity.get("path")), kind, str(entity.get("qualified_name") or entity.get("name")))
+
+
+def relink_preserved_notes(output: Path, graph: dict[str, Any], projection: dict[str, Any]) -> dict[str, Any]:
+    """Retarget preserved Wiki links after deterministic human titles change."""
+    output = output.resolve()
+    plan_path = output / "migration" / "plan.json"
+    if not plan_path.is_file():
+        return {"schema_version": MIGRATION_SCHEMA_VERSION, "status": "not-applicable", "changed_files": []}
+    plan = json_load(plan_path)
+    origin = Path(plan["origin"]["output"])
+    old_graph_path = origin / "graph.json"
+    old_projection_path = origin / "markdown" / "projection.json"
+    if not old_graph_path.is_file() or not old_projection_path.is_file():
+        raise CkbError(f"migration note relink requires the origin graph and Markdown projection: {origin}")
+    old_graph = json_load(old_graph_path)
+    old_projection = json_load(old_projection_path)
+    old_entities = {entity["id"]: entity for entity in old_graph.get("entities", [])}
+    new_by_key = {_semantic_page_key(entity): entity for entity in graph.get("entities", [])}
+    new_title_by_id = {page["id"]: page["title"] for page in projection.get("pages", [])}
+    title_map: dict[str, str] = {}
+    for page in old_projection.get("pages", []):
+        old_entity = old_entities.get(page.get("id"))
+        if not old_entity:
+            continue
+        new_entity = new_by_key.get(_semantic_page_key(old_entity))
+        new_title = new_title_by_id.get(new_entity.get("id")) if new_entity else None
+        old_title = page.get("title")
+        if old_title and new_title and old_title != new_title:
+            title_map[str(old_title)] = str(new_title)
+
+    def replace_links(text: str) -> str:
+        result = text
+        for old_title, new_title in sorted(title_map.items(), key=lambda item: (-len(item[0]), item[0])):
+            result = result.replace(f"[[{old_title}]]", f"[[{new_title}]]")
+            result = result.replace(f"[[{old_title}|", f"[[{new_title}|")
+        return result
+
+    changed: list[str] = []
+    for item in plan.get("mutable_files", []):
+        target = Path(item["target"])
+        if not target.is_file():
+            continue
+        if target.suffix.casefold() == ".md":
+            text = target.read_text(encoding="utf-8")
+            updated = replace_links(text)
+            if updated != text:
+                target.write_text(updated, encoding="utf-8", newline="\n")
+                changed.append(item["relative_target"])
+        elif target.suffix.casefold() == ".json" and "workspace-meta" in target.parts:
+            try:
+                value = json_load(target)
+            except (json.JSONDecodeError, OSError):
+                continue
+            updated = False
+            linked = value.get("linked_pages")
+            if isinstance(linked, list):
+                replacement = [title_map.get(str(page), str(page)) for page in linked]
+                if replacement != linked:
+                    value["linked_pages"] = replacement
+                    updated = True
+            for field, root_name in (("file", "human"), ("compatibility_file", "markdown")):
+                current = value.get(field)
+                if isinstance(current, str):
+                    candidate = output / root_name / Path(current.replace("\\", "/")).name
+                    kind = str(value.get("kind") or "session")
+                    directory = {"change": "changes", "analysis": "analysis", "pitfall": "pitfalls", "experiment": "experiments", "session": "sessions"}.get(kind, "user")
+                    candidate = output / root_name / directory / candidate.name
+                    rendered = str(candidate.resolve())
+                    if rendered != current:
+                        value[field] = rendered
+                        updated = True
+            if isinstance(value.get("compatibility_file"), str):
+                uri = "obsidian://open?path=" + quote(value["compatibility_file"], safe="")
+                if value.get("obsidian_uri") != uri:
+                    value["obsidian_uri"] = uri
+                    updated = True
+            if updated:
+                json_write(target, value)
+                changed.append(item["relative_target"])
+        item["post_migration_sha256"] = sha256_file(target)
+        item["post_migration_size"] = target.stat().st_size
+    plan["note_relink"] = {
+        "status": "passed",
+        "title_map": title_map,
+        "changed_files": sorted(set(changed)),
+        "updated_at_utc": utc_now(),
+    }
+    json_write(plan_path, plan)
+    result = {
+        "schema_version": MIGRATION_SCHEMA_VERSION,
+        "status": "passed",
+        "title_map_count": len(title_map),
+        "changed_files": sorted(set(changed)),
+        "title_map": title_map,
+    }
+    json_write(output / "migration" / "note-relink.json", result)
     return result
 
 

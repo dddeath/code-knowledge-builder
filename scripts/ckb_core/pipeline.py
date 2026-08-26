@@ -2890,6 +2890,10 @@ def audit_global(output: Path) -> dict[str, Any]:
     # Version 5 always emits a conservative Markdown human layer.  The format
     # flag still controls whether a Logseq DB projection is additionally built.
     projections["markdown"] = project_markdown(output, graph, logical)
+    if state.get("migration"):
+        from .migration import relink_preserved_notes
+
+        projections["markdown"]["migration_note_relink"] = relink_preserved_notes(output, graph, projections["markdown"])
     pending_notes = materialize_pending_notes(output)
     projections["markdown"]["materialized_pending_notes"] = pending_notes
     json_write(output / "markdown/projection.json", projections["markdown"])

@@ -89,13 +89,21 @@ class MigrationTest(unittest.TestCase):
         old_state = json.loads(old_state_path.read_text(encoding="utf-8"))
         old_state["version"] = "5.0.0"
         old_state_path.write_text(json.dumps(old_state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        old_graph = json.loads((self.old / "graph.json").read_text(encoding="utf-8"))
+        old_projection = json.loads((self.old / "markdown/projection.json").read_text(encoding="utf-8"))
+        old_entity_by_id = {item["id"]: item for item in old_graph["entities"]}
+        old_app_title = next(
+            page["title"]
+            for page in old_projection["pages"]
+            if old_entity_by_id[page["id"]]["kind"] == "file" and old_entity_by_id[page["id"]]["path"] == "app.py"
+        )
         for vault in ("human", "markdown"):
             user_page = self.old / vault / "user" / "人工保留页.md"
             user_page.parent.mkdir(parents=True, exist_ok=True)
-            user_page.write_text("# 人工保留页\n\n这是一份迁移期间必须保留的中文用户笔记。\n", encoding="utf-8")
+            user_page.write_text(f"# 人工保留页\n\n这是一份迁移期间必须保留的中文用户笔记，原链接为 [[{old_app_title}]]。\n", encoding="utf-8")
 
         (self.repo / "app.py").write_text(
-            "from helper import double\n\ndef calculate(value):\n    return double(value) + 1\n",
+            "from helper import double\n\ndef calculate_v2(value):\n    return double(value) + 1\n",
             encoding="utf-8",
         )
         (self.repo / "automation.py").write_text("def capture(event):\n    return event.get('type')\n", encoding="utf-8")
@@ -118,10 +126,18 @@ class MigrationTest(unittest.TestCase):
         self.assertEqual(complete["status"], "complete")
         migration_audit = audit_migration(self.new)
         self.assertEqual(migration_audit["status"], "passed")
-        self.assertEqual(
-            (self.old / "human/user/人工保留页.md").read_bytes(),
-            (self.new / "human/user/人工保留页.md").read_bytes(),
+        new_graph = json.loads((self.new / "graph.json").read_text(encoding="utf-8"))
+        new_projection = json.loads((self.new / "markdown/projection.json").read_text(encoding="utf-8"))
+        new_entity_by_id = {item["id"]: item for item in new_graph["entities"]}
+        new_app_title = next(
+            page["title"]
+            for page in new_projection["pages"]
+            if new_entity_by_id[page["id"]]["kind"] == "file" and new_entity_by_id[page["id"]]["path"] == "app.py"
         )
+        migrated_note = (self.new / "human/user/人工保留页.md").read_text(encoding="utf-8")
+        self.assertNotEqual(old_app_title, new_app_title)
+        self.assertIn(f"[[{new_app_title}]]", migrated_note)
+        self.assertNotIn(f"[[{old_app_title}]]", migrated_note)
 
 
 if __name__ == "__main__":
