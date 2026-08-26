@@ -1,0 +1,265 @@
+{
+  "schema_version": 2,
+  "lock_id": "win-x64-2.0.0",
+  "platform": "win-x64",
+  "components": [
+    {
+      "name": "cpython",
+      "version": "3.14.6",
+      "license": "PSF-2.0",
+      "source": "https://www.python.org/downloads/release/python-3146/"
+    },
+    {
+      "name": "tree-sitter",
+      "version": "0.26.0",
+      "license": "MIT",
+      "source": "https://pypi.org/project/tree-sitter/0.26.0/"
+    },
+    {
+      "name": "tree-sitter-c",
+      "version": "0.24.2",
+      "license": "MIT",
+      "source": "https://pypi.org/project/tree-sitter-c/0.24.2/"
+    },
+    {
+      "name": "tree-sitter-cpp",
+      "version": "0.23.4",
+      "license": "MIT",
+      "source": "https://pypi.org/project/tree-sitter-cpp/0.23.4/"
+    },
+    {
+      "name": "tree-sitter-javascript",
+      "version": "0.25.0",
+      "license": "MIT",
+      "source": "https://pypi.org/project/tree-sitter-javascript/0.25.0/"
+    },
+    {
+      "name": "tree-sitter-python",
+      "version": "0.25.0",
+      "license": "MIT",
+      "source": "https://pypi.org/project/tree-sitter-python/0.25.0/"
+    },
+    {
+      "name": "node",
+      "version": "24.19.0",
+      "license": "MIT",
+      "source": "https://nodejs.org/dist/v24.19.0/"
+    },
+    {
+      "name": "pyright",
+      "version": "1.1.413",
+      "license": "MIT",
+      "source": "https://www.npmjs.com/package/pyright/v/1.1.413"
+    },
+    {
+      "name": "typescript-language-server",
+      "version": "6.0.0",
+      "license": "MIT",
+      "source": "https://www.npmjs.com/package/typescript-language-server/v/6.0.0"
+    },
+    {
+      "name": "typescript",
+      "version": "7.0.2",
+      "license": "Apache-2.0",
+      "source": "https://www.npmjs.com/package/typescript/v/7.0.2"
+    },
+    {
+      "name": "typescript-tsserver-compatibility",
+      "version": "6.0.3",
+      "license": "Apache-2.0",
+      "source": "https://www.npmjs.com/package/typescript/v/6.0.3",
+      "purpose": "private tsserver companion for typescript-language-server 6.0.0; TypeScript 7.0.2 remains the locked compiler"
+    },
+    {
+      "name": "llvm-clangd",
+      "version": "22.1.8",
+      "license": "Apache-2.0 WITH LLVM-exception",
+      "source": "https://github.com/llvm/llvm-project/releases/tag/llvmorg-22.1.8"
+    },
+    {
+      "name": "logseq-cli",
+      "version": "fab27740975dcda1e93dbca718d1f620eda543c7",
+      "license": "AGPL-3.0",
+      "source": "https://github.com/logseq/logseq/tree/fab27740975dcda1e93dbca718d1f620eda543c7",
+      "runtime_dependencies": [
+        {
+          "name": "@zvec/zvec",
+          "version": "0.5.0"
+        },
+        {
+          "name": "@zvec/bindings-win32-x64",
+          "version": "0.5.0"
+        },
+        {
+          "name": "keytar",
+          "version": "7.9.0"
+        },
+        {
+          "name": "ws",
+          "version": "8.20.0"
+        }
+      ]
+    },
+    {
+      "name": "tree-sitter-c-sharp",
+      "version": "0.23.5",
+      "license": "MIT",
+      "source": "https://pypi.org/project/tree-sitter-c-sharp/0.23.5/"
+    },
+    {
+      "name": "dotnet-sdk",
+      "version": "10.0.400",
+      "runtime_version": "10.0.11",
+      "license": "MIT",
+      "source": "https://dotnet.microsoft.com/en-us/download/dotnet/10.0"
+    },
+    {
+      "name": "csharp-ls",
+      "version": "0.26.0",
+      "source_commit": "b714e27ca7608b1c77fa77caa5f0bb9330fdab49",
+      "license": "MIT",
+      "source": "https://github.com/razzmatazz/csharp-language-server/releases/tag/0.26.0"
+    },
+    {
+      "name": "graphify-cluster",
+      "version": "0.9.48",
+      "source_commit": "b2cd36267456c166788c95be6e68574064a92a42",
+      "license": "Apache-2.0",
+      "source": "https://github.com/Graphify-Labs/graphify/tree/b2cd36267456c166788c95be6e68574064a92a42",
+      "included_path": "scripts/_vendor/graphify_vendor/cluster.py",
+      "sha256": "d798ef80885b4c3965538bd498de7f6600b5eb79db40c82ae6c94749d5bc2b42"
+    },
+    {
+      "name": "networkx",
+      "version": "3.5",
+      "license": "BSD-3-Clause",
+      "source": "https://pypi.org/project/networkx/3.5/",
+      "artifact": "networkx-3.5-py3-none-any.whl",
+      "artifact_sha256": "0030d386a9a06dee3565298b4a734b68589749a544acbb6c412dc9e2489ec6ec",
+      "included_path": "scripts/_vendor/networkx"
+    }
+  ],
+  "payload": {
+    "path": "assets/runtime/win-x64/payload.zip",
+    "size": 621187725,
+    "sha256": "264bdf247d4b4f667800a7f532fe0404930ad7a0c3f5743460bef38f68fce8ce",
+    "file_count": 15293,
+    "required_members": [
+      "payload-files.json",
+      "python/python.exe",
+      "node/node.exe",
+      "node_modules/pyright/langserver.index.js",
+      "node_modules/typescript-language-server/lib/cli.mjs",
+      "typescript/package.json",
+      "bin/tsserver/node_modules/typescript/lib/tsserver.js",
+      "llvm/bin/clangd.exe",
+      "logseq/logseq.cmd",
+      "logseq/static/logseq-cli.js",
+      "logseq/dist/db-worker-node.js",
+      "dotnet/dotnet.exe",
+      "dotnet/sdk/10.0.400/dotnet.dll",
+      "dotnet-tools/csharp-ls.exe",
+      "python/Lib/site-packages/tree_sitter_c_sharp/_binding.pyd",
+      "sources/csharp-language-server-0.26.0.tar.gz",
+      "sources/csharp-ls.0.26.0.nupkg",
+      "sources/tree-sitter-c-sharp-0.23.5.tar.gz",
+      "sources/tree_sitter_c_sharp-0.23.5-cp310-abi3-win_amd64.whl",
+      "licenses/dotnet-10.0.400/LICENSE.txt",
+      "licenses/csharp-ls-0.26.0/LICENSE",
+      "licenses/tree-sitter-c-sharp-0.23.5/LICENSE",
+      "sources/logseq-fab27740975dcda1e93dbca718d1f620eda543c7.zip",
+      "runtime-build-record.json",
+      "licenses/license-inventory.json"
+    ]
+  },
+  "source_artifacts": [
+    {
+      "size": 12570832,
+      "sha256": "df901e84a896ff1ee720ad03377e0c8d8c2244fda79808aeeaff6316df1cb75c",
+      "name": "python-3.14.6-embed-amd64.zip",
+      "source": "https://www.python.org/ftp/python/3.14.6/python-3.14.6-embed-amd64.zip"
+    },
+    {
+      "size": 37304352,
+      "sha256": "57f71ab3652e797d84acddc79c81cc9ff1c6ddb2a1974cdb83f00fee9bff4c73",
+      "name": "node-v24.19.0-win-x64.zip",
+      "source": "https://nodejs.org/dist/v24.19.0/node-v24.19.0-win-x64.zip"
+    },
+    {
+      "name": "LLVM-22.1.8-win64.exe",
+      "sha256": "16e5709785fef73c854646241c4a92c5cd574318d1b33c63330dd7721903e55c",
+      "source": "https://github.com/llvm/llvm-project/releases/download/llvmorg-22.1.8/LLVM-22.1.8-win64.exe",
+      "size": 455545840,
+      "bundle_sha256": "cf5e958a316021d1c1f66b9a9ac10367aa471adee01b3d6a3f8f27af0400d4be",
+      "attestation": "gh-verified"
+    },
+    {
+      "size": 30950126,
+      "sha256": "1e3c6e6f076f0702c9b1a8382068893db68a9b1aa0906d5026e64452c961ac63",
+      "name": "logseq-fab27740975dcda1e93dbca718d1f620eda543c7.zip",
+      "source": "https://github.com/logseq/logseq/archive/fab27740975dcda1e93dbca718d1f620eda543c7.zip"
+    },
+    {
+      "name": "tree_sitter_c-0.24.2-cp310-abi3-win_amd64.whl",
+      "source": "https://pypi.org/",
+      "size": 84669,
+      "sha256": "abb549225091f7b25df2dd3a0143ece6e208f7055d8bcb4700b41ee79b9ef1e1"
+    },
+    {
+      "name": "tree_sitter_cpp-0.23.4-cp39-abi3-win_amd64.whl",
+      "source": "https://pypi.org/",
+      "size": 290997,
+      "sha256": "68606a45bea92669d155399e1239f771a7767d8683cd8f8e30e7d813107030ca"
+    },
+    {
+      "name": "tree_sitter_javascript-0.25.0-cp310-abi3-win_amd64.whl",
+      "source": "https://pypi.org/",
+      "size": 62975,
+      "sha256": "e5ed840f5bd4a3f0272e441d19429b26eedc257abe5574c8546da6b556865e3c"
+    },
+    {
+      "name": "tree_sitter_python-0.25.0-cp310-abi3-win_amd64.whl",
+      "source": "https://pypi.org/",
+      "size": 76073,
+      "sha256": "9bcde33f18792de54ee579b00e1b4fe186b7926825444766f849bf7181793a76"
+    },
+    {
+      "name": "tree_sitter-0.26.0-cp314-cp314-win_amd64.whl",
+      "source": "https://pypi.org/",
+      "size": 132688,
+      "sha256": "a4033fecc8f606c7f2e8b8014d0057b74668a7f0152763606f7bc25c5f9ec64c"
+    },
+    {
+      "name": "dotnet-sdk-10.0.400-win-x64.zip",
+      "source": "https://builds.dotnet.microsoft.com/dotnet/Sdk/10.0.400/dotnet-sdk-10.0.400-win-x64.zip",
+      "size": 300546129,
+      "sha256": "83fbf0699a984d08063579b06edfc8c327af62234b1aaeeadc5d7ae7f5a0514a",
+      "sha512": "9b8b88590e4da131bfd0da7aa089d0fc04d5418d5f8607ec13d55dc5a17b4399afd54d496c12657fa05c6c6546dc5eab930f26ac6c50f2d3a7712c0fb378c366",
+      "attestation": "official-release-metadata-sha512-verified"
+    },
+    {
+      "name": "csharp-ls.0.26.0.nupkg",
+      "source": "https://api.nuget.org/v3-flatcontainer/csharp-ls/0.26.0/csharp-ls.0.26.0.nupkg",
+      "size": 23326169,
+      "sha256": "2b03987aef07bb708bfe56a7bfb370364c7c8203e69aa677a37594bbe21a15b0"
+    },
+    {
+      "name": "csharp-language-server-0.26.0.tar.gz",
+      "source": "https://github.com/razzmatazz/csharp-language-server/archive/refs/tags/0.26.0.tar.gz",
+      "size": 484328,
+      "sha256": "3757ce1994f528429b973b5aad4c256b50a0ab2136dd662db8eda012b3ec8bd7"
+    },
+    {
+      "name": "tree-sitter-c-sharp-0.23.5.tar.gz",
+      "source": "https://github.com/tree-sitter/tree-sitter-c-sharp/archive/refs/tags/v0.23.5.tar.gz",
+      "size": 1365622,
+      "sha256": "9628b164369071019368618bdefa446f0aab8acaac47b75d5dfb209e93b8903b"
+    },
+    {
+      "name": "tree_sitter_c_sharp-0.23.5-cp310-abi3-win_amd64.whl",
+      "source": "https://files.pythonhosted.org/packages/2b/e0/bd287b092d611df95a9149117fd27b5947ce75527113d6898a4b4e2c8858/tree_sitter_c_sharp-0.23.5-cp310-abi3-win_amd64.whl",
+      "size": 338756,
+      "sha256": "41a28cfa3d9ea50f5629e44550a03188c8fbd5079803dfc03554b6fd594b33fa"
+    }
+  ]
+}
