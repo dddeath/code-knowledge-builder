@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Write a text-only unified patch for the Skill against an empty baseline."""
+"""Write a first-party text-only Skill patch against an empty baseline.
+
+Bundled runtimes and vendored third-party sources stay byte-exact in the release
+archives and are referenced by their lock/provenance manifests instead.
+"""
 
 from __future__ import annotations
 
@@ -9,7 +13,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SKIP = {".git", "__pycache__", ".pytest_cache", "assets"}
+SKIP = {".git", "_vendor", "__pycache__", ".pytest_cache", "assets"}
 
 
 def main() -> int:
@@ -24,6 +28,8 @@ def main() -> int:
         try:
             text = path.read_text(encoding="utf-8")
         except UnicodeDecodeError:
+            continue
+        if "\x00" in text:
             continue
         relative = (Path("code-knowledge-builder") / path.relative_to(ROOT)).as_posix()
         diff = "".join(difflib.unified_diff([], text.splitlines(keepends=True), fromfile="/dev/null", tofile=f"b/{relative}", n=3))
