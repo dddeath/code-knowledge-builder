@@ -14,6 +14,73 @@ from .common import CkbError, json_load, json_write, path_inside
 SOURCE_EDITORS = {"vscode", "vscode-insiders", "file", "custom-template"}
 
 
+class SourceLinkRenderer:
+    """Validate one opener config and cache resolved repository paths.
+
+    Retrieval may render several entities from the same file.  The public
+    one-shot helpers below intentionally preserve their old behavior, while a
+    long-lived renderer avoids repeating Windows ``resolve`` and
+    ``_getfinalpathname`` work for every candidate.
+    """
+
+    def __init__(self, config: dict[str, Any], *, trusted_relative_paths: bool = False) -> None:
+        self.config = validate_local_openers(config)
+        root_value = self.config.get("working_repo_root")
+        if self.config.get("source_view") == "baseline" and self.config.get("baseline_snapshot_root"):
+            root_value = self.config["baseline_snapshot_root"]
+        self.root = Path(str(root_value)).resolve()
+        self.trusted_relative_paths = trusted_relative_paths
+        self._absolute_paths: dict[str, Path] = {}
+
+    @property
+    def cache_size(self) -> int:
+        return len(self._absolute_paths)
+
+    def absolute_path(self, relative_path: str) -> Path:
+        cached = self._absolute_paths.get(relative_path)
+        if cached is not None:
+            return cached
+        relative = PurePosixPath(relative_path)
+        if relative.is_absolute() or ".." in relative.parts:
+            raise CkbError(f"source path is outside the repository: {relative_path}")
+        joined = self.root.joinpath(*relative.parts)
+        if self.trusted_relative_paths:
+            # Machine retrieval only supplies paths from the audited source
+            # manifest.  Absolute and parent components were rejected above,
+            # so the lexical path is repository-bounded without another
+            # filesystem canonicalization for every selected entity.
+            path = joined
+        else:
+            path = joined.resolve()
+            if not path_inside(path, self.root):
+                raise CkbError(f"source path is outside the selected source root: {relative_path}")
+        self._absolute_paths[relative_path] = path
+        return path
+
+    def uri(self, relative_path: str, line: int, column: int = 1) -> str:
+        absolute = self.absolute_path(relative_path)
+        encoded = quote(absolute.as_posix(), safe="/:")
+        editor = self.config["source_editor"]
+        if editor == "vscode":
+            return f"vscode://file/{encoded}:{int(line)}:{int(column)}"
+        if editor == "vscode-insiders":
+            return f"vscode-insiders://file/{encoded}:{int(line)}:{int(column)}"
+        if editor == "file":
+            prefix = "file:///" if os.name == "nt" else "file://"
+            return prefix + encoded
+        return str(self.config["custom_template"]).format(
+            absolute_path=encoded,
+            line=int(line),
+            column=int(column),
+        )
+
+    def markdown_link(self, relative_path: str, start_line: int, end_line: int) -> str:
+        uri = self.uri(relative_path, start_line, 1)
+        label = f"打开源码：{relative_path} 第 {start_line} 行"
+        suffix = f"  `{relative_path}:{start_line}-{end_line}`" if self.config.get("show_source_range", True) else ""
+        return f"[{label}]({uri}){suffix}"
+
+
 def default_openers(repository_root: Path, snapshot_root: Path | None = None) -> dict[str, Any]:
     return {
         "schema_version": 1,
@@ -87,44 +154,15 @@ def update_local_openers(
 
 
 def source_absolute_path(config: dict[str, Any], relative_path: str) -> Path:
-    relative = PurePosixPath(relative_path)
-    if relative.is_absolute() or ".." in relative.parts:
-        raise CkbError(f"source path is outside the repository: {relative_path}")
-    root_value = config.get("working_repo_root")
-    if config.get("source_view") == "baseline" and config.get("baseline_snapshot_root"):
-        root_value = config["baseline_snapshot_root"]
-    root = Path(str(root_value)).resolve()
-    path = root.joinpath(*relative.parts).resolve()
-    if not path_inside(path, root):
-        raise CkbError(f"source path is outside the selected source root: {relative_path}")
-    return path
+    return SourceLinkRenderer(config).absolute_path(relative_path)
 
 
 def source_uri(config: dict[str, Any], relative_path: str, line: int, column: int = 1) -> str:
-    config = validate_local_openers(config)
-    absolute = source_absolute_path(config, relative_path)
-    posix = absolute.as_posix()
-    encoded = quote(posix, safe="/:")
-    editor = config["source_editor"]
-    if editor == "vscode":
-        return f"vscode://file/{encoded}:{int(line)}:{int(column)}"
-    if editor == "vscode-insiders":
-        return f"vscode-insiders://file/{encoded}:{int(line)}:{int(column)}"
-    if editor == "file":
-        prefix = "file:///" if os.name == "nt" else "file://"
-        return prefix + encoded
-    return str(config["custom_template"]).format(
-        absolute_path=encoded,
-        line=int(line),
-        column=int(column),
-    )
+    return SourceLinkRenderer(config).uri(relative_path, line, column)
 
 
 def source_markdown_link(config: dict[str, Any], relative_path: str, start_line: int, end_line: int) -> str:
-    uri = source_uri(config, relative_path, start_line, 1)
-    label = f"打开源码：{relative_path} 第 {start_line} 行"
-    suffix = f"  `{relative_path}:{start_line}-{end_line}`" if config.get("show_source_range", True) else ""
-    return f"[{label}]({uri}){suffix}"
+    return SourceLinkRenderer(config).markdown_link(relative_path, start_line, end_line)
 
 
 def obsidian_open_uri(path: Path) -> str:

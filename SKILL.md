@@ -2,7 +2,7 @@
 name: code-knowledge-builder
 description: Build separate machine and human code knowledge bases from a fixed Git snapshot, with deterministic SQLite retrieval, conservative Chinese Markdown/Obsidian pages, Agent review, local scopes, optional Logseq DB, and opt-in cross-Harness conversation/change synchronization. Use for locating change-relevant files, types, functions, source ranges, analyses, modifications, and durable Agent-session evidence in C/C++, C#, standard JavaScript, and Python repositories; not for one-file explanation or ordinary text search.
 metadata:
-  version: "5.1.2"
+  version: "5.1.3"
 ---
 
 # Code Knowledge Builder
