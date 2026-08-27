@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "page_limits": {
+    "ordinary_file": 1,
+    "core_file": 4,
+    "adjacent_file": 1,
+    "core_per_entry": 4,
+    "adjacent_per_entry": 3
+  },
+  "content": {
+    "code_page_sections": [
+      "overview",
+      "change_when",
+      "source_location",
+      "partial_fragments",
+      "related_code",
+      "backlinks",
+      "tests",
+      "hidden_relation_hint",
+      "appendix"
+    ],
+    "aggregate_page_sections": [
+      "overview",
+      "related_code",
+      "backlinks",
+      "tests",
+      "hidden_relation_hint"
+    ],
+    "boundary_page_sections": [
+      "overview",
+      "boundary_details",
+      "related_code",
+      "backlinks",
+      "hidden_relation_hint"
+    ],
+    "overview_fields": [
+      "meaning",
+      "role"
+    ],
+    "appendix_mode": "collapsed",
+    "headings": {
+      "change_when": "什么时候需要修改",
+      "source_location": "在代码中的位置",
+      "boundary_details": "本次未继续展开的代码",
+      "related_code": "相关代码",
+      "backlinks": "谁会来到这里",
+      "tests": "相关测试",
+      "appendix": "内部细节"
+    }
+  },
+  "relation_limits": {
+    "direct": 20,
+    "aggregate": 10,
+    "test": 8,
+    "boundary": 8
+  },
+  "context": {
+    "module_max_tokens": 80000,
+    "task_max_tokens": 20000,
+    "total_max_tokens": 100000,
+    "reserved_agent_tokens": 20000,
+    "bytes_per_token": 3
+  },
+  "review_packs": {
+    "page": {
+      "max_files": 12,
+      "max_items": 20,
+      "max_tokens": 20000
+    },
+    "appendix": {
+      "max_files": 8,
+      "max_items": 120,
+      "max_tokens": 15000
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0013",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-08-27T11:29:52Z",
+  "reviews": [
+    {
+      "entity_id": "ent-ce895c45d6625cfa8e012aa54626b9a8",
+      "classification": "page",
+      "owner_page_id": "ent-ce895c45d6625cfa8e012aa54626b9a8",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 170,
+      "end_line": 1132,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开目标 5.1 固定 Git 源码中 tests/test_ckb.py 第 170 至 1132 行，核对名称、签名、分支和调用后确认本条说明。",
+      "meaning_zh": "`CodeKnowledgeBuilderTests` 汇集主构建流水线的端到端回归场景与断言。",
+      "role_zh": "它统一管理临时 Git 夹具，验证范围、审阅、投影、运行时和失败门。",
+      "change_when_zh": "主流水线验收条件或测试夹具结构变化时，需要修改该测试类。"
+    }
+  ]
+}

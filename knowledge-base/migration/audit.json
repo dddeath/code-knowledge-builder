@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "checks": [
+    {
+      "name": "migration-plan-present",
+      "passed": true,
+      "detail": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\migration\\plan.json"
+    },
+    {
+      "name": "target-version-current",
+      "passed": true,
+      "detail": {
+        "state": "5.1.2",
+        "target": "5.1.2"
+      }
+    },
+    {
+      "name": "target-commit-pinned",
+      "passed": true,
+      "detail": "2711ced13be680d3737d1cce98fc0c23dc4c3365"
+    },
+    {
+      "name": "exact-blob-reuse-set",
+      "passed": true,
+      "detail": {
+        "missing": [],
+        "extra": []
+      }
+    },
+    {
+      "name": "reused-files-carry-rekey-proof",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "mutable-layers-preserved",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "migration-review-state",
+      "passed": true,
+      "detail": {
+        "migrated-page-review-pack-0001": "passed",
+        "migrated-page-review-pack-0002": "passed",
+        "migrated-page-review-pack-0003": "passed",
+        "migrated-page-review-pack-0004": "passed",
+        "migrated-page-review-pack-0005": "passed",
+        "migrated-page-review-pack-0006": "passed",
+        "migrated-page-review-pack-0007": "passed",
+        "migrated-page-review-pack-0008": "passed",
+        "migrated-page-review-pack-0009": "passed",
+        "migrated-page-review-pack-0010": "passed",
+        "migrated-appendix-review-pack-0001": "passed",
+        "migrated-appendix-review-pack-0002": "passed",
+        "migrated-appendix-review-pack-0003": "passed",
+        "migrated-appendix-review-pack-0004": "passed",
+        "migrated-appendix-review-pack-0005": "passed",
+        "migrated-appendix-review-pack-0006": "passed",
+        "migrated-appendix-review-pack-0007": "passed",
+        "migrated-appendix-review-pack-0008": "passed",
+        "migrated-appendix-review-pack-0009": "passed",
+        "migrated-appendix-review-pack-0010": "passed",
+        "migrated-page-review-pack-0011": "passed",
+        "migrated-page-review-pack-0012": "passed",
+        "migrated-page-review-pack-0013": "passed",
+        "migrated-page-review-pack-0014": "passed",
+        "migrated-appendix-review-pack-0011": "passed",
+        "migrated-appendix-review-pack-0012": "passed",
+        "migrated-appendix-review-pack-0013": "passed",
+        "delta-page-review-pack-0001": "passed",
+        "delta-page-review-pack-0002": "passed",
+        "delta-page-review-pack-0003": "passed",
+        "delta-appendix-review-pack-0001": "passed",
+        "delta-appendix-review-pack-0002": "passed",
+        "delta-page-review-pack-0004": "passed",
+        "delta-appendix-review-pack-0003": "passed",
+        "delta-appendix-review-pack-0004": "passed"
+      }
+    },
+    {
+      "name": "target-graph-has-only-new-provenance",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "counts": {
+    "passed": 8,
+    "total": 8
+  },
+  "audited_at_utc": "2026-08-27T11:42:59Z"
+}

@@ -1,0 +1,229 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-appendix-review-pack-0005",
+  "kind": "appendix-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-08-27T11:29:39Z",
+  "reviews": [
+    {
+      "entity_id": "ent-888ab3ca0b14536c9e6a713e6233b7d8",
+      "classification": "appendix",
+      "owner_page_id": "file-768e28a1c19a5b15b7d03d5b92846c00",
+      "source_path": "scripts/ckb_core/parsers.py",
+      "start_line": 391,
+      "end_line": 436,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 源码中 scripts/ckb_core/parsers.py 第 391 至 436 行，核对名称、签名和局部实现后写出本条中文说明。",
+      "description_zh": "该附属代码负责Tree-sitter 实体提取、C# partial 合并和词法引用关系，并把结果交给所属页面中的主流程使用。"
+    },
+    {
+      "entity_id": "ent-063d6df224ba570184bcb8e9ff0656f2",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 93,
+      "end_line": 126,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:93-126，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "读取构建状态并核对版本、仓库快照和输出目录基本约束。"
+    },
+    {
+      "entity_id": "ent-1f1f5ad5b041558095d1d7a16abb43cb",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 129,
+      "end_line": 130,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:129-130，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "从仓库相对路径提取用于分段和索引的模块名称。"
+    },
+    {
+      "entity_id": "ent-169b1eb54f0151dca10bb81a5a549bea",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 133,
+      "end_line": 140,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:133-140，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "解析带语言、路径和限定名的显式入口选择器。"
+    },
+    {
+      "entity_id": "ent-a93d3da2bf965ca299c0fe27d242fe65",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 143,
+      "end_line": 163,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:143-163，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "在候选实体中解析入口并对重名情况生成确定性候选结果。"
+    },
+    {
+      "entity_id": "ent-751e9a8f1a4158e3aee7317d43da2f2d",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 166,
+      "end_line": 197,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:166-197，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "按 callers、callees 和深度扩展入口范围并形成一跳边界。"
+    },
+    {
+      "entity_id": "ent-e18804ee01da511ca601b0877c350d52",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 200,
+      "end_line": 301,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:200-301，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "按模块、文件数、实体数和源码大小上限制定可恢复分段计划。"
+    },
+    {
+      "entity_id": "ent-3bee869a0279520ca7f597d987b8b7d4",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 213,
+      "end_line": 235,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:213-235，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "把当前累计文件与实体封装成一个确定性分段记录。"
+    },
+    {
+      "entity_id": "ent-c235434b80e65ed6937ce99c004964bd",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 237,
+      "end_line": 280,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:237-280，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "按顶层声明边界把超大文件拆成可独立分段的单元。"
+    },
+    {
+      "entity_id": "ent-55ed32010e0e550c9f06e2f88d1cd216",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 304,
+      "end_line": 347,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:304-347，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "为页面说明与附录说明生成逐实体源码证据审阅模板。"
+    },
+    {
+      "entity_id": "ent-16b6de45cae0538e94b4e690916353c4",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 350,
+      "end_line": 355,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:350-355，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "规范化 C# 工作区选择器并约束其位于仓库内部。"
+    },
+    {
+      "entity_id": "ent-f26ab96d6771528aa9cc9b8a661461b9",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 358,
+      "end_line": 400,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:358-400，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "解析显式或自动发现的 C# solution/project 工作区。"
+    },
+    {
+      "entity_id": "ent-f79b42ffe4e35b74a7012f98bd2ff297",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 403,
+      "end_line": 478,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:403-478，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "在固定快照中执行受控 C# restore 并记录生成文件清单。"
+    },
+    {
+      "entity_id": "ent-c23f4166a0e35ed7b4ced8956344bceb",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 481,
+      "end_line": 544,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:481-544，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "缺少 C# 项目文件时生成有界近似工作区和精度证据。"
+    },
+    {
+      "entity_id": "ent-7649c175d2455541a988f0022a2d73a8",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 547,
+      "end_line": 594,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:547-594，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "把精确复用的文件解析结果按目标提交重建实体与关系标识。"
+    },
+    {
+      "entity_id": "ent-e1c1731648e65481a01bc05a99a27874",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 597,
+      "end_line": 843,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:597-843，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "固定 Git 提交、发现范围、解析源码、规划分段并建立初始状态。"
+    },
+    {
+      "entity_id": "ent-f0d5f0cd3e1e55e08644c050d33a7c7c",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 846,
+      "end_line": 854,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:846-854，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "从目录、范围和边界清单中返回本次扫描实际选中的事实集合。"
+    },
+    {
+      "entity_id": "ent-2f5d4d70d9eb5e96a0d978f4b5b8c4a2",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 857,
+      "end_line": 861,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:857-861，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "按标识读取单个分段并对不存在的标识报告输入错误。"
+    },
+    {
+      "entity_id": "ent-cb309a5111aa525791e948f815fd12ef",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 864,
+      "end_line": 868,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:864-868，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "按标识读取单个审阅包并对不存在的标识报告输入错误。"
+    },
+    {
+      "entity_id": "ent-9cf1556ce74d586fb93aebb428246d51",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 871,
+      "end_line": 883,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:871-883，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "重建后撤销旧投影和完成标记，使后续审计基于最新事实。"
+    }
+  ]
+}

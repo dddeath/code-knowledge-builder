@@ -1,0 +1,48 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0005",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-08-27T11:29:24Z",
+  "reviews": [
+    {
+      "entity_id": "ent-9841a7cef39758bbbdfa8527b9fa7f1a",
+      "classification": "page",
+      "owner_page_id": "ent-9841a7cef39758bbbdfa8527b9fa7f1a",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 734,
+      "end_line": 1008,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开目标 5.1 固定 Git 源码中 scripts/ckb_core/machine_knowledge.py 第 734 至 1008 行，核对名称、签名、分支和调用后确认本条说明。",
+      "meaning_zh": "`retrieve_machine` 组合精确锚点、FTS、图传播和页面优先规则生成限额阅读包。",
+      "role_zh": "它在 fast 与 precise 模式下确定性排序实体、页面、源码和修改记录，减少广泛源码读取。",
+      "change_when_zh": "召回字段、权重、传播算法、预算或阅读包结构变化时，需要修改该函数。"
+    },
+    {
+      "entity_id": "file-61cb203270e45daea79fc2588ea453fd",
+      "classification": "page",
+      "owner_page_id": "file-61cb203270e45daea79fc2588ea453fd",
+      "source_path": "scripts/ckb_core/migration.py",
+      "start_line": 1,
+      "end_line": 585,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 eb0972e663388b28681cc0bd6a563492959cd6b5 中 scripts/ckb_core/migration.py:1-585，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "meaning_zh": "该代码页汇总 Code Knowledge Builder 的增量迁移实现，覆盖精确 blob 复用、审阅重建、可变知识保留和迁移审计。",
+      "role_zh": "它把已经审计的旧知识库迁移到新的固定 Git 提交，并用不可变基线证明用户笔记与自动化数据库已被保留，同时允许 Hook 后续继续追加内容。",
+      "change_when_zh": "当复用判据、可变层范围、重链接规则、迁移状态机或审计门发生变化时，需要修改本页并重跑迁移回归测试。"
+    },
+    {
+      "entity_id": "ent-a0f63f79f17055fb917d80a9d346654a",
+      "classification": "page",
+      "owner_page_id": "ent-a0f63f79f17055fb917d80a9d346654a",
+      "source_path": "scripts/ckb_core/migration.py",
+      "start_line": 353,
+      "end_line": 460,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 eb0972e663388b28681cc0bd6a563492959cd6b5 中 scripts/ckb_core/migration.py:353-460，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "meaning_zh": "`audit_migration` 对增量迁移计划、复用集合、可变层基线、审阅状态和目标图来源执行确定性复核。",
+      "role_zh": "它区分不可变的迁移基线与可继续写入的工作副本，验证 Markdown/JSON 可读性和 SQLite 完整性，并在全部门通过后提升迁移状态。",
+      "change_when_zh": "当迁移计划 Schema、允许的可变文件类型、完整性规则或完成状态语义变化时，需要修改该函数并增加失败注入测试。"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 4,
+  "status": "complete",
+  "machine": {
+    "schema_version": 1,
+    "status": "passed",
+    "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\knowledge.sqlite",
+    "integrity": "ok",
+    "counts": {
+      "files": 31,
+      "entities": 467,
+      "source_ranges": 467,
+      "relations": 1899,
+      "reviews": 467,
+      "documents": 474,
+      "sections": 1546,
+      "human_projection": 467,
+      "workspace_changes": 0
+    },
+    "fts_counts": {
+      "entity_fts": 467,
+      "section_fts": 1546,
+      "source_fts": 31
+    },
+    "language_contract": "所有说明使用简体中文，允许英文专有名词和代码标识符",
+    "retrieval": "sqlite-exact-fts5-sections-deterministic-weighted-graph",
+    "errors": []
+  },
+  "facts": {
+    "schema_version": 1,
+    "status": "passed",
+    "root": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\facts",
+    "errors": []
+  },
+  "global_audit": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\audit\\global.json",
+  "completed_at_utc": "2026-08-27T11:30:48Z"
+}

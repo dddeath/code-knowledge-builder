@@ -1,0 +1,22 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0008",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-08-27T11:29:29Z",
+  "reviews": [
+    {
+      "entity_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "classification": "page",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 1,
+      "end_line": 3242,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:1-3242，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "meaning_zh": "该代码页汇总知识库从范围解析、分段构建、Agent 审阅到人类与机器投影、全局审计和完成标记的主流水线。",
+      "role_zh": "它串联固定源码快照、页面压缩、中文说明、Markdown/Logseq/SQLite 投影和迁移门，是所有命令共享的确定性执行核心。",
+      "change_when_zh": "当构建阶段、页面投影、完成门、上下文预算或增量迁移联动方式变化时，需要修改本页并重跑主测试集。"
+    }
+  ]
+}

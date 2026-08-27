@@ -1,0 +1,218 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-appendix-review-pack-0007",
+  "kind": "appendix-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-08-27T11:29:42Z",
+  "reviews": [
+    {
+      "entity_id": "ent-020fae0f489e519a95fa3acbfddf10af",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 1516,
+      "end_line": 1715,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:1516-1715，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "把完整实体图压缩为受页面配额和关系预算约束的人类导航图。"
+    },
+    {
+      "entity_id": "ent-fc80f6e143d8551ea10c346c6bef8d0b",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 1524,
+      "end_line": 1539,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:1524-1539，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "初始化人类导航页的实体归属、附录、边界和链接容器。"
+    },
+    {
+      "entity_id": "ent-0d48b276d7f15901910a95d5c369e13b",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 1662,
+      "end_line": 1669,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:1662-1669，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "把底层关系类型归并为人类导航所需的有限关系类别。"
+    },
+    {
+      "entity_id": "ent-928dc4ccc5235d139777ff3109f70f2c",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 1718,
+      "end_line": 1735,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:1718-1735，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "生成页面到固定源码路径和行范围的可点击来源清单。"
+    },
+    {
+      "entity_id": "ent-24f70c14edb754f1a6ea8d7468d9cf08",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 1738,
+      "end_line": 1744,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:1738-1744，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "按页面类型与配置返回需要渲染的章节顺序。"
+    },
+    {
+      "entity_id": "ent-3beaa1d24c455baa87a9cac283fbd65f",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 1747,
+      "end_line": 1753,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:1747-1753，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "从 Agent 审阅字段组合代码页的中文概览。"
+    },
+    {
+      "entity_id": "ent-5d960b66139e5c4dbeae3a8610a55e1a",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 1756,
+      "end_line": 1759,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:1756-1759，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "为文件、模块或边界聚合页生成简明中文职责说明。"
+    },
+    {
+      "entity_id": "ent-36bd2f57981f5c16a00668c26199e303",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 1762,
+      "end_line": 1797,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:1762-1797，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "生成供机器检索与人类投影共同使用的规范页面上下文。"
+    },
+    {
+      "entity_id": "ent-6c359fdf3e5c5a0d82869d7f20acb43a",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 1800,
+      "end_line": 1831,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:1800-1831，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "根据模块和任务上限计算每个导航入口的上下文预算。"
+    },
+    {
+      "entity_id": "ent-ea0f8d26e8b259a197dbd725b7d62665",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 1834,
+      "end_line": 1849,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:1834-1849，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "把确定性关系类型转换为自然中文短语。"
+    },
+    {
+      "entity_id": "ent-8d33327852d25b1283b80c396562bfa0",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 1852,
+      "end_line": 1876,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:1852-1876，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "把压缩后的页面关系渲染为有限数量的中文导航句。"
+    },
+    {
+      "entity_id": "ent-f9cf83563969533989a28707cb1da2be",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 1879,
+      "end_line": 1957,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:1879-1957，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "把唯一逻辑投影序列化为 Markdown 与 Logseq 共用的规范 EDN。"
+    },
+    {
+      "entity_id": "ent-bde9faa68edd5f2b868cd51eec78e8d2",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 1960,
+      "end_line": 2033,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:1960-2033，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "按配置章节、双链和源码链接渲染一张人类可读 Markdown 页面。"
+    },
+    {
+      "entity_id": "ent-8d3f84e2ce4353a6b78c0e9e84c44d01",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2036,
+      "end_line": 2046,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:2036-2046，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "生成 Logseq 文件图谱要求的最小 config.edn 内容。"
+    },
+    {
+      "entity_id": "ent-c97a2e868c3d5e7395bfa1e1bb967802",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2049,
+      "end_line": 2062,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:2049-2062，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "把最小 Logseq 配置安装到导入根和兼容目录。"
+    },
+    {
+      "entity_id": "ent-bfd203f5da26560c8801436e3730ce93",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2065,
+      "end_line": 2092,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:2065-2092，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "核对 Logseq 配置存在、内容一致且位于正确导入根。"
+    },
+    {
+      "entity_id": "ent-f91ce2bb84925895b900da13f6ff0003",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2095,
+      "end_line": 2104,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:2095-2104，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "为人类页面生成稳定、去前缀且无文件名冲突的 Markdown 文件名。"
+    },
+    {
+      "entity_id": "ent-dd625074da3b53d9bfced78e7aeb5c35",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2107,
+      "end_line": 2183,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:2107-2183，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "生成中文知识库首页、阅读路线、标签说明和范围边界。"
+    },
+    {
+      "entity_id": "ent-0c03fd18429a52b49bf2436499b101e2",
+      "classification": "appendix",
+      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2186,
+      "end_line": 2288,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:2186-2288，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "description_zh": "统计标题、属性、标签、源码链接和中文叙述问题并生成可读性审计。"
+    }
+  ]
+}

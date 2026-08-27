@@ -1,0 +1,8 @@
+/* Code Knowledge Builder: restrained source links and appendices. */
+/* Generated Markdown already has one portable H1.  Obsidian's filename-based
+   inline title would repeat that heading, so the vault shows only the H1. */
+body .inline-title { display: none; }
+.external-link[href^="vscode://"],
+.external-link[href^="vscode-insiders://"] { color: var(--text-accent); }
+.markdown-rendered table { width: 100%; }
+.markdown-rendered details { border-left: 2px solid var(--background-modifier-border); padding-left: 0.8rem; }

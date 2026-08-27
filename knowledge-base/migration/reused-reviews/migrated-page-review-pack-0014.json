@@ -1,0 +1,35 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0014",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-08-27T11:29:53Z",
+  "reviews": [
+    {
+      "entity_id": "file-7ccb4a154d6756e89ed58567e37f339f",
+      "classification": "page",
+      "owner_page_id": "file-7ccb4a154d6756e89ed58567e37f339f",
+      "source_path": "tests/test_migration.py",
+      "start_line": 1,
+      "end_line": 181,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 eb0972e663388b28681cc0bd6a563492959cd6b5 中 tests/test_migration.py:1-181，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "meaning_zh": "该测试页构造两次 Git 提交和旧知识库，用于验证增量迁移、可变层基线、Hook 后续写入与故障检测。",
+      "role_zh": "它覆盖精确文件复用、delta 审阅、Wiki 链接重定向、迁移状态提升、SQLite 可变性及基线篡改失败门。",
+      "change_when_zh": "当迁移契约、审阅字段、可变知识种类或审计结果结构变化时，需要同步修改该测试。"
+    },
+    {
+      "entity_id": "ent-2fe6714b54335787a4d9243f5953ef17",
+      "classification": "page",
+      "owner_page_id": "ent-2fe6714b54335787a4d9243f5953ef17",
+      "source_path": "tests/test_migration.py",
+      "start_line": 57,
+      "end_line": 176,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 eb0972e663388b28681cc0bd6a563492959cd6b5 中 tests/test_migration.py:57-176，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "meaning_zh": "`MigrationTest` 是增量迁移的端到端回归测试夹具。",
+      "role_zh": "它在临时 Git 仓库中生成旧版与新版源码，完成两套知识库构建，并验证合法追加仍通过、不可变基线变化会失败。",
+      "change_when_zh": "当迁移流程增加新阶段、保存新型用户数据或调整完成门时，需要扩展该测试类。"
+    }
+  ]
+}
