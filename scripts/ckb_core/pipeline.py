@@ -9,6 +9,7 @@ from xml.sax.saxutils import escape as xml_escape
 from collections import defaultdict, deque
 from pathlib import Path, PurePosixPath
 from typing import Any
+from urllib.parse import quote
 
 from . import SCHEMA_VERSION, VERSION
 from .agent_index import audit_agent_index, build_agent_index
@@ -90,6 +91,76 @@ LOGSEQ_FILE_GRAPH_CONFIG_URL = (
 )
 
 
+def _replace_output_prefix(value: Any, old_output: str, new_output: str) -> Any:
+    """Rewrite only serialized paths that point inside a relocated output."""
+
+    if isinstance(value, dict):
+        return {key: _replace_output_prefix(item, old_output, new_output) for key, item in value.items()}
+    if isinstance(value, list):
+        return [_replace_output_prefix(item, old_output, new_output) for item in value]
+    if not isinstance(value, str):
+        return value
+    updated = value.replace(old_output, new_output)
+    old_posix = old_output.replace("\\", "/")
+    new_posix = new_output.replace("\\", "/")
+    updated = updated.replace(old_posix, new_posix)
+    return updated.replace(quote(old_output, safe=""), quote(new_output, safe=""))
+
+
+def _relocate_completed_output(output: Path, state: dict[str, Any]) -> dict[str, Any]:
+    """Rebase output-owned absolute paths after an audited directory rename.
+
+    Incremental migration deliberately finalizes in a staging directory and is
+    promoted with a same-volume rename.  The detached Git worktree moves with
+    that directory, so an absent old snapshot plus a valid local snapshot is an
+    unambiguous relocation signal.  Immutable migration baselines are excluded
+    because their original bytes are themselves audit evidence.
+    """
+
+    snapshot = state.get("source_snapshot")
+    if not isinstance(snapshot, dict) or not snapshot.get("root"):
+        return state
+    stored_root = Path(str(snapshot["root"]))
+    actual_root = (output / ".source-snapshot" / "worktree").resolve()
+    if stored_root.resolve() == actual_root or stored_root.is_dir() or not actual_root.is_dir():
+        return state
+    if tuple(stored_root.parts[-2:]) != (".source-snapshot", "worktree"):
+        raise StaleSourceError(f"fixed source snapshot path is not output-owned: {stored_root}")
+    old_output = str(stored_root.parent.parent)
+    new_output = str(output.resolve())
+    relocated_state = _replace_output_prefix(state, old_output, new_output)
+    assert_source_snapshot(relocated_state["repository"], relocated_state["source_snapshot"])
+    rewritten: list[str] = []
+    candidates = list(output.rglob("*.json"))
+    candidates.extend(output / name for name in (".complete", ".machine.complete", ".human.complete") if (output / name).is_file())
+    for path in sorted(set(candidates)):
+        relative = path.relative_to(output)
+        if relative.parts[:1] == (".source-snapshot",) or relative.parts[:2] == ("migration", "preserved-baseline"):
+            continue
+        try:
+            document = json_load(path)
+        except (CkbError, UnicodeDecodeError, json.JSONDecodeError):
+            continue
+        updated = _replace_output_prefix(document, old_output, new_output)
+        if updated != document:
+            json_write(path, updated)
+            rewritten.append(relative.as_posix())
+    json_write(output / "state.json", relocated_state)
+    json_write(
+        output / "audit" / "output-relocation.json",
+        {
+            "schema_version": SCHEMA_VERSION,
+            "status": "passed",
+            "old_output": old_output,
+            "new_output": new_output,
+            "snapshot_root": str(actual_root),
+            "rewritten_json_files": rewritten,
+            "relocated_at_utc": utc_now(),
+        },
+    )
+    return relocated_state
+
+
 def _load_state(output: Path) -> dict[str, Any]:
     path = output / "state.json"
     if not path.is_file():
@@ -100,6 +171,7 @@ def _load_state(output: Path) -> dict[str, Any]:
     # Keep the former chunk key as a CLI/state compatibility alias.  Both keys
     # reference the same in-memory list and are serialized together.
     state["chunks"] = state["parse_batches"]
+    state = _relocate_completed_output(output, state)
     if isinstance(state.get("source_snapshot"), dict):
         assert_source_snapshot(state["repository"], state["source_snapshot"])
     else:
