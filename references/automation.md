@@ -5,6 +5,7 @@
 ## 固定边界
 
 - **显式项目启用**：事件只有在注册表中匹配已启用的仓库根和 Harness 时才写入；其他目录返回 `ignored`。
+- **显式会话应用 Skill**：已登记项目中的 Hook 仍保持休眠；当前 Harness session 只有通过 `$code-knowledge-builder`、`/code-knowledge-builder`、原生 Skill 事件或 `automation activate` 明确应用本 Skill 后，事件才进入队列。普通文字提及项目名不会激活。
 - **机器层优先**：原始轮次经过脱敏后进入 `machine/automation.sqlite` 和写前队列。逐轮对话不会直接膨胀为人类 Markdown 页面。
 - **Agent 审阅后晋升**：`Stop` 或等价事件只产生 `pending-agent-review`。Agent 重新核对修改路径、源码和验证证据，提交简体中文审阅后，脚本才调用正式 `record_note` 投影到 `human` 与 `markdown`。
 - **不解析 transcript**：Codex 与 Claude Code 都把 transcript 路径视为便利字段而非稳定协议。本实现只使用事件直接提供的 prompt、最终回答、工具输入/结果、会话标识和工作目录。
@@ -68,10 +69,11 @@
 
 ## 统一事件协议
 
-核心规范只保留九种事件：
+核心规范保留十种事件：
 
 | 规范事件 | 含义 | 主要结果 |
 |---|---|---|
+| `skill.applied` | 当前 Harness session 明确应用 `code-knowledge-builder` | 写入会话激活记录并开启后续事件持久化 |
 | `session.start` | Harness 会话建立或恢复 | 建立会话、保存初始 Git 工作树范围 |
 | `turn.prompt` | 用户消息进入当前轮次 | 保存脱敏 prompt，建立或复用活动 turn |
 | `turn.assistant` | Harness 提供 Assistant 消息 | 更新本轮最终说明候选 |
@@ -84,16 +86,39 @@
 
 Harness 有原生 turn ID 时直接使用；Claude Code 等未提供 turn ID 的事件，脚本按会话内活动轮次和固定序号归并。相同 prompt 在活动轮次内重试会去重；上一轮完成后再次提交相同 prompt 会建立新轮次。工具事件优先使用 Harness 的 tool-use ID。
 
+### 会话激活门
+
+项目注册与会话激活是两个独立条件。注册只声明“该仓库允许使用自动化”；激活声明“当前对话任务已经实际应用本 Skill”。Agent 在读取本 Skill 后立即运行：
+
+```powershell
+& PYTHON scripts\ckb.py automation activate `
+  --harness HARNESS `
+  --session-id SESSION_ID `
+  --cwd HARNESS_TASK_ROOT `
+  --registry REGISTRY
+```
+
+Codex 可从 `CODEX_SESSION_ID` / `CODEX_THREAD_ID` 推断 session；其他适配器可以传入自己的 session ID。确定性自动激活证据包括：
+
+- prompt 中的精确 `$code-knowledge-builder` 或 `/code-knowledge-builder`；
+- Claude `UserPromptExpansion.command_name=code-knowledge-builder`；
+- Claude `PreToolUse` 的 `Skill` 工具及精确 skill name；
+- OpenCode `command.executed` 的精确命令名；
+- payload 中精确的 `active_skill` / `applied_skills` 等元数据；
+- generic `canonical_type=skill.applied`、`skill_name=code-knowledge-builder`。
+
+普通自然语言中的项目名称只视为讨论内容。激活按 `Harness + session_id + repo_root + skill_name` 唯一，重放返回 `already-activated`。同一 session 恢复时继续沿用激活；另一个 session 重新经过独立激活门。
+
 其他 Harness 通过 `automation render --harness generic` 获得 JSON Schema。最小事件为：
 
 ```json
 {
-  "canonical_type": "turn.prompt",
+  "canonical_type": "skill.applied",
   "event_id": "HARNESS_EVENT_ID",
   "session_id": "HARNESS_SESSION_ID",
-  "turn_id": "HARNESS_TURN_ID",
   "cwd": "/absolute/project/path",
-  "prompt": "用户请求"
+  "skill_name": "code-knowledge-builder",
+  "ckb_skill_applied": true
 }
 ```
 
@@ -239,16 +264,18 @@ DSH 生成 Codex 方言的四事件 Hook 配置和 `cordis.yml.fragment`，供�
 会话与修改自动同步只有同时满足以下条件才视为通过：
 
 1. 未登记项目零写入；
-2. 相同事件重放不增加事件、turn 或待审阅数量；
-3. 并发事件零丢失、零重复；
-4. 敏感原值在 spool、SQLite 和人类层均为零；
-5. Stop 后产生一条且仅一条待审阅记录；
-6. Git 路径、工具路径和输出路径只保留仓库内部目标；
-7. `automation.sqlite` 完整性为 `ok`；
-8. 中断队列可以 drain，失败队列可以显式 retry；
-9. 未审阅记录可被机器 FTS 检索，但没有人类文件；
-10. Agent 审阅的路径集合、中文正文和证据全部通过后，human/markdown 才生成一致页面；
-11. 各 Harness 配置通过 JSON/语法检查，已安装 Harness 还需真实 canary；
-12. 自动化同步状态与固定基线 `.complete` 分开，不用 Hook 成功冒充源码知识图谱重新完成。
-13. workspace-root 事件只保留源码仓库内部路径，兄弟 `work`、知识库和构建输出路径全部被过滤；
-14. Harness 协议使用各自原生事件名、字段和 timeout 单位，适配器只在规范化边界后共享逻辑。
+2. 已登记但尚未应用 Skill 的 session 零事件、零 turn、零 spool 写入；
+3. 明确应用 Skill 的 session 记录一条稳定激活证据，其他 session 保持隔离；
+4. 相同事件重放不增加事件、turn 或待审阅数量；
+5. 并发事件零丢失、零重复；
+6. 敏感原值在 spool、SQLite 和人类层均为零；
+7. Stop 后产生一条且仅一条待审阅记录；
+8. Git 路径、工具路径和输出路径只保留仓库内部目标；
+9. `automation.sqlite` 完整性为 `ok`；
+10. 中断队列可以 drain，失败队列可以显式 retry；
+11. 未审阅记录可被机器 FTS 检索，但没有人类文件；
+12. Agent 审阅的路径集合、中文正文和证据全部通过后，human/markdown 才生成一致页面；
+13. 各 Harness 配置通过 JSON/语法检查，已安装 Harness 还需真实 canary；
+14. 自动化同步状态与固定基线 `.complete` 分开，不用 Hook 成功冒充源码知识图谱重新完成。
+15. workspace-root 事件只保留源码仓库内部路径，兄弟 `work`、知识库和构建输出路径全部被过滤；
+16. Harness 协议使用各自原生事件名、字段和 timeout 单位，适配器只在规范化边界后共享逻辑。

@@ -2,7 +2,7 @@
 name: code-knowledge-builder
 description: Build separate machine and human code knowledge bases from a fixed Git snapshot, with deterministic SQLite retrieval, conservative Chinese Markdown/Obsidian pages, Agent review, local scopes, optional Logseq DB, and opt-in cross-Harness conversation/change synchronization. Use for locating change-relevant files, types, functions, source ranges, analyses, modifications, and durable Agent-session evidence in C/C++, C#, standard JavaScript, and Python repositories; not for one-file explanation or ordinary text search.
 metadata:
-  version: "5.1.1"
+  version: "5.1.2"
 ---
 
 # Code Knowledge Builder
@@ -99,7 +99,19 @@ At project initialization, start one Agent task session as soon as the fixed sna
 
 ## Automatic conversation and change synchronization
 
-Automatic capture is opt-in per repository and Harness. Register the fixed repository/output pair before installing any Hook or Plugin:
+Automatic capture has two deterministic gates: the repository/Harness must be registered, and the current Harness session must explicitly apply this Skill. A registered project alone remains idle. At the beginning of every task that applies `code-knowledge-builder`, activate the exact Harness session before substantive tool work:
+
+```powershell
+& PYTHON "SKILL_DIR\scripts\ckb.py" automation activate `
+  --harness codex `
+  --session-id $env:CODEX_SESSION_ID `
+  --cwd "HARNESS_TASK_ROOT" `
+  --registry "REGISTRY"
+```
+
+`--session-id` may be omitted when the Harness exposes its documented session environment variable. An explicit `$code-knowledge-builder` or `/code-knowledge-builder` prompt activates the same session automatically. Claude `UserPromptExpansion` and `PreToolUse` for its `Skill` tool, OpenCode command events, and generic `skill.applied` payloads are also accepted when their exact skill name is `code-knowledge-builder`. A plain prose mention of the project name is not an activation signal.
+
+Register the fixed repository/output pair before installing any Hook or Plugin:
 
 ```powershell
 & PYTHON "SKILL_DIR\scripts\ckb.py" automation register `
@@ -117,7 +129,7 @@ Generate one isolated integration bundle; inspect and merge it through the Harne
   --ckb "SKILL_DIR\scripts\ckb.py" --registry "REGISTRY"
 ```
 
-All adapters feed the same canonical protocol into `OUTPUT/machine/automation.sqlite`. Events first enter an atomic write-ahead spool, are deterministically redacted and deduplicated, and create one machine-only `pending-agent-review` record at turn stop. They never parse Harness transcript files and never directly create a reviewed human page.
+After session activation, all adapters feed the same canonical protocol into `OUTPUT/machine/automation.sqlite`. Events first enter an atomic write-ahead spool, are deterministically redacted and deduplicated, and create one machine-only `pending-agent-review` record at turn stop. Pre-activation events return `ignored: skill-not-applied-in-session` with zero session/event/spool writes. The adapters do not parse Harness transcript files or directly create a reviewed human page.
 
 ```powershell
 & PYTHON "SKILL_DIR\scripts\ckb.py" automation status --out "OUTPUT"

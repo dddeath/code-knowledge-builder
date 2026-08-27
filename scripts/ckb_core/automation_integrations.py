@@ -13,7 +13,7 @@ from .automation import SUPPORTED_HARNESSES
 from .common import CkbError, json_write
 
 
-INTEGRATION_VERSION = "1.1.0"
+INTEGRATION_VERSION = "1.2.0"
 
 
 def _looks_windows(path: Path) -> bool:
@@ -85,7 +85,7 @@ def _codex_hooks(posix: str, windows: str, *, dsh_subset: bool = False) -> dict[
             }
         )
     return {
-        "description": "将已登记项目的会话与修改证据同步到 Code Knowledge Builder 机器知识库。",
+        "description": "仅在当前会话明确应用 code-knowledge-builder Skill 后，将已登记项目的会话与修改证据同步到机器知识库。",
         "hooks": hooks,
     }
 
@@ -98,6 +98,8 @@ def _claude_hooks(command: str) -> dict[str, Any]:
         "hooks": {
             "SessionStart": [{"matcher": "startup|resume|clear|compact", "hooks": [handler(8)]}],
             "UserPromptSubmit": [{"hooks": [handler(8)]}],
+            "UserPromptExpansion": [{"matcher": "code-knowledge-builder", "hooks": [handler(8)]}],
+            "PreToolUse": [{"matcher": "Skill", "hooks": [handler(8)]}],
             "PostToolUse": [{"matcher": "Write|Edit|Bash|NotebookEdit", "hooks": [handler(8)]}],
             "PostToolUseFailure": [{"matcher": "Write|Edit|Bash|NotebookEdit", "hooks": [handler(8)]}],
             "FileChanged": [{"hooks": [handler(8)]}],
@@ -232,6 +234,10 @@ export const CodeKnowledgeBuilderSync = async ({{ directory, worktree }}) => {{
           emit({{ ...base, hook_event_name: "AssistantMessage", assistant_message: body, event_id: `message:${{messageID}}` }})
         }}
       }}
+      if (event?.type === "command.executed") {{
+        const commandName = String(value(data, ["command", "commandName", "name"]) ?? "")
+        if (commandName.replace(/^[$/]/, "") === "code-knowledge-builder") emit({{ ...base, hook_event_name: "SkillApplied", skill_name: "code-knowledge-builder", ckb_skill_applied: true, event_id: `skill:${{sessionID}}:${{commandName}}` }})
+      }}
       if (event?.type === "file.edited") emit({{ ...base, hook_event_name: "FileChanged", file_path: value(data, ["file", "filePath", "path"]), event: "change" }})
       if (event?.type === "session.compacted") emit({{ ...base, hook_event_name: "PostCompact", trigger: "auto" }})
       if (event?.type === "session.idle") emit({{ ...base, hook_event_name: "Stop", last_assistant_message: assistants.get(sessionID) ?? "", stop_hook_active: false }})
@@ -321,6 +327,10 @@ export default Plugin.define({{
         for await (const event of ctx.event.subscribe({{ signal: controller.signal }})) {{
           const sessionID = eventSessionID(event)
           const cwd = eventCwd(event)
+          if (event.type === "command.executed") {{
+            const commandName = String(event?.command ?? event?.properties?.command ?? event?.data?.command ?? "")
+            if (commandName.replace(/^[$/]/, "") === "code-knowledge-builder") emit({{ session_id: sessionID, cwd, hook_event_name: "SkillApplied", skill_name: "code-knowledge-builder", ckb_skill_applied: true, event_id: `skill:${{sessionID}}:${{commandName}}` }})
+          }}
           if (["session.execution.succeeded", "session.execution.succeeded.1", "session.idle"].includes(event.type)) {{
             const messages = unwrapMessages(await ctx.session.context({{ sessionID }}))
             const latest = [...messages].reverse().find((item) => item?.role === "assistant")
@@ -348,6 +358,7 @@ def _generic_schema() -> dict[str, Any]:
         "properties": {
             "canonical_type": {
                 "enum": [
+                    "skill.applied",
                     "session.start",
                     "turn.prompt",
                     "turn.assistant",
@@ -370,6 +381,8 @@ def _generic_schema() -> dict[str, Any]:
             "tool_input": {},
             "tool_output": {},
             "changed_paths": {"type": "array", "items": {"type": "string"}},
+            "skill_name": {"type": "string", "const": "code-knowledge-builder"},
+            "ckb_skill_applied": {"type": "boolean", "const": True},
         },
         "additionalProperties": True,
     }
@@ -415,12 +428,12 @@ def render_integration(
             {
                 "name": "code-knowledge-builder-sync",
                 "version": INTEGRATION_VERSION,
-                "description": "将已登记项目的 Codex 会话和修改证据同步到 Code Knowledge Builder。",
+                "description": "仅在会话明确应用 code-knowledge-builder Skill 后，同步已登记项目的 Codex 会话和修改证据。",
                 "author": {"name": "Code Knowledge Builder"},
                 "interface": {
                     "displayName": "Code Knowledge Builder Sync",
-                    "shortDescription": "同步已登记项目的会话与修改证据",
-                    "longDescription": "把 Codex 生命周期事件写入 Code Knowledge Builder 的脱敏机器队列，并等待 Agent 中文审阅后再进入人类知识库。",
+                    "shortDescription": "同步明确应用 CKB Skill 的项目会话",
+                    "longDescription": "会话明确应用 code-knowledge-builder Skill 后，把 Codex 生命周期事件写入脱敏机器队列，并等待 Agent 中文审阅后再进入人类知识库。",
                     "developerName": "Code Knowledge Builder",
                     "category": "Productivity",
                     "capabilities": ["Read", "Write"],
@@ -462,12 +475,12 @@ def render_integration(
         write(
             "example-event.json",
             {
-                "canonical_type": "turn.prompt",
+                "canonical_type": "skill.applied",
                 "event_id": "HARNESS_EVENT_ID",
                 "session_id": "HARNESS_SESSION_ID",
-                "turn_id": "HARNESS_TURN_ID",
                 "cwd": "/absolute/project/path",
-                "prompt": "用户请求",
+                "skill_name": "code-knowledge-builder",
+                "ckb_skill_applied": True,
             },
         )
     manifest = {
@@ -479,6 +492,8 @@ def render_integration(
         "ckb": str(ckb),
         "registry": str(registry),
         "project_opt_in_required": True,
+        "session_skill_activation_required": True,
+        "required_skill": "code-knowledge-builder",
         "transcript_parsing": False,
         "files": [str(path.relative_to(destination).as_posix()) for path in files],
     }

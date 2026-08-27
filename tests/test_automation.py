@@ -18,6 +18,7 @@ sys.path.insert(0, str(SKILL_ROOT / "scripts"))
 
 from ckb_core.automation import (
     SUPPORTED_HARNESSES,
+    activate_skill_session,
     automation_status,
     drain_automation,
     enqueue_event,
@@ -77,22 +78,96 @@ class AutomationTest(unittest.TestCase):
         self.assertEqual(result["status"], "registered")
 
     def event(self, name: str, **values: object) -> dict[str, object]:
-        return {
+        skill_applied = bool(values.pop("_skill_applied", True))
+        event = {
             "session_id": "session-1",
             "cwd": str(self.repo),
             "hook_event_name": name,
             **values,
         }
+        if skill_applied:
+            event["applied_skills"] = ["code-knowledge-builder"]
+        return event
 
     def test_project_opt_in_and_hook_output(self) -> None:
         ignored = ingest_event("codex", self.event("SessionStart", source="startup"), self.registry)
         self.assertEqual(ignored["status"], "ignored")
-        self.assertIn("additionalContext", ignored["hook_output"]["hookSpecificOutput"])
+        self.assertEqual(ignored["hook_output"], {})
         self.register("codex")
         recorded = ingest_event("codex", self.event("SessionStart", source="startup"), self.registry)
         self.assertEqual(recorded["status"], "recorded")
         self.assertEqual(recorded["canonical_type"], "session.start")
         self.assertEqual(automation_status(self.output)["events"], 1)
+
+    def test_registered_session_stays_idle_until_skill_is_explicitly_applied(self) -> None:
+        self.register("codex")
+        ignored_start = ingest_event(
+            "codex",
+            self.event("SessionStart", source="startup", _skill_applied=False),
+            self.registry,
+        )
+        self.assertEqual(ignored_start["status"], "ignored")
+        self.assertEqual(ignored_start["reason"], "skill-not-applied-in-session")
+        self.assertEqual(ignored_start["hook_output"], {})
+        mention_only = ingest_event(
+            "codex",
+            self.event(
+                "UserPromptSubmit",
+                turn_id="turn-1",
+                prompt="讨论 code-knowledge-builder 的设计，但本轮只做普通问答。",
+                _skill_applied=False,
+            ),
+            self.registry,
+        )
+        self.assertEqual(mention_only["status"], "ignored")
+        before = automation_status(self.output)
+        self.assertEqual(before["skill_activations"], 0)
+        self.assertEqual(before["events"], 0)
+        explicit = ingest_event(
+            "codex",
+            self.event(
+                "UserPromptSubmit",
+                turn_id="turn-1",
+                prompt="$code-knowledge-builder 扫描当前项目并维护知识库。",
+                _skill_applied=False,
+            ),
+            self.registry,
+        )
+        self.assertEqual(explicit["status"], "recorded")
+        after = automation_status(self.output)
+        self.assertEqual(after["skill_activations"], 1)
+        self.assertEqual(after["events"], 1)
+        other_session = ingest_event(
+            "codex",
+            {
+                "session_id": "session-other",
+                "cwd": str(self.repo),
+                "hook_event_name": "PostToolUse",
+                "tool_name": "Write",
+                "tool_input": {"file_path": "app.py"},
+            },
+            self.registry,
+        )
+        self.assertEqual(other_session["reason"], "skill-not-applied-in-session")
+
+    def test_agent_activation_command_uses_harness_session_and_workspace(self) -> None:
+        self.register("codex")
+        activated = activate_skill_session("codex", "agent-session", self.repo, self.registry)
+        self.assertEqual(activated["status"], "activated")
+        repeated = activate_skill_session("codex", "agent-session", self.repo, self.registry)
+        self.assertEqual(repeated["status"], "already-activated")
+        recorded = ingest_event(
+            "codex",
+            {
+                "session_id": "agent-session",
+                "cwd": str(self.repo),
+                "hook_event_name": "PostToolUse",
+                "tool_name": "Write",
+                "tool_input": {"file_path": "app.py"},
+            },
+            self.registry,
+        )
+        self.assertEqual(recorded["status"], "recorded")
 
     def test_redaction_idempotency_change_capture_and_pending_review(self) -> None:
         self.register("codex")
@@ -216,7 +291,7 @@ class AutomationTest(unittest.TestCase):
         register_project(nested, output, registry, ["generic"])
         ingest_event(
             "generic",
-            {"canonical_type": "session.start", "event_id": "nested-start", "session_id": "nested", "cwd": str(nested)},
+            {"canonical_type": "session.start", "skill_name": "code-knowledge-builder", "ckb_skill_applied": True, "event_id": "nested-start", "session_id": "nested", "cwd": str(nested)},
             registry,
         )
         connection = sqlite3.connect(output / "machine/automation.sqlite")
@@ -274,7 +349,7 @@ class AutomationTest(unittest.TestCase):
         self.assertEqual(registered["project"]["workspace_roots"], [str(workspace.resolve())])
         start = ingest_event(
             "generic",
-            {"canonical_type": "session.start", "event_id": "start", "session_id": "workspace", "cwd": str(workspace)},
+            {"canonical_type": "session.start", "skill_name": "code-knowledge-builder", "ckb_skill_applied": True, "event_id": "start", "session_id": "workspace", "cwd": str(workspace)},
             registry,
         )
         self.assertEqual(start["registration_match"]["kind"], "workspace")
@@ -341,10 +416,51 @@ class AutomationTest(unittest.TestCase):
         )
         result = ingest_event(
             "generic",
-            {"canonical_type": "session.start", "event_id": "legacy-start", "session_id": "legacy", "cwd": str(self.repo)},
+            {"canonical_type": "session.start", "skill_name": "code-knowledge-builder", "ckb_skill_applied": True, "event_id": "legacy-start", "session_id": "legacy", "cwd": str(self.repo)},
             self.registry,
         )
         self.assertEqual(result["status"], "recorded")
+
+    def test_version_two_registry_upgrades_to_session_activation_contract(self) -> None:
+        self.registry.write_text(
+            json.dumps(
+                {
+                    "schema_version": 2,
+                    "projects": [
+                        {
+                            "registration_id": "legacy-v2",
+                            "enabled": True,
+                            "repo_root": str(self.repo),
+                            "knowledge_output": str(self.output),
+                            "workspace_roots": [],
+                            "harnesses": ["generic"],
+                            "max_field_chars": 12000,
+                            "custom_redactions": [],
+                        }
+                    ],
+                }
+            ),
+            encoding="utf-8",
+        )
+        ignored = ingest_event(
+            "generic",
+            {"canonical_type": "session.start", "event_id": "v2-idle", "session_id": "legacy-v2", "cwd": str(self.repo)},
+            self.registry,
+        )
+        self.assertEqual(ignored["reason"], "skill-not-applied-in-session")
+        activated = ingest_event(
+            "generic",
+            {
+                "canonical_type": "skill.applied",
+                "event_id": "v2-activate",
+                "session_id": "legacy-v2",
+                "cwd": str(self.repo),
+                "skill_name": "code-knowledge-builder",
+                "ckb_skill_applied": True,
+            },
+            self.registry,
+        )
+        self.assertEqual(activated["status"], "recorded")
 
     def test_opencode_and_generic_normalization(self) -> None:
         user = normalize_event(
@@ -369,6 +485,30 @@ class AutomationTest(unittest.TestCase):
             },
         )
         self.assertEqual(tool["changed_paths"], ["app.py"])
+        skill = normalize_event(
+            "generic",
+            {
+                "canonical_type": "skill.applied",
+                "session_id": "generic-1",
+                "cwd": str(self.repo),
+                "skill_name": "code-knowledge-builder",
+                "ckb_skill_applied": True,
+            },
+        )
+        self.assertEqual(skill["canonical_type"], "skill.applied")
+        self.assertEqual(skill["skill_name"], "code-knowledge-builder")
+        claude_expansion = normalize_event(
+            "claude",
+            {
+                "hook_event_name": "UserPromptExpansion",
+                "session_id": "claude-skill",
+                "cwd": str(self.repo),
+                "command_name": "code-knowledge-builder",
+                "prompt": "/code-knowledge-builder 扫描项目",
+            },
+        )
+        self.assertEqual(claude_expansion["canonical_type"], "skill.applied")
+        self.assertEqual(claude_expansion["skill_name"], "code-knowledge-builder")
 
     def test_gemini_copilot_and_cursor_normalization(self) -> None:
         gemini_prompt = normalize_event(
@@ -405,7 +545,7 @@ class AutomationTest(unittest.TestCase):
         self.register("generic")
         ingest_event(
             "generic",
-            {"canonical_type": "session.start", "event_id": "start", "session_id": "parallel", "cwd": str(self.repo)},
+            {"canonical_type": "session.start", "skill_name": "code-knowledge-builder", "ckb_skill_applied": True, "event_id": "start", "session_id": "parallel", "cwd": str(self.repo)},
             self.registry,
         )
         events = [
@@ -467,7 +607,7 @@ class AutomationTest(unittest.TestCase):
         self.register("generic")
         ingest_event(
             "generic",
-            {"canonical_type": "session.start", "event_id": "start", "session_id": "review", "cwd": str(self.repo)},
+            {"canonical_type": "session.start", "skill_name": "code-knowledge-builder", "ckb_skill_applied": True, "event_id": "start", "session_id": "review", "cwd": str(self.repo)},
             self.registry,
         )
         ingest_event(
@@ -595,12 +735,19 @@ class AutomationTest(unittest.TestCase):
         cursor = json.loads((self.root / "integrations/cursor/.cursor/hooks.json").read_text(encoding="utf-8"))
         self.assertEqual(cursor["version"], 1)
         self.assertIn("afterFileEdit", cursor["hooks"])
+        claude = json.loads((self.root / "integrations/claude/.claude/settings.json").read_text(encoding="utf-8"))
+        self.assertIn("UserPromptExpansion", claude["hooks"])
+        self.assertEqual(claude["hooks"]["PreToolUse"][0]["matcher"], "Skill")
+        for harness in sorted(SUPPORTED_HARNESSES):
+            manifest = json.loads((self.root / "integrations" / harness / "integration.json").read_text(encoding="utf-8"))
+            self.assertTrue(manifest["session_skill_activation_required"])
+            self.assertEqual(manifest["required_skill"], "code-knowledge-builder")
 
     def test_automation_fts_finds_pending_machine_record(self) -> None:
         self.register("generic")
         ingest_event(
             "generic",
-            {"canonical_type": "turn.prompt", "event_id": "p", "session_id": "fts", "turn_id": "t", "cwd": str(self.repo), "prompt": "实现会话自动化更新"},
+            {"canonical_type": "turn.prompt", "event_id": "p", "session_id": "fts", "turn_id": "t", "cwd": str(self.repo), "prompt": "$code-knowledge-builder 实现会话自动化更新"},
             self.registry,
         )
         ingest_event(
@@ -616,7 +763,7 @@ class AutomationTest(unittest.TestCase):
         self.register("generic")
         ingest_event(
             "generic",
-            {"canonical_type": "turn.prompt", "event_id": "p", "session_id": "machine", "turn_id": "t", "cwd": str(self.repo), "prompt": "实现会话自动化更新"},
+            {"canonical_type": "turn.prompt", "event_id": "p", "session_id": "machine", "turn_id": "t", "cwd": str(self.repo), "prompt": "$code-knowledge-builder 实现会话自动化更新"},
             self.registry,
         )
         ingest_event(

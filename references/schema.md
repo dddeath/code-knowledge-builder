@@ -40,7 +40,7 @@ OUTPUT/
 |-- local-openers.json             machine-local source editor mapping
 |-- machine/
 |   |-- knowledge.sqlite           complete Agent database and FTS5/graph index
-|   |-- automation.sqlite          opt-in Harness sessions, turns, events, paths, pending reviews and FTS
+|   |-- automation.sqlite          opt-in Skill activations, Harness sessions, turns, events, paths, pending reviews and FTS
 |   `-- agent-packs/               budgeted deterministic Agent reading packs
 |-- agent-index.sqlite             legacy-compatible page retrieval index
 |-- workspace-meta/
@@ -145,9 +145,9 @@ status, Obsidian URI, and update time.
 
 `workspace-meta/sessions` 保存会话启动/结束状态、问题、确定性检索记录、初始与最终覆盖层以及关联笔记。构建期间产生的中文笔记先进入 `pending-notes`，最终投影后按查询结果或变化路径确定性链接到人类知识页。
 
-`machine/automation.sqlite` 使用独立 schema 保存 `sessions`、`turns`、`events`、`tool_events`、`changed_paths`、`pending_reviews` 和 `automation_fts`。所有事件先经项目注册检查、递归脱敏、仓库内路径过滤和写前 spool，再以稳定事件/会话/轮次键写入。`pending_reviews.status` 只能从 `pending-agent-review` 经 `automation review` 进入 `agent-reviewed`；Hook 本身没有该状态转换权限。
+`machine/automation.sqlite` 使用独立 schema 保存 `skill_activations`、`sessions`、`turns`、`events`、`tool_events`、`changed_paths`、`pending_reviews` 和 `automation_fts`。事件先通过项目注册和 session Skill 激活双门，再经递归脱敏、仓库内路径过滤和写前 spool，以稳定事件/会话/轮次键写入。`skill_activations` 的唯一键由 Harness、session、仓库根和精确 skill name 组成；激活前事件保持零 spool/事件写入。`pending_reviews.status` 只能从 `pending-agent-review` 经 `automation review` 进入 `agent-reviewed`；Hook 本身没有该状态转换权限。
 
-自动化注册表 schema 2 的每个项目包含唯一 `repo_root`、`knowledge_output`、可重复 `workspace_roots`、Harness 集合和脱敏配置。事件先按直接仓库根匹配，再按 workspace 根匹配；匹配结果只决定项目路由，Git status 与 changed-path 相对化始终以 `repo_root` 为边界。schema 1 在读取时解释为 `workspace_roots: []`。
+自动化注册表 schema 3 的每个项目包含唯一 `repo_root`、`knowledge_output`、可重复 `workspace_roots`、Harness 集合、脱敏配置、`required_skill: code-knowledge-builder` 和 `require_skill_activation: true`。事件先按直接仓库根匹配，再按 workspace 根匹配；匹配结果只决定项目路由，Git status 与 changed-path 相对化始终以 `repo_root` 为边界。schema 1/2 在读取时补齐工作区和 Skill 激活字段，并在下一次登记时写成 schema 3。
 
 自动化审阅 sidecar 保存 `review_id`、kind、机器草稿、changed paths、Harness/会话证据和状态。Agent 提交记录增加中文 `evidence_note`、与 changed paths 完全相等的 `source_checks`、审阅正文和正式人类 note 路径。人类页继续遵守无 frontmatter、无 hash-like 标识和单标签规则。
 

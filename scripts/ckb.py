@@ -23,6 +23,7 @@ from ckb_core.agent_index import build_agent_index, retrieve
 from ckb_core.agent_maintenance import finish_session, sessions_status, start_session
 from ckb_core.automation import (
     SUPPORTED_HARNESSES,
+    activate_skill_session,
     automation_status,
     default_registry_path,
     drain_automation,
@@ -262,6 +263,12 @@ def parser() -> argparse.ArgumentParser:
     automation_unregister.add_argument("--registry", type=Path, default=default_registry_path())
     automation_registry = automation_sub.add_parser("registry")
     automation_registry.add_argument("--registry", type=Path, default=default_registry_path())
+    automation_activate = automation_sub.add_parser("activate")
+    automation_activate.add_argument("--harness", choices=sorted(SUPPORTED_HARNESSES), required=True)
+    automation_activate.add_argument("--session-id")
+    automation_activate.add_argument("--cwd", type=Path, default=Path.cwd())
+    automation_activate.add_argument("--registry", type=Path, default=default_registry_path())
+    automation_activate.add_argument("--source", default="agent-skill-start")
     for name in ("ingest", "hook"):
         parser_value = automation_sub.add_parser(name)
         parser_value.add_argument("--harness", choices=sorted(SUPPORTED_HARNESSES), required=True)
@@ -429,6 +436,8 @@ def main() -> int:
             emit(unregister_project(args.repo, args.registry))
         elif args.automation_command == "registry":
             emit(registry_status(args.registry))
+        elif args.automation_command == "activate":
+            emit(activate_skill_session(args.harness, args.session_id, args.cwd, args.registry, args.source))
         elif args.automation_command in {"ingest", "hook"}:
             try:
                 raw_text = args.event.read_text(encoding="utf-8-sig") if args.event else sys.stdin.read()

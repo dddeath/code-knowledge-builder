@@ -22,8 +22,9 @@ import uuid
 from .common import CkbError, json_load, json_write, run, safe_title, stable_id, utc_now
 
 
-AUTOMATION_SCHEMA_VERSION = 2
+AUTOMATION_SCHEMA_VERSION = 3
 AUTOMATION_DATABASE = "machine/automation.sqlite"
+REQUIRED_SKILL = "code-knowledge-builder"
 SUPPORTED_HARNESSES = {
     "codex",
     "claude",
@@ -36,6 +37,7 @@ SUPPORTED_HARNESSES = {
     "generic",
 }
 CANONICAL_EVENTS = {
+    "skill.applied",
     "session.start",
     "turn.prompt",
     "turn.assistant",
@@ -45,6 +47,30 @@ CANONICAL_EVENTS = {
     "compact.before",
     "compact.after",
     "session.end",
+}
+_SKILL_PROMPT = re.compile(r"(?<![A-Za-z0-9_-])(?:\$\s*|/)code-knowledge-builder(?![A-Za-z0-9_-])", re.IGNORECASE)
+_SKILL_METADATA_KEYS = {
+    "active_skill",
+    "active_skills",
+    "applied_skill",
+    "applied_skills",
+    "command_name",
+    "commandname",
+    "skill",
+    "skill_name",
+    "skillname",
+    "skills",
+}
+_SESSION_ENVIRONMENT = {
+    "codex": ("CODEX_SESSION_ID", "CODEX_THREAD_ID"),
+    "claude": ("CLAUDE_SESSION_ID",),
+    "opencode": ("OPENCODE_SESSION_ID",),
+    "opencode-v2": ("OPENCODE_SESSION_ID",),
+    "dsh": ("DSH_SESSION_ID",),
+    "gemini": ("GEMINI_SESSION_ID",),
+    "copilot": ("COPILOT_SESSION_ID",),
+    "cursor": ("CURSOR_SESSION_ID",),
+    "generic": ("CKB_SESSION_ID",),
 }
 _IGNORED_CHANGE_PARTS = {
     ".git",
@@ -117,15 +143,20 @@ def _read_registry(path: Path) -> dict[str, Any]:
     if not path.is_file():
         return {"schema_version": AUTOMATION_SCHEMA_VERSION, "projects": []}
     value = json_load(path)
-    if value.get("schema_version") == 1 and isinstance(value.get("projects"), list):
-        # Version 1 matched events only against repo_root.  Read it as an empty
-        # workspace-root list so existing opt-in registrations keep working;
-        # the next registry write upgrades the on-disk document atomically.
+    if value.get("schema_version") in {1, 2} and isinstance(value.get("projects"), list):
+        # Earlier registries matched either the repository only or repository
+        # plus workspace roots.  Read both through the current hard activation
+        # contract; the next registry write upgrades the document atomically.
         value = {
             **value,
             "schema_version": AUTOMATION_SCHEMA_VERSION,
             "projects": [
-                {**item, "workspace_roots": list(item.get("workspace_roots") or [])}
+                {
+                    **item,
+                    "workspace_roots": list(item.get("workspace_roots") or []),
+                    "required_skill": REQUIRED_SKILL,
+                    "require_skill_activation": True,
+                }
                 for item in value["projects"]
             ],
         }
@@ -133,6 +164,8 @@ def _read_registry(path: Path) -> dict[str, Any]:
         raise CkbError(f"unsupported automation registry: {path}")
     for item in value["projects"]:
         item.setdefault("workspace_roots", [])
+        item["required_skill"] = REQUIRED_SKILL
+        item["require_skill_activation"] = True
     return value
 
 
@@ -195,6 +228,8 @@ def register_project(
         "harnesses": selected,
         "max_field_chars": max_field_chars,
         "custom_redactions": patterns,
+        "required_skill": REQUIRED_SKILL,
+        "require_skill_activation": True,
         "registered_at_utc": utc_now(),
     }
     projects.append(entry)
@@ -320,11 +355,39 @@ def _message_role(raw: dict[str, Any]) -> str:
     return (_first_scalar(raw, {"role"}) or "").casefold()
 
 
+def _normalized_skill_name(value: Any) -> str:
+    text = str(value or "").strip().casefold()
+    return text.removeprefix("[").removesuffix("]").lstrip("$/").strip()
+
+
+def _skill_name(raw: dict[str, Any], tool_name: str | None = None, tool_input: Any = None) -> str | None:
+    for key, value in _walk_values(raw):
+        if not key or key.casefold() not in _SKILL_METADATA_KEYS:
+            continue
+        values = value if isinstance(value, list) else [value]
+        for item in values:
+            if isinstance(item, dict):
+                item = item.get("name") or item.get("skill") or item.get("skill_name")
+            if _normalized_skill_name(item) == REQUIRED_SKILL:
+                return REQUIRED_SKILL
+    if str(tool_name or "").casefold() == "skill" and isinstance(tool_input, dict):
+        for key in ("skill", "name", "skill_name", "command"):
+            if _normalized_skill_name(tool_input.get(key)) == REQUIRED_SKILL:
+                return REQUIRED_SKILL
+    prompt = str(raw.get("prompt") or raw.get("initial_prompt") or "")
+    if _SKILL_PROMPT.search(prompt):
+        return REQUIRED_SKILL
+    return None
+
+
 def _canonical_type(raw: dict[str, Any], name: str) -> str:
     if name in CANONICAL_EVENTS:
         return name
     normalized = name.casefold()
     mapping = {
+        "skillapplied": "skill.applied",
+        "skill.applied": "skill.applied",
+        "userpromptexpansion": "skill.applied",
         "sessionstart": "session.start",
         "session.created": "session.start",
         "userpromptsubmit": "turn.prompt",
@@ -354,6 +417,9 @@ def _canonical_type(raw: dict[str, Any], name: str) -> str:
         "userpromptsubmitted": "turn.prompt",
         "afteragentresponse": "turn.assistant",
     }
+    if normalized == "pretooluse":
+        tool_name = _first_scalar(raw, {"tool_name", "tool", "toolName"})
+        return "skill.applied" if str(tool_name or "").casefold() == "skill" else ""
     if normalized == "message.updated":
         return "turn.prompt" if _message_role(raw) == "user" else "turn.assistant"
     return mapping.get(normalized, "")
@@ -427,6 +493,7 @@ def normalize_event(harness: str, raw: dict[str, Any]) -> dict[str, Any]:
         "tool_input": tool_input,
         "tool_output": tool_output,
         "tool_status": event_status,
+        "skill_name": _skill_name(raw, tool_name, tool_input),
         "changed_paths": _extract_paths(raw),
         "source": raw.get("source") or raw.get("reason") or raw.get("trigger"),
         "received_at_utc": utc_now(),
@@ -519,6 +586,16 @@ def initialize_automation_database(output: Path) -> Path:
                 baseline_paths_json TEXT NOT NULL DEFAULT '[]',
                 baseline_state_json TEXT NOT NULL DEFAULT '{}',
                 UNIQUE(harness, external_session_id, repo_root)
+            );
+            CREATE TABLE IF NOT EXISTS skill_activations(
+                activation_key TEXT PRIMARY KEY,
+                harness TEXT NOT NULL,
+                external_session_id TEXT NOT NULL,
+                repo_root TEXT NOT NULL,
+                skill_name TEXT NOT NULL,
+                activation_source TEXT NOT NULL,
+                activated_at_utc TEXT NOT NULL,
+                UNIQUE(harness, external_session_id, repo_root, skill_name)
             );
             CREATE TABLE IF NOT EXISTS turns(
                 turn_key TEXT PRIMARY KEY,
@@ -728,6 +805,123 @@ def _session_key(event: dict[str, Any], repo: Path) -> str:
     return stable_id("autosession", event["harness"], event["session_id"], _path_key(repo))
 
 
+def default_session_id(harness: str) -> str | None:
+    for key in ("CKB_SESSION_ID", *_SESSION_ENVIRONMENT.get(harness, ())):
+        value = os.environ.get(key)
+        if value and value.strip():
+            return value.strip()
+    return None
+
+
+def _activation_key(harness: str, session_id: str, repo: Path) -> str:
+    return stable_id("skillactivation", harness, session_id, _path_key(repo), REQUIRED_SKILL)
+
+
+def _record_skill_activation(
+    output: Path,
+    repo: Path,
+    harness: str,
+    session_id: str,
+    source: str,
+) -> dict[str, Any]:
+    path = initialize_automation_database(output)
+    key = _activation_key(harness, session_id, repo)
+    connection = sqlite3.connect(path, timeout=10)
+    try:
+        existing = connection.execute("SELECT activated_at_utc,activation_source FROM skill_activations WHERE activation_key=?", (key,)).fetchone()
+        if existing is None:
+            activated_at = utc_now()
+            connection.execute(
+                "INSERT INTO skill_activations VALUES(?,?,?,?,?,?,?)",
+                (key, harness, session_id, str(repo), REQUIRED_SKILL, source, activated_at),
+            )
+            connection.commit()
+            status = "activated"
+            activation_source = source
+        else:
+            activated_at = str(existing[0])
+            activation_source = str(existing[1])
+            status = "already-activated"
+    finally:
+        connection.close()
+    return {
+        "status": status,
+        "activation_key": key,
+        "harness": harness,
+        "session_id": session_id,
+        "repo_root": str(repo),
+        "knowledge_output": str(output),
+        "skill_name": REQUIRED_SKILL,
+        "activation_source": activation_source,
+        "activated_at_utc": activated_at,
+    }
+
+
+def _skill_activation(output: Path, repo: Path, harness: str, session_id: str) -> dict[str, Any] | None:
+    path = output / AUTOMATION_DATABASE
+    if not path.is_file():
+        path = initialize_automation_database(output)
+    connection = sqlite3.connect(f"file:{path.as_posix()}?mode=ro", uri=True)
+    try:
+        row = connection.execute(
+            "SELECT activation_key,activation_source,activated_at_utc FROM skill_activations WHERE harness=? AND external_session_id=? AND repo_root=? AND skill_name=?",
+            (harness, session_id, str(repo), REQUIRED_SKILL),
+        ).fetchone()
+    finally:
+        connection.close()
+    if row is None:
+        return None
+    return {"activation_key": row[0], "activation_source": row[1], "activated_at_utc": row[2]}
+
+
+def activate_skill_session(
+    harness: str,
+    session_id: str | None,
+    cwd: Path,
+    registry_path: Path | None = None,
+    source: str = "agent-skill-start",
+) -> dict[str, Any]:
+    if harness not in SUPPORTED_HARNESSES:
+        raise CkbError(f"unsupported automation harness: {harness}")
+    resolved_session = str(session_id or default_session_id(harness) or "").strip()
+    if not resolved_session:
+        raise CkbError(f"automation activation requires --session-id or a {harness} session environment variable")
+    registry = (registry_path or default_registry_path()).expanduser().resolve()
+    event_cwd = cwd.expanduser().resolve()
+    matched = _registration_for_event(registry, event_cwd, harness)
+    if matched is None:
+        return {
+            "schema_version": AUTOMATION_SCHEMA_VERSION,
+            "status": "ignored",
+            "reason": "project-not-registered-for-harness",
+            "harness": harness,
+            "session_id": resolved_session,
+            "cwd": str(event_cwd),
+        }
+    registration, match_kind, matched_root = matched
+    output = Path(registration["knowledge_output"]).resolve()
+    repo = Path(registration["repo_root"]).resolve()
+    activation = _record_skill_activation(output, repo, harness, resolved_session, source)
+    return {
+        "schema_version": AUTOMATION_SCHEMA_VERSION,
+        **activation,
+        "registration_match": {"kind": match_kind, "root": matched_root},
+    }
+
+
+def _explicit_skill_application(event: dict[str, Any]) -> str | None:
+    if event.get("skill_name") == REQUIRED_SKILL:
+        if event["canonical_type"] == "skill.applied":
+            return "native-skill-event"
+        raw = event.get("raw") or {}
+        if raw.get("ckb_skill_applied") is True:
+            return "explicit-payload-field"
+        if _SKILL_PROMPT.search(str(event.get("prompt") or "")):
+            return "explicit-prompt-invocation"
+        return "harness-skill-metadata"
+    return None
+
+
 def _ensure_session(
     connection: sqlite3.Connection,
     event: dict[str, Any],
@@ -737,7 +931,7 @@ def _ensure_session(
     key = _session_key(event, repo)
     existing = connection.execute("SELECT 1 FROM sessions WHERE session_key=?", (key,)).fetchone()
     if existing is None:
-        baseline = _git_status_paths(repo) if event["canonical_type"] == "session.start" else []
+        baseline = _git_status_paths(repo) if event["canonical_type"] in {"session.start", "skill.applied"} or event.get("skill_activation") else []
         baseline_state = _working_file_state(repo, baseline)
         connection.execute(
             "INSERT INTO sessions(session_key,harness,external_session_id,repo_root,status,started_at_utc,baseline_paths_json,baseline_state_json) VALUES(?,?,?,?,?,?,?,?)",
@@ -752,7 +946,7 @@ def _ensure_session(
                 json.dumps(baseline_state, ensure_ascii=False, sort_keys=True),
             ),
         )
-    if event["canonical_type"] == "session.start":
+    if event["canonical_type"] in {"session.start", "skill.applied"}:
         connection.execute(
             "UPDATE sessions SET status='active',started_at_utc=COALESCE(started_at_utc,?) WHERE session_key=?",
             (event["received_at_utc"], key),
@@ -766,7 +960,7 @@ def _resolve_turn(
     session_key: str,
 ) -> tuple[str | None, str | None]:
     canonical = event["canonical_type"]
-    if canonical in {"session.start", "session.end"}:
+    if canonical in {"skill.applied", "session.start", "session.end"}:
         return None, None
     supplied = event.get("turn_id")
     if supplied:
@@ -1103,7 +1297,7 @@ def retry_failed_automation(output: Path, limit: int = 500) -> dict[str, Any]:
 def _hook_context(output: Path) -> str:
     status = automation_status(output)
     return (
-        "CKB 自动同步已启用：本轮事件会先进入脱敏、幂等的机器层队列。"
+        "当前会话已明确应用 code-knowledge-builder Skill，CKB 自动同步已激活：本轮事件会先进入脱敏、幂等的机器层队列。"
         f"当前待 Agent 审阅记录 {status['pending_reviews']} 条，失败事件 {status['failed_spool']} 条。"
         "分析和修改结论需使用简体中文核对来源后，再晋升到人类知识库。"
     )
@@ -1140,14 +1334,35 @@ def ingest_event(
             "reason": "project-not-registered-for-harness",
             "harness": harness,
             "cwd": str(cwd),
-            "hook_output": _hook_output(harness, normalized["event_name"], "CKB 自动同步未对当前项目启用。"),
+            "hook_output": {},
         }
     registration, match_kind, matched_root = matched
     output = Path(registration["knowledge_output"]).resolve()
     repo = Path(registration["repo_root"]).resolve()
     if not (output / "state.json").is_file():
         raise CkbError(f"registered knowledge output is missing state.json: {output}")
+    activation_source = _explicit_skill_application(normalized)
+    activation = (
+        _record_skill_activation(output, repo, harness, normalized["session_id"], activation_source)
+        if activation_source
+        else _skill_activation(output, repo, harness, normalized["session_id"])
+    )
+    if activation is None:
+        return {
+            "schema_version": AUTOMATION_SCHEMA_VERSION,
+            "status": "ignored",
+            "reason": "skill-not-applied-in-session",
+            "required_skill": REQUIRED_SKILL,
+            "harness": harness,
+            "session_id": normalized["session_id"],
+            "cwd": str(cwd),
+            "repo_root": str(repo),
+            "registration_match": {"kind": match_kind, "root": matched_root},
+            "knowledge_output": str(output),
+            "hook_output": {},
+        }
     redacted = redact_event(normalized, registration.get("custom_redactions", []), int(registration.get("max_field_chars", 12_000)))
+    redacted["skill_activation"] = activation
     redacted["registration_match"] = {"kind": match_kind, "root": matched_root}
     spool = enqueue_event(
         output,
@@ -1184,6 +1399,7 @@ def automation_status(output: Path) -> dict[str, Any]:
     connection = sqlite3.connect(f"file:{path.as_posix()}?mode=ro", uri=True)
     try:
         counts = {
+            "skill_activations": connection.execute("SELECT count(*) FROM skill_activations").fetchone()[0],
             "events": connection.execute("SELECT count(*) FROM events").fetchone()[0],
             "sessions": connection.execute("SELECT count(*) FROM sessions").fetchone()[0],
             "active_sessions": connection.execute("SELECT count(*) FROM sessions WHERE status='active'").fetchone()[0],

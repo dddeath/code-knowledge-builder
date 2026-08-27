@@ -47,7 +47,7 @@ Machine parse batches and Agent review packs are independent state objects. Page
 - The fixed snapshot commit/tree, Git blobs, source ranges, C# fallback/restore worktree, and private restore evidence remain authentic. The live worktree is represented separately by workspace metadata.
 - Every queued Agent session/note that predates the human projection is materialized exactly once. Changed sessions contain the required Chinese `修改内容`、`修改原因` and `验证结果` sections and link to deterministic query results or changed-path owner pages.
 - `.complete`, `.machine.complete`, and `.human.complete` are written together only by `finalize`; rebuilding or auditing withdraws the full completion set first.
-- An incremental output additionally passes `migration/audit.json`: the origin was globally audited, exact-blob reuse sets match, every reused parse carries re-key evidence, mutable user/Agent files retain their recorded bytes, every migrated/delta review pack passed, and the target graph contains only target-commit entity provenance. Migration never exempts an output from an ordinary current-version gate.
+- An incremental output additionally passes `migration/audit.json`: the origin was globally audited, exact-blob reuse sets match, every reused parse carries re-key evidence, mutable user/Agent files retain immutable preservation baselines while live copies remain readable, every migrated/delta review pack passed, and the target graph contains only target-commit entity provenance. Migration never exempts an output from an ordinary current-version gate.
 
 `bounded-approximate` may pass only when the relevant provider returns document symbols for every included file, every key entity has semantic evidence, fatal diagnostics are zero, and unresolved internal targets are zero. Only `finalize` may create the three completion markers.
 
@@ -56,6 +56,8 @@ Machine parse batches and Agent review packs are independent state objects. Page
 Automation health is audited separately from the fixed-source completion set:
 
 - every written event belongs to an enabled repository/Harness registration and its `cwd` is inside that repository;
+- a registered session without an exact `code-knowledge-builder` activation produces zero event, turn and spool writes;
+- prompt, native Skill event and `automation activate` routes produce one idempotent activation scoped to Harness, session and repository;
 - spool pending/processed/failed transitions are atomic, retry is explicit, and `automation.sqlite` integrity is `ok`;
 - replaying the same stable event produces one event, one turn update and at most one pending review;
 - concurrent events preserve every unique event and never duplicate the same changed path/review ownership;
