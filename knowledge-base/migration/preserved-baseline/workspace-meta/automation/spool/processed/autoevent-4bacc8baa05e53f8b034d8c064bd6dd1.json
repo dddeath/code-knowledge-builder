@@ -1,0 +1,62 @@
+{
+  "schema_version": 3,
+  "registration_id": "reg-5b4b7449e52b5a6fa0b4e3e39cd360bb",
+  "repo_root": "E:\\knowledge_builder\\self-workspace\\source",
+  "knowledge_output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+  "event": {
+    "schema_version": 3,
+    "harness": "codex",
+    "event_name": "PostToolUse",
+    "canonical_type": "tool.result",
+    "external_event_id": "llm-wiki-benchmark-post-tool-01a029b9-a488-75f3-be36-6a1ce86ee345",
+    "session_id": "01a029b9-a488-75f3-be36-6a1ce86ee345",
+    "turn_id": "llm-wiki-benchmark-turn-1",
+    "tool_use_id": "llm-wiki-benchmark-tool-1",
+    "cwd": "E:\\knowledge_builder\\self-workspace",
+    "prompt": "",
+    "assistant_message": "",
+    "tool_name": "Bash",
+    "tool_input": {
+      "description": "运行冻结的 LLM Wiki 快速检索 A/B/C 基准并记录中文分析"
+    },
+    "tool_output": {
+      "status": "completed",
+      "benchmark_result": "mixed",
+      "all_gates_passed": false
+    },
+    "tool_status": "completed",
+    "skill_name": null,
+    "changed_paths": [],
+    "source": null,
+    "received_at_utc": "2026-08-27T12:51:05Z",
+    "raw": {
+      "hook_event_name": "PostToolUse",
+      "event_id": "llm-wiki-benchmark-post-tool-01a029b9-a488-75f3-be36-6a1ce86ee345",
+      "session_id": "01a029b9-a488-75f3-be36-6a1ce86ee345",
+      "turn_id": "llm-wiki-benchmark-turn-1",
+      "cwd": "E:\\knowledge_builder\\self-workspace",
+      "tool_name": "Bash",
+      "tool_use_id": "llm-wiki-benchmark-tool-1",
+      "tool_input": {
+        "description": "运行冻结的 LLM Wiki 快速检索 A/B/C 基准并记录中文分析"
+      },
+      "tool_response": {
+        "status": "completed",
+        "benchmark_result": "mixed",
+        "all_gates_passed": false
+      },
+      "changed_paths": []
+    },
+    "redaction_count": 0,
+    "redaction_types": [],
+    "skill_activation": {
+      "activation_key": "skillactivation-9a5c79417ddd5ab7a20913f6564dc327",
+      "activation_source": "explicit-user-task",
+      "activated_at_utc": "2026-08-27T12:38:41Z"
+    },
+    "registration_match": {
+      "kind": "workspace",
+      "root": "E:\\knowledge_builder\\self-workspace"
+    }
+  }
+}

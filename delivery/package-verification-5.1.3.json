@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "results": [
+    {
+      "distribution": "lite",
+      "archive": "/mnt/e/knowledge_builder/dist/code-knowledge-builder-lite-5.1.3.zip",
+      "size": 2361989,
+      "sha256": "8acd4a8deaaf417ce0dbfd5b77a53f899a75f4463363c5ab8e56a4c13cf6289d",
+      "crc_bad_member": null,
+      "manifest_version": "5.1.3",
+      "manifest_distribution": "lite",
+      "manifest_file_count": 653,
+      "content_mismatches": [],
+      "version_5_1_3": true,
+      "status": "passed"
+    },
+    {
+      "distribution": "full-win-x64",
+      "archive": "/mnt/e/knowledge_builder/dist/code-knowledge-builder-full-win-x64-5.1.3.zip",
+      "size": 617426254,
+      "sha256": "731f7de4e617496c1e1d32f31fbef2b9f78055c2d5dfb6022d887ca5ca06ada4",
+      "crc_bad_member": null,
+      "manifest_version": "5.1.3",
+      "manifest_distribution": "full-win-x64",
+      "manifest_file_count": 654,
+      "content_mismatches": [],
+      "version_5_1_3": true,
+      "status": "passed"
+    }
+  ]
+}

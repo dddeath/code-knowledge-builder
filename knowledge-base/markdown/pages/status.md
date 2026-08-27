@@ -2,19 +2,19 @@
 
 标签：#类型/代码
 
-> `status` 根据分段和审阅包的当前状态计算下一项可执行动作。 它为 CLI 和 Agent 返回 `build-chunk`、`review-pack`、`finalize` 或 `complete`，避免重复解析已经通过的分段。
+> `status` 返回当前构建、审阅、完成门和下一步动作。 它通过统一状态加载先验证固定快照，并在迁移 staging 已被提升时执行受条件约束的输出路径重定位。
 
 ## 什么时候需要修改
 
-当状态机字段、续建顺序或审阅包与分段的对应关系变化时，需要修改该函数。
+状态字段、下一步决策或完成态目录提升规则变化时，需要修改该函数。
 
 ## 在代码中的位置
 
-[打开源码：scripts/ckb_core/pipeline.py 第 3174 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:3174:1)  `scripts/ckb_core/pipeline.py:3174-3184`
+[打开源码：scripts/ckb_core/pipeline.py 第 3246 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:3246:1)  `scripts/ckb_core/pipeline.py:3246-3256`
 
 ## 相关代码
 
-- 实现时会用到 [[status 与 _load_state 的协作实现]]。
+- 实现时会用到 [[status 与 _replace_output_prefix 的协作实现]]。
 
 ## 谁会来到这里
 
@@ -56,7 +56,7 @@
 - [[source_files 与 sha256 的协作实现]] 会使用这里提供的行为。
 - [[start_session]] 会使用这里提供的行为。
 - [[start_session 与 _session_directory 的协作实现]] 会使用这里提供的行为。
-- [[status 与 _load_state 的协作实现]] 汇总了本页。
+- [[status 与 _replace_output_prefix 的协作实现]] 汇总了本页。
 - [[sync_human_layer]] 会使用这里提供的行为。
 - [[sync_human_layer 与 _source_manifest 的协作实现]] 会使用这里提供的行为。
 

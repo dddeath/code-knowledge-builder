@@ -20,12 +20,11 @@
 ## 谁会来到这里
 
 - [[LspClient.start 与 _version_matches 的协作实现]] 会使用这里提供的行为。
+- [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]] 会使用这里提供的行为。
 - [[audit_migration]] 会使用这里提供的行为。
 - [[audit_migration 与 _entity_key 的协作实现]] 会使用这里提供的行为。
 - [[create_source_snapshot]] 会使用这里提供的行为。
 - [[create_source_snapshot 与 git 的协作实现]] 会使用这里提供的行为。
-- [[ensure_local_openers]] 会使用这里提供的行为。
-- [[ensure_local_openers 与 default_openers 的协作实现]] 会使用这里提供的行为。
 - [[ingest_event]] 会使用这里提供的行为。
 - [[ingest_event 与 default_registry_path 的协作实现]] 会使用这里提供的行为。
 - [[load_page_config]] 会使用这里提供的行为。
@@ -52,7 +51,7 @@
 - 可从 [[scripts 职责导览]] 进入本页。
 - [[start_session]] 会使用这里提供的行为。
 - [[start_session 与 _session_directory 的协作实现]] 会使用这里提供的行为。
-- [[status 与 _load_state 的协作实现]] 会使用这里提供的行为。
+- [[status 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 - [[sync_human_layer]] 会使用这里提供的行为。
 - [[sync_human_layer 与 _source_manifest 的协作实现]] 会使用这里提供的行为。
 

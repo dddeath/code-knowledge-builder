@@ -4,7 +4,7 @@
 
 ## 状态
 
-待办 1 已在 5.1.0 完成；待办 2 和待办 3 仍处于后续工作范围，尚未把性能收益或剩余功能吸收标记为完成。
+待办 1 已在 5.1.0 完成；待办 2 已在 5.1.3 完成确定性优化并通过原冻结协议全部七项门；待办 3 仍处于后续工作范围。
 
 ## 待办事项
 
@@ -31,9 +31,9 @@
 
 ## 源码入口
 
-- [打开源码：scripts/ckb_core/agent_maintenance.py 第 70 行](vscode://file/E:/knowledge_builder/code-knowledge-builder/scripts/ckb_core/agent_maintenance.py:70:1)  `scripts/ckb_core/agent_maintenance.py:70-142`
-- [打开源码：scripts/ckb_core/machine_knowledge.py 第 734 行](vscode://file/E:/knowledge_builder/code-knowledge-builder/scripts/ckb_core/machine_knowledge.py:734:1)  `scripts/ckb_core/machine_knowledge.py:734-936`
-- [打开源码：scripts/ckb_core/workspace_notes.py 第 106 行](vscode://file/E:/knowledge_builder/code-knowledge-builder/scripts/ckb_core/workspace_notes.py:106:1)  `scripts/ckb_core/workspace_notes.py:106-183`
+- [打开 `retrieve_machine`](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:942:1)  `scripts/ckb_core/machine_knowledge.py:942-1315`
+- [打开源码链接缓存](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/source_links.py:17:1)  `scripts/ckb_core/source_links.py:17-81`
+- [打开 Agent 笔记维护](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_maintenance.py:70:1)  `scripts/ckb_core/agent_maintenance.py:70-142`
 
 ## 后续补充
 
@@ -44,3 +44,17 @@
 兼容范围已覆盖 Codex、Claude Code、OpenCode 稳定版、OpenCode V2、DeepSeek Harness 和通用 Harness。六种适配器均完成静态校验与 Windows canary，外层 Git 中的未跟踪项目也已通过有界子树状态测试，Codex companion plugin 已安装启用；后续新任务在 Harness 信任配置生效后自动进入机器层队列。
 
 验收证据包括三十项完整回归、十二项自动化专项测试、并发与重放测试、敏感信息脱敏、失败队列恢复、机器检索、人类投影审阅、发行包完整性、真实安装和隔离回滚。详细设计与结果见 [[跨 Harness 会话与修改自动同步实现]]。
+
+### 待办 2：已完成首轮验证，整体性能门未通过
+
+已在 5.1.2 自身知识库上冻结十二个修改定位问题、三种检索路径、2400 token 预算、一次预热和九次重复，共执行三百二十四条正式测量。当前 `machine-fast` 相比 Markdown 宽扫描代理减少 76.67% 的 Agent 可见上下文，并保持零回退和完全确定性；目标源码 Recall@8 为 50%，中位延迟为 1,783.58 ms，召回和延迟门未通过。
+
+性能剖析显示，候选渲染阶段重复生成源码链接和解析 Windows 路径，单次查询触发 376 次源码链接生成、1,883 次路径解析和 877 次 SQLite 执行。后续先实施固定 overscan、源码 URI 缓存、批量章节查询和紧凑目标保留，再复用完全相同的协议与阈值重测。详细协议、结果和决策见 [[LLM Wiki 快速检索性能验证（5.1.2）]]。
+
+## 后续补充
+
+### 待办 2：确定性优化与原协议复测已完成
+
+5.1.3 保持原先十二个问题、三种路径、2400 token 预算、一次预热、九次重复和七项阈值不变。`machine-fast` 的目标源码 Recall@8 达到 100%，可见上下文相对 Markdown 宽扫描减少 77.28%，中位延迟为 25.29 ms，P95 为 45.36 ms，零回退且九次重复完全确定；相对人工宽扫中位延迟加速 1.075 倍。七项冻结门全部通过，待办 2 现已完成。
+
+实现采用固定 overscan、批量 SQL、源码路径与静态检索上下文缓存、紧凑目标保留、中文三元词项、元数据固定加权和无测试意图时的测试实体折扣。所有判别均由确定性脚本执行，向量模型继续留在后续独立 benchmark。详细结果见 [[LLM Wiki 快速检索性能验证（5.1.3）]]。

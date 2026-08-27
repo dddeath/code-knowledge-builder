@@ -17,6 +17,7 @@
 - 实现时会用到 [[AutomationTest.event]]。
 - 实现时会用到 [[LspClient.start]]。
 - 实现时会用到 [[LspClient.start 与 _version_matches 的协作实现]]。
+- 实现时会用到 [[SourceLinkRenderer.uri]]。
 - 实现时会用到 [[audit_migration]]。
 - 实现时会用到 [[execute]]。
 - 主要代码单元是 [[ingest_event]]。
@@ -41,6 +42,7 @@
 ## 相关测试
 
 - [[AutomationTest.event 等测试场景]]
+- [[CodeKnowledgeBuilderTests]]
 - [[MigrationTest]]
 - [[execute 等测试场景]]
 - [[main（generate_large_fixture 测试）]]

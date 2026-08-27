@@ -29,13 +29,13 @@
 - [[AutomationTest.event]] 关联到这里的验证场景。
 - [[LspClient.start]] 关联到这里的验证场景。
 - [[LspClient.start 与 _version_matches 的协作实现]] 关联到这里的验证场景。
+- [[SourceLinkRenderer.uri]] 关联到这里的验证场景。
+- [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]] 关联到这里的验证场景。
 - [[add_initial_arguments 与 add_git_bootstrap_arguments 的协作实现]] 关联到这里的验证场景。
 - [[audit_migration]] 关联到这里的验证场景。
 - [[audit_migration 与 _entity_key 的协作实现]] 关联到这里的验证场景。
 - [[create_source_snapshot]] 关联到这里的验证场景。
 - [[create_source_snapshot 与 git 的协作实现]] 关联到这里的验证场景。
-- [[ensure_local_openers]] 关联到这里的验证场景。
-- [[ensure_local_openers 与 default_openers 的协作实现]] 关联到这里的验证场景。
 - [[execute]] 关联到这里的验证场景。
 - [[ingest_event]] 关联到这里的验证场景。
 - [[ingest_event 与 default_registry_path 的协作实现]] 关联到这里的验证场景。
@@ -58,7 +58,7 @@
 - [[run]] 关联到这里的验证场景。
 - [[run 与 CkbError 的协作实现]] 关联到这里的验证场景。
 - [[status]] 关联到这里的验证场景。
-- [[status 与 _load_state 的协作实现]] 关联到这里的验证场景。
+- [[status 与 _replace_output_prefix 的协作实现]] 关联到这里的验证场景。
 - [[sync_human_layer]] 关联到这里的验证场景。
 - [[sync_human_layer 与 _source_manifest 的协作实现]] 关联到这里的验证场景。
 - 可从 [[tests 职责导览]] 进入本页。

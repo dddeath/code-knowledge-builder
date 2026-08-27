@@ -32,7 +32,7 @@
 - [[retrieve_machine 与 estimated_tokens 的协作实现]] 会使用这里提供的行为。
 - [[run]] 关联到这里的验证场景。
 - [[run 与 CkbError 的协作实现]] 关联到这里的验证场景。
-- [[status 与 _load_state 的协作实现]] 会使用这里提供的行为。
+- [[status 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 
 ## 相关测试
 

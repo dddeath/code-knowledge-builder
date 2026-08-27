@@ -23,6 +23,7 @@
 
 - [[AutomationTest.event]] 关联到这里的验证场景。
 - [[AutomationTest.event 等测试场景]] 关联到这里的验证场景。
+- [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]] 关联到这里的验证场景。
 - [[add_git_bootstrap_arguments]] 关联到这里的验证场景。
 - [[add_initial_arguments]] 关联到这里的验证场景。
 - [[add_initial_arguments 与 add_git_bootstrap_arguments 的协作实现]] 关联到这里的验证场景。
@@ -31,4 +32,5 @@
 - [[parser]] 关联到这里的验证场景。
 - [[remove]] 关联到这里的验证场景。
 - [[remove 与 skill_root 的协作实现]] 关联到这里的验证场景。
+- [[render_integration 与 _looks_windows 的协作实现]] 关联到这里的验证场景。
 - [[retrieve]] 关联到这里的验证场景。

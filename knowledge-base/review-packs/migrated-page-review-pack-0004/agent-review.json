@@ -3,20 +3,20 @@
   "pack_id": "migrated-page-review-pack-0004",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-08-27T11:29:22Z",
+  "reviewed_at_utc": "2026-08-27T17:41:55Z",
   "reviews": [
     {
-      "entity_id": "file-b1b92c0fdd12506e8e1342e99bcbcde7",
+      "entity_id": "file-5f4b65d30320589cb6406877e8ffcff2",
       "classification": "page",
-      "owner_page_id": "file-b1b92c0fdd12506e8e1342e99bcbcde7",
-      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "owner_page_id": "file-5f4b65d30320589cb6406877e8ffcff2",
+      "source_path": "scripts/ckb_core/automation.py",
       "start_line": 1,
-      "end_line": 1151,
+      "end_line": 1632,
       "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开目标 5.1 固定 Git 源码中 scripts/ckb_core/machine_knowledge.py 第 1 至 1151 行，核对名称、签名、分支和调用后确认本条说明。",
-      "meaning_zh": "该页面汇总完整机器知识 SQLite、FTS、图传播和预算化检索实现。",
-      "role_zh": "它保存全部源码事实与审阅证据，并用纯确定性排序生成 Agent 阅读包。",
-      "change_when_zh": "数据库 schema、索引字段、检索评分、预算或自动化文档接入方式变化时，需要修改本文件。"
+      "evidence_note": "Agent 已重新打开固定 Git 提交 2711ced13be680d3737d1cce98fc0c23dc4c3365 中 scripts/ckb_core/automation.py:1-1632，核对名称、源码边界、Skill 激活分支与调用关系后确认本条说明。",
+      "meaning_zh": "该代码页汇总跨 Harness 会话与修改自动化，包括项目登记、session 级 Skill 激活、事件规范化、脱敏、spool、SQLite 和 Agent 审阅。",
+      "role_zh": "它要求仓库登记与 `code-knowledge-builder` 精确激活同时成立；激活前事件静默忽略，激活后才记录会话、工具、修改与待审阅证据。",
+      "change_when_zh": "当激活证据、注册表 Schema、Harness 事件映射、SQLite 表、幂等键、路径过滤或晋升规则变化时，需要修改本页。"
     }
   ]
 }

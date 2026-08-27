@@ -1,0 +1,200 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "version": "5.1.3",
+  "baseline_commit": "2711ced13be680d3737d1cce98fc0c23dc4c3365",
+  "modified_commit": "abeac3eb116552d5c223503205625e9fafefa2e0",
+  "baseline_behavior": {
+    "status": "mixed",
+    "target_source_recall_at_8": 0.5,
+    "p95_ms": 2270.18749,
+    "visible_context_reduction": 0.7666932033038113,
+    "passed_gates": 3,
+    "total_gates": 7
+  },
+  "modified_behavior": {
+    "status": "passed",
+    "target_source_recall_at_8": 1.0,
+    "p95_ms": 45.35991999999998,
+    "visible_context_reduction": 0.772813215245298,
+    "median_speedup_vs_manual": 1.0752772999584792,
+    "passed_gates": 7,
+    "total_gates": 7
+  },
+  "commands": [
+    {
+      "name": "baseline-frozen-benchmark",
+      "command": "& PYTHON E:\\knowledge_builder\\self-workspace\\work\\llm-wiki-retrieval-benchmark\\run_benchmark.py",
+      "input": "/mnt/e/knowledge_builder/self-workspace/work/llm-wiki-retrieval-benchmark/protocol.json",
+      "stdout": "{\n  \"status\": \"mixed\",\n  \"computed\": {\n    \"machine_target_source_recall_at_8\": 0.5,\n    \"machine_recall_not_below_manual\": false,\n    \"machine_fallback_rate\": 0.0,\n    \"machine_determinism_rate\": 1.0,\n    \"machine_visible_context_reduction_vs_manual\": 0.7666932033038113,\n    \"machine_engine_latency_p95_ms\": 2270.18749,\n    \"machine_latency_speedup_vs_manual\": 0.02349721239707612\n  },\n  \"gate_checks\": {\n    \"recall_min\": false,\n    \"recall_not_below_manual\": false,\n    \"fallback\": true,\n    \"determinism\": true,\n    \"visible_context\": true,\n    \"absolute_p95_latency\": false,\n    \"latency_speedup\": false\n  },\n  \"all_gates_passed\": false\n}\n",
+      "stderr": "",
+      "exit_status": 0,
+      "result": "mixed"
+    },
+    {
+      "name": "modified-frozen-benchmark",
+      "command": "& PYTHON E:\\knowledge_builder\\self-workspace\\work\\retrieval-optimization-5.1.3\\benchmark\\run_benchmark.py",
+      "input": "/mnt/e/knowledge_builder/self-workspace/work/retrieval-optimization-5.1.3/benchmark/protocol.json",
+      "stdout": "{\n  \"status\": \"passed\",\n  \"computed\": {\n    \"machine_target_source_recall_at_8\": 1.0,\n    \"machine_recall_not_below_manual\": true,\n    \"machine_fallback_rate\": 0.0,\n    \"machine_determinism_rate\": 1.0,\n    \"machine_visible_context_reduction_vs_manual\": 0.772813215245298,\n    \"machine_engine_latency_p95_ms\": 45.35991999999998,\n    \"machine_latency_speedup_vs_manual\": 1.0752772999584792\n  },\n  \"gate_checks\": {\n    \"recall_min\": true,\n    \"recall_not_below_manual\": true,\n    \"fallback\": true,\n    \"determinism\": true,\n    \"visible_context\": true,\n    \"absolute_p95_latency\": true,\n    \"latency_speedup\": true\n  },\n  \"all_gates_passed\": true\n}\n",
+      "stderr": "",
+      "exit_status": 0,
+      "result": "passed"
+    },
+    {
+      "name": "test-ckb",
+      "command": "& PYTHON -X utf8 E:\\knowledge_builder\\self-workspace\\source\\tests\\test_ckb.py",
+      "input": "18 deterministic end-to-end tests",
+      "stdout": "",
+      "stderr": "..................\n----------------------------------------------------------------------\nRan 18 tests in 194.435s\n\nOK\n",
+      "exit_status": 0,
+      "result": "18/18 passed"
+    },
+    {
+      "name": "test-automation",
+      "command": "& PYTHON -X utf8 E:\\knowledge_builder\\self-workspace\\source\\tests\\test_automation.py",
+      "input": "18 cross-Harness automation tests",
+      "stdout": "",
+      "stderr": "..................\n----------------------------------------------------------------------\nRan 18 tests in 28.775s\n\nOK\n",
+      "exit_status": 0,
+      "result": "18/18 passed"
+    },
+    {
+      "name": "test-migration",
+      "command": "& PYTHON -X utf8 E:\\knowledge_builder\\self-workspace\\source\\tests\\test_migration.py",
+      "input": "incremental migration and promoted-output relocation",
+      "stdout": "",
+      "stderr": ".\n----------------------------------------------------------------------\nRan 1 test in 16.940s\n\nOK\n",
+      "exit_status": 0,
+      "result": "1/1 passed"
+    },
+    {
+      "name": "delta-patch-replay",
+      "command": "git -c core.autocrlf=false apply --check code-knowledge-builder-5.1.3.patch; git -c core.autocrlf=false apply code-knowledge-builder-5.1.3.patch",
+      "input": "detached baseline worktree at 2711ced13be680d3737d1cce98fc0c23dc4c3365",
+      "stdout": "{\n  \"schema_version\": 1,\n  \"status\": \"passed\",\n  \"baseline\": \"2711ced13be680d3737d1cce98fc0c23dc4c3365\",\n  \"modified\": \"abeac3eb116552d5c223503205625e9fafefa2e0\",\n  \"patch\": \"code-knowledge-builder-5.1.3.patch\",\n  \"files\": [\n    {\n      \"path\": \"SKILL.md\",\n      \"source_sha256\": \"f75dc04c72b697cf27dc06e607bed75600e3ef0dc8422f109c956b08c31f660b\",\n      \"replay_sha256\": \"f75dc04c72b697cf27dc06e607bed75600e3ef0dc8422f109c956b08c31f660b\",\n      \"byte_equal\": true\n    },\n    {\n      \"path\": \"references/agent-retrieval.md\",\n      \"source_sha256\": \"6aad918908e89932287a28373f7d5fc5577b2c60585975d3366a31140e147130\",\n      \"replay_sha256\": \"6aad918908e89932287a28373f7d5fc5577b2c60585975d3366a31140e147130\",\n      \"byte_equal\": true\n    },\n    {\n      \"path\": \"references/migration.md\",\n      \"source_sha256\": \"1645a279cc0d2a0a72441e2a9a685a0b2f4d141f262f0043cc36e365ca59b06c\",\n      \"replay_sha256\": \"1645a279cc0d2a0a72441e2a9a685a0b2f4d141f262f0043cc36e365ca59b06c\",\n      \"byte_equal\": true\n    },\n    {\n      \"path\": \"scripts/ckb_core/__init__.py\",\n      \"source_sha256\": \"10a2d0ec03538d90f5359d24a3ffb6ed343c8c9b933ed7e062650503827dee9d\",\n      \"replay_sha256\": \"10a2d0ec03538d90f5359d24a3ffb6ed343c8c9b933ed7e062650503827dee9d\",\n      \"byte_equal\": true\n    },\n    {\n      \"path\": \"scripts/ckb_core/machine_knowledge.py\",\n      \"source_sha256\": \"ecb926b50b0986c6f1af7a02aa0b12010f3a7766e0606ff10d0f64af2e7e281e\",\n      \"replay_sha256\": \"ecb926b50b0986c6f1af7a02aa0b12010f3a7766e0606ff10d0f64af2e7e281e\",\n      \"byte_equal\": true\n    },\n    {\n      \"path\": \"scripts/ckb_core/pipeline.py\",\n      \"source_sha256\": \"8b05ef7d6549d6bd6b9390bb0eefd4dbffadee47eda9cd3e59efb6a2ae7a8b9e\",\n      \"replay_sha256\": \"8b05ef7d6549d6bd6b9390bb0eefd4dbffadee47eda9cd3e59efb6a2ae7a8b9e\",\n      \"byte_equal\": true\n    },\n    {\n      \"path\": \"scripts/ckb_core/source_links.py\",\n      \"source_sha256\": \"90b964def5567c245afa8a2a739bb3d4b07d1ddbdd48b371728aa1c17162f6c1\",\n      \"replay_sha256\": \"90b964def5567c245afa8a2a739bb3d4b07d1ddbdd48b371728aa1c17162f6c1\",\n      \"byte_equal\": true\n    },\n    {\n      \"path\": \"scripts/package_release.py\",\n      \"source_sha256\": \"9465312217b41ab8d6199f587c7b688d7256d6e3a806b4418f3ca0625660c5bb\",\n      \"replay_sha256\": \"9465312217b41ab8d6199f587c7b688d7256d6e3a806b4418f3ca0625660c5bb\",\n      \"byte_equal\": true\n    },\n    {\n      \"path\": \"tests/test_ckb.py\",\n      \"source_sha256\": \"eabe01c3cd7f9bf8475c6e6aa0b7ec1c7614729dd2740fb037dd1e45b913ef62\",\n      \"replay_sha256\": \"eabe01c3cd7f9bf8475c6e6aa0b7ec1c7614729dd2740fb037dd1e45b913ef62\",\n      \"byte_equal\": true\n    },\n    {\n      \"path\": \"tests/test_migration.py\",\n      \"source_sha256\": \"43ee3ad884b0b750251cd27180ec5ca493744ba968461a13907bd0d896c3dc8c\",\n      \"replay_sha256\": \"43ee3ad884b0b750251cd27180ec5ca493744ba968461a13907bd0d896c3dc8c\",\n      \"byte_equal\": true\n    }\n  ]\n}\n",
+      "stderr": "",
+      "exit_status": 0,
+      "result": "10/10 modified files byte-equal to abeac3e"
+    },
+    {
+      "name": "skill-quick-validate",
+      "command": "python3 C:\\Users\\19739\\.codex\\skills\\.system\\skill-creator\\scripts\\quick_validate.py E:\\knowledge_builder\\self-workspace\\source",
+      "input": "5.1.3 source tree",
+      "stdout": "Skill is valid!\n",
+      "stderr": "",
+      "exit_status": 0,
+      "result": "Skill is valid"
+    },
+    {
+      "name": "package-both",
+      "command": "& PYTHON -X utf8 E:\\knowledge_builder\\self-workspace\\source\\scripts\\package_release.py --kind both --dist E:\\knowledge_builder\\dist",
+      "input": "toolchain.lock.json and locked payload",
+      "stdout": "{\n  \"status\": \"passed\",\n  \"results\": [\n    {\n      \"status\": \"passed\",\n      \"distribution\": \"lite\",\n      \"archive\": \"E:\\\\knowledge_builder\\\\dist\\\\code-knowledge-builder-lite-5.1.3.zip\",\n      \"size\": 2361989,\n      \"sha256\": \"8acd4a8deaaf417ce0dbfd5b77a53f899a75f4463363c5ab8e56a4c13cf6289d\",\n      \"file_count\": 653\n    },\n    {\n      \"status\": \"passed\",\n      \"distribution\": \"full-win-x64\",\n      \"archive\": \"E:\\\\knowledge_builder\\\\dist\\\\code-knowledge-builder-full-win-x64-5.1.3.zip\",\n      \"size\": 617426254,\n      \"sha256\": \"731f7de4e617496c1e1d32f31fbef2b9f78055c2d5dfb6022d887ca5ca06ada4\",\n      \"file_count\": 654\n    }\n  ]\n}\n",
+      "stderr": "",
+      "exit_status": 0,
+      "result": "lite and full passed"
+    },
+    {
+      "name": "install-full",
+      "command": "& PYTHON -X utf8 E:\\knowledge_builder\\self-workspace\\work\\retrieval-optimization-5.1.3\\install_full.py",
+      "input": "/mnt/e/knowledge_builder/dist/code-knowledge-builder-full-win-x64-5.1.3.zip",
+      "stdout": "{\n  \"schema_version\": 1,\n  \"status\": \"passed\",\n  \"archive\": \"E:\\\\knowledge_builder\\\\dist\\\\code-knowledge-builder-full-win-x64-5.1.3.zip\",\n  \"installed\": \"C:\\\\Users\\\\19739\\\\.codex\\\\skills\\\\code-knowledge-builder\",\n  \"backup\": \"C:\\\\Users\\\\19739\\\\.codex\\\\skills\\\\.backups\\\\code-knowledge-builder-5.1.2-before-5.1.3\",\n  \"old_file_count\": 959,\n  \"new_file_count\": 655,\n  \"release_manifest_file_count\": 654,\n  \"extracted_mismatches\": [],\n  \"installed_version\": \"5.1.3\",\n  \"distribution\": \"full-win-x64\"\n}\n",
+      "stderr": "",
+      "exit_status": 0,
+      "result": "installed with byte backup"
+    },
+    {
+      "name": "rollback-probe",
+      "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File E:\\knowledge_builder\\self-workspace\\work\\retrieval-optimization-5.1.3\\rollback.ps1 -ProbeRoot E:\\knowledge_builder\\self-workspace\\work\\retrieval-optimization-5.1.3\\rollback-probe",
+      "input": "isolated old/new sentinel directories",
+      "stdout": "{\n    \"schema_version\":  1,\n    \"status\":  \"passed\",\n    \"restored\":  \"E:\\\\knowledge_builder\\\\self-workspace\\\\work\\\\retrieval-optimization-5.1.3\\\\rollback-probe\\\\code-knowledge-builder\",\n    \"restored_from\":  \"E:\\\\knowledge_builder\\\\self-workspace\\\\work\\\\retrieval-optimization-5.1.3\\\\rollback-probe\\\\code-knowledge-builder-5.1.2-before-5.1.3\",\n    \"displaced_new_install\":  \"E:\\\\knowledge_builder\\\\self-workspace\\\\work\\\\retrieval-optimization-5.1.3\\\\rollback-probe\\\\code-knowledge-builder-5.1.3-rollback-quarantine\",\n    \"private_runtime\":  \"unchanged-preexisting\",\n    \"probe\":  true\n}\n",
+      "stderr": "",
+      "exit_status": 0,
+      "result": "passed"
+    },
+    {
+      "name": "rollback-actual",
+      "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File E:\\knowledge_builder\\self-workspace\\work\\retrieval-optimization-5.1.3\\rollback.ps1",
+      "input": "C:\\Users\\19739\\.codex\\skills\\code-knowledge-builder and 5.1.2 backup",
+      "stdout": "{\n    \"schema_version\":  1,\n    \"status\":  \"passed\",\n    \"restored\":  \"C:\\\\Users\\\\19739\\\\.codex\\\\skills\\\\code-knowledge-builder\",\n    \"restored_from\":  \"C:\\\\Users\\\\19739\\\\.codex\\\\skills\\\\.backups\\\\code-knowledge-builder-5.1.2-before-5.1.3\",\n    \"displaced_new_install\":  \"C:\\\\Users\\\\19739\\\\.codex\\\\skills\\\\.backups\\\\code-knowledge-builder-5.1.3-rollback-quarantine\",\n    \"private_runtime\":  \"unchanged-preexisting\",\n    \"probe\":  false\n}\n{\n  \"schema_version\": 1,\n  \"status\": \"passed\",\n  \"expected_files\": 959,\n  \"actual_files\": 959,\n  \"content_mismatches\": [],\n  \"missing\": [],\n  \"extra\": [],\n  \"version_5_1_2\": true\n}\n",
+      "stderr": "",
+      "exit_status": 0,
+      "result": "5.1.2 restored 959/959, then 5.1.3 reapplied 655/655"
+    },
+    {
+      "name": "installed-retrieve",
+      "command": "& PYTHON -X utf8 C:\\Users\\19739\\.codex\\skills\\code-knowledge-builder\\scripts\\ckb.py retrieve --out E:\\knowledge_builder\\self-workspace\\knowledge-base \"迁移目录提升后的路径重定位如何工作\" --budget 1600 --max-pages 8 --profile fast",
+      "input": "final 5.1.3 self knowledge base",
+      "stdout": "{\n  \"schema_version\": 1,\n  \"status\": \"passed\",\n  \"question\": \"迁移目录提升后的路径重定位如何工作\",\n  \"profile\": \"fast\",\n  \"budget\": 1600,\n  \"estimated_tokens\": 1554,\n  \"terms\": [\n    \"迁移目录提升后的路径重定位如何工作\",\n    \"位如何\",\n    \"何工作\",\n    \"升后的\",\n    \"后的路\",\n    \"如何工\",\n    \"定位如\",\n    \"录提升\",\n    \"径重定\",\n    \"提升后\",\n    \"的路径\",\n    \"目录提\",\n    \"移目录\",\n    \"路径重\",\n    \"迁移目\",\n    \"重定位\",\n    \"位如\",\n    \"何工\",\n    \"升后\",\n    \"后的\",\n    \"如何\",\n    \"定位\",\n    \"工作\",\n    \"录提\",\n    \"径重\",\n    \"提升\",\n    \"的路\",\n    \"目录\",\n    \"移目\",\n    \"路径\",\n    \"迁移\",\n    \"重定\"\n  ],\n  \"anchors\": [],\n  \"seed_entity_ids\": [\n    \"file-89dd6b7edb5958f392011787442849f4\",\n    \"ent-e843f622da50540887a59d538cf42ce0\",\n    \"ent-78e3cd869642508fac71aacd17b1de77\",\n    \"ent-b8de4a6d51d451abbe460de2c907033b\",\n    \"file-ddd0044468285d24847a5bc8661ef10d\"\n  ],\n  \"selected_entities\": [\n    {\n      \"entity_id\": \"file-89dd6b7edb5958f392011787442849f4\",\n      \"name\": \"pipeline.py\",\n      \"qualified_name\": \"scripts/ckb_core/pipeline.py\",\n      \"kind\": \"file\",\n      \"source_path\": \"scripts/ckb_core/pipeline.py\",\n      \"start_line\": 1,\n      \"end_line\": 3314,\n      \"human_page_title\": \"status 与 _replace_output_prefix 的协作实现\",\n      \"human_page_file\": \"pages/status 与 _replace_output_prefix 的协作实现.md\",\n      \"display_mode\": \"page\",\n      \"score\": 177.5162143,\n      \"score_breakdown\": {\n        \"entity-fts\": 1.43867798,\n        \"graph\": 0.18542075,\n        \"metadata\": 75.0,\n        \"section-fts\": 8.89211557,\n        \"term\": 92.0\n      },\n      \"reasons\": [\n        \"确定性词项 `升后`\",\n        \"确定性词项 `升后的`\",\n        \"确定性词项 `后的`\",\n        \"确定性词项 `后的路`\",\n        \"确定性词项 `定位`\",\n        \"确定性词项 `录提`\",\n        \"确定性词项 `录提升`\",\n        \"确定性词项 `径重`\",\n        \"确定性词项 `径重定`\",\n        \"确定性词项 `提升`\",\n        \"确定性词项 `提升后`\",\n        \"确定性词项 `的路`\",\n        \"确定性词项 `的路径`\",\n        \"确定性词项 `目录`\",\n        \"确定性词项 `目录提`\",\n        \"确定性词项 `移目`\",\n        \"确定性词项 `移目录`\",\n        \"确定性词项 `路径`\",\n        \"确定性词项 `路径重`\",\n        \"确定性词项 `迁移`\",\n        \"确定性词项 `迁移目`\",\n        \"确定性词项 `重定`\",\n        \"确定性词项 `重定位`\",\n        \"机器实体全文命中\",\n        \"中文章节全文命中\",\n        \"文件、标识符和中文职责确定性匹配\",\n        \"查询相关种子的确定性图扩展\"\n      ],\n      \"sections\": []\n    },\n    {\n      \"entity_id\": \"ent-b8de4a6d51d451abbe460de2c907033b\",\n      \"name\": \"test_exact_blob_facts_and_agent_reviews_are_reused\",\n      \"qualified_name\": \"MigrationTest.test_exact_blob_facts_and_agent_reviews_are_reused\",\n      \"kind\": \"function\",\n      \"source_path\": \"tests/test_migration.py\",\n      \"start_line\": 85,\n      \"end_line\": 189,\n      \"human_page_title\": \"MigrationTest\",\n      \"human_page_file\": \"pages/MigrationTest.md\",\n      \"display_mode\": \"appendix\",\n      \"score\": 55.52692105,\n      \"score_breakdown\": {\n        \"entity-fts\": 1.99154083,\n        \"graph\": 0.06373625,\n        \"metadata\": 45.0,\n        \"section-fts\": 9.06366107,\n        \"term\": 76.0,\n        \"test-discount\": -76.5920171\n      },\n      \"reasons\": [\n        \"确定性词项 `升后`\",\n        \"确定性词项 `升后的`\",\n        \"确定性词项 `后的`\",\n        \"确定性词项 `后的路`\",\n        \"确定性词项 `定位`\",\n        \"确定性词项 `录提`\",\n        \"确定性词项 `录提升`\",\n        \"确定性词项 `径重`\",\n        \"确定性词项 `径重定`\",\n        \"确定性词项 `提升`\",\n        \"确定性词项 `提升后`\",\n        \"确定性词项 `的路`\",\n        \"确定性词项 `的路径`\",\n        \"确定性词项 `目录`\",\n        \"确定性词项 `目录提`\",\n        \"确定性词项 `路径`\",\n        \"确定性词项 `路径重`\",\n        \"确定性词项 `重定`\",\n        \"确定性词项 `重定位`\",\n        \"机器实体全文命中\",\n        \"中文章节全文命中\",\n        \"文件、标识符和中文职责确定性匹配\",\n        \"实现定位查询对测试实体应用固定折扣\",\n        \"查询相关种子的确定性图扩展\"\n      ],\n      \"sections\": [\n        \"来源核对\"\n      ]\n    },\n    {\n      \"entity_id\": \"ent-54a267f69dc65952ad63df5ce6fd71b1\",\n      \"name\": \"_entity_key\",\n      \"qualified_name\": \"_entity_key\",\n      \"kind\": \"function\",\n      \"source_path\": \"scripts/ckb_core/migration.py\",\n      \"start_line\": 24,\n      \"end_line\": 34,\n      \"human_page_title\": \"audit_migration 与 _entity_key 的协作实现\",\n      \"human_page_file\": \"pages/audit_migration 与 _entity_key 的协作实现.md\",\n      \"display_mode\": \"appendix\",\n      \"score\": 42.54991837,\n      \"score_breakdown\": {\n        \"entity-fts\": 13.58495207,\n        \"graph\": 0.00139755,\n        \"metadata\": 5.0,\n        \"section-fts\": 7.96356875,\n        \"term\": 16.0\n      },\n      \"reasons\": [\n        \"确定性词项 `的路`\",\n        \"确定性词项 `的路径`\",\n        \"确定性词项 `路径`\",\n        \"确定性词项 `迁移`\",\n        \"机器实体全文命中\",\n        \"中文章节全文命中\",\n        \"文件、标识符和中文职责确定性匹配\",\n        \"查询相关种子的确定性图扩展\"\n      ],\n      \"sections\": [\n        \"中文作用\"\n      ]\n    },\n    {\n      \"entity_id\": \"ent-ab40f52278a354729a80882dff302454\",\n      \"name\": \"validate_full_payload\",\n      \"qualified_name\": \"validate_full_payload\",\n      \"kind\": \"function\",\n      \"source_path\": \"scripts/package_release.py\",\n      \"start_line\": 41,\n      \"end_line\": 60,\n      \"human_page_title\": \"source_files 与 sha256 的协作实现\",\n      \"human_page_file\": \"pages/source_files 与 sha256 的协作实现.md\",\n      \"display_mode\": \"appendix\",\n      \"score\": 38.70282988,\n      \"score_breakdown\": {\n        \"entity-fts\": 13.80556332,\n        \"graph\": 0.00186455,\n        \"metadata\": 5.0,\n        \"section-fts\": 7.89540201,\n        \"term\": 12.0\n      },\n      \"reasons\": [\n        \"确定性词项 `的路`\",\n        \"确定性词项 `的路径`\",\n        \"确定性词项 `路径`\",\n        \"机器实体全文命中\",\n        \"中文章节全文命中\",\n        \"文件、标识符和中文职责确定性匹配\",\n        \"查询相关种子的确定性图扩展\"\n      ],\n      \"sections\": [\n        \"中文作用\"\n      ]\n    },\n    {\n      \"entity_id\": \"ent-e843f622da50540887a59d538cf42ce0\",\n      \"name\": \"status\",\n      \"qualified_name\": \"status\",\n      \"kind\": \"function\",\n      \"source_path\": \"scripts/ckb_core/pipeline.py\",\n      \"start_line\": 3246,\n      \"end_line\": 3256,\n      \"human_page_title\": \"status\",\n      \"human_page_file\": \"pages/status.md\",\n      \"display_mode\": \"page\",\n      \"score\": 99.33368954,\n      \"score_breakdown\": {\n        \"entity-fts\": 3.3132966,\n        \"graph\": 0.37375445,\n        \"metadata\": 25.0,\n        \"section-fts\": 18.64663849,\n        \"term\": 52.0\n      },\n      \"reasons\": [\n        \"确定性词项 `定位`\",\n        \"确定性词项 `录提`\",\n        \"确定性词项 `录提升`\",\n        \"确定性词项 `径重`\",\n        \"确定性词项 `径重定`\",\n        \"确定性词项 `提升`\",\n        \"确定性词项 `目录`\",\n        \"确定性词项 `目录提`\",\n        \"确定性词项 `路径`\",\n        \"确定性词项 `路径重`\",\n        \"确定性词项 `迁移`\",\n        \"确定性词项 `重定`\",\n        \"确定性词项 `重定位`\",\n        \"机器实体全文命中\",\n        \"中文章节全文命中\",\n        \"文件、标识符和中文职责确定性匹配\",\n        \"查询相关种子的确定性图扩展\"\n      ],\n      \"sections\": [\n        \"来源核对\"\n      ]\n    },\n    {\n      \"entity_id\": \"ent-78e3cd869642508fac71aacd17b1de77\",\n      \"name\": \"_relocate_completed_output\",\n      \"qualified_name\": \"_relocate_completed_output\",\n      \"kind\": \"function\",\n      \"source_path\": \"scripts/ckb_core/pipeline.py\",\n      \"start_line\": 110,\n      \"end_line\": 161,\n      \"human_page_title\": \"status 与 _replace_output_prefix 的协作实现\",\n      \"human_page_file\": \"pages/status 与 _replace_output_prefix 的协作实现.md\",\n      \"display_mode\": \"appendix\",\n      \"score\": 62.97632591,\n      \"score_breakdown\": {\n        \"entity-fts\": 8.28744549,\n        \"graph\": 0.33294917,\n        \"metadata\": 10.0,\n        \"section-fts\": 12.35593125,\n        \"term\": 32.0\n      },\n      \"reasons\": [\n        \"确定性词项 `升后`\",\n        \"确定性词项 `定位`\",\n        \"确定性词项 `提升`\",\n        \"确定性词项 `提升后`\",\n        \"确定性词项 `目录`\",\n        \"确定性词项 `路径`\",\n        \"确定性词项 `重定`\",\n        \"确定性词项 `重定位`\",\n        \"机器实体全文命中\",\n        \"中文章节全文命中\",\n        \"文件、标识符和中文职责确定性匹配\",\n        \"查询相关种子的确定性图扩展\"\n      ],\n      \"sections\": [\n        \"来源核对\"\n      ]\n    },\n    {\n      \"entity_id\": \"file-ddd0044468285d24847a5bc8661ef10d\",\n      \"name\": \"test_migration.py\",\n      \"qualified_name\": \"tests/test_migration.py\",\n      \"kind\": \"file\",\n      \"source_path\": \"tests/test_migration.py\",\n      \"start_line\": 1,\n      \"end_line\": 194,\n      \"human_page_title\": \"MigrationTest 等测试场景\",\n      \"human_page_file\": \"pages/MigrationTest 等测试场景.md\",\n      \"display_mode\": \"page\",\n      \"score\": 50.02034853,\n      \"score_breakdown\": {\n        \"entity-fts\": 3.36686762,\n        \"graph\": 0.08452088,\n        \"metadata\": 45.0,\n        \"section-fts\": 18.52796014,\n        \"term\": 52.0,\n        \"test-discount\": -68.9590001\n      },\n      \"reasons\": [\n        \"确定性词项 `定位`\",\n        \"确定性词项 `录提`\",\n        \"确定性词项 `录提升`\",\n        \"确定性词项 `径重`\",\n        \"确定性词项 `径重定`\",\n        \"确定性词项 `提升`\",\n        \"确定性词项 `目录`\",\n        \"确定性词项 `目录提`\",\n        \"确定性词项 `路径`\",\n        \"确定性词项 `路径重`\",\n        \"确定性词项 `迁移`\",\n        \"确定性词项 `重定`\",\n        \"确定性词项 `重定位`\",\n        \"机器实体全文命中\",\n        \"中文章节全文命中\",\n        \"文件、标识符和中文职责确定性匹配\",\n        \"实现定位查询对测试实体应用固定折扣\",\n        \"查询相关种子的确定性图扩展\"\n      ],\n      \"sections\": [\n        \"来源核对\"\n      ]\n    },\n    {\n      \"entity_id\": \"ent-6c7e842ce57a597f9a0baccde9d8342e\",\n      \"name\": \"_load_state\",\n      \"qualified_name\": \"_load_state\",\n      \"kind\": \"function\",\n      \"source_path\": \"scripts/ckb_core/pipeline.py\",\n      \"start_line\": 164,\n      \"end_line\": 198,\n      \"human_page_title\": \"status 与 _replace_output_prefix 的协作实现\",\n      \"human_page_file\": \"pages/status 与 _replace_output_prefix 的协作实现.md\",\n      \"display_mode\": \"appendix\",\n      \"score\": 49.28714213,\n      \"score_breakdown\": {\n        \"entity-fts\": 15.2255285,\n        \"graph\": 0.55157965,\n        \"metadata\": 5.0,\n        \"section-fts\": 16.51003398,\n        \"term\": 12.0\n      },\n      \"reasons\": [\n        \"确定性词项 `定位`\",\n        \"确定性词项 `重定`\",\n        \"确定性词项 `重定位`\",\n        \"机器实体全文命中\",\n        \"中文章节全文命中\",\n        \"文件、标识符和中文职责确定性匹配\",\n        \"查询相关种子的确定性图扩展\"\n      ],\n      \"sections\": [\n        \"中文作用\"\n      ]\n    }\n  ],\n  \"related_documents\": [\n    {\n      \"document_id\": \"note:changes:跨 Harness 会话与修改自动同步实现\",\n      \"title\": \"跨 Harness 会话与修改自动同步实现\",\n      \"kind\": \"change\",\n      \"human_file\": \"changes/跨 Harness 会话与修改自动同步实现.md\"\n    }\n  ],\n  \"retrieval_stats\": {\n    \"scored_entities\": 449,\n    \"overscan_limit\": 32,\n    \"materialized_candidates\": 32,\n    \"selected_entities\": 8,\n    \"budgeted_entity_limit\": 8,\n    \"selected_source_paths\": 4,\n    \"batched_entity_queries\": 2,\n    \"source_link_cache_entries\": 4,\n    \"static_cache_hit\": false\n  },\n  \"pack\": \"E:\\\\knowledge_builder\\\\self-workspace\\\\knowledge-base\\\\machine\\\\agent-packs\\\\pack-20260827-175632-999361-01.md\",\n  \"record\": \"E:\\\\knowledge_builder\\\\self-workspace\\\\knowledge-base\\\\machine\\\\agent-packs\\\\pack-20260827-175632-999361-01.json\",\n  \"retrieval\": \"sqlite-exact-fts5-sections-deterministic-weighted-graph\",\n  \"deterministic\": true,\n  \"source_grounded\": true,\n  \"grep_fallback_required\": false\n}\n",
+      "stderr": "",
+      "exit_status": 0,
+      "result": "passed"
+    },
+    {
+      "name": "hook-canary",
+      "command": "automation activate + SessionStart + UserPromptSubmit + PostToolUse + Stop + review + SessionEnd",
+      "input": "/mnt/e/knowledge_builder/self-workspace/work/retrieval-optimization-5.1.3/hook-canary",
+      "stdout": "{\n  \"schema_version\": 3,\n  \"status\": \"ready\",\n  \"database\": \"E:\\\\knowledge_builder\\\\self-workspace\\\\knowledge-base\\\\machine\\\\automation.sqlite\",\n  \"skill_activations\": 2,\n  \"events\": 10,\n  \"sessions\": 1,\n  \"active_sessions\": 0,\n  \"turns\": 2,\n  \"changed_paths\": 1,\n  \"pending_reviews\": 0,\n  \"reviewed\": 2,\n  \"pending_spool\": 0,\n  \"failed_spool\": 0,\n  \"sqlite_integrity\": \"ok\"\n}\n",
+      "stderr": "",
+      "exit_status": 0,
+      "result": "pending 0, reviewed 2, integrity ok"
+    }
+  ],
+  "artifacts": [
+    {
+      "role": "modified-source-delta-patch",
+      "path": "/mnt/e/knowledge_builder/self-workspace/work/retrieval-optimization-5.1.3/code-knowledge-builder-5.1.3.patch",
+      "size": 43666,
+      "sha256": "c0945312ee85fd22df7ade8b0bfccb80d1962b889d90753871860dc8fa3bfa1b"
+    },
+    {
+      "role": "source-from-empty-patch",
+      "path": "/mnt/e/knowledge_builder/self-workspace/work/retrieval-optimization-5.1.3/code-knowledge-builder-5.1.3-source-from-empty.patch",
+      "size": 897515,
+      "sha256": "d835cfb0916c02f3f1654be5dcdee0605a7990fc30dfbc5f788c740088e85140"
+    },
+    {
+      "role": "patch-replay-verification",
+      "path": "/mnt/e/knowledge_builder/self-workspace/work/retrieval-optimization-5.1.3/patch-replay-verification.json",
+      "size": 2861,
+      "sha256": "371d95beb479817e46cfdf531c1e52cb3f25677a05bc6f7b8a7bd52af2902c96"
+    },
+    {
+      "role": "lite-package",
+      "path": "/mnt/e/knowledge_builder/dist/code-knowledge-builder-lite-5.1.3.zip",
+      "size": 2361989,
+      "sha256": "8acd4a8deaaf417ce0dbfd5b77a53f899a75f4463363c5ab8e56a4c13cf6289d"
+    },
+    {
+      "role": "full-package",
+      "path": "/mnt/e/knowledge_builder/dist/code-knowledge-builder-full-win-x64-5.1.3.zip",
+      "size": 617426254,
+      "sha256": "731f7de4e617496c1e1d32f31fbef2b9f78055c2d5dfb6022d887ca5ca06ada4"
+    },
+    {
+      "role": "rollback",
+      "path": "/mnt/e/knowledge_builder/self-workspace/work/retrieval-optimization-5.1.3/rollback.ps1",
+      "size": 1392,
+      "sha256": "ce51f3ef06be4ced8b16ca24ee80f0beb88e285bf59c6b0a096f539dbd2c7415"
+    },
+    {
+      "role": "knowledge-analysis",
+      "path": "/mnt/e/knowledge_builder/self-workspace/knowledge-base/human/analysis/LLM Wiki 快速检索性能验证（5.1.3）.md",
+      "size": 5037,
+      "sha256": "e08ca64ac88ddbf2857be8d73eedbf2b06b135984986d92eb7e394a1d370c812"
+    },
+    {
+      "role": "hook-change-note",
+      "path": "/mnt/e/knowledge_builder/self-workspace/knowledge-base/human/changes/LLM Wiki 快速检索确定性优化与 5.1.3 交付.md",
+      "size": 1945,
+      "sha256": "86417cdb9b3a2ec275febdad150b30ce2894d085fb15caed40bc85a1a38f2e3d"
+    }
+  ],
+  "final_state": {
+    "source": "E:\\knowledge_builder\\self-workspace\\source",
+    "installed": "C:\\Users\\19739\\.codex\\skills\\code-knowledge-builder",
+    "knowledge_base": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+    "backup": "C:\\Users\\19739\\.codex\\skills\\.backups\\code-knowledge-builder-5.1.2-before-5.1.3",
+    "private_runtime": "unchanged-preexisting"
+  }
+}

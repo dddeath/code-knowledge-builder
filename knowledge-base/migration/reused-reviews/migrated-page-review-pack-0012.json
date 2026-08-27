@@ -3,20 +3,33 @@
   "pack_id": "migrated-page-review-pack-0012",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-08-27T11:29:50Z",
+  "reviewed_at_utc": "2026-08-27T17:42:02Z",
   "reviews": [
     {
-      "entity_id": "file-408524587d9a571d81670e3859b4361b",
+      "entity_id": "file-1d04900db82f5069a3cd905246b35b99",
       "classification": "page",
-      "owner_page_id": "file-408524587d9a571d81670e3859b4361b",
-      "source_path": "tests/test_ckb.py",
+      "owner_page_id": "file-1d04900db82f5069a3cd905246b35b99",
+      "source_path": "scripts/package_release.py",
       "start_line": 1,
-      "end_line": 1137,
+      "end_line": 142,
       "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开目标 5.1 固定 Git 源码中 tests/test_ckb.py 第 1 至 1137 行，核对名称、签名、分支和调用后确认本条说明。",
-      "meaning_zh": "该页面汇总 CKB 范围、语言、导航、投影、中文、Logseq、C# 和完成门回归测试。",
-      "role_zh": "它通过真实临时 Git 仓库验证主流水线的成功、失败、恢复和审计行为。",
-      "change_when_zh": "核心构建契约、输出格式或语言支持变化时，需要修改相应测试与夹具。"
+      "evidence_note": "Agent 已从目标固定提交对应的 Git blob 重新打开 scripts/package_release.py 第 1 至 142 行，核对声明名称、签名、关键分支与调用后确认本条说明。",
+      "meaning_zh": "该文件构建可复验的 lite 与 full-win-x64 Skill 发行包。",
+      "role_zh": "它校验锁定运行时、筛选源码、生成逐文件清单，并验证 ZIP CRC 与归档内清单。",
+      "change_when_zh": "版本号、载荷锁、发行文件规则或归档验证要求变化时，需要修改该文件。"
+    },
+    {
+      "entity_id": "ent-475e45769de75ae1a7838ebffe4ddb69",
+      "classification": "page",
+      "owner_page_id": "ent-475e45769de75ae1a7838ebffe4ddb69",
+      "source_path": "scripts/package_release.py",
+      "start_line": 27,
+      "end_line": 38,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已从目标固定提交对应的 Git blob 重新打开 scripts/package_release.py 第 27 至 38 行，核对声明名称、签名、关键分支与调用后确认本条说明。",
+      "meaning_zh": "`source_files` 按发行类型返回稳定排序的待归档文件集合。",
+      "role_zh": "它排除版本库和缓存产物，并确保 lite 包不携带 Windows 私有运行时载荷。",
+      "change_when_zh": "源码布局、排除目录或 lite/full 文件边界变化时，需要修改该函数。"
     }
   ]
 }

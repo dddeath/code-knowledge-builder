@@ -125,6 +125,19 @@ class MigrationTest(unittest.TestCase):
         review_all(self.new)
         complete = finalize(self.new)
         self.assertEqual(complete["status"], "complete")
+        relocated = self.root / "promoted-output"
+        self.new.rename(relocated)
+        self.new = relocated
+        promoted = finalize(self.new)
+        self.assertEqual(promoted["status"], "complete")
+        promoted_state = json.loads((self.new / "state.json").read_text(encoding="utf-8"))
+        self.assertEqual(
+            Path(promoted_state["source_snapshot"]["root"]).resolve(),
+            (self.new / ".source-snapshot/worktree").resolve(),
+        )
+        relocation = json.loads((self.new / "audit/output-relocation.json").read_text(encoding="utf-8"))
+        self.assertEqual(relocation["status"], "passed")
+        self.assertTrue(relocation["rewritten_json_files"])
         migration_audit = audit_migration(self.new)
         self.assertEqual(migration_audit["status"], "passed")
         self.assertEqual(migration_status(self.new)["status"], "complete")

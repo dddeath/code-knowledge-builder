@@ -25,6 +25,8 @@
 - [[AutomationTest.event 等测试场景]] 关联到这里的验证场景。
 - [[LspClient.start]] 关联到这里的验证场景。
 - [[LspClient.start 与 _version_matches 的协作实现]] 关联到这里的验证场景。
+- [[SourceLinkRenderer.uri]] 关联到这里的验证场景。
+- [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]] 关联到这里的验证场景。
 - [[add_git_bootstrap_arguments]] 关联到这里的验证场景。
 - [[add_initial_arguments]] 关联到这里的验证场景。
 - [[add_initial_arguments 与 add_git_bootstrap_arguments 的协作实现]] 关联到这里的验证场景。
@@ -43,12 +45,13 @@
 - [[record_note 与 page_tag 的协作实现]] 关联到这里的验证场景。
 - [[remove]] 关联到这里的验证场景。
 - [[remove 与 skill_root 的协作实现]] 关联到这里的验证场景。
+- [[render_integration 与 _looks_windows 的协作实现]] 关联到这里的验证场景。
 - [[retrieve]] 关联到这里的验证场景。
 - [[retrieve 与 _tokens 的协作实现]] 关联到这里的验证场景。
 - [[retrieve_machine]] 关联到这里的验证场景。
 - [[retrieve_machine 与 estimated_tokens 的协作实现]] 关联到这里的验证场景。
 - [[status]] 关联到这里的验证场景。
-- [[status 与 _load_state 的协作实现]] 关联到这里的验证场景。
+- [[status 与 _replace_output_prefix 的协作实现]] 关联到这里的验证场景。
 - [[sync_human_layer]] 关联到这里的验证场景。
 - [[sync_human_layer 与 _source_manifest 的协作实现]] 关联到这里的验证场景。
 - 可从 [[tests 职责导览]] 进入本页。

@@ -18,6 +18,7 @@ CLI = SKILL_ROOT / "scripts" / "ckb.py"
 sys.path.insert(0, str(SKILL_ROOT / "scripts"))
 from ckb_core.common import stable_id
 from ckb_core.graphify_core import GRAPHIFY_COMMIT, audit_graphify
+from ckb_core.machine_knowledge import FAST_RETRIEVAL_OVERSCAN, retrieve_machine, search_terms
 from ckb_core.navigation import DIRECT_RELATION_LIMIT, estimated_tokens
 from ckb_core.page_config import DEFAULT_PAGE_CONFIG, page_config_sha256
 from ckb_core.pipeline import (
@@ -523,6 +524,16 @@ class CodeKnowledgeBuilderTests(unittest.TestCase):
         self.assertTrue(retrieve_record["selected_entities"])
         self.assertLessEqual(retrieve_record["estimated_tokens"], 1200)
         self.assertTrue(Path(retrieve_record["pack"]).is_file())
+        self.assertIn("订单服", search_terms("订单服务修改"))
+        retrieval_stats = retrieve_record["retrieval_stats"]
+        self.assertEqual(retrieval_stats["overscan_limit"], FAST_RETRIEVAL_OVERSCAN)
+        self.assertLessEqual(retrieval_stats["materialized_candidates"], FAST_RETRIEVAL_OVERSCAN)
+        self.assertEqual(retrieval_stats["selected_entities"], len(retrieve_record["selected_entities"]))
+        self.assertEqual(
+            retrieval_stats["source_link_cache_entries"],
+            len({item["source_path"] for item in retrieve_record["selected_entities"]}),
+        )
+        self.assertLessEqual(retrieval_stats["selected_entities"], retrieval_stats["budgeted_entity_limit"])
         repeated = invoke("retrieve", "--out", str(output), "OrderService 服务修改", "--budget", "1200", "--profile", "fast")
         self.assertEqual(repeated.returncode, 0, repeated.stderr)
         repeated_record = json.loads(repeated.stdout)
@@ -530,6 +541,10 @@ class CodeKnowledgeBuilderTests(unittest.TestCase):
             [(item["entity_id"], item["score"], item["score_breakdown"]) for item in retrieve_record["selected_entities"]],
             [(item["entity_id"], item["score"], item["score_breakdown"]) for item in repeated_record["selected_entities"]],
         )
+        direct_first = retrieve_machine(output, "OrderService 服务修改", 1200, 8, "fast")
+        direct_second = retrieve_machine(output, "OrderService 服务修改", 1200, 8, "fast")
+        self.assertFalse(direct_first["retrieval_stats"]["static_cache_hit"])
+        self.assertTrue(direct_second["retrieval_stats"]["static_cache_hit"])
         precise = invoke("retrieve", "--out", str(output), "OrderService 服务修改", "--budget", "1200", "--profile", "precise")
         self.assertEqual(precise.returncode, 0, precise.stderr)
         self.assertTrue(json.loads(precise.stdout)["deterministic"])

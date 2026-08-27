@@ -14,6 +14,7 @@
 
 ## 相关代码
 
+- 实现时会用到 [[SourceLinkRenderer.uri]]。
 - 实现时会用到 [[audit_migration 与 _entity_key 的协作实现]]。
 - 实现时会用到 [[execute]]。
 - 实现时会用到 [[run 与 CkbError 的协作实现]]。

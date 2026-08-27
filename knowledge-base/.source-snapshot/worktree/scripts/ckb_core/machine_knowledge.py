@@ -19,11 +19,15 @@ from typing import Any, Iterable
 
 from .common import CkbError, json_load, json_write, sha256_file, utc_now
 from .obsidian import NOTE_DIRECTORIES
-from .source_links import source_markdown_link
+from .source_links import SourceLinkRenderer, source_markdown_link
 
 
 MACHINE_SCHEMA_VERSION = 1
 MACHINE_PATH = Path("machine/knowledge.sqlite")
+FAST_RETRIEVAL_OVERSCAN = 32
+PRECISE_RETRIEVAL_OVERSCAN = 64
+IMPLEMENTATION_TEST_DISCOUNT = 0.42
+_RETRIEVAL_STATIC_CACHE: dict[str, Any] = {}
 RELATION_WEIGHTS: dict[str, float] = {
     "tested-by": 1.55,
     "implements": 1.50,
@@ -79,6 +83,8 @@ def search_terms(text: str) -> list[str]:
             terms.add(run)
         for index in range(max(0, len(run) - 1)):
             terms.add(run[index : index + 2])
+        for index in range(max(0, len(run) - 2)):
+            terms.add(run[index : index + 3])
     return sorted(terms, key=lambda value: (-len(value), value))
 
 
@@ -716,6 +722,208 @@ def _next_pack_path(output: Path) -> tuple[Path, Path]:
     raise CkbError("machine pack name space is exhausted")
 
 
+def _sql_placeholders(values: Iterable[Any]) -> str:
+    items = list(values)
+    if not items:
+        raise CkbError("SQL placeholder list must not be empty")
+    return ",".join("?" for _ in items)
+
+
+def _utf8_prefix(value: str, maximum_bytes: int) -> str:
+    if maximum_bytes <= 0:
+        return ""
+    data = value.encode("utf-8")[:maximum_bytes]
+    while data:
+        try:
+            return data.decode("utf-8")
+        except UnicodeDecodeError as exc:
+            data = data[: exc.start]
+    return ""
+
+
+def _bulk_entity_context(
+    connection: sqlite3.Connection,
+    entity_ids: list[str],
+) -> tuple[dict[str, sqlite3.Row], dict[str, list[sqlite3.Row]]]:
+    if not entity_ids:
+        return {}, {}
+    placeholders = _sql_placeholders(entity_ids)
+    entity_rows = {
+        row["entity_id"]: row
+        for row in connection.execute(
+            f"SELECT e.*,r.start_line,r.end_line,h.title AS human_title,h.page_file,h.display_mode "
+            f"FROM entities e JOIN source_ranges r USING(entity_id) LEFT JOIN human_projection h USING(entity_id) "
+            f"WHERE e.entity_id IN ({placeholders})",
+            entity_ids,
+        )
+    }
+    sections: dict[str, list[sqlite3.Row]] = defaultdict(list)
+    for row in connection.execute(
+        f"SELECT d.source_entity_id,s.* FROM sections s JOIN documents d ON d.document_id=s.document_id "
+        f"WHERE d.source_entity_id IN ({placeholders}) ORDER BY d.source_entity_id,s.ordinal",
+        entity_ids,
+    ):
+        sections[row["source_entity_id"]].append(row)
+    return entity_rows, sections
+
+
+def _diverse_candidates(
+    ordered_ids: list[str],
+    entity_rows: dict[str, sqlite3.Row],
+    limit: int,
+) -> list[str]:
+    selected: list[str] = []
+    selected_set: set[str] = set()
+    paths: set[str] = set()
+    for entity_id in ordered_ids:
+        row = entity_rows.get(entity_id)
+        if row is None or row["source_path"] in paths:
+            continue
+        selected.append(entity_id)
+        selected_set.add(entity_id)
+        paths.add(row["source_path"])
+        if len(selected) >= limit:
+            return selected
+    for entity_id in ordered_ids:
+        if entity_id in selected_set or entity_id not in entity_rows:
+            continue
+        selected.append(entity_id)
+        if len(selected) >= limit:
+            break
+    return selected
+
+
+def _compact_entity_block(
+    entity: sqlite3.Row,
+    sections: list[sqlite3.Row],
+    section_scores: dict[str, float],
+    reason_values: list[str],
+    source_link: str,
+    allocation_bytes: int,
+    profile: str,
+) -> tuple[str, list[str]]:
+    unique_reasons = list(dict.fromkeys(reason_values))[:4]
+    reason_text = "；".join(unique_reasons)
+    lines = [
+        f"## {entity['qualified_name']}",
+        "",
+        f"选择原因：{reason_text}",
+        "",
+        f"源码：{source_link}",
+        "",
+    ]
+    if entity["human_title"]:
+        lines.extend([f"人类知识页：[[{entity['human_title']}]]（{entity['display_mode']}）", ""])
+    mandatory = "\n".join(lines).rstrip() + "\n"
+    if len(mandatory.encode("utf-8")) > allocation_bytes:
+        short_reason = "；".join(unique_reasons[:2])
+        mandatory = (
+            f"## {entity['qualified_name']}\n\n"
+            f"选择原因：{short_reason}\n\n"
+            f"源码：{source_link}\n"
+        )
+    remaining = max(0, allocation_bytes - len(mandatory.encode("utf-8")) - 2)
+    ranked = sorted(
+        sections,
+        key=lambda row: (-section_scores.get(row["section_id"], 0.0), row["ordinal"]),
+    )[: (4 if profile == "fast" else 7)]
+    chunks: list[str] = []
+    included: list[str] = []
+    for section in ranked:
+        prefix = f"\n### {section['heading']}\n\n"
+        prefix_bytes = len(prefix.encode("utf-8"))
+        if prefix_bytes + 12 > remaining:
+            break
+        content = str(section["content"]).strip()
+        available = remaining - prefix_bytes
+        if len(content.encode("utf-8")) > available:
+            content = _utf8_prefix(content, max(0, available - len("\n\n> 本节已按预算截断。".encode("utf-8")))).rstrip()
+            content += "\n\n> 本节已按预算截断。"
+        chunk = prefix + content + "\n"
+        encoded = len(chunk.encode("utf-8"))
+        if encoded > remaining:
+            break
+        chunks.append(chunk)
+        included.append(section["heading"])
+        remaining -= encoded
+    block = mandatory + "".join(chunks)
+    if len(block.encode("utf-8")) > allocation_bytes:
+        block = _utf8_prefix(block, allocation_bytes).rstrip() + "\n"
+    return block.rstrip() + "\n\n", included
+
+
+def _static_retrieval_key(database: Path, output: Path) -> str:
+    """Return a cheap fingerprint for immutable retrieval data.
+
+    ``retrieve`` already receives normalized output/database paths, so resolving
+    them again would add filesystem work to every warm query. Size and mtime
+    invalidate a replaced machine database; the opener mtime invalidates cached
+    source URIs when the source-view configuration changes.
+    """
+
+    openers_path = output / "local-openers.json"
+    database_stat = database.stat()
+    opener_mtime = openers_path.stat().st_mtime_ns if openers_path.is_file() else 0
+    return f"{database.absolute()}:{database_stat.st_size}:{database_stat.st_mtime_ns}:{opener_mtime}"
+
+
+def _static_retrieval_context(
+    connection: sqlite3.Connection,
+    output: Path,
+    entity_columns: set[str],
+    key: str,
+) -> dict[str, Any] | None:
+    required_columns = {
+        "entity_id",
+        "kind",
+        "name",
+        "qualified_name",
+        "source_path",
+        "meaning_zh",
+        "role_zh",
+        "change_when_zh",
+        "description_zh",
+    }
+    tables = {
+        str(row[0])
+        for row in connection.execute("SELECT name FROM sqlite_master WHERE type='table'")
+    }
+    if not required_columns.issubset(entity_columns) or not {"source_ranges", "human_projection", "sections", "documents"}.issubset(tables):
+        return None
+    metadata_rows = [
+        dict(row)
+        for row in connection.execute(
+            "SELECT entity_id,kind,name,qualified_name,source_path,meaning_zh,role_zh,change_when_zh,description_zh FROM entities"
+        )
+    ]
+    entity_rows = {
+        row["entity_id"]: dict(row)
+        for row in connection.execute(
+            "SELECT e.*,r.start_line,r.end_line,h.title AS human_title,h.page_file,h.display_mode "
+            "FROM entities e JOIN source_ranges r USING(entity_id) LEFT JOIN human_projection h USING(entity_id)"
+        )
+    }
+    sections: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for row in connection.execute(
+        "SELECT d.source_entity_id,s.* FROM sections s JOIN documents d ON d.document_id=s.document_id "
+        "WHERE d.source_entity_id IS NOT NULL ORDER BY d.source_entity_id,s.ordinal"
+    ):
+        sections[row["source_entity_id"]].append(dict(row))
+    adjacency, degree = _adjacency(connection)
+    value = {
+        "metadata_rows": metadata_rows,
+        "entity_rows": entity_rows,
+        "sections": dict(sections),
+        "adjacency": adjacency,
+        "degree": degree,
+        "linker": SourceLinkRenderer(_openers(output), trusted_relative_paths=True),
+        "entity_columns": entity_columns,
+    }
+    _RETRIEVAL_STATIC_CACHE.clear()
+    _RETRIEVAL_STATIC_CACHE[key] = value
+    return value
+
+
 def _openers(output: Path) -> dict[str, Any]:
     path = output / "local-openers.json"
     if path.is_file():
@@ -755,7 +963,14 @@ def retrieve_machine(
     anchors = explicit_anchors(question)
     from .automation import search_automation
 
-    automation_rows = search_automation(output, question, 8)
+    automation_intent = bool(
+        re.search(
+            r"(?:会话自动化|会话记录|对话记录|修改记录|实验记录|踩坑记录|待审阅|自动化记录|session|conversation|pending review)",
+            question,
+            flags=re.IGNORECASE,
+        )
+    )
+    automation_rows = search_automation(output, question, 8) if automation_intent else []
 
     def add(entity_id: str, value: float, stage: str, reason: str) -> None:
         scores[entity_id] += value
@@ -769,15 +984,27 @@ def retrieve_machine(
         ).fetchall()
         for row in exact_rows:
             add(row["entity_id"], 1000.0, "exact", f"精确命中 `{row['qualified_name']}`")
-        for anchor in anchors:
+        if anchors:
+            placeholders = _sql_placeholders(anchors)
             for row in connection.execute(
-                "SELECT entity_id,qualified_name FROM entities WHERE name=? COLLATE NOCASE OR qualified_name=? COLLATE NOCASE LIMIT 50",
-                (anchor, anchor),
+                f"SELECT entity_id,name,qualified_name FROM entities "
+                f"WHERE name COLLATE NOCASE IN ({placeholders}) OR qualified_name COLLATE NOCASE IN ({placeholders}) "
+                "ORDER BY entity_id LIMIT 200",
+                [*anchors, *anchors],
             ):
-                add(row["entity_id"], 500.0, "anchor", f"保留显式标识符 `{anchor}`")
-        for term in terms:
-            for row in connection.execute("SELECT entity_id,weight FROM terms WHERE term=? LIMIT 100", (term,)):
-                add(row["entity_id"], float(row["weight"]), "term", f"确定性词项 `{term}`")
+                matched = next(
+                    anchor
+                    for anchor in anchors
+                    if anchor == str(row["name"]).casefold() or anchor == str(row["qualified_name"]).casefold()
+                )
+                add(row["entity_id"], 500.0, "anchor", f"保留显式标识符 `{matched}`")
+        if terms:
+            placeholders = _sql_placeholders(terms)
+            for row in connection.execute(
+                f"SELECT term,entity_id,weight FROM terms WHERE term IN ({placeholders}) ORDER BY term,entity_id",
+                terms,
+            ):
+                add(row["entity_id"], float(row["weight"]), "term", f"确定性词项 `{row['term']}`")
         fts = _fts_query(question)
         if fts:
             for row in connection.execute(
@@ -786,20 +1013,97 @@ def retrieve_machine(
             ):
                 add(row["entity_id"], 120.0 / (1.0 + abs(float(row["rank"]))), "entity-fts", "机器实体全文命中")
             for row in connection.execute(
-                "SELECT section_id,document_id,bm25(section_fts,0.0,0.0,6.0,2.0,1.0) AS rank FROM section_fts WHERE section_fts MATCH ? ORDER BY rank LIMIT ?",
+                "SELECT section_fts.section_id,section_fts.document_id,d.source_entity_id,"
+                "bm25(section_fts,0.0,0.0,6.0,2.0,1.0) AS rank "
+                "FROM section_fts JOIN documents d ON d.document_id=section_fts.document_id "
+                "WHERE section_fts MATCH ? ORDER BY rank LIMIT ?",
                 (fts, 100 if profile == "fast" else 320),
             ):
                 section_scores[row["section_id"]] = 90.0 / (1.0 + abs(float(row["rank"])))
-                document = connection.execute("SELECT source_entity_id FROM documents WHERE document_id=?", (row["document_id"],)).fetchone()
-                if document and document["source_entity_id"]:
-                    add(document["source_entity_id"], section_scores[row["section_id"]], "section-fts", "中文章节全文命中")
+                if row["source_entity_id"]:
+                    add(row["source_entity_id"], section_scores[row["section_id"]], "section-fts", "中文章节全文命中")
             if profile == "precise":
                 for row in connection.execute(
-                    "SELECT source_path,bm25(source_fts) AS rank FROM source_fts WHERE source_fts MATCH ? ORDER BY rank LIMIT 80",
+                    "SELECT e.entity_id,source_fts.source_path,bm25(source_fts) AS rank "
+                    "FROM source_fts JOIN entities e ON e.source_path=source_fts.source_path "
+                    "WHERE source_fts MATCH ? ORDER BY rank LIMIT 640",
                     (fts,),
                 ):
-                    for entity in connection.execute("SELECT entity_id FROM entities WHERE source_path=? LIMIT 80", (row["source_path"],)):
-                        add(entity["entity_id"], 24.0 / (1.0 + abs(float(row["rank"]))), "source-fts", "固定源码全文命中")
+                    add(row["entity_id"], 24.0 / (1.0 + abs(float(row["rank"]))), "source-fts", "固定源码全文命中")
+        static_key = _static_retrieval_key(path, output)
+        static_context = _RETRIEVAL_STATIC_CACHE.get(static_key)
+        static_cache_hit = static_context is not None
+        if static_context is not None:
+            entity_columns = static_context["entity_columns"]
+        else:
+            entity_columns = {str(row[1]) for row in connection.execute("PRAGMA table_info(entities)")}
+            static_context = _static_retrieval_context(connection, output, entity_columns, static_key)
+
+        def entity_column(name: str) -> str:
+            return name if name in entity_columns else f"'' AS {name}"
+
+        metadata_rows = (
+            static_context["metadata_rows"]
+            if static_context is not None
+            else connection.execute(
+                "SELECT "
+                + ",".join(
+                    entity_column(name)
+                    for name in (
+                        "entity_id",
+                        "kind",
+                        "name",
+                        "qualified_name",
+                        "source_path",
+                        "meaning_zh",
+                        "role_zh",
+                        "change_when_zh",
+                        "description_zh",
+                    )
+                )
+                + " FROM entities"
+            ).fetchall()
+        )
+        metadata_by_id = {row["entity_id"]: row for row in metadata_rows}
+        high_signal_terms = [
+            term.casefold()
+            for term in terms
+            if len(term) >= 3 or (len(term) >= 2 and re.search(r"[a-z0-9_]", term, flags=re.IGNORECASE))
+        ]
+        for row in metadata_rows:
+            name = str(row["name"]).casefold()
+            qualified = str(row["qualified_name"]).casefold()
+            source_path = str(row["source_path"]).casefold()
+            narrative = " ".join(
+                str(row[field] or "").casefold()
+                for field in ("meaning_zh", "role_zh", "change_when_zh", "description_zh")
+            )
+            contribution = 0.0
+            for term in high_signal_terms:
+                if term == name or term == qualified:
+                    contribution += 52.0
+                elif term in name or term in qualified:
+                    contribution += 30.0
+                elif term in source_path:
+                    contribution += 22.0
+                elif term in narrative:
+                    contribution += 12.0 if len(term) >= 4 else 5.0
+            if contribution:
+                if row["kind"] == "file":
+                    contribution += 20.0
+                add(row["entity_id"], contribution, "metadata", "文件、标识符和中文职责确定性匹配")
+        test_intent = bool(re.search(r"(?:测试|验收|test|fixture|spec)", question, flags=re.IGNORECASE))
+        if not test_intent:
+            for entity_id in sorted(scores):
+                row = metadata_by_id.get(entity_id)
+                if row is None:
+                    continue
+                is_test = str(row["source_path"]).casefold().startswith("tests/") or str(row["name"]).casefold().startswith("test")
+                if not is_test or breakdown[entity_id].get("exact") or breakdown[entity_id].get("anchor"):
+                    continue
+                original = scores[entity_id]
+                discounted = original * IMPLEMENTATION_TEST_DISCOUNT
+                add(entity_id, discounted - original, "test-discount", "实现定位查询对测试实体应用固定折扣")
         if not scores and not automation_rows:
             return {
                 "schema_version": MACHINE_SCHEMA_VERSION,
@@ -866,7 +1170,10 @@ def retrieve_machine(
         lexical_order = sorted(scores, key=lambda entity_id: (-scores[entity_id], entity_id))
         seeds = lexical_order[:5]
         seed_scores = {entity_id: scores[entity_id] for entity_id in seeds}
-        adjacency, degree = _adjacency(connection)
+        if static_context is not None:
+            adjacency, degree = static_context["adjacency"], static_context["degree"]
+        else:
+            adjacency, degree = _adjacency(connection)
         graph_scores = (
             _fast_graph_scores(seeds, seed_scores, adjacency, degree)
             if profile == "fast"
@@ -879,60 +1186,49 @@ def retrieve_machine(
                 continue
             add(entity_id, contribution, "graph", "查询相关种子的确定性图扩展")
         ordered = sorted(scores, key=lambda entity_id: (-scores[entity_id], entity_id))
+        overscan_limit = FAST_RETRIEVAL_OVERSCAN if profile == "fast" else PRECISE_RETRIEVAL_OVERSCAN
+        overscan_ids = ordered[:overscan_limit]
+        if static_context is not None:
+            entity_rows = {
+                entity_id: static_context["entity_rows"][entity_id]
+                for entity_id in overscan_ids
+                if entity_id in static_context["entity_rows"]
+            }
+            sections_by_entity = {
+                entity_id: static_context["sections"].get(entity_id, [])
+                for entity_id in overscan_ids
+            }
+        else:
+            entity_rows, sections_by_entity = _bulk_entity_context(connection, overscan_ids)
+        budgeted_entity_limit = max(1, min(entity_limit, max(1, (budget - 80) // 180)))
+        selected_ids = _diverse_candidates(overscan_ids, entity_rows, budgeted_entity_limit)
         pack_path, record_path = _next_pack_path(output)
         pack = f"# Agent 机器知识阅读包\n\n问题：{question}\n\n检索档位：{profile}\n\n所有说明使用简体中文；代码标识符保持源码形式。\n\n"
         selected: list[dict[str, Any]] = []
-        selected_entity_ids: set[str] = set()
-        openers = _openers(output)
-        for entity_id in ordered:
-            if len(selected) >= entity_limit:
-                break
-            entity = connection.execute(
-                "SELECT e.*,r.start_line,r.end_line,h.title AS human_title,h.page_file,h.display_mode FROM entities e JOIN source_ranges r USING(entity_id) LEFT JOIN human_projection h USING(entity_id) WHERE e.entity_id=?",
-                (entity_id,),
-            ).fetchone()
-            if entity is None:
-                continue
-            sections = connection.execute(
-                "SELECT s.* FROM sections s JOIN documents d ON d.document_id=s.document_id WHERE d.source_entity_id=? ORDER BY s.ordinal",
-                (entity_id,),
-            ).fetchall()
-            ranked_sections = sorted(
-                sections,
-                key=lambda row: (-section_scores.get(row["section_id"], 0.0), row["ordinal"]),
-            )[: (4 if profile == "fast" else 7)]
-            reason_text = "；".join(dict.fromkeys(reasons[entity_id]))
-            source_link = source_markdown_link(openers, entity["source_path"], int(entity["start_line"]), int(entity["end_line"]))
-            lines = [
-                f"## {entity['qualified_name']}",
-                "",
-                f"选择原因：{reason_text}",
-                "",
-                f"源码：{source_link}",
-                "",
-            ]
-            if entity["human_title"]:
-                lines.extend([f"人类知识页：[[{entity['human_title']}]]（{entity['display_mode']}）", ""])
-            for section in ranked_sections:
-                lines.extend([f"### {section['heading']}", "", section["content"].strip(), ""])
-            block = "\n".join(lines).rstrip() + "\n\n"
-            candidate = pack + block
-            if estimated_tokens(candidate) > budget:
-                if selected:
-                    continue
-                allowed = max(0, budget * 3 - len(pack.encode("utf-8")) - 200)
-                data = block.encode("utf-8")[:allowed]
-                while True:
-                    try:
-                        block = data.decode("utf-8") + "\n\n> 本实体内容已按阅读预算截断。\n"
-                        break
-                    except UnicodeDecodeError as exc:
-                        data = data[: exc.start]
-                candidate = pack + block
-            if estimated_tokens(candidate) > budget:
-                continue
-            pack = candidate
-            selected_entity_ids.add(entity_id)
+        linker = static_context["linker"] if static_context is not None else SourceLinkRenderer(_openers(output), trusted_relative_paths=True)
+        for index, entity_id in enumerate(selected_ids):
+            entity = entity_rows[entity_id]
+            remaining_bytes = max(0, budget * 3 - len(pack.encode("utf-8")) - 16)
+            remaining_slots = max(1, len(selected_ids) - index)
+            allocation = max(180, remaining_bytes // remaining_slots)
+            source_link = linker.markdown_link(
+                entity["source_path"],
+                int(entity["start_line"]),
+                int(entity["end_line"]),
+            )
+            block, included_sections = _compact_entity_block(
+                entity,
+                sections_by_entity.get(entity_id, []),
+                section_scores,
+                reasons[entity_id],
+                source_link,
+                allocation,
+                profile,
+            )
+            available = max(0, budget * 3 - len(pack.encode("utf-8")) - 4)
+            if len(block.encode("utf-8")) > available:
+                block = _utf8_prefix(block, available).rstrip() + "\n"
+            pack += block
             selected.append(
                 {
                     "entity_id": entity_id,
@@ -948,7 +1244,7 @@ def retrieve_machine(
                     "score": round(scores[entity_id], 8),
                     "score_breakdown": {key: round(value, 8) for key, value in sorted(breakdown[entity_id].items())},
                     "reasons": list(dict.fromkeys(reasons[entity_id])),
-                    "sections": [section["heading"] for section in ranked_sections],
+                    "sections": included_sections,
                 }
             )
         note_rows = []
@@ -997,6 +1293,17 @@ def retrieve_machine(
         "seed_entity_ids": seeds,
         "selected_entities": selected,
         "related_documents": note_rows,
+        "retrieval_stats": {
+            "scored_entities": len(scores),
+            "overscan_limit": overscan_limit,
+            "materialized_candidates": len(overscan_ids),
+            "selected_entities": len(selected),
+            "budgeted_entity_limit": budgeted_entity_limit,
+            "selected_source_paths": len({item["source_path"] for item in selected}),
+            "batched_entity_queries": 2,
+            "source_link_cache_entries": linker.cache_size,
+            "static_cache_hit": static_cache_hit,
+        },
         "pack": str(pack_path.resolve()),
         "record": str(record_path.resolve()),
         "retrieval": "sqlite-exact-fts5-sections-deterministic-weighted-graph",

@@ -3,33 +3,33 @@
   "pack_id": "migrated-page-review-pack-0014",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-08-27T11:29:53Z",
+  "reviewed_at_utc": "2026-08-27T17:42:10Z",
   "reviews": [
     {
-      "entity_id": "file-7ccb4a154d6756e89ed58567e37f339f",
+      "entity_id": "file-fcf0f097c7cc574590181e83bfce0fb9",
       "classification": "page",
-      "owner_page_id": "file-7ccb4a154d6756e89ed58567e37f339f",
-      "source_path": "tests/test_migration.py",
+      "owner_page_id": "file-fcf0f097c7cc574590181e83bfce0fb9",
+      "source_path": "tests/test_automation.py",
       "start_line": 1,
-      "end_line": 181,
+      "end_line": 801,
       "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定 Git 提交 eb0972e663388b28681cc0bd6a563492959cd6b5 中 tests/test_migration.py:1-181，核对实体名称、源码边界、分支与调用后确认本条说明。",
-      "meaning_zh": "该测试页构造两次 Git 提交和旧知识库，用于验证增量迁移、可变层基线、Hook 后续写入与故障检测。",
-      "role_zh": "它覆盖精确文件复用、delta 审阅、Wiki 链接重定向、迁移状态提升、SQLite 可变性及基线篡改失败门。",
-      "change_when_zh": "当迁移契约、审阅字段、可变知识种类或审计结果结构变化时，需要同步修改该测试。"
+      "evidence_note": "Agent 已重新打开固定 Git 提交 2711ced13be680d3737d1cce98fc0c23dc4c3365 中 tests/test_automation.py:1-801，核对名称、源码边界、Skill 激活分支与调用关系后确认本条说明。",
+      "meaning_zh": "该测试页覆盖项目登记、session Skill 激活、跨 Harness 规范化、并发、脱敏、路径过滤、待审阅与人类晋升。",
+      "role_zh": "它同时验证普通提及保持零写入、显式应用开启记录、其他 session 隔离、CLI 激活幂等以及 schema 1/2 升级。",
+      "change_when_zh": "当自动化 Schema、激活协议、适配器事件或审计门变化时，需要同步扩展该测试。"
     },
     {
-      "entity_id": "ent-2fe6714b54335787a4d9243f5953ef17",
+      "entity_id": "ent-56fd9d8c22475c48b57335330219b579",
       "classification": "page",
-      "owner_page_id": "ent-2fe6714b54335787a4d9243f5953ef17",
-      "source_path": "tests/test_migration.py",
-      "start_line": 57,
-      "end_line": 176,
+      "owner_page_id": "ent-56fd9d8c22475c48b57335330219b579",
+      "source_path": "tests/test_automation.py",
+      "start_line": 80,
+      "end_line": 90,
       "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定 Git 提交 eb0972e663388b28681cc0bd6a563492959cd6b5 中 tests/test_migration.py:57-176，核对实体名称、源码边界、分支与调用后确认本条说明。",
-      "meaning_zh": "`MigrationTest` 是增量迁移的端到端回归测试夹具。",
-      "role_zh": "它在临时 Git 仓库中生成旧版与新版源码，完成两套知识库构建，并验证合法追加仍通过、不可变基线变化会失败。",
-      "change_when_zh": "当迁移流程增加新阶段、保存新型用户数据或调整完成门时，需要扩展该测试类。"
+      "evidence_note": "Agent 已重新打开固定 Git 提交 2711ced13be680d3737d1cce98fc0c23dc4c3365 中 tests/test_automation.py:80-90，核对名称、源码边界、Skill 激活分支与调用关系后确认本条说明。",
+      "meaning_zh": "`AutomationTest.event` 为测试构造统一的 Harness 事件夹具。",
+      "role_zh": "它默认附带精确 `applied_skills` 元数据，并允许测试显式关闭该字段以覆盖激活前静默分支。",
+      "change_when_zh": "当测试事件公共字段或 Skill 激活证据结构变化时，需要修改该辅助函数。"
     }
   ]
 }

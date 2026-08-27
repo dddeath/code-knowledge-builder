@@ -1,0 +1,54 @@
+{
+  "schema_version": 3,
+  "registration_id": "reg-5b4b7449e52b5a6fa0b4e3e39cd360bb",
+  "repo_root": "E:\\knowledge_builder\\self-workspace\\source",
+  "knowledge_output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+  "event": {
+    "schema_version": 3,
+    "harness": "codex",
+    "event_name": "SessionEnd",
+    "canonical_type": "session.end",
+    "external_event_id": "ckb-5.1.3-session-end",
+    "session_id": "01a029b9-a488-75f3-be36-6a1ce86ee345",
+    "turn_id": null,
+    "tool_use_id": null,
+    "cwd": "E:\\knowledge_builder\\self-workspace",
+    "prompt": "",
+    "assistant_message": "",
+    "tool_name": null,
+    "tool_input": null,
+    "tool_output": null,
+    "tool_status": "completed",
+    "skill_name": "code-knowledge-builder",
+    "changed_paths": [],
+    "source": "retrieval-optimization-canary-complete",
+    "received_at_utc": "2026-08-27T17:59:44Z",
+    "raw": {
+      "event_id": "ckb-5.1.3-session-end",
+      "session_id": "01a029b9-a488-75f3-be36-6a1ce86ee345",
+      "cwd": "E:\\knowledge_builder\\self-workspace",
+      "hook_event_name": "SessionEnd",
+      "reason": "retrieval-optimization-canary-complete",
+      "applied_skills": [
+        "code-knowledge-builder"
+      ]
+    },
+    "redaction_count": 0,
+    "redaction_types": [],
+    "skill_activation": {
+      "status": "already-activated",
+      "activation_key": "skillactivation-9a5c79417ddd5ab7a20913f6564dc327",
+      "harness": "codex",
+      "session_id": "01a029b9-a488-75f3-be36-6a1ce86ee345",
+      "repo_root": "E:\\knowledge_builder\\self-workspace\\source",
+      "knowledge_output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+      "skill_name": "code-knowledge-builder",
+      "activation_source": "explicit-user-task",
+      "activated_at_utc": "2026-08-27T12:38:41Z"
+    },
+    "registration_match": {
+      "kind": "workspace",
+      "root": "E:\\knowledge_builder\\self-workspace"
+    }
+  }
+}

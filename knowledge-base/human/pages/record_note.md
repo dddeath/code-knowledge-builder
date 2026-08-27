@@ -14,7 +14,7 @@
 
 ## 相关代码
 
-- 实现时会用到 [[ensure_local_openers 与 default_openers 的协作实现]]。
+- 实现时会用到 [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]]。
 - 实现时会用到 [[record_note 与 page_tag 的协作实现]]。
 - 实现时会用到 [[retrieve 与 _tokens 的协作实现]]。
 - 实现时会用到 [[retrieve_machine]]。

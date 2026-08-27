@@ -47,5 +47,5 @@ Git blob 与 detached worktree 构成稳定基线；活动修改进入 overlay�
 
 ## 源码入口
 
-- [打开源码：scripts/ckb_core/pipeline.py 第 3058 行](vscode://file/E:/knowledge_builder/code-knowledge-builder/scripts/ckb_core/pipeline.py:3058:1)  `scripts/ckb_core/pipeline.py:3058-3068`
-- [打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/code-knowledge-builder/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3126`
+- [打开源码：scripts/ckb_core/pipeline.py 第 3058 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:3058:1)  `scripts/ckb_core/pipeline.py:3058-3068`
+- [打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3126`

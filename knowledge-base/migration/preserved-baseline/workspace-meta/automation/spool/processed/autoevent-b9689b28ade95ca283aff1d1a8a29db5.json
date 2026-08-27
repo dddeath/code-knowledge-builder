@@ -1,0 +1,46 @@
+{
+  "schema_version": 3,
+  "registration_id": "reg-5b4b7449e52b5a6fa0b4e3e39cd360bb",
+  "repo_root": "E:\\knowledge_builder\\self-workspace\\source",
+  "knowledge_output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+  "event": {
+    "schema_version": 3,
+    "harness": "codex",
+    "event_name": "Stop",
+    "canonical_type": "turn.stop",
+    "external_event_id": "llm-wiki-benchmark-stop-01a029b9-a488-75f3-be36-6a1ce86ee345",
+    "session_id": "01a029b9-a488-75f3-be36-6a1ce86ee345",
+    "turn_id": "llm-wiki-benchmark-turn-1",
+    "tool_use_id": null,
+    "cwd": "E:\\knowledge_builder\\self-workspace",
+    "prompt": "",
+    "assistant_message": "已完成 LLM Wiki 快速检索固定协议基准。当前 machine-fast 将 Agent 可见上下文降低 76.67%，并保持零回退与完全确定性；目标源码召回为 50%，中位延迟为 1783.58 ms，整体性能门未全部通过。分析记录已写入中文知识库，下一步应先优化候选渲染、源码链接缓存和批量 SQL，再复用同一协议重测。",
+    "tool_name": null,
+    "tool_input": null,
+    "tool_output": null,
+    "tool_status": "completed",
+    "skill_name": null,
+    "changed_paths": [],
+    "source": null,
+    "received_at_utc": "2026-08-27T12:51:06Z",
+    "raw": {
+      "hook_event_name": "Stop",
+      "event_id": "llm-wiki-benchmark-stop-01a029b9-a488-75f3-be36-6a1ce86ee345",
+      "session_id": "01a029b9-a488-75f3-be36-6a1ce86ee345",
+      "turn_id": "llm-wiki-benchmark-turn-1",
+      "cwd": "E:\\knowledge_builder\\self-workspace",
+      "last_assistant_message": "已完成 LLM Wiki 快速检索固定协议基准。当前 machine-fast 将 Agent 可见上下文降低 76.67%，并保持零回退与完全确定性；目标源码召回为 50%，中位延迟为 1783.58 ms，整体性能门未全部通过。分析记录已写入中文知识库，下一步应先优化候选渲染、源码链接缓存和批量 SQL，再复用同一协议重测。"
+    },
+    "redaction_count": 0,
+    "redaction_types": [],
+    "skill_activation": {
+      "activation_key": "skillactivation-9a5c79417ddd5ab7a20913f6564dc327",
+      "activation_source": "explicit-user-task",
+      "activated_at_utc": "2026-08-27T12:38:41Z"
+    },
+    "registration_match": {
+      "kind": "workspace",
+      "root": "E:\\knowledge_builder\\self-workspace"
+    }
+  }
+}

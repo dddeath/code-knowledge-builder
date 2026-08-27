@@ -16,6 +16,7 @@
 
 - 实现时会用到 [[AutomationTest.event]]。
 - 主要代码单元是 [[LspClient.start]]。
+- 实现时会用到 [[SourceLinkRenderer.uri]]。
 - 实现时会用到 [[execute]]。
 - 实现时会用到 [[query_graph 与 _networkx_modules 的协作实现]]。
 - 实现时会用到 [[render_integration 与 _looks_windows 的协作实现]]。
@@ -23,7 +24,7 @@
 - 实现时会用到 [[run]]。
 - 实现时会用到 [[run 与 CkbError 的协作实现]]。
 - 实现时会用到 [[status]]。
-- 实现时会用到 [[status 与 _load_state 的协作实现]]。
+- 实现时会用到 [[status 与 _replace_output_prefix 的协作实现]]。
 
 ## 谁会来到这里
 
@@ -37,7 +38,7 @@
 - [[remove 与 skill_root 的协作实现]] 会使用这里提供的行为。
 - [[render_integration 与 _looks_windows 的协作实现]] 会使用这里提供的行为。
 - 可从 [[scripts 职责导览]] 进入本页。
-- [[status 与 _load_state 的协作实现]] 会使用这里提供的行为。
+- [[status 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 
 ## 相关测试
 

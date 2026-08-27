@@ -19,7 +19,7 @@
 ## 谁会来到这里
 
 - [[prepare_vault 与 install_obsidian 的协作实现]] 汇总了本页。
-- [[status 与 _load_state 的协作实现]] 会使用这里提供的行为。
+- [[status 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 
 ## 相关测试
 

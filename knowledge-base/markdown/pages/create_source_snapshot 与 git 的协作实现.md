@@ -21,14 +21,14 @@ Git 边界、默认排除项、快照方式或来源读取协议变化时，需�
 - 实现时会用到 [[run]]。
 - 实现时会用到 [[run 与 CkbError 的协作实现]]。
 - 实现时会用到 [[status]]。
-- 实现时会用到 [[status 与 _load_state 的协作实现]]。
+- 实现时会用到 [[status 与 _replace_output_prefix 的协作实现]]。
 
 ## 谁会来到这里
 
 - [[audit_migration 与 _entity_key 的协作实现]] 会使用这里提供的行为。
 - [[create_source_snapshot]] 会使用这里提供的行为。
 - 可从 [[scripts 职责导览]] 进入本页。
-- [[status 与 _load_state 的协作实现]] 会使用这里提供的行为。
+- [[status 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 
 ## 相关测试
 

@@ -20,7 +20,7 @@
 
 ## 谁会来到这里
 
-- [[status 与 _load_state 的协作实现]] 会使用这里提供的行为。
+- [[status 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 - [[sync_human_layer 与 _source_manifest 的协作实现]] 汇总了本页。
 
 ## 相关测试

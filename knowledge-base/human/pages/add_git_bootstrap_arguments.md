@@ -15,7 +15,7 @@ Git 启动授权、提交元数据或参数名称变化时，需要修改该函�
 ## 相关代码
 
 - 实现时会用到 [[parser]]。
-- 实现时会用到 [[status 与 _load_state 的协作实现]]。
+- 实现时会用到 [[status 与 _replace_output_prefix 的协作实现]]。
 
 ## 谁会来到这里
 

@@ -2,20 +2,20 @@
 
 标签：#类型/代码
 
-> `retrieve_machine` 组合精确锚点、FTS、图传播和页面优先规则生成限额阅读包。 它在 fast 与 precise 模式下确定性排序实体、页面、源码和修改记录，减少广泛源码读取。
+> `retrieve_machine` 根据问题生成来源绑定且受预算约束的 Agent 阅读包。 它组合精确锚点、中文与标识符词项、实体和章节 FTS、元数据加权、测试折扣、固定图传播、路径多样化及缓存上下文，稳定保留最相关源码目标。
 
 ## 什么时候需要修改
 
-召回字段、权重、传播算法、预算或阅读包结构变化时，需要修改该函数。
+候选上限、召回字段、权重、测试意图、图算法、缓存策略或阅读包结构变化时，需要修改该函数。
 
 ## 在代码中的位置
 
-[打开源码：scripts/ckb_core/machine_knowledge.py 第 734 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:734:1)  `scripts/ckb_core/machine_knowledge.py:734-1008`
+[打开源码：scripts/ckb_core/machine_knowledge.py 第 942 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:942:1)  `scripts/ckb_core/machine_knowledge.py:942-1315`
 
 ## 相关代码
 
-- 实现时会用到 [[LspClient.start]]。
-- 实现时会用到 [[ensure_local_openers 与 default_openers 的协作实现]]。
+- 实现时会用到 [[SourceLinkRenderer.uri]]。
+- 实现时会用到 [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]]。
 - 实现时会用到 [[execute]]。
 - 实现时会用到 [[ingest_event 与 default_registry_path 的协作实现]]。
 - 实现时会用到 [[retrieve]]。
@@ -23,7 +23,7 @@
 - 实现时会用到 [[run]]。
 - 实现时会用到 [[run 与 CkbError 的协作实现]]。
 - 实现时会用到 [[status]]。
-- 实现时会用到 [[status 与 _load_state 的协作实现]]。
+- 实现时会用到 [[status 与 _replace_output_prefix 的协作实现]]。
 
 ## 谁会来到这里
 
@@ -47,7 +47,7 @@
 - [[retrieve 与 _tokens 的协作实现]] 会使用这里提供的行为。
 - [[retrieve_machine 与 estimated_tokens 的协作实现]] 汇总了本页。
 - [[start_session]] 会使用这里提供的行为。
-- [[status 与 _load_state 的协作实现]] 会使用这里提供的行为。
+- [[status 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 
 ## 相关测试
 
@@ -62,10 +62,11 @@
 
 ## 内部细节
 
-<details><summary>查看本页收纳的 1 个辅助实现</summary>
+<details><summary>查看本页收纳的 2 个辅助实现</summary>
 
 | 代码单元 | 一句话作用 |
 |---|---|
-| `retrieve_machine.add` | 该附属代码负责维护旧版页面索引兼容接口并生成受预算约束的阅读包，并把结果交给所属页面中的主流程使用。 |
+| `retrieve_machine.add` | 把一个实体的阶段分值、分解项和中文入选原因合并到查询状态。 |
+| `retrieve_machine.entity_column` | 为兼容旧机器库选择现有列或提供空值别名。 |
 
 </details>

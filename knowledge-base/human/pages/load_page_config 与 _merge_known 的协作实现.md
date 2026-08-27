@@ -23,7 +23,7 @@
 - [[load_page_config]] 会使用这里提供的行为。
 - [[main（ckb 实现）]] 会使用这里提供的行为。
 - 可从 [[scripts 职责导览]] 进入本页。
-- [[status 与 _load_state 的协作实现]] 会使用这里提供的行为。
+- [[status 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 
 ## 相关测试
 

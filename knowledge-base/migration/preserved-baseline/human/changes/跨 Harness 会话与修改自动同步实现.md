@@ -36,11 +36,11 @@
 
 ## 新增源码入口
 
-- [打开源码：自动化核心](vscode://file/E:/knowledge_builder/code-knowledge-builder/scripts/ckb_core/automation.py:1:1)  `scripts/ckb_core/automation.py`
-- [打开源码：Harness 适配器](vscode://file/E:/knowledge_builder/code-knowledge-builder/scripts/ckb_core/automation_integrations.py:1:1)  `scripts/ckb_core/automation_integrations.py`
-- [打开源码：CLI 自动化路由](vscode://file/E:/knowledge_builder/code-knowledge-builder/scripts/ckb.py:226:1)  `scripts/ckb.py:226-269`
-- [打开源码：机器检索接入](vscode://file/E:/knowledge_builder/code-knowledge-builder/scripts/ckb_core/machine_knowledge.py:734:1)  `scripts/ckb_core/machine_knowledge.py:734-980`
-- [打开源码：自动化专项测试](vscode://file/E:/knowledge_builder/code-knowledge-builder/tests/test_automation.py:1:1)  `tests/test_automation.py`
+- [打开源码：自动化核心](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation.py:1:1)  `scripts/ckb_core/automation.py`
+- [打开源码：Harness 适配器](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation_integrations.py:1:1)  `scripts/ckb_core/automation_integrations.py`
+- [打开源码：CLI 自动化路由](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:226:1)  `scripts/ckb.py:226-269`
+- [打开源码：机器检索接入](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:734:1)  `scripts/ckb_core/machine_knowledge.py:734-980`
+- [打开源码：自动化专项测试](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_automation.py:1:1)  `tests/test_automation.py`
 
 ## 相关知识页
 
@@ -50,6 +50,6 @@
 
 ## 源码入口
 
-- [打开源码：scripts/ckb_core/workspace_notes.py 第 106 行](vscode://file/E:/knowledge_builder/code-knowledge-builder/scripts/ckb_core/workspace_notes.py:106:1)  `scripts/ckb_core/workspace_notes.py:106-183`
-- [打开源码：scripts/ckb_core/machine_knowledge.py 第 734 行](vscode://file/E:/knowledge_builder/code-knowledge-builder/scripts/ckb_core/machine_knowledge.py:734:1)  `scripts/ckb_core/machine_knowledge.py:734-936`
-- [打开源码：scripts/ckb_core/agent_maintenance.py 第 70 行](vscode://file/E:/knowledge_builder/code-knowledge-builder/scripts/ckb_core/agent_maintenance.py:70:1)  `scripts/ckb_core/agent_maintenance.py:70-142`
+- [打开源码：scripts/ckb_core/workspace_notes.py 第 106 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/workspace_notes.py:106:1)  `scripts/ckb_core/workspace_notes.py:106-183`
+- [打开源码：scripts/ckb_core/machine_knowledge.py 第 734 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:734:1)  `scripts/ckb_core/machine_knowledge.py:734-936`
+- [打开源码：scripts/ckb_core/agent_maintenance.py 第 70 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_maintenance.py:70:1)  `scripts/ckb_core/agent_maintenance.py:70-142`

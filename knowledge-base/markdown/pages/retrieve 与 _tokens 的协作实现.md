@@ -14,15 +14,15 @@
 
 ## 相关代码
 
-- 实现时会用到 [[ensure_local_openers]]。
-- 实现时会用到 [[ensure_local_openers 与 default_openers 的协作实现]]。
+- 实现时会用到 [[SourceLinkRenderer.uri]]。
+- 实现时会用到 [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]]。
 - 实现时会用到 [[execute]]。
 - 主要代码单元是 [[retrieve]]。
 - 实现时会用到 [[retrieve_machine]]。
 - 实现时会用到 [[run]]。
 - 实现时会用到 [[run 与 CkbError 的协作实现]]。
 - 实现时会用到 [[status]]。
-- 实现时会用到 [[status 与 _load_state 的协作实现]]。
+- 实现时会用到 [[status 与 _replace_output_prefix 的协作实现]]。
 
 ## 谁会来到这里
 

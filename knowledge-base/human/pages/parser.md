@@ -27,7 +27,7 @@
 - 实现时会用到 [[retrieve_machine 与 estimated_tokens 的协作实现]]。
 - 实现时会用到 [[run]]。
 - 实现时会用到 [[status]]。
-- 实现时会用到 [[status 与 _load_state 的协作实现]]。
+- 实现时会用到 [[status 与 _replace_output_prefix 的协作实现]]。
 
 ## 谁会来到这里
 

@@ -3,20 +3,46 @@
   "pack_id": "migrated-page-review-pack-0008",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-08-27T11:29:29Z",
+  "reviewed_at_utc": "2026-08-27T17:41:58Z",
   "reviews": [
     {
-      "entity_id": "file-b9f38039898d5895a8cc1077fac331ea",
+      "entity_id": "ent-5280f0f1a0f0586b871bd383d3e3fd38",
       "classification": "page",
-      "owner_page_id": "file-b9f38039898d5895a8cc1077fac331ea",
-      "source_path": "scripts/ckb_core/pipeline.py",
-      "start_line": 1,
-      "end_line": 3242,
+      "owner_page_id": "ent-5280f0f1a0f0586b871bd383d3e3fd38",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 942,
+      "end_line": 1315,
       "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定 Git 提交 7ce1866c200800b6d2333634e4bcf19bf2b80a67 中 scripts/ckb_core/pipeline.py:1-3242，核对实体名称、源码边界、分支与调用后确认本条说明。",
-      "meaning_zh": "该代码页汇总知识库从范围解析、分段构建、Agent 审阅到人类与机器投影、全局审计和完成标记的主流水线。",
-      "role_zh": "它串联固定源码快照、页面压缩、中文说明、Markdown/Logseq/SQLite 投影和迁移门，是所有命令共享的确定性执行核心。",
-      "change_when_zh": "当构建阶段、页面投影、完成门、上下文预算或增量迁移联动方式变化时，需要修改本页并重跑主测试集。"
+      "evidence_note": "Agent 已从目标固定提交对应的 Git blob 重新打开 scripts/ckb_core/machine_knowledge.py 第 942 至 1315 行，核对声明名称、签名、关键分支与调用后确认本条说明。",
+      "meaning_zh": "`retrieve_machine` 根据问题生成来源绑定且受预算约束的 Agent 阅读包。",
+      "role_zh": "它组合精确锚点、中文与标识符词项、实体和章节 FTS、元数据加权、测试折扣、固定图传播、路径多样化及缓存上下文，稳定保留最相关源码目标。",
+      "change_when_zh": "候选上限、召回字段、权重、测试意图、图算法、缓存策略或阅读包结构变化时，需要修改该函数。"
+    },
+    {
+      "entity_id": "file-f5cd5f5f6848572bb19754c49d10c376",
+      "classification": "page",
+      "owner_page_id": "file-f5cd5f5f6848572bb19754c49d10c376",
+      "source_path": "scripts/ckb_core/migration.py",
+      "start_line": 1,
+      "end_line": 585,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 eb0972e663388b28681cc0bd6a563492959cd6b5 中 scripts/ckb_core/migration.py:1-585，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "meaning_zh": "该代码页汇总 Code Knowledge Builder 的增量迁移实现，覆盖精确 blob 复用、审阅重建、可变知识保留和迁移审计。",
+      "role_zh": "它把已经审计的旧知识库迁移到新的固定 Git 提交，并用不可变基线证明用户笔记与自动化数据库已被保留，同时允许 Hook 后续继续追加内容。",
+      "change_when_zh": "当复用判据、可变层范围、重链接规则、迁移状态机或审计门发生变化时，需要修改本页并重跑迁移回归测试。"
+    },
+    {
+      "entity_id": "ent-035078b02247538d98ae1b35eb0a2e2f",
+      "classification": "page",
+      "owner_page_id": "ent-035078b02247538d98ae1b35eb0a2e2f",
+      "source_path": "scripts/ckb_core/migration.py",
+      "start_line": 353,
+      "end_line": 460,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 eb0972e663388b28681cc0bd6a563492959cd6b5 中 scripts/ckb_core/migration.py:353-460，核对实体名称、源码边界、分支与调用后确认本条说明。",
+      "meaning_zh": "`audit_migration` 对增量迁移计划、复用集合、可变层基线、审阅状态和目标图来源执行确定性复核。",
+      "role_zh": "它区分不可变的迁移基线与可继续写入的工作副本，验证 Markdown/JSON 可读性和 SQLite 完整性，并在全部门通过后提升迁移状态。",
+      "change_when_zh": "当迁移计划 Schema、允许的可变文件类型、完整性规则或完成状态语义变化时，需要修改该函数并增加失败注入测试。"
     }
   ]
 }

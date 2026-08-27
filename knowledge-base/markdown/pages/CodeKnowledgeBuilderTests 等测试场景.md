@@ -2,15 +2,15 @@
 
 标签：#类型/代码
 
-> 该页面汇总 CKB 范围、语言、导航、投影、中文、Logseq、C# 和完成门回归测试。 它通过真实临时 Git 仓库验证主流水线的成功、失败、恢复和审计行为。
+> 该文件包含主构建、局部扫描、投影、配置、C#、机器检索和完成门的端到端回归测试。 它用隔离多语言 Git 夹具验证成功路径、失败门、检索确定性、静态缓存命中和跨格式一致性。
 
 ## 什么时候需要修改
 
-核心构建契约、输出格式或语言支持变化时，需要修改相应测试与夹具。
+主 CLI 契约、知识库 Schema、检索统计、页面配置或语言支持变化时，需要修改该文件。
 
 ## 在代码中的位置
 
-[打开源码：tests/test_ckb.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_ckb.py:1:1)  `tests/test_ckb.py:1-1137`
+[打开源码：tests/test_ckb.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_ckb.py:1:1)  `tests/test_ckb.py:1-1152`
 
 ## 相关代码
 
@@ -25,6 +25,7 @@
 - [[CodeKnowledgeBuilderTests]] 会使用这里提供的行为。
 - [[LspClient.start]] 关联到这里的验证场景。
 - [[LspClient.start 与 _version_matches 的协作实现]] 关联到这里的验证场景。
+- [[SourceLinkRenderer.uri]] 关联到这里的验证场景。
 - [[audit_migration]] 关联到这里的验证场景。
 - [[audit_migration 与 _entity_key 的协作实现]] 关联到这里的验证场景。
 - [[create_source_snapshot]] 关联到这里的验证场景。
@@ -43,7 +44,7 @@
 - [[run]] 关联到这里的验证场景。
 - [[run 与 CkbError 的协作实现]] 关联到这里的验证场景。
 - [[status]] 关联到这里的验证场景。
-- [[status 与 _load_state 的协作实现]] 关联到这里的验证场景。
+- [[status 与 _replace_output_prefix 的协作实现]] 关联到这里的验证场景。
 - [[sync_human_layer]] 关联到这里的验证场景。
 - [[sync_human_layer 与 _source_manifest 的协作实现]] 关联到这里的验证场景。
 - 可从 [[tests 职责导览]] 进入本页。
@@ -58,10 +59,10 @@
 
 | 代码单元 | 一句话作用 |
 |---|---|
-| `invoke` | 该附属代码负责构造或执行可重复的回归验证场景，并把结果交给所属页面中的主流程使用。 |
-| `write` | 创建父目录并写入规范 UTF-8 测试文本。 |
-| `git` | 该附属代码负责范围、分段、审阅、格式、索引、C#、配置和完成门回归测试，并把结果交给所属页面中的主流程使用。 |
-| `make_repo` | 构造覆盖多语言、依赖排除和 Git 来源的测试仓库。 |
-| `review_all` | 该附属代码负责核对并登记逐实体 Agent 审阅结果，并把结果交给所属页面中的主流程使用。 |
+| `invoke` | 在固定测试环境中调用 ckb.py 并捕获 UTF-8 输出和退出状态。 |
+| `write` | 把测试夹具文本规范化为带结尾换行的 UTF-8 文件。 |
+| `git` | 在指定测试仓库中执行 Git 命令并把失败转换为测试异常。 |
+| `make_repo` | 创建含 Python、JavaScript、C、C++ 与排除目录的已提交测试仓库。 |
+| `review_all` | 为测试输出构建全部分段并提交逐实体中文审阅。 |
 
 </details>

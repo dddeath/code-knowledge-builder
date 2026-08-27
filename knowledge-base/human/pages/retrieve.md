@@ -15,6 +15,7 @@
 ## 相关代码
 
 - 实现时会用到 [[LspClient.start]]。
+- 实现时会用到 [[SourceLinkRenderer.uri]]。
 - 实现时会用到 [[execute]]。
 - 实现时会用到 [[module_name 与 estimated_tokens 的协作实现]]。
 - 实现时会用到 [[retrieve 与 _tokens 的协作实现]]。
@@ -23,10 +24,10 @@
 
 ## 谁会来到这里
 
-- [[CodeKnowledgeBuilderTests]] 会使用这里提供的行为。
 - [[parser]] 会使用这里提供的行为。
 - [[retrieve 与 _tokens 的协作实现]] 汇总了本页。
 - [[retrieve_machine]] 会使用这里提供的行为。
+- [[retrieve_machine 与 estimated_tokens 的协作实现]] 会使用这里提供的行为。
 - [[start_session]] 会使用这里提供的行为。
 
 ## 相关测试

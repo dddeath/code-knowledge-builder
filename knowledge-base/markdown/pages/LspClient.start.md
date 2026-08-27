@@ -31,7 +31,6 @@
 - [[query_graph 与 _networkx_modules 的协作实现]] 会使用这里提供的行为。
 - [[render_integration 与 _looks_windows 的协作实现]] 会使用这里提供的行为。
 - [[retrieve]] 会使用这里提供的行为。
-- [[retrieve_machine]] 会使用这里提供的行为。
 - [[retrieve_machine 与 estimated_tokens 的协作实现]] 会使用这里提供的行为。
 - [[start_session]] 会使用这里提供的行为。
 

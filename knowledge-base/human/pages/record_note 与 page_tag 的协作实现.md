@@ -14,8 +14,7 @@
 
 ## 相关代码
 
-- 实现时会用到 [[ensure_local_openers]]。
-- 实现时会用到 [[ensure_local_openers 与 default_openers 的协作实现]]。
+- 实现时会用到 [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]]。
 - 主要代码单元是 [[record_note]]。
 - 实现时会用到 [[retrieve 与 _tokens 的协作实现]]。
 - 实现时会用到 [[retrieve_machine 与 estimated_tokens 的协作实现]]。
@@ -31,7 +30,7 @@
 - 可从 [[scripts 职责导览]] 进入本页。
 - [[start_session]] 会使用这里提供的行为。
 - [[start_session 与 _session_directory 的协作实现]] 会使用这里提供的行为。
-- [[status 与 _load_state 的协作实现]] 会使用这里提供的行为。
+- [[status 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 
 ## 相关测试
 

@@ -1,0 +1,74 @@
+{
+  "schema_version": 4,
+  "pack_id": "delta-appendix-review-pack-0006",
+  "kind": "appendix-review",
+  "reviewer": "Agent",
+  "reviewed_at_utc": "2026-08-27T17:42:56Z",
+  "reviews": [
+    {
+      "entity_id": "ent-e4667c5d11355690b014376641649215",
+      "classification": "appendix",
+      "owner_page_id": "file-ddd0044468285d24847a5bc8661ef10d",
+      "source_path": "tests/test_migration.py",
+      "start_line": 20,
+      "end_line": 29,
+      "source_blob": "bbe8f0625955cfefc98fe4cefa0132b63162246b",
+      "source_excerpt": "def git(repo: Path, *args: str) -> str:\n    completed = subprocess.run(\n        [\"git\", \"-C\", str(repo), *args],\n        text=True,\n        stdout=subprocess.PIPE,\n        stderr=subprocess.PIPE,\n    )\n    if completed.returncode:\n        raise RuntimeError(completed.stderr)\n    return completed.stdout.strip()",
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已从目标固定提交对应的 Git blob 重新打开 tests/test_migration.py 第 20 至 29 行，核对名称、签名、目录提升分支与调用后确认本条说明。",
+      "description_zh": "在临时夹具仓库执行 Git 命令并把非零退出转为测试错误。"
+    },
+    {
+      "entity_id": "ent-c0b68d076d7c5b05bf702bcecdb61d14",
+      "classification": "appendix",
+      "owner_page_id": "file-ddd0044468285d24847a5bc8661ef10d",
+      "source_path": "tests/test_migration.py",
+      "start_line": 32,
+      "end_line": 54,
+      "source_blob": "bbe8f0625955cfefc98fe4cefa0132b63162246b",
+      "source_excerpt": "def review_all(output: Path) -> None:\n    state = json.loads((output / \"state.json\").read_text(encoding=\"utf-8\"))\n    for batch in state[\"parse_batches\"]:\n        if not (output / \"chunks\" / batch[\"id\"] / \"candidate.json\").is_file():\n            build_chunk(output, batch[\"id\"], \"all\")\n    state = json.loads((output / \"state.json\").read_text(encoding=\"utf-8\"))\n    for pack in state[\"review_packs\"]:\n        if pack[\"status\"] == \"passed\":\n            continue\n        template = json.loads(Path(pack[\"review_template_path\"]).read_text(encoding=\"utf-8\"))\n        for item in template[\"reviews\"]:\n            item[\"status\"] = \"agent-reviewed\"\n            item[\"evidence_note\"] = \"Agent 已重新打开固定 Git 源码范围，核对名称、签名、分支和调用关系后确认本条说明。\"\n            if pack[\"kind\"] == \"appendix-review\":\n                item[\"description_zh\"] = \"该局部代码负责完成所属流程中的辅助处理，并把结果交给主流程继续使用。\"\n            else:\n                item[\"meaning_zh\"] = \"该代码页说明固定源码范围内的主要实现及其输入输出约定。\"\n                item[\"role_zh\"] = \"它负责组织当前代码单元的处理步骤，并与相邻函数形成可追踪的调用关系。\"\n                item[\"change_when_zh\"] = \"当输入约定、处理步骤、返回结果或调用关系变化时，需要修改该代码单元并同步验证。\"\n        review_path = output / \"test-reviews\" / f\"{pack['id']}.json\"\n        review_path.parent.mkdir(parents=True, exist_ok=True)\n        review_path.write_text(json.dumps(template, ensure_ascii=False, indent=2) + \"\\n\", encoding=\"utf-8\")\n        review_pack(output, pack[\"id\"], review_path)",
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已从目标固定提交对应的 Git blob 重新打开 tests/test_migration.py 第 32 至 54 行，核对名称、签名、目录提升分支与调用后确认本条说明。",
+      "description_zh": "逐包填充固定中文审阅字段并通过普通审阅门。"
+    },
+    {
+      "entity_id": "ent-36c9313e433f5809addb3319bbd0ad51",
+      "classification": "appendix",
+      "owner_page_id": "ent-d315fec2099858bab2fc67a29b9072d5",
+      "source_path": "tests/test_migration.py",
+      "start_line": 58,
+      "end_line": 76,
+      "source_blob": "bbe8f0625955cfefc98fe4cefa0132b63162246b",
+      "source_excerpt": "def setUp(self) -> None:\n        self.temporary = tempfile.TemporaryDirectory(prefix=\"ckb-migration-\")\n        self.root = Path(self.temporary.name)\n        self.repo = self.root / \"repo\"\n        self.old = self.root / \"old-output\"\n        self.new = self.root / \"new-output\"\n        self.repo.mkdir()\n        (self.repo / \"app.py\").write_text(\n            \"from helper import double\\n\\ndef calculate(value):\\n    return double(value)\\n\",\n            encoding=\"utf-8\",\n        )\n        (self.repo / \"helper.py\").write_text(\"def double(value):\\n    return value * 2\\n\", encoding=\"utf-8\")\n        git(self.repo, \"init\")\n        git(self.repo, \"config\", \"user.email\", \"fixture@example.invalid\")\n        git(self.repo, \"config\", \"user.name\", \"Fixture\")\n        git(self.repo, \"add\", \".\")\n        git(self.repo, \"commit\", \"-m\", \"version 5.0 fixture\")\n        self.old_provider = os.environ.get(\"CKB_TEST_PROVIDER\")\n        os.environ[\"CKB_TEST_PROVIDER\"] = \"deterministic-fixture\"",
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已从目标固定提交对应的 Git blob 重新打开 tests/test_migration.py 第 58 至 76 行，核对名称、签名、目录提升分支与调用后确认本条说明。",
+      "description_zh": "创建临时 Python 仓库、首个 Git 提交和确定性测试提供器。"
+    },
+    {
+      "entity_id": "ent-ab0189808d4656fc8fe61a58567fc381",
+      "classification": "appendix",
+      "owner_page_id": "ent-d315fec2099858bab2fc67a29b9072d5",
+      "source_path": "tests/test_migration.py",
+      "start_line": 78,
+      "end_line": 83,
+      "source_blob": "bbe8f0625955cfefc98fe4cefa0132b63162246b",
+      "source_excerpt": "def tearDown(self) -> None:\n        if self.old_provider is None:\n            os.environ.pop(\"CKB_TEST_PROVIDER\", None)\n        else:\n            os.environ[\"CKB_TEST_PROVIDER\"] = self.old_provider\n        self.temporary.cleanup()",
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已从目标固定提交对应的 Git blob 重新打开 tests/test_migration.py 第 78 至 83 行，核对名称、签名、目录提升分支与调用后确认本条说明。",
+      "description_zh": "恢复测试环境变量并清理临时迁移夹具。"
+    },
+    {
+      "entity_id": "ent-b8de4a6d51d451abbe460de2c907033b",
+      "classification": "appendix",
+      "owner_page_id": "ent-d315fec2099858bab2fc67a29b9072d5",
+      "source_path": "tests/test_migration.py",
+      "start_line": 85,
+      "end_line": 189,
+      "source_blob": "bbe8f0625955cfefc98fe4cefa0132b63162246b",
+      "source_excerpt": "def test_exact_blob_facts_and_agent_reviews_are_reused(self) -> None:\n        initialize(self.repo, self.old, \"markdown\", [], [], 1, \"both\", [])\n        review_all(self.old)\n        finalize(self.old)\n        old_state_path = self.old / \"state.json\"\n        old_state = json.loads(old_state_path.read_text(encoding=\"utf-8\"))\n        old_state[\"version\"] = \"5.0.0\"\n        old_state_path.write_text(json.dumps(old_state, ensure_ascii=False, indent=2) + \"\\n\", encoding=\"utf-8\")\n        old_graph = json.loads((self.old / \"graph.json\").read_text(encoding=\"utf-8\"))\n        old_projection = json.loads((self.old / \"markdown/projection.json\").read_text(encoding=\"utf-8\"))\n        old_entity_by_id = {item[\"id\"]: item for item in old_graph[\"entities\"]}\n        old_app_title = next(\n            page[\"title\"]\n            for page in old_projection[\"pages\"]\n            if old_entity_by_id[page[\"id\"]][\"kind\"] == \"file\" and old_entity_by_id[page[\"id\"]][\"path\"] == \"app.py\"\n        )\n        for vault in (\"human\", \"markdown\"):\n            user_page = self.old / vault / \"user\" / \"人工保留页.md\"\n            user_page.parent.mkdir(parents=True, exist_ok=True)\n            user_page.write_text(f\"# 人工保留页\\n\\n这是一份迁移期间必须保留的中文用户笔记，原链接为 [[{old_app_title}]]。\\n\", encoding=\"utf-8\")\n\n        (self.repo / \"app.py\").write_text(\n            \"from helper import double\\n\\ndef calculate_v2(value):\\n    return double(value) + 1\\n\",\n            encoding=\"utf-8\",\n        )\n        (self.repo / \"automation.py\").write_text(\"def capture(event):\\n    return event.get('type')\\n\", encoding=\"utf-8\")\n        git(self.repo, \"add\", \".\")\n        git(self.repo, \"commit\", \"-m\", \"version 5.1 fixture\")\n\n        result = migrate_output(self.old, self.repo, self.new)\n        self.assertEqual(result[\"status\"], \"pending-agent-review\")\n        plan = json.loads((self.new / \"migration/plan.json\").read_text(encoding=\"utf-8\"))\n        self.assertIn(\"helper.py\", plan[\"files\"][\"reused\"])\n        self.assertGreater(plan[\"entities\"][\"reused_review_count\"], 0)\n        self.assertGreater(plan[\"entities\"][\"delta_review_count\"], 0)\n        catalog = json.loads((self.new / \"catalog.json\").read_text(encoding=\"utf-8\"))\n        helper = next(item for item in catalog[\"files\"] if item[\"file\"][\"path\"] == \"helper.py\")\n        self.assertEqual(helper[\"migration_reuse\"][\"basis\"], \"exact-path-language-blob-and-passed-parse\")\n        self.assertTrue((self.new / \"human/user/人工保留页.md\").is_file())\n\n        review_all(self.new)\n        complete = finalize(self.new)\n        self.assertEqual(complete[\"status\"], \"complete\")\n        relocated = self.root / \"promoted-output\"\n        self.new.rename(relocated)\n        self.new = relocated\n        promoted = finalize(self.new)\n        self.assertEqual(promoted[\"status\"], \"complete\")\n        promoted_state = json.loads((self.new / \"state.json\").read_text(encoding=\"utf-8\"))\n        self.assertEqual(\n            Path(promoted_state[\"source_snapshot\"][\"root\"]).resolve(),\n            (self.new / \".source-snapshot/worktree\").resolve(),\n        )\n        relocation = json.loads((self.new / \"audit/output-relocation.json\").read_text(encoding=\"utf-8\"))\n        self.assertEqual(relocation[\"status\"], \"passed\")\n        self.assertTrue(relocation[\"rewritten_json_files\"])\n        migration_audit = audit_migration(self.new)\n        self.assertEqual(migration_audit[\"status\"], \"passed\")\n        self.assertEqual(migration_status(self.new)[\"status\"], \"complete\")\n        finalized_plan = json.loads((self.new / \"migration/plan.json\").read_text(encoding=\"utf-8\"))\n        finalized_state = json.loads((self.new / \"state.json\").read_text(encoding=\"utf-8\"))\n        self.assertEqual(finalized_plan[\"status\"], \"passed\")\n        self.assertEqual(finalized_state[\"migration\"][\"status\"], \"passed\")\n        self.assertTrue(finalized_plan[\"mutable_files\"])\n        for mutable in finalized_plan[\"mutable_files\"]:\n            baseline = self.new / mutable[\"baseline_relative_target\"]\n            self.assertTrue(baseline.is_file())\n\n        # Hook ingestion and Agent edits legitimately mutate the live layer.\n        # The immutable migration baseline must remain the proof of preserved\n        # input while the live note/database only needs to stay readable.\n        migrated_human_note = self.new / \"human/user/人工保留页.md\"\n        migrated_human_note.write_text(\n            migrated_human_note.read_text(encoding=\"utf-8\") + \"\\n后续 Hook 已追加一条会话说明。\\n\",\n            encoding=\"utf-8\",\n        )\n        automation_database = self.new / \"machine/automation.sqlite\"\n        connection = sqlite3.connect(automation_database)\n        try:\n            connection.execute(\"PRAGMA application_id = 1129001521\")\n            connection.commit()\n        finally:\n            connection.close()\n        post_hook_audit = audit_migration(self.new)\n        self.assertEqual(post_hook_audit[\"status\"], \"passed\")\n        self.assertEqual(migration_status(self.new)[\"status\"], \"complete\")\n\n        first_baseline = self.new / finalized_plan[\"mutable_files\"][0][\"baseline_relative_target\"]\n        baseline_bytes = first_baseline.read_bytes()\n        first_baseline.write_bytes(b\"changed\")\n        self.assertEqual(audit_migration(self.new)[\"status\"], \"failed\")\n        first_baseline.write_bytes(baseline_bytes)\n        self.assertEqual(audit_migration(self.new)[\"status\"], \"passed\")\n        new_graph = json.loads((self.new / \"graph.json\").read_text(encoding=\"utf-8\"))\n        new_projection = json.loads((self.new / \"markdown/projection.json\").read_text(encoding=\"utf-8\"))\n        new_entity_by_id = {item[\"id\"]: item for item in new_graph[\"entities\"]}\n        new_app_title = next(\n            page[\"title\"]\n            for page in new_projection[\"pages\"]\n            if new_entity_by_id[page[\"id\"]][\"kind\"] == \"file\" and new_entity_by_id[page[\"id\"]][\"path\"] == \"app.py\"\n        )\n        migrated_note = (self.new / \"human/user/人工保留页.md\").read_text(encoding=\"utf-8\")\n        self.assertNotEqual(old_app_title, new_app_title)\n        self.assertIn(f\"[[{new_app_title}]]\", migrated_note)\n        self.assertNotIn(f\"[[{old_app_title}]]\", migrated_note)",
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已从目标固定提交对应的 Git blob 重新打开 tests/test_migration.py 第 85 至 189 行，核对名称、签名、目录提升分支与调用后确认本条说明。",
+      "description_zh": "验证精确 blob 与中文审阅复用、可变层基线、目录提升后的路径重定位及篡改失败门。"
+    }
+  ]
+}
