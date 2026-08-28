@@ -11,7 +11,7 @@ import zipfile
 from pathlib import Path, PurePosixPath
 
 
-VERSION = "5.1.3"
+VERSION = "5.1.4"
 ROOT = Path(__file__).resolve().parents[1]
 EXCLUDED_PARTS = {".git", "__pycache__", ".pytest_cache", ".mypy_cache"}
 

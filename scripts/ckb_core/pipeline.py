@@ -13,6 +13,7 @@ from urllib.parse import quote
 
 from . import SCHEMA_VERSION, VERSION
 from .agent_index import audit_agent_index, build_agent_index
+from .agent_protocol import audit_agent_protocol, project_agent_protocol
 from .common import (
     AuditError,
     CkbError,
@@ -2962,6 +2963,7 @@ def audit_global(output: Path) -> dict[str, Any]:
     # Version 5 always emits a conservative Markdown human layer.  The format
     # flag still controls whether a Logseq DB projection is additionally built.
     projections["markdown"] = project_markdown(output, graph, logical)
+    projections["agent-protocol"] = project_agent_protocol(output)
     if state.get("migration"):
         from .migration import relink_preserved_notes
 
@@ -2997,6 +2999,14 @@ def audit_global(output: Path) -> dict[str, Any]:
             "name": "agent-index-valid",
             "passed": index_audit.get("status") == "passed",
             "detail": index_audit,
+        }
+    )
+    agent_protocol_audit = audit_agent_protocol(output)
+    checks.append(
+        {
+            "name": "agent-protocol-valid",
+            "passed": agent_protocol_audit.get("status") == "passed",
+            "detail": agent_protocol_audit,
         }
     )
     if state["format"] == "both":

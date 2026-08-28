@@ -405,6 +405,34 @@ class CodeKnowledgeBuilderTests(unittest.TestCase):
         self.assertTrue(next(item for item in audit["checks"] if item["name"] == "facts-layer-valid")["passed"])
         self.assertTrue(next(item for item in audit["checks"] if item["name"] == "human-layer-valid")["passed"])
         self.assertTrue(next(item for item in audit["checks"] if item["name"] == "machine-layer-valid")["passed"])
+        self.assertTrue(next(item for item in audit["checks"] if item["name"] == "agent-protocol-valid")["passed"])
+        for root in (output, output / "markdown", output / "human"):
+            self.assertTrue((root / "AGENTS.md").is_file())
+            self.assertTrue((root / "CLAUDE.md").is_file())
+            self.assertTrue((root / "GEMINI.md").is_file())
+            self.assertTrue((root / ".github/copilot-instructions.md").is_file())
+            self.assertTrue((root / ".cursor/rules/code-knowledge-builder.mdc").is_file())
+        protocol_text = (output / "AGENTS.md").read_text(encoding="utf-8")
+        self.assertIn("retrieve --out", protocol_text)
+        self.assertIn("needs-source-read", protocol_text)
+        self.assertIn("record --out", protocol_text)
+        self.assertIn("agent-policy check", protocol_text)
+        initial_policy_check = invoke("agent-policy", "check", "--out", str(output))
+        self.assertEqual(initial_policy_check.returncode, 0, initial_policy_check.stderr)
+        self.assertEqual(json.loads(initial_policy_check.stdout)["status"], "passed")
+        (self.root / "AGENTS.md").write_text("# 原有项目要求\n\n保留这段已有说明。\n", encoding="utf-8")
+        policy_install = invoke(
+            "agent-policy", "install", "--out", str(output), "--workspace-root", str(self.root)
+        )
+        self.assertEqual(policy_install.returncode, 0, policy_install.stderr)
+        repeated_policy_install = invoke(
+            "agent-policy", "install", "--out", str(output), "--workspace-root", str(self.root)
+        )
+        self.assertEqual(repeated_policy_install.returncode, 0, repeated_policy_install.stderr)
+        workspace_agents = (self.root / "AGENTS.md").read_text(encoding="utf-8")
+        self.assertIn("保留这段已有说明", workspace_agents)
+        self.assertEqual(workspace_agents.count("<!-- CKB-AGENT-PROTOCOL:BEGIN -->"), 1)
+        self.assertEqual(workspace_agents.count("<!-- CKB-AGENT-PROTOCOL:END -->"), 1)
         graph = json.loads((output / "graph.json").read_text(encoding="utf-8"))
         connection = sqlite3.connect(output / "machine/knowledge.sqlite")
         try:
@@ -581,6 +609,23 @@ class CodeKnowledgeBuilderTests(unittest.TestCase):
         self.assertIn("标签：#类型/分析", note_text)
         self.assertIn("[[", note_text)
         self.assertIn("obsidian://open?path=", note_record["obsidian_uri"])
+        maintained = invoke("agent-policy", "check", "--out", str(output))
+        self.assertEqual(maintained.returncode, 0, maintained.stderr)
+        rogue = output / "human/analysis/绕过受控写入.md"
+        rogue.write_text("# 绕过受控写入\n\n标签：#类型/分析\n\n这是一条没有镜像、元数据和索引记录的直接写入。\n", encoding="utf-8")
+        rejected_rogue = invoke("agent-policy", "check", "--out", str(output))
+        self.assertEqual(rejected_rogue.returncode, 5)
+        rogue_errors = json.loads(rejected_rogue.stdout)["errors"]
+        self.assertIn("agent-note-mirror-set-mismatch", {item["reason"] for item in rogue_errors})
+        rogue.unlink()
+        self.assertEqual(invoke("agent-policy", "check", "--out", str(output)).returncode, 0)
+        (output / "AGENTS.md").write_text("# 漂移\n", encoding="utf-8")
+        drifted = invoke("agent-policy", "check", "--out", str(output))
+        self.assertEqual(drifted.returncode, 5)
+        drift_errors = json.loads(drifted.stdout)["errors"]
+        self.assertIn("agent-protocol-adapter-drift", {item["reason"] for item in drift_errors})
+        repaired_policy = invoke("agent-policy", "install", "--out", str(output))
+        self.assertEqual(repaired_policy.returncode, 0, repaired_policy.stderr)
         english_body = self.root / "english-only.md"
         english_body.write_text("Only an English explanation of OrderService behavior.\n", encoding="utf-8")
         english_note = invoke(

@@ -54,6 +54,13 @@ def install_obsidian(root: Path) -> dict[str, Any]:
         "attachmentFolderPath": "attachments",
         "showUnsupportedFiles": True,
         "defaultViewMode": "preview",
+        "userIgnoreFilters": [
+            "AGENTS.md",
+            "CLAUDE.md",
+            "GEMINI.md",
+            ".github/",
+            ".cursor/",
+        ],
     }
     plugins = [
         "file-explorer",
@@ -76,6 +83,9 @@ body .inline-title { display: none; }
 .external-link[href^="vscode-insiders://"] { color: var(--text-accent); }
 .markdown-rendered table { width: 100%; }
 .markdown-rendered details { border-left: 2px solid var(--background-modifier-border); padding-left: 0.8rem; }
+.nav-file-title[data-path="AGENTS.md"],
+.nav-file-title[data-path="CLAUDE.md"],
+.nav-file-title[data-path="GEMINI.md"] { display: none; }
 """
     json_write(config / "app.json", app)
     json_write(config / "core-plugins.json", plugins)

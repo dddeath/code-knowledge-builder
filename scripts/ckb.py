@@ -21,6 +21,11 @@ if str(SCRIPT_DIR) not in sys.path:
 from ckb_core.common import CkbError, DependencyError, ReviewRequired
 from ckb_core.agent_index import build_agent_index, retrieve
 from ckb_core.agent_maintenance import finish_session, sessions_status, start_session
+from ckb_core.agent_protocol import (
+    agent_protocol_status,
+    audit_agent_protocol,
+    install_agent_protocol,
+)
 from ckb_core.automation import (
     SUPPORTED_HARNESSES,
     activate_skill_session,
@@ -242,6 +247,17 @@ def parser() -> argparse.ArgumentParser:
     workspace_finish_command.add_argument("--title")
     workspace_sessions_command = workspace_sub.add_parser("sessions")
     workspace_sessions_command.add_argument("--out", type=Path, required=True)
+    agent_policy_command = sub.add_parser("agent-policy")
+    agent_policy_sub = agent_policy_command.add_subparsers(dest="agent_policy_command", required=True)
+    agent_policy_install = agent_policy_sub.add_parser("install")
+    agent_policy_install.add_argument("--out", type=Path, required=True)
+    agent_policy_install.add_argument("--workspace-root", type=Path, action="append", default=[])
+    agent_policy_install.add_argument("--python", type=Path)
+    agent_policy_install.add_argument("--ckb", type=Path)
+    agent_policy_check = agent_policy_sub.add_parser("check")
+    agent_policy_check.add_argument("--out", type=Path, required=True)
+    agent_policy_status_command = agent_policy_sub.add_parser("status")
+    agent_policy_status_command.add_argument("--out", type=Path, required=True)
     automation_command = sub.add_parser("automation")
     automation_sub = automation_command.add_subparsers(dest="automation_command", required=True)
     automation_register = automation_sub.add_parser("register")
@@ -419,6 +435,22 @@ def main() -> int:
             emit(finish_session(args.out.resolve(), args.repo.resolve(), args.session, args.summary.resolve(), args.title))
         else:
             emit(sessions_status(args.out.resolve()))
+    elif args.command == "agent-policy":
+        if args.agent_policy_command == "install":
+            emit(
+                install_agent_protocol(
+                    args.out.resolve(),
+                    [path.resolve() for path in args.workspace_root],
+                    python=args.python.resolve() if args.python else None,
+                    ckb=args.ckb.resolve() if args.ckb else None,
+                )
+            )
+        elif args.agent_policy_command == "check":
+            result = audit_agent_protocol(args.out.resolve())
+            emit(result)
+            return 0 if result.get("status") == "passed" else 5
+        else:
+            emit(agent_protocol_status(args.out.resolve()))
     elif args.command == "automation":
         if args.automation_command == "register":
             emit(
