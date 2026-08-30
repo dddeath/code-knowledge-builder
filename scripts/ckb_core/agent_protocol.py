@@ -9,12 +9,14 @@ from pathlib import Path
 from typing import Any
 
 from .common import AuditError, CkbError, json_load, json_write, path_inside, safe_title
+from .feedback import audit_feedback, prepare_feedback_store
 from .obsidian import NOTE_DIRECTORIES
 from .workspace_notes import DIRECTORY_BY_KIND, audit_notes
+from .work_record_index import audit_work_record_index
 
 
 AGENT_PROTOCOL_SCHEMA_VERSION = 1
-AGENT_PROTOCOL_VERSION = "1.0.0"
+AGENT_PROTOCOL_VERSION = "1.3.0"
 POLICY_BEGIN = "<!-- CKB-AGENT-PROTOCOL:BEGIN -->"
 POLICY_END = "<!-- CKB-AGENT-PROTOCOL:END -->"
 INTERNAL_ROOT_NAMES = ("output", "markdown", "human")
@@ -49,6 +51,7 @@ def _command_examples(output: Path, python: Path, ckb: Path) -> dict[str, str]:
     out = _single_quote(str(output.resolve()))
     prefix = f"& '{py}' '{cli}'"
     return {
+        "brief": f'{prefix} brief --out \'{out}\' "QUESTION" --budget 1800 --max-pages 8 --profile fast',
         "retrieve": f'{prefix} retrieve --out \'{out}\' "QUESTION" --budget 1800 --max-pages 8 --profile fast',
         "precise": f'{prefix} retrieve --out \'{out}\' "QUESTION" --budget 3000 --max-pages 12 --profile precise',
         "entity": f'{prefix} entity --out \'{out}\' "SYMBOL"',
@@ -56,7 +59,12 @@ def _command_examples(output: Path, python: Path, ckb: Path) -> dict[str, str]:
         "source": f'{prefix} source --out \'{out}\' "SYMBOL" --context-lines 3',
         "record": f"{prefix} record --out '{out}' --kind analysis --title 'TITLE' --body 'BODY.md' --from-pack 'PACK.json'",
         "append": f"{prefix} record --out '{out}' --kind analysis --title 'EXISTING_TITLE' --body 'BODY.md' --from-pack 'PACK.json' --append",
+        "feedback_list": f"{prefix} feedback list --out '{out}' --status open",
+        "feedback_locate": f"{prefix} feedback locate --out '{out}' --feedback 'FEEDBACK_ID'",
+        "feedback_audit": f"{prefix} feedback audit --out '{out}'",
         "check": f"{prefix} agent-policy check --out '{out}'",
+        "maintain": f"{prefix} maintain --out '{out}'",
+        "capabilities": f"{prefix} capabilities --format json",
     }
 
 
@@ -74,14 +82,21 @@ def _protocol_text(output: Path, repository: str, python: Path, ckb: Path) -> st
 
 ## 先检索，后读源码
 
-1. 回答架构、实现、定位或修改问题前，先执行确定性 SQLite 检索：
+1. 回答架构、实现、定位或修改问题前，先执行紧凑阅读入口。它在一个小 JSON 中返回开放反馈数、Agent pack、完整检索 record 和固定阅读入口，不把候选实体、词项和得分展开到首轮上下文：
 
 ```powershell
-{commands['retrieve']}
+{commands['brief']}
 ```
 
-2. 先阅读返回的预算化 Agent pack，再按结果使用 `entity`、`neighbors`、`source` 或 `changes`；复杂跨模块问题才切换 `precise`。
-3. 只有检索明确返回 `needs-source-read`，或返回了需要核实的精确路径和范围时，才使用窄范围源码读取。`grep`、全仓文件遍历和整库页面加载只作为这一分支的补充手段，不得替代首轮 SQLite 检索。
+2. 若 `open_feedback` 大于零，再列出开放反馈；任务涉及其目标页时按 `error`、`warn`、`suggest`、`info` 的固定优先级处理：
+
+```powershell
+{commands['feedback_list']}
+```
+
+3. 先阅读 `brief` 返回的预算化 Agent pack；完整候选与得分仍保存在 `record`。再按 pack 使用 `entity`、`neighbors`、`source` 或 `changes`；复杂跨模块问题才切换 `precise`。
+4. 只有检索明确返回 `needs-source-read`，或返回了需要核实的精确路径和范围时，才使用窄范围源码读取。`grep`、全仓文件遍历和整库页面加载只作为这一分支的补充手段，不得替代首轮 SQLite 检索。
+5. 人类需要查找已有分析、变更或实验时，从 `RECORDS.md` 按任务目的浏览；该导览必须覆盖全部工作记录，不允许为单个查询手工挑选页面。
 
 ## 受控维护
 
@@ -94,17 +109,24 @@ def _protocol_text(output: Path, repository: str, python: Path, ckb: Path) -> st
 ```
 
 4. 更新已有人工笔记时使用同标题和 `--append`。Hook 仅采集会话与修改事件，并在 Agent 审核后新建会话页或修改页；其他已有页面只在任务明确要求时执行显式追加，不随每轮对话扩散更新。
-5. 结束实质任务前执行：
+5. 人工反馈通过 `feedback create` 进入带行范围和文本窗口的收件箱。处理前先执行：
 
 ```powershell
-{commands['check']}
+{commands['feedback_locate']}
 ```
 
-只有协议文件、中文与链接规则、human/markdown 镜像、笔记元数据以及两个 SQLite 索引全部一致时，才报告知识库维护完成。失败时先修复对应笔记或重新执行 `record`/`reindex`，再复查。
+生成器管理页面仍不直接编辑；采纳或部分采纳时先修改来源、生成规则或通过 `record` 写入落实记录，再用 `feedback resolve` 归档。拒绝必须写明中文理由；暂缓记录继续留在开放列表。反馈记录不删除。
+6. 结束实质任务前执行聚合维护门；它统一检查反馈、Agent Policy、工作记录、人类可读性、机器知识库和兼容索引，并且不创建知识页面：
+
+```powershell
+{commands['maintain']}
+```
+
+只有协议文件、中文与链接规则、human/markdown 镜像、笔记元数据以及两个 SQLite 索引全部一致时，才报告知识库维护完成。失败时根据 `failed_checks` 运行窄范围审计，修复对应笔记或重新执行 `record`/`reindex`，再复查。
 
 ## 最小上下文原则
 
-- 优先顺序固定为：`retrieve fast` → Agent pack → `entity/neighbors/source/changes` → 返回路径的窄范围读取。
+- 优先顺序固定为：`brief fast` → Agent pack → `entity/neighbors/source/changes` → 返回路径的窄范围读取。
 - 不预先加载整个模块、整个 vault 或完整关系图。
 - 页面正文保持面向人类的简体中文叙述；英文仅保留专有名词、API、类型、函数、变量、命令和路径。
 """
@@ -235,6 +257,7 @@ def project_agent_protocol(
         raise CkbError(f"knowledge build state is missing: {state_path}")
     state = json_load(state_path)
     repository = str(state["repository"]["root"])
+    prepare_feedback_store(output)
     previous = _load_record(output)
     python_path, ckb_path = _resolve_runtime(previous, python, ckb)
     protocol = _protocol_text(output, repository, python_path, ckb_path)
@@ -434,6 +457,18 @@ def audit_agent_protocol(output: Path) -> dict[str, Any]:
             if not css_path.is_file() or OBSIDIAN_HIDE_CSS not in css_path.read_text(encoding="utf-8"):
                 errors.append({"reason": "agent-protocol-obsidian-hide-rule-missing", "root": root_name})
     errors.extend(_audit_note_storage(output))
+    work_record_audit = audit_work_record_index(output)
+    errors.extend(work_record_audit["errors"])
+    feedback_audit = audit_feedback(output)
+    errors.extend(feedback_audit["errors"])
+    from .output_contract import audit_output_contract
+
+    output_contracts: dict[str, Any] = {}
+    for name in ("markdown", "human"):
+        vault = output / name
+        if vault.is_dir():
+            output_contracts[name] = audit_output_contract(output, vault)
+            errors.extend(output_contracts[name]["errors"])
     result = {
         "schema_version": AGENT_PROTOCOL_SCHEMA_VERSION,
         "protocol_version": AGENT_PROTOCOL_VERSION,
@@ -441,6 +476,9 @@ def audit_agent_protocol(output: Path) -> dict[str, Any]:
         "output": str(output),
         "internal_roots": list(INTERNAL_ROOT_NAMES),
         "workspace_root_count": len(record.get("workspace_roots", [])) if record else 0,
+        "feedback": feedback_audit,
+        "output_contracts": output_contracts,
+        "work_record_index": work_record_audit,
         "errors": errors,
     }
     json_write(output / "workspace-meta/agent-protocol-audit.json", result)

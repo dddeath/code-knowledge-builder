@@ -8,6 +8,13 @@ Agent analysis/change/pitfall/experiment/session notes are human artifacts. They
 link generated pages and source entries but contain no frontmatter or hash-like
 identifier. Their machine evidence lives under `workspace-meta`.
 
+`INDEX.md` separates four task intents before presenting details: understand or
+modify code, find prior work records, locate an exact source unit, and learn the
+reading rules. `RECORDS.md` is the human entry for all durable Agent notes. It
+groups the complete note set by purpose and extracts one Chinese description
+from each record with a fixed script. It never receives a benchmark query or a
+manually selected page list.
+
 ## 简体中文叙述
 
 每项含义、职责、修改时机、来源说明、附录句子、关系叙述、Wiki、分析、修改原因、踩坑、实验和会话总结必须使用简体中文。英文仅用于专有名词、源码符号、路径、命令和必要术语。页面标题可以原样使用英文类名或函数名，但正文不得是纯英文说明。Agent 在逐实体审阅时负责依据源码写出中文叙述；脚本在审阅提交、全局图、人类层和机器层四处确定性复核。
@@ -63,8 +70,13 @@ Appendix tables have exactly two human columns: code symbol and one-sentence res
 
 ## Wiki and Graphify report
 
-Every Markdown projection contains a Chinese `WIKI.md` explaining reading order, page shapes, modification workflow, Graphify task narrowing, and Logseq opening. `GRAPH_REPORT.md` presents classes/functions grouped by responsibility; commits, confidence tiers, node counts, degrees, classifications, community IDs, and cohesion remain only in JSON.
+Every Markdown projection contains a Chinese `WIKI.md` explaining reading order, page shapes, modification workflow, work-record lookup, Graphify task narrowing, and Logseq opening. `GRAPH_REPORT.md` presents classes/functions grouped by responsibility; commits, confidence tiers, node counts, degrees, classifications, community IDs, and cohesion remain only in JSON.
+
+The work-record index has one `#类型/导览` tag, no frontmatter, no machine IDs,
+and one entry per note title. Each entry contains a double link and one useful
+Chinese sentence. Empty note categories remain visible as explicit empty
+states, so a missing section cannot be mistaken for an omitted record.
 
 ## Completion gate
 
-`readability-audit.json` must report `passed`. The deterministic gate checks zero frontmatter pages, zero prefixed titles, zero visible commit/hash identifiers, zero machine markers, zero raw relation labels, zero page-property lines, zero non-Chinese narrative fields, exactly one allowed type tag, a clickable source link where required, class/function-only standalone pages, complete Wiki sections, and valid double links. A readability failure prevents `.complete`、`.human.complete` and `.machine.complete`.
+`readability-audit.json` must report `passed`. The deterministic gate checks zero frontmatter pages, zero prefixed titles, zero visible commit/hash identifiers, zero machine markers, zero raw relation labels, zero page-property lines, zero non-Chinese narrative fields, exactly one allowed type tag, a clickable source link where required, class/function-only standalone pages, complete Wiki sections, valid double links, a task-first `INDEX.md`, and exact work-record coverage in `RECORDS.md`. A readability failure prevents `.complete`、`.human.complete` and `.machine.complete`.

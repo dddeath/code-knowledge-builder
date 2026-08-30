@@ -12,11 +12,12 @@ from contextlib import contextmanager
 import hashlib
 import json
 import os
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 import re
 import sqlite3
 import time
 from typing import Any, Iterator
+from urllib.parse import unquote, urlparse
 import uuid
 
 from .common import CkbError, json_load, json_write, run, safe_title, stable_id, utc_now
@@ -289,6 +290,37 @@ def _registration_for_event(registry: Path, cwd: Path, harness: str) -> tuple[di
     if tied:
         raise CkbError(f"automation event cwd matches multiple registrations at the same priority: {cwd}")
     return best[2], best[3], best[4]
+
+
+def _event_path_text(value: str | Path, *, host_os: str | None = None) -> str:
+    """Translate a harness path into the path syntax understood by this runtime.
+
+    Codex Desktop can host ``app-server`` in WSL while a generated Hook invokes
+    the bundled Windows Python through WSL interop.  The Hook payload then uses
+    ``/mnt/<drive>/...`` even though ``pathlib`` in the receiving process expects
+    a drive-letter path.  Normalize that boundary before registration matching
+    and changed-path attribution; leave relative paths and native paths intact.
+    """
+    text = str(value).strip()
+    if text.casefold().startswith("file:"):
+        parsed = urlparse(text)
+        if parsed.scheme.casefold() == "file":
+            text = unquote(parsed.path)
+            if parsed.netloc and parsed.netloc.casefold() != "localhost":
+                text = f"//{parsed.netloc}{text}"
+    target_os = os.name if host_os is None else host_os
+    if target_os != "nt":
+        return text
+    normalized = text.replace("\\", "/")
+    mounted = re.fullmatch(r"/mnt/([A-Za-z])(?:/(.*))?", normalized)
+    if mounted:
+        parts = [part for part in (mounted.group(2) or "").split("/") if part]
+        return str(PureWindowsPath(f"{mounted.group(1).upper()}:\\", *parts))
+    drive_uri = re.fullmatch(r"/([A-Za-z]):(?:/(.*))?", normalized)
+    if drive_uri:
+        parts = [part for part in (drive_uri.group(2) or "").split("/") if part]
+        return str(PureWindowsPath(f"{drive_uri.group(1).upper()}:\\", *parts))
+    return text
 
 
 def _walk_values(value: Any) -> Iterator[tuple[str | None, Any]]:
@@ -725,7 +757,7 @@ def _working_file_state(repo: Path, paths: list[str]) -> dict[str, dict[str, Any
 def _relative_changed_paths(paths: list[str], repo: Path, output: Path, event_cwd: Path | None = None) -> list[str]:
     result: list[str] = []
     for value in paths:
-        candidate = Path(value)
+        candidate = Path(_event_path_text(value))
         candidates = [candidate] if candidate.is_absolute() else [*([] if event_cwd is None else [event_cwd / candidate]), repo / candidate]
         for possible in candidates:
             if (
@@ -1325,7 +1357,8 @@ def ingest_event(
 ) -> dict[str, Any]:
     registry = (registry_path or default_registry_path()).expanduser().resolve()
     normalized = normalize_event(harness, raw)
-    cwd = Path(str(normalized["cwd"])).expanduser().resolve()
+    cwd = Path(_event_path_text(str(normalized["cwd"]))).expanduser().resolve()
+    normalized["cwd"] = str(cwd)
     matched = _registration_for_event(registry, cwd, harness)
     if matched is None:
         return {

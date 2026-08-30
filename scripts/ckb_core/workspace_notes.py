@@ -11,6 +11,7 @@ from .common import CkbError, json_load, json_write, run, safe_title, utc_now
 from .obsidian import NOTE_DIRECTORIES
 from .source_links import ensure_local_openers, obsidian_open_uri, source_markdown_link
 from .machine_knowledge import contains_chinese_narrative
+from .work_record_index import refresh_work_record_index
 
 
 TAG_BY_KIND = {
@@ -168,6 +169,7 @@ def record_note(
         "obsidian_uri": obsidian_open_uri(target),
     }
     json_write(meta_dir / (safe_title(title) + ".json"), record)
+    refresh_work_record_index(output)
     errors = audit_notes(output)
     if errors:
         raise CkbError(f"knowledge-note audit failed: {errors[:10]}")

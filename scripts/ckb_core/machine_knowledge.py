@@ -962,6 +962,7 @@ def retrieve_machine(
     terms = search_terms(question)
     anchors = explicit_anchors(question)
     from .automation import search_automation
+    from .feedback import search_feedback
 
     automation_intent = bool(
         re.search(
@@ -971,6 +972,14 @@ def retrieve_machine(
         )
     )
     automation_rows = search_automation(output, question, 8) if automation_intent else []
+    feedback_intent = bool(
+        re.search(
+            r"(?:人工反馈|页面反馈|知识纠错|待处理反馈|开放反馈|已解决反馈|audit|feedback)",
+            question,
+            flags=re.IGNORECASE,
+        )
+    )
+    feedback_rows = search_feedback(output, question, 8) if feedback_intent else []
 
     def add(entity_id: str, value: float, stage: str, reason: str) -> None:
         scores[entity_id] += value
@@ -1104,7 +1113,7 @@ def retrieve_machine(
                 original = scores[entity_id]
                 discounted = original * IMPLEMENTATION_TEST_DISCOUNT
                 add(entity_id, discounted - original, "test-discount", "实现定位查询对测试实体应用固定折扣")
-        if not scores and not automation_rows:
+        if not scores and not automation_rows and not feedback_rows:
             return {
                 "schema_version": MACHINE_SCHEMA_VERSION,
                 "status": "needs-source-read",
@@ -1114,11 +1123,11 @@ def retrieve_machine(
                 "anchors": anchors,
                 "reason": "机器知识库没有来源绑定的候选，请按 scope 或源码路径继续读取。",
             }
-        if not scores and automation_rows:
+        if not scores and (automation_rows or feedback_rows):
             pack_path, record_path = _next_pack_path(output)
             pack = (
                 f"# Agent 机器知识阅读包\n\n问题：{question}\n\n检索档位：{profile}\n\n"
-                "本阅读包只命中自动化会话记录；这些记录仍需按其状态完成 Agent 来源审阅。\n\n"
+                "本阅读包只命中工作记录或人工反馈；会话记录仍按状态接受来源审阅，反馈按锚点状态处理。\n\n"
             )
             related = []
             for row in automation_rows:
@@ -1142,8 +1151,31 @@ def retrieve_machine(
                         "status": row["status"],
                     }
                 )
+            for row in feedback_rows:
+                resolution = f"\n\n处理结果：{row['resolution'].strip()}" if row.get("resolution") else ""
+                block = (
+                    f"## {row['title']}\n\n"
+                    f"状态：{row['status']}\n\n"
+                    f"严重程度：{row['severity']}\n\n"
+                    f"目标：`{row['target']}`\n\n"
+                    f"{row['comment'].strip()}{resolution}\n\n"
+                )
+                if estimated_tokens(pack + block) > budget:
+                    continue
+                pack += block
+                related.append(
+                    {
+                        "document_id": f"feedback:{row['feedback_id']}",
+                        "title": row["title"],
+                        "kind": "feedback",
+                        "human_file": row.get("human_file"),
+                        "status": row["status"],
+                        "severity": row["severity"],
+                        "target": row["target"],
+                    }
+                )
             if not related:
-                raise CkbError("retrieve budget is too small for the matching automation record")
+                raise CkbError("retrieve budget is too small for the matching work record or feedback")
             pack_path.write_text(pack.rstrip() + "\n", encoding="utf-8", newline="\n")
             result = {
                 "schema_version": MACHINE_SCHEMA_VERSION,
@@ -1159,10 +1191,11 @@ def retrieve_machine(
                 "related_documents": related,
                 "pack": str(pack_path.resolve()),
                 "record": str(record_path.resolve()),
-                "retrieval": "sqlite-automation-fts5-trigram",
+                "retrieval": "sqlite-work-record-feedback-deterministic",
                 "deterministic": True,
                 "source_grounded": False,
                 "pending_agent_review": any(item["status"] == "pending-agent-review" for item in related),
+                "open_feedback": sum(1 for item in related if item["kind"] == "feedback" and item["status"] == "open"),
                 "grep_fallback_required": False,
             }
             json_write(record_path, result)
@@ -1248,12 +1281,29 @@ def retrieve_machine(
                 }
             )
         note_rows = []
+        for row in feedback_rows:
+            note_rows.append(
+                {
+                    "document_id": f"feedback:{row['feedback_id']}",
+                    "title": row["title"],
+                    "kind": "feedback",
+                    "human_file": row.get("human_file"),
+                    "status": row["status"],
+                    "severity": row["severity"],
+                    "target": row["target"],
+                    "content_excerpt": row["comment"][:240],
+                }
+            )
+            if len(note_rows) >= 8:
+                break
         if fts:
-            seen_documents: set[str] = set()
+            seen_documents: set[str] = {row["document_id"] for row in note_rows}
             for row in connection.execute(
                 "SELECT d.document_id,d.title,d.kind,d.human_file,bm25(section_fts,0.0,0.0,6.0,2.0,1.0) AS rank FROM section_fts JOIN documents d ON d.document_id=section_fts.document_id WHERE section_fts MATCH ? AND d.kind<>'entity' ORDER BY rank LIMIT 40",
                 (fts,),
             ):
+                if len(note_rows) >= 8:
+                    break
                 if row["document_id"] in seen_documents:
                     continue
                 seen_documents.add(row["document_id"])
@@ -1262,6 +1312,8 @@ def retrieve_machine(
                     break
         seen_document_ids = {row["document_id"] for row in note_rows}
         for row in automation_rows:
+            if len(note_rows) >= 8:
+                break
             document_id = f"automation:{row['review_id']}"
             if document_id in seen_document_ids:
                 continue
@@ -1293,6 +1345,7 @@ def retrieve_machine(
         "seed_entity_ids": seeds,
         "selected_entities": selected,
         "related_documents": note_rows,
+        "open_feedback": sum(1 for item in note_rows if item.get("kind") == "feedback" and item.get("status") == "open"),
         "retrieval_stats": {
             "scored_entities": len(scores),
             "overscan_limit": overscan_limit,

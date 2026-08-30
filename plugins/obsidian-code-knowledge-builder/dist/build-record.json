@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "claudian_commit": "f4bbba7fd326cbc68a6c8f0edfea6d14ea9ba0ac",
+  "files": [
+    {
+      "path": "main.js",
+      "size": 5209207,
+      "sha256": "a95c390d7b87c89d6e545354afe6c9bdd0d65a191dbcc42c27c04618f04c939f"
+    },
+    {
+      "path": "styles.css",
+      "size": 211096,
+      "sha256": "996b0f200f1e56acc2b744d89f15fb8c23feab4e4a26d3097606b2dab615f5b0"
+    },
+    {
+      "path": "manifest.json",
+      "size": 330,
+      "sha256": "917218dae7d39e1a057352d61393c10d545a8bdcdf87813858c1be678c7da12a"
+    },
+    {
+      "path": "LICENSE",
+      "size": 1055,
+      "sha256": "3bed3331b7048bac17cf50e249d560ccc9508c970da8d7b9283bf4f2e633a91d"
+    },
+    {
+      "path": "NOTICE.md",
+      "size": 895,
+      "sha256": "e885faa0f68e52eadf67f118158d25135bb6c7b562ae95a1302f24cd5c74f71a"
+    },
+    {
+      "path": "deploy.py",
+      "size": 7180,
+      "sha256": "04e2956b81665ed19fc24d67e51d69da7ee53b07547bf1c93d60708da28b1020"
+    }
+  ],
+  "commands": [
+    {
+      "command": [
+        "git",
+        "clone",
+        "https://github.com/YishenTu/claudian.git",
+        "E:\\knowledge_builder\\self-workspace\\work\\obsidian-follow-up-build-0.8.0-20260830"
+      ],
+      "cwd": "E:\\knowledge_builder\\self-workspace\\work",
+      "exit_status": 0,
+      "output": "Cloning into 'E:\\knowledge_builder\\self-workspace\\work\\obsidian-follow-up-build-0.8.0-20260830'...\nUpdating files:  49% (785/1586)\nUpdating files:  50% (793/1586)\nUpdating files:  51% (809/1586)\nUpdating files:  52% (825/1586)\nUpdating files:  53% (841/1586)\nUpdating files:  54% (857/1586)\nUpdating files:  55% (873/1586)\nUpdating files:  56% (889/1586)\nUpdating files:  57% (905/1586)\nUpdating files:  58% (920/1586)\nUpdating files:  59% (936/1586)\nUpdating files:  60% (952/1586)\nUpdating files:  61% (968/1586)\nUpdating files:  62% (984/1586)\nUpdating files:  63% (1000/1586)\nUpdating files:  64% (1016/1586)\nUpdating files:  65% (1031/1586)\nUpdating files:  66% (1047/1586)\nUpdating files:  67% (1063/1586)\nUpdating files:  68% (1079/1586)\nUpdating files:  69% (1095/1586)\nUpdating files:  70% (1111/1586)\nUpdating files:  71% (1127/1586)\nUpdating files:  72% (1142/1586)\nUpdating files:  73% (1158/1586)\nUpdating files:  74% (1174/1586)\nUpdating files:  75% (1190/1586)\nUpdating files:  76% (1206/1586)\nUpdating files:  77% (1222/1586)\nUpdating files:  78% (1238/1586)\nUpdating files:  79% (1253/1586)\nUpdating files:  80% (1269/1586)\nUpdating files:  81% (1285/1586)\nUpdating files:  82% (1301/1586)\nUpdating files:  83% (1317/1586)\nUpdating files:  84% (1333/1586)\nUpdating files:  85% (1349/1586)\nUpdating files:  86% (1364/1586)\nUpdating files:  87% (1380/1586)\nUpdating files:  88% (1396/1586)\nUpdating files:  89% (1412/1586)\nUpdating files:  90% (1428/1586)\nUpdating files:  91% (1444/1586)\nUpdating files:  92% (1460/1586)\nUpdating files:  93% (1475/1586)\nUpdating files:  94% (1491/1586)\nUpdating files:  95% (1507/1586)\nUpdating files:  96% (1523/1586)\nUpdating files:  97% (1539/1586)\nUpdating files:  97% (1552/1586)\nUpdating files:  98% (1555/1586)\nUpdating files:  99% (1571/1586)\nUpdating files: 100% (1586/1586)\nUpdating files: 100% (1586/1586), done.\n"
+    },
+    {
+      "command": [
+        "git",
+        "checkout",
+        "--detach",
+        "f4bbba7fd326cbc68a6c8f0edfea6d14ea9ba0ac"
+      ],
+      "cwd": "E:\\knowledge_builder\\self-workspace\\work\\obsidian-follow-up-build-0.8.0-20260830",
+      "exit_status": 0,
+      "output": "HEAD is now at f4bbba7f fix: preserve slow OpenCode command discovery (#1169)\n"
+    },
+    {
+      "command": [
+        "git",
+        "apply",
+        "E:\\knowledge_builder\\self-workspace\\source\\plugins\\obsidian-code-knowledge-builder\\patches\\claudian-base.patch"
+      ],
+      "cwd": "E:\\knowledge_builder\\self-workspace\\work\\obsidian-follow-up-build-0.8.0-20260830",
+      "exit_status": 0,
+      "output": ""
+    },
+    {
+      "command": [
+        "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\node\\node.exe",
+        "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\node\\node_modules\\npm\\bin\\npm-cli.js",
+        "ci"
+      ],
+      "cwd": "E:\\knowledge_builder\\self-workspace\\work\\obsidian-follow-up-build-0.8.0-20260830",
+      "exit_status": 0,
+      "output": "Created .env.local from .env.local.example\nEdit it to set your OBSIDIAN_VAULT path for auto-copy during development.\n"
+    },
+    {
+      "command": [
+        "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\node\\node.exe",
+        "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\node\\node_modules\\npm\\bin\\npm-cli.js",
+        "run",
+        "typecheck"
+      ],
+      "cwd": "E:\\knowledge_builder\\self-workspace\\work\\obsidian-follow-up-build-0.8.0-20260830",
+      "exit_status": 0,
+      "output": ""
+    },
+    {
+      "command": [
+        "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\node\\node.exe",
+        "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\node\\node_modules\\npm\\bin\\npm-cli.js",
+        "run",
+        "lint"
+      ],
+      "cwd": "E:\\knowledge_builder\\self-workspace\\work\\obsidian-follow-up-build-0.8.0-20260830",
+      "exit_status": 0,
+      "output": ""
+    },
+    {
+      "command": [
+        "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\node\\node.exe",
+        "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\node\\node_modules\\npm\\bin\\npm-cli.js",
+        "run",
+        "test:unit",
+        "--",
+        "--runTestsByPath",
+        "tests/unit/features/selection-learning/LearningNoteDocument.test.ts",
+        "tests/unit/features/selection-learning/SelectionLearningProvider.test.ts",
+        "tests/unit/features/selection-learning/SelectionLearningProgress.test.ts",
+        "tests/unit/features/settings/ClaudianSettings.display.test.ts",
+        "tests/unit/providers/codex/runtime/codexAppServerSupport.test.ts",
+        "--runInBand"
+      ],
+      "cwd": "E:\\knowledge_builder\\self-workspace\\work\\obsidian-follow-up-build-0.8.0-20260830",
+      "exit_status": 0,
+      "output": "PASS unit tests/unit/features/settings/ClaudianSettings.display.test.ts\nPASS unit tests/unit/features/selection-learning/LearningNoteDocument.test.ts\nPASS unit tests/unit/features/selection-learning/SelectionLearningProvider.test.ts\nPASS unit tests/unit/providers/codex/runtime/codexAppServerSupport.test.ts\nPASS unit tests/unit/features/selection-learning/SelectionLearningProgress.test.ts\n\nTest Suites: 5 passed, 5 total\nTests:       35 passed, 35 total\nSnapshots:   0 total\nTime:        7.066 s\nRan all test suites within paths \"tests/unit/features/selection-learning/LearningNoteDocument.test.ts\", \"tests/unit/features/selection-learning/SelectionLearningProvider.test.ts\", \"tests/unit/features/selection-learning/SelectionLearningProgress.test.ts\", \"tests/unit/features/settings/ClaudianSettings.display.test.ts\", \"tests/unit/providers/codex/runtime/codexAppServerSupport.test.ts\".\n"
+    },
+    {
+      "command": [
+        "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\node\\node.exe",
+        "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\node\\node_modules\\npm\\bin\\npm-cli.js",
+        "run",
+        "build"
+      ],
+      "cwd": "E:\\knowledge_builder\\self-workspace\\work\\obsidian-follow-up-build-0.8.0-20260830",
+      "exit_status": 0,
+      "output": ""
+    }
+  ]
+}

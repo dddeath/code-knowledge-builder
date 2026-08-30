@@ -74,6 +74,14 @@ def json_write(path: Path, value: Any) -> None:
     os.replace(temporary, path)
 
 
+def background_process_options(*, visible: bool = False) -> dict[str, Any]:
+    """Hide non-interactive Windows child consoles without changing I/O semantics."""
+    if visible or os.name != "nt":
+        return {}
+    creation_flag = getattr(subprocess, "CREATE_NO_WINDOW", 0)
+    return {"creationflags": creation_flag} if creation_flag else {}
+
+
 def run(
     command: list[str],
     *,
@@ -81,6 +89,7 @@ def run(
     env: dict[str, str] | None = None,
     check: bool = False,
     timeout: int | None = None,
+    visible: bool = False,
 ) -> subprocess.CompletedProcess[str]:
     completed = subprocess.run(
         command,
@@ -92,6 +101,7 @@ def run(
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         timeout=timeout,
+        **background_process_options(visible=visible),
     )
     if check and completed.returncode:
         detail = (completed.stderr or completed.stdout).strip()

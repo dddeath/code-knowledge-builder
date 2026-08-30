@@ -272,6 +272,15 @@ def parse_file(repository: dict[str, Any], file_entry: dict[str, Any], source: b
         hard_exclusion = (
             f"csharp-default-appendix:{kind}"
             if file_entry["language"] == "csharp" and kind in {"property", "indexer", "event", "accessor"}
+            # Python exposes module and object access through these protocol
+            # methods.  They are accessors rather than navigational landing
+            # pages, even when a cross-file reference gives them a high graph
+            # rank.  Keep constructors and other substantial dunder methods
+            # eligible; only the four attribute-access hooks are deterministic
+            # appendix entities.
+            else "python-attribute-accessor"
+            if file_entry["language"] == "python"
+            and name in {"__getattr__", "__getattribute__", "__setattr__", "__delattr__"}
             else _single_statement_shape(node, source, kind)
         )
         simple = kind not in PAGE_ELIGIBLE_KINDS or hard_exclusion is not None

@@ -13,7 +13,7 @@ from urllib.parse import quote
 
 from . import SCHEMA_VERSION, VERSION
 from .agent_index import audit_agent_index, build_agent_index
-from .agent_protocol import audit_agent_protocol, project_agent_protocol
+from .agent_protocol import audit_agent_protocol, install_agent_protocol, project_agent_protocol
 from .common import (
     AuditError,
     CkbError,
@@ -77,6 +77,12 @@ from .page_config import (
 from .providers import collect_semantics, resolve_executable
 from .source_links import ensure_local_openers, source_markdown_link
 from .workspace_notes import audit_notes, materialize_pending_notes, page_tag
+from .work_record_index import (
+    WORK_RECORD_INDEX,
+    audit_work_record_index,
+    audit_work_record_root,
+    write_work_record_index,
+)
 
 
 MAX_FILES = 40
@@ -2177,6 +2183,47 @@ def _human_page_filenames(logical: dict[str, Any]) -> dict[str, str]:
     return result
 
 
+def _index_document(graph: dict[str, Any], logical: dict[str, Any], output: Path) -> str:
+    repository_title = next(page["title"] for page in logical["pages"] if page["id"] == logical["repository_page_id"])
+    project = _repository_name(graph["repository"]["root"])
+    module_ids = set(logical["module_page_ids"].values())
+    module_titles = [page["title"] for page in logical["pages"] if page["id"] in module_ids]
+    lines = [
+        f"# {project} 知识库",
+        "",
+        "> 先按任务选择入口：理解代码进入职责导览，查找已有结论进入工作记录，精确定位交给确定性检索。",
+        "",
+        "## 按任务选择入口",
+        "",
+        f"- **理解或修改代码**：从 [[{repository_title}]] 进入，再按职责缩小到类、函数或聚合页。",
+        f"- **查找已有分析、变更和实验**：打开 [工作记录导览]({WORK_RECORD_INDEX})，按任务目的浏览全部记录。",
+        "- **精确定位类、函数或源码范围**：使用 `retrieve --profile fast`，复杂问题再使用 `precise`。",
+        "- **了解页面规则和阅读顺序**：打开 [阅读这套知识库的方法](WIKI.md)。",
+        "",
+        "## 按职责浏览代码",
+        "",
+        *[f"- [[{title}]]" for title in module_titles],
+        "",
+        "## 工作记录",
+        "",
+        f"[工作记录导览]({WORK_RECORD_INDEX}) 为每条分析、变更、实验、踩坑和会话记录提供一句中文说明，并按任务目的分组。导览由脚本从全部现有记录统一生成，不依赖手工挑选。",
+        "",
+        "## 精确定位",
+        "",
+        "遇到具体修改任务时，优先使用 `retrieve --profile fast` 获取预算内机器阅读包；复杂问题再使用 `precise`。只在索引返回 `needs-source-read` 时读取最窄源码范围。两种档位都不调用向量模型。",
+        "",
+        "## 在 Obsidian 中打开",
+        "",
+        f"把 `{(output / 'human').resolve()}` 作为 Obsidian vault 打开；从本页、工作记录导览、标签或反向链接进入。`{(output / 'markdown').resolve()}` 是兼容镜像。",
+        "",
+        "## 在 Logseq 中打开",
+        "",
+        f"选择输出目录 `{output.resolve()}`；配置文件位于 [logseq/config.edn](logseq/config.edn)。",
+        "",
+    ]
+    return "\n".join(lines)
+
+
 def _wiki_document(graph: dict[str, Any], logical: dict[str, Any], output: Path) -> str:
     project = _repository_name(graph["repository"]["root"])
     repository_title = next(page["title"] for page in logical["pages"] if page["id"] == logical["repository_page_id"])
@@ -2192,7 +2239,13 @@ def _wiki_document(graph: dict[str, Any], logical: dict[str, Any], output: Path)
         "",
         "## 从哪里开始",
         "",
-        f"先打开 [[{repository_title}]]，再按当前任务进入下面的职责导览：",
+        "先判断当前任务需要代码事实、历史工作记录，还是精确符号定位：",
+        "",
+        f"- 理解或修改代码：先打开 [[{repository_title}]]，再进入对应职责导览。",
+        f"- 查找已有分析、变更、实验或会话：打开 [工作记录导览]({WORK_RECORD_INDEX})。",
+        "- 精确定位源码：使用机器层 `retrieve`，再打开返回的最窄源码范围。",
+        "",
+        "代码职责入口：",
         "",
         *[f"- [[{title}]]" for title in module_titles],
         "",
@@ -2244,6 +2297,10 @@ def _wiki_document(graph: dict[str, Any], logical: dict[str, Any], output: Path)
         "",
         "Agent 解释代码时先读取 retrieve 产生的阅读包，再把结论保存到 `analysis`；修改内容和原因保存到 `changes`，独立失败经验和实验分别进入 `pitfalls` 与 `experiments`。这些笔记使用双链回到代码页，并在重新投影后继续保留。",
         "",
+        "## 工作记录如何查找",
+        "",
+        f"[工作记录导览]({WORK_RECORD_INDEX}) 会列出全部分析、变更、实验、踩坑和会话记录，并为每条记录提取一句中文说明。先按任务目的浏览，再用 Obsidian 核心搜索输入两个或三个稳定关键词；不要逐个打开目录中的文件猜测内容。",
+        "",
         "## 在 Obsidian 中打开",
         "",
         f"把 `{(output / 'human').resolve()}` 作为 vault 打开。核心搜索、图谱、反向链接、出链、标签和页面预览配置已经准备好；从 `INDEX` 或本页开始。`{(output / 'markdown').resolve()}` 是兼容镜像。",
@@ -2272,6 +2329,9 @@ def _readability_report(root: Path, graph: dict[str, Any], logical: dict[str, An
         "visible_hash_identifiers": 0,
         "wiki_chinese_characters": 0,
         "non_chinese_narrative_fields": 0,
+        "work_record_count": 0,
+        "work_record_linked_count": 0,
+        "work_record_navigation_errors": 0,
     }
     documents: list[tuple[str, str]] = []
     for page in logical["pages"]:
@@ -2302,7 +2362,7 @@ def _readability_report(root: Path, graph: dict[str, Any], logical: dict[str, An
         for target in re.findall(r"\[\[([^\]]+)\]\]", text):
             if target not in titles:
                 errors.append({"page": page["title"], "target": target, "reason": "dangling-human-wikilink"})
-    for name in ("INDEX.md", "WIKI.md"):
+    for name in ("INDEX.md", "WIKI.md", WORK_RECORD_INDEX):
         path = root / name
         if not path.is_file():
             errors.append({"path": name, "reason": "human-document-missing"})
@@ -2348,7 +2408,16 @@ def _readability_report(root: Path, graph: dict[str, Any], logical: dict[str, An
     ):
         if metrics[key]:
             errors.append({"reason": key, "count": metrics[key]})
-    required_wiki = {"从哪里开始", "页面只保留什么", "中文描述约定", "本次页面配置", "如何寻找修改入口", "Graphify 关系导览", "Agent 确定性检索", "Agent 分析与修改记录", "在 Obsidian 中打开", "在 Logseq 中打开"}
+    work_records = audit_work_record_root(root)
+    metrics["work_record_count"] = work_records.get("record_count", 0)
+    metrics["work_record_linked_count"] = work_records.get("linked_record_count", 0)
+    metrics["work_record_navigation_errors"] = len(work_records.get("errors", []))
+    if work_records.get("status") != "passed":
+        errors.append({"reason": "work-record-navigation-failed", "detail": work_records})
+    index = (root / "INDEX.md").read_text(encoding="utf-8") if (root / "INDEX.md").is_file() else ""
+    if f"[工作记录导览]({WORK_RECORD_INDEX})" not in index:
+        errors.append({"reason": "index-work-record-entry-missing"})
+    required_wiki = {"从哪里开始", "页面只保留什么", "中文描述约定", "本次页面配置", "如何寻找修改入口", "Graphify 关系导览", "Agent 确定性检索", "Agent 分析与修改记录", "工作记录如何查找", "在 Obsidian 中打开", "在 Logseq 中打开"}
     missing_sections = sorted(section for section in required_wiki if f"## {section}" not in wiki)
     if missing_sections or metrics["wiki_chinese_characters"] < 180:
         errors.append({"reason": "chinese-wiki-incomplete", "missing_sections": missing_sections, "chinese_characters": metrics["wiki_chinese_characters"]})
@@ -2373,6 +2442,8 @@ def project_markdown(output: Path, graph: dict[str, Any], logical: dict[str, Any
         Path(state["repository"]["root"]),
         Path(snapshot["root"]) if snapshot.get("root") else None,
     )
+    # The compatibility Markdown projection stays plugin-free.  The companion
+    # is deployed after synchronization into the primary human vault only.
     obsidian = install_obsidian(root)
     logseq_file_graph = _install_logseq_file_graph_config(root)
     logseq_import_root = _install_logseq_file_graph_config(output)
@@ -2385,43 +2456,9 @@ def project_markdown(output: Path, graph: dict[str, Any], logical: dict[str, Any
         rendered = _render_markdown_page(page, title_by_id, logical["page_config"], local_openers)
         (pages_dir / files[page["id"]]).write_text(rendered, encoding="utf-8", newline="\n")
 
-    repository_title = next(page["title"] for page in logical["pages"] if page["id"] == logical["repository_page_id"])
-    project = _repository_name(graph["repository"]["root"])
-    module_ids = set(logical["module_page_ids"].values())
-    module_titles = [page["title"] for page in logical["pages"] if page["id"] in module_ids]
-    index_lines = [
-        f"# {project} 知识库",
-        "",
-        "> 用类、函数和职责聚合页理解代码；机器审计信息不占用阅读页面。",
-        "",
-        "## 从这里开始",
-        "",
-        f"- [[{repository_title}]]",
-        "- [阅读这套知识库的方法](WIKI.md)",
-        "",
-        "## 按职责浏览",
-        "",
-        *[f"- [[{title}]]" for title in module_titles],
-        "",
-        "## 精确定位",
-        "",
-        "遇到具体修改任务时，优先使用 `retrieve --profile fast` 获取预算内机器阅读包；复杂问题再使用 `precise`。只在索引返回 `needs-source-read` 时读取最窄源码范围。两种档位都不调用向量模型。",
-        "",
-        "## 工作记录",
-        "",
-        "Agent 的分析、修改、踩坑、实验和会话笔记分别保存在同名目录，并通过双链回到代码页。",
-        "",
-        "## 在 Obsidian 中打开",
-        "",
-        f"把 `{(output / 'human').resolve()}` 作为 Obsidian vault 打开；从本页、标签或反向链接进入。`{root.resolve()}` 是兼容镜像。",
-        "",
-        "## 在 Logseq 中打开",
-        "",
-        f"选择输出目录 `{output.resolve()}`；配置文件位于 [logseq/config.edn](logseq/config.edn)。",
-        "",
-    ]
-    (root / "INDEX.md").write_text("\n".join(index_lines), encoding="utf-8", newline="\n")
+    (root / "INDEX.md").write_text(_index_document(graph, logical, output), encoding="utf-8", newline="\n")
     (root / "WIKI.md").write_text(_wiki_document(graph, logical, output), encoding="utf-8", newline="\n")
+    work_record_index = write_work_record_index(root)
     json_write(root / "context-budget.json", _logical_context_budgets(logical))
     readability = _readability_report(root, graph, logical, files)
     json_write(root / "readability-audit.json", readability)
@@ -2440,6 +2477,7 @@ def project_markdown(output: Path, graph: dict[str, Any], logical: dict[str, Any
         "readability_audit": str((root / "readability-audit.json").resolve()),
         "readability_status": readability["status"],
         "wiki": str((root / "WIKI.md").resolve()),
+        "work_record_index": work_record_index,
         "relation_limits": logical["relation_limits"],
         "hidden_relation_group_count": logical["hidden_relation_group_count"],
         "page_config": logical["page_config"],
@@ -2456,6 +2494,7 @@ def project_markdown(output: Path, graph: dict[str, Any], logical: dict[str, Any
         *[path for path in pages_dir.rglob("*") if path.is_file()],
         root / "INDEX.md",
         root / "WIKI.md",
+        root / WORK_RECORD_INDEX,
         root / "normalized.edn",
         root / "projection.json",
         root / "context-budget.json",
@@ -2466,9 +2505,113 @@ def project_markdown(output: Path, graph: dict[str, Any], logical: dict[str, Any
         root / ".obsidian/appearance.json",
         root / ".obsidian/snippets/ckb.css",
     ]
+    output_contract = root / ".ckb/output-contract.json"
+    if output_contract.is_file():
+        generated.append(output_contract)
     projection["generated_ownership"] = write_generated_ownership(root, generated)
     json_write(root / "projection.json", projection)
     return projection
+
+
+def _preserved_human_bytes(output: Path) -> dict[str, str]:
+    result: dict[str, str] = {}
+    for root_name in ("markdown", "human"):
+        root = output / root_name
+        for directory in ("analysis", "changes", "pitfalls", "experiments", "sessions", "feedback/open", "feedback/resolved"):
+            for path in sorted((root / directory).glob("*.md")):
+                result[f"{root_name}/{path.relative_to(root).as_posix()}"] = sha256_file(path)
+        for path in sorted((root / "pages").glob("*.md")):
+            result[f"{root_name}/{path.relative_to(root).as_posix()}"] = sha256_file(path)
+    return result
+
+
+def refresh_human_navigation(output: Path, *, staging: bool = False) -> dict[str, Any]:
+    """Refresh task-first navigation from the existing audited graph and notes.
+
+    This operation does not parse source files, reclassify entities, choose
+    task-specific records, or alter note/page bytes.  It rewrites only the
+    generated INDEX, WIKI, RECORDS, projection/readability metadata, and the
+    dedicated human-layer manifest/audit produced by synchronization.
+    """
+    output = output.resolve()
+    graph_path = output / "graph.json"
+    projection_path = output / "markdown/projection.json"
+    if not graph_path.is_file() or not projection_path.is_file():
+        raise CkbError("human navigation refresh requires an existing completed Markdown projection")
+    graph = json_load(graph_path)
+    logical = _logical_projection(graph)
+    root = output / "markdown"
+    before = _preserved_human_bytes(output)
+    projection = json_load(projection_path)
+    old_wiki = str(projection.get("wiki") or "")
+    if old_wiki:
+        old_output = str(Path(old_wiki).parent.parent)
+        projection = _replace_output_prefix(projection, old_output, str(output))
+    (root / "INDEX.md").write_text(_index_document(graph, logical, output), encoding="utf-8", newline="\n")
+    (root / "WIKI.md").write_text(_wiki_document(graph, logical, output), encoding="utf-8", newline="\n")
+    work_record_index = write_work_record_index(root)
+    files = _human_page_filenames(logical)
+    readability = _readability_report(root, graph, logical, files)
+    json_write(root / "readability-audit.json", readability)
+    projection.update(
+        {
+            "readability_audit": str((root / "readability-audit.json").resolve()),
+            "readability_status": readability["status"],
+            "wiki": str((root / "WIKI.md").resolve()),
+            "work_record_index": work_record_index,
+        }
+    )
+    ownership_path = root / ".ckb-generated-files.json"
+    ownership = json_load(ownership_path)
+    relatives = set(str(value) for value in ownership.get("files", []))
+    relatives.update({"INDEX.md", "WIKI.md", WORK_RECORD_INDEX, "projection.json", "readability-audit.json"})
+    projection["generated_ownership"] = write_generated_ownership(
+        root,
+        [root / relative for relative in sorted(relatives) if (root / relative).is_file()],
+    )
+    json_write(projection_path, projection)
+    human = sync_human_layer(output, graph)
+    after = _preserved_human_bytes(output)
+    preserved_errors = []
+    if before != after:
+        preserved_errors.append(
+            {
+                "reason": "human-navigation-refresh-changed-page-or-note",
+                "missing": sorted(set(before) - set(after)),
+                "added": sorted(set(after) - set(before)),
+                "changed": sorted(key for key in set(before) & set(after) if before[key] != after[key]),
+            }
+        )
+    markdown_errors = _audit_markdown(output, graph, logical)
+    record_audit = audit_work_record_index(output)
+    human_audit = audit_human_layer(output, graph)
+    if staging:
+        protocol_audit = {"status": "skipped-staging", "errors": []}
+    else:
+        install_agent_protocol(output, [])
+        protocol_audit = audit_agent_protocol(output)
+    errors = [*preserved_errors, *markdown_errors]
+    if record_audit.get("status") != "passed":
+        errors.append({"reason": "work-record-index-audit", "detail": record_audit})
+    if human_audit.get("status") != "passed":
+        errors.append({"reason": "human-layer-audit", "detail": human_audit})
+    if protocol_audit.get("status") not in {"passed", "skipped-staging"}:
+        errors.append({"reason": "agent-protocol-audit", "detail": protocol_audit})
+    result = {
+        "schema_version": 1,
+        "status": "passed" if not errors else "failed",
+        "output": str(output),
+        "blind_evaluation_contract": "导航按全部工作记录统一生成，未接收或执行验收查询。",
+        "staging": staging,
+        "preserved_page_and_note_files": len(after),
+        "work_record_index": record_audit,
+        "readability": readability,
+        "human": human,
+        "agent_protocol": protocol_audit,
+        "errors": errors,
+    }
+    json_write(output / "workspace-meta/human-navigation-refresh.json", result)
+    return result
 
 
 def _logseq(command: str, root: Path, *args: str) -> tuple[int, str]:
@@ -2982,6 +3125,9 @@ def audit_global(output: Path) -> dict[str, Any]:
         }
     )
     projections["human"] = sync_human_layer(output, graph)
+    from .obsidian_plugin import deploy_registered_plugin_if_available
+
+    projections["human"]["companion_plugin"] = deploy_registered_plugin_if_available(output / "human", output)
     human_audit = audit_human_layer(output, graph)
     checks.append({"name": "human-layer-valid", "passed": human_audit.get("status") == "passed", "detail": human_audit})
     if state["format"] in {"logseq-db", "both"}:

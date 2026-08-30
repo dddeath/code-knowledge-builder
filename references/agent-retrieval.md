@@ -16,12 +16,17 @@
 ## 查询档位
 
 ```powershell
+& PYTHON scripts\ckb.py brief --out OUTPUT `
+  "修改订单失败后的库存回滚" --budget 1800 --max-pages 8 --profile fast
+
 & PYTHON scripts\ckb.py retrieve --out OUTPUT `
   "修改订单失败后的库存回滚" --budget 1800 --max-pages 8 --profile fast
 
 & PYTHON scripts\ckb.py retrieve --out OUTPUT `
   "跨模块失败恢复与持久化边界" --budget 3000 --max-pages 12 --profile precise
 ```
+
+Agent 的首轮入口使用 `brief`。它执行完全相同的确定性检索并生成同一形状的 Agent pack/JSON record，但命令响应只保留 pack、record、开放反馈数、固定阅读入口和源码回退判断；`terms`、`selected_entities`、得分分解和关系文档继续保存在 record 中，不占用首轮 Harness 上下文。需要调试排序或 benchmark 时才直接使用完整 `retrieve` 输出。
 
 两种档位均为纯确定性：
 
@@ -41,6 +46,26 @@
 & PYTHON scripts\ckb.py changes --out OUTPUT --kind analysis
 ```
 
+## 常驻 stdio 检索
+
+同一 Agent 会话需要连续检索时，可启动一个本地、单线程、无网络端口的 JSONL 进程，复用 Python 模块和进程内静态检索缓存：
+
+```powershell
+& PYTHON scripts\ckb.py serve --stdio --out OUTPUT
+```
+
+每行输入一个 JSON 对象，每个响应也严格占一行。`id` 必须是字符串或整数；服务支持 `ping`、`retrieve` 和 `shutdown`：
+
+```json
+{"id":"ready","method":"ping"}
+{"id":"q1","method":"retrieve","question":"修改订单失败后的库存回滚","budget":1800,"max_pages":8,"profile":"fast"}
+{"id":"stop","method":"shutdown"}
+```
+
+`retrieve` 与一次性 CLI 使用同一个 `retrieve_machine`，仍会生成 Markdown/JSON Agent pack，排序、预算、来源和审计契约不变。单个请求的参数或 JSON 错误只返回 `ok:false`，不会终止服务；EOF 或 `shutdown` 结束进程。数据库或 `local-openers.json` 被原子替换后，已有修改时间失效键会在下一次请求重建静态缓存。
+
+进程启动与第一次 `retrieve` 的缓存未命中成本应单独计量；后续请求的 `retrieval_stats.static_cache_hit` 应为 `true`。响应中的 `elapsed_ms` 是服务端请求时间，Harness 从写入一行到读回一行的时间才是用户可见往返延迟。
+
 `passed` 结果已经给出来源绑定候选，不再加载完整图。`needs-source-read` 表示索引中没有可信候选，此时只按返回路径、词项和已知范围继续读取源码。
 
 ## 分节与上下文
@@ -55,3 +80,4 @@
 - 成功阅读包不超过请求预算，并带有可点击源码位置；
 - `fast` 与 `precise` 重复查询结果稳定；
 - 机器库缺少来源绑定候选时明确返回 `needs-source-read`，不生成猜测结果。
+- `brief` 的首轮 JSON 不含候选实体、词项和得分大字段，所指 pack 与完整 record 均可重开。

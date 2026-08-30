@@ -43,6 +43,13 @@ from ckb_core.automation import (
 )
 from ckb_core.automation_integrations import render_integration
 from ckb_core.gitrepo import DEFAULT_INITIAL_COMMIT_MESSAGE
+from ckb_core.feedback import (
+    audit_feedback,
+    create_feedback,
+    list_feedback,
+    locate_feedback,
+    resolve_feedback,
+)
 from ckb_core.graphify_core import explain_node, query_graph, shortest_path
 from ckb_core.machine_knowledge import (
     build_machine_knowledge,
@@ -53,6 +60,13 @@ from ckb_core.machine_knowledge import (
     retrieve_machine,
     source_lookup,
     sync_workspace_changes,
+)
+from ckb_core.llm_wiki_capabilities import (
+    capability_matrix,
+    compact_agent_brief,
+    maintenance_check,
+    render_capability_matrix_markdown,
+    write_capability_matrix,
 )
 from ckb_core.migration import audit_migration, migrate_output, migration_status
 from ckb_core.page_config import (
@@ -70,6 +84,7 @@ from ckb_core.pipeline import (
     initialize,
     merge,
     relink_sources,
+    refresh_human_navigation,
     review_chunk,
     review_pack,
     run_fast,
@@ -78,7 +93,14 @@ from ckb_core.pipeline import (
 from ckb_core.providers import doctor_report
 from ckb_core.runtime import deploy as deploy_runtime
 from ckb_core.runtime import deployment_plan, remove as remove_runtime
+from ckb_core.obsidian_plugin import (
+    deploy_obsidian_plugin,
+    obsidian_plugin_status,
+    register_obsidian_plugin,
+    remove_obsidian_plugin,
+)
 from ckb_core.showcase import package_showcase
+from ckb_core.stdio_server import serve_stdio
 from ckb_core.workspace_notes import record_note, sync_workspace, workspace_status
 
 
@@ -161,6 +183,9 @@ def parser() -> argparse.ArgumentParser:
     status_command = sub.add_parser("status")
     status_command.add_argument("--out", type=Path, required=True)
     status_command.add_argument("--json", action="store_true")
+    human_refresh_command = sub.add_parser("human-refresh")
+    human_refresh_command.add_argument("--out", type=Path, required=True)
+    human_refresh_command.add_argument("--staging", action="store_true")
     migration_command = sub.add_parser("migrate")
     migration_sub = migration_command.add_subparsers(dest="migration_command", required=True)
     migration_start = migration_sub.add_parser("start")
@@ -188,6 +213,20 @@ def parser() -> argparse.ArgumentParser:
     retrieve_command.add_argument("--budget", type=int, default=1500)
     retrieve_command.add_argument("--max-pages", type=int, default=8)
     retrieve_command.add_argument("--profile", choices=("fast", "precise"), default="fast")
+    brief_command = sub.add_parser("brief")
+    brief_command.add_argument("--out", type=Path, required=True)
+    brief_command.add_argument("question")
+    brief_command.add_argument("--budget", type=int, default=1800)
+    brief_command.add_argument("--max-pages", type=int, default=8)
+    brief_command.add_argument("--profile", choices=("fast", "precise"), default="fast")
+    capabilities_command = sub.add_parser("capabilities")
+    capabilities_command.add_argument("--format", choices=("json", "markdown"), default="json")
+    capabilities_command.add_argument("--write", type=Path)
+    maintain_command = sub.add_parser("maintain")
+    maintain_command.add_argument("--out", type=Path, required=True)
+    serve_command = sub.add_parser("serve")
+    serve_command.add_argument("--out", type=Path, required=True)
+    serve_command.add_argument("--stdio", action="store_true", required=True)
     reindex_command = sub.add_parser("reindex")
     reindex_command.add_argument("--out", type=Path, required=True)
     coverage_command = sub.add_parser("coverage")
@@ -226,6 +265,31 @@ def parser() -> argparse.ArgumentParser:
     record_source.add_argument("--from-query", type=Path)
     record_source.add_argument("--from-pack", type=Path)
     record_command.add_argument("--append", action="store_true")
+    feedback_command = sub.add_parser("feedback")
+    feedback_sub = feedback_command.add_subparsers(dest="feedback_command", required=True)
+    feedback_create = feedback_sub.add_parser("create")
+    feedback_create.add_argument("--out", type=Path, required=True)
+    feedback_create.add_argument("--target", type=Path, required=True)
+    feedback_create.add_argument("--start-line", type=int, required=True)
+    feedback_create.add_argument("--end-line", type=int, required=True)
+    feedback_create.add_argument("--comment", type=Path, required=True)
+    feedback_create.add_argument("--severity", choices=("error", "warn", "suggest", "info"), default="suggest")
+    feedback_create.add_argument("--author", required=True)
+    feedback_create.add_argument("--source", choices=("manual", "obsidian-plugin", "web-viewer"), default="manual")
+    feedback_list = feedback_sub.add_parser("list")
+    feedback_list.add_argument("--out", type=Path, required=True)
+    feedback_list.add_argument("--status", choices=("open", "resolved", "all"), default="open")
+    feedback_locate = feedback_sub.add_parser("locate")
+    feedback_locate.add_argument("--out", type=Path, required=True)
+    feedback_locate.add_argument("--feedback", required=True)
+    feedback_resolve = feedback_sub.add_parser("resolve")
+    feedback_resolve.add_argument("--out", type=Path, required=True)
+    feedback_resolve.add_argument("--feedback", required=True)
+    feedback_resolve.add_argument("--decision", choices=("accepted", "partial", "rejected", "deferred"), required=True)
+    feedback_resolve.add_argument("--resolution", type=Path, required=True)
+    feedback_resolve.add_argument("--applied-record", type=Path)
+    feedback_audit = feedback_sub.add_parser("audit")
+    feedback_audit.add_argument("--out", type=Path, required=True)
     workspace_command = sub.add_parser("workspace")
     workspace_sub = workspace_command.add_subparsers(dest="workspace_command", required=True)
     workspace_sync_command = workspace_sub.add_parser("sync")
@@ -337,6 +401,16 @@ def parser() -> argparse.ArgumentParser:
     runtime_deploy.add_argument("--accept", action="store_true")
     runtime_remove = runtime_sub.add_parser("remove")
     runtime_remove.add_argument("--lock-id", required=True)
+    obsidian_plugin_command = sub.add_parser("obsidian-plugin")
+    obsidian_plugin_sub = obsidian_plugin_command.add_subparsers(dest="obsidian_plugin_command", required=True)
+    obsidian_plugin_register = obsidian_plugin_sub.add_parser("register")
+    obsidian_plugin_register.add_argument("--package", type=Path, required=True)
+    obsidian_plugin_deploy = obsidian_plugin_sub.add_parser("deploy")
+    obsidian_plugin_deploy.add_argument("--out", type=Path, required=True)
+    obsidian_plugin_status_command = obsidian_plugin_sub.add_parser("status")
+    obsidian_plugin_status_command.add_argument("--out", type=Path)
+    obsidian_plugin_remove = obsidian_plugin_sub.add_parser("remove")
+    obsidian_plugin_remove.add_argument("--out", type=Path, required=True)
     return root
 
 
@@ -371,6 +445,10 @@ def main() -> int:
         emit(finalize(args.out.resolve()))
     elif args.command == "status":
         emit(status(args.out.resolve()))
+    elif args.command == "human-refresh":
+        result = refresh_human_navigation(args.out.resolve(), staging=args.staging)
+        emit(result)
+        return 0 if result.get("status") == "passed" else 5
     elif args.command == "migrate":
         if args.migration_command == "start":
             result = migrate_output(args.from_out, args.repo, args.out, args.format)
@@ -393,6 +471,27 @@ def main() -> int:
             emit(retrieve_machine(output, args.question, args.budget, args.max_pages, args.profile))
         else:
             emit(retrieve(output, args.question, args.budget, args.max_pages))
+    elif args.command == "brief":
+        output = args.out.resolve()
+        retrieval_result = (
+            retrieve_machine(output, args.question, args.budget, args.max_pages, args.profile)
+            if (output / "machine/knowledge.sqlite").is_file()
+            else retrieve(output, args.question, args.budget, args.max_pages)
+        )
+        emit(compact_agent_brief(output, retrieval_result))
+    elif args.command == "capabilities":
+        if args.write:
+            emit(write_capability_matrix(args.write, args.format))
+        elif args.format == "markdown":
+            print(render_capability_matrix_markdown(), end="")
+        else:
+            emit(capability_matrix())
+    elif args.command == "maintain":
+        result = maintenance_check(args.out.resolve())
+        emit(result)
+        return 0 if result.get("status") == "passed" else 5
+    elif args.command == "serve":
+        serve_stdio(args.out.resolve())
     elif args.command == "reindex":
         output = args.out.resolve()
         emit({"status": "passed", "machine": build_machine_knowledge(output), "compatibility": build_agent_index(output)})
@@ -422,6 +521,49 @@ def main() -> int:
                 args.append,
             )
         )
+    elif args.command == "obsidian-plugin":
+        if args.obsidian_plugin_command == "register":
+            emit(register_obsidian_plugin(args.package.resolve()))
+        elif args.obsidian_plugin_command == "deploy":
+            emit(deploy_obsidian_plugin(args.out.resolve()))
+        elif args.obsidian_plugin_command == "status":
+            emit(obsidian_plugin_status(args.out.resolve() if args.out else None))
+        else:
+            emit(remove_obsidian_plugin(args.out.resolve()))
+    elif args.command == "feedback":
+        if args.feedback_command == "create":
+            emit(
+                create_feedback(
+                    args.out.resolve(),
+                    args.target,
+                    args.start_line,
+                    args.end_line,
+                    args.comment.resolve(),
+                    args.severity,
+                    args.author,
+                    args.source,
+                )
+            )
+        elif args.feedback_command == "list":
+            emit(list_feedback(args.out.resolve(), args.status))
+        elif args.feedback_command == "locate":
+            result = locate_feedback(args.out.resolve(), args.feedback)
+            emit(result)
+            return 0 if result.get("status") == "passed" else 5
+        elif args.feedback_command == "resolve":
+            emit(
+                resolve_feedback(
+                    args.out.resolve(),
+                    args.feedback,
+                    args.decision,
+                    args.resolution.resolve(),
+                    args.applied_record.resolve() if args.applied_record else None,
+                )
+            )
+        else:
+            result = audit_feedback(args.out.resolve())
+            emit(result)
+            return 0 if result.get("status") == "passed" else 5
     elif args.command == "workspace":
         if args.workspace_command == "sync":
             output = args.out.resolve()

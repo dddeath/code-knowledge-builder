@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import io
 import json
 import os
 import shutil
@@ -11,15 +12,36 @@ import tempfile
 import unittest
 import zipfile
 from pathlib import Path
+from unittest.mock import patch
 
 
 SKILL_ROOT = Path(__file__).resolve().parents[1]
 CLI = SKILL_ROOT / "scripts" / "ckb.py"
 sys.path.insert(0, str(SKILL_ROOT / "scripts"))
-from ckb_core.common import stable_id
+from ckb_core.common import CkbError, background_process_options, run, stable_id
+from ckb_core.feedback import (
+    audit_feedback,
+    create_feedback,
+    list_feedback,
+    locate_feedback,
+    resolve_feedback,
+)
 from ckb_core.graphify_core import GRAPHIFY_COMMIT, audit_graphify
 from ckb_core.machine_knowledge import FAST_RETRIEVAL_OVERSCAN, retrieve_machine, search_terms
+from ckb_core.llm_wiki_capabilities import (
+    CAPABILITY_STATUSES,
+    capability_matrix,
+    render_capability_matrix_markdown,
+)
 from ckb_core.navigation import DIRECT_RELATION_LIMIT, estimated_tokens
+from ckb_core.obsidian_plugin import (
+    deploy_obsidian_plugin,
+    deploy_obsidian_plugin_to_vault,
+    obsidian_plugin_status,
+    register_obsidian_plugin,
+    remove_obsidian_plugin,
+)
+from ckb_core.output_contract import audit_output_contract, project_output_contract
 from ckb_core.page_config import DEFAULT_PAGE_CONFIG, page_config_sha256
 from ckb_core.pipeline import (
     LOGSEQ_FILE_GRAPH_CONFIG_COMMIT,
@@ -27,7 +49,9 @@ from ckb_core.pipeline import (
     _audit_markdown,
     _logical_projection,
 )
-from ckb_core.providers import _fallback_flags
+from ckb_core.providers import _fallback_flags, _provider_status
+from ckb_core.stdio_server import _record_explanation, serve_stdio
+from ckb_core.work_record_index import audit_work_record_index, refresh_work_record_index
 
 PYTHON = Path(os.environ.get("CKB_TEST_PYTHON", sys.executable))
 TOOLS_PYTHON = Path(os.environ.get("CKB_TEST_PYTHONPATH", ""))
@@ -176,6 +200,300 @@ class CodeKnowledgeBuilderTests(unittest.TestCase):
 
     def tearDown(self) -> None:
         self.temp.cleanup()
+
+    def test_noninteractive_subprocesses_use_the_platform_background_flag(self) -> None:
+        options = background_process_options()
+        self.assertEqual(background_process_options(visible=True), {})
+        if os.name == "nt" and getattr(subprocess, "CREATE_NO_WINDOW", 0):
+            self.assertEqual(options, {"creationflags": subprocess.CREATE_NO_WINDOW})
+        else:
+            self.assertEqual(options, {})
+        completed = subprocess.CompletedProcess(["fixture"], 0, "ok", "")
+        with (
+            patch("ckb_core.common.background_process_options", return_value={"creationflags": 12345}),
+            patch("ckb_core.common.subprocess.run", return_value=completed) as launched,
+        ):
+            result = run(["fixture"], timeout=2)
+        self.assertEqual(result.returncode, 0)
+        self.assertEqual(launched.call_args.kwargs["creationflags"], 12345)
+
+    def test_llm_wiki_capability_matrix_has_closed_four_state_boundaries(self) -> None:
+        matrix = capability_matrix()
+        self.assertEqual(matrix["status_order"], list(CAPABILITY_STATUSES))
+        self.assertEqual(sum(matrix["counts"].values()), len(matrix["capabilities"]))
+        self.assertEqual(len({item["id"] for item in matrix["capabilities"]}), len(matrix["capabilities"]))
+        required = {
+            "id", "area", "name", "status", "input", "output", "dependencies",
+            "license", "data_boundary", "completion_gate", "batch",
+        }
+        for item in matrix["capabilities"]:
+            self.assertEqual(set(item), required)
+            self.assertIn(item["status"], CAPABILITY_STATUSES)
+            self.assertTrue(all(str(item[field]).strip() for field in required))
+        reference = SKILL_ROOT / "references/llm-wiki-capability-matrix.md"
+        self.assertEqual(reference.read_text(encoding="utf-8"), render_capability_matrix_markdown())
+
+    def test_empty_document_symbols_are_not_a_provider_failure(self) -> None:
+        # A module such as ``__main__.py`` may contain imports and a call but no
+        # named declaration.  A successful ``documentSymbol`` response is then
+        # an empty list; semantic key-page coverage remains a separate gate.
+        self.assertEqual(_provider_status([], []), "passed")
+        self.assertEqual(
+            _provider_status([{"message": "invalid AST"}], []), "failed"
+        )
+
+    def test_python_attribute_accessors_stay_in_the_file_appendix(self) -> None:
+        write(
+            self.repo / "py" / "module_access.py",
+            """
+def __getattr__(name):
+    if name == "version":
+        return "1.0"
+    raise AttributeError(name)
+""",
+        )
+        git(self.repo, "add", "py/module_access.py")
+        git(self.repo, "commit", "-m", "add module accessor")
+        output = self.root / "python-accessor"
+        initialized = invoke(
+            "init",
+            "--repo",
+            str(self.repo),
+            "--out",
+            str(output),
+            "--format",
+            "markdown",
+            "--scope-path",
+            "py/module_access.py",
+        )
+        self.assertEqual(initialized.returncode, 0, initialized.stderr)
+        catalog = json.loads((output / "catalog.json").read_text(encoding="utf-8"))
+        accessor = next(
+            entity for entity in catalog["entities"] if entity["name"] == "__getattr__"
+        )
+        self.assertEqual(accessor["hard_exclusion"], "python-attribute-accessor")
+        plan = json.loads((output / "navigation-plan.json").read_text(encoding="utf-8"))
+        decision = next(
+            item for item in plan["decisions"] if item["entity_id"] == accessor["id"]
+        )
+        self.assertEqual(decision["classification"], "appendix")
+
+    def test_stdio_retrieval_protocol_is_jsonl_and_errors_do_not_stop_server(self) -> None:
+        output = self.root / "stdio-output"
+        (output / "machine").mkdir(parents=True)
+        (output / "machine" / "knowledge.sqlite").write_bytes(b"fixture")
+        calls = []
+        record_calls = []
+
+        def fake_retrieve(path, question, budget, max_pages, profile):
+            calls.append((path, question, budget, max_pages, profile))
+            return {
+                "status": "passed",
+                "question": question,
+                "estimated_tokens": 120,
+                "selected_entities": [],
+                "retrieval_stats": {"static_cache_hit": bool(len(calls) > 1)},
+                "pack": str(output / "machine" / "agent-packs" / f"pack-{len(calls)}.json"),
+                "record": str(output / "machine" / "agent-packs" / f"pack-{len(calls)}.record.json"),
+            }
+
+        def fake_record(path, request, retrieval):
+            record_calls.append((path, request, retrieval))
+            return {"status": "passed", "record": "human/analysis/test.md"}
+
+        requests = "\n".join(
+            [
+                json.dumps({"id": "ping-1", "method": "ping"}),
+                "{not-json",
+                json.dumps({"id": "bad-1", "method": "unknown"}),
+                json.dumps(
+                    {
+                        "id": "retrieve-1",
+                        "method": "retrieve",
+                        "question": "定位订单写入流程",
+                        "budget": 1800,
+                        "max_pages": 6,
+                        "profile": "fast",
+                    },
+                    ensure_ascii=False,
+                ),
+                json.dumps(
+                    {
+                        "id": "retrieve-surrogate",
+                        "method": "retrieve",
+                        "question": "异常\udca6文本",
+                    }
+                ),
+                json.dumps(
+                    {
+                        "id": "record-1",
+                        "method": "record-explanation",
+                        "retrieval_request_id": "retrieve-1",
+                    }
+                ),
+                json.dumps({"id": "stop-1", "method": "shutdown"}),
+                json.dumps({"id": "ignored", "method": "ping"}),
+            ]
+        ) + "\n"
+        destination = io.StringIO()
+        summary = serve_stdio(
+            output,
+            input_stream=io.StringIO(requests),
+            output_stream=destination,
+            retrieve=fake_retrieve,
+            record_explanation=fake_record,
+        )
+        responses = [json.loads(line) for line in destination.getvalue().splitlines()]
+        self.assertIn("\\ufffd", destination.getvalue())
+        self.assertEqual(
+            [item["id"] for item in responses],
+            ["ping-1", None, "bad-1", "retrieve-1", "retrieve-surrogate", "record-1", "stop-1"],
+        )
+        self.assertEqual([item["ok"] for item in responses], [True, False, False, True, True, True, True])
+        self.assertEqual(responses[0]["result"]["protocol"], "ckb-stdio-retrieval")
+        self.assertIn("record-explanation", responses[0]["result"]["methods"])
+        self.assertEqual(responses[3]["result"]["question"], "定位订单写入流程")
+        self.assertEqual(responses[4]["result"]["question"], "异常�文本")
+        self.assertEqual(
+            calls,
+            [
+                (output.resolve(), "定位订单写入流程", 1800, 6, "fast"),
+                (output.resolve(), "异常�文本", 1500, 8, "fast"),
+            ],
+        )
+        self.assertEqual(record_calls[0][2]["request_id"], "retrieve-1")
+        self.assertEqual(summary["requests"], 7)
+        self.assertEqual(summary["succeeded"], 5)
+        self.assertEqual(summary["failed"], 2)
+        self.assertTrue(summary["shutdown_requested"])
+
+    def test_record_explanation_writes_utf8_machine_evidence_not_analysis_page(self) -> None:
+        output = self.root / "explanation-evidence-output"
+        pack_root = output / "machine" / "agent-packs"
+        pack_root.mkdir(parents=True)
+        pack = pack_root / "pack.md"
+        pack.write_text("# Agent pack\n", encoding="utf-8")
+        query_record = pack_root / "pack.json"
+        query_record.write_text(
+            json.dumps({"status": "passed", "source_grounded": True}, ensure_ascii=False),
+            encoding="utf-8",
+        )
+        retrieval = {
+            "request_id": "retrieve-utf8-1",
+            "pack": str(pack),
+            "record": str(query_record),
+        }
+        request = {
+            "retrieval_request_id": "retrieve-utf8-1",
+            "pack": str(pack),
+            "question": "当前检索词项由脚本还是模型构造？",
+            "selected_text": "学习解释必须保持简体中文。",
+            "source_path": "学习笔记/来源.md",
+            "source_title": "来源页面",
+            "explanation": "词项由确定性脚本构造，模型只负责解释。",
+            "idempotency_key": "utf8-evidence-1",
+            "title": "GUI 瀛︿範瑙ｉ噴 2026-08-30",
+        }
+        with (
+            patch("ckb_core.stdio_server.audit_feedback", return_value={"status": "passed"}),
+            patch("ckb_core.stdio_server.audit_agent_protocol", return_value={"status": "passed"}),
+        ):
+            result = _record_explanation(output, request, retrieval)
+        evidence = Path(result["evidence"])
+        value = json.loads(evidence.read_text(encoding="utf-8"))
+        self.assertEqual(value["status"], "passed")
+        self.assertEqual(value["question"], request["question"])
+        self.assertEqual(value["selected_text"], request["selected_text"])
+        self.assertEqual(value["explanation"], request["explanation"])
+        self.assertEqual(result["record"], result["evidence"])
+        self.assertFalse((output / "human/analysis").exists())
+        self.assertFalse((output / "markdown/analysis").exists())
+
+    def test_obsidian_plugin_package_can_be_registered_deployed_and_removed(self) -> None:
+        package = self.root / "obsidian-package"
+        package.mkdir()
+        write(
+            package / "manifest.json",
+            json.dumps(
+                {
+                    "id": "code-knowledge-builder-companion",
+                    "name": "Code Knowledge Builder Companion",
+                    "version": "9.9.9",
+                }
+            ),
+        )
+        for name in ("main.js", "styles.css", "LICENSE", "NOTICE.md"):
+            write(package / name, f"fixture {name}")
+        output = self.root / "plugin-output"
+        (output / "human").mkdir(parents=True)
+        write(output / "state.json", json.dumps({"status": "complete"}))
+        registry = self.root / "plugin-registry.json"
+        registered = register_obsidian_plugin(package, registry)
+        self.assertEqual(registered["status"], "registered")
+        deployed = deploy_obsidian_plugin(output, registry)
+        self.assertEqual(deployed["status"], "deployed")
+        target = output / "human/.obsidian/plugins/code-knowledge-builder-companion"
+        contract_path = output / "human/.ckb/output-contract.json"
+        self.assertEqual(json.loads((target / "manifest.json").read_text(encoding="utf-8"))["version"], "9.9.9")
+        self.assertEqual(
+            json.loads((output / "human/.obsidian/community-plugins.json").read_text(encoding="utf-8")),
+            ["code-knowledge-builder-companion"],
+        )
+        contract = json.loads(contract_path.read_text(encoding="utf-8"))
+        self.assertEqual(contract["contract"], "code-knowledge-builder-output")
+        self.assertEqual(Path(contract["output"]), output.resolve())
+        self.assertEqual(Path(contract["vault"]), (output / "human").resolve())
+        self.assertEqual(contract["stdio"]["minimum_version"], 2)
+        self.assertIn("record-explanation", contract["stdio"]["methods"])
+        status = obsidian_plugin_status(output, registry)
+        self.assertEqual(status["deployed"]["status"], "deployed")
+        self.assertEqual(status["output_contract"]["status"], "passed")
+        removed = remove_obsidian_plugin(output)
+        self.assertEqual(removed["status"], "removed")
+        self.assertFalse(target.exists())
+        self.assertFalse(contract_path.exists())
+
+    def test_obsidian_plugin_deploy_falls_back_when_vault_directory_is_locked(self) -> None:
+        package = self.root / "locked-obsidian-package"
+        package.mkdir()
+        write(
+            package / "manifest.json",
+            json.dumps(
+                {
+                    "id": "code-knowledge-builder-companion",
+                    "name": "Code Knowledge Builder Companion",
+                    "version": "9.9.8",
+                }
+            ),
+        )
+        for name in ("main.js", "styles.css", "LICENSE", "NOTICE.md"):
+            write(package / name, f"locked fixture {name}")
+        vault = self.root / "locked-vault"
+        vault.mkdir()
+        registry = self.root / "locked-plugin-registry.json"
+        register_obsidian_plugin(package, registry)
+
+        with patch.object(Path, "replace", side_effect=PermissionError("vault directory is open")):
+            deployed = deploy_obsidian_plugin_to_vault(vault, registry)
+
+        target = vault / ".obsidian/plugins/code-knowledge-builder-companion"
+        self.assertEqual(deployed["status"], "deployed")
+        self.assertEqual(deployed["install_mode"], "in-place-copy")
+        self.assertEqual(json.loads((target / "manifest.json").read_text(encoding="utf-8"))["version"], "9.9.8")
+        self.assertEqual((target / "main.js").read_text(encoding="utf-8"), "locked fixture main.js\n")
+
+    def test_obsidian_output_contract_is_not_required_without_installed_plugin(self) -> None:
+        output = self.root / "plugin-free-output"
+        vault = output / "human"
+        vault.mkdir(parents=True)
+        write(output / "state.json", json.dumps({"status": "complete"}))
+        projected = project_output_contract(output, vault)
+        self.assertEqual(projected["status"], "not-required")
+        self.assertFalse(projected["required"])
+        self.assertFalse((vault / ".ckb/output-contract.json").exists())
+        audited = audit_output_contract(output, vault)
+        self.assertEqual(audited["status"], "not-required")
+        self.assertEqual(audited["errors"], [])
 
     def test_non_git_path_reminds_then_opt_in_creates_one_initial_commit(self) -> None:
         source = self.root / "plain-source"
@@ -363,6 +681,148 @@ class CodeKnowledgeBuilderTests(unittest.TestCase):
         self.assertEqual(rejected_resume.returncode, 2)
         self.assertIn("only to the initial run", rejected_resume.stderr)
 
+    def test_feedback_anchor_mirroring_audit_and_archive_are_deterministic(self) -> None:
+        output = self.root / "feedback-output"
+        for root_name in ("human", "markdown"):
+            target = output / root_name / "pages" / "订单服务.md"
+            write(
+                target,
+                """
+# 订单服务
+
+标签：#类型/代码
+
+订单服务负责保存订单并调用辅助判断。
+""",
+            )
+        comment = self.root / "feedback-comment.md"
+        comment.write_text("这段说明应补充失败路径以及对应测试入口。\n", encoding="utf-8")
+        created = create_feedback(
+            output,
+            Path("pages/订单服务.md"),
+            5,
+            5,
+            comment,
+            "warn",
+            "测试用户",
+            "obsidian-plugin",
+        )
+        feedback_id = created["id"]
+        self.assertEqual(created["anchor"]["status"], "line-range")
+        self.assertEqual(list_feedback(output, "open")["count"], 1)
+        self.assertEqual(audit_feedback(output)["status"], "passed")
+        visible = Path(created["visible_files"][0])
+        self.assertFalse(visible.read_text(encoding="utf-8").startswith("---\n"))
+        self.assertEqual(visible.read_bytes(), Path(created["visible_files"][1]).read_bytes())
+
+        for root_name in ("human", "markdown"):
+            target = output / root_name / "pages" / "订单服务.md"
+            target.write_text("前置说明。\n" + target.read_text(encoding="utf-8"), encoding="utf-8", newline="\n")
+        relocated = locate_feedback(output, feedback_id)
+        self.assertEqual(relocated["status"], "passed")
+        self.assertEqual(relocated["anchor"]["status"], "unique-text")
+
+        resolution = self.root / "feedback-resolution.md"
+        resolution.write_text("当前建议与固定页面职责不一致，因此保留原有说明并归档理由。\n", encoding="utf-8")
+        resolved = resolve_feedback(output, feedback_id, "rejected", resolution)
+        self.assertEqual(resolved["status"], "resolved")
+        self.assertFalse((output / "workspace-meta/feedback/open" / f"{feedback_id}.json").exists())
+        self.assertTrue((output / "workspace-meta/feedback/resolved" / f"{feedback_id}.json").is_file())
+        self.assertEqual(audit_feedback(output)["status"], "passed")
+
+        second = create_feedback(
+            output,
+            Path("pages/订单服务.md"),
+            6,
+            6,
+            comment,
+            "suggest",
+            "测试用户",
+            "manual",
+        )
+        with self.assertRaises(CkbError):
+            resolve_feedback(output, second["id"], "accepted", resolution)
+        applied_title = "反馈落实记录"
+        applied_relative = Path("analysis/反馈落实记录.md")
+        for root_name in ("human", "markdown"):
+            write(
+                output / root_name / applied_relative,
+                """
+# 反馈落实记录
+
+标签：#类型/分析
+
+这条中文记录说明反馈已经依据目标页完成核验和落实。
+""",
+            )
+        metadata = output / "workspace-meta/notes/反馈落实记录.json"
+        metadata.parent.mkdir(parents=True, exist_ok=True)
+        metadata.write_text(
+            json.dumps({"status": "agent-reviewed", "title": applied_title, "kind": "analysis"}, ensure_ascii=False),
+            encoding="utf-8",
+        )
+        accepted = resolve_feedback(output, second["id"], "accepted", resolution, output / "human" / applied_relative)
+        self.assertEqual(accepted["decision"], "accepted")
+        self.assertEqual(audit_feedback(output)["status"], "passed")
+        third = create_feedback(
+            output,
+            Path("pages/订单服务.md"),
+            6,
+            6,
+            comment,
+            "suggest",
+            "测试用户",
+            "manual",
+        )
+        for root_name in ("human", "markdown"):
+            target = output / root_name / "pages" / "订单服务.md"
+            target.write_text(target.read_text(encoding="utf-8").replace("订单服务负责保存订单并调用辅助判断。", "这段目标文字已经发生变化。"), encoding="utf-8", newline="\n")
+        failed = audit_feedback(output)
+        self.assertEqual(failed["status"], "failed")
+        self.assertIn("feedback-anchor-stale", {item["reason"] for item in failed["errors"]})
+
+    def test_work_record_index_covers_every_note_with_one_chinese_summary(self) -> None:
+        output = self.root / "record-index-output"
+        for root_name in ("human", "markdown"):
+            for directory in ("analysis", "changes", "pitfalls", "experiments", "sessions"):
+                (output / root_name / directory).mkdir(parents=True, exist_ok=True)
+            write(
+                output / root_name / "analysis" / "方案判断.md",
+                """
+# 方案判断
+
+标签：#类型/分析
+
+## 结论
+
+这份分析说明当前方案的适用边界和下一步判断入口。
+""",
+            )
+            write(
+                output / root_name / "experiments" / "性能复测.md",
+                """
+# 性能复测
+
+标签：#类型/实验
+
+本实验记录固定协议下的性能结果和仍需保留的限制。
+""",
+            )
+        result = refresh_work_record_index(output)
+        self.assertEqual(result["status"], "passed")
+        self.assertEqual(result["record_count"], 2)
+        text = (output / "human/RECORDS.md").read_text(encoding="utf-8")
+        self.assertIn("## 分析与决策", text)
+        self.assertIn("## 实验与量化结果", text)
+        self.assertEqual(text.count("[[方案判断]]"), 1)
+        self.assertEqual(text.count("[[性能复测]]"), 1)
+        self.assertIn("适用边界和下一步判断入口", text)
+        self.assertEqual(audit_work_record_index(output)["status"], "passed")
+        self.assertEqual(
+            (output / "human/RECORDS.md").read_bytes(),
+            (output / "markdown/RECORDS.md").read_bytes(),
+        )
+
     def test_markdown_whole_repository_and_completion_gate(self) -> None:
         output = self.root / "whole"
         init = invoke("init", "--repo", str(self.repo), "--out", str(output), "--format", "markdown")
@@ -384,6 +844,7 @@ class CodeKnowledgeBuilderTests(unittest.TestCase):
         self.assertTrue((output / ".machine.complete").is_file())
         self.assertTrue((output / ".human.complete").is_file())
         self.assertTrue((output / "markdown" / "INDEX.md").is_file())
+        self.assertTrue((output / "markdown" / "RECORDS.md").is_file())
         self.assertTrue((output / "human" / "INDEX.md").is_file())
         self.assertEqual((output / "human/INDEX.md").read_bytes(), (output / "markdown/INDEX.md").read_bytes())
         self.assertTrue((output / "facts/graph.json").is_file())
@@ -413,10 +874,11 @@ class CodeKnowledgeBuilderTests(unittest.TestCase):
             self.assertTrue((root / ".github/copilot-instructions.md").is_file())
             self.assertTrue((root / ".cursor/rules/code-knowledge-builder.mdc").is_file())
         protocol_text = (output / "AGENTS.md").read_text(encoding="utf-8")
-        self.assertIn("retrieve --out", protocol_text)
-        self.assertIn("needs-source-read", protocol_text)
+        self.assertIn("brief --out", protocol_text)
+        self.assertIn("不把候选实体、词项和得分展开", protocol_text)
         self.assertIn("record --out", protocol_text)
-        self.assertIn("agent-policy check", protocol_text)
+        self.assertIn("feedback list --out", protocol_text)
+        self.assertIn("maintain --out", protocol_text)
         initial_policy_check = invoke("agent-policy", "check", "--out", str(output))
         self.assertEqual(initial_policy_check.returncode, 0, initial_policy_check.stderr)
         self.assertEqual(json.loads(initial_policy_check.stdout)["status"], "passed")
@@ -510,10 +972,12 @@ class CodeKnowledgeBuilderTests(unittest.TestCase):
         selected_relative_paths = {path.relative_to(output).as_posix() for path in output.rglob("*") if path.is_file()}
         self.assertIn("logseq/config.edn", selected_relative_paths)
         index_text = (output / "markdown" / "INDEX.md").read_text(encoding="utf-8")
-        self.assertIn("## 从这里开始", index_text)
+        self.assertIn("## 按任务选择入口", index_text)
+        self.assertIn("[工作记录导览](RECORDS.md)", index_text)
         self.assertIn("[logseq/config.edn](logseq/config.edn)", index_text)
         wiki_text = (output / "markdown" / "WIKI.md").read_text(encoding="utf-8")
         self.assertIn("## 页面只保留什么", wiki_text)
+        self.assertIn("## 工作记录如何查找", wiki_text)
         self.assertIn("## Graphify 关系导览", wiki_text)
         readability = json.loads((output / "markdown" / "readability-audit.json").read_text(encoding="utf-8"))
         self.assertEqual(readability["status"], "passed")
@@ -552,6 +1016,21 @@ class CodeKnowledgeBuilderTests(unittest.TestCase):
         self.assertTrue(retrieve_record["selected_entities"])
         self.assertLessEqual(retrieve_record["estimated_tokens"], 1200)
         self.assertTrue(Path(retrieve_record["pack"]).is_file())
+        brief = invoke("brief", "--out", str(output), "OrderService 服务修改", "--budget", "1200", "--profile", "fast")
+        self.assertEqual(brief.returncode, 0, brief.stderr)
+        brief_record = json.loads(brief.stdout)
+        self.assertEqual(brief_record["status"], "passed")
+        self.assertTrue(Path(brief_record["pack"]).is_file())
+        self.assertTrue(Path(brief_record["record"]).is_file())
+        self.assertNotIn("terms", brief_record)
+        self.assertNotIn("selected_entities", brief_record)
+        self.assertNotIn("retrieval_stats", brief_record)
+        self.assertLess(len(brief.stdout.encode("utf-8")), len(retrieved.stdout.encode("utf-8")))
+        self.assertEqual(brief_record["reading_entries"]["index"], str((output / "human/INDEX.md").resolve()))
+        capabilities = invoke("capabilities", "--format", "json")
+        self.assertEqual(capabilities.returncode, 0, capabilities.stderr)
+        capability_record = json.loads(capabilities.stdout)
+        self.assertEqual(capability_record["status_order"], list(CAPABILITY_STATUSES))
         self.assertIn("订单服", search_terms("订单服务修改"))
         retrieval_stats = retrieve_record["retrieval_stats"]
         self.assertEqual(retrieval_stats["overscan_limit"], FAST_RETRIEVAL_OVERSCAN)
@@ -609,8 +1088,84 @@ class CodeKnowledgeBuilderTests(unittest.TestCase):
         self.assertIn("标签：#类型/分析", note_text)
         self.assertIn("[[", note_text)
         self.assertIn("obsidian://open?path=", note_record["obsidian_uri"])
+        records_text = (output / "human/RECORDS.md").read_text(encoding="utf-8")
+        self.assertIn("[[订单服务分析]]", records_text)
+        self.assertEqual(audit_work_record_index(output)["status"], "passed")
+        preserved_before = {
+            path.relative_to(output).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()
+            for root_name in ("human", "markdown")
+            for directory in ("pages", "analysis", "changes", "pitfalls", "experiments", "sessions")
+            for path in (output / root_name / directory).glob("*.md")
+        }
+        refreshed_human = invoke("human-refresh", "--out", str(output))
+        self.assertEqual(refreshed_human.returncode, 0, refreshed_human.stderr)
+        refresh_record = json.loads(refreshed_human.stdout)
+        self.assertEqual(refresh_record["status"], "passed")
+        self.assertEqual(refresh_record["work_record_index"]["record_count"], 1)
+        preserved_after = {
+            path.relative_to(output).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()
+            for root_name in ("human", "markdown")
+            for directory in ("pages", "analysis", "changes", "pitfalls", "experiments", "sessions")
+            for path in (output / root_name / directory).glob("*.md")
+        }
+        self.assertEqual(preserved_after, preserved_before)
+        feedback_comment = self.root / "page-feedback.md"
+        feedback_comment.write_text("这个页面应明确说明附属判断与主保存流程之间的关系。\n", encoding="utf-8")
+        feedback_created = invoke(
+            "feedback", "create", "--out", str(output), "--target", owner_page["file"],
+            "--start-line", "1", "--end-line", "1", "--comment", str(feedback_comment),
+            "--severity", "warn", "--author", "Fixture Reviewer", "--source", "manual",
+        )
+        self.assertEqual(feedback_created.returncode, 0, feedback_created.stderr)
+        feedback_record = json.loads(feedback_created.stdout)
+        self.assertEqual(feedback_record["status"], "open")
+        self.assertEqual(json.loads(invoke("feedback", "list", "--out", str(output), "--status", "open").stdout)["count"], 1)
+        feedback_retrieved = invoke("retrieve", "--out", str(output), "开放人工反馈", "--budget", "1200")
+        self.assertEqual(feedback_retrieved.returncode, 0, feedback_retrieved.stderr)
+        feedback_retrieval = json.loads(feedback_retrieved.stdout)
+        self.assertEqual(feedback_retrieval["open_feedback"], 1)
+        self.assertTrue(any(item["kind"] == "feedback" for item in feedback_retrieval["related_documents"]))
+        rejected_accept = invoke(
+            "feedback", "resolve", "--out", str(output), "--feedback", feedback_record["id"],
+            "--decision", "accepted", "--resolution", str(feedback_comment),
+        )
+        self.assertEqual(rejected_accept.returncode, 2)
+        feedback_resolution = self.root / "page-feedback-resolution.md"
+        feedback_resolution.write_text("该建议已通过分析记录确认并落实，现将反馈归档。\n", encoding="utf-8")
+        feedback_resolved = invoke(
+            "feedback", "resolve", "--out", str(output), "--feedback", feedback_record["id"],
+            "--decision", "accepted", "--resolution", str(feedback_resolution), "--applied-record", str(note_path),
+        )
+        self.assertEqual(feedback_resolved.returncode, 0, feedback_resolved.stderr)
+        self.assertEqual(json.loads(feedback_resolved.stdout)["status"], "resolved")
+        self.assertEqual(invoke("feedback", "audit", "--out", str(output)).returncode, 0)
         maintained = invoke("agent-policy", "check", "--out", str(output))
         self.assertEqual(maintained.returncode, 0, maintained.stderr)
+        (output / "human/.obsidian/appearance.json").write_text(
+            json.dumps({"theme": "obsidian", "user_owned": True}), encoding="utf-8"
+        )
+        page_hashes_before_maintenance = {
+            path.relative_to(output).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()
+            for root_name in ("human", "markdown")
+            for path in (output / root_name).rglob("*.md")
+        }
+        maintenance = invoke("maintain", "--out", str(output))
+        self.assertEqual(maintenance.returncode, 0, maintenance.stderr)
+        maintenance_record = json.loads(maintenance.stdout)
+        self.assertEqual(maintenance_record["status"], "passed")
+        self.assertEqual(maintenance_record["page_writes"], 0)
+        self.assertTrue(Path(maintenance_record["report"]).is_file())
+        self.assertEqual(maintenance_record["failed_checks"], [])
+        self.assertIn(
+            ".obsidian/appearance.json",
+            maintenance_record["checks"]["human_layer"]["ignored_user_state_differences"],
+        )
+        page_hashes_after_maintenance = {
+            path.relative_to(output).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()
+            for root_name in ("human", "markdown")
+            for path in (output / root_name).rglob("*.md")
+        }
+        self.assertEqual(page_hashes_after_maintenance, page_hashes_before_maintenance)
         rogue = output / "human/analysis/绕过受控写入.md"
         rogue.write_text("# 绕过受控写入\n\n标签：#类型/分析\n\n这是一条没有镜像、元数据和索引记录的直接写入。\n", encoding="utf-8")
         rejected_rogue = invoke("agent-policy", "check", "--out", str(output))
@@ -814,6 +1369,68 @@ class CodeKnowledgeBuilderTests(unittest.TestCase):
         self.assertEqual(graphify_core["status"], "ready")
         self.assertEqual(graphify_core["version"], "0.9.48")
         self.assertEqual(graphify_core["networkx_version"], "3.5")
+
+    def test_obsidian_companion_distribution_reuses_pinned_claudian(self) -> None:
+        root = SKILL_ROOT / "plugins/obsidian-code-knowledge-builder"
+        manifest = json.loads((root / "manifest.json").read_text(encoding="utf-8"))
+        lock = json.loads((root / "upstream.lock.json").read_text(encoding="utf-8"))
+        self.assertEqual(manifest["id"], "code-knowledge-builder-companion")
+        self.assertEqual(manifest["version"], "0.8.0")
+        self.assertEqual(manifest["author"], "DDDeath")
+        self.assertTrue(manifest["isDesktopOnly"])
+        self.assertEqual(lock["claudian"]["commit"], "f4bbba7fd326cbc68a6c8f0edfea6d14ea9ba0ac")
+        self.assertEqual(lock["claudian"]["license"], "MIT")
+        self.assertIn("no source files redistributed", lock["llm_wiki_reference"]["reuse"])
+        self.assertGreater((root / "patches/claudian-base.patch").stat().st_size, 1000)
+        patch = (root / "patches/claudian-base.patch").read_text(encoding="utf-8")
+        self.assertIn("recordExplanation", patch)
+        self.assertIn("parseCkbOutputContract", patch)
+        self.assertIn("output-contract.json", patch)
+        self.assertIn("PYTHONIOENCODING: 'utf-8'", patch)
+        self.assertIn("learning-explanation-evidence", patch)
+        self.assertIn("不得创建 analysis 页面", patch)
+        self.assertIn("buildSelectionFollowUpInstruction", patch)
+        self.assertIn("service.continueConversation", patch)
+        self.assertIn("追问并记录", patch)
+        self.assertIn("toolPolicy: { kind: 'passive' }", patch)
+        self.assertTrue((root / "deploy.py").is_file())
+        dist = root / "dist"
+        for name in ("main.js", "manifest.json", "styles.css", "LICENSE", "NOTICE.md", "build-record.json", "deploy.py"):
+            self.assertTrue((dist / name).is_file(), name)
+            self.assertGreater((dist / name).stat().st_size, 0, name)
+        self.assertEqual((root / "manifest.json").read_bytes(), (dist / "manifest.json").read_bytes())
+        main = (dist / "main.js").read_text(encoding="utf-8", errors="replace")
+        self.assertIn("explain-selection-to-daily-note", main)
+        self.assertIn("open-today-learning-note", main)
+        self.assertIn("editor-menu", main)
+        self.assertIn("markdown-preview-view", main)
+        self.assertIn("promptReadingSelection", main)
+        self.assertIn("使用知识库解释选中文本", main)
+        self.assertIn("CKB_RETRIEVAL: passed", main)
+        self.assertIn("CKB_GENERATION: passed", main)
+        self.assertIn("CKB_STDIO_REQUEST:", main)
+        self.assertIn("CKB_STDIO_PACK:", main)
+        self.assertIn("record-explanation", main)
+        self.assertIn("---CKB_AGENT_PACK---", main)
+        self.assertIn("ckb-stdio-retrieval", main)
+        self.assertIn("学习笔记", main)
+        self.assertIn("profile: 'fast'", patch)
+        self.assertIn("budget: 1800", patch)
+        self.assertIn("max_pages: 8", patch)
+        self.assertIn("parseAuditedExplanation", patch)
+        self.assertIn("validateCkbEvidence", patch)
+        self.assertIn("readPassedAudit", patch)
+        self.assertIn("serve', '--out'", patch)
+        self.assertIn("method: 'retrieve'", patch)
+        self.assertIn("method: 'record-explanation'", patch)
+        self.assertIn("method: 'shutdown'", patch)
+        self.assertIn("utf8SafeText", patch)
+        self.assertIn("0xD800", patch)
+        styles = (dist / "styles.css").read_text(encoding="utf-8")
+        self.assertIn(".ckb-selection-learning-modal", styles)
+        build_record = json.loads((dist / "build-record.json").read_text(encoding="utf-8"))
+        self.assertEqual(build_record["status"], "passed")
+        self.assertEqual(build_record["claudian_commit"], lock["claudian"]["commit"])
 
     def test_required_format_duplicate_entry_and_syntax_stage(self) -> None:
         missing_format = invoke("init", "--repo", str(self.repo), "--out", str(self.root / "missing-format"))
