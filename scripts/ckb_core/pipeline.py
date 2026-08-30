@@ -2188,6 +2188,9 @@ def _index_document(graph: dict[str, Any], logical: dict[str, Any], output: Path
     project = _repository_name(graph["repository"]["root"])
     module_ids = set(logical["module_page_ids"].values())
     module_titles = [page["title"] for page in logical["pages"] if page["id"] in module_ids]
+    reference_projection = output / "references/projection.json"
+    reference_pages = json_load(reference_projection).get("pages", []) if reference_projection.is_file() else []
+    reference_entry = ["- **查找已审阅外部资料**：打开 [参考资料导览](REFERENCES.md)，摘要中的每项主张都链接到归档原文范围。"] if reference_pages else []
     lines = [
         f"# {project} 知识库",
         "",
@@ -2197,7 +2200,8 @@ def _index_document(graph: dict[str, Any], logical: dict[str, Any], output: Path
         "",
         f"- **理解或修改代码**：从 [[{repository_title}]] 进入，再按职责缩小到类、函数或聚合页。",
         f"- **查找已有分析、变更和实验**：打开 [工作记录导览]({WORK_RECORD_INDEX})，按任务目的浏览全部记录。",
-        "- **精确定位类、函数或源码范围**：使用 `retrieve --profile fast`，复杂问题再使用 `precise`。",
+        *reference_entry,
+        "- **精确定位类、函数或源码范围**：使用 `brief --profile fast`，复杂问题再使用完整 `retrieve --profile precise`。",
         "- **了解页面规则和阅读顺序**：打开 [阅读这套知识库的方法](WIKI.md)。",
         "",
         "## 按职责浏览代码",
@@ -2210,7 +2214,7 @@ def _index_document(graph: dict[str, Any], logical: dict[str, Any], output: Path
         "",
         "## 精确定位",
         "",
-        "遇到具体修改任务时，优先使用 `retrieve --profile fast` 获取预算内机器阅读包；复杂问题再使用 `precise`。只在索引返回 `needs-source-read` 时读取最窄源码范围。两种档位都不调用向量模型。",
+        "遇到具体修改任务时，优先使用 `brief --profile fast` 获取预算内机器阅读包；复杂问题再使用完整 `retrieve --profile precise`。只在索引要求源码回退时读取最窄源码范围。两种档位都不调用向量模型。",
         "",
         "## 在 Obsidian 中打开",
         "",
@@ -2232,6 +2236,9 @@ def _wiki_document(graph: dict[str, Any], logical: dict[str, Any], output: Path)
     page_config = logical["page_config"]
     page_limits = page_config["page_limits"]
     code_sections = "、".join(page_config["content"]["code_page_sections"])
+    reference_projection = output / "references/projection.json"
+    reference_pages = json_load(reference_projection).get("pages", []) if reference_projection.is_file() else []
+    reference_entry = ["- 查找经过来源和许可审阅的外部资料：打开 [参考资料导览](REFERENCES.md)。"] if reference_pages else []
     lines = [
         f"# 如何阅读 {project} 代码知识库",
         "",
@@ -2243,7 +2250,8 @@ def _wiki_document(graph: dict[str, Any], logical: dict[str, Any], output: Path)
         "",
         f"- 理解或修改代码：先打开 [[{repository_title}]]，再进入对应职责导览。",
         f"- 查找已有分析、变更、实验或会话：打开 [工作记录导览]({WORK_RECORD_INDEX})。",
-        "- 精确定位源码：使用机器层 `retrieve`，再打开返回的最窄源码范围。",
+        *reference_entry,
+        "- 精确定位源码或资料：使用机器层 `brief`，再打开返回的 Agent pack 和最窄来源范围。",
         "",
         "代码职责入口：",
         "",
@@ -2287,7 +2295,7 @@ def _wiki_document(graph: dict[str, Any], logical: dict[str, Any], output: Path)
         "Agent 默认查询 `machine/knowledge.sqlite`，不把整套人类页面或完整实体图装入上下文。`fast` 使用有界图传播，`precise` 使用固定轮次加权排序；两者都不调用向量模型。",
         "",
         "```powershell",
-        '& PYTHON scripts\\ckb.py retrieve --out OUTPUT "职责关键词" --budget 1800 --profile fast',
+        '& PYTHON scripts\\ckb.py brief --out OUTPUT "职责或资料关键词" --budget 1800 --profile fast',
         '& PYTHON scripts\\ckb.py entity --out OUTPUT "类名或函数名"',
         '& PYTHON scripts\\ckb.py neighbors --out OUTPUT "类名或函数名" --depth 2',
         '& PYTHON scripts\\ckb.py path --out OUTPUT "起点类或函数" "目标类或函数"',
@@ -3138,6 +3146,10 @@ def audit_global(output: Path) -> dict[str, Any]:
     projections["machine"] = build_machine_knowledge(output, graph, logical)
     machine_audit = audit_machine_knowledge(output, graph)
     checks.append({"name": "machine-layer-valid", "passed": machine_audit.get("status") == "passed", "detail": machine_audit})
+    from .reference_documents import audit_references
+
+    reference_audit = audit_references(output)
+    checks.append({"name": "reviewed-reference-layer-valid", "passed": reference_audit.get("status") == "passed", "detail": reference_audit})
     projections["agent-index"] = build_agent_index(output)
     index_audit = audit_agent_index(output)
     checks.append(

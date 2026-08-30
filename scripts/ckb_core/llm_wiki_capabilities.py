@@ -156,14 +156,14 @@ CAPABILITIES: tuple[dict[str, str], ...] = (
         "id": "reviewed-text-reference-ingest",
         "area": "文档吸收",
         "name": "审阅文本参考资料层",
-        "status": STATUS_CANDIDATE,
+        "status": STATUS_ABSORBED,
         "input": "用户提供的 UTF-8 Markdown/TXT、来源元数据和明确许可说明",
         "output": "不可变参考副本、至多一个来源摘要、引用账本和机器全文索引",
-        "dependencies": "第一版只用 Python 标准库；不抓网页、不解析二进制",
+        "dependencies": "Python 标准库与现有 SQLite FTS；不抓网页、不解析二进制",
         "license": "保留原文许可证与来源；无许可字段时保持待审阅，不进入完成态",
         "data_boundary": "独立 references 层；不成为代码实体、不修改固定源码图、不自动扩散概念页",
         "completion_gate": "字节来源、许可、摘要中文、引用范围、单来源页面配额和回滚全部通过",
-        "batch": "下一小批次候选",
+        "batch": "本批次",
     },
     {
         "id": "machine-operation-journal",
@@ -277,7 +277,7 @@ def capability_matrix() -> dict[str, Any]:
     return {
         "schema_version": 1,
         "status": "ready",
-        "matrix_version": "2026-08-30.1",
+        "matrix_version": "2026-08-30.2",
         "source": "LLM Wiki five-operation model adapted through independent CKB implementations",
         "reference_license_boundary": "Only behavior and interface ideas are used; no LLM Wiki source is copied because its local reference has no confirmed license notice.",
         "status_order": list(CAPABILITY_STATUSES),
@@ -334,7 +334,7 @@ def render_capability_matrix_markdown() -> str:
             "## 当前批次原则",
             "",
             "- 先吸收紧凑阅读入口、聚合维护门和后台子进程，不新增人类知识页。",
-            "- 外部文本资料层保持为下一小批次候选，固定源码事实层不接收外部文档。",
+            "- 审阅文本资料层已进入默认本地路径；固定源码事实层仍不接收外部文档。",
             "- 向量检索、PDF/网页/OCR 和自动页面扩散只在隔离 benchmark 中比较，不进入默认发行路径。",
             "- 本地 Web 查看器、大型二进制复制和外部文档伪装成代码实体保持明确排除。",
             "",
@@ -363,6 +363,7 @@ def compact_agent_brief(output: Path, retrieval: dict[str, Any]) -> dict[str, An
             "index": output / "human/INDEX.md",
             "records": output / "human/RECORDS.md",
             "wiki": output / "human/WIKI.md",
+            "references": output / "human/REFERENCES.md",
         }.items()
     }
     feedback_documents = [
@@ -408,6 +409,7 @@ def maintenance_check(output: Path) -> dict[str, Any]:
     from .agent_protocol import audit_agent_protocol
     from .knowledge_layers import audit_human_layer
     from .machine_knowledge import audit_machine_knowledge
+    from .reference_documents import audit_references
     from .work_record_index import audit_work_record_index
 
     checks = {
@@ -416,6 +418,7 @@ def maintenance_check(output: Path) -> dict[str, Any]:
         "agent_index": audit_agent_index(output),
         "machine_knowledge": audit_machine_knowledge(output),
         "human_layer": audit_human_layer(output),
+        "references": audit_references(output),
     }
     failed = [name for name, result in checks.items() if result.get("status") != "passed"]
     readability_path = output / "human/readability-audit.json"

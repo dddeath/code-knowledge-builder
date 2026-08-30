@@ -1,8 +1,8 @@
 ---
 name: code-knowledge-builder
-description: Build and maintain separate machine and human code knowledge bases from a fixed Git snapshot, with deterministic SQLite retrieval, conservative Chinese Markdown/Obsidian pages, persistent cross-Harness Agent instructions, Agent review, local scopes, optional Logseq DB, and opt-in conversation/change synchronization. Use for locating or maintaining change-relevant files, types, functions, source ranges, analyses, modifications, and durable Agent-session evidence in C/C++, C#, standard JavaScript, and Python repositories; not for one-file explanation or ordinary text search.
+description: Build and maintain separate machine and human code knowledge bases from a fixed Git snapshot, with deterministic SQLite retrieval, reviewed local Markdown/TXT references, conservative Chinese Markdown/Obsidian pages, persistent cross-Harness Agent instructions, Agent review, local scopes, optional Logseq DB, and opt-in conversation/change synchronization. Use for locating or maintaining change-relevant files, types, functions, source ranges, reviewed reference documents, analyses, modifications, and durable Agent-session evidence in C/C++, C#, standard JavaScript, and Python repositories; not for one-file explanation or ordinary text search.
 metadata:
-  version: "5.2.9"
+  version: "5.3.0"
 ---
 
 # Code Knowledge Builder
@@ -22,6 +22,7 @@ The construction core follows the pinned Graphify pipeline `detect -> extract ->
 - For a small or ordinary repository, use the resumable `run` entrypoint.
 - For a large repository or a failed stage that needs narrow repair, use `init`, `build-chunk`, `review-pack`, `audit`, `merge`, and `finalize` separately.
 - If `OUTPUT/machine/knowledge.sqlite` exists and the user asks an architecture, explanation, or change-location question, use `brief --profile fast` first and open only its budgeted Agent pack. `brief` keeps the complete retrieval record on disk but omits candidate entities, terms, scores, and relation details from the first command response. Use `retrieve --profile precise` for harder queries, `entity` for exact symbols, `neighbors` for bounded graph expansion, `source` for an exact source range, and `changes` for durable Agent records. Use narrow source reading only when the compact result requests a source fallback.
+- For user-provided local UTF-8 Markdown/TXT that must become searchable reviewed evidence, use `reference ingest`, reopen the archived source, submit exact line-bound claims through `reference review`, then require `reference audit` and `maintain`. Read [references/reference-ingest.md](references/reference-ingest.md) before importing, revising, or rolling back a source.
 - For an existing knowledge base that multiple Agents may open, run `agent-policy install --out OUTPUT --workspace-root TASK_ROOT` once. This installs audited `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, Copilot instructions and an always-on Cursor rule at the knowledge roots and Harness task root. Thereafter Agents must use compact SQLite retrieval before grep, create durable notes only through `record`, and run `maintain` before claiming maintenance complete; read [references/agent-policy.md](references/agent-policy.md) before changing this contract.
 - Always require one explicit output format: `markdown`, `logseq-db`, or `both`.
 - A finalized `markdown` projection exposes two audited Logseq file-graph roots. For Logseq 2.0.1 “File to DB graph”, select `OUTPUT` itself; it contains `OUTPUT/logseq/config.edn`. `OUTPUT/markdown` remains a second valid file-graph root and contains linked pages, its own pinned config, and `normalized.edn` for optional EDN import.
@@ -36,7 +37,7 @@ Read [references/workflow.md](references/workflow.md) before running a build. Re
 
 Read [references/distributions.md](references/distributions.md) before building release archives. Lite retains the complete core feature set without bundled runtime; full-win-x64 is exactly lite plus the locked offline runtime; `plugins/` is forbidden in both. The Obsidian companion uses its own version and `obsidian-plugin` archive.
 
-Read [references/llm-wiki-capability-matrix.md](references/llm-wiki-capability-matrix.md) before absorbing another LLM Wiki behavior. The matrix is generated from the runtime capability registry and is restricted to four states: `已吸收`, `待吸收`, `明确排除`, and `需要 benchmark`. Every candidate closes its input, output, dependencies, license, data boundary, completion gate, and batch before implementation. Current-batch capabilities add no human pages.
+Read [references/llm-wiki-capability-matrix.md](references/llm-wiki-capability-matrix.md) before absorbing another LLM Wiki behavior. The matrix is generated from the runtime capability registry and is restricted to four states: `已吸收`, `待吸收`, `明确排除`, and `需要 benchmark`. Every candidate closes its input, output, dependencies, license, data boundary, completion gate, and batch before implementation. The reviewed-reference capability adds at most one human summary page per active source plus one shared `REFERENCES.md` entry.
 
 ## Fast route
 
@@ -111,6 +112,13 @@ Inspect the closed LLM Wiki feature boundary without loading implementation file
 
 ```powershell
 & PYTHON "SKILL_DIR\scripts\ckb.py" capabilities --format json
+```
+
+Import one licensed local text source and stop at the Agent review gate:
+
+```powershell
+& PYTHON "SKILL_DIR\scripts\ckb.py" reference ingest --out "OUTPUT" `
+  --source "DOCUMENT.md" --title "资料标题" --origin "来源" --license "LICENSE"
 ```
 
 Refresh only the task-first human navigation of an existing completed knowledge base:
@@ -222,6 +230,7 @@ Package completed human-readable examples with a Chinese Wiki:
 - Page feedback is separate from source facts and conversations. Canonical JSON lives under `workspace-meta/feedback`; frontmatter-free Chinese mirrors live under `human/feedback` and `markdown/feedback`. Open feedback must retain a resolvable target and anchor; resolution history is append-only through archive movement, and accepted/partial decisions require an existing implementation record.
 - Human work-record navigation is generated from the complete note set, not from a query result. `INDEX.md` first separates code understanding, historical work records, exact source retrieval, and reading guidance; `RECORDS.md` then lists every durable note exactly once under analysis, change, experiment, pitfall, or session purpose with one Chinese summary. The readability gate checks entry presence, link-set equality, mirror parity, unique titles, one navigation tag, and Chinese summaries.
 - LLM Wiki's compile, query, lint and audit ideas map to CKB build/retrieval/deterministic audits/location-anchored feedback. The authoritative feature status and closed candidate boundaries live in `references/llm-wiki-capability-matrix.md`. Arbitrary web/PDF/article ingestion remains outside the fixed Git source-fact layer; external reference material may be cited by reviewed analysis notes but never becomes a source entity merely by import.
+- Reviewed local Markdown/TXT references live under `OUTPUT/references`, project at most one `#类型/资料` summary page per active source, and enter `machine/knowledge.sqlite` as typed reference documents and source sections. Pending reviews, missing licenses, source drift, false line citations, mirror differences, page fan-out, or SQLite count drift prevent the reference layer from passing.
 - Automatic synchronization never parses `transcript_path`, never captures unregistered repositories, and never changes permissions or blocks a Harness operation. Hook health is reported separately from the fixed source graph completion markers.
 - Every completed Markdown knowledge base carries auto-discovered project instructions for Codex, OpenCode, Claude Code, Gemini CLI, GitHub Copilot and Cursor. The protocol fixes the read order to `brief fast` → bounded pack → narrow graph/source commands, routes durable writes through `record`, and uses `maintain` to aggregate note mirrors, metadata, human readability and both SQLite representations. Workspace-root installation is explicit and idempotent; it does not broaden Hook activation or synchronize every conversation into existing pages.
 - CKB-launched non-interactive Git, language-server, build, Hook-support, and stdio child processes run without a new Windows console window while retaining captured output, exit status, timeout, and cancellation behavior. User-invoked CLI commands and explicit terminal/shell features keep their normal visible host surface.

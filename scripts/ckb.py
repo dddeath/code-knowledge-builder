@@ -93,6 +93,14 @@ from ckb_core.pipeline import (
 from ckb_core.providers import doctor_report
 from ckb_core.runtime import deploy as deploy_runtime
 from ckb_core.runtime import deployment_plan, remove as remove_runtime
+from ckb_core.reference_documents import (
+    audit_references,
+    ingest_reference,
+    list_references,
+    rollback_reference,
+    submit_reference_review,
+    write_reference_review_template,
+)
 from ckb_core.obsidian_plugin import (
     deploy_obsidian_plugin,
     obsidian_plugin_status,
@@ -224,6 +232,31 @@ def parser() -> argparse.ArgumentParser:
     capabilities_command.add_argument("--write", type=Path)
     maintain_command = sub.add_parser("maintain")
     maintain_command.add_argument("--out", type=Path, required=True)
+    reference_command = sub.add_parser("reference")
+    reference_sub = reference_command.add_subparsers(dest="reference_command", required=True)
+    reference_ingest = reference_sub.add_parser("ingest")
+    reference_ingest.add_argument("--out", type=Path, required=True)
+    reference_ingest.add_argument("--source", type=Path, required=True)
+    reference_ingest.add_argument("--title", required=True)
+    reference_ingest.add_argument("--origin", required=True)
+    reference_ingest.add_argument("--license", dest="license_name", required=True)
+    reference_ingest.add_argument("--author")
+    reference_ingest.add_argument("--revision-of")
+    reference_template = reference_sub.add_parser("review-template")
+    reference_template.add_argument("--out", type=Path, required=True)
+    reference_template.add_argument("--reference", required=True)
+    reference_template.add_argument("--write", type=Path, required=True)
+    reference_review = reference_sub.add_parser("review")
+    reference_review.add_argument("--out", type=Path, required=True)
+    reference_review.add_argument("--review", type=Path, required=True)
+    reference_audit = reference_sub.add_parser("audit")
+    reference_audit.add_argument("--out", type=Path, required=True)
+    reference_list = reference_sub.add_parser("list")
+    reference_list.add_argument("--out", type=Path, required=True)
+    reference_list.add_argument("--status", choices=("all", "pending-agent-review", "agent-reviewed", "superseded"), default="all")
+    reference_rollback = reference_sub.add_parser("rollback")
+    reference_rollback.add_argument("--out", type=Path, required=True)
+    reference_rollback.add_argument("--reference", required=True)
     serve_command = sub.add_parser("serve")
     serve_command.add_argument("--out", type=Path, required=True)
     serve_command.add_argument("--stdio", action="store_true", required=True)
@@ -490,6 +523,26 @@ def main() -> int:
         result = maintenance_check(args.out.resolve())
         emit(result)
         return 0 if result.get("status") == "passed" else 5
+    elif args.command == "reference":
+        if args.reference_command == "ingest":
+            result = ingest_reference(
+                args.out.resolve(), args.source.resolve(), args.title, args.origin, args.license_name,
+                args.author, args.revision_of,
+            )
+            emit(result)
+            return 4 if result.get("status") == "pending-agent-review" else 0
+        if args.reference_command == "review-template":
+            emit(write_reference_review_template(args.out.resolve(), args.reference, args.write))
+        elif args.reference_command == "review":
+            emit(submit_reference_review(args.out.resolve(), args.review.resolve()))
+        elif args.reference_command == "audit":
+            result = audit_references(args.out.resolve())
+            emit(result)
+            return 0 if result.get("status") == "passed" else 4 if result.get("status") == "pending-agent-review" else 5
+        elif args.reference_command == "list":
+            emit(list_references(args.out.resolve(), args.status))
+        else:
+            emit(rollback_reference(args.out.resolve(), args.reference))
     elif args.command == "serve":
         serve_stdio(args.out.resolve())
     elif args.command == "reindex":

@@ -233,6 +233,185 @@ class CodeKnowledgeBuilderTests(unittest.TestCase):
         reference = SKILL_ROOT / "references/llm-wiki-capability-matrix.md"
         self.assertEqual(reference.read_text(encoding="utf-8"), render_capability_matrix_markdown())
 
+    def test_reviewed_text_reference_is_searchable_revisioned_and_reversible(self) -> None:
+        output = self.root / "reference-output"
+        initialized = invoke("init", "--repo", str(self.repo), "--out", str(output), "--format", "markdown")
+        self.assertEqual(initialized.returncode, 0, initialized.stderr)
+        review_all(output)
+        self.assertEqual(invoke("merge", "--out", str(output)).returncode, 0)
+        finalized = invoke("finalize", "--out", str(output))
+        self.assertEqual(finalized.returncode, 0, finalized.stderr)
+
+        source = self.root / "stellar-compression.md"
+        source.write_text(
+            "# 星河压缩协议\n\n"
+            "## 核心方法\n"
+            "星河压缩协议先建立稳定词典，再对重复片段执行有界替换。\n"
+            "该方法要求解码端保留同一词典版本。\n\n"
+            "## 约束\n"
+            "资料强调任何摘要都必须回到原文范围。\n",
+            encoding="utf-8",
+        )
+        ingested = invoke(
+            "reference", "ingest", "--out", str(output), "--source", str(source),
+            "--title", "星河压缩协议", "--origin", "本地测试资料", "--license", "CC0-1.0",
+            "--author", "Fixture Author",
+        )
+        self.assertEqual(ingested.returncode, 4, ingested.stderr)
+        record = json.loads(ingested.stdout)
+        self.assertEqual(record["status"], "pending-agent-review")
+        reference_id = record["reference_id"]
+        self.assertTrue(Path(record["source"]).is_file())
+        self.assertFalse((output / "human/references/星河压缩协议.md").exists())
+        pending_audit = invoke("reference", "audit", "--out", str(output))
+        self.assertEqual(pending_audit.returncode, 4, pending_audit.stderr)
+        self.assertEqual(json.loads(pending_audit.stdout)["status"], "pending-agent-review")
+        pending_maintenance = invoke("maintain", "--out", str(output))
+        self.assertEqual(pending_maintenance.returncode, 5)
+        self.assertIn("references", json.loads(pending_maintenance.stdout)["failed_checks"])
+
+        repeated = invoke(
+            "reference", "ingest", "--out", str(output), "--source", str(source),
+            "--title", "星河压缩协议", "--origin", "本地测试资料", "--license", "CC0-1.0",
+        )
+        self.assertEqual(repeated.returncode, 4)
+        self.assertTrue(json.loads(repeated.stdout)["idempotent"])
+        invalid_license = invoke(
+            "reference", "ingest", "--out", str(output), "--source", str(source),
+            "--title", "无许可资料", "--origin", "本地测试资料二", "--license", "unknown",
+        )
+        self.assertEqual(invalid_license.returncode, 2)
+        binary = self.root / "fixture.pdf"
+        binary.write_bytes(b"%PDF fixture")
+        invalid_type = invoke(
+            "reference", "ingest", "--out", str(output), "--source", str(binary),
+            "--title", "PDF 资料", "--origin", "本地 PDF", "--license", "CC0-1.0",
+        )
+        self.assertEqual(invalid_type.returncode, 2)
+
+        review_path = self.root / "reference-review.json"
+        exported_template = self.root / "reference-review-template.json"
+        template_export = invoke(
+            "reference", "review-template", "--out", str(output), "--reference", reference_id,
+            "--write", str(exported_template),
+        )
+        self.assertEqual(template_export.returncode, 0, template_export.stderr)
+        template = json.loads(exported_template.read_text(encoding="utf-8"))
+        template.update(
+            {
+                "status": "agent-reviewed",
+                "summary_zh": "这份资料说明星河压缩协议如何通过稳定词典执行有界替换，并要求解码端保持版本一致。",
+                "claims": [
+                    {
+                        "claim_zh": "协议先建立稳定词典，再对重复片段执行有界替换，并要求解码端使用同一词典版本。",
+                        "start_line": 4,
+                        "end_line": 5,
+                        "source_text": "错误的原文文本",
+                        "evidence_note": "已重新打开归档原文第 4 至 5 行并核对压缩和解码约束。",
+                    }
+                ],
+            }
+        )
+        review_path.write_text(json.dumps(template, ensure_ascii=False, indent=2), encoding="utf-8")
+        invalid_review = invoke("reference", "review", "--out", str(output), "--review", str(review_path))
+        self.assertEqual(invalid_review.returncode, 2)
+        template["claims"][0]["source_text"] = (
+            "星河压缩协议先建立稳定词典，再对重复片段执行有界替换。\n"
+            "该方法要求解码端保留同一词典版本。"
+        )
+        review_path.write_text(json.dumps(template, ensure_ascii=False, indent=2), encoding="utf-8")
+        reviewed = invoke("reference", "review", "--out", str(output), "--review", str(review_path))
+        self.assertEqual(reviewed.returncode, 0, reviewed.stderr)
+        reviewed_record = json.loads(reviewed.stdout)
+        self.assertEqual(reviewed_record["audit"]["status"], "passed")
+        page = output / "human/references/星河压缩协议.md"
+        mirror = output / "markdown/references/星河压缩协议.md"
+        self.assertEqual(Path(reviewed_record["human_file"]), page.resolve())
+        self.assertEqual(Path(reviewed_record["compatibility_file"]), mirror.resolve())
+        self.assertTrue(page.is_file())
+        self.assertEqual(page.read_bytes(), mirror.read_bytes())
+        page_text = page.read_text(encoding="utf-8")
+        self.assertIn("标签：#类型/资料", page_text)
+        self.assertIn("原文第 4–5 行", page_text)
+        self.assertIn("CC0-1.0", page_text)
+        self.assertNotIn(reference_id, page_text)
+        self.assertTrue((output / "human/REFERENCES.md").is_file())
+        self.assertIn("参考资料导览", (output / "human/INDEX.md").read_text(encoding="utf-8"))
+        self.assertEqual(len(list((output / "human/references").glob("*.md"))), 1)
+        self.assertEqual(len(list((output / "markdown/references").glob("*.md"))), 1)
+
+        connection = sqlite3.connect(output / "machine/knowledge.sqlite")
+        try:
+            self.assertEqual(connection.execute("SELECT count(*) FROM reference_sources").fetchone()[0], 1)
+            self.assertEqual(connection.execute("SELECT count(*) FROM documents WHERE kind='reference'").fetchone()[0], 1)
+            self.assertGreater(connection.execute("SELECT count(*) FROM section_fts WHERE section_fts MATCH '星河压缩协议'").fetchone()[0], 0)
+        finally:
+            connection.close()
+        retrieved = invoke("retrieve", "--out", str(output), "星河压缩协议稳定词典", "--budget", "1200", "--profile", "fast")
+        self.assertEqual(retrieved.returncode, 0, retrieved.stderr)
+        retrieval = json.loads(retrieved.stdout)
+        self.assertTrue(any(item["kind"] == "reference" for item in retrieval["related_documents"]))
+        self.assertIn("已审阅参考资料", Path(retrieval["pack"]).read_text(encoding="utf-8"))
+        brief = invoke("brief", "--out", str(output), "星河压缩协议稳定词典", "--budget", "1200", "--profile", "fast")
+        self.assertEqual(brief.returncode, 0, brief.stderr)
+        self.assertIn("星河压缩协议", Path(json.loads(brief.stdout)["pack"]).read_text(encoding="utf-8"))
+        maintained = invoke("maintain", "--out", str(output))
+        self.assertEqual(maintained.returncode, 0, maintained.stdout + maintained.stderr)
+
+        source_v2 = self.root / "stellar-compression-v2.md"
+        source_v2.write_text(
+            "# 星河压缩协议\n\n## 核心方法\n"
+            "第二版增加词典校验步骤，并在替换前验证版本。\n"
+            "解码端仍需使用同一词典版本。\n",
+            encoding="utf-8",
+        )
+        missing_revision = invoke(
+            "reference", "ingest", "--out", str(output), "--source", str(source_v2),
+            "--title", "星河压缩协议", "--origin", "本地测试资料", "--license", "CC0-1.0",
+        )
+        self.assertEqual(missing_revision.returncode, 2)
+        revision_ingest = invoke(
+            "reference", "ingest", "--out", str(output), "--source", str(source_v2),
+            "--title", "星河压缩协议", "--origin", "本地测试资料", "--license", "CC0-1.0",
+            "--revision-of", reference_id,
+        )
+        self.assertEqual(revision_ingest.returncode, 4, revision_ingest.stderr)
+        revision = json.loads(revision_ingest.stdout)
+        revision_template = json.loads(Path(revision["review_template"]).read_text(encoding="utf-8"))
+        revision_template.update(
+            {
+                "status": "agent-reviewed",
+                "summary_zh": "第二版资料新增词典版本校验，并继续要求解码端保持相同版本。",
+                "claims": [
+                    {
+                        "claim_zh": "第二版在替换前增加词典版本校验。",
+                        "start_line": 4,
+                        "end_line": 4,
+                        "source_text": "第二版增加词典校验步骤，并在替换前验证版本。",
+                        "evidence_note": "已重新打开第二版归档原文第 4 行并核对新增校验步骤。",
+                    }
+                ],
+            }
+        )
+        revision_review = self.root / "reference-review-v2.json"
+        revision_review.write_text(json.dumps(revision_template, ensure_ascii=False, indent=2), encoding="utf-8")
+        reviewed_v2 = invoke("reference", "review", "--out", str(output), "--review", str(revision_review))
+        self.assertEqual(reviewed_v2.returncode, 0, reviewed_v2.stderr)
+        self.assertIn("第二版资料新增词典版本校验", page.read_text(encoding="utf-8"))
+        listed = json.loads(invoke("reference", "list", "--out", str(output), "--status", "all").stdout)
+        self.assertEqual({item["status"] for item in listed["records"]}, {"agent-reviewed", "superseded"})
+        rolled_revision = invoke("reference", "rollback", "--out", str(output), "--reference", revision["reference_id"])
+        self.assertEqual(rolled_revision.returncode, 0, rolled_revision.stderr)
+        self.assertIn("这份资料说明星河压缩协议", page.read_text(encoding="utf-8"))
+        rolled_initial = invoke("reference", "rollback", "--out", str(output), "--reference", reference_id)
+        self.assertEqual(rolled_initial.returncode, 0, rolled_initial.stderr)
+        self.assertFalse(page.exists())
+        self.assertFalse((output / "human/REFERENCES.md").exists())
+        self.assertNotIn("参考资料导览", (output / "human/INDEX.md").read_text(encoding="utf-8"))
+        final_audit = json.loads(invoke("reference", "audit", "--out", str(output)).stdout)
+        self.assertEqual(final_audit["status"], "passed")
+        self.assertEqual(final_audit["counts"]["total"], 0)
+
     def test_empty_document_symbols_are_not_a_provider_failure(self) -> None:
         # A module such as ``__main__.py`` may contain imports and a call but no
         # named declaration.  A successful ``documentSymbol`` response is then
