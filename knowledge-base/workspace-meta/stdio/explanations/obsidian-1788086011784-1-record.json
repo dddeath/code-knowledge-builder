@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "kind": "learning-explanation-evidence",
+  "retrieval_request_id": "obsidian-1788086011784-1",
+  "pack": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260830-103331-822654-01.md",
+  "query_record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260830-103331-822654-01.json",
+  "source_path": "analysis/Code Knowledge Builder 秋招面试官拷问手册.md",
+  "source_title": "Code Knowledge Builder 秋招面试官拷问手册",
+  "question": "为什么召回率这么低，与固定式脚本构建词项是否有关，尤其是在中文语境下",
+  "selected_text": "精确符号召回为 40%",
+  "explanation": "核心含义：这里的“精确符号召回为 40%”表示，在预期应命中的源码符号中，检索只找到了约四成。它衡量的是精确符号命中能力，不等同于相关页面召回率，更不直接代表最终回答只有 40% 正确。\n\n召回偏低很可能与固定式词项构建有关，中文语境会进一步放大问题。确定性脚本若主要依赖字面词项，就难以连接中文问题与英文代码标识符之间的语义。例如“机器知识检索”实际可能对应 `retrieve_machine`，而“召回率低”未必会直接出现在符号名或源码文本中。当前 Agent pack 也显示，候选文件多由 `builder`、`code`、`knowledge`、`中文`、`固定` 等宽泛词项选出：这些词能扩大候选范围，却不一定把真正相关的检索实现排到前面。\n\n需要区分三个边界：\n\n1. **确定性不等于低召回**：若维护了中文别名、符号拆词、同义词和实体关系，确定性检索同样可以有较高召回。\n2. **中文问题不等于中文符号**：自然语言通常使用“召回、词项、固定式”等概念词，而源码使用 `retrieve_machine` 一类英文标识符，单纯字面匹配容易断裂。\n3. **精确符号召回不等于整体检索效果**：系统可能没有直接命中目标符号，却通过其所在文件、知识页或邻接关系取得足够上下文；反过来，命中许多包含通用词的文件也不代表找到了正确符号。\n\n简短例子：查询“固定式脚本构建词项是否导致中文召回低”时，固定词项可能只提取出“固定”“构建”“中文”，于是召回多个通用模块，却遗漏真正负责检索的 `retrieve_machine`。因此，40% 更像是在暴露“中文概念到英文符号的映射不足”，而不是单纯说明 SQLite 或确定性检索机制本身无效。",
+  "feedback_audit": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\feedback-audit.json",
+  "agent_policy_audit": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\agent-protocol-audit.json"
+}

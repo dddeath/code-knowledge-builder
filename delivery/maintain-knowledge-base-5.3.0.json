@@ -1,0 +1,157 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "checked_at_utc": "2026-08-30T12:51:37Z",
+  "output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+  "page_writes": 0,
+  "checks": {
+    "agent_protocol": {
+      "schema_version": 1,
+      "protocol_version": "1.4.0",
+      "status": "passed",
+      "output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+      "internal_roots": [
+        "output",
+        "markdown",
+        "human"
+      ],
+      "workspace_root_count": 1,
+      "feedback": {
+        "schema_version": 1,
+        "status": "passed",
+        "counts": {
+          "open": 0,
+          "resolved": 0,
+          "stale_open": 0
+        },
+        "records": [],
+        "errors": []
+      },
+      "output_contracts": {
+        "markdown": {
+          "schema_version": 1,
+          "status": "not-required",
+          "required": false,
+          "vault": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown",
+          "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown\\.ckb\\output-contract.json",
+          "errors": []
+        },
+        "human": {
+          "schema_version": 1,
+          "status": "passed",
+          "required": true,
+          "vault": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human",
+          "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human\\.ckb\\output-contract.json",
+          "errors": []
+        }
+      },
+      "work_record_index": {
+        "status": "passed",
+        "record_count": 38,
+        "linked_record_count": 38,
+        "section_counts": {
+          "analysis": 15,
+          "changes": 18,
+          "pitfalls": 0,
+          "experiments": 2,
+          "sessions": 3
+        },
+        "errors": []
+      },
+      "errors": []
+    },
+    "work_record_index": {
+      "status": "passed",
+      "record_count": 38,
+      "linked_record_count": 38,
+      "section_counts": {
+        "analysis": 15,
+        "changes": 18,
+        "pitfalls": 0,
+        "experiments": 2,
+        "sessions": 3
+      },
+      "errors": []
+    },
+    "agent_index": {
+      "schema_version": 1,
+      "status": "passed",
+      "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\agent-index.sqlite",
+      "integrity": "ok",
+      "counts": {
+        "pages": 67,
+        "symbols": 483,
+        "edges": 576,
+        "terms": 4404,
+        "notes": 38
+      },
+      "projection_format": "markdown",
+      "errors": []
+    },
+    "machine_knowledge": {
+      "schema_version": 2,
+      "status": "passed",
+      "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\knowledge.sqlite",
+      "integrity": "ok",
+      "counts": {
+        "files": 31,
+        "entities": 483,
+        "source_ranges": 483,
+        "relations": 1985,
+        "reviews": 483,
+        "documents": 522,
+        "sections": 2118,
+        "human_projection": 483,
+        "workspace_changes": 0,
+        "reference_sources": 1
+      },
+      "fts_counts": {
+        "entity_fts": 483,
+        "section_fts": 2118,
+        "source_fts": 31
+      },
+      "language_contract": "所有说明使用简体中文，允许英文专有名词和代码标识符",
+      "retrieval": "sqlite-exact-fts5-sections-deterministic-weighted-graph",
+      "errors": []
+    },
+    "human_layer": {
+      "schema_version": 1,
+      "status": "passed",
+      "root": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human",
+      "compatibility_root": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown",
+      "language": "zh-CN",
+      "ignored_user_state_differences": [],
+      "errors": []
+    },
+    "references": {
+      "schema_version": 1,
+      "status": "passed",
+      "counts": {
+        "total": 1,
+        "active": 1,
+        "pending": 0,
+        "superseded": 0
+      },
+      "page_count": 1,
+      "page_limit_per_source": 1,
+      "machine_counts": {
+        "sources": 1,
+        "documents": 1
+      },
+      "errors": []
+    }
+  },
+  "human_readability": {
+    "status": "passed",
+    "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human\\readability-audit.json",
+    "errors": []
+  },
+  "capability_counts": {
+    "已吸收": 11,
+    "待吸收": 2,
+    "明确排除": 3,
+    "需要 benchmark": 3
+  },
+  "failed_checks": [],
+  "report": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\maintenance\\latest.json"
+}

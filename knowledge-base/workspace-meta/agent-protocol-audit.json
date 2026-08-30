@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "protocol_version": "1.4.0",
+  "status": "passed",
+  "output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+  "internal_roots": [
+    "output",
+    "markdown",
+    "human"
+  ],
+  "workspace_root_count": 1,
+  "feedback": {
+    "schema_version": 1,
+    "status": "passed",
+    "counts": {
+      "open": 0,
+      "resolved": 0,
+      "stale_open": 0
+    },
+    "records": [],
+    "errors": []
+  },
+  "output_contracts": {
+    "markdown": {
+      "schema_version": 1,
+      "status": "not-required",
+      "required": false,
+      "vault": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown",
+      "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown\\.ckb\\output-contract.json",
+      "errors": []
+    },
+    "human": {
+      "schema_version": 1,
+      "status": "passed",
+      "required": true,
+      "vault": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human",
+      "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human\\.ckb\\output-contract.json",
+      "errors": []
+    }
+  },
+  "work_record_index": {
+    "status": "passed",
+    "record_count": 38,
+    "linked_record_count": 38,
+    "section_counts": {
+      "analysis": 15,
+      "changes": 18,
+      "pitfalls": 0,
+      "experiments": 2,
+      "sessions": 3
+    },
+    "errors": []
+  },
+  "errors": []
+}

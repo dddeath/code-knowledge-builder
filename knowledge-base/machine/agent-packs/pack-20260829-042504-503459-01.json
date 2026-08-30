@@ -1,0 +1,368 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "question": "Obsidian 插件、跨 Harness 连接、文本选择提问、概念解释和按天学习笔记的实现入口",
+  "profile": "fast",
+  "budget": 1800,
+  "estimated_tokens": 1793,
+  "terms": [
+    "概念解释和按天学习笔记的实现入口",
+    "obsidian",
+    "harness",
+    "文本选择提问",
+    "习笔记",
+    "和按天",
+    "天学习",
+    "学习笔",
+    "实现入",
+    "念解释",
+    "择提问",
+    "按天学",
+    "文本选",
+    "本选择",
+    "概念解",
+    "现入口",
+    "的实现",
+    "笔记的",
+    "解释和",
+    "记的实",
+    "选择提",
+    "释和按",
+    "习笔",
+    "入口",
+    "和按",
+    "天学",
+    "学习",
+    "实现",
+    "念解",
+    "择提",
+    "按天",
+    "提问",
+    "插件",
+    "文本",
+    "本选",
+    "概念",
+    "现入",
+    "的实",
+    "笔记",
+    "解释",
+    "记的",
+    "连接",
+    "选择",
+    "释和",
+    "跨"
+  ],
+  "anchors": [],
+  "seed_entity_ids": [
+    "file-96e14f6e1b4b5346a4427dd5b4fd75f8",
+    "ent-23da25a51de5516781e23718c6fdbeff",
+    "ent-86dab3b263905178887ff1ea26fcad2b",
+    "ent-14aee69dd9ea5d819a1677557e78012f",
+    "ent-2130f914f2e751f0895ffe687c42fd9f"
+  ],
+  "selected_entities": [
+    {
+      "entity_id": "file-96e14f6e1b4b5346a4427dd5b4fd75f8",
+      "name": "obsidian.py",
+      "qualified_name": "scripts/ckb_core/obsidian.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/obsidian.py",
+      "start_line": 1,
+      "end_line": 134,
+      "human_page_title": "prepare_vault 与 install_obsidian 的协作实现",
+      "human_page_file": "pages/prepare_vault 与 install_obsidian 的协作实现.md",
+      "display_mode": "page",
+      "score": 136.73985364,
+      "score_breakdown": {
+        "entity-fts": 12.76526146,
+        "graph": 7.90921551,
+        "metadata": 50.0,
+        "section-fts": 48.06537667,
+        "term": 18.0
+      },
+      "reasons": [
+        "确定性词项 `obsidian`",
+        "确定性词项 `实现`",
+        "确定性词项 `笔记`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文职责",
+        "来源核对"
+      ]
+    },
+    {
+      "entity_id": "file-5f4b65d30320589cb6406877e8ffcff2",
+      "name": "automation.py",
+      "qualified_name": "scripts/ckb_core/automation.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 1,
+      "end_line": 1632,
+      "human_page_title": "ingest_event 与 default_registry_path 的协作实现",
+      "human_page_file": "pages/ingest_event 与 default_registry_path 的协作实现.md",
+      "display_mode": "page",
+      "score": 82.68375038,
+      "score_breakdown": {
+        "entity-fts": 19.65143624,
+        "metadata": 32.0,
+        "section-fts": 27.03231413,
+        "term": 4.0
+      },
+      "reasons": [
+        "确定性词项 `harness`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "file-c6fd1c3c1eec51b2a82d33f05e8683c9",
+      "name": "source_links.py",
+      "qualified_name": "scripts/ckb_core/source_links.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/source_links.py",
+      "start_line": 1,
+      "end_line": 184,
+      "human_page_title": "SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现",
+      "human_page_file": "pages/SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现.md",
+      "display_mode": "page",
+      "score": 81.62491819,
+      "score_breakdown": {
+        "entity-fts": 16.66588097,
+        "metadata": 37.0,
+        "section-fts": 11.95903721,
+        "term": 16.0
+      },
+      "reasons": [
+        "确定性词项 `obsidian`",
+        "确定性词项 `笔记`",
+        "确定性词项 `笔记的`",
+        "确定性词项 `记的`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": [
+        "中文含义",
+        "中文职责"
+      ]
+    },
+    {
+      "entity_id": "file-a7c669b371855f3e8541f4718060e9e9",
+      "name": "automation_integrations.py",
+      "qualified_name": "scripts/ckb_core/automation_integrations.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/automation_integrations.py",
+      "start_line": 1,
+      "end_line": 502,
+      "human_page_title": "render_integration 与 _looks_windows 的协作实现",
+      "human_page_file": "pages/render_integration 与 _looks_windows 的协作实现.md",
+      "display_mode": "page",
+      "score": 74.72550045,
+      "score_breakdown": {
+        "entity-fts": 24.77634685,
+        "metadata": 32.0,
+        "section-fts": 13.94915359,
+        "term": 4.0
+      },
+      "reasons": [
+        "确定性词项 `harness`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "ent-0b93d19b9ee35544851768c36b3298a7",
+      "name": "project_markdown",
+      "qualified_name": "project_markdown",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2363,
+      "end_line": 2470,
+      "human_page_title": "status 与 _replace_output_prefix 的协作实现",
+      "human_page_file": "pages/status 与 _replace_output_prefix 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 65.90070443,
+      "score_breakdown": {
+        "entity-fts": 15.91757069,
+        "graph": 3.90658255,
+        "metadata": 12.0,
+        "section-fts": 30.07655119,
+        "term": 4.0
+      },
+      "reasons": [
+        "确定性词项 `obsidian`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "ent-bbd799fca7ea549192aa0bf57633628c",
+      "name": "parser",
+      "qualified_name": "parser",
+      "kind": "function",
+      "source_path": "scripts/ckb.py",
+      "start_line": 115,
+      "end_line": 324,
+      "human_page_title": "parser",
+      "human_page_file": "pages/parser.md",
+      "display_mode": "page",
+      "score": 60.46680754,
+      "score_breakdown": {
+        "entity-fts": 18.09768903,
+        "graph": 8.072e-05,
+        "metadata": 12.0,
+        "section-fts": 26.36903779,
+        "term": 4.0
+      },
+      "reasons": [
+        "确定性词项 `harness`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文职责",
+        "什么时候需要修改",
+        "中文含义"
+      ]
+    },
+    {
+      "entity_id": "file-e0f03b8c100a53c6836fcb33f6b37766",
+      "name": "workspace_notes.py",
+      "qualified_name": "scripts/ckb_core/workspace_notes.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/workspace_notes.py",
+      "start_line": 1,
+      "end_line": 374,
+      "human_page_title": "record_note 与 page_tag 的协作实现",
+      "human_page_file": "pages/record_note 与 page_tag 的协作实现.md",
+      "display_mode": "page",
+      "score": 45.0,
+      "score_breakdown": {
+        "metadata": 25.0,
+        "term": 20.0
+      },
+      "reasons": [
+        "确定性词项 `实现`",
+        "确定性词项 `笔记`",
+        "确定性词项 `笔记的`",
+        "确定性词项 `记的`",
+        "确定性词项 `连接`",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": [
+        "中文含义",
+        "中文职责"
+      ]
+    },
+    {
+      "entity_id": "file-033b9a94633a55589099ca5c5d92fd2a",
+      "name": "make_source_patch.py",
+      "qualified_name": "scripts/make_source_patch.py",
+      "kind": "file",
+      "source_path": "scripts/make_source_patch.py",
+      "start_line": 1,
+      "end_line": 47,
+      "human_page_title": "main 相关实现",
+      "human_page_file": "pages/main 相关实现.md",
+      "display_mode": "page",
+      "score": 41.0,
+      "score_breakdown": {
+        "metadata": 25.0,
+        "term": 16.0
+      },
+      "reasons": [
+        "确定性词项 `实现`",
+        "确定性词项 `文本`",
+        "确定性词项 `的实`",
+        "确定性词项 `的实现`",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": [
+        "中文含义",
+        "中文职责",
+        "什么时候需要修改"
+      ]
+    }
+  ],
+  "related_documents": [
+    {
+      "document_id": "note:experiments:LLM Wiki 吸收特性与 Flask 检索收益",
+      "title": "LLM Wiki 吸收特性与 Flask 检索收益",
+      "kind": "experiment",
+      "human_file": "experiments/LLM Wiki 吸收特性与 Flask 检索收益.md"
+    },
+    {
+      "document_id": "note:changes:跨 Harness 会话与修改自动同步实现",
+      "title": "跨 Harness 会话与修改自动同步实现",
+      "kind": "change",
+      "human_file": "changes/跨 Harness 会话与修改自动同步实现.md"
+    },
+    {
+      "document_id": "note:analysis:Code Knowledge Builder 5.0.0 工程方法",
+      "title": "Code Knowledge Builder 5.0.0 工程方法",
+      "kind": "analysis",
+      "human_file": "analysis/Code Knowledge Builder 5.0.0 工程方法.md"
+    },
+    {
+      "document_id": "note:changes:LLM Wiki 定位式反馈闭环",
+      "title": "LLM Wiki 定位式反馈闭环",
+      "kind": "change",
+      "human_file": "changes/LLM Wiki 定位式反馈闭环.md"
+    },
+    {
+      "document_id": "note:analysis:自动同步与 LLM Wiki 后续待办",
+      "title": "自动同步与 LLM Wiki 后续待办",
+      "kind": "analysis",
+      "human_file": "analysis/自动同步与 LLM Wiki 后续待办.md"
+    },
+    {
+      "document_id": "note:analysis:当前 Codex Hook 触发流程核对",
+      "title": "当前 Codex Hook 触发流程核对",
+      "kind": "analysis",
+      "human_file": "analysis/当前 Codex Hook 触发流程核对.md"
+    },
+    {
+      "document_id": "note:analysis:知识库人类可读性与任务完成标准",
+      "title": "知识库人类可读性与任务完成标准",
+      "kind": "analysis",
+      "human_file": "analysis/知识库人类可读性与任务完成标准.md"
+    },
+    {
+      "document_id": "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）",
+      "title": "LLM Wiki 快速检索性能验证（5.1.2）",
+      "kind": "analysis",
+      "human_file": "analysis/LLM Wiki 快速检索性能验证（5.1.2）.md"
+    }
+  ],
+  "open_feedback": 0,
+  "retrieval_stats": {
+    "scored_entities": 280,
+    "overscan_limit": 32,
+    "materialized_candidates": 32,
+    "selected_entities": 8,
+    "budgeted_entity_limit": 8,
+    "selected_source_paths": 8,
+    "batched_entity_queries": 2,
+    "source_link_cache_entries": 8,
+    "static_cache_hit": false
+  },
+  "pack": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260829-042504-503459-01.md",
+  "record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260829-042504-503459-01.json",
+  "retrieval": "sqlite-exact-fts5-sections-deterministic-weighted-graph",
+  "deterministic": true,
+  "source_grounded": true,
+  "grep_fallback_required": false
+}

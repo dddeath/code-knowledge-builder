@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "status": "agent-reviewed",
+  "kind": "analysis",
+  "title": "知识库人类可读性与任务完成标准",
+  "file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human\\analysis\\知识库人类可读性与任务完成标准.md",
+  "compatibility_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown\\analysis\\知识库人类可读性与任务完成标准.md",
+  "linked_pages": [
+    "prepare_vault 与 install_obsidian 的协作实现",
+    "audit_migration 与 _entity_key 的协作实现",
+    "package_showcase 与 _parse_sample 的协作实现",
+    "SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现",
+    "status 与 _replace_output_prefix 的协作实现",
+    "retrieve_machine 与 estimated_tokens 的协作实现",
+    "query_graph 与 _networkx_modules 的协作实现",
+    "record_note",
+    "add_initial_arguments 与 add_git_bootstrap_arguments 的协作实现",
+    "sync_human_layer",
+    "module_name 与 estimated_tokens 的协作实现",
+    "MigrationTest 等测试场景"
+  ],
+  "source_links": [
+    "[打开源码：scripts/ckb_core/obsidian.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/obsidian.py:1:1)  `scripts/ckb_core/obsidian.py:1-134`",
+    "[打开源码：scripts/ckb_core/migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/migration.py:1:1)  `scripts/ckb_core/migration.py:1-585`",
+    "[打开源码：scripts/ckb_core/showcase.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/showcase.py:1:1)  `scripts/ckb_core/showcase.py:1-173`",
+    "[打开源码：scripts/ckb_core/source_links.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/source_links.py:1:1)  `scripts/ckb_core/source_links.py:1-184`",
+    "[打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3314`",
+    "[打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1458`",
+    "[打开源码：scripts/ckb_core/graphify_core.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/graphify_core.py:1:1)  `scripts/ckb_core/graphify_core.py:1-676`",
+    "[打开源码：scripts/ckb_core/workspace_notes.py 第 106 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/workspace_notes.py:106:1)  `scripts/ckb_core/workspace_notes.py:106-183`",
+    "[打开源码：scripts/ckb.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:1:1)  `scripts/ckb.py:1-495`",
+    "[打开源码：scripts/ckb_core/knowledge_layers.py 第 126 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/knowledge_layers.py:126:1)  `scripts/ckb_core/knowledge_layers.py:126-181`",
+    "[打开源码：scripts/ckb_core/navigation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/navigation.py:1:1)  `scripts/ckb_core/navigation.py:1-456`",
+    "[打开源码：tests/test_migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_migration.py:1:1)  `tests/test_migration.py:1-194`"
+  ],
+  "query_record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260828-181832-247055-01.json",
+  "updated_at_utc": "2026-08-28T18:23:18Z",
+  "obsidian_uri": "obsidian://open?path=E%3A%5Cknowledge_builder%5Cself-workspace%5Cknowledge-base%5Cmarkdown%5Canalysis%5C%E7%9F%A5%E8%AF%86%E5%BA%93%E4%BA%BA%E7%B1%BB%E5%8F%AF%E8%AF%BB%E6%80%A7%E4%B8%8E%E4%BB%BB%E5%8A%A1%E5%AE%8C%E6%88%90%E6%A0%87%E5%87%86.md"
+}

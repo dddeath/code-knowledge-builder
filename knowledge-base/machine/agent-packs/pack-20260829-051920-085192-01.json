@@ -1,0 +1,365 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "question": "Obsidian 选区解释 右键菜单 Claudian provider 知识库检索 生成 审计",
+  "profile": "fast",
+  "budget": 1800,
+  "estimated_tokens": 1771,
+  "terms": [
+    "claudian",
+    "obsidian",
+    "provider",
+    "知识库检索",
+    "右键菜单",
+    "选区解释",
+    "区解释",
+    "右键菜",
+    "库检索",
+    "知识库",
+    "识库检",
+    "选区解",
+    "键菜单",
+    "区解",
+    "右键",
+    "审计",
+    "库检",
+    "检索",
+    "生成",
+    "知识",
+    "菜单",
+    "解释",
+    "识库",
+    "选区",
+    "键菜"
+  ],
+  "anchors": [],
+  "seed_entity_ids": [
+    "file-96e14f6e1b4b5346a4427dd5b4fd75f8",
+    "ent-23da25a51de5516781e23718c6fdbeff",
+    "ent-14aee69dd9ea5d819a1677557e78012f",
+    "file-e3e8943d1e3d5dfaa65c7babaf0e98fc",
+    "file-127ad18062a35020a23da6cd63c91282"
+  ],
+  "selected_entities": [
+    {
+      "entity_id": "file-96e14f6e1b4b5346a4427dd5b4fd75f8",
+      "name": "obsidian.py",
+      "qualified_name": "scripts/ckb_core/obsidian.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/obsidian.py",
+      "start_line": 1,
+      "end_line": 134,
+      "human_page_title": "prepare_vault 与 install_obsidian 的协作实现",
+      "human_page_file": "pages/prepare_vault 与 install_obsidian 的协作实现.md",
+      "display_mode": "page",
+      "score": 134.46315921,
+      "score_breakdown": {
+        "entity-fts": 12.76526146,
+        "graph": 4.17640837,
+        "metadata": 50.0,
+        "section-fts": 49.52148939,
+        "term": 18.0
+      },
+      "reasons": [
+        "确定性词项 `obsidian`",
+        "确定性词项 `审计`",
+        "确定性词项 `生成`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文职责"
+      ]
+    },
+    {
+      "entity_id": "file-e3e8943d1e3d5dfaa65c7babaf0e98fc",
+      "name": "providers.py",
+      "qualified_name": "scripts/ckb_core/providers.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/providers.py",
+      "start_line": 1,
+      "end_line": 596,
+      "human_page_title": "LspClient.start 与 _version_matches 的协作实现",
+      "human_page_file": "pages/LspClient.start 与 _version_matches 的协作实现.md",
+      "display_mode": "page",
+      "score": 83.62557559,
+      "score_breakdown": {
+        "entity-fts": 18.52481117,
+        "graph": 0.06822414,
+        "metadata": 50.0,
+        "section-fts": 15.03254028
+      },
+      "reasons": [
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "来源核对"
+      ]
+    },
+    {
+      "entity_id": "file-127ad18062a35020a23da6cd63c91282",
+      "name": "machine_knowledge.py",
+      "qualified_name": "scripts/ckb_core/machine_knowledge.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 1,
+      "end_line": 1458,
+      "human_page_title": "retrieve_machine 与 estimated_tokens 的协作实现",
+      "human_page_file": "pages/retrieve_machine 与 estimated_tokens 的协作实现.md",
+      "display_mode": "page",
+      "score": 77.32128132,
+      "score_breakdown": {
+        "entity-fts": 18.85799642,
+        "graph": 0.06815992,
+        "metadata": 25.0,
+        "section-fts": 13.39512499,
+        "term": 20.0
+      },
+      "reasons": [
+        "确定性词项 `检索`",
+        "确定性词项 `生成`",
+        "确定性词项 `知识`",
+        "确定性词项 `知识库`",
+        "确定性词项 `识库`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文含义",
+        "中文职责"
+      ]
+    },
+    {
+      "entity_id": "ent-3cf702e4a37f509ea90ce4d60c33d811",
+      "name": "obsidian_open_uri",
+      "qualified_name": "obsidian_open_uri",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/source_links.py",
+      "start_line": 168,
+      "end_line": 169,
+      "human_page_title": "SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现",
+      "human_page_file": "pages/SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 76.72789975,
+      "score_breakdown": {
+        "entity-fts": 12.68827786,
+        "metadata": 30.0,
+        "section-fts": 24.03962189,
+        "term": 10.0
+      },
+      "reasons": [
+        "确定性词项 `obsidian`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": [
+        "中文作用",
+        "固定源码摘录"
+      ]
+    },
+    {
+      "entity_id": "file-f5cd5f5f6848572bb19754c49d10c376",
+      "name": "migration.py",
+      "qualified_name": "scripts/ckb_core/migration.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/migration.py",
+      "start_line": 1,
+      "end_line": 585,
+      "human_page_title": "audit_migration 与 _entity_key 的协作实现",
+      "human_page_file": "pages/audit_migration 与 _entity_key 的协作实现.md",
+      "display_mode": "page",
+      "score": 73.95397759,
+      "score_breakdown": {
+        "entity-fts": 19.29521222,
+        "metadata": 25.0,
+        "section-fts": 13.65876537,
+        "term": 16.0
+      },
+      "reasons": [
+        "确定性词项 `审计`",
+        "确定性词项 `知识`",
+        "确定性词项 `知识库`",
+        "确定性词项 `识库`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": [
+        "中文职责"
+      ]
+    },
+    {
+      "entity_id": "ent-27c0ddaab5045ecfb12c92169e2b2948",
+      "name": "_wiki_document",
+      "qualified_name": "_wiki_document",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2179,
+      "end_line": 2255,
+      "human_page_title": "status 与 _replace_output_prefix 的协作实现",
+      "human_page_file": "pages/status 与 _replace_output_prefix 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 65.13754355,
+      "score_breakdown": {
+        "entity-fts": 16.41234272,
+        "graph": 0.00358703,
+        "metadata": 5.0,
+        "section-fts": 27.72161379,
+        "term": 16.0
+      },
+      "reasons": [
+        "确定性词项 `生成`",
+        "确定性词项 `知识`",
+        "确定性词项 `知识库`",
+        "确定性词项 `识库`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "ent-c25d3dcaeab155158a328831d24fbd92",
+      "name": "register_project",
+      "qualified_name": "register_project",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 172,
+      "end_line": 244,
+      "human_page_title": "ingest_event 与 default_registry_path 的协作实现",
+      "human_page_file": "pages/ingest_event 与 default_registry_path 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 48.01551786,
+      "score_breakdown": {
+        "entity-fts": 17.48321663,
+        "graph": 0.00024693,
+        "metadata": 5.0,
+        "section-fts": 13.53205431,
+        "term": 12.0
+      },
+      "reasons": [
+        "确定性词项 `知识`",
+        "确定性词项 `知识库`",
+        "确定性词项 `识库`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文作用"
+      ]
+    },
+    {
+      "entity_id": "ent-23da25a51de5516781e23718c6fdbeff",
+      "name": "prepare_vault",
+      "qualified_name": "prepare_vault",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/obsidian.py",
+      "start_line": 23,
+      "end_line": 43,
+      "human_page_title": "prepare_vault",
+      "human_page_file": "pages/prepare_vault.md",
+      "display_mode": "page",
+      "score": 102.81184161,
+      "score_breakdown": {
+        "entity-fts": 14.06969033,
+        "graph": 4.60593214,
+        "metadata": 22.0,
+        "section-fts": 52.13621915,
+        "term": 10.0
+      },
+      "reasons": [
+        "确定性词项 `obsidian`",
+        "确定性词项 `生成`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文含义",
+        "什么时候需要修改",
+        "来源核对",
+        "中文职责"
+      ]
+    }
+  ],
+  "related_documents": [
+    {
+      "document_id": "note:analysis:Flask 3.1.3 知识库与 grep 对比测试（秋招版）",
+      "title": "Flask 3.1.3 知识库与 grep 对比测试（秋招版）",
+      "kind": "analysis",
+      "human_file": "analysis/Flask 3.1.3 知识库与 grep 对比测试（秋招版）.md"
+    },
+    {
+      "document_id": "note:changes:Obsidian 多 Harness 选区学习插件",
+      "title": "Obsidian 多 Harness 选区学习插件",
+      "kind": "change",
+      "human_file": "changes/Obsidian 多 Harness 选区学习插件.md"
+    },
+    {
+      "document_id": "note:experiments:LLM Wiki 吸收特性与 Flask 检索收益",
+      "title": "LLM Wiki 吸收特性与 Flask 检索收益",
+      "kind": "experiment",
+      "human_file": "experiments/LLM Wiki 吸收特性与 Flask 检索收益.md"
+    },
+    {
+      "document_id": "note:analysis:自动同步与 LLM Wiki 后续待办",
+      "title": "自动同步与 LLM Wiki 后续待办",
+      "kind": "analysis",
+      "human_file": "analysis/自动同步与 LLM Wiki 后续待办.md"
+    },
+    {
+      "document_id": "note:analysis:Code Knowledge Builder 5.0.0 特性总览",
+      "title": "Code Knowledge Builder 5.0.0 特性总览",
+      "kind": "analysis",
+      "human_file": "analysis/Code Knowledge Builder 5.0.0 特性总览.md"
+    },
+    {
+      "document_id": "note:changes:双知识库与确定性检索改造记录",
+      "title": "双知识库与确定性检索改造记录",
+      "kind": "change",
+      "human_file": "changes/双知识库与确定性检索改造记录.md"
+    },
+    {
+      "document_id": "note:analysis:知识库人类可读性与任务完成标准",
+      "title": "知识库人类可读性与任务完成标准",
+      "kind": "analysis",
+      "human_file": "analysis/知识库人类可读性与任务完成标准.md"
+    },
+    {
+      "document_id": "note:sessions:session-20260826-124551-01 分析总结",
+      "title": "session-20260826-124551-01 分析总结",
+      "kind": "session",
+      "human_file": "sessions/session-20260826-124551-01 分析总结.md"
+    }
+  ],
+  "open_feedback": 0,
+  "retrieval_stats": {
+    "scored_entities": 277,
+    "overscan_limit": 32,
+    "materialized_candidates": 32,
+    "selected_entities": 8,
+    "budgeted_entity_limit": 8,
+    "selected_source_paths": 7,
+    "batched_entity_queries": 2,
+    "source_link_cache_entries": 7,
+    "static_cache_hit": false
+  },
+  "pack": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260829-051920-085192-01.md",
+  "record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260829-051920-085192-01.json",
+  "retrieval": "sqlite-exact-fts5-sections-deterministic-weighted-graph",
+  "deterministic": true,
+  "source_grounded": true,
+  "grep_fallback_required": false
+}

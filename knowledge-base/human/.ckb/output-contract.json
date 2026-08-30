@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "contract": "code-knowledge-builder-output",
+  "status": "ready",
+  "output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+  "vault": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human",
+  "runtime": {
+    "python": "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\python\\python.exe",
+    "ckb": "C:\\Users\\19739\\.codex\\skills\\code-knowledge-builder\\scripts\\ckb.py"
+  },
+  "stdio": {
+    "protocol": "ckb-stdio-retrieval",
+    "minimum_version": 2,
+    "methods": [
+      "ping",
+      "retrieve",
+      "record-explanation",
+      "shutdown"
+    ],
+    "command": [
+      "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\python\\python.exe",
+      "C:\\Users\\19739\\.codex\\skills\\code-knowledge-builder\\scripts\\ckb.py",
+      "serve",
+      "--out",
+      "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+      "--stdio"
+    ]
+  },
+  "language": "zh-CN"
+}

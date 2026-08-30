@@ -1,0 +1,58 @@
+{
+  "schema_version": 3,
+  "registration_id": "reg-5b4b7449e52b5a6fa0b4e3e39cd360bb",
+  "repo_root": "E:\\knowledge_builder\\self-workspace\\source",
+  "knowledge_output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+  "event": {
+    "schema_version": 3,
+    "harness": "codex",
+    "event_name": "PostToolUse",
+    "canonical_type": "tool.result",
+    "external_event_id": "ckb-wsl-canary-tool",
+    "session_id": "ckb-wsl-hook-canary-20260830-01",
+    "turn_id": "ckb-wsl-canary-turn-1",
+    "tool_use_id": "ckb-wsl-canary-tool-1",
+    "cwd": "E:\\knowledge_builder",
+    "prompt": "",
+    "assistant_message": "",
+    "tool_name": "apply_patch",
+    "tool_input": {
+      "path": "/mnt/e/knowledge_builder/self-workspace/source/scripts/ckb_core/automation.py"
+    },
+    "tool_output": "修改已完成",
+    "tool_status": "completed",
+    "skill_name": null,
+    "changed_paths": [
+      "/mnt/e/knowledge_builder/self-workspace/source/scripts/ckb_core/automation.py"
+    ],
+    "source": null,
+    "received_at_utc": "2026-08-30T04:58:31Z",
+    "raw": {
+      "session_id": "ckb-wsl-hook-canary-20260830-01",
+      "cwd": "/mnt/e/knowledge_builder",
+      "event_id": "ckb-wsl-canary-tool",
+      "turn_id": "ckb-wsl-canary-turn-1",
+      "tool_use_id": "ckb-wsl-canary-tool-1",
+      "hook_event_name": "PostToolUse",
+      "tool_name": "apply_patch",
+      "tool_input": {
+        "path": "/mnt/e/knowledge_builder/self-workspace/source/scripts/ckb_core/automation.py"
+      },
+      "tool_response": "修改已完成",
+      "changed_paths": [
+        "/mnt/e/knowledge_builder/self-workspace/source/scripts/ckb_core/automation.py"
+      ]
+    },
+    "redaction_count": 0,
+    "redaction_types": [],
+    "skill_activation": {
+      "activation_key": "skillactivation-3f1e3ce269c754d98a254fff717a63b9",
+      "activation_source": "harness-skill-metadata",
+      "activated_at_utc": "2026-08-30T04:58:27Z"
+    },
+    "registration_match": {
+      "kind": "workspace",
+      "root": "E:\\knowledge_builder"
+    }
+  }
+}

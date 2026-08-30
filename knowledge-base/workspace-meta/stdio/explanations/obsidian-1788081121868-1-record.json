@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "kind": "learning-explanation-evidence",
+  "retrieval_request_id": "obsidian-1788081121868-1",
+  "pack": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260830-091201-924039-01.md",
+  "query_record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260830-091201-924039-01.json",
+  "source_path": "analysis/Code Knowledge Builder 秋招面试官拷问手册.md",
+  "source_title": "Code Knowledge Builder 秋招面试官拷问手册",
+  "question": "当前脚本是如何将自然语言请求构造为词项的",
+  "selected_text": "大仓库里，业务意图通常不是源码符号。单纯 grep 对已知符号很快，但面对“修改会话停止后的记录逻辑”这类问题，工程师需要自己构造关键词、阅读很多文件并恢复调用关系；直接把全仓 Markdown 或源码交给 Agent，又会增加 token 成本和决策波动。",
+  "explanation": "核心含义是：脚本不会先把自然语言“理解”为某个源码符号，而是把请求及其文档上下文规范化为可重复计算的词项，再用这些词项查询 SQLite 索引。英文按单词拆分并统一大小写，例如标题中的 `Code Knowledge Builder Agent` 会形成 `code`、`knowledge`、`builder`、`agent`；中文则会产生相邻字符组成的词项，选中文本里的“文件并”因此可能产生 `件并`。\n\n这些确定性词项负责召回候选知识页和源码边界，Agent pack 中的“选择原因”展示的正是实际命中的词项。后续流程再结合索引关系、排序和 token 预算压缩候选内容，从而避免人工猜测关键词，也不必把全仓内容直接交给 Agent。\n\n容易混淆的是，词项只是词法检索键，并不等同于源码实体、业务语义或调用关系。`grep` 通常要求已经知道准确字符串；这里允许自然语言产生多个检索入口，但真正的实体关系仍需由知识页、源码索引或图关系补充。另外，“选择原因”只列出促成该候选命中的词项，不代表请求只生成了这些词项。\n\n例如，“修改会话停止后的记录逻辑”可以产生“修改”“会话”“停止”“记录”“逻辑”等中文词项；系统先据此召回与会话维护、记录笔记相关的页面，再从候选结果中定位 `agent_maintenance.py` 或 `workspace_notes.py`，而不是直接假定请求中存在同名函数。",
+  "feedback_audit": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\feedback-audit.json",
+  "agent_policy_audit": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\agent-protocol-audit.json"
+}

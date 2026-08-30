@@ -1,0 +1,320 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "question": "定位式人工反馈与剩余 LLM Wiki 功能",
+  "profile": "fast",
+  "budget": 1600,
+  "estimated_tokens": 1543,
+  "terms": [
+    "定位式人工反馈与剩余",
+    "wiki",
+    "llm",
+    "与剩余",
+    "人工反",
+    "位式人",
+    "反馈与",
+    "定位式",
+    "工反馈",
+    "式人工",
+    "馈与剩",
+    "与剩",
+    "人工",
+    "位式",
+    "剩余",
+    "功能",
+    "反馈",
+    "定位",
+    "工反",
+    "式人",
+    "馈与"
+  ],
+  "anchors": [
+    "llm"
+  ],
+  "seed_entity_ids": [
+    "file-5733359b6caf51f380bd1e8fab1c0393",
+    "ent-27c0ddaab5045ecfb12c92169e2b2948",
+    "ent-eea7d0df075253ad9e9f3021a7d1f682",
+    "ent-1f43db7fd74452619b2566b63e1469ca",
+    "ent-a58f8580d24f5d229ecc599f47acb7d6"
+  ],
+  "selected_entities": [
+    {
+      "entity_id": "file-5733359b6caf51f380bd1e8fab1c0393",
+      "name": "showcase.py",
+      "qualified_name": "scripts/ckb_core/showcase.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/showcase.py",
+      "start_line": 1,
+      "end_line": 173,
+      "human_page_title": "package_showcase 与 _parse_sample 的协作实现",
+      "human_page_file": "pages/package_showcase 与 _parse_sample 的协作实现.md",
+      "display_mode": "page",
+      "score": 92.88128801,
+      "score_breakdown": {
+        "entity-fts": 13.35035456,
+        "graph": 5.55425282,
+        "metadata": 32.0,
+        "section-fts": 37.97668063,
+        "term": 4.0
+      },
+      "reasons": [
+        "确定性词项 `wiki`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文职责"
+      ]
+    },
+    {
+      "entity_id": "ent-27c0ddaab5045ecfb12c92169e2b2948",
+      "name": "_wiki_document",
+      "qualified_name": "_wiki_document",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2179,
+      "end_line": 2255,
+      "human_page_title": "status 与 _replace_output_prefix 的协作实现",
+      "human_page_file": "pages/status 与 _replace_output_prefix 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 86.89266646,
+      "score_breakdown": {
+        "entity-fts": 11.96178941,
+        "graph": 0.04336182,
+        "metadata": 30.0,
+        "section-fts": 34.88751523,
+        "term": 10.0
+      },
+      "reasons": [
+        "确定性词项 `wiki`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "ent-1f43db7fd74452619b2566b63e1469ca",
+      "name": "relink_preserved_notes",
+      "qualified_name": "relink_preserved_notes",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/migration.py",
+      "start_line": 468,
+      "end_line": 562,
+      "human_page_title": "audit_migration 与 _entity_key 的协作实现",
+      "human_page_file": "pages/audit_migration 与 _entity_key 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 82.74545785,
+      "score_breakdown": {
+        "entity-fts": 15.2420108,
+        "graph": 3.12152458,
+        "metadata": 12.0,
+        "section-fts": 48.38192247,
+        "term": 4.0
+      },
+      "reasons": [
+        "确定性词项 `wiki`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "file-ddd0044468285d24847a5bc8661ef10d",
+      "name": "test_migration.py",
+      "qualified_name": "tests/test_migration.py",
+      "kind": "file",
+      "source_path": "tests/test_migration.py",
+      "start_line": 1,
+      "end_line": 194,
+      "human_page_title": "MigrationTest 等测试场景",
+      "human_page_file": "pages/MigrationTest 等测试场景.md",
+      "display_mode": "page",
+      "score": 28.7134988,
+      "score_breakdown": {
+        "entity-fts": 15.70933116,
+        "metadata": 32.0,
+        "section-fts": 12.65614218,
+        "term": 8.0,
+        "test-discount": -39.65197454
+      },
+      "reasons": [
+        "确定性词项 `wiki`",
+        "确定性词项 `定位`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "实现定位查询对测试实体应用固定折扣"
+      ],
+      "sections": [
+        "中文职责",
+        "中文含义"
+      ]
+    },
+    {
+      "entity_id": "ent-14aee69dd9ea5d819a1677557e78012f",
+      "name": "audit_obsidian",
+      "qualified_name": "audit_obsidian",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/obsidian.py",
+      "start_line": 101,
+      "end_line": 133,
+      "human_page_title": "prepare_vault 与 install_obsidian 的协作实现",
+      "human_page_file": "pages/prepare_vault 与 install_obsidian 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 24.87364798,
+      "score_breakdown": {
+        "graph": 0.00029118,
+        "section-fts": 24.8733568
+      },
+      "reasons": [
+        "中文章节全文命中",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "ent-35716f431bad56cc952463abb6b2d71c",
+      "name": "_terms",
+      "qualified_name": "_terms",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/graphify_core.py",
+      "start_line": 469,
+      "end_line": 480,
+      "human_page_title": "query_graph 与 _networkx_modules 的协作实现",
+      "human_page_file": "pages/query_graph 与 _networkx_modules 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 16.18209525,
+      "score_breakdown": {
+        "section-fts": 16.18209525
+      },
+      "reasons": [
+        "中文章节全文命中"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "ent-ae7fce8eaeba5a88a7bc970e027a816d",
+      "name": "test_gemini_copilot_and_cursor_normalization",
+      "qualified_name": "AutomationTest.test_gemini_copilot_and_cursor_normalization",
+      "kind": "function",
+      "source_path": "tests/test_automation.py",
+      "start_line": 513,
+      "end_line": 542,
+      "human_page_title": "AutomationTest.event 等测试场景",
+      "human_page_file": "pages/AutomationTest.event 等测试场景.md",
+      "display_mode": "appendix",
+      "score": 9.33369168,
+      "score_breakdown": {
+        "section-fts": 22.22307543,
+        "test-discount": -12.88938375
+      },
+      "reasons": [
+        "中文章节全文命中",
+        "实现定位查询对测试实体应用固定折扣"
+      ],
+      "sections": [
+        "固定源码摘录"
+      ]
+    },
+    {
+      "entity_id": "ent-03df8bfa094b5e69912d4f8d4b685f0c",
+      "name": "_human_projection",
+      "qualified_name": "_human_projection",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 107,
+      "end_line": 115,
+      "human_page_title": "retrieve_machine 与 estimated_tokens 的协作实现",
+      "human_page_file": "pages/retrieve_machine 与 estimated_tokens 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 4.00029118,
+      "score_breakdown": {
+        "graph": 0.00029118,
+        "term": 4.0
+      },
+      "reasons": [
+        "确定性词项 `定位`",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文作用",
+        "来源核对"
+      ]
+    }
+  ],
+  "related_documents": [
+    {
+      "document_id": "note:changes:LLM Wiki 定位式反馈闭环",
+      "title": "LLM Wiki 定位式反馈闭环",
+      "kind": "change",
+      "human_file": "changes/LLM Wiki 定位式反馈闭环.md"
+    },
+    {
+      "document_id": "note:experiments:LLM Wiki 吸收特性与 Flask 检索收益",
+      "title": "LLM Wiki 吸收特性与 Flask 检索收益",
+      "kind": "experiment",
+      "human_file": "experiments/LLM Wiki 吸收特性与 Flask 检索收益.md"
+    },
+    {
+      "document_id": "note:analysis:自动同步与 LLM Wiki 后续待办",
+      "title": "自动同步与 LLM Wiki 后续待办",
+      "kind": "analysis",
+      "human_file": "analysis/自动同步与 LLM Wiki 后续待办.md"
+    },
+    {
+      "document_id": "note:analysis:LLM Wiki 快速检索性能复验（5.1.4）",
+      "title": "LLM Wiki 快速检索性能复验（5.1.4）",
+      "kind": "analysis",
+      "human_file": "analysis/LLM Wiki 快速检索性能复验（5.1.4）.md"
+    },
+    {
+      "document_id": "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）",
+      "title": "LLM Wiki 快速检索性能验证（5.1.2）",
+      "kind": "analysis",
+      "human_file": "analysis/LLM Wiki 快速检索性能验证（5.1.2）.md"
+    },
+    {
+      "document_id": "note:analysis:LLM Wiki 快速检索性能验证（5.1.3）",
+      "title": "LLM Wiki 快速检索性能验证（5.1.3）",
+      "kind": "analysis",
+      "human_file": "analysis/LLM Wiki 快速检索性能验证（5.1.3）.md"
+    },
+    {
+      "document_id": "note:sessions:LLM Wiki 快速检索验证与 Hook 会话记录",
+      "title": "LLM Wiki 快速检索验证与 Hook 会话记录",
+      "kind": "session",
+      "human_file": "sessions/LLM Wiki 快速检索验证与 Hook 会话记录.md"
+    },
+    {
+      "document_id": "note:changes:LLM Wiki 快速检索确定性优化与 5.1.3 交付",
+      "title": "LLM Wiki 快速检索确定性优化与 5.1.3 交付",
+      "kind": "change",
+      "human_file": "changes/LLM Wiki 快速检索确定性优化与 5.1.3 交付.md"
+    }
+  ],
+  "open_feedback": 0,
+  "retrieval_stats": {
+    "scored_entities": 279,
+    "overscan_limit": 32,
+    "materialized_candidates": 32,
+    "selected_entities": 8,
+    "budgeted_entity_limit": 8,
+    "selected_source_paths": 8,
+    "batched_entity_queries": 2,
+    "source_link_cache_entries": 8,
+    "static_cache_hit": false
+  },
+  "pack": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260828-184536-194865-01.md",
+  "record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260828-184536-194865-01.json",
+  "retrieval": "sqlite-exact-fts5-sections-deterministic-weighted-graph",
+  "deterministic": true,
+  "source_grounded": true,
+  "grep_fallback_required": false
+}

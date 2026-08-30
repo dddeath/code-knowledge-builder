@@ -1,0 +1,365 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "question": "人类知识库首页、工作记录、主题导航、页面首屏和任务入口如何组织",
+  "profile": "fast",
+  "budget": 1800,
+  "estimated_tokens": 1768,
+  "terms": [
+    "页面首屏和任务入口如何组织",
+    "人类知识库首页",
+    "主题导航",
+    "工作记录",
+    "主题导",
+    "人类知",
+    "任务入",
+    "何组织",
+    "作记录",
+    "入口如",
+    "务入口",
+    "口如何",
+    "和任务",
+    "如何组",
+    "屏和任",
+    "工作记",
+    "库首页",
+    "知识库",
+    "类知识",
+    "识库首",
+    "面首屏",
+    "页面首",
+    "题导航",
+    "首屏和",
+    "主题",
+    "人类",
+    "任务",
+    "何组",
+    "作记",
+    "入口",
+    "务入",
+    "口如",
+    "和任",
+    "如何",
+    "导航",
+    "屏和",
+    "工作",
+    "库首",
+    "知识",
+    "类知",
+    "组织",
+    "记录",
+    "识库",
+    "面首",
+    "页面",
+    "题导",
+    "首屏",
+    "首页"
+  ],
+  "anchors": [],
+  "seed_entity_ids": [
+    "ent-03df8bfa094b5e69912d4f8d4b685f0c",
+    "ent-89d9bf18486a5b53a0336a658b829909",
+    "ent-27c0ddaab5045ecfb12c92169e2b2948",
+    "file-127ad18062a35020a23da6cd63c91282",
+    "file-f5cd5f5f6848572bb19754c49d10c376"
+  ],
+  "selected_entities": [
+    {
+      "entity_id": "ent-03df8bfa094b5e69912d4f8d4b685f0c",
+      "name": "_human_projection",
+      "qualified_name": "_human_projection",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 107,
+      "end_line": 115,
+      "human_page_title": "retrieve_machine 与 estimated_tokens 的协作实现",
+      "human_page_file": "pages/retrieve_machine 与 estimated_tokens 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 63.48526508,
+      "score_breakdown": {
+        "entity-fts": 11.3114671,
+        "graph": 0.14783051,
+        "metadata": 15.0,
+        "section-fts": 9.02596747,
+        "term": 28.0
+      },
+      "reasons": [
+        "确定性词项 `人类`",
+        "确定性词项 `人类知`",
+        "确定性词项 `知识`",
+        "确定性词项 `知识库`",
+        "确定性词项 `类知`",
+        "确定性词项 `类知识`",
+        "确定性词项 `识库`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文作用",
+        "来源核对"
+      ]
+    },
+    {
+      "entity_id": "ent-89d9bf18486a5b53a0336a658b829909",
+      "name": "_logical_context_budgets",
+      "qualified_name": "_logical_context_budgets",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 1872,
+      "end_line": 1903,
+      "human_page_title": "status 与 _replace_output_prefix 的协作实现",
+      "human_page_file": "pages/status 与 _replace_output_prefix 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 43.7990266,
+      "score_breakdown": {
+        "entity-fts": 11.4976322,
+        "graph": 0.01333153,
+        "metadata": 5.0,
+        "section-fts": 7.28806286,
+        "term": 20.0
+      },
+      "reasons": [
+        "确定性词项 `任务`",
+        "确定性词项 `入口`",
+        "确定性词项 `和任`",
+        "确定性词项 `和任务`",
+        "确定性词项 `导航`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文作用"
+      ]
+    },
+    {
+      "entity_id": "file-f5cd5f5f6848572bb19754c49d10c376",
+      "name": "migration.py",
+      "qualified_name": "scripts/ckb_core/migration.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/migration.py",
+      "start_line": 1,
+      "end_line": 585,
+      "human_page_title": "audit_migration 与 _entity_key 的协作实现",
+      "human_page_file": "pages/audit_migration 与 _entity_key 的协作实现.md",
+      "display_mode": "page",
+      "score": 37.02909478,
+      "score_breakdown": {
+        "graph": 0.02909478,
+        "metadata": 25.0,
+        "term": 12.0
+      },
+      "reasons": [
+        "确定性词项 `知识`",
+        "确定性词项 `知识库`",
+        "确定性词项 `识库`",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文含义"
+      ]
+    },
+    {
+      "entity_id": "ent-102da31f965f5af68e77bcddc0ed42b5",
+      "name": "start_session",
+      "qualified_name": "start_session",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/agent_maintenance.py",
+      "start_line": 70,
+      "end_line": 142,
+      "human_page_title": "start_session",
+      "human_page_file": "pages/start_session.md",
+      "display_mode": "page",
+      "score": 29.12959939,
+      "score_breakdown": {
+        "graph": 0.00145837,
+        "section-fts": 25.12814101,
+        "term": 4.0
+      },
+      "reasons": [
+        "确定性词项 `记录`",
+        "中文章节全文命中",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "固定源码摘录"
+      ]
+    },
+    {
+      "entity_id": "ent-2921f1b38af95812ac7e82b7b1fc7a3f",
+      "name": "render_integration",
+      "qualified_name": "render_integration",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/automation_integrations.py",
+      "start_line": 391,
+      "end_line": 501,
+      "human_page_title": "render_integration",
+      "human_page_file": "pages/render_integration.md",
+      "display_mode": "page",
+      "score": 28.45926161,
+      "score_breakdown": {
+        "graph": 0.00017764,
+        "section-fts": 28.45908397
+      },
+      "reasons": [
+        "中文章节全文命中",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "ent-c25d3dcaeab155158a328831d24fbd92",
+      "name": "register_project",
+      "qualified_name": "register_project",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 172,
+      "end_line": 244,
+      "human_page_title": "ingest_event 与 default_registry_path 的协作实现",
+      "human_page_file": "pages/ingest_event 与 default_registry_path 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 21.00019358,
+      "score_breakdown": {
+        "graph": 0.00019358,
+        "metadata": 5.0,
+        "term": 16.0
+      },
+      "reasons": [
+        "确定性词项 `工作`",
+        "确定性词项 `知识`",
+        "确定性词项 `知识库`",
+        "确定性词项 `识库`",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文作用",
+        "来源核对"
+      ]
+    },
+    {
+      "entity_id": "file-169b85daf3ac59f097cbf7e1f1231ce7",
+      "name": "test_ckb.py",
+      "qualified_name": "tests/test_ckb.py",
+      "kind": "file",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 1,
+      "end_line": 1152,
+      "human_page_title": "CodeKnowledgeBuilderTests 等测试场景",
+      "human_page_file": "pages/CodeKnowledgeBuilderTests 等测试场景.md",
+      "display_mode": "page",
+      "score": 17.22,
+      "score_breakdown": {
+        "metadata": 25.0,
+        "term": 16.0,
+        "test-discount": -23.78
+      },
+      "reasons": [
+        "确定性词项 `知识`",
+        "确定性词项 `知识库`",
+        "确定性词项 `识库`",
+        "确定性词项 `页面`",
+        "文件、标识符和中文职责确定性匹配",
+        "实现定位查询对测试实体应用固定折扣"
+      ],
+      "sections": [
+        "中文含义",
+        "中文职责"
+      ]
+    },
+    {
+      "entity_id": "ent-c8d5efe69b2e5876be8909d324688d6f",
+      "name": "sync_workspace",
+      "qualified_name": "sync_workspace",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/workspace_notes.py",
+      "start_line": 322,
+      "end_line": 357,
+      "human_page_title": "record_note 与 page_tag 的协作实现",
+      "human_page_file": "pages/record_note 与 page_tag 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 16.00058472,
+      "score_breakdown": {
+        "graph": 0.00058472,
+        "term": 16.0
+      },
+      "reasons": [
+        "确定性词项 `工作`",
+        "确定性词项 `知识`",
+        "确定性词项 `记录`",
+        "确定性词项 `页面`",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文作用",
+        "来源核对"
+      ]
+    }
+  ],
+  "related_documents": [
+    {
+      "document_id": "note:analysis:Code Knowledge Builder 5.0.0 工程方法",
+      "title": "Code Knowledge Builder 5.0.0 工程方法",
+      "kind": "analysis",
+      "human_file": "analysis/Code Knowledge Builder 5.0.0 工程方法.md"
+    },
+    {
+      "document_id": "note:analysis:Code Knowledge Builder 5.0.0 特性总览",
+      "title": "Code Knowledge Builder 5.0.0 特性总览",
+      "kind": "analysis",
+      "human_file": "analysis/Code Knowledge Builder 5.0.0 特性总览.md"
+    },
+    {
+      "document_id": "note:analysis:知识库人类可读性与任务完成标准",
+      "title": "知识库人类可读性与任务完成标准",
+      "kind": "analysis",
+      "human_file": "analysis/知识库人类可读性与任务完成标准.md"
+    },
+    {
+      "document_id": "note:analysis:当前 Codex Hook 触发流程核对",
+      "title": "当前 Codex Hook 触发流程核对",
+      "kind": "analysis",
+      "human_file": "analysis/当前 Codex Hook 触发流程核对.md"
+    },
+    {
+      "document_id": "note:sessions:Agent 会话 20260826-124551-01",
+      "title": "Agent 会话 20260826-124551-01",
+      "kind": "session",
+      "human_file": "sessions/Agent 会话 20260826-124551-01.md"
+    },
+    {
+      "document_id": "note:analysis:自动同步与 LLM Wiki 后续待办",
+      "title": "自动同步与 LLM Wiki 后续待办",
+      "kind": "analysis",
+      "human_file": "analysis/自动同步与 LLM Wiki 后续待办.md"
+    },
+    {
+      "document_id": "note:experiments:LLM Wiki 吸收特性与 Flask 检索收益",
+      "title": "LLM Wiki 吸收特性与 Flask 检索收益",
+      "kind": "experiment",
+      "human_file": "experiments/LLM Wiki 吸收特性与 Flask 检索收益.md"
+    }
+  ],
+  "open_feedback": 0,
+  "retrieval_stats": {
+    "scored_entities": 399,
+    "overscan_limit": 32,
+    "materialized_candidates": 32,
+    "selected_entities": 8,
+    "budgeted_entity_limit": 8,
+    "selected_source_paths": 8,
+    "batched_entity_queries": 2,
+    "source_link_cache_entries": 8,
+    "static_cache_hit": false
+  },
+  "pack": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260829-005359-523543-01.md",
+  "record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260829-005359-523543-01.json",
+  "retrieval": "sqlite-exact-fts5-sections-deterministic-weighted-graph",
+  "deterministic": true,
+  "source_grounded": true,
+  "grep_fallback_required": false
+}

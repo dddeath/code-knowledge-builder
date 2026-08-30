@@ -8,7 +8,7 @@ import shutil
 from typing import Any
 import subprocess
 
-from .common import CkbError, DependencyError, StaleSourceError, run, stable_id
+from .common import CkbError, DependencyError, StaleSourceError, background_process_options, run, stable_id
 
 
 LANGUAGE_BY_SUFFIX = {
@@ -353,6 +353,7 @@ def blob_bytes(repository: dict[str, Any], path: str) -> bytes:
         ["git", "-C", str(repo), "show", f"{commit}:{path}"],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
+        **background_process_options(),
     )
     if binary.returncode:
         raise StaleSourceError(binary.stderr.decode("utf-8", errors="replace"))
@@ -371,6 +372,7 @@ def blob_bytes_many(repository: dict[str, Any], files: list[dict[str, Any]]) -> 
         input=query,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
+        **background_process_options(),
     )
     if completed.returncode:
         raise StaleSourceError(completed.stderr.decode("utf-8", errors="replace"))

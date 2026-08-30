@@ -4,6 +4,7 @@ from concurrent.futures import ThreadPoolExecutor
 import json
 import os
 from pathlib import Path
+import shlex
 import shutil
 import sqlite3
 import subprocess
@@ -18,6 +19,7 @@ sys.path.insert(0, str(SKILL_ROOT / "scripts"))
 
 from ckb_core.automation import (
     SUPPORTED_HARNESSES,
+    _event_path_text,
     activate_skill_session,
     automation_status,
     drain_automation,
@@ -31,7 +33,7 @@ from ckb_core.automation import (
     search_automation,
     write_automation_review_template,
 )
-from ckb_core.automation_integrations import render_integration
+from ckb_core.automation_integrations import _codex_windows_bridge, _commands, render_integration
 from ckb_core.common import CkbError
 from ckb_core.machine_knowledge import change_documents, retrieve_machine
 from ckb_core.obsidian import NOTE_DIRECTORIES
@@ -88,6 +90,31 @@ class AutomationTest(unittest.TestCase):
         if skill_applied:
             event["applied_skills"] = ["code-knowledge-builder"]
         return event
+
+    def test_event_path_text_maps_wsl_mounts_for_windows_runtime(self) -> None:
+        self.assertEqual(
+            _event_path_text("/mnt/e/knowledge_builder/source", host_os="nt"),
+            r"E:\knowledge_builder\source",
+        )
+        self.assertEqual(
+            _event_path_text("file:///mnt/c/Users/Example/My%20Project", host_os="nt"),
+            r"C:\Users\Example\My Project",
+        )
+        self.assertEqual(_event_path_text("scripts/app.py", host_os="nt"), "scripts/app.py")
+        self.assertEqual(_event_path_text(r"E:\knowledge_builder", host_os="nt"), r"E:\knowledge_builder")
+
+    @unittest.skipUnless(os.name == "nt", "requires the Windows runtime used by the installed Hook")
+    def test_windows_runtime_matches_wsl_cwd_to_registered_workspace(self) -> None:
+        self.register("codex")
+        repo = self.repo.resolve()
+        wsl_root = "/mnt/" + repo.drive[0].lower() + "/" + "/".join(repo.parts[1:])
+        result = ingest_event(
+            "codex",
+            self.event("UserPromptSubmit", cwd=wsl_root, prompt="验证 WSL cwd 映射"),
+            self.registry,
+        )
+        self.assertEqual(result["status"], "recorded")
+        self.assertEqual(result["registration_match"]["kind"], "repository")
 
     def test_project_opt_in_and_hook_output(self) -> None:
         ignored = ingest_event("codex", self.event("SessionStart", source="startup"), self.registry)
@@ -721,6 +748,24 @@ class AutomationTest(unittest.TestCase):
                 self.assertTrue((destination / relative).is_file(), relative)
         codex = json.loads((self.root / "integrations/codex/hooks/hooks.json").read_text(encoding="utf-8"))
         self.assertEqual(set(codex["hooks"]), {"SessionStart", "UserPromptSubmit", "PostToolUse", "Stop", "PreCompact", "PostCompact", "SessionEnd"})
+        prompt_handler = codex["hooks"]["UserPromptSubmit"][0]["hooks"][0]
+        self.assertTrue(prompt_handler["commandWindows"].startswith("cmd.exe /d /s /c "))
+        self.assertNotIn(str(Path(sys.executable)), prompt_handler["commandWindows"])
+        bridge = self.root / "integrations/codex/hooks/ckb-hook.cmd"
+        self.assertTrue(bridge.is_file())
+        self.assertIn(str(Path(sys.executable)), bridge.read_text(encoding="utf-8"))
+        launched = subprocess.run(
+            prompt_handler["commandWindows" if os.name == "nt" else "command"],
+            shell=True,
+            input="{}\n",
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+        self.assertEqual(launched.returncode, 0, launched.stderr)
+        self.assertEqual(launched.stdout.strip(), "{}")
         dsh = json.loads((self.root / "integrations/dsh/hooks.json").read_text(encoding="utf-8"))
         self.assertEqual(set(dsh["hooks"]), {"SessionStart", "UserPromptSubmit", "PostToolUse", "Stop"})
         self.assertNotIn("{{", (self.root / "integrations/opencode/.opencode/plugins/code-knowledge-builder-sync.mjs").read_text(encoding="utf-8"))
@@ -742,6 +787,42 @@ class AutomationTest(unittest.TestCase):
             manifest = json.loads((self.root / "integrations" / harness / "integration.json").read_text(encoding="utf-8"))
             self.assertTrue(manifest["session_skill_activation_required"])
             self.assertEqual(manifest["required_skill"], "code-knowledge-builder")
+
+    def test_codex_windows_python_uses_wsl_launch_path_for_posix_command(self) -> None:
+        python = Path(r"C:\Program Files\CKB Runtime\python.exe")
+        ckb = Path(r"C:\Users\example\.codex\skills\code-knowledge-builder\scripts\ckb.py")
+        registry = Path(r"C:\Users\example\.ckb\automation-registry.json")
+        posix, windows = _commands(python, ckb, "codex", registry)
+        self.assertEqual(
+            shlex.split(posix),
+            [
+                "/mnt/c/Program Files/CKB Runtime/python.exe",
+                "-X",
+                "utf8",
+                str(ckb),
+                "automation",
+                "hook",
+                "--harness",
+                "codex",
+                "--registry",
+                str(registry),
+            ],
+        )
+        self.assertEqual(
+            windows,
+            subprocess.list2cmdline(
+                [str(python), "-X", "utf8", str(ckb), "automation", "hook", "--harness", "codex", "--registry", str(registry)]
+            ),
+        )
+
+    def test_codex_windows_bridge_uses_cmd_and_forward_slash_launcher_path(self) -> None:
+        destination = Path(r"C:\Users\Example User\.codex\plugins\cache\personal\ckb\1.2.2")
+        args = [r"C:\Python\python.exe", "-X", "utf8", r"C:\Skill\ckb.py", "automation", "hook"]
+        command, content = _codex_windows_bridge(destination, args)
+        self.assertTrue(command.startswith("cmd.exe /d /s /c "))
+        self.assertIn("C:\\Users\\Example User\\.codex\\plugins", command.replace("/", "\\"))
+        self.assertIn("C:\\Python\\python.exe", content)
+        self.assertIn("exit /b %ERRORLEVEL%", content)
 
     def test_automation_fts_finds_pending_machine_record(self) -> None:
         self.register("generic")

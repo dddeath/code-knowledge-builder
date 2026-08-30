@@ -1,0 +1,48 @@
+{
+  "schema_version": 3,
+  "review_id": "autoreview-5d57246a8f8e53d0b96fb6d7110b56fa",
+  "status": "agent-reviewed",
+  "kind": "change",
+  "title": "codex 会话第 1 轮待审阅",
+  "body": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\automation\\pending-reviews\\autoreview-5d57246a8f8e53d0b96fb6d7110b56fa.md",
+  "changed_paths": [
+    "scripts/ckb_core/automation.py"
+  ],
+  "evidence": {
+    "harness": "codex",
+    "external_session_id": "ckb-wsl-hook-canary-20260830-01",
+    "external_turn_id": "ckb-wsl-canary-turn-1",
+    "event_name": "Stop",
+    "redaction_count": 0
+  },
+  "created_at_utc": "2026-08-30T04:58:31Z",
+  "reviewed_at_utc": "2026-08-30T04:59:19Z",
+  "human_note": {
+    "schema_version": 1,
+    "status": "agent-reviewed",
+    "kind": "change",
+    "title": "修复 Codex WSL Hook 事件路径与 Node 启动",
+    "file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human\\changes\\修复 Codex WSL Hook 事件路径与 Node 启动.md",
+    "compatibility_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown\\changes\\修复 Codex WSL Hook 事件路径与 Node 启动.md",
+    "linked_pages": [
+      "ingest_event 与 default_registry_path 的协作实现",
+      "ingest_event"
+    ],
+    "source_links": [
+      "[打开源码：scripts/ckb_core/automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation.py:1:1)  `scripts/ckb_core/automation.py:1-1632`",
+      "[打开源码：scripts/ckb_core/automation.py 第 1321 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation.py:1321:1)  `scripts/ckb_core/automation.py:1321-1392`"
+    ],
+    "query_record": null,
+    "updated_at_utc": "2026-08-30T04:59:16Z",
+    "obsidian_uri": "obsidian://open?path=E%3A%5Cknowledge_builder%5Cself-workspace%5Cknowledge-base%5Cmarkdown%5Cchanges%5C%E4%BF%AE%E5%A4%8D%20Codex%20WSL%20Hook%20%E4%BA%8B%E4%BB%B6%E8%B7%AF%E5%BE%84%E4%B8%8E%20Node%20%E5%90%AF%E5%8A%A8.md"
+  },
+  "review_file": "E:\\knowledge_builder\\artifacts\\codex-hook-wsl-runtime-fix-20260830-01\\automation-review.json",
+  "evidence_note": "已重新打开自动化路径归一化实现、已安装 Hook 配置、Codex app-server 环境和当前会话文件，并用 Windows 运行时测试与四事件重放核对修复效果。",
+  "source_checks": [
+    {
+      "path": "scripts/ckb_core/automation.py",
+      "status": "agent-reviewed",
+      "evidence_note": "已逐段核对 WSL 路径转换、注册匹配入口和修改路径归属逻辑，并确认新增测试覆盖真实 Windows Hook 运行时。"
+    }
+  ]
+}

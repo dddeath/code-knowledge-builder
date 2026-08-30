@@ -1,0 +1,46 @@
+{
+  "schema_version": 3,
+  "registration_id": "reg-5b4b7449e52b5a6fa0b4e3e39cd360bb",
+  "repo_root": "E:\\knowledge_builder\\self-workspace\\source",
+  "knowledge_output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+  "event": {
+    "schema_version": 3,
+    "harness": "codex",
+    "event_name": "UserPromptSubmit",
+    "canonical_type": "turn.prompt",
+    "external_event_id": "ckb-wsl-canary-prompt",
+    "session_id": "ckb-wsl-hook-canary-20260830-01",
+    "turn_id": "ckb-wsl-canary-turn-1",
+    "tool_use_id": null,
+    "cwd": "E:\\knowledge_builder",
+    "prompt": "验证 Codex WSL Hook 可自动记录已明确应用 Skill 的对话。",
+    "assistant_message": "",
+    "tool_name": null,
+    "tool_input": null,
+    "tool_output": null,
+    "tool_status": "completed",
+    "skill_name": null,
+    "changed_paths": [],
+    "source": null,
+    "received_at_utc": "2026-08-30T04:58:31Z",
+    "raw": {
+      "session_id": "ckb-wsl-hook-canary-20260830-01",
+      "cwd": "/mnt/e/knowledge_builder",
+      "event_id": "ckb-wsl-canary-prompt",
+      "turn_id": "ckb-wsl-canary-turn-1",
+      "hook_event_name": "UserPromptSubmit",
+      "prompt": "验证 Codex WSL Hook 可自动记录已明确应用 Skill 的对话。"
+    },
+    "redaction_count": 0,
+    "redaction_types": [],
+    "skill_activation": {
+      "activation_key": "skillactivation-3f1e3ce269c754d98a254fff717a63b9",
+      "activation_source": "harness-skill-metadata",
+      "activated_at_utc": "2026-08-30T04:58:27Z"
+    },
+    "registration_match": {
+      "kind": "workspace",
+      "root": "E:\\knowledge_builder"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "status": "agent-reviewed",
+  "kind": "analysis",
+  "title": "Obsidian 解释流式过程与快速路径实施计划",
+  "file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human\\analysis\\Obsidian 解释流式过程与快速路径实施计划.md",
+  "compatibility_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown\\analysis\\Obsidian 解释流式过程与快速路径实施计划.md",
+  "linked_pages": [
+    "prepare_vault 与 install_obsidian 的协作实现",
+    "retrieve",
+    "start_session 与 _session_directory 的协作实现",
+    "retrieve_machine",
+    "module_name 与 estimated_tokens 的协作实现",
+    "record_note",
+    "status 与 _replace_output_prefix 的协作实现",
+    "SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现"
+  ],
+  "source_links": [
+    "[打开源码：scripts/ckb_core/obsidian.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/obsidian.py:1:1)  `scripts/ckb_core/obsidian.py:1-134`",
+    "[打开源码：scripts/ckb_core/agent_index.py 第 440 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:440:1)  `scripts/ckb_core/agent_index.py:440-568`",
+    "[打开源码：scripts/ckb_core/agent_maintenance.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_maintenance.py:1:1)  `scripts/ckb_core/agent_maintenance.py:1-255`",
+    "[打开源码：scripts/ckb_core/machine_knowledge.py 第 942 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:942:1)  `scripts/ckb_core/machine_knowledge.py:942-1315`",
+    "[打开源码：scripts/ckb_core/navigation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/navigation.py:1:1)  `scripts/ckb_core/navigation.py:1-456`",
+    "[打开源码：scripts/ckb_core/workspace_notes.py 第 106 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/workspace_notes.py:106:1)  `scripts/ckb_core/workspace_notes.py:106-183`",
+    "[打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3314`",
+    "[打开源码：scripts/ckb_core/source_links.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/source_links.py:1:1)  `scripts/ckb_core/source_links.py:1-184`"
+  ],
+  "query_record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260829-190910-036030-01.json",
+  "updated_at_utc": "2026-08-29T19:10:41Z",
+  "obsidian_uri": "obsidian://open?path=E%3A%5Cknowledge_builder%5Cself-workspace%5Cknowledge-base%5Cmarkdown%5Canalysis%5CObsidian%20%E8%A7%A3%E9%87%8A%E6%B5%81%E5%BC%8F%E8%BF%87%E7%A8%8B%E4%B8%8E%E5%BF%AB%E9%80%9F%E8%B7%AF%E5%BE%84%E5%AE%9E%E6%96%BD%E8%AE%A1%E5%88%92.md"
+}

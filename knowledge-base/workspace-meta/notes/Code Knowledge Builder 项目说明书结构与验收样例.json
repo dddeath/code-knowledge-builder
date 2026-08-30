@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "status": "agent-reviewed",
+  "kind": "analysis",
+  "title": "Code Knowledge Builder 项目说明书结构与验收样例",
+  "file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human\\analysis\\Code Knowledge Builder 项目说明书结构与验收样例.md",
+  "compatibility_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown\\analysis\\Code Knowledge Builder 项目说明书结构与验收样例.md",
+  "linked_pages": [
+    "retrieve 与 _tokens 的协作实现",
+    "retrieve_machine 与 estimated_tokens 的协作实现",
+    "start_session 与 _session_directory 的协作实现",
+    "sync_human_layer 与 _source_manifest 的协作实现",
+    "audit_migration 与 _entity_key 的协作实现",
+    "query_graph 与 _networkx_modules 的协作实现",
+    "module_name 与 estimated_tokens 的协作实现",
+    "add_initial_arguments 与 add_git_bootstrap_arguments 的协作实现"
+  ],
+  "source_links": [
+    "[打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-569`",
+    "[打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1458`",
+    "[打开源码：scripts/ckb_core/agent_maintenance.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_maintenance.py:1:1)  `scripts/ckb_core/agent_maintenance.py:1-255`",
+    "[打开源码：scripts/ckb_core/knowledge_layers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/knowledge_layers.py:1:1)  `scripts/ckb_core/knowledge_layers.py:1-239`",
+    "[打开源码：scripts/ckb_core/migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/migration.py:1:1)  `scripts/ckb_core/migration.py:1-585`",
+    "[打开源码：scripts/ckb_core/graphify_core.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/graphify_core.py:1:1)  `scripts/ckb_core/graphify_core.py:1-676`",
+    "[打开源码：scripts/ckb_core/navigation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/navigation.py:1:1)  `scripts/ckb_core/navigation.py:1-456`",
+    "[打开源码：scripts/ckb.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:1:1)  `scripts/ckb.py:1-495`"
+  ],
+  "query_record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260830-112611-944448-01.json",
+  "updated_at_utc": "2026-08-30T11:53:49Z",
+  "obsidian_uri": "obsidian://open?path=E%3A%5Cknowledge_builder%5Cself-workspace%5Cknowledge-base%5Cmarkdown%5Canalysis%5CCode%20Knowledge%20Builder%20%E9%A1%B9%E7%9B%AE%E8%AF%B4%E6%98%8E%E4%B9%A6%E7%BB%93%E6%9E%84%E4%B8%8E%E9%AA%8C%E6%94%B6%E6%A0%B7%E4%BE%8B.md"
+}

@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "status": "agent-reviewed",
+  "kind": "analysis",
+  "title": "OpenViking 记忆系统调研",
+  "file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human\\analysis\\OpenViking 记忆系统调研.md",
+  "compatibility_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown\\analysis\\OpenViking 记忆系统调研.md",
+  "linked_pages": [
+    "start_session 与 _session_directory 的协作实现",
+    "retrieve 与 _tokens 的协作实现",
+    "sync_human_layer 与 _source_manifest 的协作实现",
+    "ingest_event 与 default_registry_path 的协作实现",
+    "render_integration 与 _looks_windows 的协作实现",
+    "retrieve_machine 与 estimated_tokens 的协作实现",
+    "LspClient.start 与 _version_matches 的协作实现",
+    "parse_file 与 _language 的协作实现"
+  ],
+  "source_links": [
+    "[打开源码：scripts/ckb_core/agent_maintenance.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_maintenance.py:1:1)  `scripts/ckb_core/agent_maintenance.py:1-255`",
+    "[打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-569`",
+    "[打开源码：scripts/ckb_core/knowledge_layers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/knowledge_layers.py:1:1)  `scripts/ckb_core/knowledge_layers.py:1-239`",
+    "[打开源码：scripts/ckb_core/automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation.py:1:1)  `scripts/ckb_core/automation.py:1-1632`",
+    "[打开源码：scripts/ckb_core/automation_integrations.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation_integrations.py:1:1)  `scripts/ckb_core/automation_integrations.py:1-502`",
+    "[打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1458`",
+    "[打开源码：scripts/ckb_core/providers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/providers.py:1:1)  `scripts/ckb_core/providers.py:1-596`",
+    "[打开源码：scripts/ckb_core/parsers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/parsers.py:1:1)  `scripts/ckb_core/parsers.py:1-437`"
+  ],
+  "query_record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260830-103728-968519-01.json",
+  "updated_at_utc": "2026-08-30T10:48:57Z",
+  "obsidian_uri": "obsidian://open?path=E%3A%5Cknowledge_builder%5Cself-workspace%5Cknowledge-base%5Cmarkdown%5Canalysis%5COpenViking%20%E8%AE%B0%E5%BF%86%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%A0%94.md"
+}

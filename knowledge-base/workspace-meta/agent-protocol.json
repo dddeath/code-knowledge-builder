@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "protocol_version": "1.4.0",
+  "status": "installed",
+  "output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+  "repository": "E:\\knowledge_builder\\self-workspace\\source",
+  "python": "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\python\\python.exe",
+  "ckb": "C:\\Users\\19739\\.codex\\skills\\code-knowledge-builder\\scripts\\ckb.py",
+  "internal_roots": {
+    "output": {
+      "root": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+      "files": [
+        "AGENTS.md",
+        "CLAUDE.md",
+        "GEMINI.md",
+        ".github/copilot-instructions.md",
+        ".cursor/rules/code-knowledge-builder.mdc"
+      ]
+    },
+    "markdown": {
+      "root": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown",
+      "files": [
+        "AGENTS.md",
+        "CLAUDE.md",
+        "GEMINI.md",
+        ".github/copilot-instructions.md",
+        ".cursor/rules/code-knowledge-builder.mdc"
+      ]
+    },
+    "human": {
+      "root": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human",
+      "files": [
+        "AGENTS.md",
+        "CLAUDE.md",
+        "GEMINI.md",
+        ".github/copilot-instructions.md",
+        ".cursor/rules/code-knowledge-builder.mdc"
+      ]
+    }
+  },
+  "workspace_roots": [
+    {
+      "root": "E:\\knowledge_builder",
+      "files": [
+        {
+          "path": "E:\\knowledge_builder\\AGENTS.md",
+          "relative_path": "AGENTS.md",
+          "created": false
+        },
+        {
+          "path": "E:\\knowledge_builder\\CLAUDE.md",
+          "relative_path": "CLAUDE.md",
+          "created": false
+        },
+        {
+          "path": "E:\\knowledge_builder\\GEMINI.md",
+          "relative_path": "GEMINI.md",
+          "created": false
+        },
+        {
+          "path": "E:\\knowledge_builder\\.github\\copilot-instructions.md",
+          "relative_path": ".github/copilot-instructions.md",
+          "created": false
+        },
+        {
+          "path": "E:\\knowledge_builder\\.cursor\\rules\\code-knowledge-builder.mdc",
+          "relative_path": ".cursor/rules/code-knowledge-builder.mdc",
+          "created": false
+        }
+      ]
+    }
+  ],
+  "commands": {
+    "brief": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\python\\python.exe' 'C:\\Users\\19739\\.codex\\skills\\code-knowledge-builder\\scripts\\ckb.py' brief --out 'E:\\knowledge_builder\\self-workspace\\knowledge-base' \"QUESTION\" --budget 1800 --max-pages 8 --profile fast",
+    "retrieve": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\python\\python.exe' 'C:\\Users\\19739\\.codex\\skills\\code-knowledge-builder\\scripts\\ckb.py' retrieve --out 'E:\\knowledge_builder\\self-workspace\\knowledge-base' \"QUESTION\" --budget 1800 --max-pages 8 --profile fast",
+    "precise": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\python\\python.exe' 'C:\\Users\\19739\\.codex\\skills\\code-knowledge-builder\\scripts\\ckb.py' retrieve --out 'E:\\knowledge_builder\\self-workspace\\knowledge-base' \"QUESTION\" --budget 3000 --max-pages 12 --profile precise",
+    "entity": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\python\\python.exe' 'C:\\Users\\19739\\.codex\\skills\\code-knowledge-builder\\scripts\\ckb.py' entity --out 'E:\\knowledge_builder\\self-workspace\\knowledge-base' \"SYMBOL\"",
+    "neighbors": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\python\\python.exe' 'C:\\Users\\19739\\.codex\\skills\\code-knowledge-builder\\scripts\\ckb.py' neighbors --out 'E:\\knowledge_builder\\self-workspace\\knowledge-base' \"SYMBOL\" --depth 2",
+    "source": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\python\\python.exe' 'C:\\Users\\19739\\.codex\\skills\\code-knowledge-builder\\scripts\\ckb.py' source --out 'E:\\knowledge_builder\\self-workspace\\knowledge-base' \"SYMBOL\" --context-lines 3",
+    "record": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\python\\python.exe' 'C:\\Users\\19739\\.codex\\skills\\code-knowledge-builder\\scripts\\ckb.py' record --out 'E:\\knowledge_builder\\self-workspace\\knowledge-base' --kind analysis --title 'TITLE' --body 'BODY.md' --from-pack 'PACK.json'",
+    "append": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\python\\python.exe' 'C:\\Users\\19739\\.codex\\skills\\code-knowledge-builder\\scripts\\ckb.py' record --out 'E:\\knowledge_builder\\self-workspace\\knowledge-base' --kind analysis --title 'EXISTING_TITLE' --body 'BODY.md' --from-pack 'PACK.json' --append",
+    "feedback_list": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\python\\python.exe' 'C:\\Users\\19739\\.codex\\skills\\code-knowledge-builder\\scripts\\ckb.py' feedback list --out 'E:\\knowledge_builder\\self-workspace\\knowledge-base' --status open",
+    "feedback_locate": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\python\\python.exe' 'C:\\Users\\19739\\.codex\\skills\\code-knowledge-builder\\scripts\\ckb.py' feedback locate --out 'E:\\knowledge_builder\\self-workspace\\knowledge-base' --feedback 'FEEDBACK_ID'",
+    "feedback_audit": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\python\\python.exe' 'C:\\Users\\19739\\.codex\\skills\\code-knowledge-builder\\scripts\\ckb.py' feedback audit --out 'E:\\knowledge_builder\\self-workspace\\knowledge-base'",
+    "check": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\python\\python.exe' 'C:\\Users\\19739\\.codex\\skills\\code-knowledge-builder\\scripts\\ckb.py' agent-policy check --out 'E:\\knowledge_builder\\self-workspace\\knowledge-base'",
+    "maintain": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\python\\python.exe' 'C:\\Users\\19739\\.codex\\skills\\code-knowledge-builder\\scripts\\ckb.py' maintain --out 'E:\\knowledge_builder\\self-workspace\\knowledge-base'",
+    "capabilities": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\python\\python.exe' 'C:\\Users\\19739\\.codex\\skills\\code-knowledge-builder\\scripts\\ckb.py' capabilities --format json",
+    "reference_list": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\python\\python.exe' 'C:\\Users\\19739\\.codex\\skills\\code-knowledge-builder\\scripts\\ckb.py' reference list --out 'E:\\knowledge_builder\\self-workspace\\knowledge-base' --status all",
+    "reference_audit": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\python\\python.exe' 'C:\\Users\\19739\\.codex\\skills\\code-knowledge-builder\\scripts\\ckb.py' reference audit --out 'E:\\knowledge_builder\\self-workspace\\knowledge-base'"
+  },
+  "harness_contract": {
+    "codex": "AGENTS.md",
+    "opencode": "AGENTS.md",
+    "claude-code": "CLAUDE.md imports AGENTS.md",
+    "gemini-cli": "GEMINI.md imports AGENTS.md",
+    "github-copilot": ".github/copilot-instructions.md",
+    "cursor": ".cursor/rules/code-knowledge-builder.mdc",
+    "generic": "read AGENTS.md before knowledge-base access"
+  }
+}

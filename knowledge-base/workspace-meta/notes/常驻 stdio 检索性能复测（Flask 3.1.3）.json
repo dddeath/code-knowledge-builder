@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "status": "agent-reviewed",
+  "kind": "experiment",
+  "title": "常驻 stdio 检索性能复测（Flask 3.1.3）",
+  "file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human\\experiments\\常驻 stdio 检索性能复测（Flask 3.1.3）.md",
+  "compatibility_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown\\experiments\\常驻 stdio 检索性能复测（Flask 3.1.3）.md",
+  "linked_pages": [
+    "LspClient.start 与 _version_matches 的协作实现",
+    "status 与 _replace_output_prefix 的协作实现",
+    "retrieve 与 _tokens 的协作实现",
+    "SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现",
+    "retrieve_machine 与 estimated_tokens 的协作实现",
+    "CodeKnowledgeBuilderTests",
+    "run 与 CkbError 的协作实现",
+    "parse_file 与 _language 的协作实现"
+  ],
+  "source_links": [
+    "[打开源码：scripts/ckb_core/providers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/providers.py:1:1)  `scripts/ckb_core/providers.py:1-596`",
+    "[打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3314`",
+    "[打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-569`",
+    "[打开源码：scripts/ckb_core/source_links.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/source_links.py:1:1)  `scripts/ckb_core/source_links.py:1-184`",
+    "[打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1458`",
+    "[打开源码：tests/test_ckb.py 第 171 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_ckb.py:171:1)  `tests/test_ckb.py:171-1147`",
+    "[打开源码：scripts/ckb_core/common.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/common.py:1:1)  `scripts/ckb_core/common.py:1-158`",
+    "[打开源码：scripts/ckb_core/parsers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/parsers.py:1:1)  `scripts/ckb_core/parsers.py:1-437`"
+  ],
+  "query_record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260828-181355-017316-01.json",
+  "updated_at_utc": "2026-08-28T18:14:37Z",
+  "obsidian_uri": "obsidian://open?path=E%3A%5Cknowledge_builder%5Cself-workspace%5Cknowledge-base%5Cmarkdown%5Cexperiments%5C%E5%B8%B8%E9%A9%BB%20stdio%20%E6%A3%80%E7%B4%A2%E6%80%A7%E8%83%BD%E5%A4%8D%E6%B5%8B%EF%BC%88Flask%203.1.3%EF%BC%89.md"
+}

@@ -15,7 +15,7 @@ from pathlib import Path, PurePosixPath
 from typing import Any
 from urllib.parse import quote, unquote, urlparse
 
-from .common import CkbError, DependencyError, command_version, run, stable_id, utc_now
+from .common import CkbError, DependencyError, background_process_options, command_version, run, stable_id, utc_now
 
 
 EXPECTED = {
@@ -275,6 +275,7 @@ class LspClient:
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
+            **background_process_options(),
         )
         threading.Thread(target=self._read_stdout, daemon=True).start()
         threading.Thread(target=self._read_stderr, daemon=True).start()
@@ -467,6 +468,20 @@ def _flatten_symbols(values: Any) -> list[dict[str, Any]]:
     return result
 
 
+def _provider_status(
+    fatal_diagnostics: list[dict[str, Any]],
+    fatal_stderr: list[str],
+) -> str:
+    """Classify a completed LSP run without rejecting valid empty documents.
+
+    ``textDocument/documentSymbol`` returning an empty list is a successful LSP
+    response for modules that contain only imports or executable statements.
+    Request failures already raise from ``LspClient.request``.  Key-page
+    definition coverage is checked independently by the semantic audit gate.
+    """
+    return "failed" if fatal_diagnostics or fatal_stderr else "passed"
+
+
 def collect_semantics(
     repo: Path,
     language: str,
@@ -582,7 +597,7 @@ def collect_semantics(
             "server_cwd": str(server_cwd),
             "document_root": str(document_root),
             "precision": precision,
-            "status": "failed" if fatal or fatal_stderr or any(symbol_counts.get(f["path"], 0) == 0 for f in files) else "passed",
+            "status": _provider_status(fatal, fatal_stderr),
             "covered_entity_ids": sorted(covered),
             "document_symbol_counts": symbol_counts,
             "diagnostic_count": len(diagnostics),

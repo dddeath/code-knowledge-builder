@@ -1,8 +1,8 @@
 ---
 name: code-knowledge-builder
-description: Build separate machine and human code knowledge bases from a fixed Git snapshot, with deterministic SQLite retrieval, conservative Chinese Markdown/Obsidian pages, Agent review, local scopes, optional Logseq DB, and opt-in cross-Harness conversation/change synchronization. Use for locating change-relevant files, types, functions, source ranges, analyses, modifications, and durable Agent-session evidence in C/C++, C#, standard JavaScript, and Python repositories; not for one-file explanation or ordinary text search.
+description: Build and maintain separate machine and human code knowledge bases from a fixed Git snapshot, with deterministic SQLite retrieval, reviewed local Markdown/TXT references, conservative Chinese Markdown/Obsidian pages, persistent cross-Harness Agent instructions, Agent review, local scopes, optional Logseq DB, and opt-in conversation/change synchronization. Use for locating or maintaining change-relevant files, types, functions, source ranges, reviewed reference documents, analyses, modifications, and durable Agent-session evidence in C/C++, C#, standard JavaScript, and Python repositories; not for one-file explanation or ordinary text search.
 metadata:
-  version: "5.1.3"
+  version: "5.3.0"
 ---
 
 # Code Knowledge Builder
@@ -21,15 +21,23 @@ The construction core follows the pinned Graphify pipeline `detect -> extract ->
 
 - For a small or ordinary repository, use the resumable `run` entrypoint.
 - For a large repository or a failed stage that needs narrow repair, use `init`, `build-chunk`, `review-pack`, `audit`, `merge`, and `finalize` separately.
-- If `OUTPUT/machine/knowledge.sqlite` exists and the user asks an architecture, explanation, or change-location question, use `retrieve --profile fast` first and open only its budgeted Agent pack. Use `precise` for harder queries, `entity` for exact symbols, `neighbors` for bounded graph expansion, `source` for an exact source range, and `changes` for durable Agent records. Use narrow source reading only when retrieval returns `needs-source-read`.
+- If `OUTPUT/machine/knowledge.sqlite` exists and the user asks an architecture, explanation, or change-location question, use `brief --profile fast` first and open only its budgeted Agent pack. `brief` keeps the complete retrieval record on disk but omits candidate entities, terms, scores, and relation details from the first command response. Use `retrieve --profile precise` for harder queries, `entity` for exact symbols, `neighbors` for bounded graph expansion, `source` for an exact source range, and `changes` for durable Agent records. Use narrow source reading only when the compact result requests a source fallback.
+- For user-provided local UTF-8 Markdown/TXT that must become searchable reviewed evidence, use `reference ingest`, reopen the archived source, submit exact line-bound claims through `reference review`, then require `reference audit` and `maintain`. Read [references/reference-ingest.md](references/reference-ingest.md) before importing, revising, or rolling back a source.
+- For an existing knowledge base that multiple Agents may open, run `agent-policy install --out OUTPUT --workspace-root TASK_ROOT` once. This installs audited `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, Copilot instructions and an always-on Cursor rule at the knowledge roots and Harness task root. Thereafter Agents must use compact SQLite retrieval before grep, create durable notes only through `record`, and run `maintain` before claiming maintenance complete; read [references/agent-policy.md](references/agent-policy.md) before changing this contract.
 - Always require one explicit output format: `markdown`, `logseq-db`, or `both`.
 - A finalized `markdown` projection exposes two audited Logseq file-graph roots. For Logseq 2.0.1 “File to DB graph”, select `OUTPUT` itself; it contains `OUTPUT/logseq/config.edn`. `OUTPUT/markdown` remains a second valid file-graph root and contains linked pages, its own pinned config, and `normalized.edn` for optional EDN import.
+- `OUTPUT/human/RECORDS.md` and its compatibility mirror provide the human entry for all analysis, change, experiment, pitfall, and session notes. The generator groups every record by note kind, extracts one Chinese description with a fixed rule, and never receives task-specific keywords or a hand-picked result set. Use `human-refresh --out OUTPUT` to apply only this navigation contract to an existing audited graph without rescanning source or changing page/note bytes.
+- The optional desktop Obsidian companion under `plugins/obsidian-code-knowledge-builder` reuses a pinned Claudian provider runtime for Claude Code, Codex, OpenCode, Pi, and Grok. Every vault that actually contains the plugin receives an exact machine-readable `.ckb/output-contract.json`; plugin-free vaults neither receive nor audit that contract. At plugin load it reads the contract before the legacy `AGENTS.md` fallback, starts one local `ckb.py serve --stdio` process, verifies protocol v2, and reuses that process for right-click retrieval and deterministic evidence/audit writes until unload. After a passed explanation, the right sidebar exposes `继续追问`; each follow-up keeps the same Provider conversation but performs a fresh CKB retrieval, injects the new Agent pack, writes new machine evidence, passes both audits, and appends a compact follow-up entry to the same daily learning note. A registered plugin package is deployed automatically whenever CKB initializes or reprojects a human vault; existing outputs use `obsidian-plugin deploy --out OUTPUT`. Read [references/obsidian-companion-plugin.md](references/obsidian-companion-plugin.md) before building, registering, deploying, or changing provider coverage.
 - Use repeatable `--scope-path` arguments for a local module or file. Use repeatable `--entry LANGUAGE:PATH#QUALIFIED_NAME` arguments plus `--expand-depth` for a feature slice.
 - Use `--page-config CONFIG.json` on the initial `run` or `init` to configure per-file/core/adjacent page limits, visible page sections and headings, appendix expansion, relation limits, context budgets, and review-pack budgets. The normalized configuration is copied to `OUTPUT/page-config.json`, hashed into state, and becomes immutable for resume/finalize.
 - For C#, use automatic unique `.sln`/`.slnx`/`.csproj` selection or specify `--csharp-solution` / `--csharp-project`. Never trigger restore unless the user explicitly selected `--allow-dotnet-restore`.
 - If the input path is not a Git repository or has no commit, report that precondition and stop without changing it. Only after the user explicitly chooses repository creation, rerun the initial `run` or `init` with `--init-git`; this initializes Git when needed, stages the current snapshot, and creates exactly one initial commit before scanning.
 
-Read [references/workflow.md](references/workflow.md) before running a build. Read [references/migration.md](references/migration.md) before reusing an audited older knowledge base on a newer commit. Read [references/dual-knowledge-layers.md](references/dual-knowledge-layers.md) before consuming or changing the facts, machine, or human layer. Read [references/workspace-mode.md](references/workspace-mode.md) when code edits, analysis notes, change reasons, pitfalls, experiments, or conversations must be retained during the build. Read [references/automation.md](references/automation.md) before enabling automatic conversation or modification synchronization in Codex, Claude Code, OpenCode, DSH, Gemini CLI, GitHub Copilot, Cursor, or another Harness. Read [references/agent-retrieval.md](references/agent-retrieval.md) before broad source search. Read [references/obsidian.md](references/obsidian.md) before changing vault layout, tags, source links, or local editor settings. Read [references/page-configuration.md](references/page-configuration.md) before changing page quotas, content, relation/context limits, or review-pack size. Read [references/human-readable-pages.md](references/human-readable-pages.md) before changing titles, page prose, Wiki, appendices, or visible links. Read [references/graphify-core.md](references/graphify-core.md) before changing clustering, confidence mapping, reports, or scoped queries. Read [references/schema.md](references/schema.md) before editing review JSON or consuming either graph schema. Read [references/audit-contract.md](references/audit-contract.md) before interpreting a failed gate. Read [references/runtime.md](references/runtime.md) when `doctor` reports missing tools or requests permission to deploy the full bundle.
+Read [references/workflow.md](references/workflow.md) before running a build. Read [references/migration.md](references/migration.md) before reusing an audited older knowledge base on a newer commit. Read [references/dual-knowledge-layers.md](references/dual-knowledge-layers.md) before consuming or changing the facts, machine, or human layer. Read [references/workspace-mode.md](references/workspace-mode.md) when code edits, analysis notes, change reasons, pitfalls, experiments, or conversations must be retained during the build. Read [references/automation.md](references/automation.md) before enabling automatic conversation or modification synchronization in Codex, Claude Code, OpenCode, DSH, Gemini CLI, GitHub Copilot, Cursor, or another Harness. Read [references/agent-retrieval.md](references/agent-retrieval.md) before broad source search. 创建、处理或审计定位到具体知识页文本的人工反馈前，阅读 [references/feedback.md](references/feedback.md)。 Read [references/obsidian.md](references/obsidian.md) before changing vault layout, tags, source links, or local editor settings. Read [references/page-configuration.md](references/page-configuration.md) before changing page quotas, content, relation/context limits, or review-pack size. Read [references/human-readable-pages.md](references/human-readable-pages.md) before changing titles, page prose, Wiki, appendices, or visible links. Read [references/graphify-core.md](references/graphify-core.md) before changing clustering, confidence mapping, reports, or scoped queries. Read [references/schema.md](references/schema.md) before editing review JSON or consuming either graph schema. Read [references/audit-contract.md](references/audit-contract.md) before interpreting a failed gate. Read [references/runtime.md](references/runtime.md) when `doctor` reports missing tools or requests permission to deploy the full bundle.
+
+Read [references/distributions.md](references/distributions.md) before building release archives. Lite retains the complete core feature set without bundled runtime; full-win-x64 is exactly lite plus the locked offline runtime; `plugins/` is forbidden in both. The Obsidian companion uses its own version and `obsidian-plugin` archive.
+
+Read [references/llm-wiki-capability-matrix.md](references/llm-wiki-capability-matrix.md) before absorbing another LLM Wiki behavior. The matrix is generated from the runtime capability registry and is restricted to four states: `已吸收`, `待吸收`, `明确排除`, and `需要 benchmark`. Every candidate closes its input, output, dependencies, license, data boundary, completion gate, and batch before implementation. The reviewed-reference capability adds at most one human summary page per active source plus one shared `REFERENCES.md` entry.
 
 ## Fast route
 
@@ -66,9 +74,10 @@ When `status` reports `ready-to-finalize`, run:
 & PYTHON "SKILL_DIR\scripts\ckb.py" finalize --out "OUTPUT"
 ```
 
-Retrieve a budgeted page-first context without loading the complete entity graph:
+Retrieve a compact page-first context without loading candidate details into the first command response:
 
 ```powershell
+& PYTHON "SKILL_DIR\scripts\ckb.py" brief --out "OUTPUT" "问题" --budget 1800 --max-pages 8 --profile fast
 & PYTHON "SKILL_DIR\scripts\ckb.py" retrieve --out "OUTPUT" "问题" --budget 1800 --max-pages 8 --profile fast
 & PYTHON "SKILL_DIR\scripts\ckb.py" coverage --out "OUTPUT"
 & PYTHON "SKILL_DIR\scripts\ckb.py" entity --out "OUTPUT" "OrderService"
@@ -84,6 +93,41 @@ For every substantive explanation or analysis, open the returned pack, write the
 ```
 
 Return both the answer and the record result's Markdown path/Obsidian URI. For code edits, use `change`; use `pitfall`, `experiment`, and one `session` page where relevant.
+
+At the start of knowledge-base work, list open page feedback. The feedback writer captures an inclusive line range plus an 80-character text window, so later Agents can relocate the selection after surrounding edits. Accepted or partial feedback requires a verified implementation/record file; rejected feedback requires a Chinese rationale; deferred feedback stays open; resolved feedback is archived and never deleted.
+
+```powershell
+& PYTHON "SKILL_DIR\scripts\ckb.py" feedback list --out "OUTPUT" --status open
+& PYTHON "SKILL_DIR\scripts\ckb.py" feedback create --out "OUTPUT" `
+  --target "pages\PAGE.md" --start-line 10 --end-line 12 `
+  --comment "COMMENT.md" --severity warn --author "AUTHOR" --source manual
+& PYTHON "SKILL_DIR\scripts\ckb.py" feedback locate --out "OUTPUT" --feedback "FEEDBACK_ID"
+& PYTHON "SKILL_DIR\scripts\ckb.py" feedback resolve --out "OUTPUT" `
+  --feedback "FEEDBACK_ID" --decision accepted --resolution "RESOLUTION.md" `
+  --applied-record "OUTPUT\human\changes\CHANGE.md"
+& PYTHON "SKILL_DIR\scripts\ckb.py" maintain --out "OUTPUT"
+```
+
+Inspect the closed LLM Wiki feature boundary without loading implementation files:
+
+```powershell
+& PYTHON "SKILL_DIR\scripts\ckb.py" capabilities --format json
+```
+
+Import one licensed local text source and stop at the Agent review gate:
+
+```powershell
+& PYTHON "SKILL_DIR\scripts\ckb.py" reference ingest --out "OUTPUT" `
+  --source "DOCUMENT.md" --title "资料标题" --origin "来源" --license "LICENSE"
+```
+
+Refresh only the task-first human navigation of an existing completed knowledge base:
+
+```powershell
+& PYTHON "SKILL_DIR\scripts\ckb.py" human-refresh --out "OUTPUT"
+```
+
+This command rewrites generated `INDEX.md`, `WIKI.md`, `RECORDS.md`, readability/projection metadata, and the mirrored human manifest/audit. It hashes every existing generated code page and every durable note before and after the refresh; any page/note byte change fails the operation. `--staging` is only for an isolated relocated copy and skips the workspace Agent-protocol check because its managed paths still point to the production output.
 
 At project initialization, start one Agent task session as soon as the fixed snapshot exists. This works while segmented construction is still running: the Chinese session note is queued and `finalize` materializes it into the human layer. Finish the session with a Chinese summary; a changed worktree requires `修改内容`、`修改原因` and `验证结果` headings.
 
@@ -183,7 +227,13 @@ Package completed human-readable examples with a Chinese Wiki:
 - Incremental migration reuses a parsed file only when path, language, Git blob and old parse status match exactly. It re-keys all commit-sensitive machine IDs, reuses an Agent review only when the source entity and narrative field shape match, preserves generator-unowned notes, and then executes the full current-version audit contract.
 - Automation persistence uses an atomic spool plus `machine/automation.sqlite`; event IDs, turn ownership, changed-path filtering, redaction, FTS exposure, and pending-review creation are deterministic. Replayed or concurrent events must not duplicate turns, paths, or review records.
 - Raw or near-raw conversation evidence remains machine-only. A Stop event creates `pending-agent-review`, not a reviewed Markdown page. Human promotion requires a Chinese body, Chinese evidence note, an exact per-path source-check set, resolved knowledge links, and the existing note audit.
+- Page feedback is separate from source facts and conversations. Canonical JSON lives under `workspace-meta/feedback`; frontmatter-free Chinese mirrors live under `human/feedback` and `markdown/feedback`. Open feedback must retain a resolvable target and anchor; resolution history is append-only through archive movement, and accepted/partial decisions require an existing implementation record.
+- Human work-record navigation is generated from the complete note set, not from a query result. `INDEX.md` first separates code understanding, historical work records, exact source retrieval, and reading guidance; `RECORDS.md` then lists every durable note exactly once under analysis, change, experiment, pitfall, or session purpose with one Chinese summary. The readability gate checks entry presence, link-set equality, mirror parity, unique titles, one navigation tag, and Chinese summaries.
+- LLM Wiki's compile, query, lint and audit ideas map to CKB build/retrieval/deterministic audits/location-anchored feedback. The authoritative feature status and closed candidate boundaries live in `references/llm-wiki-capability-matrix.md`. Arbitrary web/PDF/article ingestion remains outside the fixed Git source-fact layer; external reference material may be cited by reviewed analysis notes but never becomes a source entity merely by import.
+- Reviewed local Markdown/TXT references live under `OUTPUT/references`, project at most one `#类型/资料` summary page per active source, and enter `machine/knowledge.sqlite` as typed reference documents and source sections. Pending reviews, missing licenses, source drift, false line citations, mirror differences, page fan-out, or SQLite count drift prevent the reference layer from passing.
 - Automatic synchronization never parses `transcript_path`, never captures unregistered repositories, and never changes permissions or blocks a Harness operation. Hook health is reported separately from the fixed source graph completion markers.
+- Every completed Markdown knowledge base carries auto-discovered project instructions for Codex, OpenCode, Claude Code, Gemini CLI, GitHub Copilot and Cursor. The protocol fixes the read order to `brief fast` → bounded pack → narrow graph/source commands, routes durable writes through `record`, and uses `maintain` to aggregate note mirrors, metadata, human readability and both SQLite representations. Workspace-root installation is explicit and idempotent; it does not broaden Hook activation or synchronize every conversation into existing pages.
+- CKB-launched non-interactive Git, language-server, build, Hook-support, and stdio child processes run without a new Windows console window while retaining captured output, exit status, timeout, and cancellation behavior. User-invoked CLI commands and explicit terminal/shell features keep their normal visible host surface.
 - `machine/knowledge.sqlite` contains every file, declaration, source range, complete relation/evidence set, provider/diagnostic/review fact, community, boundary, human ownership mapping, full fixed source text, Chinese sections, Agent notes, and working-overlay paths. Its FTS and graph commands return source-grounded, token-bounded packs.
 - A fixed detached source snapshot, not the live worktree, is the semantic-provider root. Live edits are recorded as a working overlay and never alter the baseline `.complete` commit.
 - Accessors, local helpers, thin wrappers, simple predicates, properties, enums, fields, and similar declarations remain complete machine facts but appear only in an embedded appendix. Each appendix row has only the symbol and one Agent-reviewed Chinese sentence.

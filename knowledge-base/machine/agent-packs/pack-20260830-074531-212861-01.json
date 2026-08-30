@@ -1,0 +1,341 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "question": "GUI 学习解释 乱码 analysis 学习笔记 record-explanation DailyLearningNoteStore",
+  "profile": "fast",
+  "budget": 1800,
+  "estimated_tokens": 1729,
+  "terms": [
+    "dailylearningnotestore",
+    "record-explanation",
+    "explanation",
+    "analysis",
+    "learning",
+    "record",
+    "daily",
+    "store",
+    "note",
+    "学习笔记",
+    "学习解释",
+    "gui",
+    "习笔记",
+    "习解释",
+    "学习笔",
+    "学习解",
+    "习笔",
+    "习解",
+    "乱码",
+    "学习",
+    "笔记",
+    "解释"
+  ],
+  "anchors": [
+    "dailylearningnotestore",
+    "gui",
+    "record-explanation"
+  ],
+  "seed_entity_ids": [
+    "ent-75914a61a3245e75806e2ce8933bae4a",
+    "file-e0f03b8c100a53c6836fcb33f6b37766",
+    "ent-b8e58c5daf6a5bc681fe86ce4b0d5b06",
+    "ent-e0c05e724e645c479fef070cc4e03c50",
+    "ent-5c4d207d15525d7a9534aeb25345227f"
+  ],
+  "selected_entities": [
+    {
+      "entity_id": "ent-75914a61a3245e75806e2ce8933bae4a",
+      "name": "record_note",
+      "qualified_name": "record_note",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/workspace_notes.py",
+      "start_line": 106,
+      "end_line": 183,
+      "human_page_title": "record_note",
+      "human_page_file": "pages/record_note.md",
+      "display_mode": "page",
+      "score": 118.9794851,
+      "score_breakdown": {
+        "entity-fts": 7.30809187,
+        "graph": 2.2915161,
+        "metadata": 60.0,
+        "section-fts": 29.37987713,
+        "term": 20.0
+      },
+      "reasons": [
+        "确定性词项 `note`",
+        "确定性词项 `record`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "来源核对"
+      ]
+    },
+    {
+      "entity_id": "ent-10de90a8f22e546ebf2eafeb21e139bb",
+      "name": "mirror_note",
+      "qualified_name": "mirror_note",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/knowledge_layers.py",
+      "start_line": 231,
+      "end_line": 238,
+      "human_page_title": "sync_human_layer 与 _source_manifest 的协作实现",
+      "human_page_file": "pages/sync_human_layer 与 _source_manifest 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 71.37786433,
+      "score_breakdown": {
+        "entity-fts": 15.52750839,
+        "graph": 1.19617258,
+        "metadata": 30.0,
+        "section-fts": 14.65418336,
+        "term": 10.0
+      },
+      "reasons": [
+        "确定性词项 `note`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "固定源码摘录"
+      ]
+    },
+    {
+      "entity_id": "ent-a33c17de2eef55039c5b1ce375e078c6",
+      "name": "_record_or_queue",
+      "qualified_name": "_record_or_queue",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/agent_maintenance.py",
+      "start_line": 37,
+      "end_line": 67,
+      "human_page_title": "start_session 与 _session_directory 的协作实现",
+      "human_page_file": "pages/start_session 与 _session_directory 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 65.66923754,
+      "score_breakdown": {
+        "entity-fts": 12.15257228,
+        "graph": 1.38587006,
+        "metadata": 30.0,
+        "section-fts": 8.1307952,
+        "term": 14.0
+      },
+      "reasons": [
+        "确定性词项 `record`",
+        "确定性词项 `笔记`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "固定源码摘录"
+      ]
+    },
+    {
+      "entity_id": "ent-1c7b7b1c82a55a64a6e69a2d74f1d873",
+      "name": "_note_documents",
+      "qualified_name": "_note_documents",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 118,
+      "end_line": 145,
+      "human_page_title": "retrieve_machine 与 estimated_tokens 的协作实现",
+      "human_page_file": "pages/retrieve_machine 与 estimated_tokens 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 62.50729734,
+      "score_breakdown": {
+        "entity-fts": 15.53832906,
+        "metadata": 30.0,
+        "section-fts": 6.96896829,
+        "term": 10.0
+      },
+      "reasons": [
+        "确定性词项 `note`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "ent-1f43db7fd74452619b2566b63e1469ca",
+      "name": "relink_preserved_notes",
+      "qualified_name": "relink_preserved_notes",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/migration.py",
+      "start_line": 468,
+      "end_line": 562,
+      "human_page_title": "audit_migration 与 _entity_key 的协作实现",
+      "human_page_file": "pages/audit_migration 与 _entity_key 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 62.05858255,
+      "score_breakdown": {
+        "entity-fts": 15.58699434,
+        "graph": 0.00127703,
+        "metadata": 30.0,
+        "section-fts": 12.47031118,
+        "term": 4.0
+      },
+      "reasons": [
+        "确定性词项 `笔记`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "ent-a45dff3f8e61575991aec41f011b5aff",
+      "name": "_community_records",
+      "qualified_name": "_community_records",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/graphify_core.py",
+      "start_line": 149,
+      "end_line": 165,
+      "human_page_title": "query_graph 与 _networkx_modules 的协作实现",
+      "human_page_file": "pages/query_graph 与 _networkx_modules 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 56.00988323,
+      "score_breakdown": {
+        "entity-fts": 12.10060745,
+        "metadata": 30.0,
+        "section-fts": 13.90927578
+      },
+      "reasons": [
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "ent-9c27e501d6925aa8bb0ac9a050e4ecd0",
+      "name": "test_agent_review_promotes_one_chinese_human_note",
+      "qualified_name": "AutomationTest.test_agent_review_promotes_one_chinese_human_note",
+      "kind": "function",
+      "source_path": "tests/test_automation.py",
+      "start_line": 605,
+      "end_line": 710,
+      "human_page_title": "AutomationTest.event 等测试场景",
+      "human_page_file": "pages/AutomationTest.event 等测试场景.md",
+      "display_mode": "appendix",
+      "score": 55.90019473,
+      "score_breakdown": {
+        "entity-fts": 15.89953061,
+        "graph": 0.00066412,
+        "metadata": 30.0,
+        "term": 10.0
+      },
+      "reasons": [
+        "确定性词项 `note`",
+        "机器实体全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文作用",
+        "来源核对",
+        "固定源码摘录"
+      ]
+    },
+    {
+      "entity_id": "ent-9c5fd31a889259ecb2eda08f0be9bdc6",
+      "name": "_note_documents",
+      "qualified_name": "_note_documents",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/agent_index.py",
+      "start_line": 39,
+      "end_line": 55,
+      "human_page_title": "retrieve 与 _tokens 的协作实现",
+      "human_page_file": "pages/retrieve 与 _tokens 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 55.54373855,
+      "score_breakdown": {
+        "entity-fts": 15.54373855,
+        "metadata": 30.0,
+        "term": 10.0
+      },
+      "reasons": [
+        "确定性词项 `note`",
+        "机器实体全文命中",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": [
+        "中文作用",
+        "来源核对"
+      ]
+    }
+  ],
+  "related_documents": [
+    {
+      "document_id": "note:analysis:GUI 学习解释 2026-08-29",
+      "title": "GUI 学习解释 2026-08-29",
+      "kind": "analysis",
+      "human_file": "analysis/GUI 学习解释 2026-08-29.md"
+    },
+    {
+      "document_id": "note:analysis:GUI 学习解释 2026-08-30",
+      "title": "GUI 学习解释 2026-08-30",
+      "kind": "analysis",
+      "human_file": "analysis/GUI 学习解释 2026-08-30.md"
+    },
+    {
+      "document_id": "note:analysis:Obsidian 解释流式过程与快速路径实施计划",
+      "title": "Obsidian 解释流式过程与快速路径实施计划",
+      "kind": "analysis",
+      "human_file": "analysis/Obsidian 解释流式过程与快速路径实施计划.md"
+    },
+    {
+      "document_id": "note:changes:Obsidian 右侧解释视图与 CKB 检索证据",
+      "title": "Obsidian 右侧解释视图与 CKB 检索证据",
+      "kind": "change",
+      "human_file": "changes/Obsidian 右侧解释视图与 CKB 检索证据.md"
+    },
+    {
+      "document_id": "note:changes:Obsidian 多 Harness 选区学习插件",
+      "title": "Obsidian 多 Harness 选区学习插件",
+      "kind": "change",
+      "human_file": "changes/Obsidian 多 Harness 选区学习插件.md"
+    },
+    {
+      "document_id": "note:changes:Obsidian 解释快速路径与跨知识库部署",
+      "title": "Obsidian 解释快速路径与跨知识库部署",
+      "kind": "change",
+      "human_file": "changes/Obsidian 解释快速路径与跨知识库部署.md"
+    },
+    {
+      "document_id": "note:changes:插件门控的 CKB 输出契约投影",
+      "title": "插件门控的 CKB 输出契约投影",
+      "kind": "change",
+      "human_file": "changes/插件门控的 CKB 输出契约投影.md"
+    },
+    {
+      "document_id": "note:analysis:自动同步与 LLM Wiki 后续待办",
+      "title": "自动同步与 LLM Wiki 后续待办",
+      "kind": "analysis",
+      "human_file": "analysis/自动同步与 LLM Wiki 后续待办.md"
+    }
+  ],
+  "open_feedback": 0,
+  "retrieval_stats": {
+    "scored_entities": 284,
+    "overscan_limit": 32,
+    "materialized_candidates": 32,
+    "selected_entities": 8,
+    "budgeted_entity_limit": 8,
+    "selected_source_paths": 8,
+    "batched_entity_queries": 2,
+    "source_link_cache_entries": 8,
+    "static_cache_hit": false
+  },
+  "pack": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260830-074531-212861-01.md",
+  "record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260830-074531-212861-01.json",
+  "retrieval": "sqlite-exact-fts5-sections-deterministic-weighted-graph",
+  "deterministic": true,
+  "source_grounded": true,
+  "grep_fallback_required": false
+}

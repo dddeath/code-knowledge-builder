@@ -1,0 +1,445 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "question": "当前项目如何将自然语言查询转换为 SQLite FTS5 检索词项？请定位规范化、中文切词、标识符拆分、词项扩展、FTS MATCH 查询、精确锚点和排序相关实现。",
+  "profile": "fast",
+  "budget": 2200,
+  "estimated_tokens": 2195,
+  "terms": [
+    "当前项目如何将自然语言查询转换为",
+    "精确锚点和排序相关实现",
+    "sqlite",
+    "请定位规范化",
+    "match",
+    "标识符拆分",
+    "fts5",
+    "中文切词",
+    "检索词项",
+    "词项扩展",
+    "fts",
+    "中文切",
+    "位规范",
+    "何将自",
+    "关实现",
+    "前项目",
+    "和排序",
+    "如何将",
+    "定位规",
+    "将自然",
+    "序相关",
+    "当前项",
+    "排序相",
+    "文切词",
+    "查询转",
+    "标识符",
+    "检索词",
+    "点和排",
+    "然语言",
+    "目如何",
+    "相关实",
+    "确锚点",
+    "符拆分",
+    "精确锚",
+    "索词项",
+    "自然语",
+    "规范化",
+    "言查询",
+    "识符拆",
+    "词项扩",
+    "询转换",
+    "语言查",
+    "请定位",
+    "转换为",
+    "锚点和",
+    "项扩展",
+    "项目如",
+    "中文",
+    "位规",
+    "何将",
+    "关实",
+    "切词",
+    "前项",
+    "和排",
+    "如何",
+    "定位",
+    "实现",
+    "将自",
+    "序相",
+    "当前",
+    "扩展",
+    "拆分",
+    "换为",
+    "排序",
+    "文切",
+    "查询",
+    "标识",
+    "检索",
+    "点和",
+    "然语",
+    "目如",
+    "相关",
+    "确锚",
+    "符拆",
+    "精确",
+    "索词",
+    "自然",
+    "范化",
+    "规范",
+    "言查",
+    "识符",
+    "词项",
+    "询转",
+    "语言",
+    "请定",
+    "转换",
+    "锚点",
+    "项扩",
+    "项目"
+  ],
+  "anchors": [
+    "fts",
+    "fts5",
+    "match",
+    "sqlite"
+  ],
+  "seed_entity_ids": [
+    "file-d97926754468598db27e0d60c719c42d",
+    "ent-5280f0f1a0f0586b871bd383d3e3fd38",
+    "file-127ad18062a35020a23da6cd63c91282",
+    "ent-9e3d24510ec752fda5cc93be172caaa2",
+    "file-5f4b65d30320589cb6406877e8ffcff2"
+  ],
+  "selected_entities": [
+    {
+      "entity_id": "file-d97926754468598db27e0d60c719c42d",
+      "name": "agent_index.py",
+      "qualified_name": "scripts/ckb_core/agent_index.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/agent_index.py",
+      "start_line": 1,
+      "end_line": 569,
+      "human_page_title": "retrieve 与 _tokens 的协作实现",
+      "human_page_file": "pages/retrieve 与 _tokens 的协作实现.md",
+      "display_mode": "page",
+      "score": 109.66628713,
+      "score_breakdown": {
+        "entity-fts": 16.70625669,
+        "graph": 0.28893121,
+        "metadata": 32.0,
+        "section-fts": 48.67109922,
+        "term": 12.0
+      },
+      "reasons": [
+        "确定性词项 `sqlite`",
+        "确定性词项 `实现`",
+        "确定性词项 `检索`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文职责",
+        "什么时候需要修改"
+      ]
+    },
+    {
+      "entity_id": "ent-5280f0f1a0f0586b871bd383d3e3fd38",
+      "name": "retrieve_machine",
+      "qualified_name": "retrieve_machine",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 942,
+      "end_line": 1315,
+      "human_page_title": "retrieve_machine",
+      "human_page_file": "pages/retrieve_machine.md",
+      "display_mode": "page",
+      "score": 106.19640553,
+      "score_breakdown": {
+        "entity-fts": 17.46574604,
+        "graph": 0.65998739,
+        "metadata": 20.0,
+        "section-fts": 20.07067209,
+        "term": 48.0
+      },
+      "reasons": [
+        "确定性词项 `fts`",
+        "确定性词项 `中文`",
+        "确定性词项 `标识`",
+        "确定性词项 `标识符`",
+        "确定性词项 `相关`",
+        "确定性词项 `确锚`",
+        "确定性词项 `确锚点`",
+        "确定性词项 `精确`",
+        "确定性词项 `精确锚`",
+        "确定性词项 `识符`",
+        "确定性词项 `词项`",
+        "确定性词项 `锚点`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文职责",
+        "固定源码摘录"
+      ]
+    },
+    {
+      "entity_id": "file-5f4b65d30320589cb6406877e8ffcff2",
+      "name": "automation.py",
+      "qualified_name": "scripts/ckb_core/automation.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 1,
+      "end_line": 1632,
+      "human_page_title": "ingest_event 与 default_registry_path 的协作实现",
+      "human_page_file": "pages/ingest_event 与 default_registry_path 的协作实现.md",
+      "display_mode": "page",
+      "score": 96.18114123,
+      "score_breakdown": {
+        "entity-fts": 18.79155672,
+        "graph": 0.02839898,
+        "metadata": 37.0,
+        "section-fts": 16.36118552,
+        "term": 24.0
+      },
+      "reasons": [
+        "确定性词项 `sqlite`",
+        "确定性词项 `精确`",
+        "确定性词项 `范化`",
+        "确定性词项 `规范`",
+        "确定性词项 `规范化`",
+        "确定性词项 `项目`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "什么时候需要修改",
+        "中文含义"
+      ]
+    },
+    {
+      "entity_id": "ent-6f3ab6a34cd35a43982ac40689fb9ea9",
+      "name": "audit_global",
+      "qualified_name": "audit_global",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2739,
+      "end_line": 3036,
+      "human_page_title": "status 与 _replace_output_prefix 的协作实现",
+      "human_page_file": "pages/status 与 _replace_output_prefix 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 54.20340061,
+      "score_breakdown": {
+        "entity-fts": 18.21495023,
+        "graph": 0.00405736,
+        "metadata": 12.0,
+        "section-fts": 15.98439303,
+        "term": 8.0
+      },
+      "reasons": [
+        "确定性词项 `sqlite`",
+        "确定性词项 `中文`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文作用",
+        "来源核对"
+      ]
+    },
+    {
+      "entity_id": "ent-8d7be8f314795f20ad6640c3de8d16f4",
+      "name": "_version_matches",
+      "qualified_name": "_version_matches",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/providers.py",
+      "start_line": 32,
+      "end_line": 34,
+      "human_page_title": "LspClient.start 与 _version_matches 的协作实现",
+      "human_page_file": "pages/LspClient.start 与 _version_matches 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 53.58540276,
+      "score_breakdown": {
+        "entity-fts": 10.15765336,
+        "metadata": 30.0,
+        "section-fts": 13.42774939
+      },
+      "reasons": [
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": [
+        "固定源码摘录",
+        "中文作用"
+      ]
+    },
+    {
+      "entity_id": "ent-035078b02247538d98ae1b35eb0a2e2f",
+      "name": "audit_migration",
+      "qualified_name": "audit_migration",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/migration.py",
+      "start_line": 353,
+      "end_line": 460,
+      "human_page_title": "audit_migration",
+      "human_page_file": "pages/audit_migration.md",
+      "display_mode": "page",
+      "score": 53.1030386,
+      "score_breakdown": {
+        "entity-fts": 20.7062516,
+        "graph": 0.00047377,
+        "metadata": 12.0,
+        "section-fts": 16.39631323,
+        "term": 4.0
+      },
+      "reasons": [
+        "确定性词项 `sqlite`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文职责",
+        "中文含义"
+      ]
+    },
+    {
+      "entity_id": "file-1e59546ddfc0502bbbb040ae8357dc15",
+      "name": "page_config.py",
+      "qualified_name": "scripts/ckb_core/page_config.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/page_config.py",
+      "start_line": 1,
+      "end_line": 244,
+      "human_page_title": "load_page_config 与 _merge_known 的协作实现",
+      "human_page_file": "pages/load_page_config 与 _merge_known 的协作实现.md",
+      "display_mode": "page",
+      "score": 41.0,
+      "score_breakdown": {
+        "metadata": 25.0,
+        "term": 16.0
+      },
+      "reasons": [
+        "确定性词项 `实现`",
+        "确定性词项 `范化`",
+        "确定性词项 `规范`",
+        "确定性词项 `规范化`",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": [
+        "中文含义",
+        "中文职责"
+      ]
+    },
+    {
+      "entity_id": "ent-d0b2b679b6a058e398c8b5ef3ba9bac2",
+      "name": "test_automation_fts_finds_pending_machine_record",
+      "qualified_name": "AutomationTest.test_automation_fts_finds_pending_machine_record",
+      "kind": "function",
+      "source_path": "tests/test_automation.py",
+      "start_line": 746,
+      "end_line": 760,
+      "human_page_title": "AutomationTest.event 等测试场景",
+      "human_page_file": "pages/AutomationTest.event 等测试场景.md",
+      "display_mode": "appendix",
+      "score": 31.8938075,
+      "score_breakdown": {
+        "entity-fts": 12.93665399,
+        "graph": 0.00187266,
+        "metadata": 30.0,
+        "section-fts": 18.99652419,
+        "term": 14.0,
+        "test-discount": -44.04124335
+      },
+      "reasons": [
+        "确定性词项 `fts`",
+        "确定性词项 `检索`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "实现定位查询对测试实体应用固定折扣",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文作用",
+        "固定源码摘录"
+      ]
+    }
+  ],
+  "related_documents": [
+    {
+      "document_id": "note:analysis:Code Knowledge Builder 秋招面试官拷问手册",
+      "title": "Code Knowledge Builder 秋招面试官拷问手册",
+      "kind": "analysis",
+      "human_file": "analysis/Code Knowledge Builder 秋招面试官拷问手册.md"
+    },
+    {
+      "document_id": "note:sessions:session-20260826-124551-01 分析总结",
+      "title": "session-20260826-124551-01 分析总结",
+      "kind": "session",
+      "human_file": "sessions/session-20260826-124551-01 分析总结.md"
+    },
+    {
+      "document_id": "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）",
+      "title": "LLM Wiki 快速检索性能验证（5.1.2）",
+      "kind": "analysis",
+      "human_file": "analysis/LLM Wiki 快速检索性能验证（5.1.2）.md"
+    },
+    {
+      "document_id": "note:experiments:LLM Wiki 吸收特性与 Flask 检索收益",
+      "title": "LLM Wiki 吸收特性与 Flask 检索收益",
+      "kind": "experiment",
+      "human_file": "experiments/LLM Wiki 吸收特性与 Flask 检索收益.md"
+    },
+    {
+      "document_id": "note:analysis:Flask 3.1.3 知识库与 grep 对比测试（秋招版）",
+      "title": "Flask 3.1.3 知识库与 grep 对比测试（秋招版）",
+      "kind": "analysis",
+      "human_file": "analysis/Flask 3.1.3 知识库与 grep 对比测试（秋招版）.md"
+    },
+    {
+      "document_id": "note:analysis:知识库人类可读性与任务完成标准",
+      "title": "知识库人类可读性与任务完成标准",
+      "kind": "analysis",
+      "human_file": "analysis/知识库人类可读性与任务完成标准.md"
+    },
+    {
+      "document_id": "note:analysis:Code Knowledge Builder 5.0.0 特性总览",
+      "title": "Code Knowledge Builder 5.0.0 特性总览",
+      "kind": "analysis",
+      "human_file": "analysis/Code Knowledge Builder 5.0.0 特性总览.md"
+    },
+    {
+      "document_id": "note:analysis:Code Knowledge Builder 5.0.0 工程方法",
+      "title": "Code Knowledge Builder 5.0.0 工程方法",
+      "kind": "analysis",
+      "human_file": "analysis/Code Knowledge Builder 5.0.0 工程方法.md"
+    }
+  ],
+  "open_feedback": 0,
+  "retrieval_stats": {
+    "scored_entities": 411,
+    "overscan_limit": 32,
+    "materialized_candidates": 32,
+    "selected_entities": 8,
+    "budgeted_entity_limit": 8,
+    "selected_source_paths": 8,
+    "batched_entity_queries": 2,
+    "source_link_cache_entries": 8,
+    "static_cache_hit": false
+  },
+  "pack": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260830-074944-630108-01.md",
+  "record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260830-074944-630108-01.json",
+  "retrieval": "sqlite-exact-fts5-sections-deterministic-weighted-graph",
+  "deterministic": true,
+  "source_grounded": true,
+  "grep_fallback_required": false
+}

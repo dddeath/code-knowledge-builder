@@ -1,0 +1,388 @@
+{
+  "schema_version": 2,
+  "status": "passed",
+  "question": "将 CKB 5.3.0 源码与自身知识库发布到 GitHub，并创建可回滚 Release 时应检查哪些仓库、包和维护记录？",
+  "profile": "fast",
+  "budget": 1800,
+  "estimated_tokens": 1781,
+  "terms": [
+    "源码与自身知识库发布到",
+    "时应检查哪些仓库",
+    "release",
+    "github",
+    "包和维护记录",
+    "并创建可回滚",
+    "5.3.0",
+    "ckb",
+    "git",
+    "hub",
+    "与自身",
+    "些仓库",
+    "创建可",
+    "包和维",
+    "发布到",
+    "可回滚",
+    "和维护",
+    "哪些仓",
+    "并创建",
+    "库发布",
+    "应检查",
+    "建可回",
+    "护记录",
+    "时应检",
+    "查哪些",
+    "检查哪",
+    "源码与",
+    "知识库",
+    "码与自",
+    "维护记",
+    "自身知",
+    "识库发",
+    "身知识",
+    "与自",
+    "些仓",
+    "仓库",
+    "创建",
+    "包和",
+    "发布",
+    "可回",
+    "和维",
+    "哪些",
+    "回滚",
+    "布到",
+    "并创",
+    "库发",
+    "应检",
+    "建可",
+    "护记",
+    "时应",
+    "查哪",
+    "检查",
+    "源码",
+    "知识",
+    "码与",
+    "维护",
+    "自身",
+    "记录",
+    "识库",
+    "身知",
+    "将"
+  ],
+  "anchors": [
+    "ckb",
+    "github"
+  ],
+  "seed_entity_ids": [
+    "ent-2b0fb01a42975940a86592001cf5f2bf",
+    "file-283bb66c213b56188944e60c2a7d4368",
+    "ent-c92c5a7914505aa698291b4ad655a877",
+    "ent-fff2acd83192584f9fa4c5ef7e48f233",
+    "ent-d6d63a1799a251208332c8ed56f0d3da"
+  ],
+  "selected_entities": [
+    {
+      "entity_id": "ent-2b0fb01a42975940a86592001cf5f2bf",
+      "name": "add_git_bootstrap_arguments",
+      "qualified_name": "add_git_bootstrap_arguments",
+      "kind": "function",
+      "source_path": "scripts/ckb.py",
+      "start_line": 104,
+      "end_line": 112,
+      "human_page_title": "add_git_bootstrap_arguments",
+      "human_page_file": "pages/add_git_bootstrap_arguments.md",
+      "display_mode": "page",
+      "score": 238.35493337,
+      "score_breakdown": {
+        "entity-fts": 19.59134249,
+        "graph": 0.09559362,
+        "metadata": 52.0,
+        "section-fts": 146.66799726,
+        "term": 20.0
+      },
+      "reasons": [
+        "确定性词项 `ckb`",
+        "确定性词项 `git`",
+        "确定性词项 `仓库`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "file-283bb66c213b56188944e60c2a7d4368",
+      "name": "gitrepo.py",
+      "qualified_name": "scripts/ckb_core/gitrepo.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/gitrepo.py",
+      "start_line": 1,
+      "end_line": 417,
+      "human_page_title": "create_source_snapshot 与 git 的协作实现",
+      "human_page_file": "pages/create_source_snapshot 与 git 的协作实现.md",
+      "display_mode": "page",
+      "score": 235.91271956,
+      "score_breakdown": {
+        "entity-fts": 19.60786094,
+        "graph": 5.9367665,
+        "metadata": 80.0,
+        "section-fts": 108.36809213,
+        "term": 22.0
+      },
+      "reasons": [
+        "确定性词项 `ckb`",
+        "确定性词项 `git`",
+        "确定性词项 `仓库`",
+        "确定性词项 `知识`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "file-127ad18062a35020a23da6cd63c91282",
+      "name": "machine_knowledge.py",
+      "qualified_name": "scripts/ckb_core/machine_knowledge.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 1,
+      "end_line": 1458,
+      "human_page_title": "retrieve_machine 与 estimated_tokens 的协作实现",
+      "human_page_file": "pages/retrieve_machine 与 estimated_tokens 的协作实现.md",
+      "display_mode": "page",
+      "score": 196.99977039,
+      "score_breakdown": {
+        "entity-fts": 119.99977039,
+        "metadata": 55.0,
+        "term": 22.0
+      },
+      "reasons": [
+        "确定性词项 `ckb`",
+        "确定性词项 `知识`",
+        "确定性词项 `知识库`",
+        "确定性词项 `识库`",
+        "机器实体全文命中",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": [
+        "中文含义"
+      ]
+    },
+    {
+      "entity_id": "file-89dd6b7edb5958f392011787442849f4",
+      "name": "pipeline.py",
+      "qualified_name": "scripts/ckb_core/pipeline.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 1,
+      "end_line": 3314,
+      "human_page_title": "status 与 _replace_output_prefix 的协作实现",
+      "human_page_file": "pages/status 与 _replace_output_prefix 的协作实现.md",
+      "display_mode": "page",
+      "score": 188.00017252,
+      "score_breakdown": {
+        "entity-fts": 119.99976476,
+        "graph": 0.00040776,
+        "metadata": 50.0,
+        "term": 18.0
+      },
+      "reasons": [
+        "确定性词项 `ckb`",
+        "确定性词项 `知识`",
+        "确定性词项 `维护`",
+        "机器实体全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "file-8ff515bab97b5c4c8af18f4227478f08",
+      "name": "runtime.py",
+      "qualified_name": "scripts/ckb_core/runtime.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/runtime.py",
+      "start_line": 1,
+      "end_line": 153,
+      "human_page_title": "remove 与 skill_root 的协作实现",
+      "human_page_file": "pages/remove 与 skill_root 的协作实现.md",
+      "display_mode": "page",
+      "score": 187.99976714,
+      "score_breakdown": {
+        "entity-fts": 119.99976714,
+        "metadata": 50.0,
+        "term": 18.0
+      },
+      "reasons": [
+        "确定性词项 `ckb`",
+        "确定性词项 `检查`",
+        "确定性词项 `源码`",
+        "机器实体全文命中",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": [
+        "中文含义"
+      ]
+    },
+    {
+      "entity_id": "file-c6fd1c3c1eec51b2a82d33f05e8683c9",
+      "name": "source_links.py",
+      "qualified_name": "scripts/ckb_core/source_links.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/source_links.py",
+      "start_line": 1,
+      "end_line": 184,
+      "human_page_title": "SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现",
+      "human_page_file": "pages/SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现.md",
+      "display_mode": "page",
+      "score": 187.99976476,
+      "score_breakdown": {
+        "entity-fts": 119.99976476,
+        "metadata": 50.0,
+        "term": 18.0
+      },
+      "reasons": [
+        "确定性词项 `ckb`",
+        "确定性词项 `仓库`",
+        "确定性词项 `源码`",
+        "机器实体全文命中",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "file-c8175822a8835033a88fc2844374b524",
+      "name": "common.py",
+      "qualified_name": "scripts/ckb_core/common.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/common.py",
+      "start_line": 1,
+      "end_line": 158,
+      "human_page_title": "run 与 CkbError 的协作实现",
+      "human_page_file": "pages/run 与 CkbError 的协作实现.md",
+      "display_mode": "page",
+      "score": 184.00536491,
+      "score_breakdown": {
+        "entity-fts": 119.99977062,
+        "graph": 0.0055943,
+        "metadata": 50.0,
+        "term": 14.0
+      },
+      "reasons": [
+        "确定性词项 `ckb`",
+        "确定性词项 `源码`",
+        "机器实体全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "file-b7eb2349510c5992a19d42cffae96018",
+      "name": "graphify_core.py",
+      "qualified_name": "scripts/ckb_core/graphify_core.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/graphify_core.py",
+      "start_line": 1,
+      "end_line": 676,
+      "human_page_title": "query_graph 与 _networkx_modules 的协作实现",
+      "human_page_file": "pages/query_graph 与 _networkx_modules 的协作实现.md",
+      "display_mode": "page",
+      "score": 183.99977332,
+      "score_breakdown": {
+        "entity-fts": 119.99977332,
+        "metadata": 50.0,
+        "term": 14.0
+      },
+      "reasons": [
+        "确定性词项 `ckb`",
+        "确定性词项 `源码`",
+        "机器实体全文命中",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": []
+    }
+  ],
+  "related_documents": [
+    {
+      "document_id": "note:analysis:OpenViking 记忆系统调研",
+      "title": "OpenViking 记忆系统调研",
+      "kind": "analysis",
+      "status": "agent-reviewed",
+      "human_file": "analysis/OpenViking 记忆系统调研.md",
+      "source_path": null,
+      "start_line": null,
+      "end_line": null
+    },
+    {
+      "document_id": "note:changes:Obsidian 多 Harness 选区学习插件",
+      "title": "Obsidian 多 Harness 选区学习插件",
+      "kind": "change",
+      "status": "agent-reviewed",
+      "human_file": "changes/Obsidian 多 Harness 选区学习插件.md",
+      "source_path": null,
+      "start_line": null,
+      "end_line": null
+    },
+    {
+      "document_id": "note:analysis:当前 Codex Hook 触发流程核对",
+      "title": "当前 Codex Hook 触发流程核对",
+      "kind": "analysis",
+      "status": "agent-reviewed",
+      "human_file": "analysis/当前 Codex Hook 触发流程核对.md",
+      "source_path": null,
+      "start_line": null,
+      "end_line": null
+    },
+    {
+      "document_id": "note:changes:CKB 5.3.0 审阅文本资料吸收",
+      "title": "CKB 5.3.0 审阅文本资料吸收",
+      "kind": "change",
+      "human_file": "changes/CKB 5.3.0 审阅文本资料吸收.md"
+    },
+    {
+      "document_id": "note:analysis:Code Knowledge Builder 秋招面试官拷问手册",
+      "title": "Code Knowledge Builder 秋招面试官拷问手册",
+      "kind": "analysis",
+      "human_file": "analysis/Code Knowledge Builder 秋招面试官拷问手册.md"
+    },
+    {
+      "document_id": "note:changes:修复 Codex commandWindows 在 WSL 中二次启动失败",
+      "title": "修复 Codex commandWindows 在 WSL 中二次启动失败",
+      "kind": "change",
+      "human_file": "changes/修复 Codex commandWindows 在 WSL 中二次启动失败.md"
+    },
+    {
+      "document_id": "note:changes:Lite、Full 与 Obsidian 插件发行边界",
+      "title": "Lite、Full 与 Obsidian 插件发行边界",
+      "kind": "change",
+      "human_file": "changes/Lite、Full 与 Obsidian 插件发行边界.md"
+    },
+    {
+      "document_id": "note:analysis:Code Knowledge Builder 项目说明书结构与验收样例",
+      "title": "Code Knowledge Builder 项目说明书结构与验收样例",
+      "kind": "analysis",
+      "human_file": "analysis/Code Knowledge Builder 项目说明书结构与验收样例.md"
+    }
+  ],
+  "open_feedback": 0,
+  "retrieval_stats": {
+    "scored_entities": 463,
+    "overscan_limit": 32,
+    "materialized_candidates": 32,
+    "selected_entities": 8,
+    "budgeted_entity_limit": 8,
+    "selected_source_paths": 8,
+    "batched_entity_queries": 2,
+    "source_link_cache_entries": 8,
+    "static_cache_hit": false
+  },
+  "pack": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260830-124634-556511-01.md",
+  "record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260830-124634-556511-01.json",
+  "retrieval": "sqlite-exact-fts5-sections-deterministic-weighted-graph",
+  "deterministic": true,
+  "source_grounded": true,
+  "grep_fallback_required": false
+}

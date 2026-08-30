@@ -1,0 +1,403 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "question": "OpenViking 记忆系统调研；对照 Code Knowledge Builder 的分层知识、检索、生命周期、持久化、Agent 记忆与明确边界",
+  "profile": "fast",
+  "budget": 1800,
+  "estimated_tokens": 1795,
+  "terms": [
+    "openviking",
+    "knowledge",
+    "builder",
+    "记忆与明确边界",
+    "viking",
+    "记忆系统调研",
+    "agent",
+    "的分层知识",
+    "code",
+    "open",
+    "生命周期",
+    "与明确",
+    "分层知",
+    "命周期",
+    "层知识",
+    "忆与明",
+    "忆系统",
+    "持久化",
+    "明确边",
+    "生命周",
+    "的分层",
+    "确边界",
+    "系统调",
+    "统调研",
+    "记忆与",
+    "记忆系",
+    "与明",
+    "久化",
+    "分层",
+    "周期",
+    "命周",
+    "对照",
+    "层知",
+    "忆与",
+    "忆系",
+    "持久",
+    "明确",
+    "检索",
+    "生命",
+    "的分",
+    "知识",
+    "确边",
+    "系统",
+    "统调",
+    "记忆",
+    "调研",
+    "边界"
+  ],
+  "anchors": [
+    "openviking"
+  ],
+  "seed_entity_ids": [
+    "file-e903ef855dce5d7b84361bc8b9fb063b",
+    "file-d97926754468598db27e0d60c719c42d",
+    "file-4ccd0cfe6ab95cd4934c08e95024a187",
+    "file-5f4b65d30320589cb6406877e8ffcff2",
+    "file-a7c669b371855f3e8541f4718060e9e9"
+  ],
+  "selected_entities": [
+    {
+      "entity_id": "file-e903ef855dce5d7b84361bc8b9fb063b",
+      "name": "agent_maintenance.py",
+      "qualified_name": "scripts/ckb_core/agent_maintenance.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/agent_maintenance.py",
+      "start_line": 1,
+      "end_line": 255,
+      "human_page_title": "start_session 与 _session_directory 的协作实现",
+      "human_page_file": "pages/start_session 与 _session_directory 的协作实现.md",
+      "display_mode": "page",
+      "score": 171.27797732,
+      "score_breakdown": {
+        "entity-fts": 3.99486543,
+        "graph": 0.15331407,
+        "metadata": 108.0,
+        "section-fts": 13.12979782,
+        "term": 46.0
+      },
+      "reasons": [
+        "确定性词项 `agent`",
+        "确定性词项 `builder`",
+        "确定性词项 `code`",
+        "确定性词项 `knowledge`",
+        "确定性词项 `周期`",
+        "确定性词项 `命周`",
+        "确定性词项 `命周期`",
+        "确定性词项 `生命`",
+        "确定性词项 `生命周`",
+        "确定性词项 `边界`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "file-d97926754468598db27e0d60c719c42d",
+      "name": "agent_index.py",
+      "qualified_name": "scripts/ckb_core/agent_index.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/agent_index.py",
+      "start_line": 1,
+      "end_line": 569,
+      "human_page_title": "retrieve 与 _tokens 的协作实现",
+      "human_page_file": "pages/retrieve 与 _tokens 的协作实现.md",
+      "display_mode": "page",
+      "score": 131.81885161,
+      "score_breakdown": {
+        "entity-fts": 8.39302188,
+        "graph": 0.34729525,
+        "metadata": 86.0,
+        "section-fts": 7.07853448,
+        "term": 30.0
+      },
+      "reasons": [
+        "确定性词项 `agent`",
+        "确定性词项 `builder`",
+        "确定性词项 `code`",
+        "确定性词项 `knowledge`",
+        "确定性词项 `检索`",
+        "确定性词项 `边界`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文职责"
+      ]
+    },
+    {
+      "entity_id": "file-4ccd0cfe6ab95cd4934c08e95024a187",
+      "name": "knowledge_layers.py",
+      "qualified_name": "scripts/ckb_core/knowledge_layers.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/knowledge_layers.py",
+      "start_line": 1,
+      "end_line": 239,
+      "human_page_title": "sync_human_layer 与 _source_manifest 的协作实现",
+      "human_page_file": "pages/sync_human_layer 与 _source_manifest 的协作实现.md",
+      "display_mode": "page",
+      "score": 115.79579808,
+      "score_breakdown": {
+        "entity-fts": 12.01577651,
+        "graph": 0.34997509,
+        "metadata": 74.0,
+        "section-fts": 7.43004648,
+        "term": 22.0
+      },
+      "reasons": [
+        "确定性词项 `builder`",
+        "确定性词项 `code`",
+        "确定性词项 `knowledge`",
+        "确定性词项 `边界`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文职责"
+      ]
+    },
+    {
+      "entity_id": "file-5f4b65d30320589cb6406877e8ffcff2",
+      "name": "automation.py",
+      "qualified_name": "scripts/ckb_core/automation.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 1,
+      "end_line": 1632,
+      "human_page_title": "ingest_event 与 default_registry_path 的协作实现",
+      "human_page_file": "pages/ingest_event 与 default_registry_path 的协作实现.md",
+      "display_mode": "page",
+      "score": 101.53192204,
+      "score_breakdown": {
+        "entity-fts": 9.96746122,
+        "graph": 0.02978056,
+        "metadata": 68.0,
+        "section-fts": 7.53468026,
+        "term": 16.0
+      },
+      "reasons": [
+        "确定性词项 `agent`",
+        "确定性词项 `builder`",
+        "确定性词项 `code`",
+        "确定性词项 `knowledge`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文职责"
+      ]
+    },
+    {
+      "entity_id": "file-a7c669b371855f3e8541f4718060e9e9",
+      "name": "automation_integrations.py",
+      "qualified_name": "scripts/ckb_core/automation_integrations.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/automation_integrations.py",
+      "start_line": 1,
+      "end_line": 502,
+      "human_page_title": "render_integration 与 _looks_windows 的协作实现",
+      "human_page_file": "pages/render_integration 与 _looks_windows 的协作实现.md",
+      "display_mode": "page",
+      "score": 101.03816334,
+      "score_breakdown": {
+        "entity-fts": 7.93598988,
+        "graph": 0.09087402,
+        "metadata": 68.0,
+        "section-fts": 5.01129943,
+        "term": 20.0
+      },
+      "reasons": [
+        "确定性词项 `builder`",
+        "确定性词项 `code`",
+        "确定性词项 `knowledge`",
+        "确定性词项 `open`",
+        "确定性词项 `明确`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文职责"
+      ]
+    },
+    {
+      "entity_id": "file-127ad18062a35020a23da6cd63c91282",
+      "name": "machine_knowledge.py",
+      "qualified_name": "scripts/ckb_core/machine_knowledge.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 1,
+      "end_line": 1458,
+      "human_page_title": "retrieve_machine 与 estimated_tokens 的协作实现",
+      "human_page_file": "pages/retrieve_machine 与 estimated_tokens 的协作实现.md",
+      "display_mode": "page",
+      "score": 100.12838017,
+      "score_breakdown": {
+        "entity-fts": 16.12838017,
+        "metadata": 62.0,
+        "term": 22.0
+      },
+      "reasons": [
+        "确定性词项 `agent`",
+        "确定性词项 `knowledge`",
+        "确定性词项 `检索`",
+        "确定性词项 `知识`",
+        "机器实体全文命中",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": [
+        "中文含义",
+        "中文职责"
+      ]
+    },
+    {
+      "entity_id": "file-e3e8943d1e3d5dfaa65c7babaf0e98fc",
+      "name": "providers.py",
+      "qualified_name": "scripts/ckb_core/providers.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/providers.py",
+      "start_line": 1,
+      "end_line": 596,
+      "human_page_title": "LspClient.start 与 _version_matches 的协作实现",
+      "human_page_file": "pages/LspClient.start 与 _version_matches 的协作实现.md",
+      "display_mode": "page",
+      "score": 93.58904615,
+      "score_breakdown": {
+        "entity-fts": 13.92763475,
+        "metadata": 56.0,
+        "section-fts": 7.6614114,
+        "term": 16.0
+      },
+      "reasons": [
+        "确定性词项 `builder`",
+        "确定性词项 `code`",
+        "确定性词项 `knowledge`",
+        "确定性词项 `边界`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": [
+        "中文职责",
+        "中文含义"
+      ]
+    },
+    {
+      "entity_id": "file-dfdfc841fa115baa9302c9434f90f57b",
+      "name": "parsers.py",
+      "qualified_name": "scripts/ckb_core/parsers.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/parsers.py",
+      "start_line": 1,
+      "end_line": 437,
+      "human_page_title": "parse_file 与 _language 的协作实现",
+      "human_page_file": "pages/parse_file 与 _language 的协作实现.md",
+      "display_mode": "page",
+      "score": 92.83262224,
+      "score_breakdown": {
+        "entity-fts": 13.26169329,
+        "metadata": 56.0,
+        "section-fts": 7.57092895,
+        "term": 16.0
+      },
+      "reasons": [
+        "确定性词项 `builder`",
+        "确定性词项 `code`",
+        "确定性词项 `knowledge`",
+        "确定性词项 `边界`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": [
+        "中文职责",
+        "中文含义"
+      ]
+    }
+  ],
+  "related_documents": [
+    {
+      "document_id": "note:sessions:session-20260826-124551-01 分析总结",
+      "title": "session-20260826-124551-01 分析总结",
+      "kind": "session",
+      "human_file": "sessions/session-20260826-124551-01 分析总结.md"
+    },
+    {
+      "document_id": "note:changes:Obsidian 多 Harness 选区学习插件",
+      "title": "Obsidian 多 Harness 选区学习插件",
+      "kind": "change",
+      "human_file": "changes/Obsidian 多 Harness 选区学习插件.md"
+    },
+    {
+      "document_id": "note:changes:跨 Harness 会话与修改自动同步实现",
+      "title": "跨 Harness 会话与修改自动同步实现",
+      "kind": "change",
+      "human_file": "changes/跨 Harness 会话与修改自动同步实现.md"
+    },
+    {
+      "document_id": "note:analysis:Code Knowledge Builder 秋招面试官拷问手册",
+      "title": "Code Knowledge Builder 秋招面试官拷问手册",
+      "kind": "analysis",
+      "human_file": "analysis/Code Knowledge Builder 秋招面试官拷问手册.md"
+    },
+    {
+      "document_id": "note:analysis:Codex Hook 对话记录缺失与页面未更新审计",
+      "title": "Codex Hook 对话记录缺失与页面未更新审计",
+      "kind": "analysis",
+      "human_file": "analysis/Codex Hook 对话记录缺失与页面未更新审计.md"
+    },
+    {
+      "document_id": "note:analysis:自动同步与 LLM Wiki 后续待办",
+      "title": "自动同步与 LLM Wiki 后续待办",
+      "kind": "analysis",
+      "human_file": "analysis/自动同步与 LLM Wiki 后续待办.md"
+    },
+    {
+      "document_id": "note:analysis:Obsidian 解释流式过程与快速路径实施计划",
+      "title": "Obsidian 解释流式过程与快速路径实施计划",
+      "kind": "analysis",
+      "human_file": "analysis/Obsidian 解释流式过程与快速路径实施计划.md"
+    },
+    {
+      "document_id": "note:analysis:Code Knowledge Builder 5.0.0 工程方法",
+      "title": "Code Knowledge Builder 5.0.0 工程方法",
+      "kind": "analysis",
+      "human_file": "analysis/Code Knowledge Builder 5.0.0 工程方法.md"
+    }
+  ],
+  "open_feedback": 0,
+  "retrieval_stats": {
+    "scored_entities": 267,
+    "overscan_limit": 32,
+    "materialized_candidates": 32,
+    "selected_entities": 8,
+    "budgeted_entity_limit": 8,
+    "selected_source_paths": 8,
+    "batched_entity_queries": 2,
+    "source_link_cache_entries": 8,
+    "static_cache_hit": false
+  },
+  "pack": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260830-103728-968519-01.md",
+  "record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260830-103728-968519-01.json",
+  "retrieval": "sqlite-exact-fts5-sections-deterministic-weighted-graph",
+  "deterministic": true,
+  "source_grounded": true,
+  "grep_fallback_required": false
+}

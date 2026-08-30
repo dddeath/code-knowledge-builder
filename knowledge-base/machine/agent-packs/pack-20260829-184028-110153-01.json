@@ -1,0 +1,401 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "question": "parse_file LspClient.start sync_human_layer create_source_snapshot retrieve_machine ingest_event audit_migration load_page_config",
+  "profile": "fast",
+  "budget": 1800,
+  "estimated_tokens": 1709,
+  "terms": [
+    "create_source_snapshot",
+    "load_page_config",
+    "retrieve_machine",
+    "sync_human_layer",
+    "audit_migration",
+    "lspclient.start",
+    "ingest_event",
+    "parse_file",
+    "lspclient",
+    "migration",
+    "retrieve",
+    "snapshot",
+    "machine",
+    "client",
+    "config",
+    "create",
+    "ingest",
+    "source",
+    "audit",
+    "event",
+    "human",
+    "layer",
+    "parse",
+    "start",
+    "file",
+    "load",
+    "page",
+    "sync",
+    "lsp"
+  ],
+  "anchors": [
+    "audit_migration",
+    "create_source_snapshot",
+    "ingest_event",
+    "load_page_config",
+    "lspclient.start",
+    "parse_file",
+    "retrieve_machine",
+    "sync_human_layer"
+  ],
+  "seed_entity_ids": [
+    "ent-ce4fa675276e572092f0dad6403d1f61",
+    "ent-4be7947978c25846bfe31327fc11e6c2",
+    "ent-a05f0c6310c8532f803ae315ab4b1c99",
+    "ent-20c26aa08209560aa1bc531fb6a63386",
+    "ent-035078b02247538d98ae1b35eb0a2e2f"
+  ],
+  "selected_entities": [
+    {
+      "entity_id": "ent-ce4fa675276e572092f0dad6403d1f61",
+      "name": "start",
+      "qualified_name": "LspClient.start",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/providers.py",
+      "start_line": 270,
+      "end_line": 280,
+      "human_page_title": "LspClient.start",
+      "human_page_file": "pages/LspClient.start.md",
+      "display_mode": "page",
+      "score": 755.27750889,
+      "score_breakdown": {
+        "anchor": 500.0,
+        "entity-fts": 4.42528053,
+        "graph": 4.08087852,
+        "metadata": 194.0,
+        "section-fts": 2.77134984,
+        "term": 50.0
+      },
+      "reasons": [
+        "保留显式标识符 `lspclient.start`",
+        "确定性词项 `client`",
+        "确定性词项 `lsp`",
+        "确定性词项 `lspclient`",
+        "确定性词项 `lspclient.start`",
+        "确定性词项 `start`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文含义"
+      ]
+    },
+    {
+      "entity_id": "ent-4be7947978c25846bfe31327fc11e6c2",
+      "name": "sync_human_layer",
+      "qualified_name": "sync_human_layer",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/knowledge_layers.py",
+      "start_line": 126,
+      "end_line": 181,
+      "human_page_title": "sync_human_layer",
+      "human_page_file": "pages/sync_human_layer.md",
+      "display_mode": "page",
+      "score": 699.80622759,
+      "score_breakdown": {
+        "anchor": 500.0,
+        "entity-fts": 9.46805009,
+        "graph": 0.12906548,
+        "metadata": 142.0,
+        "section-fts": 8.20911202,
+        "term": 40.0
+      },
+      "reasons": [
+        "保留显式标识符 `sync_human_layer`",
+        "确定性词项 `human`",
+        "确定性词项 `layer`",
+        "确定性词项 `sync`",
+        "确定性词项 `sync_human_layer`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文含义",
+        "中文职责"
+      ]
+    },
+    {
+      "entity_id": "ent-a05f0c6310c8532f803ae315ab4b1c99",
+      "name": "load_page_config",
+      "qualified_name": "load_page_config",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/page_config.py",
+      "start_line": 209,
+      "end_line": 219,
+      "human_page_title": "load_page_config",
+      "human_page_file": "pages/load_page_config.md",
+      "display_mode": "page",
+      "score": 699.61813758,
+      "score_breakdown": {
+        "anchor": 500.0,
+        "entity-fts": 5.98292541,
+        "graph": 0.11555199,
+        "metadata": 142.0,
+        "section-fts": 11.51966018,
+        "term": 40.0
+      },
+      "reasons": [
+        "保留显式标识符 `load_page_config`",
+        "确定性词项 `config`",
+        "确定性词项 `load`",
+        "确定性词项 `load_page_config`",
+        "确定性词项 `page`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "ent-20c26aa08209560aa1bc531fb6a63386",
+      "name": "create_source_snapshot",
+      "qualified_name": "create_source_snapshot",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/gitrepo.py",
+      "start_line": 230,
+      "end_line": 257,
+      "human_page_title": "create_source_snapshot",
+      "human_page_file": "pages/create_source_snapshot.md",
+      "display_mode": "page",
+      "score": 695.77603955,
+      "score_breakdown": {
+        "anchor": 500.0,
+        "entity-fts": 3.79349635,
+        "graph": 1.88171888,
+        "metadata": 142.0,
+        "section-fts": 8.10082432,
+        "term": 40.0
+      },
+      "reasons": [
+        "保留显式标识符 `create_source_snapshot`",
+        "确定性词项 `create`",
+        "确定性词项 `create_source_snapshot`",
+        "确定性词项 `snapshot`",
+        "确定性词项 `source`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "ent-035078b02247538d98ae1b35eb0a2e2f",
+      "name": "audit_migration",
+      "qualified_name": "audit_migration",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/migration.py",
+      "start_line": 353,
+      "end_line": 460,
+      "human_page_title": "audit_migration",
+      "human_page_file": "pages/audit_migration.md",
+      "display_mode": "page",
+      "score": 667.54805212,
+      "score_breakdown": {
+        "anchor": 500.0,
+        "entity-fts": 6.8589687,
+        "graph": 0.07270106,
+        "metadata": 112.0,
+        "section-fts": 18.61638236,
+        "term": 30.0
+      },
+      "reasons": [
+        "保留显式标识符 `audit_migration`",
+        "确定性词项 `audit`",
+        "确定性词项 `audit_migration`",
+        "确定性词项 `migration`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "ent-5280f0f1a0f0586b871bd383d3e3fd38",
+      "name": "retrieve_machine",
+      "qualified_name": "retrieve_machine",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 942,
+      "end_line": 1315,
+      "human_page_title": "retrieve_machine",
+      "human_page_file": "pages/retrieve_machine.md",
+      "display_mode": "page",
+      "score": 662.75701963,
+      "score_breakdown": {
+        "anchor": 500.0,
+        "entity-fts": 4.75417411,
+        "graph": 0.02529278,
+        "metadata": 112.0,
+        "section-fts": 15.97755275,
+        "term": 30.0
+      },
+      "reasons": [
+        "保留显式标识符 `retrieve_machine`",
+        "确定性词项 `machine`",
+        "确定性词项 `retrieve`",
+        "确定性词项 `retrieve_machine`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "ent-39c6499cb88b5e11b4146e971a01c21d",
+      "name": "ingest_event",
+      "qualified_name": "ingest_event",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 1321,
+      "end_line": 1392,
+      "human_page_title": "ingest_event",
+      "human_page_file": "pages/ingest_event.md",
+      "display_mode": "page",
+      "score": 661.86322622,
+      "score_breakdown": {
+        "anchor": 500.0,
+        "entity-fts": 9.49878796,
+        "graph": 0.04244191,
+        "metadata": 112.0,
+        "section-fts": 10.32199635,
+        "term": 30.0
+      },
+      "reasons": [
+        "保留显式标识符 `ingest_event`",
+        "确定性词项 `event`",
+        "确定性词项 `ingest`",
+        "确定性词项 `ingest_event`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文含义",
+        "中文职责",
+        "什么时候需要修改"
+      ]
+    },
+    {
+      "entity_id": "ent-d2071431a334535db319afdf207c2c80",
+      "name": "parse_file",
+      "qualified_name": "parse_file",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/parsers.py",
+      "start_line": 191,
+      "end_line": 329,
+      "human_page_title": "parse_file",
+      "human_page_file": "pages/parse_file.md",
+      "display_mode": "page",
+      "score": 659.94673677,
+      "score_breakdown": {
+        "anchor": 500.0,
+        "entity-fts": 9.35893243,
+        "graph": 1.23807957,
+        "metadata": 112.0,
+        "section-fts": 7.34972477,
+        "term": 30.0
+      },
+      "reasons": [
+        "保留显式标识符 `parse_file`",
+        "确定性词项 `file`",
+        "确定性词项 `parse`",
+        "确定性词项 `parse_file`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文含义",
+        "中文职责",
+        "什么时候需要修改",
+        "来源核对"
+      ]
+    }
+  ],
+  "related_documents": [
+    {
+      "document_id": "note:analysis:GUI 学习解释 2026-08-29",
+      "title": "GUI 学习解释 2026-08-29",
+      "kind": "analysis",
+      "human_file": "analysis/GUI 学习解释 2026-08-29.md"
+    },
+    {
+      "document_id": "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      "title": "常驻 stdio 检索性能复测（Flask 3.1.3）",
+      "kind": "experiment",
+      "human_file": "experiments/常驻 stdio 检索性能复测（Flask 3.1.3）.md"
+    },
+    {
+      "document_id": "note:analysis:Flask 3.1.3 知识库与 grep 对比测试（秋招版）",
+      "title": "Flask 3.1.3 知识库与 grep 对比测试（秋招版）",
+      "kind": "analysis",
+      "human_file": "analysis/Flask 3.1.3 知识库与 grep 对比测试（秋招版）.md"
+    },
+    {
+      "document_id": "note:changes:LLM Wiki 定位式反馈闭环",
+      "title": "LLM Wiki 定位式反馈闭环",
+      "kind": "change",
+      "human_file": "changes/LLM Wiki 定位式反馈闭环.md"
+    },
+    {
+      "document_id": "note:analysis:知识库人类可读性与任务完成标准",
+      "title": "知识库人类可读性与任务完成标准",
+      "kind": "analysis",
+      "human_file": "analysis/知识库人类可读性与任务完成标准.md"
+    },
+    {
+      "document_id": "note:experiments:LLM Wiki 吸收特性与 Flask 检索收益",
+      "title": "LLM Wiki 吸收特性与 Flask 检索收益",
+      "kind": "experiment",
+      "human_file": "experiments/LLM Wiki 吸收特性与 Flask 检索收益.md"
+    },
+    {
+      "document_id": "note:analysis:GUI 学习解释 2026-08-30",
+      "title": "GUI 学习解释 2026-08-30",
+      "kind": "analysis",
+      "human_file": "analysis/GUI 学习解释 2026-08-30.md"
+    },
+    {
+      "document_id": "note:analysis:LLM Wiki 快速检索性能验证（5.1.3）",
+      "title": "LLM Wiki 快速检索性能验证（5.1.3）",
+      "kind": "analysis",
+      "human_file": "analysis/LLM Wiki 快速检索性能验证（5.1.3）.md"
+    }
+  ],
+  "open_feedback": 0,
+  "retrieval_stats": {
+    "scored_entities": 404,
+    "overscan_limit": 32,
+    "materialized_candidates": 32,
+    "selected_entities": 8,
+    "budgeted_entity_limit": 8,
+    "selected_source_paths": 8,
+    "batched_entity_queries": 2,
+    "source_link_cache_entries": 8,
+    "static_cache_hit": false
+  },
+  "pack": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260829-184028-110153-01.md",
+  "record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260829-184028-110153-01.json",
+  "retrieval": "sqlite-exact-fts5-sections-deterministic-weighted-graph",
+  "deterministic": true,
+  "source_grounded": true,
+  "grep_fallback_required": false
+}

@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+  "blind_evaluation_contract": "导航按全部工作记录统一生成，未接收或执行验收查询。",
+  "staging": false,
+  "preserved_page_and_note_files": 204,
+  "work_record_index": {
+    "status": "passed",
+    "record_count": 35,
+    "linked_record_count": 35,
+    "section_counts": {
+      "analysis": 14,
+      "changes": 16,
+      "pitfalls": 0,
+      "experiments": 2,
+      "sessions": 3
+    },
+    "errors": []
+  },
+  "readability": {
+    "schema_version": 1,
+    "status": "passed",
+    "principle": "human-pages-describe-classes-functions-or-their-aggregations",
+    "metrics": {
+      "page_count": 67,
+      "frontmatter_pages": 0,
+      "prefixed_titles": 0,
+      "visible_commit_identifiers": 0,
+      "machine_markers": 0,
+      "raw_relation_labels": 0,
+      "page_property_lines": 0,
+      "invalid_page_tags": 0,
+      "missing_source_links": 0,
+      "visible_hash_identifiers": 0,
+      "wiki_chinese_characters": 1094,
+      "non_chinese_narrative_fields": 0,
+      "work_record_count": 35,
+      "work_record_linked_count": 35,
+      "work_record_navigation_errors": 0
+    },
+    "errors": []
+  },
+  "human": {
+    "schema_version": 1,
+    "status": "passed",
+    "root": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human",
+    "compatibility_root": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown",
+    "language": "zh-CN",
+    "ignored_user_state_differences": [],
+    "errors": []
+  },
+  "agent_protocol": {
+    "schema_version": 1,
+    "protocol_version": "1.4.0",
+    "status": "passed",
+    "output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+    "internal_roots": [
+      "output",
+      "markdown",
+      "human"
+    ],
+    "workspace_root_count": 1,
+    "feedback": {
+      "schema_version": 1,
+      "status": "passed",
+      "counts": {
+        "open": 0,
+        "resolved": 0,
+        "stale_open": 0
+      },
+      "records": [],
+      "errors": []
+    },
+    "output_contracts": {
+      "markdown": {
+        "schema_version": 1,
+        "status": "not-required",
+        "required": false,
+        "vault": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown",
+        "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown\\.ckb\\output-contract.json",
+        "errors": []
+      },
+      "human": {
+        "schema_version": 1,
+        "status": "passed",
+        "required": true,
+        "vault": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human",
+        "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human\\.ckb\\output-contract.json",
+        "errors": []
+      }
+    },
+    "work_record_index": {
+      "status": "passed",
+      "record_count": 35,
+      "linked_record_count": 35,
+      "section_counts": {
+        "analysis": 14,
+        "changes": 16,
+        "pitfalls": 0,
+        "experiments": 2,
+        "sessions": 3
+      },
+      "errors": []
+    },
+    "errors": []
+  },
+  "errors": []
+}

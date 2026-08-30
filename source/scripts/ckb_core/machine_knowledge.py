@@ -16,13 +16,14 @@ import re
 import sqlite3
 import unicodedata
 from typing import Any, Iterable
+from urllib.parse import quote
 
 from .common import CkbError, json_load, json_write, sha256_file, utc_now
 from .obsidian import NOTE_DIRECTORIES
 from .source_links import SourceLinkRenderer, source_markdown_link
 
 
-MACHINE_SCHEMA_VERSION = 1
+MACHINE_SCHEMA_VERSION = 2
 MACHINE_PATH = Path("machine/knowledge.sqlite")
 FAST_RETRIEVAL_OVERSCAN = 32
 PRECISE_RETRIEVAL_OVERSCAN = 64
@@ -301,6 +302,20 @@ def _create_schema(connection: sqlite3.Connection) -> None:
             page_file TEXT,
             display_mode TEXT NOT NULL
         );
+        CREATE TABLE reference_sources(
+            reference_id TEXT PRIMARY KEY,
+            title TEXT NOT NULL,
+            origin TEXT NOT NULL,
+            author TEXT,
+            license TEXT NOT NULL,
+            source_type TEXT NOT NULL,
+            source_file TEXT NOT NULL,
+            source_sha256 TEXT NOT NULL,
+            status TEXT NOT NULL,
+            revision INTEGER NOT NULL,
+            supersedes TEXT,
+            human_file TEXT
+        );
         CREATE TABLE documents(
             document_id TEXT PRIMARY KEY,
             kind TEXT NOT NULL,
@@ -528,6 +543,47 @@ def build_machine_knowledge(
                     "INSERT OR IGNORE INTO document_links VALUES(?,?,?,?)",
                     (note["id"], None, target_title, "wikilink"),
                 )
+        from .reference_documents import reference_machine_records
+
+        reference_records = reference_machine_records(output)
+        for source in reference_records["sources"]:
+            connection.execute(
+                "INSERT INTO reference_sources VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
+                (
+                    source["reference_id"], source["title"], source["origin"], source.get("author"),
+                    source["license"], source["source_type"], source["source_file"], source["source_sha256"],
+                    source["status"], int(source.get("revision", 1)), source.get("supersedes"), source.get("human_file"),
+                ),
+            )
+        for document in reference_records["documents"]:
+            content = str(document["content"])
+            connection.execute(
+                "INSERT INTO documents VALUES(?,?,?,?,?,?,?,?)",
+                (
+                    document["document_id"], document["kind"], document["title"], document["tag"],
+                    document["human_file"], None, content, estimated_tokens(content),
+                ),
+            )
+            title_to_document[document["title"]] = document["document_id"]
+            for ordinal, section in enumerate(document["sections"]):
+                section_id = f"{document['document_id']}:{ordinal}"
+                section_content = str(section["content"])
+                connection.execute(
+                    "INSERT INTO sections VALUES(?,?,?,?,?,?,?,?,?)",
+                    (
+                        section_id, document["document_id"], ordinal, section["heading"], section_content,
+                        estimated_tokens(section_content), document["raw_file"], section["start_line"], section["end_line"],
+                    ),
+                )
+                connection.execute(
+                    "INSERT INTO section_fts VALUES(?,?,?,?,?)",
+                    (section_id, document["document_id"], section["heading"], section_content, document["raw_file"]),
+                )
+            for target_title in document["links"]:
+                connection.execute(
+                    "INSERT OR IGNORE INTO document_links VALUES(?,?,?,?)",
+                    (document["document_id"], None, target_title, "wikilink"),
+                )
         overlay = output / "workspace-meta/working-overlay.json"
         if overlay.is_file():
             value = json_load(overlay)
@@ -580,7 +636,7 @@ def audit_machine_knowledge(output: Path, graph: dict[str, Any] | None = None) -
         foreign_keys = connection.execute("PRAGMA foreign_key_check").fetchall()
         counts = {
             name: connection.execute(f"SELECT count(*) FROM {name}").fetchone()[0]
-            for name in ("files", "entities", "source_ranges", "relations", "reviews", "documents", "sections", "human_projection", "workspace_changes")
+            for name in ("files", "entities", "source_ranges", "relations", "reviews", "documents", "sections", "human_projection", "workspace_changes", "reference_sources")
         }
         meta = dict(connection.execute("SELECT key,value FROM meta"))
         language_errors = [
@@ -604,6 +660,9 @@ def audit_machine_knowledge(output: Path, graph: dict[str, Any] | None = None) -
     expected_entities = len(graph.get("entities", []))
     expected_files = len([entity for entity in graph.get("entities", []) if entity.get("kind") == "file"])
     expected_relations = len(graph.get("links", []))
+    from .reference_documents import reference_machine_records
+
+    reference_records = reference_machine_records(output)
     if integrity != "ok": errors.append({"reason": "sqlite-integrity", "detail": integrity})
     if foreign_keys: errors.append({"reason": "foreign-key-errors", "detail": foreign_keys})
     for name, actual, expected in (
@@ -620,6 +679,11 @@ def audit_machine_knowledge(output: Path, graph: dict[str, Any] | None = None) -
             errors.append({"reason": f"{name}-count-mismatch", "actual": actual, "expected": expected})
     if fts_counts["section_fts"] != counts["sections"]:
         errors.append({"reason": "section-fts-count-mismatch", "actual": fts_counts["section_fts"], "expected": counts["sections"]})
+    if counts["reference_sources"] != len(reference_records["sources"]):
+        errors.append({"reason": "reference-source-count-mismatch", "actual": counts["reference_sources"], "expected": len(reference_records["sources"])})
+    reference_documents = counts["documents"] - expected_entities - len(_note_documents(_human_projection(output)[1]))
+    if reference_documents != len(reference_records["documents"]):
+        errors.append({"reason": "reference-document-count-mismatch", "actual": reference_documents, "expected": len(reference_records["documents"])})
     if language_errors:
         errors.append({"reason": "chinese-description-contract", "entities": language_errors})
     if meta.get("schema_version") != str(MACHINE_SCHEMA_VERSION) or meta.get("status") != "ready":
@@ -939,6 +1003,62 @@ def _openers(output: Path) -> dict[str, Any]:
     }
 
 
+def _matching_documents(connection: sqlite3.Connection, fts: str | None, limit: int = 8) -> list[dict[str, Any]]:
+    if not fts:
+        return []
+    tables = {str(row[0]) for row in connection.execute("SELECT name FROM sqlite_master WHERE type IN ('table','view')")}
+    if not {"section_fts", "sections", "documents"}.issubset(tables):
+        return []
+    rows = connection.execute(
+        "SELECT d.document_id,d.title,d.kind,d.human_file,s.heading,s.content,s.source_path,s.start_line,s.end_line,"
+        "bm25(section_fts,0.0,0.0,6.0,2.0,1.0) AS rank "
+        "FROM section_fts JOIN sections s ON s.section_id=section_fts.section_id "
+        "JOIN documents d ON d.document_id=section_fts.document_id "
+        "WHERE section_fts MATCH ? AND d.kind<>'entity' ORDER BY rank,d.document_id,s.ordinal LIMIT 80",
+        (fts,),
+    ).fetchall()
+    result: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for row in rows:
+        if row["document_id"] in seen:
+            continue
+        seen.add(row["document_id"])
+        result.append(dict(row))
+        if len(result) >= limit:
+            break
+    return result
+
+
+def _document_source_link(row: dict[str, Any]) -> str | None:
+    source_path = str(row.get("source_path") or "")
+    start_line = row.get("start_line")
+    if not source_path or not isinstance(start_line, int):
+        return None
+    path = Path(source_path)
+    if not path.is_absolute():
+        return None
+    uri = f"vscode://file/{quote(path.resolve().as_posix(), safe='/:')}:{start_line}:1"
+    end_line = row.get("end_line")
+    label = f"原文第 {start_line} 行" if end_line == start_line else f"原文第 {start_line}–{end_line} 行"
+    return f"[{label}]({uri})"
+
+
+def _document_block(row: dict[str, Any], allocation_bytes: int) -> str:
+    kind_label = "已审阅参考资料" if row["kind"] == "reference" else "已审阅知识记录"
+    lines = [f"## {row['title']}", "", f"类型：{kind_label}", ""]
+    if row.get("human_file"):
+        lines.extend([f"人类知识页：[[{row['title']}]]", ""])
+    source_link = _document_source_link(row)
+    if source_link:
+        lines.extend([f"来源：{source_link}", ""])
+    lines.extend([f"### {row['heading']}", "", str(row["content"]).strip(), ""])
+    text = "\n".join(lines)
+    if len(text.encode("utf-8")) > allocation_bytes:
+        suffix = "\n\n> 本节已按预算截断。\n"
+        text = _utf8_prefix(text, max(0, allocation_bytes - len(suffix.encode("utf-8")))).rstrip() + suffix
+    return text.rstrip() + "\n\n"
+
+
 def retrieve_machine(
     output: Path,
     question: str,
@@ -962,6 +1082,7 @@ def retrieve_machine(
     terms = search_terms(question)
     anchors = explicit_anchors(question)
     from .automation import search_automation
+    from .feedback import search_feedback
 
     automation_intent = bool(
         re.search(
@@ -971,6 +1092,15 @@ def retrieve_machine(
         )
     )
     automation_rows = search_automation(output, question, 8) if automation_intent else []
+    feedback_intent = bool(
+        re.search(
+            r"(?:人工反馈|页面反馈|知识纠错|待处理反馈|开放反馈|已解决反馈|audit|feedback)",
+            question,
+            flags=re.IGNORECASE,
+        )
+    )
+    feedback_rows = search_feedback(output, question, 8) if feedback_intent else []
+    document_matches: list[dict[str, Any]] = []
 
     def add(entity_id: str, value: float, stage: str, reason: str) -> None:
         scores[entity_id] += value
@@ -1007,6 +1137,7 @@ def retrieve_machine(
                 add(row["entity_id"], float(row["weight"]), "term", f"确定性词项 `{row['term']}`")
         fts = _fts_query(question)
         if fts:
+            document_matches = _matching_documents(connection, fts, 8)
             for row in connection.execute(
                 "SELECT entity_id,bm25(entity_fts,0.0,10.0,9.0,4.0,4.0,3.0,3.0,5.0) AS rank FROM entity_fts WHERE entity_fts MATCH ? ORDER BY rank LIMIT ?",
                 (fts, 80 if profile == "fast" else 240),
@@ -1104,7 +1235,7 @@ def retrieve_machine(
                 original = scores[entity_id]
                 discounted = original * IMPLEMENTATION_TEST_DISCOUNT
                 add(entity_id, discounted - original, "test-discount", "实现定位查询对测试实体应用固定折扣")
-        if not scores and not automation_rows:
+        if not scores and not automation_rows and not feedback_rows and not document_matches:
             return {
                 "schema_version": MACHINE_SCHEMA_VERSION,
                 "status": "needs-source-read",
@@ -1114,13 +1245,30 @@ def retrieve_machine(
                 "anchors": anchors,
                 "reason": "机器知识库没有来源绑定的候选，请按 scope 或源码路径继续读取。",
             }
-        if not scores and automation_rows:
+        if not scores and (automation_rows or feedback_rows or document_matches):
             pack_path, record_path = _next_pack_path(output)
             pack = (
                 f"# Agent 机器知识阅读包\n\n问题：{question}\n\n检索档位：{profile}\n\n"
-                "本阅读包只命中自动化会话记录；这些记录仍需按其状态完成 Agent 来源审阅。\n\n"
+                "本阅读包只命中工作记录或人工反馈；会话记录仍按状态接受来源审阅，反馈按锚点状态处理。\n\n"
             )
             related = []
+            for row in document_matches:
+                block = _document_block(row, max(420, budget * 2))
+                if estimated_tokens(pack + block) > budget:
+                    continue
+                pack += block
+                related.append(
+                    {
+                        "document_id": row["document_id"],
+                        "title": row["title"],
+                        "kind": row["kind"],
+                        "status": "agent-reviewed",
+                        "human_file": row.get("human_file"),
+                        "source_path": row.get("source_path"),
+                        "start_line": row.get("start_line"),
+                        "end_line": row.get("end_line"),
+                    }
+                )
             for row in automation_rows:
                 paths = "、".join(f"`{path}`" for path in row.get("changed_paths", [])) or "无项目文件变化"
                 block = (
@@ -1142,8 +1290,31 @@ def retrieve_machine(
                         "status": row["status"],
                     }
                 )
+            for row in feedback_rows:
+                resolution = f"\n\n处理结果：{row['resolution'].strip()}" if row.get("resolution") else ""
+                block = (
+                    f"## {row['title']}\n\n"
+                    f"状态：{row['status']}\n\n"
+                    f"严重程度：{row['severity']}\n\n"
+                    f"目标：`{row['target']}`\n\n"
+                    f"{row['comment'].strip()}{resolution}\n\n"
+                )
+                if estimated_tokens(pack + block) > budget:
+                    continue
+                pack += block
+                related.append(
+                    {
+                        "document_id": f"feedback:{row['feedback_id']}",
+                        "title": row["title"],
+                        "kind": "feedback",
+                        "human_file": row.get("human_file"),
+                        "status": row["status"],
+                        "severity": row["severity"],
+                        "target": row["target"],
+                    }
+                )
             if not related:
-                raise CkbError("retrieve budget is too small for the matching automation record")
+                raise CkbError("retrieve budget is too small for the matching work record or feedback")
             pack_path.write_text(pack.rstrip() + "\n", encoding="utf-8", newline="\n")
             result = {
                 "schema_version": MACHINE_SCHEMA_VERSION,
@@ -1159,10 +1330,11 @@ def retrieve_machine(
                 "related_documents": related,
                 "pack": str(pack_path.resolve()),
                 "record": str(record_path.resolve()),
-                "retrieval": "sqlite-automation-fts5-trigram",
+                "retrieval": "sqlite-reviewed-document-work-record-feedback-deterministic",
                 "deterministic": True,
-                "source_grounded": False,
-                "pending_agent_review": any(item["status"] == "pending-agent-review" for item in related),
+                "source_grounded": any(item["kind"] == "reference" for item in related),
+                "pending_agent_review": any(item.get("status") == "pending-agent-review" for item in related),
+                "open_feedback": sum(1 for item in related if item["kind"] == "feedback" and item["status"] == "open"),
                 "grep_fallback_required": False,
             }
             json_write(record_path, result)
@@ -1204,6 +1376,25 @@ def retrieve_machine(
         selected_ids = _diverse_candidates(overscan_ids, entity_rows, budgeted_entity_limit)
         pack_path, record_path = _next_pack_path(output)
         pack = f"# Agent 机器知识阅读包\n\n问题：{question}\n\n检索档位：{profile}\n\n所有说明使用简体中文；代码标识符保持源码形式。\n\n"
+        included_documents: list[dict[str, Any]] = []
+        document_budget = max(480, int(budget * 3 * 0.34))
+        for row in document_matches[:3]:
+            block = _document_block(row, max(360, document_budget // max(1, min(3, len(document_matches)))))
+            if estimated_tokens(pack + block) > budget:
+                continue
+            pack += block
+            included_documents.append(
+                {
+                    "document_id": row["document_id"],
+                    "title": row["title"],
+                    "kind": row["kind"],
+                    "status": "agent-reviewed",
+                    "human_file": row.get("human_file"),
+                    "source_path": row.get("source_path"),
+                    "start_line": row.get("start_line"),
+                    "end_line": row.get("end_line"),
+                }
+            )
         selected: list[dict[str, Any]] = []
         linker = static_context["linker"] if static_context is not None else SourceLinkRenderer(_openers(output), trusted_relative_paths=True)
         for index, entity_id in enumerate(selected_ids):
@@ -1247,13 +1438,30 @@ def retrieve_machine(
                     "sections": included_sections,
                 }
             )
-        note_rows = []
+        note_rows = list(included_documents)
+        for row in feedback_rows:
+            note_rows.append(
+                {
+                    "document_id": f"feedback:{row['feedback_id']}",
+                    "title": row["title"],
+                    "kind": "feedback",
+                    "human_file": row.get("human_file"),
+                    "status": row["status"],
+                    "severity": row["severity"],
+                    "target": row["target"],
+                    "content_excerpt": row["comment"][:240],
+                }
+            )
+            if len(note_rows) >= 8:
+                break
         if fts:
-            seen_documents: set[str] = set()
+            seen_documents: set[str] = {row["document_id"] for row in note_rows}
             for row in connection.execute(
                 "SELECT d.document_id,d.title,d.kind,d.human_file,bm25(section_fts,0.0,0.0,6.0,2.0,1.0) AS rank FROM section_fts JOIN documents d ON d.document_id=section_fts.document_id WHERE section_fts MATCH ? AND d.kind<>'entity' ORDER BY rank LIMIT 40",
                 (fts,),
             ):
+                if len(note_rows) >= 8:
+                    break
                 if row["document_id"] in seen_documents:
                     continue
                 seen_documents.add(row["document_id"])
@@ -1262,6 +1470,8 @@ def retrieve_machine(
                     break
         seen_document_ids = {row["document_id"] for row in note_rows}
         for row in automation_rows:
+            if len(note_rows) >= 8:
+                break
             document_id = f"automation:{row['review_id']}"
             if document_id in seen_document_ids:
                 continue
@@ -1278,8 +1488,8 @@ def retrieve_machine(
                 break
     finally:
         connection.close()
-    if not selected:
-        raise CkbError("retrieve budget is too small for the highest-ranked machine entity")
+    if not selected and not included_documents:
+        raise CkbError("retrieve budget is too small for the highest-ranked machine entity or reviewed document")
     pack_path.write_text(pack.rstrip() + "\n", encoding="utf-8", newline="\n")
     result = {
         "schema_version": MACHINE_SCHEMA_VERSION,
@@ -1293,6 +1503,7 @@ def retrieve_machine(
         "seed_entity_ids": seeds,
         "selected_entities": selected,
         "related_documents": note_rows,
+        "open_feedback": sum(1 for item in note_rows if item.get("kind") == "feedback" and item.get("status") == "open"),
         "retrieval_stats": {
             "scored_entities": len(scores),
             "overscan_limit": overscan_limit,

@@ -1,0 +1,420 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "question": "璇疯В閲婅繖娈靛唴瀹逛腑鐨勬牳蹇冩�傚康銆佷綔鐢ㄣ�佷笂涓嬫枃鍜屽�规槗璇�瑙ｇ殑杈圭晫銆俓n鏉ユ簮鏂囨。锛歟xperiments/LLM Wiki 鍚告敹鐗规�т笌 Flask 妫�绱㈡敹鐩�.md\n閫変腑鏂囨湰锛氬師濮嬩簨瀹炵紪璇戞垚鍙�鏌ヨ�� Wiki",
+  "profile": "fast",
+  "budget": 1800,
+  "estimated_tokens": 1795,
+  "terms": [
+    "閫変腑鏂囨湰锛氬師濮嬩簨瀹炵紪璇戞垚鍙",
+    "xperiments/llm",
+    "閲婅繖娈靛唴瀹逛腑鐨勬牳蹇冩",
+    "xperiments",
+    "佷笂涓嬫枃鍜屽",
+    "傚康銆佷綔鐢",
+    "殑杈圭晫銆俓",
+    "flask",
+    "鍚告敹鐗规",
+    "wiki",
+    "llm",
+    "佷笂涓",
+    "佷綔鐢",
+    "傚康銆",
+    "勬牳蹇",
+    "告敹鐗",
+    "唴瀹逛",
+    "囨湰锛",
+    "圭晫銆",
+    "変腑鏂",
+    "娈靛唴",
+    "婅繖娈",
+    "嬩簨瀹",
+    "嬫枃鍜",
+    "師濮嬩",
+    "康銆佷",
+    "戞垚鍙",
+    "敹鐗规",
+    "晫銆俓",
+    "杈圭晫",
+    "枃鍜屽",
+    "殑杈圭",
+    "氬師濮",
+    "涓嬫枃",
+    "湰锛氬",
+    "濮嬩簨",
+    "瀹炵紪",
+    "瀹逛腑",
+    "炵紪璇",
+    "牳蹇冩",
+    "璇戞垚",
+    "笂涓嬫",
+    "簨瀹炵",
+    "簮鏂囨",
+    "紪璇戞",
+    "繖娈靛",
+    "腑鏂囨",
+    "腑鐨勬",
+    "规槗璇",
+    "逛腑鐨",
+    "銆佷綔",
+    "鍚告敹",
+    "鏂囨湰",
+    "鐨勬牳",
+    "锛氬師",
+    "閫変腑",
+    "閲婅繖",
+    "靛唴瀹",
+    "md",
+    "佷笂",
+    "佷綔",
+    "傚康",
+    "勬牳",
+    "告敹",
+    "唴瀹",
+    "囨湰",
+    "圭晫",
+    "垚鍙",
+    "変腑",
+    "娈靛",
+    "婅繖",
+    "嬩簨",
+    "嬫枃",
+    "師濮",
+    "康銆",
+    "戞垚",
+    "敹鐗",
+    "敹鐩",
+    "晫銆",
+    "杈圭",
+    "枃鍜",
+    "槗璇",
+    "殑杈",
+    "氬師",
+    "涓嬫",
+    "湰锛",
+    "濮嬩",
+    "瀹炵",
+    "瀹逛",
+    "炵紪",
+    "牳蹇",
+    "璇戞",
+    "璇疯",
+    "笂涓",
+    "簨瀹",
+    "簮鏂",
+    "紪璇",
+    "綔鐢",
+    "繖娈",
+    "腑鏂",
+    "腑鐨",
+    "规槗",
+    "蹇冩",
+    "逛腑",
+    "銆佷",
+    "銆俓",
+    "鍚告",
+    "鍜屽",
+    "鏂囨",
+    "鐗规",
+    "鐨勬",
+    "锛歟",
+    "锛氬",
+    "閫変",
+    "閲婅",
+    "靛唴",
+    "二",
+    "妫",
+    "瑙",
+    "笌",
+    "绱",
+    "鏉",
+    "鏌"
+  ],
+  "anchors": [
+    "xperiments/llm"
+  ],
+  "seed_entity_ids": [
+    "file-5733359b6caf51f380bd1e8fab1c0393",
+    "ent-eea7d0df075253ad9e9f3021a7d1f682",
+    "ent-27c0ddaab5045ecfb12c92169e2b2948",
+    "ent-1f43db7fd74452619b2566b63e1469ca",
+    "ent-a58f8580d24f5d229ecc599f47acb7d6"
+  ],
+  "selected_entities": [
+    {
+      "entity_id": "file-5733359b6caf51f380bd1e8fab1c0393",
+      "name": "showcase.py",
+      "qualified_name": "scripts/ckb_core/showcase.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/showcase.py",
+      "start_line": 1,
+      "end_line": 173,
+      "human_page_title": "package_showcase 与 _parse_sample 的协作实现",
+      "human_page_file": "pages/package_showcase 与 _parse_sample 的协作实现.md",
+      "display_mode": "page",
+      "score": 92.95326877,
+      "score_breakdown": {
+        "entity-fts": 13.35035456,
+        "graph": 5.55984454,
+        "metadata": 32.0,
+        "section-fts": 38.04306967,
+        "term": 4.0
+      },
+      "reasons": [
+        "确定性词项 `wiki`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文职责"
+      ]
+    },
+    {
+      "entity_id": "ent-27c0ddaab5045ecfb12c92169e2b2948",
+      "name": "_wiki_document",
+      "qualified_name": "_wiki_document",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2179,
+      "end_line": 2255,
+      "human_page_title": "status 与 _replace_output_prefix 的协作实现",
+      "human_page_file": "pages/status 与 _replace_output_prefix 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 68.97404153,
+      "score_breakdown": {
+        "entity-fts": 11.96178941,
+        "graph": 0.03441994,
+        "metadata": 30.0,
+        "section-fts": 16.97783218,
+        "term": 10.0
+      },
+      "reasons": [
+        "确定性词项 `wiki`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "ent-1f43db7fd74452619b2566b63e1469ca",
+      "name": "relink_preserved_notes",
+      "qualified_name": "relink_preserved_notes",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/migration.py",
+      "start_line": 468,
+      "end_line": 562,
+      "human_page_title": "audit_migration 与 _entity_key 的协作实现",
+      "human_page_file": "pages/audit_migration 与 _entity_key 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 64.50409038,
+      "score_breakdown": {
+        "entity-fts": 15.2420108,
+        "graph": 3.10907427,
+        "metadata": 12.0,
+        "section-fts": 30.15300531,
+        "term": 4.0
+      },
+      "reasons": [
+        "确定性词项 `wiki`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "固定源码摘录"
+      ]
+    },
+    {
+      "entity_id": "file-ddd0044468285d24847a5bc8661ef10d",
+      "name": "test_migration.py",
+      "qualified_name": "tests/test_migration.py",
+      "kind": "file",
+      "source_path": "tests/test_migration.py",
+      "start_line": 1,
+      "end_line": 194,
+      "human_page_title": "MigrationTest 等测试场景",
+      "human_page_file": "pages/MigrationTest 等测试场景.md",
+      "display_mode": "page",
+      "score": 27.04278451,
+      "score_breakdown": {
+        "entity-fts": 15.70933116,
+        "metadata": 32.0,
+        "section-fts": 12.67825101,
+        "term": 4.0,
+        "test-discount": -37.34479766
+      },
+      "reasons": [
+        "确定性词项 `wiki`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "实现定位查询对测试实体应用固定折扣"
+      ],
+      "sections": [
+        "中文职责",
+        "中文含义"
+      ]
+    },
+    {
+      "entity_id": "ent-14aee69dd9ea5d819a1677557e78012f",
+      "name": "audit_obsidian",
+      "qualified_name": "audit_obsidian",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/obsidian.py",
+      "start_line": 101,
+      "end_line": 133,
+      "human_page_title": "prepare_vault 与 install_obsidian 的协作实现",
+      "human_page_file": "pages/prepare_vault 与 install_obsidian 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 24.98410179,
+      "score_breakdown": {
+        "graph": 0.00022452,
+        "section-fts": 24.98387727
+      },
+      "reasons": [
+        "中文章节全文命中",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "ent-35716f431bad56cc952463abb6b2d71c",
+      "name": "_terms",
+      "qualified_name": "_terms",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/graphify_core.py",
+      "start_line": 469,
+      "end_line": 480,
+      "human_page_title": "query_graph 与 _networkx_modules 的协作实现",
+      "human_page_file": "pages/query_graph 与 _networkx_modules 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 16.26486417,
+      "score_breakdown": {
+        "section-fts": 16.26486417
+      },
+      "reasons": [
+        "中文章节全文命中"
+      ],
+      "sections": [
+        "固定源码摘录"
+      ]
+    },
+    {
+      "entity_id": "ent-1c7b7b1c82a55a64a6e69a2d74f1d873",
+      "name": "_note_documents",
+      "qualified_name": "_note_documents",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 118,
+      "end_line": 145,
+      "human_page_title": "retrieve_machine 与 estimated_tokens 的协作实现",
+      "human_page_file": "pages/retrieve_machine 与 estimated_tokens 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 13.6818777,
+      "score_breakdown": {
+        "section-fts": 13.6818777
+      },
+      "reasons": [
+        "中文章节全文命中"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "ent-ae7fce8eaeba5a88a7bc970e027a816d",
+      "name": "test_gemini_copilot_and_cursor_normalization",
+      "qualified_name": "AutomationTest.test_gemini_copilot_and_cursor_normalization",
+      "kind": "function",
+      "source_path": "tests/test_automation.py",
+      "start_line": 513,
+      "end_line": 542,
+      "human_page_title": "AutomationTest.event 等测试场景",
+      "human_page_file": "pages/AutomationTest.event 等测试场景.md",
+      "display_mode": "appendix",
+      "score": 9.38883393,
+      "score_breakdown": {
+        "section-fts": 22.35436649,
+        "test-discount": -12.96553256
+      },
+      "reasons": [
+        "中文章节全文命中",
+        "实现定位查询对测试实体应用固定折扣"
+      ],
+      "sections": [
+        "固定源码摘录"
+      ]
+    }
+  ],
+  "related_documents": [
+    {
+      "document_id": "note:experiments:LLM Wiki 吸收特性与 Flask 检索收益",
+      "title": "LLM Wiki 吸收特性与 Flask 检索收益",
+      "kind": "experiment",
+      "human_file": "experiments/LLM Wiki 吸收特性与 Flask 检索收益.md"
+    },
+    {
+      "document_id": "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      "title": "常驻 stdio 检索性能复测（Flask 3.1.3）",
+      "kind": "experiment",
+      "human_file": "experiments/常驻 stdio 检索性能复测（Flask 3.1.3）.md"
+    },
+    {
+      "document_id": "note:analysis:知识库人类可读性与任务完成标准",
+      "title": "知识库人类可读性与任务完成标准",
+      "kind": "analysis",
+      "human_file": "analysis/知识库人类可读性与任务完成标准.md"
+    },
+    {
+      "document_id": "note:changes:LLM Wiki 定位式反馈闭环",
+      "title": "LLM Wiki 定位式反馈闭环",
+      "kind": "change",
+      "human_file": "changes/LLM Wiki 定位式反馈闭环.md"
+    },
+    {
+      "document_id": "note:analysis:自动同步与 LLM Wiki 后续待办",
+      "title": "自动同步与 LLM Wiki 后续待办",
+      "kind": "analysis",
+      "human_file": "analysis/自动同步与 LLM Wiki 后续待办.md"
+    },
+    {
+      "document_id": "note:analysis:LLM Wiki 快速检索性能复验（5.1.4）",
+      "title": "LLM Wiki 快速检索性能复验（5.1.4）",
+      "kind": "analysis",
+      "human_file": "analysis/LLM Wiki 快速检索性能复验（5.1.4）.md"
+    },
+    {
+      "document_id": "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）",
+      "title": "LLM Wiki 快速检索性能验证（5.1.2）",
+      "kind": "analysis",
+      "human_file": "analysis/LLM Wiki 快速检索性能验证（5.1.2）.md"
+    },
+    {
+      "document_id": "note:analysis:LLM Wiki 快速检索性能验证（5.1.3）",
+      "title": "LLM Wiki 快速检索性能验证（5.1.3）",
+      "kind": "analysis",
+      "human_file": "analysis/LLM Wiki 快速检索性能验证（5.1.3）.md"
+    }
+  ],
+  "open_feedback": 0,
+  "retrieval_stats": {
+    "scored_entities": 280,
+    "overscan_limit": 32,
+    "materialized_candidates": 32,
+    "selected_entities": 8,
+    "budgeted_entity_limit": 8,
+    "selected_source_paths": 8,
+    "batched_entity_queries": 2,
+    "source_link_cache_entries": 8,
+    "static_cache_hit": false
+  },
+  "pack": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260829-090303-913782-01.md",
+  "record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260829-090303-913782-01.json",
+  "retrieval": "sqlite-exact-fts5-sections-deterministic-weighted-graph",
+  "deterministic": true,
+  "source_grounded": true,
+  "grep_fallback_required": false
+}

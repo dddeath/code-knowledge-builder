@@ -1,0 +1,295 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "question": "解释 SelectionLearningService 为什么慢",
+  "profile": "fast",
+  "budget": 1800,
+  "estimated_tokens": 1733,
+  "terms": [
+    "selectionlearningservice",
+    "selection",
+    "learning",
+    "service",
+    "为什么慢",
+    "为什么",
+    "什么慢",
+    "为什",
+    "么慢",
+    "什么",
+    "解释"
+  ],
+  "anchors": [
+    "selectionlearningservice"
+  ],
+  "seed_entity_ids": [
+    "ent-03deaa53d4b4569b9aea08c80d648c4e",
+    "ent-7036a5f44e035cd0914a18155924ef65",
+    "ent-f10df17d9546521a93de3909ca25d13c",
+    "ent-44b24c2687f050d58e367c8c809321ea",
+    "ent-c69c8413e18b5b8fbd576330f8e0187d"
+  ],
+  "selected_entities": [
+    {
+      "entity_id": "ent-03deaa53d4b4569b9aea08c80d648c4e",
+      "name": "test_csharp_project_selection_partial_types_and_generated_exclusions",
+      "qualified_name": "CodeKnowledgeBuilderTests.test_csharp_project_selection_partial_types_and_generated_exclusions",
+      "kind": "function",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 1035,
+      "end_line": 1101,
+      "human_page_title": "CodeKnowledgeBuilderTests",
+      "human_page_file": "pages/CodeKnowledgeBuilderTests.md",
+      "display_mode": "appendix",
+      "score": 28.5700081,
+      "score_breakdown": {
+        "entity-fts": 9.57249174,
+        "graph": 0.00197163,
+        "metadata": 30.0,
+        "section-fts": 18.44664271,
+        "term": 10.0,
+        "test-discount": -39.45109798
+      },
+      "reasons": [
+        "确定性词项 `selection`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "实现定位查询对测试实体应用固定折扣",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "ent-7036a5f44e035cd0914a18155924ef65",
+      "name": "collect_semantics",
+      "qualified_name": "collect_semantics",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/providers.py",
+      "start_line": 470,
+      "end_line": 595,
+      "human_page_title": "LspClient.start 与 _version_matches 的协作实现",
+      "human_page_file": "pages/LspClient.start 与 _version_matches 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 15.71357745,
+      "score_breakdown": {
+        "graph": 0.00669752,
+        "section-fts": 15.70687994
+      },
+      "reasons": [
+        "中文章节全文命中",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "ent-f10df17d9546521a93de3909ca25d13c",
+      "name": "_resolve_csharp_workspace",
+      "qualified_name": "_resolve_csharp_workspace",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 430,
+      "end_line": 472,
+      "human_page_title": "status 与 _replace_output_prefix 的协作实现",
+      "human_page_file": "pages/status 与 _replace_output_prefix 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 9.70192123,
+      "score_breakdown": {
+        "graph": 0.00495007,
+        "section-fts": 9.69697116
+      },
+      "reasons": [
+        "中文章节全文命中",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "ent-17fa3a8b51045a25841b19e10359fe06",
+      "name": "csharp_case",
+      "qualified_name": "csharp_case",
+      "kind": "function",
+      "source_path": "tests/provider_integration.py",
+      "start_line": 129,
+      "end_line": 177,
+      "human_page_title": "execute 等测试场景",
+      "human_page_file": "pages/execute 等测试场景.md",
+      "display_mode": "appendix",
+      "score": 6.64363345,
+      "score_breakdown": {
+        "graph": 0.0002914,
+        "section-fts": 15.81748108,
+        "test-discount": -9.17413902
+      },
+      "reasons": [
+        "中文章节全文命中",
+        "实现定位查询对测试实体应用固定折扣",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "ent-46ca0be436ad5761aa96bcefbf96f5dc",
+      "name": "add",
+      "qualified_name": "retrieve_machine.add",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 975,
+      "end_line": 978,
+      "human_page_title": "retrieve_machine",
+      "human_page_file": "pages/retrieve_machine.md",
+      "display_mode": "appendix",
+      "score": 0.41227468,
+      "score_breakdown": {
+        "graph": 0.41227468
+      },
+      "reasons": [
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文作用",
+        "来源核对"
+      ]
+    },
+    {
+      "entity_id": "ent-6461f37f509c562398324e05ac606cde",
+      "name": "CkbError",
+      "qualified_name": "CkbError",
+      "kind": "class",
+      "source_path": "scripts/ckb_core/common.py",
+      "start_line": 24,
+      "end_line": 25,
+      "human_page_title": "run 与 CkbError 的协作实现",
+      "human_page_file": "pages/run 与 CkbError 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 0.12043631,
+      "score_breakdown": {
+        "graph": 0.12043631
+      },
+      "reasons": [
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文作用",
+        "来源核对",
+        "固定源码摘录"
+      ]
+    },
+    {
+      "entity_id": "ent-3b99118872405fd1bd473bcbedc35d34",
+      "name": "retrieve",
+      "qualified_name": "retrieve",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/agent_index.py",
+      "start_line": 440,
+      "end_line": 568,
+      "human_page_title": "retrieve",
+      "human_page_file": "pages/retrieve.md",
+      "display_mode": "page",
+      "score": 0.08386139,
+      "score_breakdown": {
+        "graph": 0.08386139
+      },
+      "reasons": [
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文含义",
+        "中文职责",
+        "什么时候需要修改",
+        "来源核对"
+      ]
+    },
+    {
+      "entity_id": "ent-29164a2130865db394ec6700240a424d",
+      "name": "page_config_sha256",
+      "qualified_name": "page_config_sha256",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/page_config.py",
+      "start_line": 227,
+      "end_line": 228,
+      "human_page_title": "load_page_config 与 _merge_known 的协作实现",
+      "human_page_file": "pages/load_page_config 与 _merge_known 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 0.08193574,
+      "score_breakdown": {
+        "graph": 0.08193574
+      },
+      "reasons": [
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文作用",
+        "来源核对",
+        "固定源码摘录"
+      ]
+    }
+  ],
+  "related_documents": [
+    {
+      "document_id": "note:changes:Obsidian 多 Harness 选区学习插件",
+      "title": "Obsidian 多 Harness 选区学习插件",
+      "kind": "change",
+      "human_file": "changes/Obsidian 多 Harness 选区学习插件.md"
+    },
+    {
+      "document_id": "note:analysis:Obsidian 解释流式过程与快速路径实施计划",
+      "title": "Obsidian 解释流式过程与快速路径实施计划",
+      "kind": "analysis",
+      "human_file": "analysis/Obsidian 解释流式过程与快速路径实施计划.md"
+    },
+    {
+      "document_id": "note:changes:Obsidian 右侧解释视图与 CKB 检索证据",
+      "title": "Obsidian 右侧解释视图与 CKB 检索证据",
+      "kind": "change",
+      "human_file": "changes/Obsidian 右侧解释视图与 CKB 检索证据.md"
+    },
+    {
+      "document_id": "note:analysis:Code Knowledge Builder 秋招面试官拷问手册",
+      "title": "Code Knowledge Builder 秋招面试官拷问手册",
+      "kind": "analysis",
+      "human_file": "analysis/Code Knowledge Builder 秋招面试官拷问手册.md"
+    },
+    {
+      "document_id": "note:analysis:GUI 学习解释 2026-08-29",
+      "title": "GUI 学习解释 2026-08-29",
+      "kind": "analysis",
+      "human_file": "analysis/GUI 学习解释 2026-08-29.md"
+    },
+    {
+      "document_id": "note:analysis:知识库人类可读性与任务完成标准",
+      "title": "知识库人类可读性与任务完成标准",
+      "kind": "analysis",
+      "human_file": "analysis/知识库人类可读性与任务完成标准.md"
+    },
+    {
+      "document_id": "note:analysis:Flask 3.1.3 知识库与 grep 对比测试（秋招版）",
+      "title": "Flask 3.1.3 知识库与 grep 对比测试（秋招版）",
+      "kind": "analysis",
+      "human_file": "analysis/Flask 3.1.3 知识库与 grep 对比测试（秋招版）.md"
+    },
+    {
+      "document_id": "note:analysis:GUI 学习解释 2026-08-30",
+      "title": "GUI 学习解释 2026-08-30",
+      "kind": "analysis",
+      "human_file": "analysis/GUI 学习解释 2026-08-30.md"
+    }
+  ],
+  "open_feedback": 0,
+  "retrieval_stats": {
+    "scored_entities": 316,
+    "overscan_limit": 32,
+    "materialized_candidates": 32,
+    "selected_entities": 8,
+    "budgeted_entity_limit": 8,
+    "selected_source_paths": 8,
+    "batched_entity_queries": 2,
+    "source_link_cache_entries": 8,
+    "static_cache_hit": true
+  },
+  "pack": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260830-054453-188388-01.md",
+  "record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260830-054453-188388-01.json",
+  "retrieval": "sqlite-exact-fts5-sections-deterministic-weighted-graph",
+  "deterministic": true,
+  "source_grounded": true,
+  "grep_fallback_required": false
+}

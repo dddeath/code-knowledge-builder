@@ -13460,11 +13460,17 @@
     "schema_version": 1,
     "status": "ready",
     "files": [
+      ".cursor/rules/code-knowledge-builder.mdc",
+      ".github/copilot-instructions.md",
       ".obsidian/app.json",
       ".obsidian/appearance.json",
       ".obsidian/core-plugins.json",
       ".obsidian/snippets/ckb.css",
+      "AGENTS.md",
+      "CLAUDE.md",
+      "GEMINI.md",
       "INDEX.md",
+      "RECORDS.md",
       "WIKI.md",
       "context-budget.json",
       "logseq/config.edn",
@@ -13547,5 +13553,17 @@
     "changed_files": [],
     "title_map": {}
   },
-  "materialized_pending_notes": []
+  "materialized_pending_notes": [],
+  "work_record_index": {
+    "status": "ready",
+    "file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown\\RECORDS.md",
+    "record_count": 35,
+    "sections": {
+      "analysis": 14,
+      "changes": 16,
+      "pitfalls": 0,
+      "experiments": 2,
+      "sessions": 3
+    }
+  }
 }

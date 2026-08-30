@@ -4,5 +4,12 @@
   "alwaysUpdateLinks": true,
   "attachmentFolderPath": "attachments",
   "showUnsupportedFiles": true,
-  "defaultViewMode": "preview"
+  "defaultViewMode": "preview",
+  "userIgnoreFilters": [
+    "AGENTS.md",
+    "CLAUDE.md",
+    "GEMINI.md",
+    ".github/",
+    ".cursor/"
+  ]
 }

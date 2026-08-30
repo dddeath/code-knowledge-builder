@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "question": "截图异常�文本",
+  "profile": "fast",
+  "budget": 1800,
+  "estimated_tokens": 849,
+  "terms": [
+    "截图异常",
+    "图异常",
+    "截图异",
+    "图异",
+    "异常",
+    "截图",
+    "文本"
+  ],
+  "anchors": [],
+  "seed_entity_ids": [
+    "ent-09a750fb5f235bae9a67dc44a9bfda78",
+    "ent-0f81f8872391539bb29352bf58c44431",
+    "ent-61ef2bf128a95b80abc6727a206dd64b",
+    "ent-a71a272f9e44535a9f3da3f2b6f99aa7",
+    "ent-b70cbf89cab2537e8d2354835adec5f3"
+  ],
+  "selected_entities": [
+    {
+      "entity_id": "ent-09a750fb5f235bae9a67dc44a9bfda78",
+      "name": "_extract_paths",
+      "qualified_name": "_extract_paths",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 428,
+      "end_line": 438,
+      "human_page_title": "ingest_event 与 default_registry_path 的协作实现",
+      "human_page_file": "pages/ingest_event 与 default_registry_path 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 4.00709768,
+      "score_breakdown": {
+        "graph": 0.00709768,
+        "term": 4.0
+      },
+      "reasons": [
+        "确定性词项 `文本`",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文作用",
+        "来源核对",
+        "固定源码摘录"
+      ]
+    },
+    {
+      "entity_id": "ent-61ef2bf128a95b80abc6727a206dd64b",
+      "name": "_utf8_prefix",
+      "qualified_name": "_utf8_prefix",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 732,
+      "end_line": 741,
+      "human_page_title": "retrieve_machine 与 estimated_tokens 的协作实现",
+      "human_page_file": "pages/retrieve_machine 与 estimated_tokens 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 4.00400136,
+      "score_breakdown": {
+        "graph": 0.00400136,
+        "term": 4.0
+      },
+      "reasons": [
+        "确定性词项 `文本`",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文作用",
+        "来源核对",
+        "固定源码摘录"
+      ]
+    }
+  ],
+  "related_documents": [],
+  "open_feedback": 0,
+  "retrieval_stats": {
+    "scored_entities": 145,
+    "overscan_limit": 32,
+    "materialized_candidates": 32,
+    "selected_entities": 2,
+    "budgeted_entity_limit": 2,
+    "selected_source_paths": 2,
+    "batched_entity_queries": 2,
+    "source_link_cache_entries": 2,
+    "static_cache_hit": false
+  },
+  "pack": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260829-072448-036285-01.md",
+  "record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260829-072448-036285-01.json",
+  "retrieval": "sqlite-exact-fts5-sections-deterministic-weighted-graph",
+  "deterministic": true,
+  "source_grounded": true,
+  "grep_fallback_required": false
+}

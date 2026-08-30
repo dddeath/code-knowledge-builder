@@ -4,7 +4,14 @@
 
 ## 从哪里开始
 
-先打开 [[source 代码导览]]，再按当前任务进入下面的职责导览：
+先判断当前任务需要代码事实、历史工作记录，还是精确符号定位：
+
+- 理解或修改代码：先打开 [[source 代码导览]]，再进入对应职责导览。
+- 查找已有分析、变更、实验或会话：打开 [工作记录导览](RECORDS.md)。
+- 查找经过来源和许可审阅的外部资料：打开 [参考资料导览](REFERENCES.md)。
+- 精确定位源码或资料：使用机器层 `brief`，再打开返回的 Agent pack 和最窄来源范围。
+
+代码职责入口：
 
 - [[scripts 职责导览]]
 - [[tests 职责导览]]
@@ -47,7 +54,7 @@ Graphify 会把彼此连接紧密的代码归为职责群；机器知识库先�
 Agent 默认查询 `machine/knowledge.sqlite`，不把整套人类页面或完整实体图装入上下文。`fast` 使用有界图传播，`precise` 使用固定轮次加权排序；两者都不调用向量模型。
 
 ```powershell
-& PYTHON scripts\ckb.py retrieve --out OUTPUT "职责关键词" --budget 1800 --profile fast
+& PYTHON scripts\ckb.py brief --out OUTPUT "职责或资料关键词" --budget 1800 --profile fast
 & PYTHON scripts\ckb.py entity --out OUTPUT "类名或函数名"
 & PYTHON scripts\ckb.py neighbors --out OUTPUT "类名或函数名" --depth 2
 & PYTHON scripts\ckb.py path --out OUTPUT "起点类或函数" "目标类或函数"
@@ -56,6 +63,10 @@ Agent 默认查询 `machine/knowledge.sqlite`，不把整套人类页面或完�
 ## Agent 分析与修改记录
 
 Agent 解释代码时先读取 retrieve 产生的阅读包，再把结论保存到 `analysis`；修改内容和原因保存到 `changes`，独立失败经验和实验分别进入 `pitfalls` 与 `experiments`。这些笔记使用双链回到代码页，并在重新投影后继续保留。
+
+## 工作记录如何查找
+
+[工作记录导览](RECORDS.md) 会列出全部分析、变更、实验、踩坑和会话记录，并为每条记录提取一句中文说明。先按任务目的浏览，再用 Obsidian 核心搜索输入两个或三个稳定关键词；不要逐个打开目录中的文件猜测内容。
 
 ## 在 Obsidian 中打开
 

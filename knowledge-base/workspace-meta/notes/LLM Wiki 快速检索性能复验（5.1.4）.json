@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "status": "agent-reviewed",
+  "kind": "analysis",
+  "title": "LLM Wiki 快速检索性能复验（5.1.4）",
+  "file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human\\analysis\\LLM Wiki 快速检索性能复验（5.1.4）.md",
+  "compatibility_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown\\analysis\\LLM Wiki 快速检索性能复验（5.1.4）.md",
+  "linked_pages": [
+    "package_showcase 与 _parse_sample 的协作实现",
+    "status 与 _replace_output_prefix 的协作实现",
+    "audit_migration 与 _entity_key 的协作实现",
+    "MigrationTest 等测试场景",
+    "prepare_vault 与 install_obsidian 的协作实现",
+    "AutomationTest.event 等测试场景",
+    "query_graph 与 _networkx_modules 的协作实现",
+    "retrieve 与 _tokens 的协作实现"
+  ],
+  "source_links": [
+    "[打开源码：scripts/ckb_core/showcase.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/showcase.py:1:1)  `scripts/ckb_core/showcase.py:1-173`",
+    "[打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3314`",
+    "[打开源码：scripts/ckb_core/migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/migration.py:1:1)  `scripts/ckb_core/migration.py:1-585`",
+    "[打开源码：tests/test_migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_migration.py:1:1)  `tests/test_migration.py:1-194`",
+    "[打开源码：scripts/ckb_core/obsidian.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/obsidian.py:1:1)  `scripts/ckb_core/obsidian.py:1-134`",
+    "[打开源码：tests/test_automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_automation.py:1:1)  `tests/test_automation.py:1-801`",
+    "[打开源码：scripts/ckb_core/graphify_core.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/graphify_core.py:1:1)  `scripts/ckb_core/graphify_core.py:1-676`",
+    "[打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-569`"
+  ],
+  "query_record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260828-114613-571361-01.json",
+  "updated_at_utc": "2026-08-28T11:51:05Z",
+  "obsidian_uri": "obsidian://open?path=E%3A%5Cknowledge_builder%5Cself-workspace%5Cknowledge-base%5Cmarkdown%5Canalysis%5CLLM%20Wiki%20%E5%BF%AB%E9%80%9F%E6%A3%80%E7%B4%A2%E6%80%A7%E8%83%BD%E5%A4%8D%E9%AA%8C%EF%BC%885.1.4%EF%BC%89.md"
+}
