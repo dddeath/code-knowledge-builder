@@ -16,7 +16,7 @@ from .work_record_index import audit_work_record_index
 
 
 AGENT_PROTOCOL_SCHEMA_VERSION = 1
-AGENT_PROTOCOL_VERSION = "1.3.0"
+AGENT_PROTOCOL_VERSION = "1.4.0"
 POLICY_BEGIN = "<!-- CKB-AGENT-PROTOCOL:BEGIN -->"
 POLICY_END = "<!-- CKB-AGENT-PROTOCOL:END -->"
 INTERNAL_ROOT_NAMES = ("output", "markdown", "human")
