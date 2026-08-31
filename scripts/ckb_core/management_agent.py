@@ -835,6 +835,46 @@ def _management_prompt(
 """
 
 
+def audit_management_prompt(
+    prompt: str,
+    binding: dict[str, Any],
+    runtime: dict[str, Any],
+    commands: dict[str, str],
+) -> dict[str, Any]:
+    required_fragments = [
+        binding["binding_id"],
+        binding["workspace_root"],
+        binding["repo_root"],
+        binding["knowledge_base"],
+        binding["integration_branch"],
+        binding["bound_head"],
+        str(runtime.get("integration_head")),
+        "brief --out",
+        "feedback list",
+        "gaps list",
+        "reference list",
+        "record --out",
+        "maintain --out",
+        "prompt_injection",
+        "task_dispatch",
+        "不得自行合并",
+        "结构化交接返回",
+    ]
+    errors = [f"missing prompt fragment: {fragment}" for fragment in required_fragments if fragment not in prompt]
+    for name, command in commands.items():
+        if command not in prompt and name not in {"manager_status", "manager_context", "manager_audit"}:
+            errors.append(f"missing command in management prompt: {name}")
+    if len(re.findall(r"[\u4e00-\u9fff]", prompt)) < 80:
+        errors.append("management prompt lacks Simplified-Chinese narrative")
+    return {
+        "schema_version": MANAGEMENT_SCHEMA_VERSION,
+        "status": "passed" if not errors else "failed",
+        "prompt_version": MANAGEMENT_PROMPT_VERSION,
+        "required_fragment_count": len(required_fragments),
+        "errors": errors,
+    }
+
+
 def management_context(
     conversation_id: str,
     harness_id: str,
@@ -865,6 +905,9 @@ def management_context(
     ckb_path = (ckb or (Path(__file__).resolve().parents[1] / "ckb.py")).expanduser().resolve()
     commands = _manager_commands(binding, python_path, ckb_path, registry)
     prompt = _management_prompt(binding, status["runtime"], knowledge, commands, blockers)
+    prompt_audit = audit_management_prompt(prompt, binding, status["runtime"], commands)
+    if prompt_audit["status"] != "passed":
+        blockers.append("management-prompt-audit-failed")
     return {
         "schema_version": MANAGEMENT_SCHEMA_VERSION,
         "status": "ready" if not blockers else "blocked",
@@ -874,6 +917,7 @@ def management_context(
         "knowledge": knowledge,
         "blockers": blockers,
         "commands": commands,
+        "prompt_audit": prompt_audit,
         "prompt_version": MANAGEMENT_PROMPT_VERSION,
         "prompt_sha256": hashlib.sha256(prompt.encode("utf-8")).hexdigest(),
         "prompt": prompt,

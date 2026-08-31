@@ -72,3 +72,22 @@
 7. 两个 SQLite 数据库完整性检查通过。
 
 任何检查失败时，本轮只能报告具体失败项；修复后重新运行本命令。
+
+## conversation 级管理身份
+
+项目级 `agent-policy` 说明知识库对所有 Agent 的固定读取和写入规则；conversation 级 `manager` 绑定在此基础上增加当前任务的 workspace、repo、knowledge base、integration branch 和 bound HEAD。它不替换 `AGENTS.md`，也不把对话正文写入项目指令。
+
+```powershell
+& PYTHON scripts\ckb.py manager bind `
+  --conversation-id CONVERSATION_ID --harness HARNESS `
+  --workspace-root WORKSPACE --repo REPO --out OUTPUT `
+  --integration-branch INTEGRATION_BRANCH --registry MANAGER_REGISTRY
+
+& PYTHON scripts\ckb.py manager context `
+  --conversation-id CONVERSATION_ID --harness HARNESS `
+  --question "QUESTION" --registry MANAGER_REGISTRY --format prompt
+```
+
+绑定前必须满足：workspace、repo 与 output 存在；repo 是所给 Git worktree 的根；当前分支就是 integration branch；该分支有 HEAD；integration worktree 干净。相同 Harness + conversation + project 重复绑定返回同一个 `binding_id`；同一身份指向另一项目时结构化失败。解绑只停止后续管理上下文获取，保留绑定和审计历史。
+
+完整管理 Prompt 会列出 `brief`、feedback、gaps、reference、record、maintain 的精确入口，并重新报告 HEAD drift、dirty tree、开放 error feedback、两个 SQLite 完整性和 maintain 失败项。Prompt 审计缺少任一固定职责或命令时，context 增加 `management-prompt-audit-failed` 阻断项。

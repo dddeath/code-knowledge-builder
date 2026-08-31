@@ -283,6 +283,7 @@ class ManagementBindingLifecycleTest(unittest.TestCase):
         self.assertEqual(result["status"], "blocked")
         self.assertIn("open-error-feedback", result["blockers"])
         self.assertEqual(result["knowledge"]["open_feedback"]["count"], 1)
+        self.assertEqual(result["prompt_audit"]["status"], "passed")
         self.assertIn("brief --out", result["prompt"])
         self.assertIn("feedback list", result["prompt"])
         self.assertIn("gaps list", result["prompt"])

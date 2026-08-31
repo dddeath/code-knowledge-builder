@@ -279,3 +279,27 @@ DSH 生成 Codex 方言的四事件 Hook 配置和 `cordis.yml.fragment`，供�
 14. 自动化同步状态与固定基线 `.complete` 分开，不用 Hook 成功冒充源码知识图谱重新完成。
 15. workspace-root 事件只保留源码仓库内部路径，兄弟 `work`、知识库和构建输出路径全部被过滤；
 16. Harness 协议使用各自原生事件名、字段和 timeout 单位，适配器只在规范化边界后共享逻辑。
+
+## 管理 Agent 对话绑定与事件同步的边界
+
+`automation` 负责 Harness 生命周期事件、脱敏机器证据和待审阅记录；`manager` 负责 conversation/task identity 与 CKB 项目的管理身份。两者复用同一个 Harness 名称和现有 CKB 命令，但不共享或复制 feedback、reference、research gap、record 状态机。
+
+公开的 canonical binding schema 通过以下入口读取：
+
+```powershell
+& PYTHON scripts\ckb.py manager schema
+& PYTHON scripts\ckb.py manager schema --write MANAGEMENT_BINDING_SCHEMA.json
+```
+
+generic bundle 额外生成 `management-binding.schema.json` 和 `example-management-binding.json`。绑定只持久化 opaque conversation ID、Harness ID、规范化项目路径、integration branch、绑定 HEAD、生命周期时间和四项独立能力；输入中的 `prompt`、`assistant_message`、`secret`、`token`、`transcript` 与 `transcript_path` 不进入管理注册表。
+
+四项能力必须分别声明：
+
+| 能力 | 含义 | 无管理适配器时的声明 |
+|---|---|---|
+| `binding` | conversation 与 CKB 项目建立 canonical 身份 | 可使用 generic CLI |
+| `prompt_injection` | Harness 是否会自动注入完整管理上下文 | `available=false` |
+| `event_sync` | Harness 生命周期是否进入 automation 协议 | 仅已有 automation adapter 或 generic JSON 为真 |
+| `task_dispatch` | 是否可创建固定基线的 branch/worktree 并生成交接 Prompt | 仅已绑定的 CKB manager CLI 为真 |
+
+`manager context` 每次重新读取 integration branch/HEAD/dirty 状态，执行一次 `brief fast`，重新统计开放 feedback/gap，并重新运行 `maintain`。它生成的完整中文 Prompt 可由 Harness 手动注入；只有专用适配器真实调用该入口时，`prompt_injection` 才能改为 `available=true`。现有 automation Hook 的短状态提示不等同于完整管理 Prompt。

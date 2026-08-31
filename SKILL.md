@@ -26,6 +26,7 @@ The construction core follows the pinned Graphify pipeline `detect -> extract ->
 - Completed compile, query, record, audit, and maintenance commands append only fixed machine fields to the bounded daily operation journal. Use `operations list` and `operations audit`; the journal never stores questions, conversations, secrets, or full command output and never creates a human page. Read [references/operation-journal.md](references/operation-journal.md) before changing retention, size, or privacy fields.
 - When retrieval evidence is insufficient, sources conflict, or feedback is deferred, use `gaps create` with a Chinese summary and existing evidence paths. Resolve only with a Chinese closure statement and new evidence. Gaps remain machine-only, enter SQLite as pending documents, and add one aggregate section to `RECORDS.md` instead of one page per gap. Read [references/research-gaps.md](references/research-gaps.md) before changing the state machine or navigation quota.
 - For an existing knowledge base that multiple Agents may open, run `agent-policy install --out OUTPUT --workspace-root TASK_ROOT` once. This installs audited `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, Copilot instructions and an always-on Cursor rule at the knowledge roots and Harness task root. Thereafter Agents must use compact SQLite retrieval before grep, create durable notes only through `record`, and run `maintain` before claiming maintenance complete; read [references/agent-policy.md](references/agent-policy.md) before changing this contract.
+- To bind one Harness conversation to a CKB project-management identity, use `manager bind/status/context/unbind/audit`. The public schema keeps only opaque identity, normalized workspace/repo/output paths, integration branch/bound HEAD, lifecycle timestamps and four independent capabilities; it never stores raw conversation text, credentials or transcript paths. `manager context` performs a fresh brief/feedback/gap/maintenance read and returns one directly injectable Chinese management Prompt. Use `manager task-create/task-review/task-status` for fixed-HEAD branch/worktree dispatch and a non-merging review gate. Read [references/automation.md](references/automation.md), [references/agent-policy.md](references/agent-policy.md), [references/workspace-mode.md](references/workspace-mode.md) and [references/operation-journal.md](references/operation-journal.md) before changing this contract.
 - Always require one explicit output format: `markdown`, `logseq-db`, or `both`.
 - A finalized `markdown` projection exposes two audited Logseq file-graph roots. For Logseq 2.0.1 “File to DB graph”, select `OUTPUT` itself; it contains `OUTPUT/logseq/config.edn`. `OUTPUT/markdown` remains a second valid file-graph root and contains linked pages, its own pinned config, and `normalized.edn` for optional EDN import.
 - `OUTPUT/human/RECORDS.md` and its compatibility mirror provide the human entry for all analysis, change, experiment, pitfall, and session notes. The generator groups every record by note kind, extracts one Chinese description with a fixed rule, and never receives task-specific keywords or a hand-picked result set. Use `human-refresh --out OUTPUT` to apply only this navigation contract to an existing audited graph without rescanning source or changing page/note bytes.
@@ -185,6 +186,32 @@ After session activation, all adapters feed the same canonical protocol into `OU
 & PYTHON "SKILL_DIR\scripts\ckb.py" automation review --out "OUTPUT" --review "REVIEW.json"
 ```
 
+Bind a generic or adapted Harness conversation and obtain the current full management context:
+
+```powershell
+& PYTHON "SKILL_DIR\scripts\ckb.py" manager bind `
+  --conversation-id "CONVERSATION_ID" --harness "HARNESS" `
+  --workspace-root "WORKSPACE" --repo "REPO" --out "OUTPUT" `
+  --integration-branch "INTEGRATION_BRANCH" --registry "MANAGER_REGISTRY"
+& PYTHON "SKILL_DIR\scripts\ckb.py" manager context `
+  --conversation-id "CONVERSATION_ID" --harness "HARNESS" `
+  --question "QUESTION" --registry "MANAGER_REGISTRY" --format prompt
+```
+
+Dispatch and verify one isolated development task without merging it:
+
+```powershell
+& PYTHON "SKILL_DIR\scripts\ckb.py" manager task-create `
+  --conversation-id "CONVERSATION_ID" --harness "HARNESS" `
+  --task-id "TASK_ID" --branch "codex/TASK" --worktree "TASK_WORKTREE" `
+  --allow-path "OWNED_PATH" --forbid-path "FORBIDDEN_PATH" `
+  --test "TEST_COMMAND" --registry "MANAGER_REGISTRY"
+& PYTHON "SKILL_DIR\scripts\ckb.py" manager task-review `
+  --dispatch-id "DISPATCH_ID" --registry "MANAGER_REGISTRY"
+& PYTHON "SKILL_DIR\scripts\ckb.py" manager task-status `
+  --dispatch-id "DISPATCH_ID" --registry "MANAGER_REGISTRY"
+```
+
 The Agent must reopen every changed path, write Simplified-Chinese `evidence_note`, provide an exact source-check set, and use `修改内容`、`修改原因`、`验证结果` for a change before promotion. `automation drain` resumes pending spool events; `automation retry` explicitly replays failed events. Machine retrieval and `changes` include pending automation documents without treating them as human-reviewed knowledge.
 
 The former graph commands remain available for exact route/debug work:
@@ -235,6 +262,7 @@ Package completed human-readable examples with a Chinese Wiki:
 - Reviewed local Markdown/TXT references live under `OUTPUT/references`, project at most one `#类型/资料` summary page per active source, and enter `machine/knowledge.sqlite` as typed reference documents and source sections. Pending reviews, missing licenses, source drift, false line citations, mirror differences, page fan-out, or SQLite count drift prevent the reference layer from passing.
 - Automatic synchronization never parses `transcript_path`, never captures unregistered repositories, and never changes permissions or blocks a Harness operation. Hook health is reported separately from the fixed source graph completion markers.
 - Every completed Markdown knowledge base carries auto-discovered project instructions for Codex, OpenCode, Claude Code, Gemini CLI, GitHub Copilot and Cursor. The protocol fixes the read order to `brief fast` → bounded pack → narrow graph/source commands, routes durable writes through `record`, and uses `maintain` to aggregate note mirrors, metadata, human readability and both SQLite representations. Workspace-root installation is explicit and idempotent; it does not broaden Hook activation or synchronize every conversation into existing pages.
+- Management bindings are Harness-neutral canonical records keyed by Harness plus opaque conversation identity. Binding is concurrent-idempotent, conflicting project assignments fail, unbinding preserves audit history, and generic JSON/CLI remains available without claiming automatic Prompt injection. Every context call rechecks integration HEAD/dirty state and current CKB gates. Task dispatch creates a fixed-base independent worktree and hashed handoff Prompt; task review records literal final-HEAD test results and can report `merge-ready`, but no manager command in this release performs merge or stable knowledge-base synchronization.
 - CKB-launched non-interactive Git, language-server, build, Hook-support, and stdio child processes run without a new Windows console window while retaining captured output, exit status, timeout, and cancellation behavior. User-invoked CLI commands and explicit terminal/shell features keep their normal visible host surface.
 - `machine/knowledge.sqlite` contains every file, declaration, source range, complete relation/evidence set, provider/diagnostic/review fact, community, boundary, human ownership mapping, full fixed source text, Chinese sections, Agent notes, and working-overlay paths. Its FTS and graph commands return source-grounded, token-bounded packs.
 - A fixed detached source snapshot, not the live worktree, is the semantic-provider root. Live edits are recorded as a working overlay and never alter the baseline `.complete` commit.
