@@ -75,8 +75,12 @@ from ckb_core.management_agent import (
     bind_conversation,
     binding_schema,
     binding_status,
+    create_management_task,
     default_management_registry_path,
+    harness_capabilities,
     management_context,
+    management_task_status,
+    review_management_task,
     unbind_conversation,
 )
 from ckb_core.migration import audit_migration, migrate_output, migration_status
@@ -490,6 +494,24 @@ def parser() -> argparse.ArgumentParser:
     manager_audit.add_argument("--registry", type=Path, default=default_management_registry_path())
     manager_schema = manager_sub.add_parser("schema")
     manager_schema.add_argument("--write", type=Path)
+    manager_capabilities = manager_sub.add_parser("capabilities")
+    manager_capabilities.add_argument("--harness", action="append", default=[])
+    manager_task_create = manager_sub.add_parser("task-create")
+    manager_task_create.add_argument("--conversation-id", required=True)
+    manager_task_create.add_argument("--harness", required=True)
+    manager_task_create.add_argument("--task-id", required=True)
+    manager_task_create.add_argument("--branch", required=True)
+    manager_task_create.add_argument("--worktree", type=Path, required=True)
+    manager_task_create.add_argument("--allow-path", action="append", default=[])
+    manager_task_create.add_argument("--forbid-path", action="append", default=[])
+    manager_task_create.add_argument("--test", action="append", required=True)
+    manager_task_create.add_argument("--registry", type=Path, default=default_management_registry_path())
+    manager_task_create.add_argument("--python", type=Path)
+    manager_task_create.add_argument("--ckb", type=Path)
+    for name in ("task-status", "task-review"):
+        manager_task = manager_sub.add_parser(name)
+        manager_task.add_argument("--dispatch-id", required=True)
+        manager_task.add_argument("--registry", type=Path, default=default_management_registry_path())
     relink_command = sub.add_parser("relink")
     relink_command.add_argument("--out", type=Path, required=True)
     relink_command.add_argument("--repo-root", type=Path, required=True)
@@ -839,7 +861,7 @@ def main() -> int:
             result = audit_manager_registry(args.registry)
             emit(result)
             return 0 if result.get("status") == "passed" else 5
-        else:
+        elif args.manager_command == "schema":
             value = binding_schema()
             if args.write:
                 if args.write.exists():
@@ -849,6 +871,39 @@ def main() -> int:
                 emit({"schema_version": MANAGEMENT_SCHEMA_VERSION, "status": "written", "path": str(args.write.resolve())})
             else:
                 emit(value)
+        elif args.manager_command == "capabilities":
+            harnesses = args.harness or sorted(SUPPORTED_HARNESSES)
+            emit(
+                {
+                    "schema_version": MANAGEMENT_SCHEMA_VERSION,
+                    "status": "ready",
+                    "harnesses": {harness: harness_capabilities(harness) for harness in harnesses},
+                }
+            )
+        elif args.manager_command == "task-create":
+            emit(
+                create_management_task(
+                    args.conversation_id,
+                    args.harness,
+                    args.task_id,
+                    args.branch,
+                    args.worktree,
+                    args.registry,
+                    allowed_paths=args.allow_path,
+                    forbidden_paths=args.forbid_path,
+                    tests=args.test,
+                    python=args.python,
+                    ckb=args.ckb,
+                )
+            )
+        elif args.manager_command == "task-status":
+            result = management_task_status(args.dispatch_id, args.registry)
+            emit(result)
+            return 0 if result.get("status") == "merge-ready" else 5
+        else:
+            result = review_management_task(args.dispatch_id, args.registry)
+            emit(result)
+            return 0 if result.get("status") == "passed" else 5
     elif args.command == "relink":
         emit(relink_sources(args.out.resolve(), args.repo_root.resolve(), args.editor, args.source_view, args.custom_template))
     elif args.command == "showcase":

@@ -8,6 +8,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -23,8 +24,11 @@ from ckb_core.management_agent import (
     binding_schema,
     binding_status,
     canonical_binding_input,
+    create_management_task,
     harness_capabilities,
     management_context,
+    management_task_status,
+    review_management_task,
     unbind_conversation,
 )
 
@@ -286,6 +290,124 @@ class ManagementBindingLifecycleTest(unittest.TestCase):
         self.assertIn("record --out", result["prompt"])
         self.assertIn("maintain --out", result["prompt"])
         self.assertNotIn("private-prompt", result["prompt"])
+
+    def ready_context(self) -> dict[str, object]:
+        current = binding_status("conversation-fixture", "generic", self.registry)
+        return {
+            "status": "ready",
+            "binding": current["binding"],
+            "runtime": current["runtime"],
+            "blockers": [],
+        }
+
+    def test_task_dispatch_creates_independent_worktree_prompt_and_review_gate(self) -> None:
+        bind_conversation(self.payload(), self.registry)
+        worktree = self.workspace / "worktrees/feature"
+        test_command = f'"{sys.executable}" -c "from pathlib import Path; assert Path(\'feature.py\').is_file(); print(\'TASK_OK\')"'
+        with mock.patch("ckb_core.management_agent.management_context", return_value=self.ready_context()):
+            created = create_management_task(
+                "conversation-fixture",
+                "generic",
+                "feature-task",
+                "codex/feature-task",
+                worktree,
+                self.registry,
+                allowed_paths=["feature.py"],
+                forbidden_paths=[str(self.repo), str(self.output)],
+                tests=[test_command],
+                python=Path(sys.executable),
+                ckb=ROOT / "scripts/ckb.py",
+            )
+        task = created["task"]
+        self.assertEqual(created["status"], "created")
+        self.assertTrue(worktree.is_dir())
+        self.assertEqual(git(worktree, "rev-parse", "HEAD"), task["base_commit"])
+        self.assertEqual(git(worktree, "branch", "--show-current"), "codex/feature-task")
+        prompt = Path(task["prompt_path"])
+        self.assertTrue(prompt.is_file())
+        prompt_text = prompt.read_text(encoding="utf-8")
+        self.assertIn("允许路径", prompt_text)
+        self.assertIn("禁止路径", prompt_text)
+        self.assertIn("验证命令", prompt_text)
+        self.assertIn("结构化返回格式", prompt_text)
+        self.assertIn("不得自行 merge", prompt_text)
+        (worktree / "feature.py").write_text("FEATURE = True\n", encoding="utf-8")
+        git(worktree, "add", ".")
+        git(worktree, "commit", "-m", "add feature")
+        before = management_task_status(task["dispatch_id"], self.registry)
+        self.assertEqual(before["status"], "blocked")
+        self.assertEqual(before["development"]["commit_count"], 1)
+        with ThreadPoolExecutor(max_workers=6) as executor:
+            reviews = list(executor.map(lambda _index: review_management_task(task["dispatch_id"], self.registry), range(6)))
+        self.assertTrue(all(item["status"] == "passed" for item in reviews))
+        self.assertEqual(sum(not item["idempotent"] for item in reviews), 1)
+        reviewed = reviews[0]
+        self.assertEqual(reviewed["verification"]["results"][0]["exit_status"], 0)
+        self.assertIn("TASK_OK", reviewed["verification"]["results"][0]["stdout"])
+        after = management_task_status(task["dispatch_id"], self.registry)
+        self.assertEqual(after["status"], "merge-ready")
+        self.assertFalse(after["merge_performed"])
+        self.assertEqual(audit_manager_registry(self.registry)["status"], "passed")
+        (worktree / "feature.py").write_text("FEATURE = False\n", encoding="utf-8")
+        stale = management_task_status(task["dispatch_id"], self.registry)
+        self.assertIn("task-worktree-dirty", stale["blockers"])
+
+    def test_task_dispatch_is_idempotent_and_blocks_integration_drift(self) -> None:
+        bind_conversation(self.payload(), self.registry)
+        worktree = self.workspace / "worktrees/idempotent"
+        arguments = dict(
+            conversation_id="conversation-fixture",
+            harness_id="generic",
+            task_id="idempotent-task",
+            branch="codex/idempotent-task",
+            worktree=worktree,
+            registry_path=self.registry,
+            tests=[f'"{sys.executable}" -c "print(\'OK\')"'],
+        )
+        with mock.patch("ckb_core.management_agent.management_context", return_value=self.ready_context()):
+            with ThreadPoolExecutor(max_workers=6) as executor:
+                dispatched = list(executor.map(lambda _index: create_management_task(**arguments), range(6)))
+        self.assertEqual(sum(item["status"] == "created" for item in dispatched), 1)
+        self.assertEqual(sum(item["status"] == "already-created" for item in dispatched), 5)
+        self.assertEqual(len({item["task"]["dispatch_id"] for item in dispatched}), 1)
+        (self.repo / "drift.py").write_text("DRIFT = True\n", encoding="utf-8")
+        git(self.repo, "add", ".")
+        git(self.repo, "commit", "-m", "integration drift")
+        with mock.patch("ckb_core.management_agent.management_context", return_value=self.ready_context()):
+            with self.assertRaisesRegex(CkbError, "Git gate failed"):
+                create_management_task(
+                    "conversation-fixture",
+                    "generic",
+                    "blocked-task",
+                    "codex/blocked-task",
+                    self.workspace / "worktrees/blocked",
+                    self.registry,
+                    tests=[f'"{sys.executable}" -c "print(\'NO\')"'],
+                )
+        self.assertFalse((self.workspace / "worktrees/blocked").exists())
+        self.assertEqual(git(self.repo, "branch", "--list", "codex/blocked-task"), "")
+
+    def test_task_review_records_literal_failure_without_merge(self) -> None:
+        bind_conversation(self.payload(), self.registry)
+        worktree = self.workspace / "worktrees/failing"
+        with mock.patch("ckb_core.management_agent.management_context", return_value=self.ready_context()):
+            created = create_management_task(
+                "conversation-fixture",
+                "generic",
+                "failing-task",
+                "codex/failing-task",
+                worktree,
+                self.registry,
+                tests=[f'"{sys.executable}" -c "import sys; print(\'EXPECTED_FAILURE\'); sys.exit(3)"'],
+            )
+        (worktree / "feature.py").write_text("VALUE = 1\n", encoding="utf-8")
+        git(worktree, "add", ".")
+        git(worktree, "commit", "-m", "add failing fixture")
+        reviewed = review_management_task(created["task"]["dispatch_id"], self.registry)
+        self.assertEqual(reviewed["status"], "failed")
+        self.assertEqual(reviewed["verification"]["results"][0]["exit_status"], 3)
+        self.assertIn("EXPECTED_FAILURE", reviewed["verification"]["results"][0]["stdout"])
+        self.assertFalse(reviewed["merge_performed"])
 
 
 if __name__ == "__main__":
