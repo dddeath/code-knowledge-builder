@@ -30,7 +30,7 @@ Agent 审阅进一步要求实体 kind、名称、限定名、字节范围和审
 
 ## 可变知识
 
-迁移保存生成器所有权清单之外的 Obsidian 文件、analysis/change/pitfall/experiment/session/user 页面、workspace notes、pending notes、session sidecar 和自动化数据库。SQLite 使用 backup API 复制后再执行当前 schema 初始化。每个可变文件在 `migration/preserved-baseline/` 留存迁移时基线；后续 Hook、Agent 笔记和确定性重链接可以继续修改工作副本，迁移审计改为核对不可变基线、工作副本存在性、UTF-8/JSON 可读性及 SQLite `integrity_check`，不会把正常追加误判为来源损坏。目标人类标题变化时，迁移器依据相对源码路径、实体类型和限定名确定性重写保留笔记中的 Wiki 链接，并记录 `migration/note-relink.json`；正文叙述保持原样。固定源码 overlay 不从旧仓库继承，由目标仓库重新生成。
+迁移保存生成器所有权清单之外的 Obsidian 文件、analysis/change/pitfall/experiment/session/user 页面、完整 `workspace-meta` 可变树、正式 `references` 归档/manifest/review 源层和自动化数据库。因此工作记录、feedback、research gap、operation journal、Agent Protocol、已审阅 reference 和用户笔记不会被重建为固定源码事实。SQLite 使用 backup API 复制后再执行当前 schema 初始化。每个可变文件在 `migration/preserved-baseline/` 留存迁移时基线；后续 Hook、Agent 笔记和确定性重链接可以继续修改工作副本，迁移审计改为核对不可变基线、工作副本存在性、UTF-8/JSON 可读性及 SQLite `integrity_check`，不会把正常追加误判为来源损坏。目标人类标题变化时，迁移器依据相对源码路径、实体类型和限定名确定性重写保留笔记中的 Wiki 链接，并记录 `migration/note-relink.json`；正文叙述保持原样。固定源码 overlay 不从旧仓库继承，由目标仓库重新生成。
 
 ## 审阅与完成
 
