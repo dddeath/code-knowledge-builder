@@ -40,3 +40,7 @@
 `cutover` 在同一父目录内先把旧 OUTPUT 改名为 operation 专属备份，逐文件核对预先冻结的 SHA-256 树清单，再把 staging 改名为正式 OUTPUT。随后执行完成态路径重定位和双 SQLite 探针。任一步失败时，命令把目录改名顺序反向执行，并再次核对旧 OUTPUT 的完整树清单；复制开始或首次改名不等于切换成功。
 
 切换控制记录保存在 OUTPUT 的同级隐藏 JSON 中，字段为固定 schema/version、绝对路径、commit、旧/新树清单和 SQLite 结果，不包含 Prompt、secret、命令输出或无界日志。`rollback` 先验证当前新 OUTPUT 未漂移和备份仍等于切换前清单，再把新 OUTPUT 移入 operation 专属隔离目录并恢复旧目录。恢复后逐文件清单必须完全相等，双 SQLite 和自动化数据库必须通过完整性与外键探针；失败会反向恢复切换后的状态，不触碰同工作区其他知识库。
+
+同一 OUTPUT 可以顺序追加多个中心。每次成功 cutover 保存 `parent_operation_id` 和从 1 开始的 `chain_depth`；旧 schema-1 记录缺少这两个字段时，只在唯一旧 `modified_manifest` 等于新操作 `origin_manifest` 时推导父操作。`status` 以当前 OUTPUT 全树清单唯一匹配 `cutover-complete.modified_manifest`，不按 operation ID 或文件名字典序选择。多条记录同时匹配、父链缺失、深度漂移或循环均以固定控制记录错误退出。
+
+`rollback` 每次只撤销当前链顶端：恢复后的全树等于父操作 `modified_manifest` 时，父操作重新成为 active；再次 rollback 继续撤销父操作。根操作回滚后没有 active cutover，此时同一根 rollback 再次调用返回幂等 `rolled-back`。历史 JSON、失败尝试、已回滚记录和隔离后的新 OUTPUT 均保留，不通过删除历史来消除二义性。

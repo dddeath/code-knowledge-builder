@@ -451,13 +451,132 @@ def start_scope_extension(
     return extension_status(staging)
 
 
+def _control_records(output: Path) -> list[tuple[Path, dict[str, Any]]]:
+    """Load and validate the immutable control history for one OUTPUT name.
+
+    Legacy schema-1 records did not persist parent_operation_id.  Their parent
+    is inferred only when exactly one older modified manifest equals the
+    child's origin manifest.  New records persist that same relation and depth.
+    """
+    output = output.resolve()
+    records: list[tuple[Path, dict[str, Any]]] = []
+    by_id: dict[str, tuple[Path, dict[str, Any]]] = {}
+    for path in sorted(output.parent.glob(f".{output.name}.scope-extension-*.json")):
+        value = json_load(path)
+        operation_id = str(value.get("operation_id") or "")
+        if value.get("schema_version") != SCOPE_EXTENSION_SCHEMA_VERSION or not operation_id:
+            raise _error("control-record-drift", f"control record schema or operation id is invalid: {path}")
+        if path != _control_path(output, operation_id):
+            raise _error("control-record-drift", f"control record path does not match operation id: {path}")
+        if Path(str(value.get("output") or "")).resolve() != output:
+            raise _error("control-record-drift", f"control record OUTPUT binding drifted: {path}")
+        if operation_id in by_id:
+            raise _error("control-record-drift", f"duplicate control operation id: {operation_id}")
+        item = json.loads(json.dumps(value))
+        records.append((path, item))
+        by_id[operation_id] = (path, item)
+
+    for path, value in records:
+        origin = value.get("origin_manifest")
+        if not isinstance(origin, dict):
+            raise _error("control-record-drift", f"control origin manifest is missing: {path}")
+        inferred = [
+            candidate
+            for _candidate_path, candidate in records
+            if candidate.get("operation_id") != value.get("operation_id")
+            and isinstance(candidate.get("modified_manifest"), dict)
+            and _same_manifest(candidate["modified_manifest"], origin)
+        ]
+        if "parent_operation_id" in value:
+            parent_id = value.get("parent_operation_id")
+            if parent_id is not None:
+                parent = by_id.get(str(parent_id))
+                if parent is None or not isinstance(parent[1].get("modified_manifest"), dict) or not _same_manifest(parent[1]["modified_manifest"], origin):
+                    raise _error("control-record-drift", f"parent operation does not produce the child origin: {path}")
+        else:
+            if len(inferred) > 1:
+                raise _error("control-record-drift", f"legacy parent operation is ambiguous: {path}")
+            parent_id = inferred[0]["operation_id"] if inferred else None
+        value["parent_operation_id"] = parent_id
+
+    depths: dict[str, int] = {}
+
+    def depth(operation_id: str, trail: set[str]) -> int:
+        if operation_id in depths:
+            return depths[operation_id]
+        if operation_id in trail:
+            raise _error("control-record-drift", f"control parent cycle includes: {operation_id}")
+        value = by_id[operation_id][1]
+        parent_id = value.get("parent_operation_id")
+        result = 1 if parent_id is None else depth(str(parent_id), {*trail, operation_id}) + 1
+        recorded = value.get("chain_depth")
+        if recorded is not None and int(recorded) != result:
+            raise _error("control-record-drift", f"control chain depth drifted: {operation_id}")
+        value["chain_depth"] = result
+        depths[operation_id] = result
+        return result
+
+    for _path, value in records:
+        depth(str(value["operation_id"]), set())
+    return records
+
+
+def _control_selection(output: Path, actual_manifest: dict[str, Any] | None = None) -> dict[str, Any]:
+    output = output.resolve()
+    records = _control_records(output)
+    actual = actual_manifest or _tree_manifest(output)
+    active = [
+        (path, value)
+        for path, value in records
+        if value.get("status") == "cutover-complete"
+        and isinstance(value.get("modified_manifest"), dict)
+        and _same_manifest(value["modified_manifest"], actual)
+    ]
+    if len(active) > 1:
+        raise _error("control-record-active-ambiguous", f"multiple active cutovers match current OUTPUT: {[item[1]['operation_id'] for item in active]}")
+    rolled_back = [
+        (path, value)
+        for path, value in records
+        if value.get("status") == "rolled-back"
+        and _same_manifest(value["origin_manifest"], actual)
+    ]
+    return {
+        "records": records,
+        "actual_manifest": actual,
+        "active": active[0] if active else None,
+        "rolled_back_matches": rolled_back,
+    }
+
+
+def _public_control(value: dict[str, Any]) -> dict[str, Any]:
+    return json.loads(json.dumps(value))
+
+
 def extension_status(output: Path) -> dict[str, Any]:
     output = output.resolve()
     controls = sorted(output.parent.glob(f".{output.name}.scope-extension-*.json"))
     if controls:
-        active = [json_load(path) for path in controls]
-        active.sort(key=lambda item: str(item.get("operation_id")))
-        return {"schema_version": SCOPE_EXTENSION_SCHEMA_VERSION, "status": active[-1].get("status"), "cutover": active[-1]}
+        selection = _control_selection(output)
+        if selection["active"]:
+            _path, active = selection["active"]
+            return {
+                "schema_version": SCOPE_EXTENSION_SCHEMA_VERSION,
+                "status": "cutover-complete",
+                "active_operation_id": active["operation_id"],
+                "parent_operation_id": active.get("parent_operation_id"),
+                "chain_depth": active["chain_depth"],
+                "cutover": _public_control(active),
+                "control_record_count": len(selection["records"]),
+            }
+        rolled_back = selection["rolled_back_matches"]
+        return {
+            "schema_version": SCOPE_EXTENSION_SCHEMA_VERSION,
+            "status": "rolled-back" if len(rolled_back) == 1 else "no-active-cutover",
+            "active_operation_id": None,
+            "rolled_back_operation_id": rolled_back[0][1]["operation_id"] if len(rolled_back) == 1 else None,
+            "matching_rolled_back_operation_ids": [value["operation_id"] for _path, value in rolled_back],
+            "control_record_count": len(selection["records"]),
+        }
     state = _load_extension_state(output)
     plan = json_load(output / PLAN_RELATIVE)
     build_state = json_load(output / "state.json")
@@ -549,6 +668,7 @@ def audit_scope_extension(staging: Path) -> dict[str, Any]:
     from .llm_wiki_capabilities import maintenance_check
 
     maintenance = maintenance_check(staging) if global_audit.get("status") == "passed" else {"status": "blocked"}
+    _release_audit_handles()
     check("maintain", maintenance.get("status") == "passed", maintenance, "maintain")
     passed = all(item["passed"] for item in checks)
     result = {
@@ -596,20 +716,38 @@ def cutover_scope_extension(staging: Path, *, fault: str | None = None) -> dict[
     operation_id = state["operation_id"]
     backup = output.parent / f".{output.name}.scope-extension-backup-{operation_id}"
     control_path = _control_path(output, operation_id)
-    if control_path.is_file() and not backup.exists() and json_load(control_path).get("status") == "cutover-failed-restored":
-        control_path.unlink()
-    if backup.exists() or control_path.exists():
+    selection = _control_selection(output, actual_origin) if list(output.parent.glob(f".{output.name}.scope-extension-*.json")) else {"active": None}
+    parent = selection.get("active")
+    parent_record = parent[1] if parent else None
+    previous_attempts: list[dict[str, Any]] = []
+    if control_path.is_file() and not backup.exists():
+        existing = json_load(control_path)
+        if existing.get("status") == "cutover-failed-restored":
+            previous_attempts = list(existing.get("attempts") or [])
+            previous_attempts.append(
+                {
+                    "status": existing["status"],
+                    "failure": existing.get("failure"),
+                    "origin_restored": existing.get("origin_restored"),
+                }
+            )
+        else:
+            raise _error("cutover-conflict", "cutover control record already exists in a non-retryable state")
+    if backup.exists():
         raise _error("cutover-conflict", "cutover backup or control record already exists")
     record = {
         "schema_version": SCOPE_EXTENSION_SCHEMA_VERSION,
         "operation_id": operation_id,
         "status": "cutover-started",
+        "parent_operation_id": parent_record.get("operation_id") if parent_record else None,
+        "chain_depth": int(parent_record.get("chain_depth", 0)) + 1 if parent_record else 1,
         "output": str(output),
         "staging_output": str(staging),
         "backup_output": str(backup),
         "repository": state["repository"],
         "repository_commit": state["repository_commit"],
         "origin_manifest": expected_origin,
+        "attempts": previous_attempts,
     }
     json_write(control_path, record)
     moved_staging = False
@@ -640,7 +778,17 @@ def cutover_scope_extension(staging: Path, *, fault: str | None = None) -> dict[
             "sqlite": sqlite_checks,
         })
         json_write(control_path, record)
-        return {"schema_version": SCOPE_EXTENSION_SCHEMA_VERSION, "status": "cutover-complete", "operation_id": operation_id, "output": str(output), "backup_output": str(backup), "control": str(control_path), "sqlite": sqlite_checks}
+        return {
+            "schema_version": SCOPE_EXTENSION_SCHEMA_VERSION,
+            "status": "cutover-complete",
+            "operation_id": operation_id,
+            "parent_operation_id": record["parent_operation_id"],
+            "chain_depth": record["chain_depth"],
+            "output": str(output),
+            "backup_output": str(backup),
+            "control": str(control_path),
+            "sqlite": sqlite_checks,
+        }
     except Exception as exc:
         try:
             if moved_staging and output.exists():
@@ -657,12 +805,17 @@ def cutover_scope_extension(staging: Path, *, fault: str | None = None) -> dict[
 
 
 def _active_control(output: Path) -> tuple[Path, dict[str, Any]]:
-    candidates = sorted(output.parent.glob(f".{output.name}.scope-extension-*.json"))
-    records = [(path, json_load(path)) for path in candidates]
-    eligible = [(path, value) for path, value in records if value.get("status") in {"cutover-complete", "rolled-back"}]
-    if len(eligible) != 1:
-        raise _error("control-record", f"expected one active cutover control record, found {len(eligible)}")
-    return eligible[0]
+    selection = _control_selection(output)
+    if selection["active"]:
+        return selection["active"]
+    rolled_back = selection["rolled_back_matches"]
+    if len(rolled_back) == 1:
+        value = rolled_back[0][1]
+        value["idempotent_selection"] = True
+        return rolled_back[0][0], value
+    if len(rolled_back) > 1:
+        raise _error("control-record", f"no active cutover; multiple rolled-back operations match current OUTPUT: {[item[1]['operation_id'] for item in rolled_back]}")
+    raise _error("control-record", "no active cutover matches current OUTPUT")
 
 
 def rollback_scope_extension(output: Path, *, fault: str | None = None) -> dict[str, Any]:
@@ -672,7 +825,14 @@ def rollback_scope_extension(output: Path, *, fault: str | None = None) -> dict[
         actual = _tree_manifest(output)
         if not _same_manifest(record["origin_manifest"], actual):
             raise _error("rollback-drift", "rolled-back OUTPUT no longer matches its origin manifest")
-        return {"schema_version": SCOPE_EXTENSION_SCHEMA_VERSION, "status": "rolled-back", "operation_id": record["operation_id"], "output": str(output), "idempotent": True}
+        return {
+            "schema_version": SCOPE_EXTENSION_SCHEMA_VERSION,
+            "status": "rolled-back",
+            "operation_id": record["operation_id"],
+            "reactivated_operation_id": None,
+            "output": str(output),
+            "idempotent": True,
+        }
     actual_modified = _tree_manifest(output)
     if not _same_manifest(record["modified_manifest"], actual_modified):
         raise _error("modified-drift", "promoted OUTPUT changed after cutover; rollback guard stopped replacement")
@@ -698,9 +858,37 @@ def rollback_scope_extension(output: Path, *, fault: str | None = None) -> dict[
         sqlite_checks = _sqlite_checks(output)
         if not sqlite_checks or not all(item["passed"] for item in sqlite_checks):
             raise _error("rollback-sqlite", f"restored SQLite verification failed: {sqlite_checks}")
-        record.update({"status": "rolled-back", "rolled_forward_output": str(rolled_forward), "restored_manifest": restored, "rollback_sqlite": sqlite_checks})
+        parent_operation_id = record.get("parent_operation_id")
+        if parent_operation_id:
+            parent_matches = [
+                value
+                for _path, value in _control_records(output)
+                if value.get("operation_id") == parent_operation_id
+            ]
+            if len(parent_matches) != 1 or parent_matches[0].get("status") != "cutover-complete" or not _same_manifest(parent_matches[0].get("modified_manifest", {}), restored):
+                raise _error("rollback-parent", "restored OUTPUT does not match the recorded parent cutover")
+        record.update({
+            "status": "rolled-back",
+            "rolled_forward_output": str(rolled_forward),
+            "restored_manifest": restored,
+            "rollback_sqlite": sqlite_checks,
+            "reactivated_operation_id": parent_operation_id,
+        })
         json_write(control_path, record)
-        return {"schema_version": SCOPE_EXTENSION_SCHEMA_VERSION, "status": "rolled-back", "operation_id": record["operation_id"], "output": str(output), "modified_output": str(rolled_forward), "control": str(control_path), "sqlite": sqlite_checks}
+        selected_after = _control_selection(output, restored)["active"]
+        actual_reactivated = selected_after[1]["operation_id"] if selected_after else None
+        if actual_reactivated != parent_operation_id:
+            raise _error("rollback-parent", f"active parent mismatch after rollback: expected {parent_operation_id}, got {actual_reactivated}")
+        return {
+            "schema_version": SCOPE_EXTENSION_SCHEMA_VERSION,
+            "status": "rolled-back",
+            "operation_id": record["operation_id"],
+            "reactivated_operation_id": parent_operation_id,
+            "output": str(output),
+            "modified_output": str(rolled_forward),
+            "control": str(control_path),
+            "sqlite": sqlite_checks,
+        }
     except Exception as exc:
         try:
             if restored_origin and output.exists():

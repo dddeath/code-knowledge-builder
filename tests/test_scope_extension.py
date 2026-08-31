@@ -13,7 +13,7 @@ import unittest
 SKILL_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SKILL_ROOT / "scripts"))
 
-from ckb_core.common import CkbError, json_write, sha256_file, stable_id, utc_now
+from ckb_core.common import CkbError, json_load, json_write, sha256_file, stable_id, utc_now
 from ckb_core.pipeline import build_chunk, finalize, initialize, review_pack
 from ckb_core.reference_documents import _render_reference_page
 from ckb_core.research_gaps import _index_value
@@ -70,6 +70,7 @@ class ScopeExtensionTest(unittest.TestCase):
         self.repo.mkdir()
         (self.repo / "app.py").write_text("def first(value):\n    return value + 1\n", encoding="utf-8")
         (self.repo / "extra.py").write_text("def second(value):\n    return value * 2\n", encoding="utf-8")
+        (self.repo / "third.py").write_text("def third(value):\n    return value - 3\n", encoding="utf-8")
         (self.repo / "duplicate.py").write_text("def repeated():\n    return 1\n\ndef repeated():\n    return 2\n", encoding="utf-8")
         (self.repo / "ignored.txt").write_text("not tracked source", encoding="utf-8")
         git(self.repo, "init")
@@ -313,6 +314,108 @@ class ScopeExtensionTest(unittest.TestCase):
         (occupied / "unrelated.txt").write_text("unrelated", encoding="utf-8")
         with self.assertRaisesRegex(CkbError, "staging-not-empty"):
             start_scope_extension(self.output, self.repo, occupied, ["python:extra.py#second"], 0, "both")
+
+    def test_sequential_extensions_form_an_unwindable_active_chain(self) -> None:
+        self.add_preserved_layers()
+        initial = _tree_manifest(self.output)
+
+        first_started = start_scope_extension(
+            self.output, self.repo, self.staging, ["python:extra.py#second"], 0, "both"
+        )
+        review_all(self.staging)
+        self.assertEqual(audit_scope_extension(self.staging)["status"], "ready")
+        first_cutover = cutover_scope_extension(self.staging)
+        first_operation = first_started["operation_id"]
+        self.assertEqual(first_cutover["parent_operation_id"], None)
+        self.assertEqual(first_cutover["chain_depth"], 1)
+        first_tree = _tree_manifest(self.output)
+
+        second_staging = self.root / "staging-second"
+        second_started = start_scope_extension(
+            self.output, self.repo, second_staging, ["python:third.py#third"], 0, "both"
+        )
+        review_all(second_staging)
+        self.assertEqual(audit_scope_extension(second_staging)["status"], "ready")
+        with self.assertRaisesRegex(CkbError, "cutover-failed"):
+            cutover_scope_extension(second_staging, fault="after-backup-rename")
+        self.assertEqual(_tree_manifest(self.output), first_tree)
+        status_after_failure = extension_status(self.output)
+        self.assertEqual(status_after_failure["active_operation_id"], first_operation)
+
+        second_cutover = cutover_scope_extension(second_staging)
+        second_operation = second_started["operation_id"]
+        self.assertEqual(second_cutover["parent_operation_id"], first_operation)
+        self.assertEqual(second_cutover["chain_depth"], 2)
+        active = extension_status(self.output)
+        self.assertEqual(active["active_operation_id"], second_operation)
+        self.assertEqual(active["parent_operation_id"], first_operation)
+
+        first_control_path = Path(first_cutover["control"])
+        second_control = Path(second_cutover["control"])
+        saved_first = json_load(first_control_path)
+        saved_second = json_load(second_control)
+        legacy_first = json.loads(json.dumps(saved_first))
+        legacy_second = json.loads(json.dumps(saved_second))
+        for value in (legacy_first, legacy_second):
+            value.pop("parent_operation_id", None)
+            value.pop("chain_depth", None)
+        json_write(first_control_path, legacy_first)
+        json_write(second_control, legacy_second)
+        inferred = extension_status(self.output)
+        self.assertEqual(inferred["active_operation_id"], second_operation)
+        self.assertEqual(inferred["parent_operation_id"], first_operation)
+        self.assertEqual(inferred["chain_depth"], 2)
+        json_write(first_control_path, saved_first)
+        json_write(second_control, saved_second)
+
+        drifted = json.loads(json.dumps(saved_second))
+        drifted["parent_operation_id"] = "scope-extension-missing-parent"
+        json_write(second_control, drifted)
+        with self.assertRaisesRegex(CkbError, "control-record-drift"):
+            extension_status(self.output)
+        json_write(second_control, saved_second)
+
+        duplicate_id = "scope-extension-duplicate-active"
+        duplicate_path = self.output.parent / f".{self.output.name}.scope-extension-{duplicate_id}.json"
+        duplicate = json.loads(json.dumps(saved_second))
+        duplicate["operation_id"] = duplicate_id
+        json_write(duplicate_path, duplicate)
+        with self.assertRaisesRegex(CkbError, "control-record-active-ambiguous"):
+            extension_status(self.output)
+        duplicate_path.unlink()
+
+        second_rollback = rollback_scope_extension(self.output)
+        self.assertEqual(second_rollback["operation_id"], second_operation)
+        self.assertEqual(second_rollback["reactivated_operation_id"], first_operation)
+        self.assertEqual(_tree_manifest(self.output), first_tree)
+        reactivated = extension_status(self.output)
+        self.assertEqual(reactivated["active_operation_id"], first_operation)
+        connection = sqlite3.connect(self.output / "machine/knowledge.sqlite")
+        try:
+            self.assertEqual(connection.execute("SELECT count(*) FROM entities WHERE qualified_name='first'").fetchone()[0], 1)
+            self.assertEqual(connection.execute("SELECT count(*) FROM entities WHERE qualified_name='second'").fetchone()[0], 1)
+            self.assertEqual(connection.execute("SELECT count(*) FROM entities WHERE qualified_name='third'").fetchone()[0], 0)
+            self.assertEqual(connection.execute("PRAGMA integrity_check").fetchone()[0], "ok")
+            self.assertEqual(connection.execute("PRAGMA foreign_key_check").fetchall(), [])
+        finally:
+            connection.close()
+        compatibility = sqlite3.connect(self.output / "agent-index.sqlite")
+        try:
+            self.assertEqual(compatibility.execute("PRAGMA integrity_check").fetchone()[0], "ok")
+            self.assertEqual(compatibility.execute("PRAGMA foreign_key_check").fetchall(), [])
+        finally:
+            compatibility.close()
+
+        first_rollback = rollback_scope_extension(self.output)
+        self.assertEqual(first_rollback["operation_id"], first_operation)
+        self.assertEqual(first_rollback["reactivated_operation_id"], None)
+        self.assertEqual(_tree_manifest(self.output), initial)
+        final_status = extension_status(self.output)
+        self.assertEqual(final_status["status"], "rolled-back")
+        self.assertEqual(final_status["active_operation_id"], None)
+        repeated = rollback_scope_extension(self.output)
+        self.assertTrue(repeated["idempotent"])
+        self.assertEqual(repeated["operation_id"], first_operation)
 
 
 if __name__ == "__main__":
