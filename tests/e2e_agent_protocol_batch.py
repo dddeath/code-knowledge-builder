@@ -9,6 +9,7 @@ import json
 import os
 from pathlib import Path
 import shutil
+import stat
 import subprocess
 import sys
 from typing import Any
@@ -145,7 +146,11 @@ def invoke(records: list[dict[str, Any]], *arguments: str, expected: set[int] = 
 
 def run(work_root: Path, report_path: Path) -> dict[str, Any]:
     if work_root.exists():
-        shutil.rmtree(work_root)
+        def remove_readonly(function, path, _error) -> None:
+            os.chmod(path, stat.S_IWRITE)
+            function(path)
+
+        shutil.rmtree(work_root, onexc=remove_readonly)
     work_root.mkdir(parents=True)
     previous_provider = os.environ.get("CKB_TEST_PROVIDER")
     os.environ["CKB_TEST_PROVIDER"] = "deterministic-fixture"
