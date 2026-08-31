@@ -79,7 +79,7 @@ class ScopeExtensionTest(unittest.TestCase):
         git(self.repo, "commit", "-m", "scope fixture")
         self.old_provider = os.environ.get("CKB_TEST_PROVIDER")
         os.environ["CKB_TEST_PROVIDER"] = "deterministic-fixture"
-        initialize(self.repo, self.output, "markdown", [], ["python:app.py#first"], 0, "both", [])
+        initialize(self.repo, self.output, "markdown", ["app.py"], ["python:app.py#first"], 0, "both", [])
         review_all(self.output)
         finalize(self.output)
         for vault in ("human", "markdown"):
