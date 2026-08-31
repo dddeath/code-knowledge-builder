@@ -14,12 +14,12 @@ import math
 from pathlib import Path
 import re
 import sqlite3
-import unicodedata
 from typing import Any, Iterable
 from urllib.parse import quote
 
 from .common import CkbError, json_load, json_write, sha256_file, utc_now
 from .obsidian import NOTE_DIRECTORIES
+from .query_terms import build_fts_query, explicit_anchors, index_terms, search_terms
 from .source_links import SourceLinkRenderer, source_markdown_link
 
 
@@ -57,52 +57,8 @@ def contains_chinese_narrative(value: Any, minimum_han: int = 2) -> bool:
     return len(re.findall(r"[\u3400-\u9fff]", value)) >= minimum_han
 
 
-def _split_camel(value: str) -> list[str]:
-    return [
-        part
-        for part in re.sub(r"([a-z0-9])([A-Z])", r"\1 \2", value).replace("::", " ").split()
-        if part
-    ]
-
-
-def search_terms(text: str) -> list[str]:
-    """Deterministic NFKC tokenizer for code identifiers and Chinese prose."""
-    normalized = unicodedata.normalize("NFKC", text)
-    terms: set[str] = set()
-    for run in re.findall(r"[A-Za-z0-9_.$:/\\#+-]+", normalized):
-        lowered = run.casefold().strip("._$:/\\#+-")
-        if len(lowered) >= 2:
-            terms.add(lowered)
-        for part in re.split(r"[._$:/\\#+-]+", run):
-            if len(part) >= 2:
-                terms.add(part.casefold())
-            for camel in _split_camel(part):
-                if len(camel) >= 2:
-                    terms.add(camel.casefold())
-    for run in re.findall(r"[\u3400-\u9fff]+", normalized):
-        if run:
-            terms.add(run)
-        for index in range(max(0, len(run) - 1)):
-            terms.add(run[index : index + 2])
-        for index in range(max(0, len(run) - 2)):
-            terms.add(run[index : index + 3])
-    return sorted(terms, key=lambda value: (-len(value), value))
-
-
-def explicit_anchors(text: str) -> list[str]:
-    normalized = unicodedata.normalize("NFKC", text)
-    anchors: set[str] = set()
-    for value in re.findall(r"[A-Za-z_][A-Za-z0-9_]*(?:(?:::|[./#$:-])[A-Za-z0-9_]+)+|[A-Za-z_][A-Za-z0-9_]{2,}", normalized):
-        if any(character.isupper() for character in value[1:]) or any(character in value for character in "_./#$:-") or any(character.isdigit() for character in value):
-            anchors.add(value.casefold())
-    return sorted(anchors)
-
-
 def _fts_query(question: str) -> str | None:
-    values = [term for term in search_terms(question) if len(term) >= 3][:16]
-    if not values:
-        return None
-    return " OR ".join('"' + value.replace('"', '""') + '"' for value in values)
+    return build_fts_query(question)
 
 
 def _human_projection(output: Path) -> tuple[dict[str, Any], Path]:
@@ -477,7 +433,7 @@ def build_machine_knowledge(
                 (path, 6.0),
                 (_description(entity), 4.0),
             ):
-                for term in search_terms(str(value)):
+                for term in index_terms(str(value)):
                     weighted[term] = max(weighted.get(term, 0.0), weight)
             connection.executemany(
                 "INSERT INTO terms VALUES(?,?,?)",
