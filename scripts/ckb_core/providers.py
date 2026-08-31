@@ -436,7 +436,7 @@ def _fallback_flags(repo: Path, language: str) -> tuple[list[str], dict[str, Any
         else ((r"(?<!X)C_STANDARD\s+([0-9]+)", r"c_std_([0-9]+)", r"-std=c([0-9]+)"), "c")
     )
     regexes, prefix = patterns
-    build_names = {"CMakeLists.txt", "meson.build", "Makefile", "makefile"}
+    build_names = {"CMakeLists.txt", "meson.build", "Makefile", "makefile", "SConstruct", "SConscript"}
     paths = [path for path in repo.rglob("*") if path.is_file() and (path.name in build_names or path.suffix.lower() in {".cmake", ".vcxproj", ".mk"})]
     for path in sorted(paths)[:500]:
         try:

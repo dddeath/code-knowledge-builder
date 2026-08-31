@@ -65,18 +65,34 @@ def provider_case(root: Path, language: str, relative: str, source: str, env: di
     }
 
 
-def clangd_case(root: Path, name: str, source: str, clangd: Path, mode: str) -> dict:
+def clangd_case(
+    root: Path,
+    name: str,
+    source: str,
+    clangd: Path,
+    mode: str,
+    *,
+    language: str = "c",
+    build_files: dict[str, str] | None = None,
+    expected_fallback_standard: str | None = None,
+) -> dict:
     repo = root / f"repo-{name}"
     repo.mkdir()
-    (repo / "main.c").write_text(source, encoding="utf-8", newline="\n")
+    relative = "main.cpp" if language == "cpp" else "main.c"
+    (repo / relative).write_text(source, encoding="utf-8", newline="\n")
+    for build_path, build_text in (build_files or {}).items():
+        target = repo / build_path
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(build_text, encoding="utf-8", newline="\n")
     if mode == "exact":
+        standard = "c++20" if language == "cpp" else "c17"
         (repo / "compile_commands.json").write_text(
             json.dumps(
                 [
                     {
                         "directory": str(repo.resolve()),
-                        "command": "clang -std=c17 -I. -c main.c",
-                        "file": "main.c",
+                        "command": f"clang -std={standard} -I. -c {relative}",
+                        "file": relative,
                     }
                 ],
                 indent=2,
@@ -101,8 +117,8 @@ def clangd_case(root: Path, name: str, source: str, clangd: Path, mode: str) -> 
     if built.returncode:
         return {"status": "failed", "case": name, "stage": "build", "exit_status": built.returncode, "stdout": built.stdout, "stderr": built.stderr}
     candidate = json.loads((output / "chunks" / chunk_id / "candidate.json").read_text(encoding="utf-8"))
-    provider = next(item for item in candidate["providers"] if item["language"] == "c")
-    declarations = {item["id"] for item in candidate["entities"] if item["kind"] != "file" and item["language"] == "c"}
+    provider = next(item for item in candidate["providers"] if item["language"] == language)
+    declarations = {item["id"] for item in candidate["entities"] if item["kind"] != "file" and item["language"] == language}
     covered = set(provider.get("covered_entity_ids", []))
     fatal_count = len(provider.get("fatal_diagnostics", [])) + len(provider.get("fatal_stderr", []))
     if mode == "failure":
@@ -112,11 +128,24 @@ def clangd_case(root: Path, name: str, source: str, clangd: Path, mode: str) -> 
             provider.get("status") == "passed"
             and provider.get("precision") == mode
             and declarations <= covered
-            and provider.get("document_symbol_counts", {}).get("main.c", 0) > 0
+            and provider.get("document_symbol_counts", {}).get(relative, 0) > 0
         )
+        initialization = provider.get("initialization_options", {})
+        if mode == "exact":
+            passed = passed and "compilationDatabasePath" in initialization and "fallbackFlags" not in initialization
+        if expected_fallback_standard is not None:
+            fallback_evidence = initialization.get("fallbackEvidence", {})
+            matches = fallback_evidence.get("matches", [])
+            passed = passed and (
+                initialization.get("fallbackFlags") == ["-x", "c++" if language == "cpp" else "c", f"-std={expected_fallback_standard}"]
+                and fallback_evidence.get("selected") == expected_fallback_standard
+                and fallback_evidence.get("resolution") == "build-config-unique"
+                and {item.get("path") for item in matches} == {"SConstruct", "src/SConscript"}
+            )
     return {
         "status": "passed" if passed else "failed",
         "case": name,
+        "language": language,
         "expected": mode,
         "provider": provider,
         "declaration_count": len(declarations),
@@ -234,9 +263,52 @@ def main() -> int:
             args.clangd,
             "failure",
         )
+        scons_build_files = {
+            "SConstruct": "env = Environment(CXXFLAGS=['-std=c++20'])\nenv.SConscript('src/SConscript')\n",
+            "src/SConscript": "env.Append(CXXFLAGS=['-std=c++20'])\n",
+        }
+        clangd_cpp_exact = clangd_case(
+            root,
+            "cpp-exact-with-scons",
+            "template <typename T> class Box {};\ntemplate class Box<int>;\nint public_service(int value) { return value + 1; }\n",
+            args.clangd,
+            "exact",
+            language="cpp",
+            build_files=scons_build_files,
+        )
+        clangd_cpp_scons_bounded = clangd_case(
+            root,
+            "cpp-scons-bounded",
+            "#ifndef NDEBUG\ntemplate <typename T> class Box {};\ntemplate class Box<int>;\n#endif\nint public_service(int value) { return value + 1; }\n",
+            args.clangd,
+            "bounded-approximate",
+            language="cpp",
+            build_files=scons_build_files,
+            expected_fallback_standard="c++20",
+        )
+        clangd_cpp_missing_header = clangd_case(
+            root,
+            "cpp-missing-header",
+            '#include "missing_project_header.hpp"\nint public_service() { return 1; }\n',
+            args.clangd,
+            "failure",
+            language="cpp",
+            build_files=scons_build_files,
+        )
         csharp_exact = csharp_case(root, args.csharp_ls, args.dotnet, "exact")
         csharp_bounded = csharp_case(root, args.csharp_ls, args.dotnet, "bounded")
-    providers = [pyright, javascript, clangd_exact, clangd_bounded, clangd_missing_header, csharp_exact, csharp_bounded]
+    providers = [
+        pyright,
+        javascript,
+        clangd_exact,
+        clangd_bounded,
+        clangd_missing_header,
+        clangd_cpp_exact,
+        clangd_cpp_scons_bounded,
+        clangd_cpp_missing_header,
+        csharp_exact,
+        csharp_bounded,
+    ]
     record = {
         "status": "passed" if all(item["status"] == "passed" for item in providers) else "failed",
         "providers": providers,
