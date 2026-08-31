@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "current_version": "1.5.0",
+  "fixtures": [
+    {
+      "version": "1.0.0",
+      "source_commit": "c0e6cb650d707512d0edbcc481db373359a8f46f",
+      "upgrade_path": ["1.0.0", "1.3.0", "1.4.0", "1.5.0"],
+      "output_contract": false
+    },
+    {
+      "version": "1.3.0",
+      "source_commit": "3f117b8a3565b24633b88799a3ee180d6b3451ab",
+      "upgrade_path": ["1.3.0", "1.4.0", "1.5.0"],
+      "output_contract": true
+    },
+    {
+      "version": "1.4.0",
+      "source_commit": "02b3f9bae10663f8d8d41626bb52454a226d4228",
+      "upgrade_path": ["1.4.0", "1.5.0"],
+      "output_contract": true
+    },
+    {
+      "version": "1.5.0",
+      "source_commit": "2d1ddc4de65c36c2ebe244e3d0556d4b613b2d3d",
+      "upgrade_path": ["1.5.0"],
+      "output_contract": true
+    }
+  ],
+  "unsupported": ["0.9.0", "1.1.0", "1.2.0", "2.0.0"]
+}
