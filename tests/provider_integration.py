@@ -122,11 +122,12 @@ def clangd_case(
     covered = set(provider.get("covered_entity_ids", []))
     fatal_count = len(provider.get("fatal_diagnostics", [])) + len(provider.get("fatal_stderr", []))
     if mode == "failure":
-        passed = provider.get("status") == "failed" and fatal_count > 0
+        passed = provider.get("status") == "failed" and fatal_count > 0 and provider.get("exit_status") == 0
     else:
         passed = (
             provider.get("status") == "passed"
             and provider.get("precision") == mode
+            and provider.get("exit_status") == 0
             and declarations <= covered
             and provider.get("document_symbol_counts", {}).get(relative, 0) > 0
         )
