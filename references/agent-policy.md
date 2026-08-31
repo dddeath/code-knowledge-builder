@@ -127,6 +127,8 @@
 
 省略 `plan --write` 时只向标准输出返回稳定 JSON，目标知识库零写入。`BATCH-STATE.json` 必须位于所有目标 `OUTPUT` 之外；每个项目使用独立 OUTPUT 锁、备份和原子替换。单库审计失败时立即恢复该库的原始受管字节，其他库继续执行。再次运行同一 `apply` 时，已成功且摘要一致的项目返回 `skipped`，中断在 `applying` 的项目先核对当前文件只包含 baseline 或本批 desired 字节，再恢复 baseline 并续跑。
 
+OUTPUT 锁使用 schema 1 有界 JSON，记录 owner PID、owner token、进程启动标识、主机名和创建时间，并在持有期保留操作系统级 descriptor lock。超过 stale 阈值本身不触发回收：活 owner 始终返回 busy；PID 无法核验或跨主机时保持 busy；只有旧锁超过阈值且已确认 owner 死亡、PID 已复用，或损坏记录满足 stale 恢复条件时才在已获取 descriptor lock 后原位接管。释放时再次核对文件身份和 owner token，token 漂移或文件被替换时保留对方锁并返回固定失败分类。旧版 PID-only 锁仍会先核验 PID；活 PID 不因旧 mtime 被接管。
+
 workspace 指令文件必须含一对规范 marker。重复 marker、破损 marker、声明旧版本与管理区内容不一致，以及管理区中混入用户文本都会在 plan 阶段失败。升级只替换 marker 内的 CKB 管理区；marker 外 UTF-8/BOM、中文、空行、前后章节和换行字节保持不变，文件权限保持原值。内部生成适配器、Obsidian 忽略规则、隐藏 CSS 和插件存在时的 `.ckb/output-contract.json` 与目标协议一起更新。
 
 `rollback` 默认选择所有已完成项目，也可重复给出 `--project` 只恢复子集。它先要求当前受管摘要仍等于本批次 `applied_digest`；批次后的用户修改会返回 `rollback-external-drift`，不会被覆盖。成功回滚从已核验备份恢复原始存在性、字节和权限。批次 state 和 operation journal 只保存固定 ID、版本、摘要、状态、失败类别与证据路径；不保存 prompt、secret、token、transcript 或用户文档正文。

@@ -5,8 +5,10 @@ import json
 import os
 from pathlib import Path
 import stat
+import subprocess
 import sys
 import tempfile
+import time
 import unittest
 from unittest.mock import patch
 
@@ -432,8 +434,177 @@ class AgentProtocolBatchApplyTests(unittest.TestCase):
             with patch.object(batch_module, "LOCK_TIMEOUT_SECONDS", 0.01):
                 result = apply_batch_plan(plan_path, state_path)
             self.assertEqual(result["status"], "failed")
-            self.assertEqual(result["projects"][0]["failure"]["category"], "concurrent-output-lock")
+            self.assertEqual(result["projects"][0]["failure"]["category"], "output-lock-record-invalid")
             self.assertEqual(json.loads((output / "workspace-meta/agent-protocol.json").read_text(encoding="utf-8"))["protocol_version"], "1.4.0")
+
+    def test_live_cross_process_owner_is_not_stolen_after_stale_threshold(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="ckb-agent-policy-live-lock-") as value:
+            root = Path(value)
+            output, _manifest, _workspace = create_protocol_fixture(root, "1.4.0")
+            ready = root / "holder-ready"
+            release = root / "holder-release"
+            code = r"""
+from pathlib import Path
+import json,os,sys,time
+sys.path.insert(0, sys.argv[1])
+import ckb_core.agent_protocol_batch as batch
+batch.LOCK_STALE_SECONDS = 0.10
+batch.LOCK_TIMEOUT_SECONDS = 1.0
+with batch._output_lock(Path(sys.argv[2])) as acquired:
+    Path(sys.argv[3]).write_text(json.dumps({'owner_pid': os.getpid(), 'owner_token': acquired['owner_token']}), encoding='utf-8')
+    while not Path(sys.argv[4]).exists():
+        time.sleep(0.02)
+"""
+            holder = subprocess.Popen(
+                [sys.executable, "-X", "utf8", "-c", code, str((ROOT / "scripts").resolve()), str(output), str(ready), str(release)],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                encoding="utf-8",
+            )
+            try:
+                deadline = time.monotonic() + 5.0
+                while not ready.is_file() and time.monotonic() < deadline:
+                    time.sleep(0.02)
+                self.assertTrue(ready.is_file(), holder.poll())
+                record = json.loads(ready.read_text(encoding="utf-8"))
+                self.assertNotEqual(record["owner_pid"], os.getpid())
+                lock = output / "workspace-meta/agent-policy-batch.lock"
+                before = lock.stat()
+                time.sleep(0.25)
+                with (
+                    patch.object(batch_module, "LOCK_STALE_SECONDS", 0.10),
+                    patch.object(batch_module, "LOCK_TIMEOUT_SECONDS", 0.08),
+                ):
+                    with self.assertRaises(batch_module.BatchProjectError) as caught:
+                        with batch_module._output_lock(output):
+                            self.fail("second process acquired a live OUTPUT lock")
+                self.assertEqual(caught.exception.category, "concurrent-output-lock")
+                after = lock.stat()
+                self.assertEqual((after.st_ino, after.st_size, after.st_mtime_ns), (before.st_ino, before.st_size, before.st_mtime_ns))
+            finally:
+                release.write_text("release", encoding="ascii")
+                stdout, stderr = holder.communicate(timeout=10)
+                self.assertEqual(holder.returncode, 0, stdout + stderr)
+            self.assertFalse((output / "workspace-meta/agent-policy-batch.lock").exists())
+
+    def test_dead_cross_process_owner_is_recovered_only_after_stale_threshold(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="ckb-agent-policy-dead-lock-") as value:
+            root = Path(value)
+            output, _manifest, _workspace = create_protocol_fixture(root, "1.4.0")
+            ready = root / "dead-ready"
+            code = r"""
+from pathlib import Path
+import os,sys
+sys.path.insert(0, sys.argv[1])
+import ckb_core.agent_protocol_batch as batch
+with batch._output_lock(Path(sys.argv[2])):
+    Path(sys.argv[3]).write_text('ready', encoding='ascii')
+    os._exit(0)
+"""
+            holder = subprocess.Popen(
+                [sys.executable, "-X", "utf8", "-c", code, str((ROOT / "scripts").resolve()), str(output), str(ready)],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                encoding="utf-8",
+            )
+            stdout, stderr = holder.communicate(timeout=10)
+            self.assertEqual(holder.returncode, 0, stdout + stderr)
+            lock = output / "workspace-meta/agent-policy-batch.lock"
+            self.assertTrue(lock.is_file())
+            recent = time.time()
+            os.utime(lock, (recent, recent))
+            with (
+                patch.object(batch_module, "LOCK_STALE_SECONDS", 5.0),
+                patch.object(batch_module, "LOCK_TIMEOUT_SECONDS", 0.05),
+            ):
+                with self.assertRaises(batch_module.BatchProjectError) as caught:
+                    with batch_module._output_lock(output):
+                        self.fail("recent dead-owner lock was recovered before stale threshold")
+            self.assertEqual(caught.exception.category, "output-lock-owner-dead")
+            old = time.time() - 10.0
+            os.utime(lock, (old, old))
+            with patch.object(batch_module, "LOCK_STALE_SECONDS", 0.10):
+                with batch_module._output_lock(output) as acquired:
+                    self.assertEqual(acquired["recovered_category"], "output-lock-owner-dead")
+            self.assertFalse(lock.exists())
+
+    def test_corrupt_pid_reused_unverifiable_and_release_drift_are_classified(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="ckb-agent-policy-lock-categories-") as value:
+            root = Path(value)
+            output, _manifest, _workspace = create_protocol_fixture(root, "1.4.0")
+            lock = output / "workspace-meta/agent-policy-batch.lock"
+
+            old = time.time() - 10.0
+            lock.write_text(str(os.getpid()), encoding="ascii")
+            os.utime(lock, (old, old))
+            with (
+                patch.object(batch_module, "LOCK_STALE_SECONDS", 0.10),
+                patch.object(batch_module, "LOCK_TIMEOUT_SECONDS", 0.01),
+            ):
+                with self.assertRaises(batch_module.BatchProjectError) as legacy_live:
+                    with batch_module._output_lock(output):
+                        self.fail("legacy PID-only lock with live owner was recovered")
+            self.assertEqual(legacy_live.exception.category, "output-lock-legacy-owner-live")
+            self.assertEqual(lock.read_text(encoding="ascii"), str(os.getpid()))
+            lock.unlink()
+
+            lock.write_text("{broken-json", encoding="utf-8")
+            with (
+                patch.object(batch_module, "LOCK_STALE_SECONDS", 5.0),
+                patch.object(batch_module, "LOCK_TIMEOUT_SECONDS", 0.01),
+            ):
+                with self.assertRaises(batch_module.BatchProjectError) as corrupt_recent:
+                    with batch_module._output_lock(output):
+                        self.fail("recent corrupt lock was recovered")
+            self.assertEqual(corrupt_recent.exception.category, "output-lock-record-invalid")
+            os.utime(lock, (old, old))
+            with patch.object(batch_module, "LOCK_STALE_SECONDS", 0.10):
+                with batch_module._output_lock(output) as recovered:
+                    self.assertEqual(recovered["recovered_category"], "output-lock-record-invalid-stale")
+
+            state, process_start = batch_module._process_start_identity(os.getpid())
+            self.assertEqual(state, "alive")
+            reused = {
+                "schema_version": batch_module.OUTPUT_LOCK_SCHEMA_VERSION,
+                "owner_pid": os.getpid(),
+                "owner_token": "a" * 32,
+                "owner_process_start": process_start + "-different",
+                "owner_host": batch_module.socket.gethostname(),
+                "created_at_utc": "2026-09-01T00:00:00Z",
+            }
+            json_write(lock, reused)
+            os.utime(lock, (old, old))
+            with patch.object(batch_module, "LOCK_STALE_SECONDS", 0.10):
+                with batch_module._output_lock(output) as recovered:
+                    self.assertEqual(recovered["recovered_category"], "output-lock-owner-pid-reused")
+
+            valid = dict(reused)
+            valid["owner_process_start"] = str(process_start)
+            json_write(lock, valid)
+            os.utime(lock, (old, old))
+            with (
+                patch.object(batch_module, "_process_start_identity", return_value=("unverifiable", None)),
+                patch.object(batch_module, "LOCK_STALE_SECONDS", 0.10),
+                patch.object(batch_module, "LOCK_TIMEOUT_SECONDS", 0.01),
+            ):
+                with self.assertRaises(batch_module.BatchProjectError) as unverifiable:
+                    with batch_module._output_lock(output):
+                        self.fail("unverifiable owner was recovered")
+            self.assertEqual(unverifiable.exception.category, "output-lock-owner-unverifiable")
+            self.assertTrue(lock.is_file())
+            lock.unlink()
+
+            with self.assertRaises(batch_module.BatchProjectError) as release_drift:
+                with batch_module._output_lock(output) as acquired:
+                    own = json.loads(batch_module._descriptor_bytes(acquired["_descriptor"]).decode("utf-8"))
+                    own["owner_token"] = "f" * 32
+                    batch_module._write_lock_descriptor(acquired["_descriptor"], own)
+            self.assertEqual(release_drift.exception.category, "output-lock-release-owner-token-drift")
+            self.assertTrue(lock.is_file())
+            self.assertEqual(json.loads(lock.read_text(encoding="utf-8"))["owner_token"], "f" * 32)
+            lock.unlink()
 
     def test_single_project_rollback_restores_bytes_modes_and_source_version(self) -> None:
         with tempfile.TemporaryDirectory(prefix="ckb-agent-policy-batch-rollback-") as value:

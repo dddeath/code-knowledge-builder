@@ -9,9 +9,11 @@ import json
 import os
 from pathlib import Path
 import re
+import socket
 import stat
 import time
 from typing import Any
+import uuid
 
 from .agent_protocol import (
     ADAPTER_PATHS,
@@ -55,6 +57,11 @@ MAX_WORKSPACE_ROOTS = 32
 MAX_STATE_EVENTS = 256
 LOCK_TIMEOUT_SECONDS = 5.0
 LOCK_STALE_SECONDS = 60.0
+OUTPUT_LOCK_SCHEMA_VERSION = 1
+OUTPUT_LOCK_FIELDS = frozenset(
+    {"schema_version", "owner_pid", "owner_token", "owner_process_start", "owner_host", "created_at_utc"}
+)
+OWNER_TOKEN_PATTERN = re.compile(r"^[0-9a-f]{32}$")
 
 
 @dataclass(frozen=True)
@@ -957,32 +964,296 @@ def _commit_desired(desired: dict[str, bytes | None]) -> None:
             raise BatchProjectError("atomic-write-verification-failed", f"managed file did not reopen exactly: {path}")
 
 
+def _descriptor_lock(descriptor: int) -> bool:
+    """Acquire one OS-released byte-range/advisory lock without waiting."""
+    if os.name == "nt":
+        import msvcrt
+
+        os.lseek(descriptor, 0, os.SEEK_SET)
+        try:
+            msvcrt.locking(descriptor, msvcrt.LK_NBLCK, 1)
+            return True
+        except OSError:
+            return False
+    import fcntl
+
+    try:
+        fcntl.flock(descriptor, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        return True
+    except (BlockingIOError, OSError):
+        return False
+
+
+def _descriptor_unlock(descriptor: int) -> None:
+    if os.name == "nt":
+        import msvcrt
+
+        os.lseek(descriptor, 0, os.SEEK_SET)
+        msvcrt.locking(descriptor, msvcrt.LK_UNLCK, 1)
+        return
+    import fcntl
+
+    fcntl.flock(descriptor, fcntl.LOCK_UN)
+
+
+def _descriptor_bytes(descriptor: int) -> bytes:
+    os.lseek(descriptor, 0, os.SEEK_SET)
+    chunks: list[bytes] = []
+    while True:
+        block = os.read(descriptor, 4096)
+        if not block:
+            return b"".join(chunks)
+        chunks.append(block)
+
+
+def _write_lock_descriptor(descriptor: int, record: dict[str, Any]) -> None:
+    value = _json_bytes(record)
+    os.lseek(descriptor, 0, os.SEEK_SET)
+    os.ftruncate(descriptor, 0)
+    offset = 0
+    while offset < len(value):
+        offset += os.write(descriptor, value[offset:])
+    os.fsync(descriptor)
+
+
+def _process_start_identity(pid: int) -> tuple[str, str | None]:
+    """Return alive/dead/unverifiable plus a PID-reuse-resistant start identity."""
+    if pid < 1:
+        return "dead", None
+    if os.name == "nt":
+        import ctypes
+        from ctypes import wintypes
+
+        process_query_limited_information = 0x1000
+        kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
+        kernel32.OpenProcess.argtypes = [wintypes.DWORD, wintypes.BOOL, wintypes.DWORD]
+        kernel32.OpenProcess.restype = wintypes.HANDLE
+        kernel32.GetProcessTimes.argtypes = [
+            wintypes.HANDLE,
+            ctypes.POINTER(wintypes.FILETIME),
+            ctypes.POINTER(wintypes.FILETIME),
+            ctypes.POINTER(wintypes.FILETIME),
+            ctypes.POINTER(wintypes.FILETIME),
+        ]
+        kernel32.GetProcessTimes.restype = wintypes.BOOL
+        kernel32.GetExitCodeProcess.argtypes = [wintypes.HANDLE, ctypes.POINTER(wintypes.DWORD)]
+        kernel32.GetExitCodeProcess.restype = wintypes.BOOL
+        kernel32.CloseHandle.argtypes = [wintypes.HANDLE]
+        handle = kernel32.OpenProcess(process_query_limited_information, False, pid)
+        if not handle:
+            error = ctypes.get_last_error()
+            return ("dead", None) if error in {87, 1168} else ("unverifiable", None)
+        try:
+            exit_code = wintypes.DWORD()
+            if not kernel32.GetExitCodeProcess(handle, ctypes.byref(exit_code)):
+                return "unverifiable", None
+            if int(exit_code.value) != 259:  # STILL_ACTIVE
+                return "dead", None
+            created = wintypes.FILETIME()
+            exited = wintypes.FILETIME()
+            kernel = wintypes.FILETIME()
+            user = wintypes.FILETIME()
+            if not kernel32.GetProcessTimes(handle, created, exited, kernel, user):
+                return "unverifiable", None
+            identity = (int(created.dwHighDateTime) << 32) | int(created.dwLowDateTime)
+            return "alive", str(identity)
+        finally:
+            kernel32.CloseHandle(handle)
+    proc_stat = Path(f"/proc/{pid}/stat")
+    if proc_stat.is_file():
+        try:
+            fields = proc_stat.read_text(encoding="ascii").split()
+            return "alive", fields[21] if len(fields) > 21 else None
+        except (OSError, UnicodeError):
+            return "unverifiable", None
+    try:
+        os.kill(pid, 0)
+    except ProcessLookupError:
+        return "dead", None
+    except (PermissionError, OSError):
+        return "unverifiable", None
+    return "unverifiable", None
+
+
+def _new_output_lock_record(owner_token: str) -> dict[str, Any]:
+    state, identity = _process_start_identity(os.getpid())
+    if state != "alive" or not identity:
+        raise BatchProjectError(
+            "output-lock-owner-identity-unavailable",
+            f"current process identity is unavailable for OUTPUT lock: {os.getpid()}",
+        )
+    return {
+        "schema_version": OUTPUT_LOCK_SCHEMA_VERSION,
+        "owner_pid": os.getpid(),
+        "owner_token": owner_token,
+        "owner_process_start": identity,
+        "owner_host": socket.gethostname(),
+        "created_at_utc": utc_now(),
+    }
+
+
+def _parse_output_lock(value: bytes) -> tuple[dict[str, Any] | None, str | None]:
+    try:
+        record = json.loads(value.decode("utf-8-sig"))
+    except (UnicodeDecodeError, json.JSONDecodeError):
+        return None, "output-lock-record-invalid"
+    if not isinstance(record, dict) or set(record) != OUTPUT_LOCK_FIELDS:
+        return None, "output-lock-record-invalid"
+    if record.get("schema_version") != OUTPUT_LOCK_SCHEMA_VERSION:
+        return None, "output-lock-record-invalid"
+    if not isinstance(record.get("owner_pid"), int) or record["owner_pid"] < 1:
+        return None, "output-lock-record-invalid"
+    if not isinstance(record.get("owner_token"), str) or not OWNER_TOKEN_PATTERN.fullmatch(record["owner_token"]):
+        return None, "output-lock-record-invalid"
+    for field in ("owner_process_start", "owner_host", "created_at_utc"):
+        if not isinstance(record.get(field), str) or not record[field] or len(record[field]) > 128:
+            return None, "output-lock-record-invalid"
+    return record, None
+
+
+def _lock_owner_state(record: dict[str, Any]) -> str:
+    if record["owner_host"] != socket.gethostname():
+        return "output-lock-owner-unverifiable"
+    state, identity = _process_start_identity(int(record["owner_pid"]))
+    if state == "dead":
+        return "output-lock-owner-dead"
+    if state != "alive" or not identity:
+        return "output-lock-owner-unverifiable"
+    if identity != record["owner_process_start"]:
+        return "output-lock-owner-pid-reused"
+    return "concurrent-output-lock"
+
+
+def _legacy_lock_owner_state(value: bytes) -> str | None:
+    """Treat the former PID-only record conservatively during one-way recovery."""
+    try:
+        text = value.decode("ascii").strip()
+        pid = int(text)
+    except (UnicodeDecodeError, ValueError):
+        return None
+    state, _identity = _process_start_identity(pid)
+    if state == "alive":
+        return "output-lock-legacy-owner-live"
+    if state == "dead":
+        return "output-lock-legacy-owner-dead"
+    return "output-lock-owner-unverifiable"
+
+
+def _same_lock_file(lock: Path, descriptor: int) -> bool:
+    try:
+        left = os.fstat(descriptor)
+        right = lock.stat()
+    except FileNotFoundError:
+        return False
+    return (left.st_dev, left.st_ino) == (right.st_dev, right.st_ino)
+
+
+def _release_output_lock(lock: Path, descriptor: int, owner_token: str) -> None:
+    category: str | None = None
+    try:
+        if not _same_lock_file(lock, descriptor):
+            category = "output-lock-release-file-replaced"
+        else:
+            record, invalid = _parse_output_lock(_descriptor_bytes(descriptor))
+            if invalid or record is None or record.get("owner_token") != owner_token:
+                category = "output-lock-release-owner-token-drift"
+    finally:
+        _descriptor_unlock(descriptor)
+        os.close(descriptor)
+    if category is None:
+        try:
+            record, invalid = _parse_output_lock(lock.read_bytes())
+        except FileNotFoundError:
+            category = "output-lock-release-missing"
+        else:
+            if invalid or record is None or record.get("owner_token") != owner_token:
+                category = "output-lock-release-owner-token-drift"
+            else:
+                lock.unlink()
+    if category:
+        raise BatchProjectError(category, f"OUTPUT lock ownership changed before release: {lock}")
+
+
 @contextmanager
 def _output_lock(output: Path):
     lock = output.resolve() / "workspace-meta/agent-policy-batch.lock"
     lock.parent.mkdir(parents=True, exist_ok=True)
     deadline = time.monotonic() + LOCK_TIMEOUT_SECONDS
+    owner_token = uuid.uuid4().hex
     descriptor: int | None = None
+    recovered_category: str | None = None
+    last_category = "concurrent-output-lock"
     while descriptor is None:
+        created = False
         try:
-            descriptor = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
-            os.write(descriptor, str(os.getpid()).encode("ascii"))
+            candidate = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_RDWR, 0o600)
+            created = True
+            os.write(candidate, b" ")
         except FileExistsError:
             try:
-                if time.time() - lock.stat().st_mtime > LOCK_STALE_SECONDS:
-                    lock.unlink(missing_ok=True)
-                    continue
+                candidate = os.open(lock, os.O_RDWR)
             except FileNotFoundError:
                 continue
+        if not _descriptor_lock(candidate):
+            os.close(candidate)
+            last_category = "concurrent-output-lock"
+        elif not _same_lock_file(lock, candidate):
+            _descriptor_unlock(candidate)
+            os.close(candidate)
+            continue
+        elif created:
+            _write_lock_descriptor(candidate, _new_output_lock_record(owner_token))
+            descriptor = candidate
+        else:
+            age = max(0.0, time.time() - os.fstat(candidate).st_mtime)
+            record, invalid = _parse_output_lock(_descriptor_bytes(candidate))
+            if invalid or record is None:
+                legacy_state = _legacy_lock_owner_state(_descriptor_bytes(candidate))
+                last_category = legacy_state or "output-lock-record-invalid"
+                recover = age > LOCK_STALE_SECONDS and last_category in {
+                    "output-lock-legacy-owner-dead",
+                    "output-lock-record-invalid",
+                }
+                recovered_category = (
+                    "output-lock-record-invalid-stale"
+                    if recover and last_category == "output-lock-record-invalid"
+                    else last_category if recover else None
+                )
+            else:
+                last_category = _lock_owner_state(record)
+                recover = age > LOCK_STALE_SECONDS and last_category in {
+                    "output-lock-owner-dead",
+                    "output-lock-owner-pid-reused",
+                }
+                recovered_category = last_category if recover else None
+            if recover:
+                _write_lock_descriptor(candidate, _new_output_lock_record(owner_token))
+                descriptor = candidate
+            else:
+                _descriptor_unlock(candidate)
+                os.close(candidate)
+        if descriptor is None:
             if time.monotonic() >= deadline:
-                raise BatchProjectError("concurrent-output-lock", f"Agent Protocol batch OUTPUT is busy: {output}")
+                raise BatchProjectError(last_category, f"Agent Protocol batch OUTPUT is busy: {output}")
             time.sleep(0.05)
+    body_error = False
     try:
-        yield
+        yield {
+            "schema_version": OUTPUT_LOCK_SCHEMA_VERSION,
+            "owner_pid": os.getpid(),
+            "owner_token": owner_token,
+            "recovered_category": recovered_category,
+            "_descriptor": descriptor,
+        }
+    except BaseException:
+        body_error = True
+        raise
     finally:
-        if descriptor is not None:
-            os.close(descriptor)
-        lock.unlink(missing_ok=True)
+        try:
+            _release_output_lock(lock, descriptor, owner_token)
+        except BatchProjectError:
+            if not body_error:
+                raise
 
 
 def _append_state_event(state: dict[str, Any], project_id: str, action: str, status: str, category: str | None = None) -> None:
