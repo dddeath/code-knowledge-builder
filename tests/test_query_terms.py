@@ -8,10 +8,13 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
+from ckb_core.agent_index import _fts_query as compatibility_fts_query  # noqa: E402
+from ckb_core.agent_index import search_terms as compatibility_search_terms  # noqa: E402
 from ckb_core.machine_knowledge import _fts_query  # noqa: E402
 from ckb_core.query_terms import (  # noqa: E402
     DEFAULT_FTS_TERM_LIMIT,
     MAX_QUERY_TERMS,
+    build_fts_query,
     explicit_anchors,
     fts_query_terms,
     index_terms,
@@ -89,6 +92,13 @@ class QueryTermsTests(unittest.TestCase):
         terms = search_terms("落盘")
         self.assertNotIn("保存", terms)
         self.assertNotIn("写入", terms)
+
+    def test_compatibility_index_uses_the_same_rules_and_negative_boundary(self) -> None:
+        value = "OrderService 服务修改"
+        self.assertEqual(compatibility_search_terms(value), search_terms(value))
+        self.assertEqual(compatibility_fts_query(value), build_fts_query(value, 12))
+        self.assertIsNone(compatibility_fts_query("！？...中"))
+        self.assertNotIn('"包不满"', compatibility_fts_query("打包不满足") or "")
 
     def test_negative_limits_fail_closed(self) -> None:
         with self.assertRaises(ValueError):
