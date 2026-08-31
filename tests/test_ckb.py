@@ -52,7 +52,8 @@ from ckb_core.pipeline import (
     _audit_markdown,
     _logical_projection,
 )
-from ckb_core.providers import _fallback_flags, _provider_status
+from ckb_core.parsers import parse_file
+from ckb_core.providers import _fallback_flags, _provider_spec, _provider_status
 from ckb_core.stdio_server import _record_explanation, serve_stdio
 from ckb_core.work_record_index import audit_work_record_index, refresh_work_record_index
 
@@ -2125,6 +2126,108 @@ public partial class Core {
         changed = stable_id("entity", "commit", "path", 1, 3)
         self.assertEqual(first, second)
         self.assertNotEqual(first, changed)
+
+
+class CppParserAndSconsTests(unittest.TestCase):
+    FIXTURES = SKILL_ROOT / "tests" / "fixtures" / "cpp-parser-scons"
+
+    def setUp(self) -> None:
+        self.temp = tempfile.TemporaryDirectory(prefix="ckb-cpp-parser-")
+        self.root = Path(self.temp.name)
+
+    def tearDown(self) -> None:
+        self.temp.cleanup()
+
+    def parse_fixture(self, name: str) -> dict:
+        path = self.FIXTURES / name
+        source = path.read_bytes()
+        return parse_file(
+            {"commit": "cpp-parser-fixture"},
+            {"id": f"file-{name}", "path": name, "blob": hashlib.sha1(source).hexdigest(), "language": "cpp"},
+            source,
+        )
+
+    def test_cpp_conditional_compilation_valid_and_incomplete(self) -> None:
+        valid = self.parse_fixture("conditional-valid.cpp")
+        self.assertEqual(valid["parse"]["status"], "passed")
+        debug_value = next(entity for entity in valid["entities"] if entity["name"] == "debug_value")
+        self.assertEqual(debug_value["kind"], "function")
+        self.assertEqual((debug_value["range"]["start_line"], debug_value["range"]["end_line"]), (2, 4))
+
+        invalid = self.parse_fixture("conditional-incomplete.cpp")
+        self.assertEqual(invalid["parse"]["status"], "failed")
+        self.assertTrue(invalid["parse"]["has_error"])
+
+    def test_cpp_reference_direct_initialization_is_declaration_not_function(self) -> None:
+        valid = self.parse_fixture("reference-direct-init-valid.cpp")
+        self.assertEqual(valid["parse"]["status"], "passed")
+        named_x = [entity for entity in valid["entities"] if entity["name"] == "x"]
+        self.assertEqual([(entity["kind"], entity["qualified_name"]) for entity in named_x], [("declaration", "bind_reference.x")])
+
+        invalid = self.parse_fixture("reference-direct-init-incomplete.cpp")
+        self.assertEqual(invalid["parse"]["status"], "failed")
+        self.assertTrue(invalid["parse"]["has_error"])
+
+    def test_cpp_explicit_template_instantiation_has_no_pseudo_entities(self) -> None:
+        valid = self.parse_fixture("explicit-instantiation-valid.cpp")
+        self.assertEqual(valid["parse"]["status"], "passed")
+        declarations = [
+            (entity["kind"], entity["qualified_name"], entity["range"]["start_line"])
+            for entity in valid["entities"]
+            if entity["kind"] != "file"
+        ]
+        self.assertEqual(declarations, [("class", "Box", 1), ("function", "run", 3)])
+        self.assertEqual(valid["parse"]["raw_has_error"], True)
+        self.assertEqual(
+            [item["kind"] for item in valid["parse"]["recoveries"]],
+            ["tree-sitter-cpp-explicit-class-template-instantiation"],
+        )
+
+        invalid = self.parse_fixture("explicit-instantiation-incomplete.cpp")
+        self.assertEqual(invalid["parse"]["status"], "failed")
+        self.assertTrue(invalid["parse"]["has_error"])
+
+    def test_scons_fallback_is_auditable_and_compile_database_stays_exact(self) -> None:
+        repo = self.root / "scons"
+        shutil.copytree(self.FIXTURES / "scons-project", repo)
+        flags, evidence = _fallback_flags(repo, "cpp")
+        self.assertEqual(flags, ["-x", "c++", "-std=c++20"])
+        self.assertEqual(evidence["resolution"], "build-config-unique")
+        self.assertEqual(evidence["candidates"], ["c++20"])
+        self.assertEqual(evidence["selected"], "c++20")
+        self.assertEqual(
+            [(item["path"], item["match"], item["standard"]) for item in evidence["matches"]],
+            [
+                ("SConstruct", "-std=c++20", "c++20"),
+                ("src/SConscript", "-std=c++20", "c++20"),
+            ],
+        )
+
+        no_evidence = self.root / "scons-no-evidence"
+        no_evidence.mkdir()
+        write(no_evidence / "SConstruct", "env = Environment()")
+        default_flags, default_evidence = _fallback_flags(no_evidence, "cpp")
+        self.assertEqual(default_flags, ["-x", "c++", "-std=c++17"])
+        self.assertEqual(default_evidence["resolution"], "fallback-no-evidence")
+
+        ambiguous = self.root / "scons-ambiguous"
+        ambiguous.mkdir()
+        write(ambiguous / "SConstruct", "env = Environment(CXXFLAGS=['-std=c++20'])")
+        write(ambiguous / "src" / "SConscript", "env.Append(CXXFLAGS=['-std=c++23'])")
+        ambiguous_flags, ambiguous_evidence = _fallback_flags(ambiguous, "cpp")
+        self.assertEqual(ambiguous_flags, ["-x", "c++", "-std=c++17"])
+        self.assertEqual(ambiguous_evidence["resolution"], "fallback-ambiguous-evidence")
+        self.assertEqual(ambiguous_evidence["candidates"], ["c++20", "c++23"])
+
+        with patch("ckb_core.providers.resolve_executable", return_value="clangd"):
+            _, _, bounded_options, bounded_precision, _, _ = _provider_spec("cpp", repo)
+            self.assertEqual(bounded_precision, "bounded-approximate")
+            self.assertEqual(bounded_options["fallbackFlags"], ["-x", "c++", "-std=c++20"])
+            (repo / "compile_commands.json").write_text("[]\n", encoding="utf-8", newline="\n")
+            command, _, exact_options, exact_precision, _, _ = _provider_spec("cpp", repo)
+        self.assertEqual(exact_precision, "exact")
+        self.assertIn(f"--compile-commands-dir={repo}", command)
+        self.assertEqual(exact_options, {"compilationDatabasePath": str(repo)})
 
 
 if __name__ == "__main__":
