@@ -8,6 +8,7 @@ import stat
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -17,13 +18,19 @@ from ckb_core.agent_protocol import ADAPTER_PATHS, AGENT_PROTOCOL_VERSION, INTER
 from ckb_core.agent_protocol_batch import (
     PROTOCOL_RELEASES,
     adapter_texts_for_version,
+    apply_batch_plan,
+    audit_batch_state,
+    batch_status,
     command_examples_for_version,
     create_batch_plan,
     protocol_text_for_version,
+    rollback_batch_state,
     supported_upgrade_path,
     version_matrix,
 )
+import ckb_core.agent_protocol_batch as batch_module
 from ckb_core.common import CkbError, json_write
+from ckb_core.output_contract import audit_output_contract
 
 
 def tree_digest(root: Path) -> str:
@@ -36,6 +43,7 @@ def tree_digest(root: Path) -> str:
 
 
 def create_protocol_fixture(root: Path, version: str, project_id: str = "fixture") -> tuple[Path, Path, Path]:
+    root.mkdir(parents=True, exist_ok=True)
     output = root / f"{project_id}-output"
     repository = root / "repo"
     workspace = root
@@ -108,6 +116,20 @@ def create_protocol_fixture(root: Path, version: str, project_id: str = "fixture
     return output, manifest, workspace
 
 
+def install_fake_plugin(vault: Path) -> None:
+    plugin = vault / ".obsidian/plugins/code-knowledge-builder-companion"
+    plugin.mkdir(parents=True, exist_ok=True)
+    for name in ("main.js", "manifest.json", "styles.css", "LICENSE", "NOTICE.md"):
+        (plugin / name).write_text("{}\n" if name == "manifest.json" else f"fixture {name}\n", encoding="utf-8")
+    json_write(vault / ".obsidian/community-plugins.json", ["code-knowledge-builder-companion"])
+
+
+def outside_managed_bytes(value: bytes) -> bytes:
+    begin = value.index(POLICY_BEGIN.encode("utf-8"))
+    end = value.index(POLICY_END.encode("utf-8"), begin) + len(POLICY_END.encode("utf-8"))
+    return value[:begin] + value[end:]
+
+
 class AgentProtocolBatchMatrixTests(unittest.TestCase):
     def test_frozen_historical_fixtures_match_matrix(self) -> None:
         fixture_path = ROOT / "tests/fixtures/agent-protocol-batch/versions.json"
@@ -176,6 +198,320 @@ class AgentProtocolBatchPlanTests(unittest.TestCase):
             json_write(manifest, value_doc)
             duplicate = create_batch_plan(manifest)
             self.assertEqual(duplicate["projects"][0]["failure"]["category"], "managed-block-duplicate")
+
+    def test_required_failure_fixtures_are_classified_without_guessing(self) -> None:
+        cases = []
+        with tempfile.TemporaryDirectory(prefix="ckb-agent-policy-batch-cases-") as value:
+            root = Path(value)
+
+            missing_root = root / "missing-record"
+            output, manifest, _ = create_protocol_fixture(missing_root, "1.3.0", "missing")
+            (output / "workspace-meta/agent-protocol.json").unlink()
+            cases.append((manifest, "protocol-record-missing"))
+
+            unknown_root = root / "unknown-version"
+            _output, manifest, _ = create_protocol_fixture(unknown_root, "1.3.0", "unknown")
+            doc = json.loads(manifest.read_text(encoding="utf-8"))
+            doc["projects"][0]["source_version"] = "9.9.9"
+            json_write(manifest, doc)
+            cases.append((manifest, "source-version-unsupported"))
+
+            runtime_root = root / "missing-runtime"
+            _output, manifest, _ = create_protocol_fixture(runtime_root, "1.3.0", "runtime")
+            doc = json.loads(manifest.read_text(encoding="utf-8"))
+            doc["projects"][0]["python"] = str((runtime_root / "missing-python.exe").resolve())
+            json_write(manifest, doc)
+            cases.append((manifest, "python-missing"))
+
+            boundary_root = root / "boundary"
+            _output, manifest, _ = create_protocol_fixture(boundary_root, "1.3.0", "boundary")
+            outside = root / "outside-workspace"
+            outside.mkdir()
+            doc = json.loads(manifest.read_text(encoding="utf-8"))
+            doc["projects"][0]["workspace_roots"] = [str(outside.resolve())]
+            json_write(manifest, doc)
+            cases.append((manifest, "workspace-root-out-of-bounds"))
+
+            broken_root = root / "broken-marker"
+            _output, manifest, workspace = create_protocol_fixture(broken_root, "1.3.0", "broken")
+            agents = workspace / "AGENTS.md"
+            agents.write_text(agents.read_text(encoding="utf-8").replace(POLICY_END, ""), encoding="utf-8")
+            cases.append((manifest, "managed-block-broken"))
+
+            mixed_root = root / "mixed-content"
+            _output, manifest, workspace = create_protocol_fixture(mixed_root, "1.3.0", "mixed")
+            agents = workspace / "AGENTS.md"
+            agents.write_text(agents.read_text(encoding="utf-8").replace(POLICY_END, "用户内容误入管理区。\n" + POLICY_END, 1), encoding="utf-8")
+            cases.append((manifest, "managed-block-source-drift"))
+
+            for manifest_path, category in cases:
+                with self.subTest(category=category):
+                    result = create_batch_plan(manifest_path)
+                    self.assertEqual(result["status"], "failed")
+                    self.assertEqual(result["projects"][0]["failure"]["category"], category)
+
+    def test_duplicate_and_nested_outputs_fail_manifest_preflight(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="ckb-agent-policy-batch-output-set-") as value:
+            root = Path(value)
+            _output, manifest, _ = create_protocol_fixture(root, "1.3.0", "one")
+            doc = json.loads(manifest.read_text(encoding="utf-8"))
+            duplicated = dict(doc["projects"][0])
+            duplicated["project_id"] = "two"
+            doc["projects"].append(duplicated)
+            json_write(manifest, doc)
+            with self.assertRaises(CkbError):
+                create_batch_plan(manifest)
+            doc["projects"][1]["output"] = str((Path(doc["projects"][0]["output"]) / "nested").resolve())
+            json_write(manifest, doc)
+            with self.assertRaises(CkbError):
+                create_batch_plan(manifest)
+
+
+class AgentProtocolBatchApplyTests(unittest.TestCase):
+    def test_current_version_fixture_is_audited_and_idempotently_skipped(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="ckb-agent-policy-batch-current-") as value:
+            root = Path(value)
+            _output, manifest, _workspace = create_protocol_fixture(root, AGENT_PROTOCOL_VERSION)
+            plan_path = root / "plan.json"
+            state_path = root / "state.json"
+            plan = create_batch_plan(manifest, plan_path)
+            self.assertEqual(plan["projects"][0]["action"], "noop")
+            with patch("ckb_core.agent_protocol.audit_agent_protocol", return_value={"status": "passed", "errors": []}):
+                result = apply_batch_plan(plan_path, state_path)
+            self.assertEqual(result["status"], "completed")
+            self.assertEqual(result["summary"]["counts"], {"skipped": 1})
+
+    def test_apply_rejects_plan_target_drift_before_transaction(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="ckb-agent-policy-batch-plan-drift-") as value:
+            root = Path(value)
+            output, manifest, workspace = create_protocol_fixture(root, "1.3.0")
+            plan_path = root / "plan.json"
+            state_path = root / "state.json"
+            create_batch_plan(manifest, plan_path)
+            agents = workspace / "AGENTS.md"
+            agents.write_bytes(agents.read_bytes() + "\n计划之后的漂移。\n".encode("utf-8"))
+            drifted = agents.read_bytes()
+            result = apply_batch_plan(plan_path, state_path)
+            self.assertEqual(result["status"], "failed")
+            self.assertEqual(result["projects"][0]["failure"]["category"], "plan-target-drift")
+            self.assertEqual(agents.read_bytes(), drifted)
+            self.assertEqual(json.loads((output / "workspace-meta/agent-protocol.json").read_text(encoding="utf-8"))["protocol_version"], "1.3.0")
+
+    def test_apply_updates_protocol_contract_and_preserves_user_bytes(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="ckb-agent-policy-batch-apply-") as value:
+            root = Path(value)
+            output, manifest, workspace = create_protocol_fixture(root, "1.0.0")
+            for vault_name in ("human", "markdown"):
+                install_fake_plugin(output / vault_name)
+            agents = workspace / "AGENTS.md"
+            text = agents.read_text(encoding="utf-8")
+            agents.write_bytes(b"\xef\xbb\xbf" + text.replace("\n", "\r\n").encode("utf-8"))
+            user_bytes_before = outside_managed_bytes(agents.read_bytes())
+            (output / "graph.json").write_bytes(b"fixed graph\n")
+            (output / "machine").mkdir(exist_ok=True)
+            (output / "machine/knowledge.sqlite").write_bytes(b"fixed machine sqlite\n")
+            (output / "agent-index.sqlite").write_bytes(b"fixed agent sqlite\n")
+            fixed_before = {
+                name: hashlib.sha256((output / name).read_bytes()).hexdigest()
+                for name in ("graph.json", "machine/knowledge.sqlite", "agent-index.sqlite")
+            }
+            plan_path = root / "plan.json"
+            state_path = root / "batch-state.json"
+            plan = create_batch_plan(manifest, plan_path)
+            baseline = plan["projects"][0]["observed_digest"]
+            with patch("ckb_core.agent_protocol.audit_agent_protocol", return_value={"status": "passed", "errors": []}):
+                applied = apply_batch_plan(plan_path, state_path)
+            self.assertEqual(applied["status"], "completed")
+            self.assertEqual(json.loads((output / "workspace-meta/agent-protocol.json").read_text(encoding="utf-8"))["protocol_version"], AGENT_PROTOCOL_VERSION)
+            self.assertEqual(outside_managed_bytes(agents.read_bytes()), user_bytes_before)
+            self.assertTrue(agents.read_bytes().startswith(b"\xef\xbb\xbf"))
+            self.assertIn(b"\r\n", agents.read_bytes())
+            for vault_name in ("human", "markdown"):
+                contract = audit_output_contract(output, output / vault_name)
+                self.assertEqual(contract["status"], "passed", contract)
+            fixed_after = {
+                name: hashlib.sha256((output / name).read_bytes()).hexdigest()
+                for name in ("graph.json", "machine/knowledge.sqlite", "agent-index.sqlite")
+            }
+            self.assertEqual(fixed_after, fixed_before)
+            current = batch_status(state_path)
+            self.assertEqual(current["summary"]["counts"], {"completed": 1})
+            self.assertNotEqual(current["projects"][0]["current_digest"], baseline)
+            with patch("ckb_core.agent_protocol.audit_agent_protocol", return_value={"status": "passed", "errors": []}):
+                repeated = apply_batch_plan(plan_path, state_path)
+            self.assertEqual(repeated["status"], "completed")
+            self.assertEqual(repeated["summary"]["counts"], {"skipped": 1})
+            journal_text = "".join(path.read_text(encoding="utf-8") for path in (output / "workspace-meta/operations").glob("*.jsonl"))
+            self.assertNotIn("用户自有前言", journal_text)
+            self.assertNotIn("token", journal_text.casefold())
+            self.assertLessEqual(len(json.loads(state_path.read_text(encoding="utf-8"))["events"]), 256)
+
+    def test_partial_failure_restores_failed_project_and_audits_each_result(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="ckb-agent-policy-batch-partial-") as value:
+            root = Path(value)
+            output_a, manifest_a, _ = create_protocol_fixture(root / "a", "1.3.0", "a")
+            output_b, manifest_b, _ = create_protocol_fixture(root / "b", "1.4.0", "b")
+            doc_a = json.loads(manifest_a.read_text(encoding="utf-8"))
+            doc_b = json.loads(manifest_b.read_text(encoding="utf-8"))
+            manifest = root / "manifest.json"
+            json_write(
+                manifest,
+                {
+                    "schema_version": 1,
+                    "allowed_roots": [str(root.resolve())],
+                    "projects": [doc_a["projects"][0], doc_b["projects"][0]],
+                },
+            )
+            plan_path = root / "plan.json"
+            plan = create_batch_plan(manifest, plan_path)
+            baseline_b = next(item for item in plan["projects"] if item["project_id"] == "b")["observed_digest"]
+
+            def selective_audit(output: Path) -> dict[str, object]:
+                return {"status": "failed", "errors": [{"reason": "fixture-mid-batch"}]} if output == output_b.resolve() else {"status": "passed", "errors": []}
+
+            state_path = root / "state.json"
+            with patch("ckb_core.agent_protocol.audit_agent_protocol", side_effect=selective_audit):
+                result = apply_batch_plan(plan_path, state_path)
+            self.assertEqual(result["status"], "partial")
+            by_id = {item["project_id"]: item for item in result["projects"]}
+            self.assertEqual(by_id["a"]["status"], "completed")
+            self.assertEqual(by_id["b"]["status"], "failed")
+            self.assertEqual(by_id["b"]["failure"]["category"], "post-upgrade-audit-failed")
+            self.assertEqual(json.loads((output_a / "workspace-meta/agent-protocol.json").read_text(encoding="utf-8"))["protocol_version"], AGENT_PROTOCOL_VERSION)
+            self.assertEqual(json.loads((output_b / "workspace-meta/agent-protocol.json").read_text(encoding="utf-8"))["protocol_version"], "1.4.0")
+            current_b = batch_module.snapshot_digest(batch_module.snapshot_files(output_b, [root / "b"]))
+            self.assertEqual(current_b, baseline_b)
+            with patch("ckb_core.agent_protocol.audit_agent_protocol", side_effect=selective_audit):
+                audited = audit_batch_state(state_path)
+            self.assertEqual(audited["status"], "failed")
+            audit_by_id = {item["project_id"]: item for item in audited["projects"]}
+            self.assertEqual(audit_by_id["a"]["status"], "passed")
+            self.assertEqual(audit_by_id["b"]["status"], "failed")
+
+    def test_interrupted_apply_restores_baseline_then_resumes(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="ckb-agent-policy-batch-resume-") as value:
+            root = Path(value)
+            output, manifest, workspace = create_protocol_fixture(root, "1.3.0")
+            plan_path = root / "plan.json"
+            plan = create_batch_plan(manifest, plan_path)
+            state_path = root / "state.json"
+            original_commit = batch_module._commit_desired
+
+            def interrupt_after_first_write(desired: dict[str, bytes | None]) -> None:
+                first_path = sorted(path for path, content in desired.items() if content is not None)[0]
+                path = Path(first_path)
+                content = desired[first_path]
+                assert content is not None
+                batch_module._write_bytes_atomic(path, content, stat.S_IMODE(path.stat().st_mode) if path.is_file() else 0o644)
+                raise SystemExit(91)
+
+            with patch.object(batch_module, "_commit_desired", side_effect=interrupt_after_first_write):
+                with self.assertRaises(SystemExit):
+                    apply_batch_plan(plan_path, state_path)
+            interrupted = json.loads(state_path.read_text(encoding="utf-8"))
+            self.assertEqual(interrupted["projects"]["fixture"]["status"], "applying")
+            with (
+                patch.object(batch_module, "_commit_desired", side_effect=original_commit),
+                patch("ckb_core.agent_protocol.audit_agent_protocol", return_value={"status": "passed", "errors": []}),
+            ):
+                resumed = apply_batch_plan(plan_path, state_path)
+            self.assertEqual(resumed["status"], "completed")
+            self.assertEqual(json.loads((output / "workspace-meta/agent-protocol.json").read_text(encoding="utf-8"))["protocol_version"], AGENT_PROTOCOL_VERSION)
+            events = json.loads(state_path.read_text(encoding="utf-8"))["events"]
+            self.assertTrue(any(item["action"] == "resume" and item["status"] == "restored-baseline" for item in events))
+
+    def test_existing_output_lock_reports_concurrent_failure_without_writes(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="ckb-agent-policy-batch-lock-") as value:
+            root = Path(value)
+            output, manifest, workspace = create_protocol_fixture(root, "1.4.0")
+            plan_path = root / "plan.json"
+            plan = create_batch_plan(manifest, plan_path)
+            lock = output / "workspace-meta/agent-policy-batch.lock"
+            lock.write_text("other-process", encoding="ascii")
+            state_path = root / "state.json"
+            with patch.object(batch_module, "LOCK_TIMEOUT_SECONDS", 0.01):
+                result = apply_batch_plan(plan_path, state_path)
+            self.assertEqual(result["status"], "failed")
+            self.assertEqual(result["projects"][0]["failure"]["category"], "concurrent-output-lock")
+            self.assertEqual(json.loads((output / "workspace-meta/agent-protocol.json").read_text(encoding="utf-8"))["protocol_version"], "1.4.0")
+
+    def test_single_project_rollback_restores_bytes_modes_and_source_version(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="ckb-agent-policy-batch-rollback-") as value:
+            root = Path(value)
+            output, manifest, workspace = create_protocol_fixture(root, "1.0.0")
+            agents = workspace / "AGENTS.md"
+            os_mode = 0o640
+            os.chmod(agents, os_mode)
+            tracked_before = {
+                item["path"]: (Path(item["path"]).read_bytes() if item["exists"] else None, item["mode"])
+                for item in batch_module.snapshot_files(output, [workspace])
+            }
+            plan_path = root / "plan.json"
+            state_path = root / "state.json"
+            create_batch_plan(manifest, plan_path)
+            with patch("ckb_core.agent_protocol.audit_agent_protocol", return_value={"status": "passed", "errors": []}):
+                applied = apply_batch_plan(plan_path, state_path)
+            self.assertEqual(applied["status"], "completed")
+            rolled_back = rollback_batch_state(state_path, ["fixture"])
+            self.assertEqual(rolled_back["status"], "passed")
+            self.assertEqual(json.loads((output / "workspace-meta/agent-protocol.json").read_text(encoding="utf-8"))["protocol_version"], "1.0.0")
+            for path_value, (content, mode) in tracked_before.items():
+                path = Path(path_value)
+                self.assertEqual(path.read_bytes() if path.is_file() else None, content, path_value)
+                if content is not None:
+                    self.assertEqual(stat.S_IMODE(path.stat().st_mode), mode, path_value)
+            status = batch_status(state_path)
+            self.assertEqual(status["summary"]["counts"], {"rolled-back": 1})
+            with patch("ckb_core.agent_protocol.audit_agent_protocol", return_value={"status": "passed", "errors": []}):
+                audited = audit_batch_state(state_path)
+            self.assertEqual(audited["status"], "passed")
+
+    def test_subset_rollback_keeps_unselected_success_applied(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="ckb-agent-policy-batch-subset-") as value:
+            root = Path(value)
+            output_a, manifest_a, _ = create_protocol_fixture(root / "a", "1.3.0", "a")
+            output_b, manifest_b, _ = create_protocol_fixture(root / "b", "1.4.0", "b")
+            manifest = root / "manifest.json"
+            json_write(
+                manifest,
+                {
+                    "schema_version": 1,
+                    "allowed_roots": [str(root.resolve())],
+                    "projects": [
+                        json.loads(manifest_a.read_text(encoding="utf-8"))["projects"][0],
+                        json.loads(manifest_b.read_text(encoding="utf-8"))["projects"][0],
+                    ],
+                },
+            )
+            plan_path = root / "plan.json"
+            state_path = root / "state.json"
+            create_batch_plan(manifest, plan_path)
+            with patch("ckb_core.agent_protocol.audit_agent_protocol", return_value={"status": "passed", "errors": []}):
+                self.assertEqual(apply_batch_plan(plan_path, state_path)["status"], "completed")
+            result = rollback_batch_state(state_path, ["a"])
+            self.assertEqual(result["status"], "passed")
+            self.assertEqual(json.loads((output_a / "workspace-meta/agent-protocol.json").read_text(encoding="utf-8"))["protocol_version"], "1.3.0")
+            self.assertEqual(json.loads((output_b / "workspace-meta/agent-protocol.json").read_text(encoding="utf-8"))["protocol_version"], AGENT_PROTOCOL_VERSION)
+            counts = batch_status(state_path)["summary"]["counts"]
+            self.assertEqual(counts, {"completed": 1, "rolled-back": 1})
+
+    def test_rollback_refuses_post_batch_user_drift(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="ckb-agent-policy-batch-rollback-drift-") as value:
+            root = Path(value)
+            output, manifest, workspace = create_protocol_fixture(root, "1.4.0")
+            plan_path = root / "plan.json"
+            state_path = root / "state.json"
+            create_batch_plan(manifest, plan_path)
+            with patch("ckb_core.agent_protocol.audit_agent_protocol", return_value={"status": "passed", "errors": []}):
+                self.assertEqual(apply_batch_plan(plan_path, state_path)["status"], "completed")
+            agents = workspace / "AGENTS.md"
+            agents.write_bytes(agents.read_bytes() + "\n批次之后的用户修改。\n".encode("utf-8"))
+            drifted = agents.read_bytes()
+            result = rollback_batch_state(state_path, ["fixture"])
+            self.assertEqual(result["status"], "failed")
+            self.assertEqual(result["projects"][0]["failure"]["category"], "rollback-external-drift")
+            self.assertEqual(agents.read_bytes(), drifted)
+            self.assertEqual(json.loads((output / "workspace-meta/agent-protocol.json").read_text(encoding="utf-8"))["protocol_version"], AGENT_PROTOCOL_VERSION)
 
 
 if __name__ == "__main__":

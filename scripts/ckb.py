@@ -26,7 +26,13 @@ from ckb_core.agent_protocol import (
     audit_agent_protocol,
     install_agent_protocol,
 )
-from ckb_core.agent_protocol_batch import create_batch_plan
+from ckb_core.agent_protocol_batch import (
+    apply_batch_plan,
+    audit_batch_state,
+    batch_status,
+    create_batch_plan,
+    rollback_batch_state,
+)
 from ckb_core.automation import (
     SUPPORTED_HARNESSES,
     activate_skill_session,
@@ -481,6 +487,16 @@ def parser() -> argparse.ArgumentParser:
     agent_policy_batch_plan = agent_policy_batch_sub.add_parser("plan")
     agent_policy_batch_plan.add_argument("--manifest", type=Path, required=True)
     agent_policy_batch_plan.add_argument("--write", type=Path)
+    agent_policy_batch_apply = agent_policy_batch_sub.add_parser("apply")
+    agent_policy_batch_apply.add_argument("--plan", type=Path, required=True)
+    agent_policy_batch_apply.add_argument("--state", type=Path, required=True)
+    agent_policy_batch_status = agent_policy_batch_sub.add_parser("status")
+    agent_policy_batch_status.add_argument("--state", type=Path, required=True)
+    agent_policy_batch_audit = agent_policy_batch_sub.add_parser("audit")
+    agent_policy_batch_audit.add_argument("--state", type=Path, required=True)
+    agent_policy_batch_rollback = agent_policy_batch_sub.add_parser("rollback")
+    agent_policy_batch_rollback.add_argument("--state", type=Path, required=True)
+    agent_policy_batch_rollback.add_argument("--project", action="append", default=[])
     automation_command = sub.add_parser("automation")
     automation_sub = automation_command.add_subparsers(dest="automation_command", required=True)
     automation_register = automation_sub.add_parser("register")
@@ -864,6 +880,21 @@ def main() -> int:
                 result = create_batch_plan(args.manifest, args.write)
                 emit(result)
                 return 0 if result.get("status") == "ready" else 5
+            if args.agent_policy_batch_command == "apply":
+                result = apply_batch_plan(args.plan, args.state)
+                emit(result)
+                return 0 if result.get("status") == "completed" else 5
+            if args.agent_policy_batch_command == "status":
+                result = batch_status(args.state)
+                emit(result)
+                return 0 if result.get("status") == "completed" else 5
+            if args.agent_policy_batch_command == "audit":
+                result = audit_batch_state(args.state)
+                emit(result)
+                return 0 if result.get("status") == "passed" else 5
+            result = rollback_batch_state(args.state, args.project)
+            emit(result)
+            return 0 if result.get("status") == "passed" else 5
         elif args.agent_policy_command == "install":
             emit(
                 install_agent_protocol(

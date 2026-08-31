@@ -3,25 +3,29 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from contextlib import contextmanager
 import hashlib
 import json
 import os
 from pathlib import Path
 import re
 import stat
+import time
 from typing import Any
 
 from .agent_protocol import (
     ADAPTER_PATHS,
     AGENT_PROTOCOL_VERSION,
     INTERNAL_ROOT_NAMES,
+    OBSIDIAN_HIDE_CSS,
+    OBSIDIAN_IGNORES,
     POLICY_BEGIN,
     POLICY_END,
     _adapter_texts,
     _protocol_text,
 )
 from .automation import SUPPORTED_HARNESSES as AUTOMATION_HARNESSES
-from .common import CkbError, json_load, json_write, path_inside
+from .common import CkbError, json_load, json_write, path_inside, stable_id, utc_now
 
 
 BATCH_MANIFEST_SCHEMA_VERSION = 1
@@ -48,6 +52,9 @@ SUPPORTED_HARNESSES = frozenset(AUTOMATION_HARNESSES)
 HEX_SHA256 = re.compile(r"^[0-9a-f]{64}$")
 MAX_BATCH_PROJECTS = 128
 MAX_WORKSPACE_ROOTS = 32
+MAX_STATE_EVENTS = 256
+LOCK_TIMEOUT_SECONDS = 5.0
+LOCK_STALE_SECONDS = 60.0
 
 
 @dataclass(frozen=True)
@@ -529,7 +536,19 @@ def _inspect_project(project: dict[str, Any], allowed_roots: list[Path]) -> dict
     output = require_absolute_path(project.get("output"), f"{project_id}.output")
     source_version = str(project.get("source_version") or "")
     target_version = str(project.get("target_version") or "")
-    path = supported_upgrade_path(source_version, target_version)
+    if source_version not in PROTOCOL_RELEASES:
+        raise BatchProjectError("source-version-unsupported", f"unsupported Agent Protocol source version: {source_version}")
+    if target_version not in PROTOCOL_RELEASES:
+        raise BatchProjectError("target-version-unsupported", f"unsupported Agent Protocol target version: {target_version}")
+    try:
+        path = supported_upgrade_path(source_version, target_version)
+    except CkbError as exc:
+        raise BatchProjectError("upgrade-path-missing", str(exc)) from exc
+    if target_version != AGENT_PROTOCOL_VERSION:
+        raise BatchProjectError(
+            "target-version-not-current",
+            f"batch upgrades must target the current Agent Protocol {AGENT_PROTOCOL_VERSION}: {target_version}",
+        )
     if not output.is_dir():
         raise BatchProjectError("output-missing", f"knowledge OUTPUT is missing: {output}")
     state_path = output / "state.json"
@@ -606,7 +625,11 @@ def _inspect_project(project: dict[str, Any], allowed_roots: list[Path]) -> dict
     return {
         "project_id": project_id,
         "status": "ready",
-        "action": "noop" if source_version == target_version else "upgrade",
+        "action": (
+            "noop"
+            if source_version == target_version and source_python == python and source_ckb == ckb
+            else "upgrade"
+        ),
         "output": str(output),
         "repository": repository,
         "workspace_roots": [str(value) for value in workspace_roots],
@@ -682,3 +705,738 @@ def create_batch_plan(manifest_path: Path, write: Path | None = None) -> dict[st
         json_write(write, plan)
         return {**plan, "plan_path": str(write)}
     return plan
+
+
+def _load_batch_plan(path: Path) -> dict[str, Any]:
+    path = path.expanduser().resolve()
+    if not path.is_file():
+        raise CkbError(f"Agent Protocol batch plan is missing: {path}")
+    plan = json_load(path)
+    if not isinstance(plan, dict):
+        raise CkbError("Agent Protocol batch plan root must be an object")
+    if plan.get("schema_version") != BATCH_PLAN_SCHEMA_VERSION:
+        raise CkbError(f"unsupported Agent Protocol batch plan schema: {plan.get('schema_version')}")
+    digest = plan.get("plan_digest")
+    body = {key: value for key, value in plan.items() if key != "plan_digest"}
+    if not isinstance(digest, str) or _digest_value(body) != digest:
+        raise CkbError("Agent Protocol batch plan digest mismatch")
+    if not isinstance(plan.get("projects"), list) or not isinstance(plan.get("batch_id"), str):
+        raise CkbError("Agent Protocol batch plan is structurally invalid")
+    return plan
+
+
+def _json_bytes(value: Any) -> bytes:
+    return (json.dumps(value, ensure_ascii=False, sort_keys=True, indent=2) + "\n").encode("utf-8")
+
+
+def _replace_workspace_block_bytes(existing: bytes, target_text: str, path: Path) -> bytes:
+    bom = existing.startswith(b"\xef\xbb\xbf")
+    try:
+        text = existing.decode("utf-8-sig")
+    except UnicodeDecodeError as exc:
+        raise BatchProjectError("managed-file-encoding", f"workspace managed adapter is not UTF-8: {path}") from exc
+    begin_count = text.count(POLICY_BEGIN)
+    end_count = text.count(POLICY_END)
+    if begin_count > 1 or end_count > 1:
+        raise BatchProjectError("managed-block-duplicate", f"workspace instruction file has duplicate managed markers: {path}")
+    if begin_count != 1 or end_count != 1:
+        raise BatchProjectError("managed-block-broken", f"workspace instruction file has broken managed markers: {path}")
+    start = text.index(POLICY_BEGIN)
+    end_marker = text.index(POLICY_END, start)
+    end = end_marker + len(POLICY_END)
+    segment = text[start:end]
+    crlf = segment.count("\r\n")
+    newline = "\r\n" if crlf and crlf == segment.count("\n") else "\n"
+    block = f"{POLICY_BEGIN}\n{target_text.rstrip()}\n{POLICY_END}".replace("\n", newline)
+    updated = (text[:start] + block + text[end:]).encode("utf-8")
+    return (b"\xef\xbb\xbf" + updated) if bom else updated
+
+
+def _target_record(project: dict[str, Any], previous: dict[str, Any]) -> tuple[dict[str, Any], dict[str, str]]:
+    output = Path(project["output"]).resolve()
+    repository = str(project["repository"])
+    python = Path(project["python"]).resolve()
+    ckb = Path(project["ckb"]).resolve()
+    target_version = str(project["target_version"])
+    texts = adapter_texts_for_version(target_version, output, repository, python, ckb)
+    internal = {
+        root_name: {
+            "root": str((output if root_name == "output" else output / root_name).resolve()),
+            "files": [relative.as_posix() for relative in ADAPTER_PATHS.values()],
+        }
+        for root_name in INTERNAL_ROOT_NAMES
+    }
+    workspace_records = []
+    for root_value in project["workspace_roots"]:
+        root = Path(root_value).resolve()
+        files = []
+        for relative in ADAPTER_PATHS.values():
+            path = root / relative
+            files.append(
+                {
+                    "path": str(path.resolve()),
+                    "relative_path": relative.as_posix(),
+                    "created": not path.is_file(),
+                }
+            )
+        workspace_records.append({"root": str(root), "files": files})
+    record = {
+        "schema_version": 1,
+        "protocol_version": target_version,
+        "status": "installed",
+        "output": str(output),
+        "repository": repository,
+        "python": str(python),
+        "ckb": str(ckb),
+        "internal_roots": internal,
+        "workspace_roots": workspace_records,
+        "commands": command_examples_for_version(target_version, output, python, ckb),
+        "harness_contract": {
+            "codex": "AGENTS.md",
+            "opencode": "AGENTS.md",
+            "claude-code": "CLAUDE.md imports AGENTS.md",
+            "gemini-cli": "GEMINI.md imports AGENTS.md",
+            "github-copilot": ".github/copilot-instructions.md",
+            "cursor": ".cursor/rules/code-knowledge-builder.mdc",
+            "generic": "read AGENTS.md before knowledge-base access",
+        },
+    }
+    return record, texts
+
+
+def _desired_project_files(project: dict[str, Any]) -> dict[str, bytes | None]:
+    from .obsidian_plugin import obsidian_plugin_installation
+    from .output_contract import OUTPUT_CONTRACT_RELATIVE, output_contract_for_runtime
+
+    output = Path(project["output"]).resolve()
+    previous = json_load(output / "workspace-meta/agent-protocol.json")
+    record, texts = _target_record(project, previous)
+    desired: dict[str, bytes | None] = {}
+    desired[str((output / "workspace-meta/agent-protocol.json").resolve())] = _json_bytes(record)
+    for root_name in INTERNAL_ROOT_NAMES:
+        root = output if root_name == "output" else output / root_name
+        for key, relative in ADAPTER_PATHS.items():
+            desired[str((root / relative).resolve())] = texts[key].encode("utf-8")
+    for root_value in project["workspace_roots"]:
+        root = Path(root_value).resolve()
+        for key, relative in ADAPTER_PATHS.items():
+            path = (root / relative).resolve()
+            if not path.is_file():
+                raise BatchProjectError("managed-file-missing", f"workspace managed adapter is missing: {path}")
+            desired[str(path)] = _replace_workspace_block_bytes(path.read_bytes(), texts[key], path)
+    python = Path(project["python"]).resolve()
+    ckb = Path(project["ckb"]).resolve()
+    for root_name in ("human", "markdown"):
+        vault = (output / root_name).resolve()
+        contract_path = (vault / OUTPUT_CONTRACT_RELATIVE).resolve()
+        installation = obsidian_plugin_installation(vault)
+        required = PROTOCOL_RELEASES[str(project["target_version"])].output_contract and installation["installed"]
+        desired[str(contract_path)] = (
+            _json_bytes(output_contract_for_runtime(output, vault, python, ckb)) if required else None
+        )
+        ownership_path = (vault / ".ckb-generated-files.json").resolve()
+        if ownership_path.is_file():
+            ownership = json_load(ownership_path)
+            files = {str(value) for value in ownership.get("files", [])}
+            if required:
+                files.add(OUTPUT_CONTRACT_RELATIVE.as_posix())
+            else:
+                files.discard(OUTPUT_CONTRACT_RELATIVE.as_posix())
+            ownership["files"] = sorted(files)
+            desired[str(ownership_path)] = _json_bytes(ownership)
+        app_path = (vault / ".obsidian/app.json").resolve()
+        app = json_load(app_path) if app_path.is_file() else {}
+        app["userIgnoreFilters"] = list(dict.fromkeys([*app.get("userIgnoreFilters", []), *OBSIDIAN_IGNORES]))
+        desired[str(app_path)] = _json_bytes(app)
+        css_path = (vault / ".obsidian/snippets/ckb.css").resolve()
+        css = css_path.read_text(encoding="utf-8") if css_path.is_file() else ""
+        if OBSIDIAN_HIDE_CSS not in css:
+            css = css.rstrip() + ("\n" if css.strip() else "") + OBSIDIAN_HIDE_CSS + "\n"
+        desired[str(css_path)] = css.encode("utf-8")
+    return desired
+
+
+def _state_file(path: Path) -> dict[str, Any]:
+    exists = path.is_file()
+    return {
+        "path": str(path.resolve()),
+        "exists": exists,
+        "sha256": _sha256_bytes(path.read_bytes()) if exists else None,
+        "mode": stat.S_IMODE(path.stat().st_mode) if exists else None,
+    }
+
+
+def _write_bytes_atomic(path: Path, value: bytes, mode: int | None) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_name(f".{path.name}.ckb-batch-{os.getpid()}.tmp")
+    temporary.write_bytes(value)
+    os.chmod(temporary, mode if mode is not None else 0o644)
+    os.replace(temporary, path)
+
+
+def _desired_inventory(desired: dict[str, bytes | None]) -> list[dict[str, Any]]:
+    result = []
+    for path_value in sorted(desired):
+        value = desired[path_value]
+        path = Path(path_value)
+        result.append(
+            {
+                "path": path_value,
+                "exists": value is not None,
+                "sha256": _sha256_bytes(value) if value is not None else None,
+                "mode": stat.S_IMODE(path.stat().st_mode) if path.is_file() else 0o644,
+            }
+        )
+    return result
+
+
+def _create_backup(project: dict[str, Any], backup_root: Path) -> dict[str, Any]:
+    output = Path(project["output"]).resolve()
+    workspace_roots = [Path(value).resolve() for value in project["workspace_roots"]]
+    files = snapshot_files(output, workspace_roots)
+    backup_root.mkdir(parents=True, exist_ok=True)
+    backup_files = backup_root / "files"
+    backup_files.mkdir(parents=True, exist_ok=True)
+    manifest_files = []
+    for index, item in enumerate(files):
+        copied = dict(item)
+        if item["exists"]:
+            source = Path(item["path"])
+            blob_name = f"{index:03d}-{item['sha256']}.bin"
+            blob = backup_files / blob_name
+            blob.write_bytes(source.read_bytes())
+            if _sha256_bytes(blob.read_bytes()) != item["sha256"]:
+                raise BatchProjectError("backup-verification-failed", f"backup digest mismatch: {source}")
+            copied["backup_blob"] = f"files/{blob_name}"
+        else:
+            copied["backup_blob"] = None
+        manifest_files.append(copied)
+    manifest = {
+        "schema_version": 1,
+        "project_id": project["project_id"],
+        "baseline_digest": snapshot_digest(files),
+        "files": manifest_files,
+    }
+    manifest_path = backup_root / "backup.json"
+    json_write(manifest_path, manifest)
+    reopened = json_load(manifest_path)
+    if reopened != manifest:
+        raise BatchProjectError("backup-verification-failed", f"backup manifest did not reopen exactly: {manifest_path}")
+    return {**manifest, "manifest_path": str(manifest_path.resolve())}
+
+
+def _restore_backup(manifest_path: Path) -> None:
+    manifest_path = manifest_path.resolve()
+    manifest = json_load(manifest_path)
+    for item in manifest["files"]:
+        path = Path(item["path"])
+        if item["exists"]:
+            blob = manifest_path.parent / item["backup_blob"]
+            value = blob.read_bytes()
+            if _sha256_bytes(value) != item["sha256"]:
+                raise BatchProjectError("backup-verification-failed", f"backup blob drifted: {blob}")
+            _write_bytes_atomic(path, value, int(item["mode"]))
+        elif path.exists():
+            if path.is_file():
+                path.unlink()
+            else:
+                raise BatchProjectError("rollback-path-type-drift", f"rollback target became a directory: {path}")
+
+
+def _commit_desired(desired: dict[str, bytes | None]) -> None:
+    for path_value in sorted(desired):
+        path = Path(path_value)
+        value = desired[path_value]
+        if value is None:
+            if path.is_file():
+                path.unlink()
+            continue
+        mode = stat.S_IMODE(path.stat().st_mode) if path.is_file() else 0o644
+        _write_bytes_atomic(path, value, mode)
+        if path.read_bytes() != value:
+            raise BatchProjectError("atomic-write-verification-failed", f"managed file did not reopen exactly: {path}")
+
+
+@contextmanager
+def _output_lock(output: Path):
+    lock = output.resolve() / "workspace-meta/agent-policy-batch.lock"
+    lock.parent.mkdir(parents=True, exist_ok=True)
+    deadline = time.monotonic() + LOCK_TIMEOUT_SECONDS
+    descriptor: int | None = None
+    while descriptor is None:
+        try:
+            descriptor = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+            os.write(descriptor, str(os.getpid()).encode("ascii"))
+        except FileExistsError:
+            try:
+                if time.time() - lock.stat().st_mtime > LOCK_STALE_SECONDS:
+                    lock.unlink(missing_ok=True)
+                    continue
+            except FileNotFoundError:
+                continue
+            if time.monotonic() >= deadline:
+                raise BatchProjectError("concurrent-output-lock", f"Agent Protocol batch OUTPUT is busy: {output}")
+            time.sleep(0.05)
+    try:
+        yield
+    finally:
+        if descriptor is not None:
+            os.close(descriptor)
+        lock.unlink(missing_ok=True)
+
+
+def _append_state_event(state: dict[str, Any], project_id: str, action: str, status: str, category: str | None = None) -> None:
+    stamp = utc_now()
+    event = {
+        "event_id": stable_id("agent-policy-batch-event", state["batch_id"], project_id, action, status, stamp),
+        "recorded_at_utc": stamp,
+        "project_id": project_id,
+        "action": action,
+        "status": status,
+        "category": category,
+    }
+    state.setdefault("events", []).append(event)
+    state["events"] = state["events"][-MAX_STATE_EVENTS:]
+    state["updated_at_utc"] = stamp
+
+
+def _save_state(path: Path, state: dict[str, Any]) -> None:
+    state["state_digest"] = _digest_value({key: value for key, value in state.items() if key != "state_digest"})
+    json_write(path, state)
+
+
+def _load_state(path: Path) -> dict[str, Any]:
+    path = path.expanduser().resolve()
+    if not path.is_file():
+        raise CkbError(f"Agent Protocol batch state is missing: {path}")
+    state = json_load(path)
+    if not isinstance(state, dict) or state.get("schema_version") != BATCH_STATE_SCHEMA_VERSION:
+        raise CkbError("Agent Protocol batch state schema is invalid")
+    digest = state.get("state_digest")
+    body = {key: value for key, value in state.items() if key != "state_digest"}
+    if not isinstance(digest, str) or digest != _digest_value(body):
+        raise CkbError("Agent Protocol batch state digest mismatch")
+    return state
+
+
+def _new_state(plan: dict[str, Any], plan_path: Path, state_path: Path) -> dict[str, Any]:
+    projects = {}
+    for project in plan["projects"]:
+        project_id = project["project_id"]
+        if project["status"] == "ready":
+            projects[project_id] = {
+                "project_id": project_id,
+                "status": "pending",
+                "output": project["output"],
+                "source_version": project["source_version"],
+                "target_version": project["target_version"],
+                "idempotency_key": stable_id(
+                    "agent-policy-batch-project",
+                    plan["batch_id"],
+                    project_id,
+                    project["observed_digest"],
+                    project["target_version"],
+                ),
+                "baseline_digest": project["observed_digest"],
+                "applied_digest": None,
+                "backup": None,
+                "desired_files": [],
+                "failure": None,
+                "evidence": None,
+            }
+        else:
+            projects[project_id] = {
+                "project_id": project_id,
+                "status": "failed",
+                "output": project["output"],
+                "source_version": project["source_version"],
+                "target_version": project["target_version"],
+                "idempotency_key": None,
+                "baseline_digest": None,
+                "applied_digest": None,
+                "backup": None,
+                "desired_files": [],
+                "failure": project["failure"],
+                "evidence": None,
+            }
+    stamp = utc_now()
+    return {
+        "schema_version": BATCH_STATE_SCHEMA_VERSION,
+        "batch_id": plan["batch_id"],
+        "status": "running",
+        "plan": str(plan_path.resolve()),
+        "plan_digest": plan["plan_digest"],
+        "state": str(state_path.resolve()),
+        "created_at_utc": stamp,
+        "updated_at_utc": stamp,
+        "projects": projects,
+        "events": [],
+    }
+
+
+def _current_digest(project: dict[str, Any]) -> str:
+    return snapshot_digest(
+        snapshot_files(Path(project["output"]), [Path(value) for value in project.get("workspace_roots", [])])
+    )
+
+
+def _recovery_matches(project_state: dict[str, Any], backup: dict[str, Any]) -> bool:
+    desired = {item["path"]: item for item in project_state.get("desired_files", [])}
+    for original in backup["files"]:
+        path = Path(original["path"])
+        current = _state_file(path)
+        allowed = {(bool(original["exists"]), original["sha256"])}
+        target = desired.get(original["path"])
+        if target:
+            allowed.add((bool(target["exists"]), target["sha256"]))
+        if original["role"] == "protocol-audit":
+            continue
+        if (bool(current["exists"]), current["sha256"]) not in allowed:
+            return False
+    return True
+
+
+def _write_project_evidence(
+    output: Path,
+    batch_id: str,
+    project_state: dict[str, Any],
+    action: str,
+) -> Path:
+    relative = Path("workspace-meta/agent-policy-batches") / batch_id / f"{project_state['project_id']}.json"
+    path = output / relative
+    value = {
+        "schema_version": BATCH_EVIDENCE_SCHEMA_VERSION,
+        "batch_id": batch_id,
+        "project_id": project_state["project_id"],
+        "status": project_state["status"],
+        "action": action,
+        "source_version": project_state["source_version"],
+        "target_version": project_state["target_version"],
+        "baseline_digest": project_state["baseline_digest"],
+        "applied_digest": project_state["applied_digest"],
+        "failure_category": (project_state.get("failure") or {}).get("category"),
+        "recovery": f"agent-policy batch rollback --state STATE_PATH --project {project_state['project_id']}",
+    }
+    json_write(path, value)
+    return path.resolve()
+
+
+def _journal_batch_result(output: Path, action: str, status: str, evidence: Path) -> None:
+    from .operation_journal import record_operation
+
+    relative = evidence.relative_to(output.resolve()).as_posix()
+    result_status = re.sub(r"[^a-z0-9._-]+", "-", status.casefold()).strip("-") or "completed"
+    record_operation(output, "audit" if action == "audit" else "compile", f"agent-policy:batch-{action}", result_status, [relative])
+
+
+def _summarize_state(state: dict[str, Any]) -> str:
+    statuses = [item["status"] for item in state["projects"].values()]
+    if statuses and all(value in {"completed", "skipped", "rolled-back"} for value in statuses):
+        return "completed"
+    if any(value in {"completed", "skipped", "rolled-back"} for value in statuses):
+        return "partial"
+    if statuses and all(value == "failed" for value in statuses):
+        return "failed"
+    return "running"
+
+
+def apply_batch_plan(plan_path: Path, state_path: Path) -> dict[str, Any]:
+    plan_path = plan_path.expanduser().resolve()
+    state_path = state_path.expanduser().resolve()
+    plan = _load_batch_plan(plan_path)
+    for project in plan["projects"]:
+        output = Path(project["output"]).resolve()
+        if path_inside(state_path, output):
+            raise CkbError(f"batch state must be outside every target OUTPUT: {state_path}")
+    if state_path.is_file():
+        state = _load_state(state_path)
+        if state.get("batch_id") != plan["batch_id"] or state.get("plan_digest") != plan["plan_digest"]:
+            raise CkbError("batch state is bound to a different immutable plan")
+    else:
+        state = _new_state(plan, plan_path, state_path)
+        _save_state(state_path, state)
+    plan_by_id = {item["project_id"]: item for item in plan["projects"]}
+    backup_base = state_path.parent / ".ckb-agent-policy-batch-backups" / plan["batch_id"]
+    for project_id in sorted(plan_by_id):
+        project = plan_by_id[project_id]
+        project_state = state["projects"][project_id]
+        if project["status"] != "ready":
+            continue
+        output = Path(project["output"]).resolve()
+        workspace_roots = [Path(value).resolve() for value in project["workspace_roots"]]
+        try:
+            with _output_lock(output):
+                if project_state["status"] in {"completed", "skipped"}:
+                    current = snapshot_digest(snapshot_files(output, workspace_roots))
+                    if current != project_state["applied_digest"]:
+                        raise BatchProjectError("post-apply-drift", f"completed project drifted after batch apply: {project_id}")
+                    project_state["status"] = "skipped"
+                    _append_state_event(state, project_id, "apply", "skipped", "idempotent-success")
+                    _save_state(state_path, state)
+                    continue
+                if project_state["status"] == "applying":
+                    if not project_state.get("backup"):
+                        raise BatchProjectError("resume-backup-missing", f"interrupted project has no backup: {project_id}")
+                    backup = json_load(Path(project_state["backup"]))
+                    if not _recovery_matches(project_state, backup):
+                        raise BatchProjectError("resume-external-drift", f"interrupted project contains non-batch drift: {project_id}")
+                    _restore_backup(Path(project_state["backup"]))
+                    project_state["status"] = "pending"
+                    _append_state_event(state, project_id, "resume", "restored-baseline")
+                    _save_state(state_path, state)
+                current_files = snapshot_files(output, workspace_roots)
+                current_digest = snapshot_digest(current_files)
+                if current_digest != project["observed_digest"]:
+                    raise BatchProjectError("plan-target-drift", f"target bytes changed after plan: {project_id}")
+                desired = {} if project["action"] == "noop" else _desired_project_files(project)
+                backup = _create_backup(project, backup_base / project_id)
+                if backup["baseline_digest"] != project["observed_digest"]:
+                    raise BatchProjectError("backup-baseline-mismatch", f"backup differs from plan baseline: {project_id}")
+                project_state["backup"] = backup["manifest_path"]
+                project_state["desired_files"] = _desired_inventory(desired)
+                project_state["status"] = "applying"
+                _append_state_event(state, project_id, "apply", "applying")
+                _save_state(state_path, state)
+                _commit_desired(desired)
+                from .agent_protocol import audit_agent_protocol
+
+                audit = audit_agent_protocol(output)
+                if audit.get("status") != "passed":
+                    raise BatchProjectError(
+                        "post-upgrade-audit-failed",
+                        f"Agent Protocol audit failed after upgrade: {output / 'workspace-meta/agent-protocol-audit.json'}",
+                    )
+                applied_files = snapshot_files(output, workspace_roots)
+                project_state["applied_digest"] = snapshot_digest(applied_files)
+                project_state["status"] = "completed" if project["action"] == "upgrade" else "skipped"
+                project_state["failure"] = None
+                evidence = _write_project_evidence(output, plan["batch_id"], project_state, "apply")
+                project_state["evidence"] = str(evidence)
+                _append_state_event(state, project_id, "apply", project_state["status"])
+                _save_state(state_path, state)
+                _journal_batch_result(output, "apply", project_state["status"], evidence)
+        except BatchProjectError as exc:
+            if project_state.get("backup") and project_state.get("status") == "applying":
+                try:
+                    _restore_backup(Path(project_state["backup"]))
+                except (BatchProjectError, OSError) as restore_exc:
+                    exc = BatchProjectError("automatic-restore-failed", f"{exc}; restore failed: {restore_exc}")
+            project_state["status"] = "failed"
+            project_state["failure"] = {"category": exc.category, "detail": str(exc)}
+            project_state["applied_digest"] = None
+            evidence = _write_project_evidence(output, plan["batch_id"], project_state, "apply")
+            project_state["evidence"] = str(evidence)
+            _append_state_event(state, project_id, "apply", "failed", exc.category)
+            _save_state(state_path, state)
+            _journal_batch_result(output, "apply", "failed", evidence)
+        except (CkbError, OSError, ValueError, json.JSONDecodeError) as exc:
+            if project_state.get("backup") and project_state.get("status") == "applying":
+                _restore_backup(Path(project_state["backup"]))
+            project_state["status"] = "failed"
+            project_state["failure"] = {"category": "apply-failed", "detail": str(exc)}
+            project_state["applied_digest"] = None
+            evidence = _write_project_evidence(output, plan["batch_id"], project_state, "apply")
+            project_state["evidence"] = str(evidence)
+            _append_state_event(state, project_id, "apply", "failed", "apply-failed")
+            _save_state(state_path, state)
+            _journal_batch_result(output, "apply", "failed", evidence)
+    state["status"] = _summarize_state(state)
+    _save_state(state_path, state)
+    return batch_status(state_path)
+
+
+def batch_status(state_path: Path) -> dict[str, Any]:
+    state_path = state_path.expanduser().resolve()
+    state = _load_state(state_path)
+    plan = _load_batch_plan(Path(state["plan"]))
+    plan_by_id = {item["project_id"]: item for item in plan["projects"]}
+    projects = []
+    drifted = 0
+    for project_id in sorted(state["projects"]):
+        item = dict(state["projects"][project_id])
+        plan_project = plan_by_id[project_id]
+        current_digest = None
+        expected_digest = None
+        if plan_project["status"] == "ready":
+            current_digest = snapshot_digest(
+                snapshot_files(
+                    Path(plan_project["output"]),
+                    [Path(value) for value in plan_project["workspace_roots"]],
+                )
+            )
+            expected_digest = item["baseline_digest"] if item["status"] == "rolled-back" else item["applied_digest"]
+            if expected_digest and current_digest != expected_digest:
+                item["drift"] = {"category": "managed-bytes-drift", "expected": expected_digest, "actual": current_digest}
+                drifted += 1
+            else:
+                item["drift"] = None
+        item["current_digest"] = current_digest
+        item["recovery"] = f"agent-policy batch rollback --state '{state_path}' --project {project_id}"
+        projects.append(item)
+    counts: dict[str, int] = {}
+    for item in projects:
+        counts[item["status"]] = counts.get(item["status"], 0) + 1
+    status = "drifted" if drifted else state["status"]
+    return {
+        "schema_version": BATCH_STATE_SCHEMA_VERSION,
+        "batch_id": state["batch_id"],
+        "status": status,
+        "state": str(state_path),
+        "plan": state["plan"],
+        "summary": {"projects": len(projects), "drifted": drifted, "counts": dict(sorted(counts.items()))},
+        "projects": projects,
+        "event_count": len(state.get("events", [])),
+    }
+
+
+def audit_batch_state(state_path: Path) -> dict[str, Any]:
+    state_path = state_path.expanduser().resolve()
+    state = _load_state(state_path)
+    plan = _load_batch_plan(Path(state["plan"]))
+    plan_by_id = {item["project_id"]: item for item in plan["projects"]}
+    results = []
+    for project_id in sorted(state["projects"]):
+        project_state = state["projects"][project_id]
+        project = plan_by_id[project_id]
+        errors = []
+        audit = None
+        if project["status"] != "ready":
+            errors.append({"category": "plan-project-failed"})
+        elif project_state["status"] in {"completed", "skipped"}:
+            from .agent_protocol import audit_agent_protocol
+
+            audit = audit_agent_protocol(Path(project["output"]))
+            if audit.get("status") != "passed":
+                errors.append({"category": "agent-policy-audit-failed", "evidence": str(Path(project["output"]) / "workspace-meta/agent-protocol-audit.json")})
+            current = snapshot_digest(
+                snapshot_files(Path(project["output"]), [Path(value) for value in project["workspace_roots"]])
+            )
+            if current != project_state["applied_digest"]:
+                errors.append({"category": "applied-bytes-drift", "expected": project_state["applied_digest"], "actual": current})
+            evidence = project_state.get("evidence")
+            if not evidence or not Path(evidence).is_file():
+                errors.append({"category": "batch-evidence-missing"})
+        elif project_state["status"] == "rolled-back":
+            current = snapshot_digest(
+                snapshot_files(Path(project["output"]), [Path(value) for value in project["workspace_roots"]])
+            )
+            if current != project_state["baseline_digest"]:
+                errors.append({"category": "rollback-bytes-drift", "expected": project_state["baseline_digest"], "actual": current})
+        else:
+            errors.append({"category": "project-not-complete", "status": project_state["status"]})
+        result = {
+            "project_id": project_id,
+            "status": "passed" if not errors else "failed",
+            "source_version": project_state["source_version"],
+            "target_version": project_state["target_version"],
+            "evidence": project_state.get("evidence"),
+            "recovery": f"agent-policy batch rollback --state '{state_path}' --project {project_id}",
+            "agent_policy": audit,
+            "errors": errors,
+        }
+        results.append(result)
+        if project["status"] == "ready" and Path(project["output"]).is_dir():
+            evidence = _write_project_evidence(Path(project["output"]), state["batch_id"], project_state, "audit")
+            project_state["evidence"] = str(evidence)
+            _journal_batch_result(Path(project["output"]), "audit", result["status"], evidence)
+    failed = sum(item["status"] == "failed" for item in results)
+    _append_state_event(state, "batch", "audit", "passed" if failed == 0 else "failed", None if failed == 0 else "project-audit-failed")
+    _save_state(state_path, state)
+    return {
+        "schema_version": BATCH_STATE_SCHEMA_VERSION,
+        "batch_id": state["batch_id"],
+        "status": "passed" if failed == 0 else "failed",
+        "state": str(state_path),
+        "summary": {"projects": len(results), "passed": len(results) - failed, "failed": failed},
+        "projects": results,
+    }
+
+
+def rollback_batch_state(state_path: Path, project_ids: list[str] | None = None) -> dict[str, Any]:
+    state_path = state_path.expanduser().resolve()
+    state = _load_state(state_path)
+    plan = _load_batch_plan(Path(state["plan"]))
+    plan_by_id = {item["project_id"]: item for item in plan["projects"]}
+    requested = sorted(set(project_ids or []))
+    unknown = sorted(set(requested) - set(state["projects"]))
+    if unknown:
+        raise CkbError(f"unknown Agent Protocol batch rollback project: {', '.join(unknown)}")
+    selected = requested or sorted(
+        project_id
+        for project_id, item in state["projects"].items()
+        if item["status"] in {"completed", "skipped"}
+    )
+    if not selected:
+        raise CkbError("Agent Protocol batch rollback has no completed project to restore")
+    results = []
+    for project_id in selected:
+        project_state = state["projects"][project_id]
+        project = plan_by_id[project_id]
+        output = Path(project["output"]).resolve()
+        result = {
+            "project_id": project_id,
+            "status": "failed",
+            "source_version": project_state["source_version"],
+            "target_version": project_state["target_version"],
+            "failure": None,
+            "evidence": project_state.get("evidence"),
+        }
+        try:
+            if project_state["status"] == "rolled-back":
+                current = snapshot_digest(
+                    snapshot_files(output, [Path(value) for value in project["workspace_roots"]])
+                )
+                if current != project_state["baseline_digest"]:
+                    raise BatchProjectError("rollback-post-drift", f"rolled-back project drifted: {project_id}")
+                result["status"] = "skipped"
+                results.append(result)
+                continue
+            if project_state["status"] not in {"completed", "skipped"}:
+                raise BatchProjectError("rollback-project-not-complete", f"project is not rollback eligible: {project_id}")
+            if not project_state.get("backup") or not Path(project_state["backup"]).is_file():
+                raise BatchProjectError("rollback-backup-missing", f"rollback backup is missing: {project_id}")
+            with _output_lock(output):
+                current = snapshot_digest(
+                    snapshot_files(output, [Path(value) for value in project["workspace_roots"]])
+                )
+                if current != project_state["applied_digest"]:
+                    raise BatchProjectError(
+                        "rollback-external-drift",
+                        f"rollback refuses to overwrite managed bytes changed after batch apply: {project_id}",
+                    )
+                _restore_backup(Path(project_state["backup"]))
+                restored = snapshot_digest(
+                    snapshot_files(output, [Path(value) for value in project["workspace_roots"]])
+                )
+                if restored != project_state["baseline_digest"]:
+                    raise BatchProjectError("rollback-verification-failed", f"rollback baseline digest mismatch: {project_id}")
+                project_state["status"] = "rolled-back"
+                project_state["failure"] = None
+                evidence = _write_project_evidence(output, state["batch_id"], project_state, "rollback")
+                project_state["evidence"] = str(evidence)
+                _append_state_event(state, project_id, "rollback", "rolled-back")
+                _save_state(state_path, state)
+                _journal_batch_result(output, "rollback", "rolled-back", evidence)
+                result["status"] = "passed"
+                result["evidence"] = str(evidence)
+        except BatchProjectError as exc:
+            result["failure"] = {"category": exc.category, "detail": str(exc)}
+            _append_state_event(state, project_id, "rollback", "failed", exc.category)
+            _save_state(state_path, state)
+        except (CkbError, OSError, ValueError, json.JSONDecodeError) as exc:
+            result["failure"] = {"category": "rollback-failed", "detail": str(exc)}
+            _append_state_event(state, project_id, "rollback", "failed", "rollback-failed")
+            _save_state(state_path, state)
+        results.append(result)
+    state["status"] = _summarize_state(state)
+    _save_state(state_path, state)
+    failed = sum(item["status"] == "failed" for item in results)
+    passed = sum(item["status"] == "passed" for item in results)
+    return {
+        "schema_version": BATCH_STATE_SCHEMA_VERSION,
+        "batch_id": state["batch_id"],
+        "status": "passed" if failed == 0 else "failed" if passed == 0 else "partial",
+        "state": str(state_path),
+        "summary": {"selected": len(results), "passed": passed, "skipped": len(results) - passed - failed, "failed": failed},
+        "projects": results,
+    }
