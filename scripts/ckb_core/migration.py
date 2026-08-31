@@ -127,15 +127,29 @@ def _preserve_mutable_layers(previous_output: Path, output: Path) -> list[dict[s
             record["kind"] = "vault-user-file"
             record["relative_target"] = f"{root_name}/{relative}"
             records.append(_add_mutable_baseline(output, record))
-    for directory in ("notes", "pending-notes", "sessions", "automation"):
-        source_root = previous_output / "workspace-meta" / directory
-        if not source_root.is_dir():
-            continue
+    # The mutable machine layer is intentionally copied as one bounded tree.
+    # It includes work records, pending/session notes, feedback, research gaps,
+    # operation journal shards, Agent protocol bindings and automation state.
+    # Fixed source facts and the two searchable indexes are rebuilt elsewhere.
+    source_root = previous_output / "workspace-meta"
+    if source_root.is_dir():
         for source in sorted(path for path in source_root.rglob("*") if path.is_file()):
             relative = source.relative_to(source_root)
-            target = output / "workspace-meta" / directory / relative
+            target = output / "workspace-meta" / relative
             record = _copy_file(source, target)
             record["kind"] = "workspace-mutable-file"
+            record["relative_target"] = target.relative_to(output).as_posix()
+            records.append(_add_mutable_baseline(output, record))
+    # Reviewed external references own archived raw bytes, manifests and Agent
+    # reviews under OUTPUT/references.  Human reference pages are projections
+    # and will be regenerated from this preserved source layer.
+    source_root = previous_output / "references"
+    if source_root.is_dir():
+        for source in sorted(path for path in source_root.rglob("*") if path.is_file()):
+            relative = source.relative_to(source_root)
+            target = output / "references" / relative
+            record = _copy_file(source, target)
+            record["kind"] = "reviewed-reference-source"
             record["relative_target"] = target.relative_to(output).as_posix()
             records.append(_add_mutable_baseline(output, record))
     old_database = previous_output / "machine" / "automation.sqlite"

@@ -90,6 +90,13 @@ from ckb_core.management_agent import (
     unbind_conversation,
 )
 from ckb_core.migration import audit_migration, migrate_output, migration_status
+from ckb_core.scope_extension import (
+    audit_scope_extension,
+    cutover_scope_extension,
+    extension_status,
+    rollback_scope_extension,
+    start_scope_extension,
+)
 from ckb_core.page_config import (
     DEFAULT_PAGE_CONFIG,
     load_page_config,
@@ -292,6 +299,25 @@ def parser() -> argparse.ArgumentParser:
     migration_audit_command = migration_sub.add_parser("audit")
     migration_audit_command.add_argument("--out", type=Path, required=True)
     migration_audit_command.add_argument("--allow-pending-reviews", action="store_true")
+    scope_command = sub.add_parser("scope")
+    scope_sub = scope_command.add_subparsers(dest="scope_command", required=True)
+    scope_extend = scope_sub.add_parser("extend")
+    scope_extend_sub = scope_extend.add_subparsers(dest="scope_extend_command", required=True)
+    scope_extend_start = scope_extend_sub.add_parser("start")
+    scope_extend_start.add_argument("--from-out", type=Path, required=True)
+    scope_extend_start.add_argument("--repo", type=Path, required=True)
+    scope_extend_start.add_argument("--staging", type=Path, required=True)
+    scope_extend_start.add_argument("--entry", action="append", required=True)
+    scope_extend_start.add_argument("--expand-depth", type=int, default=1)
+    scope_extend_start.add_argument("--expand-direction", choices=("both", "callers", "callees"), default="both")
+    scope_extend_status = scope_extend_sub.add_parser("status")
+    scope_extend_status.add_argument("--out", type=Path, required=True)
+    scope_extend_audit = scope_extend_sub.add_parser("audit")
+    scope_extend_audit.add_argument("--out", type=Path, required=True)
+    scope_extend_cutover = scope_extend_sub.add_parser("cutover")
+    scope_extend_cutover.add_argument("--out", type=Path, required=True, help="audited staging OUTPUT")
+    scope_extend_rollback = scope_extend_sub.add_parser("rollback")
+    scope_extend_rollback.add_argument("--out", type=Path, required=True, help="promoted production OUTPUT")
     context_command = sub.add_parser("context")
     context_command.add_argument("--out", type=Path, required=True)
     context_command.add_argument("--module", required=True)
@@ -665,6 +691,23 @@ def main() -> int:
         result = audit_migration(args.out, require_complete_reviews=not args.allow_pending_reviews)
         emit(result)
         return 0 if result.get("status") == "passed" else 4 if result.get("status") == "pending-agent-review" else 5
+    elif args.command == "scope":
+        if args.scope_extend_command == "start":
+            result = start_scope_extension(args.from_out, args.repo, args.staging, args.entry, args.expand_depth, args.expand_direction)
+            emit(result)
+            return 4 if result.get("status") == "pending-agent-review" else 0
+        if args.scope_extend_command == "status":
+            result = extension_status(args.out)
+            emit(result)
+            return 4 if result.get("status") in {"pending-agent-review", "ready-for-audit"} else 0
+        if args.scope_extend_command == "audit":
+            result = audit_scope_extension(args.out)
+            emit(result)
+            return 0 if result.get("status") == "ready" else 5
+        if args.scope_extend_command == "cutover":
+            emit(cutover_scope_extension(args.out))
+        else:
+            emit(rollback_scope_extension(args.out))
     elif args.command == "context":
         emit(build_context(args.out.resolve(), args.module, args.entry))
     elif args.command == "query":
