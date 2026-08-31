@@ -5,10 +5,14 @@ from __future__ import annotations
 from dataclasses import dataclass
 import hashlib
 import json
+import os
+from pathlib import Path
 import re
+import subprocess
+import time
 from typing import Any, Sequence
 
-from .common import CkbError
+from .common import CkbError, background_process_options, json_load, json_write
 
 
 KEYWORD_FALLBACK_SCHEMA_VERSION = 1
@@ -35,6 +39,10 @@ _PROMPT_INJECTION = re.compile(
     r")",
     flags=re.IGNORECASE,
 )
+_CREDENTIAL_SHAPE = re.compile(
+    r"(?:sk-[A-Za-z0-9_-]{20,}|bearer\s+[A-Za-z0-9._-]{20,})",
+    flags=re.IGNORECASE,
+)
 _FAILURE_TYPES = {
     "invalid-json",
     "invalid-output",
@@ -43,6 +51,17 @@ _FAILURE_TYPES = {
     "rate-limit",
     "timeout",
     "unavailable",
+}
+_CACHE_FIELDS = {
+    "schema_version",
+    "status",
+    "cache_key",
+    "input_hash",
+    "prompt_schema",
+    "provider",
+    "model",
+    "version",
+    "response",
 }
 
 
@@ -65,6 +84,19 @@ def keyword_input_hash(question: str) -> str:
 
 def keyword_request_id(question: str) -> str:
     return f"keyword-{keyword_input_hash(question)[:24]}"
+
+
+def keyword_cache_key(question: str, config: KeywordProviderConfig) -> str:
+    validate_provider_config(config)
+    material = {
+        "input_hash": keyword_input_hash(question),
+        "provider": config.provider,
+        "model": config.model,
+        "version": config.version,
+        "prompt_schema": KEYWORD_PROMPT_SCHEMA,
+    }
+    serialized = json.dumps(material, ensure_ascii=True, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(serialized.encode("ascii")).hexdigest()
 
 
 def canonical_keyword_request(question: str) -> dict[str, Any]:
@@ -130,6 +162,8 @@ def _bounded_strings(
             raise CkbError(f"keyword provider {name} contains unsupported characters")
         if _PROMPT_INJECTION.search(normalized):
             raise CkbError(f"keyword provider {name} contains prompt-injection text")
+        if _CREDENTIAL_SHAPE.search(normalized):
+            raise CkbError(f"keyword provider {name} contains credential-shaped text")
         identity = normalized.casefold()
         if identity in seen:
             raise CkbError(f"keyword provider {name} contains duplicate items")
@@ -250,6 +284,200 @@ def parse_provider_json(raw: str) -> Any:
         return json.loads(raw)
     except json.JSONDecodeError as exc:
         raise CkbError("keyword provider returned invalid JSON") from exc
+
+
+def _failure(question: str, config: KeywordProviderConfig, failure_type: str) -> dict[str, Any]:
+    return {
+        "schema_version": KEYWORD_FALLBACK_SCHEMA_VERSION,
+        "status": "failed",
+        "failure_type": failure_type,
+        "request_id": keyword_request_id(question),
+        "provider": config.provider,
+        "model": config.model,
+        "version": config.version,
+        "keywords": [],
+        "anchors": [],
+        "rewrites": [],
+        "usage": _usage({}),
+    }
+
+
+def _cache_path(output: Path, cache_key: str) -> Path:
+    return output.resolve() / "workspace-meta" / "keyword-fallback" / "cache" / f"{cache_key}.json"
+
+
+def _cache_record(question: str, config: KeywordProviderConfig, response: dict[str, Any]) -> dict[str, Any]:
+    cache_key = keyword_cache_key(question, config)
+    return {
+        "schema_version": KEYWORD_FALLBACK_SCHEMA_VERSION,
+        "status": "passed",
+        "cache_key": cache_key,
+        "input_hash": keyword_input_hash(question),
+        "prompt_schema": KEYWORD_PROMPT_SCHEMA,
+        "provider": config.provider,
+        "model": config.model,
+        "version": config.version,
+        "response": response,
+    }
+
+
+def _read_cache(output: Path, question: str, config: KeywordProviderConfig) -> dict[str, Any] | None:
+    path = _cache_path(output, keyword_cache_key(question, config))
+    if not path.is_file():
+        return None
+    try:
+        record = json_load(path)
+        expected = _cache_record(question, config, record.get("response") if isinstance(record, dict) else {})
+        if not isinstance(record, dict) or set(record) != _CACHE_FIELDS:
+            return None
+        for name in _CACHE_FIELDS - {"response"}:
+            if record.get(name) != expected.get(name):
+                return None
+        response = validate_provider_response(record.get("response"), question=question, config=config)
+        if response.get("status") != "passed":
+            return None
+        return response
+    except (CkbError, OSError, ValueError, TypeError):
+        return None
+
+
+def _write_cache(output: Path, question: str, config: KeywordProviderConfig, response: dict[str, Any]) -> Path:
+    record = _cache_record(question, config, response)
+    path = _cache_path(output, record["cache_key"])
+    json_write(path, record)
+    return path
+
+
+def _transient(failure_type: str) -> bool:
+    return failure_type in {"process-failed", "rate-limit", "timeout", "unavailable"}
+
+
+def run_keyword_provider(
+    output: Path,
+    question: str,
+    config: KeywordProviderConfig,
+    *,
+    use_cache: bool = True,
+) -> dict[str, Any]:
+    """Call one explicit command/stdio adapter and return only validated fields."""
+
+    validate_provider_config(config)
+    missing = sorted(name for name in config.required_environment if not os.environ.get(name))
+    if missing:
+        return {
+            **_failure(question, config, "missing-credentials"),
+            "attempts": 0,
+            "latency_ms": 0.0,
+            "cache_hit": False,
+            "missing_environment": missing,
+        }
+    if use_cache:
+        cached = _read_cache(output, question, config)
+        if cached is not None:
+            return {
+                **cached,
+                "attempts": 0,
+                "latency_ms": 0.0,
+                "cache_hit": True,
+                "cache_key": keyword_cache_key(question, config),
+            }
+    request = json.dumps(canonical_keyword_request(question), ensure_ascii=False, separators=(",", ":"))
+    started = time.perf_counter_ns()
+    attempts = 0
+    response: dict[str, Any] = _failure(question, config, "unavailable")
+    for attempt in range(config.retries + 1):
+        attempts = attempt + 1
+        failure_type: str | None = None
+        try:
+            completed = subprocess.run(
+                list(config.command),
+                input=request,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                timeout=config.timeout_seconds,
+                check=False,
+                **background_process_options(),
+            )
+            if completed.returncode:
+                diagnostic = f"{completed.stdout}\n{completed.stderr}"
+                failure_type = "rate-limit" if re.search(r"rate[ _-]*limit|too many requests|\b429\b", diagnostic, re.IGNORECASE) else "process-failed"
+                response = _failure(question, config, failure_type)
+            else:
+                try:
+                    parsed = parse_provider_json(completed.stdout)
+                    response = validate_provider_response(parsed, question=question, config=config)
+                    failure_type = response.get("failure_type") if response.get("status") != "passed" else None
+                except CkbError as exc:
+                    failure_type = "invalid-json" if "invalid JSON" in str(exc) else "invalid-output"
+                    response = _failure(question, config, failure_type)
+        except subprocess.TimeoutExpired:
+            failure_type = "timeout"
+            response = _failure(question, config, failure_type)
+        except (FileNotFoundError, OSError):
+            failure_type = "unavailable"
+            response = _failure(question, config, failure_type)
+        if response.get("status") == "passed" or not failure_type or not _transient(failure_type):
+            break
+    latency_ms = round((time.perf_counter_ns() - started) / 1_000_000, 6)
+    result = {
+        **response,
+        "attempts": attempts,
+        "latency_ms": latency_ms,
+        "cache_hit": False,
+        "cache_key": keyword_cache_key(question, config),
+    }
+    if response.get("status") == "passed" and use_cache:
+        result["cache"] = str(_write_cache(output, question, config, response).resolve())
+    return result
+
+
+def audit_keyword_cache(output: Path) -> dict[str, Any]:
+    """Check bounded cache records without reading or requiring provider secrets."""
+
+    root = output.resolve() / "workspace-meta" / "keyword-fallback" / "cache"
+    if not root.is_dir():
+        return {"schema_version": 1, "status": "passed", "records": 0, "errors": []}
+    errors: list[str] = []
+    records = 0
+    for path in sorted(root.glob("*.json")):
+        records += 1
+        try:
+            value = json_load(path)
+        except (OSError, ValueError) as exc:
+            errors.append(f"{path.name}: invalid cache JSON: {type(exc).__name__}")
+            continue
+        if not isinstance(value, dict) or set(value) != _CACHE_FIELDS:
+            errors.append(f"{path.name}: fields differ from the fixed cache schema")
+            continue
+        if value.get("schema_version") != KEYWORD_FALLBACK_SCHEMA_VERSION or value.get("status") != "passed":
+            errors.append(f"{path.name}: cache status or schema mismatch")
+        if value.get("prompt_schema") != KEYWORD_PROMPT_SCHEMA:
+            errors.append(f"{path.name}: prompt schema mismatch")
+        cache_key = value.get("cache_key")
+        if not isinstance(cache_key, str) or not re.fullmatch(r"[0-9a-f]{64}", cache_key) or path.stem != cache_key:
+            errors.append(f"{path.name}: cache key mismatch")
+        input_hash = value.get("input_hash")
+        if not isinstance(input_hash, str) or not re.fullmatch(r"[0-9a-f]{64}", input_hash):
+            errors.append(f"{path.name}: input hash is invalid")
+        for name in ("provider", "model", "version"):
+            try:
+                _machine_token(value.get(name), name)
+            except CkbError as exc:
+                errors.append(f"{path.name}: {exc}")
+        serialized = json.dumps(value, ensure_ascii=False)
+        if _CREDENTIAL_SHAPE.search(serialized):
+            errors.append(f"{path.name}: cache contains credential-shaped text")
+    unexpected = [path.name for path in root.iterdir() if not path.is_file() or path.suffix != ".json"]
+    errors.extend(f"unexpected keyword cache entry: {name}" for name in sorted(unexpected))
+    return {
+        "schema_version": KEYWORD_FALLBACK_SCHEMA_VERSION,
+        "status": "passed" if not errors else "failed",
+        "records": records,
+        "errors": errors,
+    }
 
 
 def unique_casefold(values: Sequence[str]) -> list[str]:
