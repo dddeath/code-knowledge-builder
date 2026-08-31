@@ -32,6 +32,15 @@ def expected_output_contract(output: Path, vault: Path) -> dict[str, Any]:
     output = output.resolve()
     vault = vault.resolve()
     python, ckb = _runtime_binding(output)
+    return output_contract_for_runtime(output, vault, python, ckb)
+
+
+def output_contract_for_runtime(output: Path, vault: Path, python: Path, ckb: Path) -> dict[str, Any]:
+    """Render one exact contract for an already validated runtime binding."""
+    output = output.resolve()
+    vault = vault.resolve()
+    python = python.resolve()
+    ckb = ckb.resolve()
     return {
         "schema_version": OUTPUT_CONTRACT_SCHEMA_VERSION,
         "contract": "code-knowledge-builder-output",
