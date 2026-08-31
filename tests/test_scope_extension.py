@@ -280,6 +280,11 @@ class ScopeExtensionTest(unittest.TestCase):
         plan["review"]["delta_entity_ids"].pop()
         json_write(plan_path, plan)
         self.assertEqual(audit_scope_extension(self.staging)["status"], "ready")
+        concurrent = self.output / "concurrent-write.txt"
+        concurrent.write_text("concurrent drift", encoding="utf-8")
+        with self.assertRaisesRegex(CkbError, "origin-drift"):
+            cutover_scope_extension(self.staging)
+        concurrent.unlink()
         cutover_scope_extension(self.staging)
         with self.assertRaisesRegex(CkbError, "rollback-failed"):
             rollback_scope_extension(self.output, fault="after-modified-rename")
