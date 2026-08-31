@@ -26,6 +26,7 @@ from ckb_core.agent_protocol import (
     audit_agent_protocol,
     install_agent_protocol,
 )
+from ckb_core.agent_protocol_batch import create_batch_plan
 from ckb_core.automation import (
     SUPPORTED_HARNESSES,
     activate_skill_session,
@@ -475,6 +476,11 @@ def parser() -> argparse.ArgumentParser:
     agent_policy_check.add_argument("--out", type=Path, required=True)
     agent_policy_status_command = agent_policy_sub.add_parser("status")
     agent_policy_status_command.add_argument("--out", type=Path, required=True)
+    agent_policy_batch = agent_policy_sub.add_parser("batch")
+    agent_policy_batch_sub = agent_policy_batch.add_subparsers(dest="agent_policy_batch_command", required=True)
+    agent_policy_batch_plan = agent_policy_batch_sub.add_parser("plan")
+    agent_policy_batch_plan.add_argument("--manifest", type=Path, required=True)
+    agent_policy_batch_plan.add_argument("--write", type=Path)
     automation_command = sub.add_parser("automation")
     automation_sub = automation_command.add_subparsers(dest="automation_command", required=True)
     automation_register = automation_sub.add_parser("register")
@@ -853,7 +859,12 @@ def main() -> int:
         else:
             emit(sessions_status(args.out.resolve()))
     elif args.command == "agent-policy":
-        if args.agent_policy_command == "install":
+        if args.agent_policy_command == "batch":
+            if args.agent_policy_batch_command == "plan":
+                result = create_batch_plan(args.manifest, args.write)
+                emit(result)
+                return 0 if result.get("status") == "ready" else 5
+        elif args.agent_policy_command == "install":
             emit(
                 install_agent_protocol(
                     args.out.resolve(),
