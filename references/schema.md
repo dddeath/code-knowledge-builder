@@ -157,6 +157,8 @@ The Markdown `projection.json` records both roots. `logseq_import_root` describe
 
 ## Repository and C# provenance
 
+追加中心使用 `scope-extension/state.json`、`scope-extension/plan.json` 和 `scope-extension/audit.json`，schema version 为 `1`。state 固定 operation ID、旧 OUTPUT、staging、repo、commit 与规范化请求；plan 固定五个 scope 维度的 retained/added/removed、精确 blob/review 复用、关系影响集合、旧层清单和不可变保留基线；audit 保存固定分类的门结果、双 SQLite 完整性/外键与 maintain 状态。切换控制记录位于 OUTPUT 同级，额外保存旧/新逐文件 SHA-256 树清单和备份绝对路径。以上机器记录不保存 Prompt、secret、完整命令或 stdout/stderr。
+
 `repository.git_bootstrap` records the optional one-time Git initialization. `scope.csharp_workspace` records automatic/explicit project selection, exact or bounded precision, the no-restore fallback project, or an explicitly allowed isolated restore. Restore and fallback records include worktree commit, generated project or artifact hashes, environment, command output, and rollback path.
 
 ## Completion record
