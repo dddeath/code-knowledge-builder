@@ -9,6 +9,7 @@ import sqlite3
 import subprocess
 import sys
 import tempfile
+from types import SimpleNamespace
 import unittest
 import zipfile
 from pathlib import Path
@@ -41,6 +42,7 @@ from ckb_core.obsidian_plugin import (
     register_obsidian_plugin,
     remove_obsidian_plugin,
 )
+from ckb_core import operation_journal
 from ckb_core.output_contract import audit_output_contract, project_output_contract
 from ckb_core.page_config import DEFAULT_PAGE_CONFIG, page_config_sha256
 from ckb_core.pipeline import (
@@ -216,6 +218,60 @@ class CodeKnowledgeBuilderTests(unittest.TestCase):
             result = run(["fixture"], timeout=2)
         self.assertEqual(result.returncode, 0)
         self.assertEqual(launched.call_args.kwargs["creationflags"], 12345)
+
+    def test_bounded_machine_operation_journal_is_private_deduplicated_and_audited(self) -> None:
+        output = self.root / "operation-output"
+        write(output / "state.json", "{}")
+        evidence = output / "machine/agent-packs/pack-01.json"
+        write(evidence, '{"status":"passed"}')
+        args = SimpleNamespace(command="brief", out=output, question="不得进入日志的原始问题", token="secret")
+        result = {
+            "status": "passed",
+            "question": "不得进入日志的原始问题",
+            "token": "secret",
+            "pack": str(evidence),
+            "outside": str(self.root / "outside.txt"),
+        }
+        recorded = operation_journal.record_cli_operation(args, result)
+        self.assertIsNotNone(recorded)
+        duplicate = operation_journal.record_cli_operation(args, result)
+        self.assertTrue(duplicate["idempotent"])
+        listed = operation_journal.list_operations(output)
+        self.assertEqual(listed["count"], 1)
+        event = listed["operations"][0]
+        self.assertEqual(set(event), operation_journal._EVENT_FIELDS)
+        self.assertNotIn("问题", json.dumps(event, ensure_ascii=False))
+        self.assertNotIn("secret", json.dumps(event, ensure_ascii=False))
+        self.assertEqual(event["evidence_paths"], ["machine/agent-packs/pack-01.json"])
+        latest = json.loads((output / "workspace-meta/operations/latest.json").read_text(encoding="utf-8"))
+        self.assertEqual(latest["bounded_drops"]["deduplicated"], 1)
+        self.assertFalse((output / "human/operations").exists())
+
+        cli_audit = invoke("operations", "audit", "--out", str(output))
+        self.assertEqual(cli_audit.returncode, 0, cli_audit.stderr)
+        cli_list = invoke("operations", "list", "--out", str(output), "--operation", "query", "--limit", "1")
+        self.assertEqual(cli_list.returncode, 0, cli_list.stderr)
+        self.assertEqual(json.loads(cli_list.stdout)["count"], 1)
+
+        with patch.object(operation_journal, "MAX_RECORDS_PER_SHARD", 2), patch.object(
+            operation_journal, "MAX_SHARD_BYTES", 100_000
+        ):
+            for index in range(3):
+                path = output / f"audit/evidence-{index}.json"
+                write(path, "{}")
+                operation_journal.record_operation(output, "audit", f"audit:test-{index}", "passed", [f"audit/evidence-{index}.json"])
+            bounded = operation_journal.list_operations(output, limit=20)
+            self.assertEqual(bounded["count"], 2)
+            audit = operation_journal.audit_operation_journal(output)
+            self.assertEqual(audit["status"], "passed", audit)
+
+        shard = next((output / "workspace-meta/operations").glob("*.jsonl"))
+        values = [json.loads(line) for line in shard.read_text(encoding="utf-8").splitlines()]
+        values[0]["raw_output"] = "forbidden"
+        shard.write_text("".join(json.dumps(item) + "\n" for item in values), encoding="utf-8")
+        failed = operation_journal.audit_operation_journal(output)
+        self.assertEqual(failed["status"], "failed")
+        self.assertTrue(any("fixed operation schema" in error for error in failed["errors"]))
 
     def test_llm_wiki_capability_matrix_has_closed_four_state_boundaries(self) -> None:
         matrix = capability_matrix()

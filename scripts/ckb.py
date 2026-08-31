@@ -107,6 +107,12 @@ from ckb_core.obsidian_plugin import (
     register_obsidian_plugin,
     remove_obsidian_plugin,
 )
+from ckb_core.operation_journal import (
+    OPERATION_TYPES,
+    audit_operation_journal,
+    list_operations,
+    record_cli_operation,
+)
 from ckb_core.showcase import package_showcase
 from ckb_core.stdio_server import serve_stdio
 from ckb_core.workspace_notes import record_note, sync_workspace, workspace_status
@@ -232,6 +238,15 @@ def parser() -> argparse.ArgumentParser:
     capabilities_command.add_argument("--write", type=Path)
     maintain_command = sub.add_parser("maintain")
     maintain_command.add_argument("--out", type=Path, required=True)
+    operations_command = sub.add_parser("operations")
+    operations_sub = operations_command.add_subparsers(dest="operations_command", required=True)
+    operations_list = operations_sub.add_parser("list")
+    operations_list.add_argument("--out", type=Path, required=True)
+    operations_list.add_argument("--operation", choices=OPERATION_TYPES)
+    operations_list.add_argument("--status", dest="result_status")
+    operations_list.add_argument("--limit", type=int, default=50)
+    operations_audit = operations_sub.add_parser("audit")
+    operations_audit.add_argument("--out", type=Path, required=True)
     reference_command = sub.add_parser("reference")
     reference_sub = reference_command.add_subparsers(dest="reference_command", required=True)
     reference_ingest = reference_sub.add_parser("ingest")
@@ -447,12 +462,19 @@ def parser() -> argparse.ArgumentParser:
     return root
 
 
+_ACTIVE_ARGS: argparse.Namespace | None = None
+
+
 def emit(value) -> None:
+    if _ACTIVE_ARGS is not None:
+        record_cli_operation(_ACTIVE_ARGS, value)
     print(json.dumps(value, ensure_ascii=False, indent=2))
 
 
 def main() -> int:
+    global _ACTIVE_ARGS
     args = parser().parse_args()
+    _ACTIVE_ARGS = args
     if args.command == "doctor":
         report = doctor_report()
         report["runtime"] = deployment_plan()
@@ -523,6 +545,13 @@ def main() -> int:
         result = maintenance_check(args.out.resolve())
         emit(result)
         return 0 if result.get("status") == "passed" else 5
+    elif args.command == "operations":
+        if args.operations_command == "list":
+            emit(list_operations(args.out.resolve(), args.operation, args.result_status, args.limit))
+        else:
+            result = audit_operation_journal(args.out.resolve())
+            emit(result)
+            return 0 if result.get("status") == "passed" else 5
     elif args.command == "reference":
         if args.reference_command == "ingest":
             result = ingest_reference(

@@ -169,14 +169,14 @@ CAPABILITIES: tuple[dict[str, str], ...] = (
         "id": "machine-operation-journal",
         "area": "知识维护",
         "name": "有界机器操作日志",
-        "status": STATUS_CANDIDATE,
+        "status": STATUS_ABSORBED,
         "input": "compile/query/record/audit/maintenance 的完成结果",
         "output": "按日分片的机器 JSONL 和 latest 摘要，不生成每日人类页面",
         "dependencies": "Python 标准库",
         "license": "CKB 原生实现",
         "data_boundary": "不记录原始对话、秘密或全文输出；只记录操作类型、对象、状态和证据路径",
         "completion_gate": "固定字段、去重、大小上限、隐私过滤、索引和清理策略通过测试",
-        "batch": "下一小批次候选",
+        "batch": "本批次",
     },
     {
         "id": "research-gap-register",
@@ -277,7 +277,7 @@ def capability_matrix() -> dict[str, Any]:
     return {
         "schema_version": 1,
         "status": "ready",
-        "matrix_version": "2026-08-30.2",
+        "matrix_version": "2026-08-31.1",
         "source": "LLM Wiki five-operation model adapted through independent CKB implementations",
         "reference_license_boundary": "Only behavior and interface ideas are used; no LLM Wiki source is copied because its local reference has no confirmed license notice.",
         "status_order": list(CAPABILITY_STATUSES),
@@ -333,7 +333,7 @@ def render_capability_matrix_markdown() -> str:
         [
             "## 当前批次原则",
             "",
-            "- 先吸收紧凑阅读入口、聚合维护门和后台子进程，不新增人类知识页。",
+            "- 本批次吸收有界机器操作日志：只保留固定机器字段和相对证据路径，不记录问题、对话或全文输出，也不新增人类知识页。",
             "- 审阅文本资料层已进入默认本地路径；固定源码事实层仍不接收外部文档。",
             "- 向量检索、PDF/网页/OCR 和自动页面扩散只在隔离 benchmark 中比较，不进入默认发行路径。",
             "- 本地 Web 查看器、大型二进制复制和外部文档伪装成代码实体保持明确排除。",
@@ -409,6 +409,7 @@ def maintenance_check(output: Path) -> dict[str, Any]:
     from .agent_protocol import audit_agent_protocol
     from .knowledge_layers import audit_human_layer
     from .machine_knowledge import audit_machine_knowledge
+    from .operation_journal import audit_operation_journal
     from .reference_documents import audit_references
     from .work_record_index import audit_work_record_index
 
@@ -419,6 +420,7 @@ def maintenance_check(output: Path) -> dict[str, Any]:
         "machine_knowledge": audit_machine_knowledge(output),
         "human_layer": audit_human_layer(output),
         "references": audit_references(output),
+        "operations": audit_operation_journal(output),
     }
     failed = [name for name, result in checks.items() if result.get("status") != "passed"]
     readability_path = output / "human/readability-audit.json"
