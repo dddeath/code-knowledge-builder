@@ -34,7 +34,6 @@ DECLARATION_TYPES = {
         "enum_specifier": "enum",
         "namespace_definition": "namespace",
         "type_definition": "type",
-        "template_declaration": "template",
     },
     "csharp": {
         "namespace_declaration": "namespace",
@@ -188,6 +187,88 @@ def _csharp_fallback_name(node, source: bytes, kind: str) -> tuple[str, int, int
     return None
 
 
+def _has_ancestor(node: Any, node_type: str) -> bool:
+    current = node.parent
+    while current is not None:
+        if current.type == node_type:
+            return True
+        current = current.parent
+    return False
+
+
+def _cpp_function_declarator_kind(node: Any) -> str | None:
+    """Classify C++ function-shaped nodes that require parent context."""
+    if _has_ancestor(node, "template_instantiation"):
+        return None
+    parent = node.parent
+    if parent is not None and parent.type == "reference_declarator" and _has_ancestor(node, "compound_statement"):
+        # Tree-sitter intentionally resolves the declaration/expression ambiguity
+        # without a symbol table.  In a block, ``const T &x(expr);`` is retained as
+        # a declaration fact rather than promoted to a standalone function.
+        return "declaration"
+    return "function"
+
+
+def _cpp_explicit_class_instantiation_recovery(node: Any, source: bytes) -> dict[str, Any] | None:
+    """Recognize the pinned grammar's sole missing-node shape for ``template class``."""
+    if not node.is_missing or node.type != "identifier":
+        return None
+    parent = node.parent
+    if parent is None or parent.type != "template_instantiation":
+        return None
+    type_node = parent.child_by_field_name("type")
+    if type_node is None or type_node.type not in {"class_specifier", "struct_specifier"}:
+        return None
+    name_node = type_node.child_by_field_name("name")
+    if name_node is None or name_node.type != "template_type":
+        return None
+    text = _node_text(parent, source).strip()
+    if not re.match(r"^template\s+(?:class|struct)\b", text) or not text.endswith(";"):
+        return None
+    start_line, _ = _byte_position(source, parent.start_byte)
+    end_line, _ = _byte_position(source, parent.end_byte)
+    return {
+        "kind": "tree-sitter-cpp-explicit-class-template-instantiation",
+        "node_type": node.type,
+        "start_line": start_line,
+        "end_line": end_line,
+    }
+
+
+def _parse_diagnostics(language: str, root: Any, source: bytes) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    """Split known pinned-grammar recoveries from unresolved syntax diagnostics."""
+    error_nodes = [node for node in _walk(root) if node.is_error or node.is_missing]
+    recoveries: list[dict[str, Any]] = []
+    unresolved: list[dict[str, Any]] = []
+    for node in error_nodes:
+        recovery = _cpp_explicit_class_instantiation_recovery(node, source) if language == "cpp" else None
+        if recovery is not None:
+            recoveries.append(recovery)
+            continue
+        start_line, _ = _byte_position(source, node.start_byte)
+        end_line, _ = _byte_position(source, node.end_byte)
+        unresolved.append(
+            {
+                "node_type": node.type,
+                "is_error": bool(node.is_error),
+                "is_missing": bool(node.is_missing),
+                "start_line": start_line,
+                "end_line": end_line,
+            }
+        )
+    if root.has_error and not error_nodes:
+        unresolved.append(
+            {
+                "node_type": root.type,
+                "is_error": True,
+                "is_missing": False,
+                "start_line": 1,
+                "end_line": max(1, source.count(b"\n") + 1),
+            }
+        )
+    return recoveries, unresolved
+
+
 def parse_file(repository: dict[str, Any], file_entry: dict[str, Any], source: bytes) -> dict[str, Any]:
     try:
         from tree_sitter import Parser
@@ -200,6 +281,7 @@ def parse_file(repository: dict[str, Any], file_entry: dict[str, Any], source: b
     parser = Parser(language)
     tree = parser.parse(source)
     root = tree.root_node
+    recoveries, parse_diagnostics = _parse_diagnostics(file_entry["language"], root, source)
     source_text = source.decode("utf-8", errors="replace")
     file_entity = {
         "id": file_entry["id"],
@@ -236,6 +318,13 @@ def parse_file(repository: dict[str, Any], file_entry: dict[str, Any], source: b
         kind = declarations.get(node_type)
         if not kind:
             continue
+        if file_entry["language"] == "cpp":
+            if _has_ancestor(node, "template_instantiation"):
+                continue
+            if node_type == "function_declarator":
+                kind = _cpp_function_declarator_kind(node)
+                if kind is None:
+                    continue
         start_byte = node.start_byte
         end_byte = node.end_byte
         start_line, _start_column = _byte_position(source, start_byte)
@@ -265,7 +354,7 @@ def parse_file(repository: dict[str, Any], file_entry: dict[str, Any], source: b
         if parent_name is None and file_scoped_namespace and start_byte >= file_scoped_namespace[2]:
             parent_name, parent_id, _namespace_end = file_scoped_namespace
         qualified = f"{parent_name}.{name}" if parent_name else name
-        if node_type == "function_declarator" and entity_kind_by_id.get(parent_id) == "function":
+        if node_type == "function_declarator" and kind == "function" and entity_kind_by_id.get(parent_id) == "function":
             continue
         node_text = source[start_byte:end_byte].decode("utf-8", errors="replace")
         line_count = end_line - start_line + 1
@@ -330,9 +419,12 @@ def parse_file(repository: dict[str, Any], file_entry: dict[str, Any], source: b
     return {
         "file": file_entry,
         "parse": {
-            "status": "failed" if root.has_error else "passed",
+            "status": "failed" if parse_diagnostics else "passed",
             "root_type": root.type,
-            "has_error": bool(root.has_error),
+            "has_error": bool(parse_diagnostics),
+            "raw_has_error": bool(root.has_error),
+            "recoveries": recoveries,
+            "diagnostics": parse_diagnostics,
         },
         "entities": entities,
     }
