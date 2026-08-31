@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import os
 from pathlib import Path
+import sqlite3
 import subprocess
 import sys
 import tempfile
@@ -12,8 +13,10 @@ import unittest
 SKILL_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SKILL_ROOT / "scripts"))
 
-from ckb_core.common import CkbError
+from ckb_core.common import CkbError, json_write, sha256_file, stable_id, utc_now
 from ckb_core.pipeline import build_chunk, finalize, initialize, review_pack
+from ckb_core.reference_documents import _render_reference_page
+from ckb_core.research_gaps import _index_value
 from ckb_core.scope_extension import (
     _tree_manifest,
     audit_scope_extension,
@@ -22,6 +25,7 @@ from ckb_core.scope_extension import (
     rollback_scope_extension,
     start_scope_extension,
 )
+from ckb_core.workspace_notes import record_note
 
 
 def git(repo: Path, *args: str) -> str:
@@ -85,6 +89,107 @@ class ScopeExtensionTest(unittest.TestCase):
             page2 = self.output / vault / "user" / "学习笔记二.md"
             page2.write_text("# 学习笔记二\n\n这是必须按原字节保留的第二份学习笔记。\n", encoding="utf-8")
 
+    def add_preserved_layers(self) -> None:
+        gap_records = []
+        gap_root = self.output / "workspace-meta/gaps/records"
+        for index in range(3):
+            summary = f"第 {index + 1} 项资料仍缺少固定问题集和独立验证证据，需要后续补充。"
+            gap_id = stable_id("gap", "insufficient-evidence", summary, "audit/global.json")
+            stamp = utc_now()
+            record = {
+                "schema_version": 1,
+                "gap_id": gap_id,
+                "kind": "insufficient-evidence",
+                "status": "open",
+                "summary_zh": summary,
+                "evidence_paths": ["audit/global.json"],
+                "created_at_utc": stamp,
+                "updated_at_utc": stamp,
+                "resolution_zh": None,
+                "resolution_evidence_paths": [],
+            }
+            json_write(gap_root / f"{gap_id}.json", record)
+            gap_records.append(record)
+        gap_records.sort(key=lambda item: item["gap_id"])
+        json_write(self.output / "workspace-meta/gaps/index.json", _index_value(gap_records))
+
+        reference_root = self.output / "references"
+        raw = reference_root / "raw/fixed-reference--r1.md"
+        raw.parent.mkdir(parents=True, exist_ok=True)
+        raw.write_text(
+            "# 固定参考资料\n\n"
+            "这份资料要求所有扩展都保留原中心，并在隔离目录完成审计。\n"
+            "正式切换前必须验证备份，回滚后必须重新核对完整性。\n",
+            encoding="utf-8",
+        )
+        reference_id = stable_id("reference", "固定参考资料".casefold(), "本地测试资料".casefold(), sha256_file(raw))
+        review_path = reference_root / f"reviews/{reference_id}.json"
+        review = {
+            "schema_version": 1,
+            "reference_id": reference_id,
+            "status": "agent-reviewed",
+            "title": "固定参考资料",
+            "source_file": str(raw.resolve()),
+            "source_sha256": sha256_file(raw),
+            "summary_zh": "这份资料规定追加中心的保留、隔离审计、备份验证和完整回滚要求。",
+            "claims": [
+                {
+                    "claim_zh": "追加中心需要保留原中心并在隔离目录审计，切换和回滚都要验证完整性。",
+                    "start_line": 3,
+                    "end_line": 4,
+                    "source_text": "这份资料要求所有扩展都保留原中心，并在隔离目录完成审计。\n正式切换前必须验证备份，回滚后必须重新核对完整性。",
+                    "evidence_note": "已重新打开归档原文第 3 至 4 行并核对保留、切换和回滚要求。",
+                }
+            ],
+        }
+        json_write(review_path, review)
+        manifest = {
+            "schema_version": 1,
+            "reference_id": reference_id,
+            "status": "agent-reviewed",
+            "title": "固定参考资料",
+            "origin": "本地测试资料",
+            "author": "Fixture",
+            "license": "CC0-1.0",
+            "copy_permission": "full-text",
+            "source_type": "markdown",
+            "source_suffix": ".md",
+            "source_file": str(raw.resolve()),
+            "source_relative": raw.relative_to(self.output).as_posix(),
+            "source_sha256": sha256_file(raw),
+            "source_size": raw.stat().st_size,
+            "revision": 1,
+            "supersedes": None,
+            "review_template": str((reference_root / f"review-templates/{reference_id}.json").resolve()),
+            "review_file": str(review_path.resolve()),
+            "human_file": "references/固定参考资料.md",
+            "ingested_at_utc": utc_now(),
+        }
+        json_write(reference_root / f"manifests/{reference_id}.json", manifest)
+        page_text = _render_reference_page(manifest, review)
+        index_text = "# 参考资料导览\n\n标签：#类型/导览\n\n## 已审阅资料\n\n- [[固定参考资料]] — 追加中心的保留和回滚要求。\n"
+        for vault in ("human", "markdown"):
+            page = self.output / vault / "references/固定参考资料.md"
+            page.parent.mkdir(parents=True, exist_ok=True)
+            page.write_text(page_text, encoding="utf-8", newline="\n")
+            (self.output / vault / "REFERENCES.md").write_text(index_text, encoding="utf-8", newline="\n")
+        json_write(
+            reference_root / "projection.json",
+            {
+                "schema_version": 1,
+                "status": "ready",
+                "page_count": 1,
+                "page_limit_per_source": 1,
+                "pages": [{"reference_id": reference_id, "title": "固定参考资料", "file": "references/固定参考资料.md", "summary_zh": review["summary_zh"], "revision": 1}],
+                "files": ["REFERENCES.md", "references/固定参考资料.md"],
+                "projected_at_utc": utc_now(),
+            },
+        )
+        note_body = self.root / "work-record.md"
+        for index in range(46):
+            note_body.write_text(f"第 {index + 1} 条工作记录说明固定测试行为和实际验证结果。\n", encoding="utf-8")
+            record_note(self.output, "session", f"迁移工作记录 {index + 1:02d}", note_body, reindex=False)
+
     def tearDown(self) -> None:
         if self.old_provider is None:
             os.environ.pop("CKB_TEST_PROVIDER", None)
@@ -93,6 +198,7 @@ class ScopeExtensionTest(unittest.TestCase):
         self.temporary.cleanup()
 
     def test_union_delta_idempotence_cutover_and_byte_exact_rollback(self) -> None:
+        self.add_preserved_layers()
         origin = _tree_manifest(self.output)
         started = start_scope_extension(
             self.output, self.repo, self.staging, ["python:extra.py#second"], 0, "both"
@@ -108,6 +214,9 @@ class ScopeExtensionTest(unittest.TestCase):
         self.assertGreater(plan["reuse"]["file_count"], 0)
         self.assertGreater(plan["reuse"]["review_entity_count"], 0)
         self.assertGreater(plan["reuse"]["delta_review_entity_count"], 0)
+        self.assertEqual(plan["preservation"]["origin_layers"]["work_record_count"], 46)
+        self.assertEqual(plan["preservation"]["origin_layers"]["reference_count"], 1)
+        self.assertEqual(plan["preservation"]["origin_layers"]["gap_count"], 3)
         for vault in ("human", "markdown"):
             self.assertEqual(
                 (self.output / vault / "user/学习笔记一.md").read_bytes(),
@@ -127,6 +236,14 @@ class ScopeExtensionTest(unittest.TestCase):
         audited = audit_scope_extension(self.staging)
         self.assertEqual(audited["status"], "ready", audited)
         self.assertTrue(all(item["passed"] for item in audited["sqlite"]))
+        connection = sqlite3.connect(self.staging / "machine/knowledge.sqlite")
+        try:
+            old_matches = connection.execute("SELECT count(*) FROM entities WHERE source_path='app.py' AND qualified_name='first'").fetchone()[0]
+            new_matches = connection.execute("SELECT count(*) FROM entities WHERE source_path='extra.py' AND qualified_name='second'").fetchone()[0]
+        finally:
+            connection.close()
+        self.assertEqual(old_matches, 1)
+        self.assertEqual(new_matches, 1)
         cutover = cutover_scope_extension(self.staging)
         self.assertEqual(cutover["status"], "cutover-complete")
         self.assertEqual(extension_status(self.output)["status"], "cutover-complete")
@@ -145,6 +262,30 @@ class ScopeExtensionTest(unittest.TestCase):
             cutover_scope_extension(self.staging, fault="after-backup-rename")
         self.assertEqual(_tree_manifest(self.output), origin)
         self.assertTrue(self.staging.is_dir())
+        self.assertEqual(cutover_scope_extension(self.staging)["status"], "cutover-complete")
+        self.assertEqual(rollback_scope_extension(self.output)["status"], "rolled-back")
+        self.assertEqual(_tree_manifest(self.output), origin)
+
+    def test_audit_drift_and_rollback_failure_are_recoverable(self) -> None:
+        origin = _tree_manifest(self.output)
+        start_scope_extension(self.output, self.repo, self.staging, ["python:extra.py#second"], 0, "both")
+        review_all(self.staging)
+        plan_path = self.staging / "scope-extension/plan.json"
+        plan = json.loads(plan_path.read_text(encoding="utf-8"))
+        plan["review"]["delta_entity_ids"].append(plan["review"]["reused_entity_ids"][0])
+        json_write(plan_path, plan)
+        failed = audit_scope_extension(self.staging)
+        self.assertEqual(failed["status"], "failed")
+        self.assertFalse(next(item for item in failed["checks"] if item["name"] == "exact-delta-review-set")["passed"])
+        plan["review"]["delta_entity_ids"].pop()
+        json_write(plan_path, plan)
+        self.assertEqual(audit_scope_extension(self.staging)["status"], "ready")
+        cutover_scope_extension(self.staging)
+        with self.assertRaisesRegex(CkbError, "rollback-failed"):
+            rollback_scope_extension(self.output, fault="after-modified-rename")
+        self.assertNotEqual(_tree_manifest(self.output), origin)
+        self.assertEqual(rollback_scope_extension(self.output)["status"], "rolled-back")
+        self.assertEqual(_tree_manifest(self.output), origin)
 
     def test_fixed_failure_categories(self) -> None:
         cases = [

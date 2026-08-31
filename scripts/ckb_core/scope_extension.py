@@ -4,10 +4,12 @@ from __future__ import annotations
 
 import hashlib
 import json
+import gc
 from pathlib import Path, PurePosixPath
 import shutil
 import sqlite3
 from typing import Any
+import warnings
 
 from .common import CkbError, json_load, json_write, path_inside, sha256_file, stable_id
 from .gitrepo import LANGUAGE_BY_SUFFIX, preflight
@@ -96,6 +98,13 @@ def _sqlite_checks(output: Path) -> list[dict[str, Any]]:
             "passed": integrity == "ok" and not foreign_keys,
         })
     return checks
+
+
+def _release_audit_handles() -> None:
+    """Release transient sqlite objects left by read-only audit helpers."""
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", ResourceWarning)
+        gc.collect()
 
 
 def _candidate_graph(output: Path) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
@@ -506,6 +515,10 @@ def audit_scope_extension(staging: Path) -> dict[str, Any]:
         "delta_extra": sorted(actual_delta - expected_delta),
         "relation_delta_missing": sorted(expected_added_relations - set(plan["review"]["affected_relation_ids"])),
         "relation_delta_extra": sorted(set(plan["review"]["affected_relation_ids"]) - expected_added_relations),
+        "plan_reused_missing": sorted(expected_reused - set(plan["review"]["reused_entity_ids"])),
+        "plan_reused_extra": sorted(set(plan["review"]["reused_entity_ids"]) - expected_reused),
+        "plan_delta_missing": sorted(expected_delta - set(plan["review"]["delta_entity_ids"])),
+        "plan_delta_extra": sorted(set(plan["review"]["delta_entity_ids"]) - expected_delta),
     }
     check("exact-delta-review-set", not any(review_detail.values()), review_detail, "delta-review-drift")
     preservation_errors = _preservation_errors(staging, plan["preservation"]["mutable_files"])
@@ -583,6 +596,8 @@ def cutover_scope_extension(staging: Path, *, fault: str | None = None) -> dict[
     operation_id = state["operation_id"]
     backup = output.parent / f".{output.name}.scope-extension-backup-{operation_id}"
     control_path = _control_path(output, operation_id)
+    if control_path.is_file() and not backup.exists() and json_load(control_path).get("status") == "cutover-failed-restored":
+        control_path.unlink()
     if backup.exists() or control_path.exists():
         raise _error("cutover-conflict", "cutover backup or control record already exists")
     record = {
@@ -599,6 +614,10 @@ def cutover_scope_extension(staging: Path, *, fault: str | None = None) -> dict[
     json_write(control_path, record)
     moved_staging = False
     try:
+        # Some audit helpers use sqlite3 connection context managers whose
+        # objects close only when released.  Collect before Windows directory
+        # renames so verified databases do not retain transient file handles.
+        _release_audit_handles()
         output.rename(backup)
         if fault == "after-backup-rename":
             raise OSError("injected failure after backup rename")
@@ -665,6 +684,7 @@ def rollback_scope_extension(output: Path, *, fault: str | None = None) -> dict[
         raise _error("rollback-conflict", f"rollback quarantine already exists: {rolled_forward}")
     restored_origin = False
     try:
+        _release_audit_handles()
         output.rename(rolled_forward)
         if fault == "after-modified-rename":
             raise OSError("injected failure after modified rename")
@@ -689,7 +709,11 @@ def rollback_scope_extension(output: Path, *, fault: str | None = None) -> dict[
                 rolled_forward.rename(output)
         finally:
             restored_modified = output.is_dir() and _same_manifest(record["modified_manifest"], _tree_manifest(output))
-            record.update({"status": "rollback-failed-restored" if restored_modified else "rollback-failed", "rollback_failure": str(exc), "modified_restored": restored_modified})
+            record.update({
+                "status": "cutover-complete" if restored_modified else "rollback-failed",
+                "last_rollback_failure": str(exc),
+                "modified_restored": restored_modified,
+            })
             json_write(control_path, record)
         if isinstance(exc, CkbError):
             raise
