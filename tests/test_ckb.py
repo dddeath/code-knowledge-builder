@@ -1374,6 +1374,110 @@ def __getattr__(name):
         precise = invoke("retrieve", "--out", str(output), "OrderService 服务修改", "--budget", "1200", "--profile", "precise")
         self.assertEqual(precise.returncode, 0, precise.stderr)
         self.assertTrue(json.loads(precise.stdout)["deterministic"])
+        keyword_fixture = SKILL_ROOT / "tests" / "fixtures" / "keyword_provider.py"
+        keyword_provider_args = (
+            "--keyword-provider-command",
+            str(PYTHON),
+            "--keyword-provider-arg",
+            str(keyword_fixture),
+            "--keyword-provider",
+            "fixture",
+            "--keyword-model",
+            "fixture-model",
+            "--keyword-provider-version",
+            "1",
+            "--keyword-provider-timeout",
+            "2",
+            "--keyword-provider-retries",
+            "0",
+            "--keyword-provider-no-cache",
+        )
+        zero_start_marker = self.root / "default-provider-started.txt"
+        default_probe = invoke(
+            "retrieve",
+            "--out",
+            str(output),
+            "OrderService 服务修改",
+            "--budget",
+            "1200",
+            *keyword_provider_args,
+            env={"CKB_FAKE_KEYWORD_PROVIDER_MARKER": str(zero_start_marker)},
+        )
+        self.assertEqual(default_probe.returncode, 0, default_probe.stderr)
+        self.assertFalse(zero_start_marker.exists())
+        self.assertNotIn("keyword_fallback", json.loads(default_probe.stdout))
+        forced_marker = self.root / "forced-provider-started.txt"
+        forced = invoke(
+            "retrieve",
+            "--out",
+            str(output),
+            "OrderService 服务修改",
+            "--budget",
+            "1200",
+            "--force-keyword-fallback",
+            *keyword_provider_args,
+            env={
+                "CKB_FAKE_KEYWORD_PROVIDER_MODE": "order-service",
+                "CKB_FAKE_KEYWORD_PROVIDER_MARKER": str(forced_marker),
+            },
+        )
+        self.assertEqual(forced.returncode, 0, forced.stderr)
+        forced_record = json.loads(forced.stdout)
+        self.assertTrue(forced_marker.is_file())
+        self.assertEqual(forced_record["keyword_fallback"]["status"], "passed")
+        self.assertTrue(forced_record["keyword_fallback"]["final"]["deterministic_selection"])
+        self.assertTrue(Path(forced_record["keyword_fallback_record"]).is_file())
+        automatic = invoke(
+            "brief",
+            "--out",
+            str(output),
+            "星际织网不存在术语",
+            "--budget",
+            "1200",
+            "--allow-keyword-fallback",
+            *keyword_provider_args,
+            env={"CKB_FAKE_KEYWORD_PROVIDER_MODE": "order-service"},
+        )
+        self.assertEqual(automatic.returncode, 0, automatic.stderr)
+        automatic_record = json.loads(automatic.stdout)
+        self.assertEqual(automatic_record["status"], "passed")
+        self.assertEqual(automatic_record["keyword_fallback"]["trigger"], "needs-source-read")
+        self.assertTrue(Path(automatic_record["record"]).is_file())
+        fallback = invoke(
+            "retrieve",
+            "--out",
+            str(output),
+            "OrderService 服务修改",
+            "--budget",
+            "1200",
+            "--force-keyword-fallback",
+            *keyword_provider_args,
+            env={"CKB_FAKE_KEYWORD_PROVIDER_MODE": "invalid-json"},
+        )
+        self.assertEqual(fallback.returncode, 0, fallback.stderr)
+        fallback_record = json.loads(fallback.stdout)
+        self.assertEqual(fallback_record["status"], "passed")
+        self.assertEqual(fallback_record["keyword_fallback"]["status"], "fallback")
+        self.assertEqual(fallback_record["keyword_fallback"]["provider"]["failure_type"], "invalid-json")
+        benchmark_report = self.root / "keyword-benchmark.json"
+        benchmark = invoke(
+            "keyword-benchmark",
+            "--out",
+            str(output),
+            "--cases",
+            str(SKILL_ROOT / "tests" / "fixtures" / "keyword_benchmark.json"),
+            "--write",
+            str(benchmark_report),
+            *keyword_provider_args[:-1],
+            env={"CKB_FAKE_KEYWORD_PROVIDER_MODE": "order-service"},
+        )
+        self.assertEqual(benchmark.returncode, 0, benchmark.stderr)
+        benchmark_record = json.loads(benchmark.stdout)
+        self.assertEqual(benchmark_record["status"], "passed")
+        self.assertEqual(benchmark_record["summary"]["quality_claim"], "measured-gain")
+        self.assertTrue(benchmark_record["cases"][0]["hot"]["cache_hit"])
+        self.assertEqual(benchmark_record["cases"][0]["hot"]["usage"]["total_tokens"], 0)
+        self.assertEqual(json.loads(benchmark_report.read_text(encoding="utf-8")), benchmark_record)
         entity_result = invoke("entity", "--out", str(output), "OrderService")
         self.assertEqual(entity_result.returncode, 0, entity_result.stderr)
         self.assertEqual(len(json.loads(entity_result.stdout)["candidates"]), 1)

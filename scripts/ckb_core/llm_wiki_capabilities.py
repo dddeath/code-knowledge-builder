@@ -375,7 +375,7 @@ def compact_agent_brief(output: Path, retrieval: dict[str, Any]) -> dict[str, An
         for item in retrieval.get("related_documents", [])
         if item.get("kind") == "feedback"
     ][:8]
-    return {
+    result = {
         "schema_version": 1,
         "status": retrieval.get("status"),
         "question": retrieval.get("question"),
@@ -399,6 +399,10 @@ def compact_agent_brief(output: Path, retrieval: dict[str, Any]) -> dict[str, An
         ],
         "full_record_retained": True,
     }
+    if retrieval.get("keyword_fallback") is not None:
+        result["keyword_fallback"] = retrieval["keyword_fallback"]
+        result["keyword_fallback_record"] = retrieval.get("keyword_fallback_record")
+    return result
 
 
 def maintenance_check(output: Path) -> dict[str, Any]:
@@ -408,6 +412,7 @@ def maintenance_check(output: Path) -> dict[str, Any]:
     from .agent_index import audit_agent_index
     from .agent_protocol import audit_agent_protocol
     from .knowledge_layers import audit_human_layer
+    from .keyword_fallback import audit_keyword_fallback
     from .machine_knowledge import audit_machine_knowledge
     from .operation_journal import audit_operation_journal
     from .research_gaps import audit_gap_register
@@ -419,6 +424,7 @@ def maintenance_check(output: Path) -> dict[str, Any]:
         "work_record_index": audit_work_record_index(output),
         "agent_index": audit_agent_index(output),
         "machine_knowledge": audit_machine_knowledge(output),
+        "keyword_fallback": audit_keyword_fallback(output),
         "human_layer": audit_human_layer(output),
         "references": audit_references(output),
         "operations": audit_operation_journal(output),

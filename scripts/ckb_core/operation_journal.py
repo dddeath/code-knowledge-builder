@@ -232,7 +232,7 @@ def _operation_type(command: str) -> str | None:
     root = command.split(":", 1)[0]
     if root in {"init", "run", "build-chunk", "review-chunk", "review-pack", "merge", "finalize", "human-refresh", "reindex", "migrate", "relink"}:
         return "compile"
-    if root in {"query", "retrieve", "brief", "context", "coverage", "entity", "neighbors", "source", "changes", "path", "explain", "status"}:
+    if root in {"query", "retrieve", "brief", "keyword-benchmark", "context", "coverage", "entity", "neighbors", "source", "changes", "path", "explain", "status"}:
         return "query"
     if root == "maintain":
         return "maintenance"

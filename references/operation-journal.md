@@ -26,3 +26,7 @@ Daily shards are limited to 2,000 records and 1 MiB. The implementation removes 
 ```
 
 `manager audit` 证明 canonical 持久层、隐私字段、稳定 ID、生命周期状态和任务侧车一致；`manager status/context/task-status` 另行读取当前 Git 与知识库门。结构审计通过不覆盖 HEAD drift、dirty tree、测试失败或 maintain 失败。
+
+## LLM 关键词慢路径的日志边界
+
+`retrieve`、`brief` 和 `keyword-benchmark` 仍只在本日志写入既有七个字段。问题正文、原始词项、模型候选、Provider 命令、环境变量、usage、stdout 和 stderr 不进入 operation journal。慢路径的原始/扩展词项、Provider 状态、token、费用和缓存命中只进入对应检索 record、benchmark 报告以及 `workspace-meta/keyword-fallback` 下的有界机器记录；`maintain` 独立审计这些记录的 schema 和隐私边界。

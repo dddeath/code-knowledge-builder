@@ -18,6 +18,12 @@ from typing import Any, Iterable
 from urllib.parse import quote
 
 from .common import CkbError, json_load, json_write, sha256_file, utc_now
+from .keyword_fallback import (
+    KeywordFallbackOptions,
+    run_keyword_provider,
+    unique_casefold,
+    write_keyword_fallback_record,
+)
 from .obsidian import NOTE_DIRECTORIES
 from .query_terms import build_fts_query, explicit_anchors, index_terms, search_terms
 from .source_links import SourceLinkRenderer, source_markdown_link
@@ -59,6 +65,13 @@ def contains_chinese_narrative(value: Any, minimum_han: int = 2) -> bool:
 
 def _fts_query(question: str) -> str | None:
     return build_fts_query(question)
+
+
+def _fts_query_values(values: Iterable[str]) -> str | None:
+    values = [term for term in values if len(term) >= 3][:16]
+    if not values:
+        return None
+    return " OR ".join('"' + value.replace('"', '""') + '"' for value in values)
 
 
 def _human_projection(output: Path) -> tuple[dict[str, Any], Path]:
@@ -1061,12 +1074,16 @@ def _document_block(row: dict[str, Any], allocation_bytes: int) -> str:
     return text.rstrip() + "\n\n"
 
 
-def retrieve_machine(
+def _retrieve_machine_deterministic(
     output: Path,
     question: str,
     budget: int = 1500,
     entity_limit: int = 8,
     profile: str = "fast",
+    *,
+    extra_terms: Iterable[str] = (),
+    extra_anchors: Iterable[str] = (),
+    rewrite_queries: Iterable[str] = (),
 ) -> dict[str, Any]:
     if profile not in {"fast", "precise"}:
         raise CkbError("machine retrieval profile must be fast or precise")
@@ -1081,8 +1098,13 @@ def retrieve_machine(
     breakdown: dict[str, dict[str, float]] = defaultdict(lambda: defaultdict(float))
     reasons: dict[str, list[str]] = defaultdict(list)
     section_scores: dict[str, float] = {}
-    terms = search_terms(question)
-    anchors = explicit_anchors(question)
+    original_terms = search_terms(question)
+    original_anchors = explicit_anchors(question)
+    extra_term_values = unique_casefold(list(extra_terms))
+    extra_anchor_values = unique_casefold([value.casefold() for value in extra_anchors])
+    rewrite_values = unique_casefold(list(rewrite_queries))
+    terms = unique_casefold([*original_terms, *extra_term_values])
+    anchors = unique_casefold([*original_anchors, *extra_anchor_values])
     from .automation import search_automation
     from .feedback import search_feedback
 
@@ -1137,7 +1159,13 @@ def retrieve_machine(
                 terms,
             ):
                 add(row["entity_id"], float(row["weight"]), "term", f"确定性词项 `{row['term']}`")
-        fts = _fts_query(question)
+        if extra_term_values or extra_anchor_values or rewrite_values:
+            rewrite_terms = search_terms(" ".join(rewrite_values))
+            fts = _fts_query_values(
+                unique_casefold([*extra_term_values, *extra_anchor_values, *rewrite_terms, *original_terms])
+            )
+        else:
+            fts = _fts_query(question)
         if fts:
             document_matches = _matching_documents(connection, fts, 8)
             for row in connection.execute(
@@ -1526,6 +1554,159 @@ def retrieve_machine(
     }
     json_write(record_path, result)
     return result
+
+
+def _provider_record(provider: dict[str, Any]) -> dict[str, Any]:
+    return {
+        key: provider.get(key)
+        for key in (
+            "status",
+            "failure_type",
+            "request_id",
+            "provider",
+            "model",
+            "version",
+            "usage",
+            "cached_usage",
+            "attempts",
+            "latency_ms",
+            "cache_hit",
+            "cache_key",
+            "missing_environment",
+        )
+        if provider.get(key) is not None
+    }
+
+
+def _attach_keyword_fallback(
+    output: Path,
+    question: str,
+    result: dict[str, Any],
+    metadata: dict[str, Any],
+) -> dict[str, Any]:
+    record_path = write_keyword_fallback_record(output, question, metadata)
+    metadata = {**metadata, "record": str(record_path.resolve())}
+    result = {**result, "keyword_fallback": metadata, "keyword_fallback_record": str(record_path.resolve())}
+    retrieval_record = result.get("record")
+    if isinstance(retrieval_record, str) and Path(retrieval_record).is_file():
+        persisted = json_load(Path(retrieval_record))
+        if isinstance(persisted, dict):
+            persisted["keyword_fallback"] = metadata
+            persisted["keyword_fallback_record"] = str(record_path.resolve())
+            json_write(Path(retrieval_record), persisted)
+    return result
+
+
+def retrieve_machine(
+    output: Path,
+    question: str,
+    budget: int = 1500,
+    entity_limit: int = 8,
+    profile: str = "fast",
+    *,
+    keyword_fallback: KeywordFallbackOptions | None = None,
+) -> dict[str, Any]:
+    """Run deterministic retrieval and, only when explicit, one keyword fallback."""
+
+    original = _retrieve_machine_deterministic(output, question, budget, entity_limit, profile)
+    if keyword_fallback is None:
+        return original
+    trigger = "forced" if keyword_fallback.force else "needs-source-read"
+    if original.get("status") != "needs-source-read" and not keyword_fallback.force:
+        metadata = {
+            "schema_version": 1,
+            "status": "skipped",
+            "trigger": trigger,
+            "original": {
+                "status": original.get("status"),
+                "terms": original.get("terms", []),
+                "anchors": original.get("anchors", []),
+            },
+            "provider": {
+                "status": "not-started",
+                "provider": keyword_fallback.config.provider,
+                "model": keyword_fallback.config.model,
+                "version": keyword_fallback.config.version,
+            },
+            "model_candidates": {"keywords": [], "anchors": [], "rewrites": []},
+            "validated_extensions": {"terms": [], "anchors": [], "rewrites": []},
+            "final": {"status": original.get("status"), "deterministic_selection": True},
+        }
+        return _attach_keyword_fallback(output, question, original, metadata)
+    provider = run_keyword_provider(
+        output,
+        question,
+        keyword_fallback.config,
+        use_cache=keyword_fallback.use_cache,
+    )
+    original_terms = list(original.get("terms") or search_terms(question))
+    original_anchors = list(original.get("anchors") or explicit_anchors(question))
+    candidates = {
+        "keywords": list(provider.get("keywords") or []),
+        "anchors": list(provider.get("anchors") or []),
+        "rewrites": list(provider.get("rewrites") or []),
+    }
+    extension_terms = unique_casefold(
+        [
+            term
+            for value in [*candidates["keywords"], *candidates["rewrites"]]
+            for term in search_terms(value)
+        ]
+    )
+    original_term_ids = {value.casefold() for value in original_terms}
+    extension_terms = [value for value in extension_terms if value.casefold() not in original_term_ids]
+    original_anchor_ids = {value.casefold() for value in original_anchors}
+    extension_anchors = [
+        value.casefold()
+        for value in unique_casefold(candidates["anchors"])
+        if value.casefold() not in original_anchor_ids
+    ]
+    extensions = {
+        "terms": extension_terms,
+        "anchors": extension_anchors,
+        "rewrites": candidates["rewrites"],
+    }
+    if provider.get("status") != "passed" or not any(extensions.values()):
+        provider_record = _provider_record(provider)
+        if provider.get("status") == "passed":
+            provider_record = {**provider_record, "status": "failed", "failure_type": "invalid-output"}
+        metadata = {
+            "schema_version": 1,
+            "status": "fallback",
+            "trigger": trigger,
+            "original": {"status": original.get("status"), "terms": original_terms, "anchors": original_anchors},
+            "provider": provider_record,
+            "model_candidates": candidates,
+            "validated_extensions": extensions,
+            "final": {"status": original.get("status"), "deterministic_selection": True},
+        }
+        return _attach_keyword_fallback(output, question, original, metadata)
+    final = _retrieve_machine_deterministic(
+        output,
+        question,
+        budget,
+        entity_limit,
+        profile,
+        extra_terms=extension_terms,
+        extra_anchors=extension_anchors,
+        rewrite_queries=candidates["rewrites"],
+    )
+    metadata = {
+        "schema_version": 1,
+        "status": "passed" if final.get("status") == "passed" else "no-quality-gain",
+        "trigger": trigger,
+        "original": {"status": original.get("status"), "terms": original_terms, "anchors": original_anchors},
+        "provider": _provider_record(provider),
+        "model_candidates": candidates,
+        "validated_extensions": extensions,
+        "final": {
+            "status": final.get("status"),
+            "deterministic_selection": True,
+            "selected_entities": len(final.get("selected_entities") or []),
+            "estimated_tokens": final.get("estimated_tokens"),
+        },
+    }
+    return _attach_keyword_fallback(output, question, final, metadata)
 
 
 def coverage(output: Path) -> dict[str, Any]:
