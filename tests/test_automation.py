@@ -744,6 +744,10 @@ class AutomationTest(unittest.TestCase):
             manifest = json.loads((destination / "integration.json").read_text(encoding="utf-8"))
             self.assertTrue(manifest["project_opt_in_required"])
             self.assertFalse(manifest["transcript_parsing"])
+            self.assertEqual(
+                set(manifest["management_capabilities"]),
+                {"binding", "prompt_injection", "event_sync", "task_dispatch"},
+            )
             for relative in manifest["files"]:
                 self.assertTrue((destination / relative).is_file(), relative)
         codex = json.loads((self.root / "integrations/codex/hooks/hooks.json").read_text(encoding="utf-8"))
@@ -783,6 +787,10 @@ class AutomationTest(unittest.TestCase):
         claude = json.loads((self.root / "integrations/claude/.claude/settings.json").read_text(encoding="utf-8"))
         self.assertIn("UserPromptExpansion", claude["hooks"])
         self.assertEqual(claude["hooks"]["PreToolUse"][0]["matcher"], "Skill")
+        generic_root = self.root / "integrations/generic"
+        management_schema = json.loads((generic_root / "management-binding.schema.json").read_text(encoding="utf-8"))
+        self.assertIn("conversation_id", management_schema["properties"])
+        self.assertTrue((generic_root / "example-management-binding.json").is_file())
         for harness in sorted(SUPPORTED_HARNESSES):
             manifest = json.loads((self.root / "integrations" / harness / "integration.json").read_text(encoding="utf-8"))
             self.assertTrue(manifest["session_skill_activation_required"])

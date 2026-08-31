@@ -68,6 +68,21 @@ from ckb_core.llm_wiki_capabilities import (
     render_capability_matrix_markdown,
     write_capability_matrix,
 )
+from ckb_core.management_agent import (
+    MANAGEMENT_SCHEMA_VERSION,
+    NOTIFICATION_POLICIES,
+    audit_manager_registry,
+    bind_conversation,
+    binding_schema,
+    binding_status,
+    create_management_task,
+    default_management_registry_path,
+    harness_capabilities,
+    management_context,
+    management_task_status,
+    review_management_task,
+    unbind_conversation,
+)
 from ckb_core.migration import audit_migration, migrate_output, migration_status
 from ckb_core.page_config import (
     DEFAULT_PAGE_CONFIG,
@@ -453,6 +468,50 @@ def parser() -> argparse.ArgumentParser:
     automation_render.add_argument("--ckb", type=Path)
     automation_render.add_argument("--registry", type=Path, default=default_registry_path())
     automation_render.add_argument("--force", action="store_true")
+    manager_command = sub.add_parser("manager")
+    manager_sub = manager_command.add_subparsers(dest="manager_command", required=True)
+    manager_bind = manager_sub.add_parser("bind")
+    manager_bind.add_argument("--input", type=Path, help="canonical management binding JSON; unknown fields are not persisted")
+    manager_bind.add_argument("--conversation-id")
+    manager_bind.add_argument("--harness")
+    manager_bind.add_argument("--workspace-root", type=Path)
+    manager_bind.add_argument("--repo", type=Path)
+    manager_bind.add_argument("--out", type=Path)
+    manager_bind.add_argument("--integration-branch")
+    manager_bind.add_argument("--notification-policy", choices=NOTIFICATION_POLICIES, default="none")
+    manager_bind.add_argument("--registry", type=Path, default=default_management_registry_path())
+    for name in ("status", "context", "unbind"):
+        manager_value = manager_sub.add_parser(name)
+        manager_value.add_argument("--conversation-id", required=True)
+        manager_value.add_argument("--harness", required=True)
+        manager_value.add_argument("--registry", type=Path, default=default_management_registry_path())
+        if name == "context":
+            manager_value.add_argument("--question", default="管理当前 Code Knowledge Builder 项目")
+            manager_value.add_argument("--python", type=Path)
+            manager_value.add_argument("--ckb", type=Path)
+            manager_value.add_argument("--format", choices=("json", "prompt"), default="json")
+    manager_audit = manager_sub.add_parser("audit")
+    manager_audit.add_argument("--registry", type=Path, default=default_management_registry_path())
+    manager_schema = manager_sub.add_parser("schema")
+    manager_schema.add_argument("--write", type=Path)
+    manager_capabilities = manager_sub.add_parser("capabilities")
+    manager_capabilities.add_argument("--harness", action="append", default=[])
+    manager_task_create = manager_sub.add_parser("task-create")
+    manager_task_create.add_argument("--conversation-id", required=True)
+    manager_task_create.add_argument("--harness", required=True)
+    manager_task_create.add_argument("--task-id", required=True)
+    manager_task_create.add_argument("--branch", required=True)
+    manager_task_create.add_argument("--worktree", type=Path, required=True)
+    manager_task_create.add_argument("--allow-path", action="append", default=[])
+    manager_task_create.add_argument("--forbid-path", action="append", default=[])
+    manager_task_create.add_argument("--test", action="append", required=True)
+    manager_task_create.add_argument("--registry", type=Path, default=default_management_registry_path())
+    manager_task_create.add_argument("--python", type=Path)
+    manager_task_create.add_argument("--ckb", type=Path)
+    for name in ("task-status", "task-review"):
+        manager_task = manager_sub.add_parser(name)
+        manager_task.add_argument("--dispatch-id", required=True)
+        manager_task.add_argument("--registry", type=Path, default=default_management_registry_path())
     relink_command = sub.add_parser("relink")
     relink_command.add_argument("--out", type=Path, required=True)
     relink_command.add_argument("--repo-root", type=Path, required=True)
@@ -756,6 +815,95 @@ def main() -> int:
             emit(write_automation_review_template(args.out, args.review_id, args.write))
         else:
             emit(render_integration(args.harness, args.destination, args.python, args.ckb, args.registry, force=args.force))
+    elif args.command == "manager":
+        if args.manager_command == "bind":
+            if args.input:
+                payload = json.loads(args.input.read_text(encoding="utf-8-sig"))
+            else:
+                required = {
+                    "conversation_id": args.conversation_id,
+                    "harness_id": args.harness,
+                    "workspace_root": str(args.workspace_root) if args.workspace_root else None,
+                    "repo_root": str(args.repo) if args.repo else None,
+                    "knowledge_base": str(args.out) if args.out else None,
+                    "integration_branch": args.integration_branch,
+                }
+                missing = sorted(key for key, value in required.items() if not value)
+                if missing:
+                    raise CkbError(f"manager bind requires --input or direct fields: missing={missing}")
+                payload = {
+                    "schema_version": MANAGEMENT_SCHEMA_VERSION,
+                    **required,
+                    "notification_policy": args.notification_policy,
+                }
+            emit(bind_conversation(payload, args.registry))
+        elif args.manager_command == "status":
+            result = binding_status(args.conversation_id, args.harness, args.registry)
+            emit(result)
+            return 0 if result.get("status") == "ready" else 5
+        elif args.manager_command == "context":
+            result = management_context(
+                args.conversation_id,
+                args.harness,
+                args.question,
+                args.registry,
+                python=args.python,
+                ckb=args.ckb,
+            )
+            if args.format == "prompt":
+                print(result["prompt"], end="")
+            else:
+                emit(result)
+            return 0 if result.get("status") == "ready" else 5
+        elif args.manager_command == "unbind":
+            emit(unbind_conversation(args.conversation_id, args.harness, args.registry))
+        elif args.manager_command == "audit":
+            result = audit_manager_registry(args.registry)
+            emit(result)
+            return 0 if result.get("status") == "passed" else 5
+        elif args.manager_command == "schema":
+            value = binding_schema()
+            if args.write:
+                if args.write.exists():
+                    raise CkbError(f"management schema target already exists: {args.write}")
+                args.write.parent.mkdir(parents=True, exist_ok=True)
+                args.write.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
+                emit({"schema_version": MANAGEMENT_SCHEMA_VERSION, "status": "written", "path": str(args.write.resolve())})
+            else:
+                emit(value)
+        elif args.manager_command == "capabilities":
+            harnesses = args.harness or sorted(SUPPORTED_HARNESSES)
+            emit(
+                {
+                    "schema_version": MANAGEMENT_SCHEMA_VERSION,
+                    "status": "ready",
+                    "harnesses": {harness: harness_capabilities(harness) for harness in harnesses},
+                }
+            )
+        elif args.manager_command == "task-create":
+            emit(
+                create_management_task(
+                    args.conversation_id,
+                    args.harness,
+                    args.task_id,
+                    args.branch,
+                    args.worktree,
+                    args.registry,
+                    allowed_paths=args.allow_path,
+                    forbidden_paths=args.forbid_path,
+                    tests=args.test,
+                    python=args.python,
+                    ckb=args.ckb,
+                )
+            )
+        elif args.manager_command == "task-status":
+            result = management_task_status(args.dispatch_id, args.registry)
+            emit(result)
+            return 0 if result.get("status") == "merge-ready" else 5
+        else:
+            result = review_management_task(args.dispatch_id, args.registry)
+            emit(result)
+            return 0 if result.get("status") == "passed" else 5
     elif args.command == "relink":
         emit(relink_sources(args.out.resolve(), args.repo_root.resolve(), args.editor, args.source_view, args.custom_template))
     elif args.command == "showcase":

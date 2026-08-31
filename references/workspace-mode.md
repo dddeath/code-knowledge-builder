@@ -95,3 +95,29 @@
 - 固定快照、工作覆盖层、自动化事件和人类审阅分别保存，任一层都不覆盖另一层。
 
 完整事件、隐私、恢复和 Harness 配置见 `automation.md`。
+
+## 管理 Agent 派发独立开发 worktree
+
+已绑定 conversation 只有在 integration HEAD 仍等于 bound HEAD、integration worktree 干净、machine/agent-index SQLite 完整、没有开放 error feedback 且 `maintain` 通过时，才能创建开发任务：
+
+```powershell
+& PYTHON scripts\ckb.py manager task-create `
+  --conversation-id CONVERSATION_ID --harness HARNESS `
+  --task-id TASK_ID --branch codex/TASK_BRANCH `
+  --worktree WORKSPACE\worktrees\TASK `
+  --allow-path OWNED_PATH --forbid-path FORBIDDEN_PATH `
+  --test "TEST_COMMAND" --registry MANAGER_REGISTRY
+```
+
+命令使用绑定时 HEAD 创建新 branch 和独立 worktree，并在管理注册表旁生成带哈希的中文交接 Prompt。Prompt 固定包含基线、允许/禁止路径、测试、分批 commit、结构化返回格式以及“不得自行合并、不得同步稳定知识库”边界。相同 binding + task ID + 参数的并发重复调用只产生一个 worktree 和一个 `dispatch_id`；字段冲突时不覆盖旧任务。
+
+开发 Agent 提交修改并保持 worktree 干净后，由管理 Agent 执行真实验证：
+
+```powershell
+& PYTHON scripts\ckb.py manager task-review --dispatch-id DISPATCH_ID --registry MANAGER_REGISTRY
+& PYTHON scripts\ckb.py manager task-status --dispatch-id DISPATCH_ID --registry MANAGER_REGISTRY
+```
+
+`task-review` 在开发最终 HEAD 逐条运行派发时固定的测试命令，保存 literal stdout、stderr 和退出状态，再重新核对开发 HEAD、工作树、integration HEAD 与 bound HEAD。并发 review 由单任务锁串行化；已通过且未漂移的重复 review 复用同一验证记录。`task-status=merge-ready` 只表示审阅门通过，命令本身不执行 merge。
+
+真正合并仍需用户明确指令。合并后在 integration branch 重新运行受影响测试，再执行最小知识库同步和新的 `maintain`；开发 worktree 的测试记录与合并前 maintain 状态不能复用为合并后证据。

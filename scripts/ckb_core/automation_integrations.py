@@ -428,6 +428,8 @@ def render_integration(
     *,
     force: bool = False,
 ) -> dict[str, Any]:
+    from .management_agent import binding_schema, harness_capabilities
+
     if harness not in SUPPORTED_HARNESSES:
         raise CkbError(f"unsupported integration harness: {harness}")
     destination = destination.resolve()
@@ -506,6 +508,7 @@ def render_integration(
         write(".cursor/hooks.json", _cursor_hooks(command))
     else:
         write("automation-event.schema.json", _generic_schema())
+        write("management-binding.schema.json", binding_schema())
         write(
             "example-event.json",
             {
@@ -515,6 +518,19 @@ def render_integration(
                 "cwd": "/absolute/project/path",
                 "skill_name": "code-knowledge-builder",
                 "ckb_skill_applied": True,
+            },
+        )
+        write(
+            "example-management-binding.json",
+            {
+                "schema_version": 1,
+                "conversation_id": "HARNESS_CONVERSATION_ID",
+                "harness_id": "generic",
+                "workspace_root": "/absolute/workspace/path",
+                "repo_root": "/absolute/workspace/path/source",
+                "knowledge_base": "/absolute/workspace/path/knowledge-base",
+                "integration_branch": "INTEGRATION_BRANCH",
+                "notification_policy": "none",
             },
         )
     manifest = {
@@ -529,6 +545,7 @@ def render_integration(
         "session_skill_activation_required": True,
         "required_skill": "code-knowledge-builder",
         "transcript_parsing": False,
+        "management_capabilities": harness_capabilities(harness),
         "files": [str(path.relative_to(destination).as_posix()) for path in files],
     }
     manifest_path = write("integration.json", manifest)
