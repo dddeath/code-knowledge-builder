@@ -101,6 +101,14 @@ from ckb_core.reference_documents import (
     submit_reference_review,
     write_reference_review_template,
 )
+from ckb_core.research_gaps import (
+    GAP_KINDS,
+    GAP_STATUSES,
+    audit_gap_register,
+    create_gap,
+    list_gaps,
+    resolve_gap,
+)
 from ckb_core.obsidian_plugin import (
     deploy_obsidian_plugin,
     obsidian_plugin_status,
@@ -247,6 +255,24 @@ def parser() -> argparse.ArgumentParser:
     operations_list.add_argument("--limit", type=int, default=50)
     operations_audit = operations_sub.add_parser("audit")
     operations_audit.add_argument("--out", type=Path, required=True)
+    gaps_command = sub.add_parser("gaps")
+    gaps_sub = gaps_command.add_subparsers(dest="gaps_command", required=True)
+    gaps_create = gaps_sub.add_parser("create")
+    gaps_create.add_argument("--out", type=Path, required=True)
+    gaps_create.add_argument("--kind", choices=GAP_KINDS, required=True)
+    gaps_create.add_argument("--summary", type=Path, required=True)
+    gaps_create.add_argument("--evidence", action="append", required=True)
+    gaps_list = gaps_sub.add_parser("list")
+    gaps_list.add_argument("--out", type=Path, required=True)
+    gaps_list.add_argument("--status", choices=GAP_STATUSES)
+    gaps_list.add_argument("--kind", choices=GAP_KINDS)
+    gaps_resolve = gaps_sub.add_parser("resolve")
+    gaps_resolve.add_argument("--out", type=Path, required=True)
+    gaps_resolve.add_argument("--gap", required=True)
+    gaps_resolve.add_argument("--resolution", type=Path, required=True)
+    gaps_resolve.add_argument("--evidence", action="append", required=True)
+    gaps_audit = gaps_sub.add_parser("audit")
+    gaps_audit.add_argument("--out", type=Path, required=True)
     reference_command = sub.add_parser("reference")
     reference_sub = reference_command.add_subparsers(dest="reference_command", required=True)
     reference_ingest = reference_sub.add_parser("ingest")
@@ -550,6 +576,17 @@ def main() -> int:
             emit(list_operations(args.out.resolve(), args.operation, args.result_status, args.limit))
         else:
             result = audit_operation_journal(args.out.resolve())
+            emit(result)
+            return 0 if result.get("status") == "passed" else 5
+    elif args.command == "gaps":
+        if args.gaps_command == "create":
+            emit(create_gap(args.out.resolve(), args.kind, args.summary.resolve(), args.evidence))
+        elif args.gaps_command == "list":
+            emit(list_gaps(args.out.resolve(), args.status, args.kind))
+        elif args.gaps_command == "resolve":
+            emit(resolve_gap(args.out.resolve(), args.gap, args.resolution.resolve(), args.evidence))
+        else:
+            result = audit_gap_register(args.out.resolve())
             emit(result)
             return 0 if result.get("status") == "passed" else 5
     elif args.command == "reference":

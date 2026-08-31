@@ -16,7 +16,7 @@ from .work_record_index import audit_work_record_index
 
 
 AGENT_PROTOCOL_SCHEMA_VERSION = 1
-AGENT_PROTOCOL_VERSION = "1.4.0"
+AGENT_PROTOCOL_VERSION = "1.5.0"
 POLICY_BEGIN = "<!-- CKB-AGENT-PROTOCOL:BEGIN -->"
 POLICY_END = "<!-- CKB-AGENT-PROTOCOL:END -->"
 INTERNAL_ROOT_NAMES = ("output", "markdown", "human")
@@ -67,6 +67,8 @@ def _command_examples(output: Path, python: Path, ckb: Path) -> dict[str, str]:
         "capabilities": f"{prefix} capabilities --format json",
         "reference_list": f"{prefix} reference list --out '{out}' --status all",
         "reference_audit": f"{prefix} reference audit --out '{out}'",
+        "gaps_list": f"{prefix} gaps list --out '{out}' --status open",
+        "gaps_audit": f"{prefix} gaps audit --out '{out}'",
     }
 
 
@@ -112,14 +114,20 @@ def _protocol_text(output: Path, repository: str, python: Path, ckb: Path) -> st
 
 4. 更新已有人工笔记时使用同标题和 `--append`。Hook 仅采集会话与修改事件，并在 Agent 审核后新建会话页或修改页；其他已有页面只在任务明确要求时执行显式追加，不随每轮对话扩散更新。
 5. 外部文本资料只通过 `reference ingest/review/audit/rollback` 进入独立参考层。Agent 必须重新打开归档原文，逐项提交精确行范围、原文文本、中文主张和中文来源核对；参考资料不成为代码实体。
-6. 人工反馈通过 `feedback create` 进入带行范围和文本窗口的收件箱。处理前先执行：
+6. 检索证据不足、来源冲突或反馈需要暂缓时，使用 `gaps create` 把中文待验证说明和现有证据路径写入机器缺口层。缺口不属于已确认事实，也不为每项缺口创建页面；开始新任务时可执行：
+
+```powershell
+{commands['gaps_list']}
+```
+
+7. 人工反馈通过 `feedback create` 进入带行范围和文本窗口的收件箱。处理前先执行：
 
 ```powershell
 {commands['feedback_locate']}
 ```
 
 生成器管理页面仍不直接编辑；采纳或部分采纳时先修改来源、生成规则或通过 `record` 写入落实记录，再用 `feedback resolve` 归档。拒绝必须写明中文理由；暂缓记录继续留在开放列表。反馈记录不删除。
-7. 结束实质任务前执行聚合维护门；它统一检查反馈、Agent Policy、工作记录、参考资料、人类可读性、机器知识库和兼容索引，并且不创建知识页面：
+8. 结束实质任务前执行聚合维护门；它统一检查反馈、Agent Policy、工作记录、参考资料、研究缺口、机器操作日志、人类可读性、机器知识库和兼容索引，并且不创建知识页面：
 
 ```powershell
 {commands['maintain']}
@@ -388,7 +396,7 @@ def _audit_note_storage(output: Path) -> list[dict[str, Any]]:
             integrity = connection.execute("PRAGMA integrity_check").fetchone()[0]
             indexed = {
                 row[0]: {"file": row[1], "content": row[2], "kind": row[3]}
-                for row in connection.execute("SELECT title,human_file,content,kind FROM documents WHERE kind NOT IN ('entity','reference')")
+                for row in connection.execute("SELECT title,human_file,content,kind FROM documents WHERE kind NOT IN ('entity','reference','gap')")
             }
         except sqlite3.DatabaseError as exc:
             errors.append({"reason": "machine-index-read-failed", "detail": str(exc)})

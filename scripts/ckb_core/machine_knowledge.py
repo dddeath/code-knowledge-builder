@@ -23,7 +23,7 @@ from .obsidian import NOTE_DIRECTORIES
 from .source_links import SourceLinkRenderer, source_markdown_link
 
 
-MACHINE_SCHEMA_VERSION = 2
+MACHINE_SCHEMA_VERSION = 3
 MACHINE_PATH = Path("machine/knowledge.sqlite")
 FAST_RETRIEVAL_OVERSCAN = 32
 PRECISE_RETRIEVAL_OVERSCAN = 64
@@ -316,6 +316,17 @@ def _create_schema(connection: sqlite3.Connection) -> None:
             supersedes TEXT,
             human_file TEXT
         );
+        CREATE TABLE research_gaps(
+            gap_id TEXT PRIMARY KEY,
+            kind TEXT NOT NULL,
+            status TEXT NOT NULL,
+            summary_zh TEXT NOT NULL,
+            evidence_json TEXT NOT NULL,
+            created_at_utc TEXT NOT NULL,
+            updated_at_utc TEXT NOT NULL,
+            resolution_zh TEXT,
+            resolution_evidence_json TEXT NOT NULL
+        );
         CREATE TABLE documents(
             document_id TEXT PRIMARY KEY,
             kind TEXT NOT NULL,
@@ -584,6 +595,37 @@ def build_machine_knowledge(
                     "INSERT OR IGNORE INTO document_links VALUES(?,?,?,?)",
                     (document["document_id"], None, target_title, "wikilink"),
                 )
+        from .research_gaps import gap_machine_records
+
+        gap_records = gap_machine_records(output)
+        for item in gap_records["records"]:
+            connection.execute(
+                "INSERT INTO research_gaps VALUES(?,?,?,?,?,?,?,?,?)",
+                (
+                    item["gap_id"], item["kind"], item["status"], item["summary_zh"],
+                    json.dumps(item["evidence_paths"], ensure_ascii=False), item["created_at_utc"],
+                    item["updated_at_utc"], item.get("resolution_zh"),
+                    json.dumps(item.get("resolution_evidence_paths", []), ensure_ascii=False),
+                ),
+            )
+        for document in gap_records["documents"]:
+            content = str(document["content"])
+            connection.execute(
+                "INSERT INTO documents VALUES(?,?,?,?,?,?,?,?)",
+                (
+                    document["document_id"], document["kind"], document["title"], document["tag"],
+                    None, None, content, estimated_tokens(content),
+                ),
+            )
+            section_id = f"{document['document_id']}:0"
+            connection.execute(
+                "INSERT INTO sections VALUES(?,?,?,?,?,?,?,?,?)",
+                (section_id, document["document_id"], 0, document["section_heading"], content, estimated_tokens(content), None, None, None),
+            )
+            connection.execute(
+                "INSERT INTO section_fts VALUES(?,?,?,?,?)",
+                (section_id, document["document_id"], document["section_heading"], content, ""),
+            )
         overlay = output / "workspace-meta/working-overlay.json"
         if overlay.is_file():
             value = json_load(overlay)
@@ -636,7 +678,7 @@ def audit_machine_knowledge(output: Path, graph: dict[str, Any] | None = None) -
         foreign_keys = connection.execute("PRAGMA foreign_key_check").fetchall()
         counts = {
             name: connection.execute(f"SELECT count(*) FROM {name}").fetchone()[0]
-            for name in ("files", "entities", "source_ranges", "relations", "reviews", "documents", "sections", "human_projection", "workspace_changes", "reference_sources")
+            for name in ("files", "entities", "source_ranges", "relations", "reviews", "documents", "sections", "human_projection", "workspace_changes", "reference_sources", "research_gaps")
         }
         meta = dict(connection.execute("SELECT key,value FROM meta"))
         language_errors = [
@@ -661,8 +703,10 @@ def audit_machine_knowledge(output: Path, graph: dict[str, Any] | None = None) -
     expected_files = len([entity for entity in graph.get("entities", []) if entity.get("kind") == "file"])
     expected_relations = len(graph.get("links", []))
     from .reference_documents import reference_machine_records
+    from .research_gaps import gap_machine_records
 
     reference_records = reference_machine_records(output)
+    gap_records = gap_machine_records(output)
     if integrity != "ok": errors.append({"reason": "sqlite-integrity", "detail": integrity})
     if foreign_keys: errors.append({"reason": "foreign-key-errors", "detail": foreign_keys})
     for name, actual, expected in (
@@ -681,7 +725,9 @@ def audit_machine_knowledge(output: Path, graph: dict[str, Any] | None = None) -
         errors.append({"reason": "section-fts-count-mismatch", "actual": fts_counts["section_fts"], "expected": counts["sections"]})
     if counts["reference_sources"] != len(reference_records["sources"]):
         errors.append({"reason": "reference-source-count-mismatch", "actual": counts["reference_sources"], "expected": len(reference_records["sources"])})
-    reference_documents = counts["documents"] - expected_entities - len(_note_documents(_human_projection(output)[1]))
+    if counts["research_gaps"] != len(gap_records["records"]):
+        errors.append({"reason": "research-gap-count-mismatch", "actual": counts["research_gaps"], "expected": len(gap_records["records"])})
+    reference_documents = counts["documents"] - expected_entities - len(_note_documents(_human_projection(output)[1])) - len(gap_records["documents"])
     if reference_documents != len(reference_records["documents"]):
         errors.append({"reason": "reference-document-count-mismatch", "actual": reference_documents, "expected": len(reference_records["documents"])})
     if language_errors:
@@ -1044,7 +1090,7 @@ def _document_source_link(row: dict[str, Any]) -> str | None:
 
 
 def _document_block(row: dict[str, Any], allocation_bytes: int) -> str:
-    kind_label = "已审阅参考资料" if row["kind"] == "reference" else "已审阅知识记录"
+    kind_label = "已审阅参考资料" if row["kind"] == "reference" else "待验证研究缺口" if row["kind"] == "gap" else "已审阅知识记录"
     lines = [f"## {row['title']}", "", f"类型：{kind_label}", ""]
     if row.get("human_file"):
         lines.extend([f"人类知识页：[[{row['title']}]]", ""])
@@ -1388,7 +1434,7 @@ def retrieve_machine(
                     "document_id": row["document_id"],
                     "title": row["title"],
                     "kind": row["kind"],
-                    "status": "agent-reviewed",
+                    "status": "pending-evidence" if row["kind"] == "gap" else "agent-reviewed",
                     "human_file": row.get("human_file"),
                     "source_path": row.get("source_path"),
                     "start_line": row.get("start_line"),

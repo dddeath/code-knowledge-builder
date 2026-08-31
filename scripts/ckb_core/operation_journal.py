@@ -214,6 +214,7 @@ def _command_name(args: Any) -> str:
         "workspace_command",
         "agent_policy_command",
         "automation_command",
+        "gaps_command",
     )
     for field in nested_fields:
         value = getattr(args, field, None)
@@ -235,6 +236,12 @@ def _operation_type(command: str) -> str | None:
         return "query"
     if root == "maintain":
         return "maintenance"
+    if command == "gaps:list":
+        return "query"
+    if command == "gaps:audit":
+        return "audit"
+    if command in {"gaps:create", "gaps:resolve"}:
+        return "record"
     if root == "audit" or command in {"reference:audit", "feedback:audit", "agent-policy:check", "migrate:audit"}:
         return "audit"
     if root == "record" or command in {

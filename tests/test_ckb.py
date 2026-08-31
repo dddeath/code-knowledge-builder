@@ -43,6 +43,7 @@ from ckb_core.obsidian_plugin import (
     remove_obsidian_plugin,
 )
 from ckb_core import operation_journal
+from ckb_core import research_gaps
 from ckb_core.output_contract import audit_output_contract, project_output_contract
 from ckb_core.page_config import DEFAULT_PAGE_CONFIG, page_config_sha256
 from ckb_core.pipeline import (
@@ -273,6 +274,56 @@ class CodeKnowledgeBuilderTests(unittest.TestCase):
         self.assertEqual(failed["status"], "failed")
         self.assertTrue(any("fixed operation schema" in error for error in failed["errors"]))
 
+    def test_research_gap_register_is_machine_only_deduplicated_and_resolvable(self) -> None:
+        output = self.root / "gap-output"
+        write(output / "state.json", "{}")
+        (output / "human").mkdir()
+        (output / "markdown").mkdir()
+        evidence = output / "machine/agent-packs/pack-gap.json"
+        write(evidence, '{"status":"passed"}')
+        summary = self.root / "gap-summary.md"
+        write(summary, "当前证据只能确认检索入口存在，仍缺少跨平台冷启动数据。")
+        created = research_gaps.create_gap(output, "insufficient-evidence", summary, ["machine/agent-packs/pack-gap.json"])
+        self.assertEqual(created["status"], "open")
+        self.assertFalse(created["idempotent"])
+        duplicate = research_gaps.create_gap(output, "insufficient-evidence", summary, ["machine/agent-packs/pack-gap.json"])
+        self.assertTrue(duplicate["idempotent"])
+        self.assertEqual(research_gaps.list_gaps(output, "open")["count"], 1)
+        for root in (output / "human", output / "markdown"):
+            text = (root / "RECORDS.md").read_text(encoding="utf-8")
+            self.assertEqual(text.count("## 研究缺口与待补来源"), 1)
+            self.assertIn("待补证据 1 项", text)
+            self.assertFalse((root / "gaps").exists())
+
+        cli_list = invoke("gaps", "list", "--out", str(output), "--status", "open")
+        self.assertEqual(cli_list.returncode, 0, cli_list.stderr)
+        self.assertEqual(json.loads(cli_list.stdout)["count"], 1)
+        cli_audit = invoke("gaps", "audit", "--out", str(output))
+        self.assertEqual(cli_audit.returncode, 0, cli_audit.stderr)
+
+        outside = self.root / "outside.json"
+        write(outside, "{}")
+        with self.assertRaises(CkbError):
+            research_gaps.create_gap(output, "conflicting-sources", summary, [str(outside)])
+
+        closure = output / "audit/gap-closure.json"
+        write(closure, '{"status":"passed"}')
+        resolution = self.root / "gap-resolution.md"
+        write(resolution, "已补充跨平台冷启动数据并完成固定协议复核，因此关闭该缺口。")
+        resolved = research_gaps.resolve_gap(output, created["gap_id"], resolution, ["audit/gap-closure.json"])
+        self.assertEqual(resolved["status"], "resolved")
+        self.assertEqual(research_gaps.list_gaps(output, "resolved")["count"], 1)
+        self.assertEqual(research_gaps.audit_gap_register(output)["status"], "passed")
+        self.assertIn("已关闭 1 项", (output / "human/RECORDS.md").read_text(encoding="utf-8"))
+
+        record_path = Path(resolved["record"])
+        tampered = json.loads(record_path.read_text(encoding="utf-8"))
+        tampered["confirmed_fact"] = True
+        record_path.write_text(json.dumps(tampered, ensure_ascii=False), encoding="utf-8")
+        failed = research_gaps.audit_gap_register(output)
+        self.assertEqual(failed["status"], "failed")
+        self.assertTrue(any("fixed gap schema" in error for error in failed["errors"]))
+
     def test_llm_wiki_capability_matrix_has_closed_four_state_boundaries(self) -> None:
         matrix = capability_matrix()
         self.assertEqual(matrix["status_order"], list(CAPABILITY_STATUSES))
@@ -297,6 +348,38 @@ class CodeKnowledgeBuilderTests(unittest.TestCase):
         self.assertEqual(invoke("merge", "--out", str(output)).returncode, 0)
         finalized = invoke("finalize", "--out", str(output))
         self.assertEqual(finalized.returncode, 0, finalized.stderr)
+
+        gap_summary = self.root / "retrieval-gap.md"
+        write(gap_summary, "当前资料没有跨平台冷启动测量，因此该性能结论仍需补充来源。")
+        gap_created = invoke(
+            "gaps", "create", "--out", str(output), "--kind", "insufficient-evidence",
+            "--summary", str(gap_summary), "--evidence", "audit/global.json",
+        )
+        self.assertEqual(gap_created.returncode, 0, gap_created.stderr)
+        gap_value = json.loads(gap_created.stdout)
+        self.assertEqual(gap_value["status"], "open")
+        self.assertEqual((output / "human/RECORDS.md").read_text(encoding="utf-8").count("## 研究缺口与待补来源"), 1)
+        self.assertFalse((output / "human/gaps").exists())
+        connection = sqlite3.connect(output / "machine/knowledge.sqlite")
+        try:
+            self.assertEqual(connection.execute("SELECT count(*) FROM research_gaps").fetchone()[0], 1)
+            self.assertEqual(connection.execute("SELECT count(*) FROM documents WHERE kind='gap'").fetchone()[0], 1)
+        finally:
+            connection.close()
+        gap_retrieved = invoke("retrieve", "--out", str(output), "跨平台冷启动测量来源", "--budget", "1000", "--profile", "fast")
+        self.assertEqual(gap_retrieved.returncode, 0, gap_retrieved.stderr)
+        gap_retrieval = json.loads(gap_retrieved.stdout)
+        self.assertTrue(any(item["kind"] == "gap" and item["status"] == "pending-evidence" for item in gap_retrieval["related_documents"]))
+        self.assertIn("待验证研究缺口", Path(gap_retrieval["pack"]).read_text(encoding="utf-8"))
+
+        gap_resolution = self.root / "retrieval-gap-resolution.md"
+        write(gap_resolution, "已确认当前批次只登记缺失来源，不把该性能结论写成已确认事实。")
+        gap_resolved = invoke(
+            "gaps", "resolve", "--out", str(output), "--gap", gap_value["gap_id"],
+            "--resolution", str(gap_resolution), "--evidence", "audit/global.json",
+        )
+        self.assertEqual(gap_resolved.returncode, 0, gap_resolved.stderr)
+        self.assertEqual(json.loads(gap_resolved.stdout)["status"], "resolved")
 
         source = self.root / "stellar-compression.md"
         source.write_text(
