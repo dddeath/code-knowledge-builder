@@ -1458,6 +1458,25 @@ def __getattr__(name):
         self.assertEqual(fallback_record["status"], "passed")
         self.assertEqual(fallback_record["keyword_fallback"]["status"], "fallback")
         self.assertEqual(fallback_record["keyword_fallback"]["provider"]["failure_type"], "invalid-json")
+        benchmark_report = self.root / "keyword-benchmark.json"
+        benchmark = invoke(
+            "keyword-benchmark",
+            "--out",
+            str(output),
+            "--cases",
+            str(SKILL_ROOT / "tests" / "fixtures" / "keyword_benchmark.json"),
+            "--write",
+            str(benchmark_report),
+            *keyword_provider_args[:-1],
+            env={"CKB_FAKE_KEYWORD_PROVIDER_MODE": "order-service"},
+        )
+        self.assertEqual(benchmark.returncode, 0, benchmark.stderr)
+        benchmark_record = json.loads(benchmark.stdout)
+        self.assertEqual(benchmark_record["status"], "passed")
+        self.assertEqual(benchmark_record["summary"]["quality_claim"], "measured-gain")
+        self.assertTrue(benchmark_record["cases"][0]["hot"]["cache_hit"])
+        self.assertEqual(benchmark_record["cases"][0]["hot"]["usage"]["total_tokens"], 0)
+        self.assertEqual(json.loads(benchmark_report.read_text(encoding="utf-8")), benchmark_record)
         entity_result = invoke("entity", "--out", str(output), "OrderService")
         self.assertEqual(entity_result.returncode, 0, entity_result.stderr)
         self.assertEqual(len(json.loads(entity_result.stdout)["candidates"]), 1)

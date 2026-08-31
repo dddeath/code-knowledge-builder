@@ -63,6 +63,18 @@ _CACHE_FIELDS = {
     "version",
     "response",
 }
+_REQUEST_FIELDS = {
+    "schema_version",
+    "status",
+    "input_hash",
+    "prompt_schema",
+    "trigger",
+    "original",
+    "provider",
+    "model_candidates",
+    "validated_extensions",
+    "final",
+}
 
 
 @dataclass(frozen=True)
@@ -311,6 +323,10 @@ def _failure(question: str, config: KeywordProviderConfig, failure_type: str) ->
     }
 
 
+def keyword_cache_path(output: Path, question: str, config: KeywordProviderConfig) -> Path:
+    return _cache_path(output, keyword_cache_key(question, config))
+
+
 def _cache_path(output: Path, cache_key: str) -> Path:
     return output.resolve() / "workspace-meta" / "keyword-fallback" / "cache" / f"{cache_key}.json"
 
@@ -385,6 +401,8 @@ def run_keyword_provider(
         if cached is not None:
             return {
                 **cached,
+                "cached_usage": cached.get("usage", _usage({})),
+                "usage": _usage({}),
                 "attempts": 0,
                 "latency_ms": 0.0,
                 "cache_hit": True,
@@ -529,6 +547,77 @@ def write_keyword_fallback_record(
     path = output.resolve() / "workspace-meta" / "keyword-fallback" / "requests" / f"{identity}.json"
     json_write(path, record)
     return path
+
+
+def audit_keyword_fallback(output: Path) -> dict[str, Any]:
+    """Audit cache and request records while enforcing the privacy boundary."""
+
+    output = output.resolve()
+    cache = audit_keyword_cache(output)
+    root = output / "workspace-meta" / "keyword-fallback" / "requests"
+    errors = [f"cache: {error}" for error in cache.get("errors", [])]
+    records = 0
+    if root.is_dir():
+        unexpected = [path.name for path in root.iterdir() if not path.is_file() or path.suffix != ".json"]
+        errors.extend(f"unexpected keyword request entry: {name}" for name in sorted(unexpected))
+        for path in sorted(root.glob("*.json")):
+            records += 1
+            try:
+                value = json_load(path)
+            except (OSError, ValueError) as exc:
+                errors.append(f"{path.name}: invalid request JSON: {type(exc).__name__}")
+                continue
+            if not isinstance(value, dict) or set(value) != _REQUEST_FIELDS:
+                errors.append(f"{path.name}: fields differ from the fixed request schema")
+                continue
+            if value.get("schema_version") != KEYWORD_FALLBACK_SCHEMA_VERSION:
+                errors.append(f"{path.name}: request schema mismatch")
+            if value.get("status") not in {"passed", "fallback", "skipped", "no-quality-gain"}:
+                errors.append(f"{path.name}: request status is invalid")
+            if value.get("prompt_schema") != KEYWORD_PROMPT_SCHEMA:
+                errors.append(f"{path.name}: prompt schema mismatch")
+            if value.get("trigger") not in {"forced", "needs-source-read"}:
+                errors.append(f"{path.name}: trigger is invalid")
+            input_hash = value.get("input_hash")
+            if not isinstance(input_hash, str) or not re.fullmatch(r"[0-9a-f]{64}", input_hash):
+                errors.append(f"{path.name}: input hash is invalid")
+            provider = value.get("provider")
+            if not isinstance(provider, dict):
+                errors.append(f"{path.name}: provider summary must be an object")
+                continue
+            for name in ("provider", "model", "version"):
+                try:
+                    _machine_token(provider.get(name), name)
+                except CkbError as exc:
+                    errors.append(f"{path.name}: {exc}")
+            expected_name = hashlib.sha256(
+                json.dumps(
+                    {
+                        "input_hash": input_hash,
+                        "provider": provider.get("provider"),
+                        "model": provider.get("model"),
+                        "version": provider.get("version"),
+                        "prompt_schema": KEYWORD_PROMPT_SCHEMA,
+                        "trigger": value.get("trigger"),
+                    },
+                    sort_keys=True,
+                    separators=(",", ":"),
+                ).encode("utf-8")
+            ).hexdigest()
+            if path.stem != expected_name:
+                errors.append(f"{path.name}: request identity mismatch")
+            serialized = json.dumps(value, ensure_ascii=False, separators=(",", ":"))
+            if re.search(r'"(?:question|prompt|command|stdout|stderr|secret|credential)"\s*:', serialized, re.IGNORECASE):
+                errors.append(f"{path.name}: request record crosses the privacy boundary")
+            if _CREDENTIAL_SHAPE.search(serialized):
+                errors.append(f"{path.name}: request record contains credential-shaped text")
+    return {
+        "schema_version": KEYWORD_FALLBACK_SCHEMA_VERSION,
+        "status": "passed" if not errors else "failed",
+        "cache_records": cache.get("records", 0),
+        "request_records": records,
+        "errors": errors,
+    }
 
 
 def unique_casefold(values: Sequence[str]) -> list[str]:

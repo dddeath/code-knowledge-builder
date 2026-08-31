@@ -73,6 +73,7 @@ from ckb_core.keyword_fallback import (
     KeywordProviderConfig,
     validate_provider_config,
 )
+from ckb_core.keyword_benchmark import run_keyword_benchmark
 from ckb_core.migration import audit_migration, migrate_output, migration_status
 from ckb_core.page_config import (
     DEFAULT_PAGE_CONFIG,
@@ -166,9 +167,7 @@ def add_git_bootstrap_arguments(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--git-author-email")
 
 
-def add_keyword_fallback_arguments(command: argparse.ArgumentParser) -> None:
-    command.add_argument("--allow-keyword-fallback", action="store_true")
-    command.add_argument("--force-keyword-fallback", action="store_true")
+def add_keyword_provider_arguments(command: argparse.ArgumentParser) -> None:
     command.add_argument("--keyword-provider-command")
     command.add_argument("--keyword-provider-arg", action="append", default=[])
     command.add_argument("--keyword-provider", dest="keyword_provider_name")
@@ -180,9 +179,13 @@ def add_keyword_fallback_arguments(command: argparse.ArgumentParser) -> None:
     command.add_argument("--keyword-provider-no-cache", action="store_true")
 
 
-def keyword_fallback_options(args: argparse.Namespace) -> KeywordFallbackOptions | None:
-    if not (args.allow_keyword_fallback or args.force_keyword_fallback):
-        return None
+def add_keyword_fallback_arguments(command: argparse.ArgumentParser) -> None:
+    command.add_argument("--allow-keyword-fallback", action="store_true")
+    command.add_argument("--force-keyword-fallback", action="store_true")
+    add_keyword_provider_arguments(command)
+
+
+def keyword_provider_config(args: argparse.Namespace) -> KeywordProviderConfig:
     required = {
         "--keyword-provider-command": args.keyword_provider_command,
         "--keyword-provider": args.keyword_provider_name,
@@ -191,7 +194,7 @@ def keyword_fallback_options(args: argparse.Namespace) -> KeywordFallbackOptions
     }
     missing = [name for name, value in required.items() if not value]
     if missing:
-        raise CkbError("keyword fallback requires " + ", ".join(missing))
+        raise CkbError("keyword provider requires " + ", ".join(missing))
     config = KeywordProviderConfig(
         command=(args.keyword_provider_command, *args.keyword_provider_arg),
         provider=args.keyword_provider_name,
@@ -202,8 +205,14 @@ def keyword_fallback_options(args: argparse.Namespace) -> KeywordFallbackOptions
         required_environment=tuple(args.keyword_provider_require_env),
     )
     validate_provider_config(config)
+    return config
+
+
+def keyword_fallback_options(args: argparse.Namespace) -> KeywordFallbackOptions | None:
+    if not (args.allow_keyword_fallback or args.force_keyword_fallback):
+        return None
     return KeywordFallbackOptions(
-        config=config,
+        config=keyword_provider_config(args),
         force=bool(args.force_keyword_fallback),
         use_cache=not args.keyword_provider_no_cache,
     )
@@ -291,6 +300,11 @@ def parser() -> argparse.ArgumentParser:
     brief_command.add_argument("--max-pages", type=int, default=8)
     brief_command.add_argument("--profile", choices=("fast", "precise"), default="fast")
     add_keyword_fallback_arguments(brief_command)
+    keyword_benchmark = sub.add_parser("keyword-benchmark")
+    keyword_benchmark.add_argument("--out", type=Path, required=True)
+    keyword_benchmark.add_argument("--cases", type=Path, required=True)
+    keyword_benchmark.add_argument("--write", type=Path, required=True)
+    add_keyword_provider_arguments(keyword_benchmark)
     capabilities_command = sub.add_parser("capabilities")
     capabilities_command.add_argument("--format", choices=("json", "markdown"), default="json")
     capabilities_command.add_argument("--write", type=Path)
@@ -598,6 +612,7 @@ def main() -> int:
         emit(query_graph(args.out.resolve(), args.question, args.budget, args.dfs))
     elif args.command == "retrieve":
         output = args.out.resolve()
+        fallback_options = keyword_fallback_options(args)
         if (output / "machine/knowledge.sqlite").is_file():
             emit(
                 retrieve_machine(
@@ -606,13 +621,18 @@ def main() -> int:
                     args.budget,
                     args.max_pages,
                     args.profile,
-                    keyword_fallback=keyword_fallback_options(args),
+                    keyword_fallback=fallback_options,
                 )
             )
         else:
+            if fallback_options is not None:
+                raise CkbError("keyword fallback requires machine/knowledge.sqlite")
             emit(retrieve(output, args.question, args.budget, args.max_pages))
     elif args.command == "brief":
         output = args.out.resolve()
+        fallback_options = keyword_fallback_options(args)
+        if fallback_options is not None and not (output / "machine/knowledge.sqlite").is_file():
+            raise CkbError("keyword fallback requires machine/knowledge.sqlite")
         retrieval_result = (
             retrieve_machine(
                 output,
@@ -620,12 +640,23 @@ def main() -> int:
                 args.budget,
                 args.max_pages,
                 args.profile,
-                keyword_fallback=keyword_fallback_options(args),
+                keyword_fallback=fallback_options,
             )
             if (output / "machine/knowledge.sqlite").is_file()
             else retrieve(output, args.question, args.budget, args.max_pages)
         )
         emit(compact_agent_brief(output, retrieval_result))
+    elif args.command == "keyword-benchmark":
+        if args.keyword_provider_no_cache:
+            raise CkbError("keyword benchmark requires cache measurement")
+        result = run_keyword_benchmark(
+            args.out.resolve(),
+            args.cases.resolve(),
+            args.write.resolve(),
+            keyword_provider_config(args),
+        )
+        emit(result)
+        return 0 if result.get("status") == "passed" else 5
     elif args.command == "capabilities":
         if args.write:
             emit(write_capability_matrix(args.write, args.format))

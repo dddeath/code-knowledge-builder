@@ -1609,6 +1609,7 @@ def _provider_record(provider: dict[str, Any]) -> dict[str, Any]:
             "model",
             "version",
             "usage",
+            "cached_usage",
             "attempts",
             "latency_ms",
             "cache_hit",

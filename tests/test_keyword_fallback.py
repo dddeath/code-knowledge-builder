@@ -22,11 +22,14 @@ from ckb_core.keyword_fallback import (
     KeywordProviderConfig,
     canonical_keyword_request,
     audit_keyword_cache,
+    audit_keyword_fallback,
     keyword_cache_key,
+    keyword_cache_path,
     parse_provider_json,
     run_keyword_provider,
     validate_provider_response,
 )
+from ckb_core.keyword_benchmark import run_keyword_benchmark
 from ckb_core.machine_knowledge import retrieve_machine
 from ckb_core.stdio_server import serve_stdio
 
@@ -135,6 +138,8 @@ class KeywordFallbackAdapterTests(unittest.TestCase):
         self.assertEqual(hot["status"], "passed")
         self.assertTrue(hot["cache_hit"])
         self.assertEqual(hot["attempts"], 0)
+        self.assertEqual(hot["usage"]["total_tokens"], 0)
+        self.assertEqual(hot["cached_usage"]["total_tokens"], 30)
         self.assertEqual(cold["cache_key"], keyword_cache_key(QUESTION, self.config()))
         cache_text = Path(cold["cache"]).read_text(encoding="utf-8")
         self.assertNotIn(QUESTION, cache_text)
@@ -273,6 +278,7 @@ class KeywordFallbackRetrievalWiringTests(unittest.TestCase):
         self.assertEqual(second.kwargs["extra_anchors"], ["orderservice"])
         self.assertEqual(result["keyword_fallback"]["status"], "passed")
         self.assertTrue(result["keyword_fallback"]["final"]["deterministic_selection"])
+        self.assertEqual(audit_keyword_fallback(self.output)["status"], "passed")
 
     def test_provider_failure_returns_original_result_with_structured_reason(self) -> None:
         baseline = {"status": "needs-source-read", "terms": ["base"], "anchors": []}
@@ -341,6 +347,90 @@ class KeywordFallbackRetrievalWiringTests(unittest.TestCase):
         self.assertTrue(captured[0].force)
         self.assertFalse(captured[0].use_cache)
         self.assertEqual(summary["succeeded"], 1)
+
+
+class KeywordFallbackBenchmarkTests(unittest.TestCase):
+    def test_fixed_benchmark_compares_quality_latency_context_usage_and_restores_cache(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            output = root / "output"
+            output.mkdir()
+            cases = root / "cases.json"
+            cases.write_text(
+                json.dumps(
+                    {
+                        "schema_version": 1,
+                        "cases": [
+                            {
+                                "id": "case-1",
+                                "question": QUESTION,
+                                "expected_names": ["OrderService"],
+                                "expected_source_paths": ["py/service.py"],
+                                "budget": 1200,
+                                "max_pages": 8,
+                                "profile": "fast",
+                            }
+                        ],
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            report_path = root / "benchmark.json"
+            baseline = {"status": "needs-source-read", "selected_entities": []}
+            selected = [{"name": "OrderService", "qualified_name": "OrderService", "source_path": "py/service.py"}]
+            cold = {
+                "status": "passed",
+                "selected_entities": selected,
+                "estimated_tokens": 500,
+                "keyword_fallback": {
+                    "status": "passed",
+                    "provider": {
+                        "status": "passed",
+                        "provider": "fixture",
+                        "model": "fixture-model",
+                        "version": "1",
+                        "request_id": "keyword-cold",
+                        "latency_ms": 20.0,
+                        "cache_hit": False,
+                        "usage": {"input_tokens": 10, "output_tokens": 5, "total_tokens": 15, "cost_usd": 0.001},
+                    },
+                },
+            }
+            hot = {
+                "status": "passed",
+                "selected_entities": selected,
+                "estimated_tokens": 500,
+                "keyword_fallback": {
+                    "status": "passed",
+                    "provider": {
+                        "status": "passed",
+                        "provider": "fixture",
+                        "model": "fixture-model",
+                        "version": "1",
+                        "request_id": "keyword-hot",
+                        "latency_ms": 0.0,
+                        "cache_hit": True,
+                        "usage": {"input_tokens": 0, "output_tokens": 0, "total_tokens": 0, "cost_usd": 0.0},
+                        "cached_usage": {"input_tokens": 10, "output_tokens": 5, "total_tokens": 15, "cost_usd": 0.001},
+                    },
+                },
+            }
+            cache_path = keyword_cache_path(output, QUESTION, CONFIG)
+            cache_path.parent.mkdir(parents=True)
+            cache_path.write_bytes(b"prior-cache-bytes")
+            with patch(
+                "ckb_core.keyword_benchmark.retrieve_machine",
+                side_effect=[baseline, cold, hot],
+            ):
+                report = run_keyword_benchmark(output, cases, report_path, CONFIG)
+            self.assertEqual(report["status"], "passed")
+            self.assertEqual(report["summary"]["quality_claim"], "measured-gain")
+            self.assertEqual(report["cases"][0]["quality_delta"], 1.0)
+            self.assertTrue(report["cases"][0]["hot"]["cache_hit"])
+            self.assertEqual(report["cases"][0]["hot"]["usage"]["total_tokens"], 0)
+            self.assertTrue(report_path.is_file())
+            self.assertEqual(cache_path.read_bytes(), b"prior-cache-bytes")
 
 
 if __name__ == "__main__":
