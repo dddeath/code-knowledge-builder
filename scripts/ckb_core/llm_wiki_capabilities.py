@@ -375,7 +375,7 @@ def compact_agent_brief(output: Path, retrieval: dict[str, Any]) -> dict[str, An
         for item in retrieval.get("related_documents", [])
         if item.get("kind") == "feedback"
     ][:8]
-    return {
+    result = {
         "schema_version": 1,
         "status": retrieval.get("status"),
         "question": retrieval.get("question"),
@@ -399,6 +399,10 @@ def compact_agent_brief(output: Path, retrieval: dict[str, Any]) -> dict[str, An
         ],
         "full_record_retained": True,
     }
+    if retrieval.get("keyword_fallback") is not None:
+        result["keyword_fallback"] = retrieval["keyword_fallback"]
+        result["keyword_fallback_record"] = retrieval.get("keyword_fallback_record")
+    return result
 
 
 def maintenance_check(output: Path) -> dict[str, Any]:

@@ -68,6 +68,11 @@ from ckb_core.llm_wiki_capabilities import (
     render_capability_matrix_markdown,
     write_capability_matrix,
 )
+from ckb_core.keyword_fallback import (
+    KeywordFallbackOptions,
+    KeywordProviderConfig,
+    validate_provider_config,
+)
 from ckb_core.migration import audit_migration, migrate_output, migration_status
 from ckb_core.page_config import (
     DEFAULT_PAGE_CONFIG,
@@ -161,6 +166,49 @@ def add_git_bootstrap_arguments(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--git-author-email")
 
 
+def add_keyword_fallback_arguments(command: argparse.ArgumentParser) -> None:
+    command.add_argument("--allow-keyword-fallback", action="store_true")
+    command.add_argument("--force-keyword-fallback", action="store_true")
+    command.add_argument("--keyword-provider-command")
+    command.add_argument("--keyword-provider-arg", action="append", default=[])
+    command.add_argument("--keyword-provider", dest="keyword_provider_name")
+    command.add_argument("--keyword-model")
+    command.add_argument("--keyword-provider-version")
+    command.add_argument("--keyword-provider-timeout", type=float, default=20.0)
+    command.add_argument("--keyword-provider-retries", type=int, choices=(0, 1), default=1)
+    command.add_argument("--keyword-provider-require-env", action="append", default=[])
+    command.add_argument("--keyword-provider-no-cache", action="store_true")
+
+
+def keyword_fallback_options(args: argparse.Namespace) -> KeywordFallbackOptions | None:
+    if not (args.allow_keyword_fallback or args.force_keyword_fallback):
+        return None
+    required = {
+        "--keyword-provider-command": args.keyword_provider_command,
+        "--keyword-provider": args.keyword_provider_name,
+        "--keyword-model": args.keyword_model,
+        "--keyword-provider-version": args.keyword_provider_version,
+    }
+    missing = [name for name, value in required.items() if not value]
+    if missing:
+        raise CkbError("keyword fallback requires " + ", ".join(missing))
+    config = KeywordProviderConfig(
+        command=(args.keyword_provider_command, *args.keyword_provider_arg),
+        provider=args.keyword_provider_name,
+        model=args.keyword_model,
+        version=args.keyword_provider_version,
+        timeout_seconds=args.keyword_provider_timeout,
+        retries=args.keyword_provider_retries,
+        required_environment=tuple(args.keyword_provider_require_env),
+    )
+    validate_provider_config(config)
+    return KeywordFallbackOptions(
+        config=config,
+        force=bool(args.force_keyword_fallback),
+        use_cache=not args.keyword_provider_no_cache,
+    )
+
+
 def parser() -> argparse.ArgumentParser:
     root = argparse.ArgumentParser(description=__doc__)
     sub = root.add_subparsers(dest="command", required=True)
@@ -235,12 +283,14 @@ def parser() -> argparse.ArgumentParser:
     retrieve_command.add_argument("--budget", type=int, default=1500)
     retrieve_command.add_argument("--max-pages", type=int, default=8)
     retrieve_command.add_argument("--profile", choices=("fast", "precise"), default="fast")
+    add_keyword_fallback_arguments(retrieve_command)
     brief_command = sub.add_parser("brief")
     brief_command.add_argument("--out", type=Path, required=True)
     brief_command.add_argument("question")
     brief_command.add_argument("--budget", type=int, default=1800)
     brief_command.add_argument("--max-pages", type=int, default=8)
     brief_command.add_argument("--profile", choices=("fast", "precise"), default="fast")
+    add_keyword_fallback_arguments(brief_command)
     capabilities_command = sub.add_parser("capabilities")
     capabilities_command.add_argument("--format", choices=("json", "markdown"), default="json")
     capabilities_command.add_argument("--write", type=Path)
@@ -549,13 +599,29 @@ def main() -> int:
     elif args.command == "retrieve":
         output = args.out.resolve()
         if (output / "machine/knowledge.sqlite").is_file():
-            emit(retrieve_machine(output, args.question, args.budget, args.max_pages, args.profile))
+            emit(
+                retrieve_machine(
+                    output,
+                    args.question,
+                    args.budget,
+                    args.max_pages,
+                    args.profile,
+                    keyword_fallback=keyword_fallback_options(args),
+                )
+            )
         else:
             emit(retrieve(output, args.question, args.budget, args.max_pages))
     elif args.command == "brief":
         output = args.out.resolve()
         retrieval_result = (
-            retrieve_machine(output, args.question, args.budget, args.max_pages, args.profile)
+            retrieve_machine(
+                output,
+                args.question,
+                args.budget,
+                args.max_pages,
+                args.profile,
+                keyword_fallback=keyword_fallback_options(args),
+            )
             if (output / "machine/knowledge.sqlite").is_file()
             else retrieve(output, args.question, args.budget, args.max_pages)
         )

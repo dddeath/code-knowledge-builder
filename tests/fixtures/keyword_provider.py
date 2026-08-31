@@ -6,10 +6,14 @@ import json
 import os
 import sys
 import time
+from pathlib import Path
 
 
 request = json.loads(sys.stdin.read())
 mode = os.environ.get("CKB_FAKE_KEYWORD_PROVIDER_MODE", "passed")
+marker = os.environ.get("CKB_FAKE_KEYWORD_PROVIDER_MARKER")
+if marker:
+    Path(marker).write_text("started\n", encoding="utf-8")
 identity = {
     "schema_version": 1,
     "status": "passed",
@@ -48,5 +52,9 @@ if mode == "unsupported-characters":
     value["anchors"] = ["retrieve_machine; rm"]
 if mode == "wrong-request":
     value["request_id"] = "keyword-wrong"
+if mode == "order-service":
+    value["keywords"] = ["OrderService", "save order"]
+    value["anchors"] = ["OrderService", "save_order"]
+    value["rewrites"] = ["订单服务保存入口"]
 
 sys.stdout.write(json.dumps(value, ensure_ascii=True, separators=(",", ":")))

@@ -78,6 +78,15 @@ class KeywordProviderConfig:
     required_environment: tuple[str, ...] = ()
 
 
+@dataclass(frozen=True)
+class KeywordFallbackOptions:
+    """One explicit retrieval request's trigger and provider settings."""
+
+    config: KeywordProviderConfig
+    force: bool = False
+    use_cache: bool = True
+
+
 def keyword_input_hash(question: str) -> str:
     return hashlib.sha256(question.encode("utf-8")).hexdigest()
 
@@ -478,6 +487,48 @@ def audit_keyword_cache(output: Path) -> dict[str, Any]:
         "records": records,
         "errors": errors,
     }
+
+
+def write_keyword_fallback_record(
+    output: Path,
+    question: str,
+    metadata: dict[str, Any],
+) -> Path:
+    """Persist one bounded request record without the raw question or provider output."""
+
+    input_hash = keyword_input_hash(question)
+    provider = str((metadata.get("provider") or {}).get("provider") or "unknown")
+    model = str((metadata.get("provider") or {}).get("model") or "unknown")
+    version = str((metadata.get("provider") or {}).get("version") or "unknown")
+    identity = hashlib.sha256(
+        json.dumps(
+            {
+                "input_hash": input_hash,
+                "provider": provider,
+                "model": model,
+                "version": version,
+                "prompt_schema": KEYWORD_PROMPT_SCHEMA,
+                "trigger": metadata.get("trigger"),
+            },
+            sort_keys=True,
+            separators=(",", ":"),
+        ).encode("utf-8")
+    ).hexdigest()
+    record = {
+        "schema_version": KEYWORD_FALLBACK_SCHEMA_VERSION,
+        "status": metadata.get("status"),
+        "input_hash": input_hash,
+        "prompt_schema": KEYWORD_PROMPT_SCHEMA,
+        "trigger": metadata.get("trigger"),
+        "original": metadata.get("original"),
+        "provider": metadata.get("provider"),
+        "model_candidates": metadata.get("model_candidates"),
+        "validated_extensions": metadata.get("validated_extensions"),
+        "final": metadata.get("final"),
+    }
+    path = output.resolve() / "workspace-meta" / "keyword-fallback" / "requests" / f"{identity}.json"
+    json_write(path, record)
+    return path
 
 
 def unique_casefold(values: Sequence[str]) -> list[str]:
