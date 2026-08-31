@@ -228,6 +228,65 @@ class ManagementBindingLifecycleTest(unittest.TestCase):
             bind_conversation(self.payload("dirty"), self.registry)
         self.assertEqual(audit_manager_registry(self.registry)["status"], "passed")
 
+    def test_non_git_unborn_and_missing_state_outputs_fail_preflight(self) -> None:
+        plain = self.workspace / "plain-directory"
+        plain.mkdir()
+        with self.assertRaisesRegex(CkbError, "root of a Git worktree"):
+            bind_conversation(self.payload("plain", repo_root=str(plain)), self.registry)
+        unborn = self.workspace / "unborn"
+        unborn.mkdir()
+        git(unborn, "init")
+        unborn_branch = git(unborn, "symbolic-ref", "--short", "HEAD")
+        with self.assertRaisesRegex(CkbError, "branch does not exist"):
+            bind_conversation(
+                self.payload("unborn", repo_root=str(unborn), integration_branch=unborn_branch),
+                self.registry,
+            )
+        missing_state = self.workspace / "missing-state"
+        missing_state.mkdir()
+        with self.assertRaisesRegex(CkbError, "missing state.json"):
+            bind_conversation(self.payload("missing-state", knowledge_base=str(missing_state)), self.registry)
+
+    def test_missing_conversation_status_and_unbind_fail_without_creating_binding(self) -> None:
+        with self.assertRaisesRegex(CkbError, "does not exist"):
+            binding_status("absent-conversation", "generic", self.registry)
+        with self.assertRaisesRegex(CkbError, "does not exist"):
+            unbind_conversation("absent-conversation", "generic", self.registry)
+        stored = json.loads(self.registry.read_text(encoding="utf-8"))
+        self.assertEqual(stored["bindings"], [])
+        self.assertEqual(stored["audit_log"][-1]["action"], "unbind")
+        self.assertEqual(stored["audit_log"][-1]["status"], "failed")
+
+    def test_same_workspace_routes_distinct_conversations_to_explicit_nested_repos(self) -> None:
+        first = bind_conversation(self.payload("conversation-first"), self.registry)
+        nested = self.workspace / "nested-repo"
+        nested_output = self.workspace / "nested-knowledge"
+        nested.mkdir()
+        nested_output.mkdir()
+        (nested / "nested.py").write_text("NESTED = True\n", encoding="utf-8")
+        git(nested, "init")
+        git(nested, "config", "user.email", "fixture@example.invalid")
+        git(nested, "config", "user.name", "Fixture")
+        git(nested, "add", ".")
+        git(nested, "commit", "-m", "nested initial")
+        git(nested, "checkout", "-b", "integration")
+        (nested_output / "state.json").write_text("{}\n", encoding="utf-8")
+        second = bind_conversation(
+            self.payload(
+                "conversation-second",
+                repo_root=str(nested),
+                knowledge_base=str(nested_output),
+            ),
+            self.registry,
+        )
+        first_status = binding_status("conversation-first", "generic", self.registry)
+        second_status = binding_status("conversation-second", "generic", self.registry)
+        self.assertEqual(first_status["binding"]["binding_id"], first["binding"]["binding_id"])
+        self.assertEqual(second_status["binding"]["binding_id"], second["binding"]["binding_id"])
+        self.assertEqual(Path(first_status["binding"]["repo_root"]), self.repo.resolve())
+        self.assertEqual(Path(second_status["binding"]["repo_root"]), nested.resolve())
+        self.assertNotEqual(first_status["binding"]["binding_id"], second_status["binding"]["binding_id"])
+
     def test_status_detects_head_drift_and_dirty_tree_after_binding(self) -> None:
         bind_conversation(self.payload(), self.registry)
         (self.repo / "second.py").write_text("value = 2\n", encoding="utf-8")
