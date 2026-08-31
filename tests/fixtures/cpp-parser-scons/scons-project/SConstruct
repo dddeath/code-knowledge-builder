@@ -1,0 +1,2 @@
+env = Environment(CXXFLAGS=['-std=c++20'])
+env.SConscript('src/SConscript')

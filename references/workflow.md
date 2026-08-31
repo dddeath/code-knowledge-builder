@@ -18,6 +18,13 @@ Run `doctor --json` first. Exit `3` means a dependency is missing or the private
 - One `.sln`/`.slnx` is auto-selected before one `.csproj`. Ambiguity exits `2` with candidates; resolve it with `--csharp-solution` or `--csharp-project`.
 - No project metadata creates an isolated fixed-commit fallback project and labels C# `bounded-approximate`; it performs no restore. Network-capable restore occurs only with explicit `--allow-dotnet-restore`, in a private worktree/package cache with hashes and rollback.
 
+## C/C++ 语义精度与解析边界
+
+- 固定源码快照包含有效的 `compile_commands.json` 时，clangd 使用该 compilation database，并把 provider precision 记录为 `exact`；仓库中的 SCons 配置不会覆盖这条路径。
+- 没有 compilation database 时，CKB 不运行 SCons、不执行项目脚本且不联网，只静态扫描最多 500 个受支持的构建文件。`SConstruct` 与任意层级的 `SConscript` 和既有 CMake、Meson、Make、Visual C++ 文件使用同一套固定标准匹配规则。
+- 只有全部匹配得到唯一标准时才使用构建证据；记录包含来源路径、匹配文本、候选集合和最终选择。无证据使用 `c17`/`c++17` 并记录 `fallback-no-evidence`，冲突证据使用相同固定默认值并记录 `fallback-ambiguous-evidence`。这条路径的 provider precision 始终是 `bounded-approximate`。
+- pinned Tree-sitter C++ grammar 对有效的 `template class Box<int>;`/`template struct Box<int>;` 会产生一个可识别的缺失 `identifier`。解析器只恢复这个完整 AST 形状并写入 `parse.recoveries`；其他 `ERROR`/`MISSING` 节点继续写入 `parse.diagnostics` 并使语法门失败。显式模板实例化本身不生成类或函数实体，`const T &x(expr);` 的块内歧义形状只保留为所属函数下的声明事实。
+
 ## Resumable route
 
 1. Run `run --repo REPO --out OUTPUT --format markdown|logseq-db|both` with optional selectors and optional initial `--page-config CONFIG.json`.
