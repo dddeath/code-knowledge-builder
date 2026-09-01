@@ -302,6 +302,36 @@ class KnowledgeBatchWorkflowTests(unittest.TestCase):
         resumed = resume_knowledge_batch_state(state_path)
         self.assertEqual("ready", resumed["status"], resumed)
 
+    def test_changed_target_commit_uses_delta_review_then_resumes_ready(self) -> None:
+        from ckb_core.common import json_load
+        from ckb_core.knowledge_batch_migration import (
+            apply_knowledge_batch_plan,
+            create_knowledge_batch_plan,
+            resume_knowledge_batch_state,
+        )
+        from test_scope_extension import review_all
+
+        (self.repo / "app.py").write_text(
+            "def value(number):\n    adjusted = number + 2\n    return adjusted\n",
+            encoding="utf-8",
+        )
+        subprocess.run(["git", "-C", str(self.repo), "add", "app.py"], check=True)
+        subprocess.run(["git", "-C", str(self.repo), "commit", "-m", "delta target"], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        manifest = self._manifest()
+        plan_path = self.root / "plan.json"
+        planned = create_knowledge_batch_plan(manifest, plan_path)
+        self.assertEqual("ready", planned["status"], planned)
+        self.assertIn("delta-agent-review", planned["projects"][0]["risks"])
+        state_path = self.root / "state.json"
+        applied = apply_knowledge_batch_plan(plan_path, state_path)
+        self.assertEqual("review-pending", applied["status"], applied)
+        migration = json_load(self.staging / "migration/plan.json")
+        self.assertEqual(0, migration["entities"]["reused_review_count"])
+        self.assertGreater(migration["entities"]["delta_review_count"], 0)
+        review_all(self.staging)
+        resumed = resume_knowledge_batch_state(state_path)
+        self.assertEqual("ready", resumed["status"], resumed)
+
     def test_two_projects_isolate_partial_apply_cutover_and_subset_rollback(self) -> None:
         from ckb_core.knowledge_batch_migration import (
             apply_knowledge_batch_plan,
