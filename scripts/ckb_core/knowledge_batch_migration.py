@@ -541,6 +541,10 @@ def _path_risks(paths: list[Path], maximum: int) -> list[dict[str, Any]]:
     ]
 
 
+def _operation_token(operation_id: str, project_id: str) -> str:
+    return hashlib.sha256(f"{operation_id}\0{project_id}".encode("utf-8")).hexdigest()[:20]
+
+
 def _inspect_knowledge_project(project: dict[str, Any], roots: list[Path]) -> dict[str, Any]:
     project_id = str(project["project_id"])
     output = _absolute(project["output"], f"{project_id}.output")
@@ -620,6 +624,22 @@ def _inspect_knowledge_project(project: dict[str, Any], roots: list[Path]) -> di
     tree_fields = {key: actual_tree[key] for key in TREE_KEYS}
     if tree_fields != expected_tree:
         raise BatchProjectError("origin-tree-drift", f"origin full-tree summary differs from manifest for {project_id}")
+    provisional_operation = stable_id(
+        "knowledge-migration-path",
+        project_id,
+        expected_tree["sha256"],
+        target_snapshot["commit"],
+    )
+    leaf = _operation_token(provisional_operation, project_id)
+    projected_roots = [staging, backup_root / leaf, quarantine_root / leaf]
+    deep_risks = [
+        {"path": str(root / item["path"]), "length": len(str(root / item["path"])), "limit": maximum}
+        for root in projected_roots
+        for item in actual_tree.get("files", [])
+        if len(str(root / item["path"])) > maximum
+    ]
+    if deep_risks:
+        raise BatchProjectError("path-too-long", f"knowledge batch descendant path preflight failed for {project_id}: {deep_risks[:20]}")
     record_drift = {
         relative: {"expected": digest, "actual": _file_record(output, relative)["sha256"]}
         for relative, digest in expected_records.items()
@@ -932,6 +952,23 @@ def _summarize_knowledge_state(state: dict[str, Any]) -> str:
 
 def _manifest_matches(expected: dict[str, Any], actual: dict[str, Any]) -> bool:
     return all(expected.get(key) == actual.get(key) for key in ("algorithm", "file_count", "byte_count", "sha256", "files"))
+
+
+def _manifest_delta(expected: dict[str, Any], actual: dict[str, Any]) -> dict[str, Any]:
+    left = {item["path"]: item for item in expected.get("files", [])}
+    right = {item["path"]: item for item in actual.get("files", [])}
+    changed = [
+        path
+        for path in sorted(set(left) & set(right))
+        if (left[path].get("size"), left[path].get("sha256")) != (right[path].get("size"), right[path].get("sha256"))
+    ]
+    return {
+        "expected_sha256": expected.get("sha256"),
+        "actual_sha256": actual.get("sha256"),
+        "missing": sorted(set(left) - set(right)),
+        "extra": sorted(set(right) - set(left)),
+        "changed": changed,
+    }
 
 
 def _verify_plan_bindings(project: dict[str, Any]) -> None:
@@ -1486,7 +1523,7 @@ def audit_knowledge_batch_state(state_path: Path) -> dict[str, Any]:
 
 
 def _control_path(output: Path, operation_id: str, project_id: str) -> Path:
-    return output.parent / f".{output.name}.knowledge-migration-{operation_id}-{project_id}.json"
+    return output.parent / f".{output.name}.knowledge-migration-{_operation_token(operation_id, project_id)}.json"
 
 
 def _control_records(output: Path) -> list[tuple[Path, dict[str, Any]]]:
@@ -1553,7 +1590,8 @@ def _cutover_one(
         operation_id = item["operation_id"]
         backup_root = Path(project["cutover"]["backup_root"]).resolve()
         backup_root.mkdir(parents=True, exist_ok=True)
-        backup = backup_root / f"{output.name}.{operation_id}.{project_id}"
+        leaf = _operation_token(operation_id, project_id)
+        backup = backup_root / leaf
         if backup.exists():
             raise BatchProjectError("cutover-backup-conflict", f"cutover backup already exists: {backup}")
         control_path = _control_path(output, operation_id, project_id)
@@ -1602,8 +1640,12 @@ def _cutover_one(
             output.rename(backup)
             if fault == "after-backup-rename":
                 raise OSError("injected failure after backup rename")
-            if not _manifest_matches(project["origin_manifest"], _tree_manifest(backup)):
-                raise BatchProjectError("backup-verification", f"cutover backup differs from origin for {project_id}")
+            backup_manifest = _tree_manifest(backup)
+            if not _manifest_matches(project["origin_manifest"], backup_manifest):
+                raise BatchProjectError(
+                    "backup-verification",
+                    f"cutover backup differs from origin for {project_id}: {_manifest_delta(project['origin_manifest'], backup_manifest)}",
+                )
             staging.rename(output)
             moved_staging = True
             if fault == "after-staging-rename":
@@ -1631,7 +1673,7 @@ def _cutover_one(
             record.update(
                 {
                     "status": "cutover-complete",
-                    "backup_manifest": _tree_manifest(backup),
+                    "backup_manifest": backup_manifest,
                     "modified_manifest": modified,
                     "protocol_applied_digest": protocol_digest,
                     "sqlite": sqlite_checks,
@@ -1754,7 +1796,7 @@ def _rollback_one(
             raise BatchProjectError("rollback-backup-drift", f"rollback backup is missing or changed: {project_id}")
         quarantine_root = Path(project["rollback"]["quarantine_root"]).resolve()
         quarantine_root.mkdir(parents=True, exist_ok=True)
-        quarantine = quarantine_root / f"{output.name}.{record['operation_id']}.{project_id}"
+        quarantine = quarantine_root / _operation_token(record["operation_id"], project_id)
         if quarantine.exists():
             raise BatchProjectError("rollback-quarantine-conflict", f"rollback quarantine already exists: {quarantine}")
         restored_origin = False

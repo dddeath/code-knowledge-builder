@@ -52,6 +52,20 @@ class KnowledgeBatchVersionMatrixTests(unittest.TestCase):
         self.assertEqual(reference["current_release_id"], runtime["current_release_id"])
         self.assertEqual(reference["releases"], runtime["releases"])
 
+    def test_historical_output_fixture_recipes_are_not_relabelled_current_outputs(self) -> None:
+        from ckb_core.knowledge_batch_migration import KNOWLEDGE_RELEASES
+
+        fixture = json.loads((ROOT / "tests/fixtures/knowledge-batch-migration/versions.json").read_text(encoding="utf-8"))
+        self.assertGreaterEqual(len(fixture["fixtures"]), 2)
+        self.assertEqual(
+            {"git-archive-and-run-historical-ckb"},
+            {item["materialization"] for item in fixture["fixtures"]},
+        )
+        for item in fixture["fixtures"]:
+            release = next(value for value in KNOWLEDGE_RELEASES.values() if value.release_id.startswith(item["ckb_version"]) and value.source_commit == item["source_commit"])
+            self.assertEqual(item["schema_version"], release.schema_version)
+            self.assertEqual(item["protocol_version"], release.protocol_version)
+
 
 class KnowledgeBatchWorkflowTests(unittest.TestCase):
     def setUp(self) -> None:
