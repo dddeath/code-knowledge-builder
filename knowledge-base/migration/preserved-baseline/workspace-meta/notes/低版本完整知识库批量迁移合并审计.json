@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "status": "agent-reviewed",
+  "kind": "change",
+  "title": "低版本完整知识库批量迁移合并审计",
+  "file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human\\changes\\低版本完整知识库批量迁移合并审计.md",
+  "compatibility_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown\\changes\\低版本完整知识库批量迁移合并审计.md",
+  "linked_pages": [
+    "module_name 与 estimated_tokens 的协作实现",
+    "audit_references 与 _root 的协作实现",
+    "build",
+    "source_files 与 sha256 的协作实现",
+    "deploy 的协作边界",
+    "audit_migration 与 _entity_key 的协作实现",
+    "audit_global 与 _replace_output_prefix 的协作实现",
+    "retrieve 与 _tokens 的协作实现"
+  ],
+  "source_links": [
+    "[打开源码：scripts/ckb_core/navigation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/navigation.py:1:1)  `scripts/ckb_core/navigation.py:1-456`",
+    "[打开源码：scripts/ckb_core/reference_documents.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/reference_documents.py:1:1)  `scripts/ckb_core/reference_documents.py:1-604`",
+    "[打开源码：scripts/build_runtime_payload.py 第 32 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/build_runtime_payload.py:32:1)  `scripts/build_runtime_payload.py:32-98`",
+    "[打开源码：scripts/package_release.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/package_release.py:1:1)  `scripts/package_release.py:1-306`",
+    "[打开源码：scripts/ckb_core/migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/migration.py:1:1)  `scripts/ckb_core/migration.py:1-585`",
+    "[打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3482`",
+    "[打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-569`"
+  ],
+  "query_record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260901-023628-720361-01.json",
+  "updated_at_utc": "2026-09-01T04:26:00Z",
+  "obsidian_uri": "obsidian://open?path=E%3A%5Cknowledge_builder%5Cself-workspace%5Cknowledge-base%5Cmarkdown%5Cchanges%5C%E4%BD%8E%E7%89%88%E6%9C%AC%E5%AE%8C%E6%95%B4%E7%9F%A5%E8%AF%86%E5%BA%93%E6%89%B9%E9%87%8F%E8%BF%81%E7%A7%BB%E5%90%88%E5%B9%B6%E5%AE%A1%E8%AE%A1.md"
+}

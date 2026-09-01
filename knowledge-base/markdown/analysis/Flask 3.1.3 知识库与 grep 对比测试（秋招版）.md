@@ -57,8 +57,8 @@
 - [[retrieve_machine 与 estimated_tokens 的协作实现]]
 - [[ingest_event 与 default_registry_path 的协作实现]]
 - [[retrieve]]
-- [[status 与 _replace_output_prefix 的协作实现]]
-- [[AutomationTest.event 等测试场景]]
+- [[initialize 与 _replace_output_prefix 的协作实现]]
+- [[AutomationTest.register 等测试场景]]
 
 ## 源码入口
 

@@ -1,0 +1,374 @@
+{
+  "schema_version": 3,
+  "status": "passed",
+  "question": "当前会话级 stdio、完整知识库迁移、中文检索与 LLM 关键词慢路径",
+  "profile": "fast",
+  "budget": 1800,
+  "estimated_tokens": 1792,
+  "terms": [
+    "完整知识库迁移",
+    "关键词慢路径",
+    "stdio",
+    "中文检索与",
+    "当前会话级",
+    "llm",
+    "中文检索",
+    "当前",
+    "话级",
+    "中文检",
+    "关键词",
+    "完整知",
+    "库迁移",
+    "慢路径",
+    "整知识",
+    "文检索",
+    "知识库",
+    "识库迁",
+    "词慢路",
+    "键词慢",
+    "中文",
+    "关键",
+    "完整",
+    "库迁",
+    "慢路",
+    "整知",
+    "文检",
+    "检索",
+    "知识",
+    "识库",
+    "词慢",
+    "路径",
+    "迁移",
+    "键词"
+  ],
+  "anchors": [
+    "llm"
+  ],
+  "seed_entity_ids": [
+    "file-6cee2de235c35b21980dc14f56b41c72",
+    "file-6df20d877dc951c6bf86aaa8dce55a07",
+    "file-440fe778ab225e07a6764892539e5a0a",
+    "file-6659b9da9e5555c095fa0889d7db3112",
+    "ent-923392084dc95207ac1ff9bb74613c17"
+  ],
+  "selected_entities": [
+    {
+      "entity_id": "file-6cee2de235c35b21980dc14f56b41c72",
+      "name": "llm_wiki_capabilities.py",
+      "qualified_name": "scripts/ckb_core/llm_wiki_capabilities.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/llm_wiki_capabilities.py",
+      "start_line": 1,
+      "end_line": 459,
+      "human_page_title": "maintenance_check 与 capability_matrix 的协作实现",
+      "human_page_file": "pages/maintenance_check 与 capability_matrix 的协作实现.md",
+      "display_mode": "page",
+      "score": 106.89947628,
+      "score_breakdown": {
+        "entity-fts": 10.94030226,
+        "graph": 0.0601663,
+        "metadata": 50.0,
+        "section-fts": 35.89900771,
+        "term": 10.0
+      },
+      "reasons": [
+        "确定性词项 `llm`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "file-6df20d877dc951c6bf86aaa8dce55a07",
+      "name": "stdio_server.py",
+      "qualified_name": "scripts/ckb_core/stdio_server.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/stdio_server.py",
+      "start_line": 1,
+      "end_line": 392,
+      "human_page_title": "serve_stdio 与 _write_line 的协作实现",
+      "human_page_file": "pages/serve_stdio 与 _write_line 的协作实现.md",
+      "display_mode": "page",
+      "score": 95.16607227,
+      "score_breakdown": {
+        "entity-fts": 9.91579979,
+        "graph": 0.32947372,
+        "metadata": 55.0,
+        "section-fts": 7.92079876,
+        "term": 22.0
+      },
+      "reasons": [
+        "确定性词项 `stdio`",
+        "确定性词项 `知识`",
+        "确定性词项 `知识库`",
+        "确定性词项 `识库`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "file-440fe778ab225e07a6764892539e5a0a",
+      "name": "session_stdio.py",
+      "qualified_name": "scripts/ckb_core/session_stdio.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/session_stdio.py",
+      "start_line": 1,
+      "end_line": 1459,
+      "human_page_title": "_Transport.close 与 _StartGate 的协作实现",
+      "human_page_file": "pages/_Transport.close 与 _StartGate 的协作实现.md",
+      "display_mode": "page",
+      "score": 84.02164372,
+      "score_breakdown": {
+        "entity-fts": 19.99526003,
+        "graph": 0.02638369,
+        "metadata": 50.0,
+        "term": 14.0
+      },
+      "reasons": [
+        "确定性词项 `stdio`",
+        "确定性词项 `话级`",
+        "机器实体全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "file-6659b9da9e5555c095fa0889d7db3112",
+      "name": "knowledge_batch_migration.py",
+      "qualified_name": "scripts/ckb_core/knowledge_batch_migration.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
+      "start_line": 1,
+      "end_line": 2076,
+      "human_page_title": "create_knowledge_batch_plan 与 KnowledgeRelease 的协作实现",
+      "human_page_file": "pages/create_knowledge_batch_plan 与 KnowledgeRelease 的协作实现.md",
+      "display_mode": "page",
+      "score": 75.27049555,
+      "score_breakdown": {
+        "entity-fts": 4.98991918,
+        "graph": 0.02792817,
+        "metadata": 35.0,
+        "section-fts": 3.2526482,
+        "term": 32.0
+      },
+      "reasons": [
+        "确定性词项 `完整`",
+        "确定性词项 `完整知`",
+        "确定性词项 `整知`",
+        "确定性词项 `整知识`",
+        "确定性词项 `知识`",
+        "确定性词项 `知识库`",
+        "确定性词项 `识库`",
+        "确定性词项 `迁移`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "file-e84145f6f2625e368aa2a29a9b6b54bf",
+      "name": "keyword_fallback.py",
+      "qualified_name": "scripts/ckb_core/keyword_fallback.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/keyword_fallback.py",
+      "start_line": 1,
+      "end_line": 633,
+      "human_page_title": "run_keyword_provider 与 KeywordProviderConfig 的协作实现",
+      "human_page_file": "pages/run_keyword_provider 与 KeywordProviderConfig 的协作实现.md",
+      "display_mode": "page",
+      "score": 70.84572601,
+      "score_breakdown": {
+        "entity-fts": 4.57637019,
+        "metadata": 35.0,
+        "section-fts": 3.26935582,
+        "term": 28.0
+      },
+      "reasons": [
+        "确定性词项 `llm`",
+        "确定性词项 `关键`",
+        "确定性词项 `关键词`",
+        "确定性词项 `慢路`",
+        "确定性词项 `慢路径`",
+        "确定性词项 `路径`",
+        "确定性词项 `键词`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "file-7619b866922e58abb3df2c885f1af259",
+      "name": "migration.py",
+      "qualified_name": "scripts/ckb_core/migration.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/migration.py",
+      "start_line": 1,
+      "end_line": 604,
+      "human_page_title": "audit_migration 与 _entity_key 的协作实现",
+      "human_page_file": "pages/audit_migration 与 _entity_key 的协作实现.md",
+      "display_mode": "page",
+      "score": 57.42727655,
+      "score_breakdown": {
+        "entity-fts": 16.42727655,
+        "metadata": 25.0,
+        "term": 16.0
+      },
+      "reasons": [
+        "确定性词项 `知识`",
+        "确定性词项 `知识库`",
+        "确定性词项 `识库`",
+        "确定性词项 `迁移`",
+        "机器实体全文命中",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": [
+        "中文含义"
+      ]
+    },
+    {
+      "entity_id": "file-de576565393a5538b95984a398234516",
+      "name": "scope_extension.py",
+      "qualified_name": "scripts/ckb_core/scope_extension.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/scope_extension.py",
+      "start_line": 1,
+      "end_line": 909,
+      "human_page_title": "start_scope_extension 与 _error 的协作实现",
+      "human_page_file": "pages/start_scope_extension 与 _error 的协作实现.md",
+      "display_mode": "page",
+      "score": 54.18435555,
+      "score_breakdown": {
+        "entity-fts": 17.18435555,
+        "metadata": 25.0,
+        "term": 12.0
+      },
+      "reasons": [
+        "确定性词项 `知识`",
+        "确定性词项 `知识库`",
+        "确定性词项 `识库`",
+        "机器实体全文命中",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": [
+        "中文含义"
+      ]
+    },
+    {
+      "entity_id": "file-478e1294037252d8b19977b2d4b74db0",
+      "name": "package_release.py",
+      "qualified_name": "scripts/package_release.py",
+      "kind": "file",
+      "source_path": "scripts/package_release.py",
+      "start_line": 1,
+      "end_line": 307,
+      "human_page_title": "source_files 与 sha256 的协作实现",
+      "human_page_file": "pages/source_files 与 sha256 的协作实现.md",
+      "display_mode": "page",
+      "score": 53.59280586,
+      "score_breakdown": {
+        "entity-fts": 16.59280586,
+        "metadata": 25.0,
+        "term": 12.0
+      },
+      "reasons": [
+        "确定性词项 `知识`",
+        "确定性词项 `知识库`",
+        "确定性词项 `识库`",
+        "机器实体全文命中",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": [
+        "中文含义"
+      ]
+    }
+  ],
+  "related_documents": [
+    {
+      "document_id": "note:analysis:自动同步与 LLM Wiki 后续待办",
+      "title": "自动同步与 LLM Wiki 后续待办",
+      "kind": "analysis",
+      "status": "agent-reviewed",
+      "human_file": "analysis/自动同步与 LLM Wiki 后续待办.md",
+      "source_path": null,
+      "start_line": null,
+      "end_line": null
+    },
+    {
+      "document_id": "note:changes:中文检索确定性词项合并审计",
+      "title": "中文检索确定性词项合并审计",
+      "kind": "change",
+      "status": "agent-reviewed",
+      "human_file": "changes/中文检索确定性词项合并审计.md",
+      "source_path": null,
+      "start_line": null,
+      "end_line": null
+    },
+    {
+      "document_id": "note:changes:低版本完整知识库批量迁移合并审计",
+      "title": "低版本完整知识库批量迁移合并审计",
+      "kind": "change",
+      "status": "agent-reviewed",
+      "human_file": "changes/低版本完整知识库批量迁移合并审计.md",
+      "source_path": null,
+      "start_line": null,
+      "end_line": null
+    },
+    {
+      "document_id": "note:changes:LLM 关键词备选慢路径合并审计",
+      "title": "LLM 关键词备选慢路径合并审计",
+      "kind": "change",
+      "human_file": "changes/LLM 关键词备选慢路径合并审计.md"
+    },
+    {
+      "document_id": "note:experiments:LLM Wiki 吸收特性与 Flask 检索收益",
+      "title": "LLM Wiki 吸收特性与 Flask 检索收益",
+      "kind": "experiment",
+      "human_file": "experiments/LLM Wiki 吸收特性与 Flask 检索收益.md"
+    },
+    {
+      "document_id": "note:changes:低版本 Agent Protocol 批量升级合并审计",
+      "title": "低版本 Agent Protocol 批量升级合并审计",
+      "kind": "change",
+      "human_file": "changes/低版本 Agent Protocol 批量升级合并审计.md"
+    },
+    {
+      "document_id": "note:changes:Agent 会话级 stdio 生命周期合并审计",
+      "title": "Agent 会话级 stdio 生命周期合并审计",
+      "kind": "change",
+      "human_file": "changes/Agent 会话级 stdio 生命周期合并审计.md"
+    },
+    {
+      "document_id": "note:analysis:知识库人类可读性与任务完成标准",
+      "title": "知识库人类可读性与任务完成标准",
+      "kind": "analysis",
+      "human_file": "analysis/知识库人类可读性与任务完成标准.md"
+    }
+  ],
+  "open_feedback": 0,
+  "retrieval_stats": {
+    "scored_entities": 603,
+    "overscan_limit": 32,
+    "materialized_candidates": 32,
+    "selected_entities": 8,
+    "budgeted_entity_limit": 8,
+    "selected_source_paths": 8,
+    "batched_entity_queries": 2,
+    "source_link_cache_entries": 8,
+    "static_cache_hit": false
+  },
+  "pack": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260901-054707-907157-01.md",
+  "record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260901-054707-907157-01.json",
+  "retrieval": "sqlite-exact-fts5-sections-deterministic-weighted-graph",
+  "deterministic": true,
+  "source_grounded": true,
+  "grep_fallback_required": false
+}

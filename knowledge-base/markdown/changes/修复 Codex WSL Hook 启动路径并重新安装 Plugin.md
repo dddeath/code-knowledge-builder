@@ -28,12 +28,12 @@ Codex App 当前把 `app-server` 运行在 WSL，而旧 Plugin 的 POSIX `comman
 
 - [[audit_migration 与 _entity_key 的协作实现]]
 - [[ingest_event 与 default_registry_path 的协作实现]]
-- [[add_initial_arguments 与 add_git_bootstrap_arguments 的协作实现]]
+- [[keyword_provider_config 与 parser 的协作实现]]
 - [[render_integration 与 _looks_windows 的协作实现]]
 - [[record_note 与 page_tag 的协作实现]]
 - [[retrieve 与 _tokens 的协作实现]]
 - [[start_session 与 _session_directory 的协作实现]]
-- [[run 与 CkbError 的协作实现]]
+- [[CkbError 与 DependencyError 的协作实现]]
 
 ## 源码入口
 

@@ -1,0 +1,135 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "root": "/mnt/e/knowledge_builder/self-workspace/publish-worktrees/release-5.4.0-stable-knowledge",
+  "checks": [
+    {
+      "name": "source-files",
+      "passed": true,
+      "detail": {
+        "passed": true,
+        "expected_count": 731,
+        "actual_count": 731,
+        "missing": [],
+        "extra": [],
+        "changed": []
+      }
+    },
+    {
+      "name": "knowledge-files",
+      "passed": true,
+      "detail": {
+        "passed": true,
+        "expected_count": 1896,
+        "actual_count": 1896,
+        "missing": [],
+        "extra": [],
+        "changed": []
+      }
+    },
+    {
+      "name": "fixed-source-commit",
+      "passed": true,
+      "detail": {
+        "root": "E:\\knowledge_builder\\self-workspace\\source",
+        "commit": "150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3",
+        "tree": "7976883a0f6ff177deb649eaef6e8d2e7af2fda8",
+        "git_bootstrap": {
+          "requested": false,
+          "performed": false,
+          "repository_created": false,
+          "initial_commit_created": false,
+          "root": "E:\\knowledge_builder\\self-workspace\\source",
+          "commit": "150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3",
+          "commit_count": 77,
+          "commit_message": null,
+          "author": null
+        }
+      }
+    },
+    {
+      "name": "completion-markers",
+      "passed": true,
+      "detail": "three markers"
+    },
+    {
+      "name": "global-audit",
+      "passed": true,
+      "detail": "passed"
+    },
+    {
+      "name": "double-sqlite",
+      "passed": true,
+      "detail": [
+        {
+          "path": "/mnt/e/knowledge_builder/self-workspace/publish-worktrees/release-5.4.0-stable-knowledge/knowledge-base/agent-index.sqlite",
+          "passed": true,
+          "integrity_check": "ok",
+          "foreign_key_error_count": 0,
+          "schema_version": "1",
+          "sha256": "e37b4183730100691da5109ec475c7aa2c89b79f3321f4628a49e4a9baf6aa8e"
+        },
+        {
+          "path": "/mnt/e/knowledge_builder/self-workspace/publish-worktrees/release-5.4.0-stable-knowledge/knowledge-base/machine/knowledge.sqlite",
+          "passed": true,
+          "integrity_check": "ok",
+          "foreign_key_error_count": 0,
+          "schema_version": "3",
+          "sha256": "20f80cc7d8f81262069a9ce14bfd30fe857f80abdd2ef28287c7250f26e2bb79"
+        }
+      ]
+    },
+    {
+      "name": "human-markdown-mirror",
+      "passed": true,
+      "detail": {
+        "passed": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "readability",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "durable-counts",
+      "passed": true,
+      "detail": {
+        "records": 51,
+        "references": 1,
+        "research_gaps": 3
+      }
+    },
+    {
+      "name": "learning-note-originals",
+      "passed": true,
+      "detail": [
+        {
+          "name": "2026-08-29.md",
+          "expected": "62059c19c42a0969e116c66d747627c6fae1b9fef3ef412e2c0ed03ced45ceeb",
+          "human": "62059c19c42a0969e116c66d747627c6fae1b9fef3ef412e2c0ed03ced45ceeb",
+          "markdown": "62059c19c42a0969e116c66d747627c6fae1b9fef3ef412e2c0ed03ced45ceeb",
+          "passed": true
+        },
+        {
+          "name": "2026-08-30.md",
+          "expected": "dc7e8eb4791816b8d7989bb7bb82e97f50d6cbdb2f586f769422baf79ea91e67",
+          "human": "dc7e8eb4791816b8d7989bb7bb82e97f50d6cbdb2f586f769422baf79ea91e67",
+          "markdown": "dc7e8eb4791816b8d7989bb7bb82e97f50d6cbdb2f586f769422baf79ea91e67",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "no-transient-git-or-sqlite-state",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "lfs-objects-materialized",
+      "passed": true,
+      "detail": []
+    }
+  ]
+}

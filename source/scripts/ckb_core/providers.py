@@ -349,19 +349,23 @@ class LspClient:
                 self._pending[int(message["id"])] = message
         raise CkbError(f"LSP request timed out: {method}")
 
-    def stop(self) -> None:
+    def stop(self) -> int | None:
         if not self.process:
-            return
+            return None
         try:
             self.request("shutdown", None, timeout=10)
             self.notify("exit", None)
         except Exception:
             pass
         try:
+            return self.process.wait(timeout=5)
+        except subprocess.TimeoutExpired:
             self.process.terminate()
-            self.process.wait(timeout=5)
-        except Exception:
+        try:
+            return self.process.wait(timeout=5)
+        except subprocess.TimeoutExpired:
             self.process.kill()
+            return self.process.wait(timeout=5)
 
 
 def _provider_spec(language: str, repo: Path, options: dict[str, Any] | None = None) -> tuple[list[str], str, dict[str, Any], str, Path, dict[str, str]]:
@@ -436,7 +440,7 @@ def _fallback_flags(repo: Path, language: str) -> tuple[list[str], dict[str, Any
         else ((r"(?<!X)C_STANDARD\s+([0-9]+)", r"c_std_([0-9]+)", r"-std=c([0-9]+)"), "c")
     )
     regexes, prefix = patterns
-    build_names = {"CMakeLists.txt", "meson.build", "Makefile", "makefile"}
+    build_names = {"CMakeLists.txt", "meson.build", "Makefile", "makefile", "SConstruct", "SConscript"}
     paths = [path for path in repo.rglob("*") if path.is_file() and (path.name in build_names or path.suffix.lower() in {".cmake", ".vcxproj", ".mk"})]
     for path in sorted(paths)[:500]:
         try:
@@ -502,6 +506,7 @@ def collect_semantics(
     document_root = Path(((options or {}).get("csharp_workspace") or {}).get("workspace_root") or repo).resolve() if language == "csharp" else repo
     client = LspClient(command, server_cwd, environment)
     client.start()
+    result_payload: dict[str, Any] | None = None
     diagnostics: list[dict[str, Any]] = []
     symbol_counts: dict[str, int] = {}
     covered: set[str] = set()
@@ -605,6 +610,9 @@ def collect_semantics(
             "fatal_stderr": fatal_stderr,
             "capabilities": result.get("capabilities", {}) if isinstance(result, dict) else {},
         }
-        return {"provider": provider, "links": semantic_links, "diagnostics": diagnostics, "transcript": client.transcript, "stderr": client.stderr}
+        result_payload = {"provider": provider, "links": semantic_links, "diagnostics": diagnostics, "transcript": client.transcript, "stderr": client.stderr}
+        return result_payload
     finally:
-        client.stop()
+        exit_status = client.stop()
+        if result_payload is not None:
+            result_payload["provider"]["exit_status"] = exit_status

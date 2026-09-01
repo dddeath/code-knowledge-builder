@@ -14,22 +14,22 @@
 
 ## 相关代码
 
+- 实现时会用到 [[CkbError]]。
+- 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
 - 实现时会用到 [[load_page_config 与 _merge_known 的协作实现]]。
-- 实现时会用到 [[run 与 CkbError 的协作实现]]。
 
 ## 谁会来到这里
 
+- [[initialize]] 会使用这里提供的行为。
 - [[load_page_config 与 _merge_known 的协作实现]] 汇总了本页。
-- [[main（ckb 实现）]] 会使用这里提供的行为。
-- [[status 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 
 ## 相关测试
 
-- [[AutomationTest.event 等测试场景]]
-- [[CodeKnowledgeBuilderTests]]
 - [[CodeKnowledgeBuilderTests 等测试场景]]
 - [[MigrationTest]]
 - [[MigrationTest 等测试场景]]
-- [[execute 等测试场景]]
+- [[ScopeExtensionTest]]
+- [[ScopeExtensionTest 等测试场景]]
+- [[command 等测试场景]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。

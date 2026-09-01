@@ -14,8 +14,8 @@
 
 ## 相关代码
 
+- 实现时会用到 [[CkbError]]。
 - 主要代码单元是 [[package_showcase]]。
-- 实现时会用到 [[run 与 CkbError 的协作实现]]。
 
 ## 谁会来到这里
 

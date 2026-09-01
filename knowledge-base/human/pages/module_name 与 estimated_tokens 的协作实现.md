@@ -14,25 +14,26 @@
 
 ## 相关代码
 
+- 实现时会用到 [[CkbError 与 DependencyError 的协作实现]]。
+- 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
+- 实现时会用到 [[append]]。
 - 主要代码单元是 [[module_name]]。
-- 实现时会用到 [[retrieve_machine]]。
-- 实现时会用到 [[run 与 CkbError 的协作实现]]。
-- 实现时会用到 [[status]]。
 
 ## 谁会来到这里
 
 - [[audit_migration 与 _entity_key 的协作实现]] 会使用这里提供的行为。
+- [[initialize]] 会使用这里提供的行为。
 - [[retrieve]] 会使用这里提供的行为。
 - 可从 [[scripts 职责导览]] 进入本页。
 
 ## 相关测试
 
-- [[AutomationTest.event 等测试场景]]
+- [[AgentProtocolBatchApplyTests]]
+- [[AgentProtocolBatchApplyTests 等测试场景]]
+- [[AutomationTest.register 等测试场景]]
 - [[CodeKnowledgeBuilderTests]]
 - [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[MigrationTest]]
-- [[MigrationTest 等测试场景]]
-- [[execute 等测试场景]]
+- [[KeywordFallbackRetrievalWiringTests]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 

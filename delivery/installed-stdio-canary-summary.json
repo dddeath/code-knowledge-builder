@@ -1,0 +1,209 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "installed_entry": "C:\\Users\\19739\\.codex\\skills\\code-knowledge-builder\\scripts\\ckb.py",
+  "activation": {
+    "schema_version": 3,
+    "status": "activated",
+    "activation_key": "skillactivation-0c62757bc95e54c9a2c2e237e8dc8196",
+    "harness": "generic",
+    "session_id": "installed-post-cutover-live",
+    "repo_root": "E:\\knowledge_builder\\self-workspace\\source",
+    "knowledge_output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+    "skill_name": "code-knowledge-builder",
+    "activation_source": "installed-post-cutover-canary",
+    "activated_at_utc": "2026-09-01T05:49:49Z",
+    "registration_match": {
+      "kind": "workspace",
+      "root": "E:\\knowledge_builder"
+    },
+    "session_stdio": {
+      "schema_version": 1,
+      "status": "ready",
+      "mode": "resident-stdio",
+      "resident": true,
+      "created": true,
+      "lifecycle_key": "stdio-10e20571c9122fae5ec0c93be17eab1cd20f54d4c7ce40995d03d6ef27564442",
+      "generation": "40eed07b3b2d4262",
+      "supervisor_pid": 68136,
+      "server_pid": 81596,
+      "protocol": "ckb-stdio-retrieval",
+      "protocol_version": 2,
+      "parent_monitor": "pid",
+      "path_budget": {
+        "directory_chars": 176,
+        "directory_limit": 223,
+        "generated_path_limit": 259
+      },
+      "fallback": {
+        "active": false,
+        "reason": null
+      }
+    }
+  },
+  "first": {
+    "schema_version": 1,
+    "status": "passed",
+    "mode": "resident-stdio",
+    "resident": true,
+    "lifecycle_key": "stdio-10e20571c9122fae5ec0c93be17eab1cd20f54d4c7ce40995d03d6ef27564442",
+    "generation": "40eed07b3b2d4262",
+    "supervisor_pid": 68136,
+    "server_pid": 81596,
+    "response": {
+      "id": "installed-ping",
+      "ok": true,
+      "method": "ping",
+      "elapsed_ms": 0.0275,
+      "result": {
+        "status": "ready",
+        "protocol": "ckb-stdio-retrieval",
+        "protocol_version": 2,
+        "output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+        "methods": [
+          "ping",
+          "retrieve",
+          "brief",
+          "entity",
+          "neighbors",
+          "source",
+          "changes",
+          "record-explanation",
+          "shutdown"
+        ]
+      }
+    },
+    "fallback": {
+      "active": false,
+      "reason": null
+    }
+  },
+  "second": {
+    "schema_version": 1,
+    "status": "passed",
+    "mode": "resident-stdio",
+    "resident": true,
+    "lifecycle_key": "stdio-10e20571c9122fae5ec0c93be17eab1cd20f54d4c7ce40995d03d6ef27564442",
+    "generation": "40eed07b3b2d4262",
+    "supervisor_pid": 68136,
+    "server_pid": 81596,
+    "response": {
+      "id": "installed-entity",
+      "ok": true,
+      "method": "entity",
+      "elapsed_ms": 1.585,
+      "result": {
+        "schema_version": 3,
+        "status": "passed",
+        "selector": "create_knowledge_batch_plan",
+        "candidates": [
+          {
+            "entity_id": "ent-c00483181e065e92a7f772c821c9a0e6",
+            "kind": "function",
+            "name": "create_knowledge_batch_plan",
+            "qualified_name": "create_knowledge_batch_plan",
+            "language": "python",
+            "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
+            "parent_id": "file-6659b9da9e5555c095fa0889d7db3112",
+            "classification": "page",
+            "owner_page_id": "ent-c00483181e065e92a7f772c821c9a0e6",
+            "module": "scripts",
+            "meaning_zh": "`create_knowledge_batc...` 是 `scripts/ckb_core/knowledge_batch_migration.py` 第 888-956 行定义的函数，本页绑定该固定源码范围。",
+            "role_zh": "负责完整知识库批量迁移的计划、隔离构建、审计、切换和精确回滚。",
+            "change_when_zh": "当 `create_knowledge_batch_plan` 的输入、输出、状态转换或失败返回变化时，应更新本页并重跑对应测试。",
+            "description_zh": "",
+            "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/knowledge_batch_migration.py` 第 888-956 行的源码摘录，文件、符号与行范围一致。",
+            "review_status": "agent-reviewed",
+            "commit_id": "150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3",
+            "blob_id": "98be7480d5c9e2ed8db6920106fdeeee8b2791a4",
+            "start_line": 888,
+            "end_line": 956,
+            "human_title": "create_knowledge_batch_plan",
+            "page_file": "pages/create_knowledge_batch_plan.md",
+            "display_mode": "page"
+          }
+        ]
+      }
+    },
+    "fallback": {
+      "active": false,
+      "reason": null
+    }
+  },
+  "close": {
+    "schema_version": 1,
+    "status": "closed",
+    "reason": "installed-canary-complete",
+    "matched": 1,
+    "closed": [
+      {
+        "lifecycle_key": "stdio-10e20571c9122fae5ec0c93be17eab1cd20f54d4c7ce40995d03d6ef27564442",
+        "status": "closed",
+        "lease": {
+          "schema_version": 1,
+          "lifecycle_key": "stdio-10e20571c9122fae5ec0c93be17eab1cd20f54d4c7ce40995d03d6ef27564442",
+          "generation": "40eed07b3b2d4262",
+          "harness": "generic",
+          "session_digest": "af6e6ea0f05bce32d2705dd9e187d6447e517044c3ab826423311135e8046f8e",
+          "output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+          "state": "closed",
+          "supervisor_pid": null,
+          "server_pid": null,
+          "protocol": "ckb-stdio-retrieval",
+          "protocol_version": 2,
+          "executable_identity": "7d9e99dbf1e636ddb1c0f96e075a8de9b7162aedf90b226363e61b76e873d1b1",
+          "parent_pid": 17276,
+          "parent_monitor": "pid",
+          "created_at_utc": "2026-09-01T05:49:50Z",
+          "last_used_at_utc": "2026-09-01T05:49:50Z",
+          "closed_at_utc": "2026-09-01T05:49:50Z",
+          "fallback": {
+            "active": false,
+            "reason": null
+          },
+          "close_reason": "installed-canary-complete",
+          "object_counts": {
+            "active_leases": 0,
+            "processes": 0,
+            "pending_requests": 0,
+            "reader_threads": 0,
+            "timers": 0,
+            "listeners": 0,
+            "pipes": 0,
+            "session_mappings": 0,
+            "cache_references": 0
+          },
+          "path_budget": {
+            "directory_chars": 176,
+            "directory_limit": 223,
+            "generated_path_limit": 259
+          },
+          "close_detail": {
+            "escalation": "shutdown",
+            "server_pid": 81596,
+            "exit_code": 0,
+            "stderr": []
+          }
+        }
+      }
+    ]
+  },
+  "audit": {
+    "schema_version": 1,
+    "status": "passed",
+    "root": "E:\\knowledge_builder\\artifacts\\verification\\stable-kb-sync-89eac148\\installed-stdio-canary-live\\lifecycle",
+    "active": 0,
+    "object_counts": {
+      "active_leases": 0,
+      "processes": 0,
+      "pending_requests": 0,
+      "reader_threads": 0,
+      "timers": 0,
+      "listeners": 0,
+      "pipes": 0,
+      "session_mappings": 0,
+      "cache_references": 0
+    },
+    "errors": []
+  }
+}

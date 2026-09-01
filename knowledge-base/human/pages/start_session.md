@@ -14,15 +14,14 @@
 
 ## 相关代码
 
-- 实现时会用到 [[LspClient.start]]。
+- 实现时会用到 [[CkbError]]。
+- 实现时会用到 [[CkbError 与 DependencyError 的协作实现]]。
+- 实现时会用到 [[initialize 与 _replace_output_prefix 的协作实现]]。
 - 实现时会用到 [[record_note 与 page_tag 的协作实现]]。
 - 实现时会用到 [[retrieve]]。
 - 实现时会用到 [[retrieve_machine]]。
 - 实现时会用到 [[retrieve_machine 与 estimated_tokens 的协作实现]]。
-- 实现时会用到 [[run 与 CkbError 的协作实现]]。
 - 实现时会用到 [[start_session 与 _session_directory 的协作实现]]。
-- 实现时会用到 [[status]]。
-- 实现时会用到 [[status 与 _replace_output_prefix 的协作实现]]。
 
 ## 谁会来到这里
 

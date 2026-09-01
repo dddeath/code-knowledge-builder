@@ -6,12 +6,33 @@
 
 ## 相关代码
 
-- 继续浏览 [[AutomationTest.event 等测试场景]]。
+- 继续浏览 [[AgentProtocolBatchApplyTests 等测试场景]]。
+- 继续浏览 [[AutomationTest.register 等测试场景]]。
+- 继续浏览 [[Box 等测试场景（explicit-instantiation-valid 测试）]]。
+- 继续浏览 [[Box 等测试场景（main 测试）]]。
+- 继续浏览 [[ChineseRetrievalFixtureTests 等测试场景]]。
 - 继续浏览 [[CodeKnowledgeBuilderTests 等测试场景]]。
+- 继续浏览 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
 - 继续浏览 [[MigrationTest 等测试场景]]。
+- 继续浏览 [[PackageReleaseTests 等测试场景]]。
+- 继续浏览 [[QueryTermsTests 等测试场景]]。
+- 继续浏览 [[ScopeExtensionTest 等测试场景]]。
+- 继续浏览 [[SessionStdioLifecycleTests 等测试场景]]。
+- 继续浏览 [[append 等测试场景]]。
+- 继续浏览 [[bind_reference 等测试场景]]。
+- 继续浏览 [[command 等测试场景]]。
+- 继续浏览 [[debug_value 等测试场景]]。
 - 继续浏览 [[execute 等测试场景]]。
+- 继续浏览 [[keyword_provider 等测试场景]]。
 - 继续浏览 [[main 等测试场景（fake_logseq 测试）]]。
 - 继续浏览 [[main 等测试场景（generate_large_fixture 测试）]]。
+- 继续浏览 [[main 等测试场景（session_stdio_harness_probe 测试）]]。
+- 继续浏览 [[main 等测试场景（session_stdio_reactivation_probe 测试）]]。
+- 继续浏览 [[normalize 等测试场景]]。
+- 继续浏览 [[one_cycle 等测试场景]]。
+- 继续浏览 [[refresh 等测试场景]]。
+- 继续浏览 [[resolve_checkout_git_dir 等测试场景]]。
+- 继续浏览 [[run 等测试场景]]。
 
 ## 谁会来到这里
 

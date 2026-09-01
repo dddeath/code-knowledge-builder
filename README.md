@@ -1,38 +1,38 @@
-# Code Knowledge Builder 5.3.0
+# Code Knowledge Builder 5.4.0 稳定知识发布分支
 
-这是 `code-knowledge-builder` 的私有可审计发布快照，包含 5.3.0 当前源码、项目自身知识库，以及补丁、验证与回滚交付。
+本分支发布 Code Knowledge Builder 当前 integration 源码和切换后的完整稳定知识库。它以 GitHub `main` 的 `5.3.0` 发布快照为第一父提交，并把本地 integration 历史作为第二父历史保留；发布树中的 `source/` 则按 integration 提交 `150a1ce` 的 Git 跟踪文件重新生成。
 
-## 本版更新
+## 分支与内容
 
-5.3.0 新增审阅式本地 Markdown/TXT 资料吸收：原文按字节保存，Agent 逐条核对中文主张、行范围与原文，单来源最多生成一个摘要页；审阅结果进入 SQLite FTS，并支持显式修订和可恢复回滚。未通过资料审计时不会生成资料完成标记。
+- 目标分支：`codex/release-5.4.0-stable-knowledge`
+- `source/`：当前 integration 源码，不包含工作区未跟踪文件或其他 worktree。
+- `knowledge-base/`：已切换并通过维护门的稳定知识库，包括事实层、机器 SQLite、兼容 SQLite、human/markdown 镜像、51 条工作记录、1 个已审阅 reference、3 个开放 research gap、操作日志和两份学习笔记原文。
+- `delivery/`：本次切换、回滚、测试、Skill 安装与 stdio 生命周期验证证据，以及独立发布校验程序。
+- `publication-manifest.json`：源码、知识库、Git LFS、排除项和发布边界的机器清单。
 
-既有确定性快速检索、双层知识库、跨 Harness 会话/修改采集和 Obsidian 配套能力保持可用。
-
-## 内容
-
-- `source/`：Code Knowledge Builder 5.3.0 源码。
-- `knowledge-base/`：当前项目自身知识库。固定代码图仍来自既有审阅快照；人类页面、机器索引、工作记录、参考资料层和维护记录已更新到当前发布。
-- `knowledge-base/human/`：面向人的简体中文 Markdown/Obsidian 知识库。
-- `knowledge-base/machine/knowledge.sqlite`：面向 Agent 的 SQLite/FTS 知识库。
-- `delivery/`：补丁、验证记录、知识库维护结果、包校验和回滚脚本。
-
-当前机器层保存 31 个源码文件、483 个实体、1985 条关系、522 份文档和 2118 个检索段；工作记录 38 篇，已审阅参考来源 1 个，待审阅来源 0 个。
-
-## 知识库真实性边界
-
-自身知识库的固定代码图 commit 为发布清单中的 `knowledge_graph_commit`，并未为 5.3.0 重新执行全仓解析。5.3.0 新功能通过已审阅工作记录、资料页、SQLite 文档和维护门进入当前知识库。需要完整重建代码实体图时，应在目标机器上重新运行分段构建与 Agent 审阅。
+知识库固定源码图谱指向 integration 提交 `150a1ce`。三份故意不完整的 C++ 负例夹具使用 `.cpp.txt` 保存，但测试仍通过显式 `language=cpp` 读取相同字节，因此负例行为保留，固定源码图谱不会把故意非法的测试输入当作项目源码解析。
 
 ## Git LFS
 
-仓库使用 Git LFS 保存 `*.zip` 和 `*.sqlite`。克隆前请安装 Git LFS。Release 中另附 lite/full 安装包。
-
-## 快速验证
+仓库继续使用 Git LFS 保存 `*.sqlite` 和 `*.zip`。首次克隆前安装 Git LFS，然后执行：
 
 ```powershell
-$py = 'C:\Users\19739\.codex\cache\code-knowledge-builder\runtime\win-x64\win-x64-2.0.0\python\python.exe'
-& $py -X utf8 .\source\scripts\ckb.py doctor --json
-& $py -X utf8 .\source\scripts\ckb.py reference audit --out .\knowledge-base
-& $py -X utf8 .\source\scripts\ckb.py maintain --out .\knowledge-base
+git lfs install
+git clone --branch codex/release-5.4.0-stable-knowledge https://github.com/dddeath/code-knowledge-builder.git
+cd code-knowledge-builder
+git lfs pull
+python .\delivery\verify-publication.py --root . --write .\delivery\fresh-clone-verification.json
 ```
 
-知识库的 `.complete`、`.machine.complete`、`.human.complete` 和 `references/.complete` 只在相应审计门通过后存在。本地源码链接保存构建机路径；在另一台机器执行源码定位前，需要重建或显式重定位。
+校验程序会逐文件核对 `source/` 与 `knowledge-base/`，拒绝未展开的 LFS 指针，检查双 SQLite、human/markdown 镜像、readability、工作记录、reference、research gap 和两份学习笔记原始字节。
+
+## 固定快照边界
+
+`knowledge-base/.source-snapshot/worktree` 作为发布内容保存固定源码字节，但不会在外层 Git 仓库中嵌套提交 `.git` 管理文件。新克隆首先使用 `delivery/verify-publication.py` 做只读发布审计；如果要在新路径继续执行 CKB `status`、`maintain` 或源码定位，应在该机器上通过现有迁移或重建流程重新绑定固定 Git 快照和 Agent Policy，不能把原构建机绝对路径当成新机器路径。
+
+## 回滚
+
+- 本机构建与知识库切换回滚：`delivery/rollback-stable-kb.ps1`
+- 已推送分支回滚：`delivery/rollback-github-release-5.4.0.ps1`
+
+远端回滚通过新的 revert commit 恢复第一父发布树，不执行 force push，也不重写已公开历史。

@@ -14,23 +14,13 @@
 
 ## 相关代码
 
-- 实现时会用到 [[audit_migration]]。
+- 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
 - 实现时会用到 [[parser]]。
-- 实现时会用到 [[retrieve_machine]]。
-- 实现时会用到 [[run]]。
 
 ## 谁会来到这里
 
-- [[AutomationTest.event]] 关联到这里的验证场景。
-- [[AutomationTest.event 等测试场景]] 关联到这里的验证场景。
-- [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]] 关联到这里的验证场景。
-- [[add_git_bootstrap_arguments]] 关联到这里的验证场景。
-- [[add_initial_arguments]] 关联到这里的验证场景。
-- [[add_initial_arguments 与 add_git_bootstrap_arguments 的协作实现]] 关联到这里的验证场景。
-- [[ingest_event 与 default_registry_path 的协作实现]] 关联到这里的验证场景。
+- [[append 等测试场景]] 关联到这里的验证场景。
+- [[bind_conversation]] 关联到这里的验证场景。
+- [[keyword_provider_config 与 parser 的协作实现]] 关联到这里的验证场景。
 - [[main 等测试场景（generate_large_fixture 测试）]] 汇总了本页。
 - [[parser]] 关联到这里的验证场景。
-- [[remove]] 关联到这里的验证场景。
-- [[remove 与 skill_root 的协作实现]] 关联到这里的验证场景。
-- [[render_integration 与 _looks_windows 的协作实现]] 关联到这里的验证场景。
-- [[retrieve]] 关联到这里的验证场景。

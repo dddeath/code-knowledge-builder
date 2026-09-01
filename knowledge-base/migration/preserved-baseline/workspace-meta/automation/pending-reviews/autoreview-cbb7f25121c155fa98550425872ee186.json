@@ -1,0 +1,48 @@
+{
+  "schema_version": 3,
+  "review_id": "autoreview-cbb7f25121c155fa98550425872ee186",
+  "status": "agent-reviewed",
+  "kind": "change",
+  "title": "codex 会话第 2 轮待审阅",
+  "body": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\automation\\pending-reviews\\autoreview-cbb7f25121c155fa98550425872ee186.md",
+  "changed_paths": [
+    "scripts/ckb_core/machine_knowledge.py"
+  ],
+  "evidence": {
+    "harness": "codex",
+    "external_session_id": "01a029b9-a488-75f3-be36-6a1ce86ee345",
+    "external_turn_id": "retrieval-optimization-5.1.3",
+    "event_name": "Stop",
+    "redaction_count": 0
+  },
+  "created_at_utc": "2026-08-27T17:59:17Z",
+  "reviewed_at_utc": "2026-08-27T17:59:44Z",
+  "human_note": {
+    "schema_version": 1,
+    "status": "agent-reviewed",
+    "kind": "change",
+    "title": "LLM Wiki 快速检索确定性优化与 5.1.3 交付",
+    "file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human\\changes\\LLM Wiki 快速检索确定性优化与 5.1.3 交付.md",
+    "compatibility_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown\\changes\\LLM Wiki 快速检索确定性优化与 5.1.3 交付.md",
+    "linked_pages": [
+      "retrieve_machine 与 estimated_tokens 的协作实现",
+      "SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现"
+    ],
+    "source_links": [
+      "[打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1458`",
+      "[打开源码：scripts/ckb_core/source_links.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/source_links.py:1:1)  `scripts/ckb_core/source_links.py:1-184`"
+    ],
+    "query_record": null,
+    "updated_at_utc": "2026-08-27T17:59:43Z",
+    "obsidian_uri": "obsidian://open?path=E%3A%5Cknowledge_builder%5Cself-workspace%5Cknowledge-base%5Cmarkdown%5Cchanges%5CLLM%20Wiki%20%E5%BF%AB%E9%80%9F%E6%A3%80%E7%B4%A2%E7%A1%AE%E5%AE%9A%E6%80%A7%E4%BC%98%E5%8C%96%E4%B8%8E%205.1.3%20%E4%BA%A4%E4%BB%98.md"
+  },
+  "review_file": "E:\\knowledge_builder\\self-workspace\\work\\retrieval-optimization-5.1.3\\hook-canary\\review.json",
+  "evidence_note": "Agent 已核对当前会话的 prompt、工具结果与 Stop 摘要，并重新打开 machine_knowledge.py 的固定提交源码、冻结 benchmark 汇总、完整回归输出、安装清单和真实回滚记录。",
+  "source_checks": [
+    {
+      "path": "scripts/ckb_core/machine_knowledge.py",
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开该文件的固定 Git blob，核对检索候选上限、批量读取、缓存失效、紧凑渲染和统计字段。"
+    }
+  ]
+}

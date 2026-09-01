@@ -169,27 +169,27 @@ CAPABILITIES: tuple[dict[str, str], ...] = (
         "id": "machine-operation-journal",
         "area": "知识维护",
         "name": "有界机器操作日志",
-        "status": STATUS_CANDIDATE,
+        "status": STATUS_ABSORBED,
         "input": "compile/query/record/audit/maintenance 的完成结果",
         "output": "按日分片的机器 JSONL 和 latest 摘要，不生成每日人类页面",
         "dependencies": "Python 标准库",
         "license": "CKB 原生实现",
         "data_boundary": "不记录原始对话、秘密或全文输出；只记录操作类型、对象、状态和证据路径",
         "completion_gate": "固定字段、去重、大小上限、隐私过滤、索引和清理策略通过测试",
-        "batch": "下一小批次候选",
+        "batch": "本批次",
     },
     {
         "id": "research-gap-register",
         "area": "知识维护",
         "name": "研究缺口与待补来源登记",
-        "status": STATUS_CANDIDATE,
+        "status": STATUS_ABSORBED,
         "input": "检索证据不足、互相矛盾的来源或 deferred 反馈",
         "output": "机器缺口记录和 RECORDS 中的单一人工入口",
         "dependencies": "SQLite 与现有 feedback/record",
         "license": "CKB 原生实现",
         "data_boundary": "缺口是待验证主张，不进入已确认事实或自动生成页面",
         "completion_gate": "状态机、来源关联、去重、关闭证据和页面数量上限通过",
-        "batch": "下一小批次候选",
+        "batch": "本批次",
     },
     {
         "id": "external-raw-as-code-fact",
@@ -277,7 +277,7 @@ def capability_matrix() -> dict[str, Any]:
     return {
         "schema_version": 1,
         "status": "ready",
-        "matrix_version": "2026-08-30.2",
+        "matrix_version": "2026-08-31.2",
         "source": "LLM Wiki five-operation model adapted through independent CKB implementations",
         "reference_license_boundary": "Only behavior and interface ideas are used; no LLM Wiki source is copied because its local reference has no confirmed license notice.",
         "status_order": list(CAPABILITY_STATUSES),
@@ -333,7 +333,7 @@ def render_capability_matrix_markdown() -> str:
         [
             "## 当前批次原则",
             "",
-            "- 先吸收紧凑阅读入口、聚合维护门和后台子进程，不新增人类知识页。",
+            "- 本批次吸收研究缺口登记：待验证主张保存在机器层，只在 RECORDS 中生成一个汇总入口，不为每项缺口创建页面。",
             "- 审阅文本资料层已进入默认本地路径；固定源码事实层仍不接收外部文档。",
             "- 向量检索、PDF/网页/OCR 和自动页面扩散只在隔离 benchmark 中比较，不进入默认发行路径。",
             "- 本地 Web 查看器、大型二进制复制和外部文档伪装成代码实体保持明确排除。",
@@ -375,7 +375,7 @@ def compact_agent_brief(output: Path, retrieval: dict[str, Any]) -> dict[str, An
         for item in retrieval.get("related_documents", [])
         if item.get("kind") == "feedback"
     ][:8]
-    return {
+    result = {
         "schema_version": 1,
         "status": retrieval.get("status"),
         "question": retrieval.get("question"),
@@ -399,6 +399,10 @@ def compact_agent_brief(output: Path, retrieval: dict[str, Any]) -> dict[str, An
         ],
         "full_record_retained": True,
     }
+    if retrieval.get("keyword_fallback") is not None:
+        result["keyword_fallback"] = retrieval["keyword_fallback"]
+        result["keyword_fallback_record"] = retrieval.get("keyword_fallback_record")
+    return result
 
 
 def maintenance_check(output: Path) -> dict[str, Any]:
@@ -408,7 +412,10 @@ def maintenance_check(output: Path) -> dict[str, Any]:
     from .agent_index import audit_agent_index
     from .agent_protocol import audit_agent_protocol
     from .knowledge_layers import audit_human_layer
+    from .keyword_fallback import audit_keyword_fallback
     from .machine_knowledge import audit_machine_knowledge
+    from .operation_journal import audit_operation_journal
+    from .research_gaps import audit_gap_register
     from .reference_documents import audit_references
     from .work_record_index import audit_work_record_index
 
@@ -417,8 +424,11 @@ def maintenance_check(output: Path) -> dict[str, Any]:
         "work_record_index": audit_work_record_index(output),
         "agent_index": audit_agent_index(output),
         "machine_knowledge": audit_machine_knowledge(output),
+        "keyword_fallback": audit_keyword_fallback(output),
         "human_layer": audit_human_layer(output),
         "references": audit_references(output),
+        "operations": audit_operation_journal(output),
+        "research_gaps": audit_gap_register(output),
     }
     failed = [name for name, result in checks.items() if result.get("status") != "passed"]
     readability_path = output / "human/readability-audit.json"

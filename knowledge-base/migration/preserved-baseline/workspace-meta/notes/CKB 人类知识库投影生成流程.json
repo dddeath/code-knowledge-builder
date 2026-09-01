@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "status": "agent-reviewed",
+  "kind": "analysis",
+  "title": "CKB 人类知识库投影生成流程",
+  "file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human\\analysis\\CKB 人类知识库投影生成流程.md",
+  "compatibility_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown\\analysis\\CKB 人类知识库投影生成流程.md",
+  "linked_pages": [
+    "refresh_work_record_index 与 _contains_chinese 的协作实现",
+    "sync_human_layer",
+    "audit_agent_protocol",
+    "maintenance_check",
+    "audit_references 与 _root 的协作实现",
+    "module_name 与 estimated_tokens 的协作实现",
+    "load_page_config 与 _merge_known 的协作实现",
+    "audit_global 与 _replace_output_prefix 的协作实现"
+  ],
+  "source_links": [
+    "[打开源码：scripts/ckb_core/work_record_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/work_record_index.py:1:1)  `scripts/ckb_core/work_record_index.py:1-242`",
+    "[打开源码：scripts/ckb_core/knowledge_layers.py 第 126 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/knowledge_layers.py:126:1)  `scripts/ckb_core/knowledge_layers.py:126-192`",
+    "[打开源码：scripts/ckb_core/agent_protocol.py 第 420 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_protocol.py:420:1)  `scripts/ckb_core/agent_protocol.py:420-496`",
+    "[打开源码：scripts/ckb_core/llm_wiki_capabilities.py 第 404 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/llm_wiki_capabilities.py:404:1)  `scripts/ckb_core/llm_wiki_capabilities.py:404-452`",
+    "[打开源码：scripts/ckb_core/reference_documents.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/reference_documents.py:1:1)  `scripts/ckb_core/reference_documents.py:1-604`",
+    "[打开源码：scripts/ckb_core/navigation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/navigation.py:1:1)  `scripts/ckb_core/navigation.py:1-456`",
+    "[打开源码：scripts/ckb_core/page_config.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/page_config.py:1:1)  `scripts/ckb_core/page_config.py:1-244`",
+    "[打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3482`"
+  ],
+  "query_record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260831-180522-890709-01.json",
+  "updated_at_utc": "2026-08-31T18:06:43Z",
+  "obsidian_uri": "obsidian://open?path=E%3A%5Cknowledge_builder%5Cself-workspace%5Cknowledge-base%5Cmarkdown%5Canalysis%5CCKB%20%E4%BA%BA%E7%B1%BB%E7%9F%A5%E8%AF%86%E5%BA%93%E6%8A%95%E5%BD%B1%E7%94%9F%E6%88%90%E6%B5%81%E7%A8%8B.md"
+}

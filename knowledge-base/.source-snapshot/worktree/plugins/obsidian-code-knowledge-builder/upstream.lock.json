@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "claudian": {
+    "url": "https://github.com/YishenTu/claudian.git",
+    "commit": "f4bbba7fd326cbc68a6c8f0edfea6d14ea9ba0ac",
+    "license": "MIT",
+    "reuse": "provider registry, provider runtimes, sidebar chat, session lifecycle, read-only inline execution"
+  },
+  "llm_wiki_reference": {
+    "url": "https://github.com/lewislulu/llm-wiki-skill.git",
+    "commit": "d7751c0a2bb4c58d0808ccd6ddae2fdcc0de4824",
+    "reuse": "interaction and anchored-selection design reference only; no source files redistributed"
+  },
+  "node": {
+    "version": "24.16.0",
+    "source": "https://nodejs.org/dist/v24.16.0/",
+    "archive": "node-v24.16.0-linux-x64.tar.xz"
+  }
+}

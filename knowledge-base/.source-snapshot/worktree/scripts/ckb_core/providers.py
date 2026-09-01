@@ -15,7 +15,7 @@ from pathlib import Path, PurePosixPath
 from typing import Any
 from urllib.parse import quote, unquote, urlparse
 
-from .common import CkbError, DependencyError, command_version, run, stable_id, utc_now
+from .common import CkbError, DependencyError, background_process_options, command_version, run, stable_id, utc_now
 
 
 EXPECTED = {
@@ -275,6 +275,7 @@ class LspClient:
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
+            **background_process_options(),
         )
         threading.Thread(target=self._read_stdout, daemon=True).start()
         threading.Thread(target=self._read_stderr, daemon=True).start()
@@ -348,19 +349,23 @@ class LspClient:
                 self._pending[int(message["id"])] = message
         raise CkbError(f"LSP request timed out: {method}")
 
-    def stop(self) -> None:
+    def stop(self) -> int | None:
         if not self.process:
-            return
+            return None
         try:
             self.request("shutdown", None, timeout=10)
             self.notify("exit", None)
         except Exception:
             pass
         try:
+            return self.process.wait(timeout=5)
+        except subprocess.TimeoutExpired:
             self.process.terminate()
-            self.process.wait(timeout=5)
-        except Exception:
+        try:
+            return self.process.wait(timeout=5)
+        except subprocess.TimeoutExpired:
             self.process.kill()
+            return self.process.wait(timeout=5)
 
 
 def _provider_spec(language: str, repo: Path, options: dict[str, Any] | None = None) -> tuple[list[str], str, dict[str, Any], str, Path, dict[str, str]]:
@@ -435,7 +440,7 @@ def _fallback_flags(repo: Path, language: str) -> tuple[list[str], dict[str, Any
         else ((r"(?<!X)C_STANDARD\s+([0-9]+)", r"c_std_([0-9]+)", r"-std=c([0-9]+)"), "c")
     )
     regexes, prefix = patterns
-    build_names = {"CMakeLists.txt", "meson.build", "Makefile", "makefile"}
+    build_names = {"CMakeLists.txt", "meson.build", "Makefile", "makefile", "SConstruct", "SConscript"}
     paths = [path for path in repo.rglob("*") if path.is_file() and (path.name in build_names or path.suffix.lower() in {".cmake", ".vcxproj", ".mk"})]
     for path in sorted(paths)[:500]:
         try:
@@ -467,6 +472,20 @@ def _flatten_symbols(values: Any) -> list[dict[str, Any]]:
     return result
 
 
+def _provider_status(
+    fatal_diagnostics: list[dict[str, Any]],
+    fatal_stderr: list[str],
+) -> str:
+    """Classify a completed LSP run without rejecting valid empty documents.
+
+    ``textDocument/documentSymbol`` returning an empty list is a successful LSP
+    response for modules that contain only imports or executable statements.
+    Request failures already raise from ``LspClient.request``.  Key-page
+    definition coverage is checked independently by the semantic audit gate.
+    """
+    return "failed" if fatal_diagnostics or fatal_stderr else "passed"
+
+
 def collect_semantics(
     repo: Path,
     language: str,
@@ -487,6 +506,7 @@ def collect_semantics(
     document_root = Path(((options or {}).get("csharp_workspace") or {}).get("workspace_root") or repo).resolve() if language == "csharp" else repo
     client = LspClient(command, server_cwd, environment)
     client.start()
+    result_payload: dict[str, Any] | None = None
     diagnostics: list[dict[str, Any]] = []
     symbol_counts: dict[str, int] = {}
     covered: set[str] = set()
@@ -582,7 +602,7 @@ def collect_semantics(
             "server_cwd": str(server_cwd),
             "document_root": str(document_root),
             "precision": precision,
-            "status": "failed" if fatal or fatal_stderr or any(symbol_counts.get(f["path"], 0) == 0 for f in files) else "passed",
+            "status": _provider_status(fatal, fatal_stderr),
             "covered_entity_ids": sorted(covered),
             "document_symbol_counts": symbol_counts,
             "diagnostic_count": len(diagnostics),
@@ -590,6 +610,9 @@ def collect_semantics(
             "fatal_stderr": fatal_stderr,
             "capabilities": result.get("capabilities", {}) if isinstance(result, dict) else {},
         }
-        return {"provider": provider, "links": semantic_links, "diagnostics": diagnostics, "transcript": client.transcript, "stderr": client.stderr}
+        result_payload = {"provider": provider, "links": semantic_links, "diagnostics": diagnostics, "transcript": client.transcript, "stderr": client.stderr}
+        return result_payload
     finally:
-        client.stop()
+        exit_status = client.stop()
+        if result_payload is not None:
+            result_payload["provider"]["exit_status"] = exit_status

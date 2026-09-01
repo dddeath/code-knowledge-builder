@@ -1,24 +1,25 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "status": "passed",
   "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\knowledge.sqlite",
   "integrity": "ok",
   "counts": {
-    "files": 31,
-    "entities": 483,
-    "source_ranges": 483,
-    "relations": 1985,
-    "reviews": 483,
-    "documents": 522,
-    "sections": 2118,
-    "human_projection": 483,
+    "files": 70,
+    "entities": 1229,
+    "source_ranges": 1229,
+    "relations": 4766,
+    "reviews": 1229,
+    "documents": 1284,
+    "sections": 4576,
+    "human_projection": 1229,
     "workspace_changes": 0,
-    "reference_sources": 1
+    "reference_sources": 1,
+    "research_gaps": 3
   },
   "fts_counts": {
-    "entity_fts": 483,
-    "section_fts": 2118,
-    "source_fts": 31
+    "entity_fts": 1229,
+    "section_fts": 4576,
+    "source_fts": 70
   },
   "language_contract": "所有说明使用简体中文，允许英文专有名词和代码标识符",
   "retrieval": "sqlite-exact-fts5-sections-deterministic-weighted-graph",

@@ -1,0 +1,2290 @@
+{
+  "schema_version": 1,
+  "status": "baseline-captured",
+  "base_commit": "2d1ddc4de65c36c2ebe244e3d0556d4b613b2d3d",
+  "protocol": {
+    "source": "E:\\knowledge_builder\\self-workspace\\work\\llm-wiki-retrieval-revalidation-5.1.4\\protocol.json",
+    "sha256": "1185750d907a8f05222b39a3a2ce9dadccc176fdfb0678db3a6f5e55c835b182",
+    "benchmark": "llm-wiki-fast-retrieval-v1-revalidation-5.1.4",
+    "budget_tokens": 2400,
+    "max_results": 8,
+    "warmups": 1,
+    "repetitions": 9,
+    "query_order": "fixed",
+    "method_order": "rotated-by-query-index",
+    "acceptance_gates": {
+      "machine_target_source_recall_at_8_min": 0.9,
+      "machine_recall_not_below_manual": true,
+      "machine_fallback_rate_max": 0.0,
+      "machine_determinism_rate_min": 1.0,
+      "machine_visible_context_reduction_vs_manual_min": 0.4,
+      "machine_engine_latency_p95_ms_max": 200.0,
+      "machine_latency_speedup_vs_manual_min": 1.0
+    },
+    "queries": [
+      {
+        "id": "q01",
+        "question": "调整 retrieve_machine 的 FTS5 权重和 fast 两跳图传播",
+        "expected_path": "scripts/ckb_core/machine_knowledge.py",
+        "expected_symbol": "retrieve_machine"
+      },
+      {
+        "id": "q02",
+        "question": "修复未明确应用 code-knowledge-builder Skill 时仍记录 Hook 事件",
+        "expected_path": "scripts/ckb_core/automation.py",
+        "expected_symbol": "ingest_event"
+      },
+      {
+        "id": "q03",
+        "question": "修改 Claude 与 OpenCode 的跨 Harness Hook 配置生成模板",
+        "expected_path": "scripts/ckb_core/automation_integrations.py",
+        "expected_symbol": "render_integration"
+      },
+      {
+        "id": "q04",
+        "question": "修改增量迁移时 exact blob 复用集合的审计规则",
+        "expected_path": "scripts/ckb_core/migration.py",
+        "expected_symbol": "audit_migration"
+      },
+      {
+        "id": "q05",
+        "question": "修改兼容 Agent 页面索引的构建与 FTS 查询",
+        "expected_path": "scripts/ckb_core/agent_index.py",
+        "expected_symbol": "build_agent_index"
+      },
+      {
+        "id": "q06",
+        "question": "修改机器知识同步到中文人类 Obsidian 页面投影",
+        "expected_path": "scripts/ckb_core/knowledge_layers.py",
+        "expected_symbol": "sync_human_layer"
+      },
+      {
+        "id": "q07",
+        "question": "调整 Graphify 社区聚类与查询子图输出",
+        "expected_path": "scripts/ckb_core/graphify_core.py",
+        "expected_symbol": "query_graph"
+      },
+      {
+        "id": "q08",
+        "question": "修改知识页点击源码时的 VS Code URI 和行号",
+        "expected_path": "scripts/ckb_core/source_links.py",
+        "expected_symbol": "ensure_local_openers"
+      },
+      {
+        "id": "q09",
+        "question": "调整页面配置中的每文件关键页上限和上下文预算",
+        "expected_path": "scripts/ckb_core/page_config.py",
+        "expected_symbol": "load_page_config"
+      },
+      {
+        "id": "q10",
+        "question": "修改 full 私有运行时部署和 remove 回滚流程",
+        "expected_path": "scripts/ckb_core/runtime.py",
+        "expected_symbol": "deploy"
+      },
+      {
+        "id": "q11",
+        "question": "修改 C++ 与 Python 展示样例的 Wiki 打包输出",
+        "expected_path": "scripts/ckb_core/showcase.py",
+        "expected_symbol": "package_showcase"
+      },
+      {
+        "id": "q12",
+        "question": "修改 Tree-sitter 解析文件和命名实体清单",
+        "expected_path": "scripts/ckb_core/parsers.py",
+        "expected_symbol": "parse_file"
+      }
+    ]
+  },
+  "environment": {
+    "python": "3.14.6 (tags/v3.14.6:c63aec6, Jun 10 2026, 10:26:10) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "executable": "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\python\\python.exe"
+  },
+  "corpus": {
+    "machine_sqlite_bytes": 16838656,
+    "machine_sqlite_sha256": "cd1327e00f48c1f074c9d739127d2efcc41b8074ee2de04edd773953e7fd150d",
+    "legacy_sqlite_bytes": 1732608,
+    "legacy_sqlite_sha256": "bb3f16b4ee576478d76355518cc61ea7067fa530d3cdaba7444af43a8e081e0c",
+    "machine_integrity": "ok",
+    "legacy_integrity": "ok"
+  },
+  "tokenizer_cases": [
+    {
+      "input": "打包不满足时是否会回退的检索",
+      "terms": [
+        "打包不满足时是否会回退的检索",
+        "不满足",
+        "会回退",
+        "包不满",
+        "否会回",
+        "回退的",
+        "打包不",
+        "时是否",
+        "是否会",
+        "满足时",
+        "的检索",
+        "足时是",
+        "退的检",
+        "不满",
+        "会回",
+        "包不",
+        "否会",
+        "回退",
+        "打包",
+        "时是",
+        "是否",
+        "检索",
+        "满足",
+        "的检",
+        "足时",
+        "退的"
+      ],
+      "fts_query": "\"打包不满足时是否会回退的检索\" OR \"不满足\" OR \"会回退\" OR \"包不满\" OR \"否会回\" OR \"回退的\" OR \"打包不\" OR \"时是否\" OR \"是否会\" OR \"满足时\" OR \"的检索\" OR \"足时是\" OR \"退的检\"",
+      "fts_match_utf8_bytes": 224
+    },
+    {
+      "input": "订单服务修改",
+      "terms": [
+        "订单服务修改",
+        "务修改",
+        "单服务",
+        "服务修",
+        "订单服",
+        "修改",
+        "务修",
+        "单服",
+        "服务",
+        "订单"
+      ],
+      "fts_query": "\"订单服务修改\" OR \"务修改\" OR \"单服务\" OR \"服务修\" OR \"订单服\"",
+      "fts_match_utf8_bytes": 80
+    },
+    {
+      "input": "OrderService 服务修改",
+      "terms": [
+        "orderservice",
+        "service",
+        "order",
+        "服务修改",
+        "务修改",
+        "服务修",
+        "修改",
+        "务修",
+        "服务"
+      ],
+      "fts_query": "\"orderservice\" OR \"service\" OR \"order\" OR \"服务修改\" OR \"务修改\" OR \"服务修\"",
+      "fts_match_utf8_bytes": 86
+    },
+    {
+      "input": "scripts/ckb_core/machine_knowledge.py retrieveMachine FTS5",
+      "terms": [
+        "scripts/ckb_core/machine_knowledge.py",
+        "retrievemachine",
+        "knowledge",
+        "retrieve",
+        "machine",
+        "scripts",
+        "core",
+        "fts5",
+        "ckb",
+        "py"
+      ],
+      "fts_query": "\"scripts/ckb_core/machine_knowledge.py\" OR \"retrievemachine\" OR \"knowledge\" OR \"retrieve\" OR \"machine\" OR \"scripts\" OR \"core\" OR \"fts5\" OR \"ckb\"",
+      "fts_match_utf8_bytes": 144
+    },
+    {
+      "input": "",
+      "terms": [],
+      "fts_query": null,
+      "fts_match_utf8_bytes": 0
+    },
+    {
+      "input": "!!!",
+      "terms": [],
+      "fts_query": null,
+      "fts_match_utf8_bytes": 0
+    },
+    {
+      "input": "7",
+      "terms": [],
+      "fts_query": null,
+      "fts_match_utf8_bytes": 0
+    },
+    {
+      "input": "中",
+      "terms": [
+        "中"
+      ],
+      "fts_query": null,
+      "fts_match_utf8_bytes": 0
+    },
+    {
+      "input": "同义但无字符重叠",
+      "terms": [
+        "同义但无字符重叠",
+        "义但无",
+        "但无字",
+        "同义但",
+        "字符重",
+        "无字符",
+        "符重叠",
+        "义但",
+        "但无",
+        "同义",
+        "字符",
+        "无字",
+        "符重",
+        "重叠"
+      ],
+      "fts_query": "\"同义但无字符重叠\" OR \"义但无\" OR \"但无字\" OR \"同义但\" OR \"字符重\" OR \"无字符\" OR \"符重叠\"",
+      "fts_match_utf8_bytes": 116
+    },
+    {
+      "input": "打包不满足",
+      "terms": [
+        "打包不满足",
+        "不满足",
+        "包不满",
+        "打包不",
+        "不满",
+        "包不",
+        "打包",
+        "满足"
+      ],
+      "fts_query": "\"打包不满足\" OR \"不满足\" OR \"包不满\" OR \"打包不\"",
+      "fts_match_utf8_bytes": 62,
+      "baseline_mechanical_fragment": "包不满"
+    },
+    {
+      "input": "是否会回",
+      "terms": [
+        "是否会回",
+        "否会回",
+        "是否会",
+        "会回",
+        "否会",
+        "是否"
+      ],
+      "fts_query": "\"是否会回\" OR \"否会回\" OR \"是否会\"",
+      "fts_match_utf8_bytes": 44,
+      "baseline_mechanical_fragment": "否会回"
+    },
+    {
+      "input": "回的检索",
+      "terms": [
+        "回的检索",
+        "回的检",
+        "的检索",
+        "回的",
+        "检索",
+        "的检"
+      ],
+      "fts_query": "\"回的检索\" OR \"回的检\" OR \"的检索\"",
+      "fts_match_utf8_bytes": 44,
+      "baseline_mechanical_fragment": "回的检"
+    }
+  ],
+  "queries": [
+    {
+      "query_id": "q01",
+      "question": "调整 retrieve_machine 的 FTS5 权重和 fast 两跳图传播",
+      "expected_path": "scripts/ckb_core/machine_knowledge.py",
+      "expected_symbol": "retrieve_machine",
+      "terms": [
+        "retrieve_machine",
+        "retrieve",
+        "machine",
+        "两跳图传播",
+        "fast",
+        "fts5",
+        "两跳图",
+        "图传播",
+        "权重和",
+        "跳图传",
+        "两跳",
+        "传播",
+        "图传",
+        "权重",
+        "调整",
+        "跳图",
+        "重和",
+        "的"
+      ],
+      "term_count": 18,
+      "fts_query": "\"retrieve_machine\" OR \"retrieve\" OR \"machine\" OR \"两跳图传播\" OR \"fast\" OR \"fts5\" OR \"两跳图\" OR \"图传播\" OR \"权重和\" OR \"跳图传\"",
+      "fts_match_utf8_bytes": 146,
+      "fts_term_count": 10,
+      "cold_latency_ms": 96.6334,
+      "hot_latencies_ms": [
+        22.4804,
+        23.017,
+        23.6325,
+        23.7231,
+        22.6832,
+        23.633,
+        22.8095,
+        23.7111,
+        23.2521
+      ],
+      "hot_latency_ms_median": 23.2521,
+      "hot_latency_ms_p95": 23.7183,
+      "target_source_recalled": true,
+      "agent_visible_tokens": 2307,
+      "selected_candidates": [
+        {
+          "entity_id": "ent-5280f0f1a0f0586b871bd383d3e3fd38",
+          "qualified_name": "retrieve_machine",
+          "source_path": "scripts/ckb_core/machine_knowledge.py",
+          "score": 714.03161486,
+          "score_breakdown": {
+            "anchor": 500.0,
+            "entity-fts": 3.64574466,
+            "graph": 11.26019738,
+            "metadata": 117.0,
+            "section-fts": 36.12567281,
+            "term": 46.0
+          }
+        },
+        {
+          "entity_id": "ent-3b99118872405fd1bd473bcbedc35d34",
+          "qualified_name": "retrieve",
+          "source_path": "scripts/ckb_core/agent_index.py",
+          "score": 104.20410697,
+          "score_breakdown": {
+            "entity-fts": 11.44741192,
+            "graph": 1.3974947,
+            "metadata": 52.0,
+            "section-fts": 29.35920035,
+            "term": 10.0
+          }
+        },
+        {
+          "entity_id": "ent-1e059602d794553d8e891dcee4369aa4",
+          "qualified_name": "retrieve_machine.entity_column",
+          "source_path": "scripts/ckb_core/machine_knowledge.py",
+          "score": 161.50783407,
+          "score_breakdown": {
+            "entity-fts": 4.84545757,
+            "graph": 7.29482864,
+            "metadata": 90.0,
+            "section-fts": 39.36754786,
+            "term": 20.0
+          }
+        },
+        {
+          "entity_id": "ent-46ca0be436ad5761aa96bcefbf96f5dc",
+          "qualified_name": "retrieve_machine.add",
+          "source_path": "scripts/ckb_core/machine_knowledge.py",
+          "score": 134.72803766,
+          "score_breakdown": {
+            "entity-fts": 4.80734209,
+            "graph": 1.50859733,
+            "metadata": 90.0,
+            "section-fts": 18.41209825,
+            "term": 20.0
+          }
+        },
+        {
+          "entity_id": "ent-337e30fe5d0952a69f59500abaf4a296",
+          "qualified_name": "_fast_graph_scores",
+          "source_path": "scripts/ckb_core/machine_knowledge.py",
+          "score": 121.38385026,
+          "score_breakdown": {
+            "entity-fts": 7.67320312,
+            "graph": 4.96882161,
+            "metadata": 52.0,
+            "section-fts": 32.74182553,
+            "term": 24.0
+          }
+        },
+        {
+          "entity_id": "file-127ad18062a35020a23da6cd63c91282",
+          "qualified_name": "scripts/ckb_core/machine_knowledge.py",
+          "source_path": "scripts/ckb_core/machine_knowledge.py",
+          "score": 117.65448029,
+          "score_breakdown": {
+            "entity-fts": 8.96735493,
+            "graph": 2.93438755,
+            "metadata": 55.0,
+            "section-fts": 24.75273781,
+            "term": 26.0
+          }
+        },
+        {
+          "entity_id": "ent-0b70c4207b8b5b5b9b4b7abb9a2d8292",
+          "qualified_name": "_compact_entity_block",
+          "source_path": "scripts/ckb_core/machine_knowledge.py",
+          "score": 94.08754893,
+          "score_breakdown": {
+            "entity-fts": 22.80989718,
+            "graph": 4.10037515,
+            "metadata": 22.0,
+            "section-fts": 39.1772766,
+            "term": 6.0
+          }
+        },
+        {
+          "entity_id": "ent-f89387a1a42b5ae38d9b43eb406e5d24",
+          "qualified_name": "build_machine_knowledge",
+          "source_path": "scripts/ckb_core/machine_knowledge.py",
+          "score": 92.70780325,
+          "score_breakdown": {
+            "entity-fts": 20.06742392,
+            "graph": 0.24114673,
+            "metadata": 30.0,
+            "section-fts": 32.3992326,
+            "term": 10.0
+          }
+        }
+      ],
+      "retrieval_stats": {
+        "scored_entities": 359,
+        "overscan_limit": 32,
+        "materialized_candidates": 32,
+        "selected_entities": 8,
+        "budgeted_entity_limit": 8,
+        "selected_source_paths": 2,
+        "batched_entity_queries": 2,
+        "source_link_cache_entries": 2,
+        "static_cache_hit": true
+      },
+      "result_signature": "afb7cd059ff89d2893717d56d33434862d54967e779203575af2d4230f9f593f"
+    },
+    {
+      "query_id": "q02",
+      "question": "修复未明确应用 code-knowledge-builder Skill 时仍记录 Hook 事件",
+      "expected_path": "scripts/ckb_core/automation.py",
+      "expected_symbol": "ingest_event",
+      "terms": [
+        "code-knowledge-builder",
+        "knowledge",
+        "builder",
+        "修复未明确应用",
+        "skill",
+        "code",
+        "hook",
+        "时仍记录",
+        "仍记录",
+        "修复未",
+        "复未明",
+        "时仍记",
+        "明确应",
+        "未明确",
+        "确应用",
+        "事件",
+        "仍记",
+        "修复",
+        "复未",
+        "应用",
+        "时仍",
+        "明确",
+        "未明",
+        "确应",
+        "记录"
+      ],
+      "term_count": 25,
+      "fts_query": "\"code-knowledge-builder\" OR \"knowledge\" OR \"builder\" OR \"修复未明确应用\" OR \"skill\" OR \"code\" OR \"hook\" OR \"时仍记录\" OR \"仍记录\" OR \"修复未\" OR \"复未明\" OR \"时仍记\" OR \"明确应\" OR \"未明确\" OR \"确应用\"",
+      "fts_match_utf8_bytes": 233,
+      "fts_term_count": 15,
+      "cold_latency_ms": 54.6909,
+      "hot_latencies_ms": [
+        33.5011,
+        29.574,
+        32.5741,
+        30.7755,
+        30.8043,
+        28.9682,
+        29.3934,
+        28.3051,
+        28.5434
+      ],
+      "hot_latency_ms_median": 29.574,
+      "hot_latency_ms_p95": 33.1303,
+      "target_source_recalled": true,
+      "agent_visible_tokens": 2368,
+      "selected_candidates": [
+        {
+          "entity_id": "file-a7c669b371855f3e8541f4718060e9e9",
+          "qualified_name": "scripts/ckb_core/automation_integrations.py",
+          "source_path": "scripts/ckb_core/automation_integrations.py",
+          "score": 163.89181884,
+          "score_breakdown": {
+            "entity-fts": 3.32207975,
+            "graph": 0.14740479,
+            "metadata": 102.0,
+            "section-fts": 10.42233431,
+            "term": 48.0
+          }
+        },
+        {
+          "entity_id": "file-5f4b65d30320589cb6406877e8ffcff2",
+          "qualified_name": "scripts/ckb_core/automation.py",
+          "source_path": "scripts/ckb_core/automation.py",
+          "score": 119.9832842,
+          "score_breakdown": {
+            "entity-fts": 6.61398721,
+            "graph": 0.75108547,
+            "metadata": 80.0,
+            "section-fts": 4.61821151,
+            "term": 28.0
+          }
+        },
+        {
+          "entity_id": "file-4ccd0cfe6ab95cd4934c08e95024a187",
+          "qualified_name": "scripts/ckb_core/knowledge_layers.py",
+          "source_path": "scripts/ckb_core/knowledge_layers.py",
+          "score": 111.32265238,
+          "score_breakdown": {
+            "entity-fts": 12.01577651,
+            "graph": 0.33645569,
+            "metadata": 74.0,
+            "section-fts": 6.97042019,
+            "term": 18.0
+          }
+        },
+        {
+          "entity_id": "file-e8976447e8f552439d47ebf41a4cb4f4",
+          "qualified_name": "scripts/ckb.py",
+          "source_path": "scripts/ckb.py",
+          "score": 103.58805867,
+          "score_breakdown": {
+            "entity-fts": 8.70226418,
+            "graph": 0.0571381,
+            "metadata": 68.0,
+            "section-fts": 6.8286564,
+            "term": 20.0
+          }
+        },
+        {
+          "entity_id": "file-f5cd5f5f6848572bb19754c49d10c376",
+          "qualified_name": "scripts/ckb_core/migration.py",
+          "source_path": "scripts/ckb_core/migration.py",
+          "score": 100.10087672,
+          "score_breakdown": {
+            "entity-fts": 9.07693377,
+            "metadata": 68.0,
+            "section-fts": 7.02394294,
+            "term": 16.0
+          }
+        },
+        {
+          "entity_id": "file-311686a303f4571e95c3d5a8ddeec186",
+          "qualified_name": "scripts/ckb_core/__init__.py",
+          "source_path": "scripts/ckb_core/__init__.py",
+          "score": 95.49029542,
+          "score_breakdown": {
+            "entity-fts": 6.97777935,
+            "metadata": 68.0,
+            "section-fts": 4.51251607,
+            "term": 16.0
+          }
+        },
+        {
+          "entity_id": "file-e3e8943d1e3d5dfaa65c7babaf0e98fc",
+          "qualified_name": "scripts/ckb_core/providers.py",
+          "source_path": "scripts/ckb_core/providers.py",
+          "score": 89.10283436,
+          "score_breakdown": {
+            "entity-fts": 13.92763475,
+            "metadata": 56.0,
+            "section-fts": 7.17519961,
+            "term": 12.0
+          }
+        },
+        {
+          "entity_id": "file-e903ef855dce5d7b84361bc8b9fb063b",
+          "qualified_name": "scripts/ckb_core/agent_maintenance.py",
+          "source_path": "scripts/ckb_core/agent_maintenance.py",
+          "score": 88.50599259,
+          "score_breakdown": {
+            "entity-fts": 13.39554969,
+            "metadata": 56.0,
+            "section-fts": 7.1104429,
+            "term": 12.0
+          }
+        }
+      ],
+      "retrieval_stats": {
+        "scored_entities": 266,
+        "overscan_limit": 32,
+        "materialized_candidates": 32,
+        "selected_entities": 8,
+        "budgeted_entity_limit": 8,
+        "selected_source_paths": 8,
+        "batched_entity_queries": 2,
+        "source_link_cache_entries": 8,
+        "static_cache_hit": true
+      },
+      "result_signature": "cee007df7dc649d3cc086471bda31a15d963abe7b4adeff0ffc6c87aa93ccee5"
+    },
+    {
+      "query_id": "q03",
+      "question": "修改 Claude 与 OpenCode 的跨 Harness Hook 配置生成模板",
+      "expected_path": "scripts/ckb_core/automation_integrations.py",
+      "expected_symbol": "render_integration",
+      "terms": [
+        "opencode",
+        "harness",
+        "claude",
+        "配置生成模板",
+        "code",
+        "hook",
+        "open",
+        "成模板",
+        "生成模",
+        "置生成",
+        "配置生",
+        "修改",
+        "成模",
+        "模板",
+        "生成",
+        "的跨",
+        "置生",
+        "配置",
+        "与"
+      ],
+      "term_count": 19,
+      "fts_query": "\"opencode\" OR \"harness\" OR \"claude\" OR \"配置生成模板\" OR \"code\" OR \"hook\" OR \"open\" OR \"成模板\" OR \"生成模\" OR \"置生成\" OR \"配置生\"",
+      "fts_match_utf8_bytes": 149,
+      "fts_term_count": 11,
+      "cold_latency_ms": 48.1356,
+      "hot_latencies_ms": [
+        25.1541,
+        25.0395,
+        25.1655,
+        23.7745,
+        26.406,
+        26.2801,
+        25.3215,
+        25.6648,
+        26.9346
+      ],
+      "hot_latency_ms_median": 25.3215,
+      "hot_latency_ms_p95": 26.72316,
+      "target_source_recalled": true,
+      "agent_visible_tokens": 2395,
+      "selected_candidates": [
+        {
+          "entity_id": "file-a7c669b371855f3e8541f4718060e9e9",
+          "qualified_name": "scripts/ckb_core/automation_integrations.py",
+          "source_path": "scripts/ckb_core/automation_integrations.py",
+          "score": 164.91831676,
+          "score_breakdown": {
+            "entity-fts": 2.64577313,
+            "graph": 3.80792609,
+            "metadata": 102.0,
+            "section-fts": 4.46461754,
+            "term": 52.0
+          }
+        },
+        {
+          "entity_id": "file-5f4b65d30320589cb6406877e8ffcff2",
+          "qualified_name": "scripts/ckb_core/automation.py",
+          "source_path": "scripts/ckb_core/automation.py",
+          "score": 96.31660869,
+          "score_breakdown": {
+            "entity-fts": 13.52108973,
+            "graph": 0.02825084,
+            "metadata": 44.0,
+            "section-fts": 26.76726812,
+            "term": 12.0
+          }
+        },
+        {
+          "entity_id": "file-e8976447e8f552439d47ebf41a4cb4f4",
+          "qualified_name": "scripts/ckb.py",
+          "source_path": "scripts/ckb.py",
+          "score": 87.42375784,
+          "score_breakdown": {
+            "entity-fts": 14.80525571,
+            "graph": 0.02603656,
+            "metadata": 44.0,
+            "section-fts": 12.59246558,
+            "term": 16.0
+          }
+        },
+        {
+          "entity_id": "file-f5cd5f5f6848572bb19754c49d10c376",
+          "qualified_name": "scripts/ckb_core/migration.py",
+          "source_path": "scripts/ckb_core/migration.py",
+          "score": 83.91083969,
+          "score_breakdown": {
+            "entity-fts": 15.07896732,
+            "metadata": 44.0,
+            "section-fts": 12.83187236,
+            "term": 12.0
+          }
+        },
+        {
+          "entity_id": "file-1e59546ddfc0502bbbb040ae8357dc15",
+          "qualified_name": "scripts/ckb_core/page_config.py",
+          "source_path": "scripts/ckb_core/page_config.py",
+          "score": 73.58400988,
+          "score_breakdown": {
+            "entity-fts": 29.58400988,
+            "metadata": 32.0,
+            "term": 12.0
+          }
+        },
+        {
+          "entity_id": "file-d97926754468598db27e0d60c719c42d",
+          "qualified_name": "scripts/ckb_core/agent_index.py",
+          "source_path": "scripts/ckb_core/agent_index.py",
+          "score": 70.12216382,
+          "score_breakdown": {
+            "entity-fts": 30.12216382,
+            "metadata": 32.0,
+            "term": 8.0
+          }
+        },
+        {
+          "entity_id": "file-5733359b6caf51f380bd1e8fab1c0393",
+          "qualified_name": "scripts/ckb_core/showcase.py",
+          "source_path": "scripts/ckb_core/showcase.py",
+          "score": 69.85389001,
+          "score_breakdown": {
+            "entity-fts": 29.85389001,
+            "metadata": 32.0,
+            "term": 8.0
+          }
+        },
+        {
+          "entity_id": "file-8ff515bab97b5c4c8af18f4227478f08",
+          "qualified_name": "scripts/ckb_core/runtime.py",
+          "source_path": "scripts/ckb_core/runtime.py",
+          "score": 69.31250895,
+          "score_breakdown": {
+            "entity-fts": 29.31250895,
+            "metadata": 32.0,
+            "term": 8.0
+          }
+        }
+      ],
+      "retrieval_stats": {
+        "scored_entities": 344,
+        "overscan_limit": 32,
+        "materialized_candidates": 32,
+        "selected_entities": 8,
+        "budgeted_entity_limit": 8,
+        "selected_source_paths": 8,
+        "batched_entity_queries": 2,
+        "source_link_cache_entries": 8,
+        "static_cache_hit": true
+      },
+      "result_signature": "a20e0d8dcbda637cf492ec5f44592b733613a5be8b91e9e46f02212325fd9289"
+    },
+    {
+      "query_id": "q04",
+      "question": "修改增量迁移时 exact blob 复用集合的审计规则",
+      "expected_path": "scripts/ckb_core/migration.py",
+      "expected_symbol": "audit_migration",
+      "terms": [
+        "复用集合的审计规则",
+        "修改增量迁移时",
+        "exact",
+        "blob",
+        "修改增",
+        "合的审",
+        "增量迁",
+        "复用集",
+        "审计规",
+        "改增量",
+        "用集合",
+        "的审计",
+        "计规则",
+        "迁移时",
+        "量迁移",
+        "集合的",
+        "修改",
+        "合的",
+        "增量",
+        "复用",
+        "审计",
+        "改增",
+        "用集",
+        "的审",
+        "移时",
+        "规则",
+        "计规",
+        "迁移",
+        "量迁",
+        "集合"
+      ],
+      "term_count": 30,
+      "fts_query": "\"复用集合的审计规则\" OR \"修改增量迁移时\" OR \"exact\" OR \"blob\" OR \"修改增\" OR \"合的审\" OR \"增量迁\" OR \"复用集\" OR \"审计规\" OR \"改增量\" OR \"用集合\" OR \"的审计\" OR \"计规则\" OR \"迁移时\" OR \"量迁移\" OR \"集合的\"",
+      "fts_match_utf8_bytes": 257,
+      "fts_term_count": 16,
+      "cold_latency_ms": 52.6963,
+      "hot_latencies_ms": [
+        23.1358,
+        21.6479,
+        22.5735,
+        24.4539,
+        22.518,
+        21.8048,
+        21.055,
+        20.7241,
+        20.6165
+      ],
+      "hot_latency_ms_median": 21.8048,
+      "hot_latency_ms_p95": 23.92666,
+      "target_source_recalled": true,
+      "agent_visible_tokens": 2395,
+      "selected_candidates": [
+        {
+          "entity_id": "ent-fed294454623528f989bfe5c8791daf1",
+          "qualified_name": "blob_bytes_many",
+          "source_path": "scripts/ckb_core/gitrepo.py",
+          "score": 96.07577949,
+          "score_breakdown": {
+            "entity-fts": 14.80677006,
+            "graph": 0.58910293,
+            "metadata": 30.0,
+            "section-fts": 40.6799065,
+            "term": 10.0
+          }
+        },
+        {
+          "entity_id": "file-f5cd5f5f6848572bb19754c49d10c376",
+          "qualified_name": "scripts/ckb_core/migration.py",
+          "source_path": "scripts/ckb_core/migration.py",
+          "score": 91.80070675,
+          "score_breakdown": {
+            "entity-fts": 6.1176813,
+            "graph": 0.2356939,
+            "metadata": 42.0,
+            "section-fts": 3.44733155,
+            "term": 40.0
+          }
+        },
+        {
+          "entity_id": "ent-d66d7513d6815ba394a9ab890f66c2cc",
+          "qualified_name": "_source_check",
+          "source_path": "scripts/ckb_core/pipeline.py",
+          "score": 72.96702597,
+          "score_breakdown": {
+            "entity-fts": 17.79706456,
+            "graph": 0.00340325,
+            "metadata": 12.0,
+            "section-fts": 39.16655816,
+            "term": 4.0
+          }
+        },
+        {
+          "entity_id": "ent-b8de4a6d51d451abbe460de2c907033b",
+          "qualified_name": "MigrationTest.test_exact_blob_facts_and_agent_reviews_are_reused",
+          "source_path": "tests/test_migration.py",
+          "score": 61.90788248,
+          "score_breakdown": {
+            "entity-fts": 6.10865005,
+            "graph": 0.28028812,
+            "metadata": 60.0,
+            "section-fts": 56.62371747,
+            "term": 24.0,
+            "test-discount": -85.10477316
+          }
+        },
+        {
+          "entity_id": "ent-66b67e6145815b68b8565f1db607f66e",
+          "qualified_name": "package_showcase",
+          "source_path": "scripts/ckb_core/showcase.py",
+          "score": 48.10513062,
+          "score_breakdown": {
+            "entity-fts": 12.46257859,
+            "graph": 0.00059435,
+            "metadata": 5.0,
+            "section-fts": 6.64195768,
+            "term": 24.0
+          }
+        },
+        {
+          "entity_id": "file-311686a303f4571e95c3d5a8ddeec186",
+          "qualified_name": "scripts/ckb_core/__init__.py",
+          "source_path": "scripts/ckb_core/__init__.py",
+          "score": 32.73924763,
+          "score_breakdown": {
+            "section-fts": 20.73924763,
+            "term": 12.0
+          }
+        },
+        {
+          "entity_id": "ent-475e45769de75ae1a7838ebffe4ddb69",
+          "qualified_name": "source_files",
+          "source_path": "scripts/package_release.py",
+          "score": 28.71315016,
+          "score_breakdown": {
+            "section-fts": 20.71315016,
+            "term": 8.0
+          }
+        },
+        {
+          "entity_id": "ent-5280f0f1a0f0586b871bd383d3e3fd38",
+          "qualified_name": "retrieve_machine",
+          "source_path": "scripts/ckb_core/machine_knowledge.py",
+          "score": 21.67374239,
+          "score_breakdown": {
+            "graph": 0.00097241,
+            "section-fts": 17.67276997,
+            "term": 4.0
+          }
+        }
+      ],
+      "retrieval_stats": {
+        "scored_entities": 343,
+        "overscan_limit": 32,
+        "materialized_candidates": 32,
+        "selected_entities": 8,
+        "budgeted_entity_limit": 8,
+        "selected_source_paths": 8,
+        "batched_entity_queries": 2,
+        "source_link_cache_entries": 8,
+        "static_cache_hit": true
+      },
+      "result_signature": "7b676ad2c64e0af66ffd2bb17999326676c8becddc7fbf24cfaa922447b230f0"
+    },
+    {
+      "query_id": "q05",
+      "question": "修改兼容 Agent 页面索引的构建与 FTS 查询",
+      "expected_path": "scripts/ckb_core/agent_index.py",
+      "expected_symbol": "build_agent_index",
+      "terms": [
+        "页面索引的构建与",
+        "agent",
+        "修改兼容",
+        "fts",
+        "修改兼",
+        "引的构",
+        "改兼容",
+        "构建与",
+        "的构建",
+        "索引的",
+        "面索引",
+        "页面索",
+        "修改",
+        "兼容",
+        "建与",
+        "引的",
+        "改兼",
+        "构建",
+        "查询",
+        "的构",
+        "索引",
+        "面索",
+        "页面"
+      ],
+      "term_count": 23,
+      "fts_query": "\"页面索引的构建与\" OR \"agent\" OR \"修改兼容\" OR \"fts\" OR \"修改兼\" OR \"引的构\" OR \"改兼容\" OR \"构建与\" OR \"的构建\" OR \"索引的\" OR \"面索引\" OR \"页面索\"",
+      "fts_match_utf8_bytes": 184,
+      "fts_term_count": 12,
+      "cold_latency_ms": 48.0135,
+      "hot_latencies_ms": [
+        25.7831,
+        26.1639,
+        24.609,
+        24.8424,
+        25.6028,
+        25.5158,
+        26.2908,
+        26.112,
+        26.6369
+      ],
+      "hot_latency_ms_median": 25.7831,
+      "hot_latency_ms_p95": 26.49846,
+      "target_source_recalled": true,
+      "agent_visible_tokens": 2388,
+      "selected_candidates": [
+        {
+          "entity_id": "file-e903ef855dce5d7b84361bc8b9fb063b",
+          "qualified_name": "scripts/ckb_core/agent_maintenance.py",
+          "source_path": "scripts/ckb_core/agent_maintenance.py",
+          "score": 282.46682353,
+          "score_breakdown": {
+            "entity-fts": 20.06586541,
+            "graph": 1.16827569,
+            "metadata": 50.0,
+            "section-fts": 193.23268243,
+            "term": 18.0
+          }
+        },
+        {
+          "entity_id": "ent-0aa5e225939e5a8ab31ca0c1031e6d92",
+          "qualified_name": "_agent_index_ready",
+          "source_path": "scripts/ckb_core/agent_index.py",
+          "score": 183.1301935,
+          "score_breakdown": {
+            "entity-fts": 6.62201389,
+            "graph": 1.55258564,
+            "metadata": 40.0,
+            "section-fts": 100.95559396,
+            "term": 34.0
+          }
+        },
+        {
+          "entity_id": "file-127ad18062a35020a23da6cd63c91282",
+          "qualified_name": "scripts/ckb_core/machine_knowledge.py",
+          "source_path": "scripts/ckb_core/machine_knowledge.py",
+          "score": 128.87300556,
+          "score_breakdown": {
+            "entity-fts": 11.64726295,
+            "graph": 0.00245401,
+            "metadata": 37.0,
+            "section-fts": 60.2232886,
+            "term": 20.0
+          }
+        },
+        {
+          "entity_id": "ent-20c26aa08209560aa1bc531fb6a63386",
+          "qualified_name": "create_source_snapshot",
+          "source_path": "scripts/ckb_core/gitrepo.py",
+          "score": 95.76791529,
+          "score_breakdown": {
+            "entity-fts": 26.23539055,
+            "graph": 0.00203426,
+            "metadata": 12.0,
+            "section-fts": 49.53049047,
+            "term": 8.0
+          }
+        },
+        {
+          "entity_id": "ent-cef7f639e7cf5e09b3df61907a547d1a",
+          "qualified_name": "ReviewRequired",
+          "source_path": "scripts/ckb_core/common.py",
+          "score": 93.75981278,
+          "score_breakdown": {
+            "entity-fts": 24.17173369,
+            "graph": 0.0004436,
+            "metadata": 12.0,
+            "section-fts": 49.58763549,
+            "term": 8.0
+          }
+        },
+        {
+          "entity_id": "ent-26765fac6387516bae3f7d4dc6c66dc3",
+          "qualified_name": "activate_skill_session",
+          "source_path": "scripts/ckb_core/automation.py",
+          "score": 90.88197624,
+          "score_breakdown": {
+            "entity-fts": 25.12263956,
+            "graph": 0.00123036,
+            "metadata": 12.0,
+            "section-fts": 49.75810632,
+            "term": 4.0
+          }
+        },
+        {
+          "entity_id": "ent-2478baa7fe1256e9847a944c09a884fb",
+          "qualified_name": "build_context",
+          "source_path": "scripts/ckb_core/pipeline.py",
+          "score": 89.28026538,
+          "score_breakdown": {
+            "entity-fts": 23.82472458,
+            "graph": 0.00149555,
+            "metadata": 12.0,
+            "section-fts": 49.45404525,
+            "term": 4.0
+          }
+        },
+        {
+          "entity_id": "ent-102da31f965f5af68e77bcddc0ed42b5",
+          "qualified_name": "start_session",
+          "source_path": "scripts/ckb_core/agent_maintenance.py",
+          "score": 253.10114865,
+          "score_breakdown": {
+            "entity-fts": 21.00609248,
+            "graph": 3.01061679,
+            "metadata": 22.0,
+            "section-fts": 193.08443939,
+            "term": 14.0
+          }
+        }
+      ],
+      "retrieval_stats": {
+        "scored_entities": 395,
+        "overscan_limit": 32,
+        "materialized_candidates": 32,
+        "selected_entities": 8,
+        "budgeted_entity_limit": 8,
+        "selected_source_paths": 7,
+        "batched_entity_queries": 2,
+        "source_link_cache_entries": 7,
+        "static_cache_hit": true
+      },
+      "result_signature": "229b6b7e31131be350f7394e56c12b4553ef544facc6fc8e005590deffa78459"
+    },
+    {
+      "query_id": "q06",
+      "question": "修改机器知识同步到中文人类 Obsidian 页面投影",
+      "expected_path": "scripts/ckb_core/knowledge_layers.py",
+      "expected_symbol": "sync_human_layer",
+      "terms": [
+        "修改机器知识同步到中文人类",
+        "obsidian",
+        "页面投影",
+        "中文人",
+        "修改机",
+        "到中文",
+        "同步到",
+        "器知识",
+        "改机器",
+        "文人类",
+        "机器知",
+        "步到中",
+        "知识同",
+        "识同步",
+        "面投影",
+        "页面投",
+        "中文",
+        "人类",
+        "修改",
+        "到中",
+        "同步",
+        "器知",
+        "投影",
+        "改机",
+        "文人",
+        "机器",
+        "步到",
+        "知识",
+        "识同",
+        "面投",
+        "页面"
+      ],
+      "term_count": 31,
+      "fts_query": "\"修改机器知识同步到中文人类\" OR \"obsidian\" OR \"页面投影\" OR \"中文人\" OR \"修改机\" OR \"到中文\" OR \"同步到\" OR \"器知识\" OR \"改机器\" OR \"文人类\" OR \"机器知\" OR \"步到中\" OR \"知识同\" OR \"识同步\" OR \"面投影\" OR \"页面投\"",
+      "fts_match_utf8_bytes": 268,
+      "fts_term_count": 16,
+      "cold_latency_ms": 43.3103,
+      "hot_latencies_ms": [
+        20.1982,
+        23.662,
+        20.448,
+        19.54,
+        20.5384,
+        20.53,
+        21.0759,
+        21.0957,
+        21.737
+      ],
+      "hot_latency_ms_median": 20.5384,
+      "hot_latency_ms_p95": 22.892,
+      "target_source_recalled": true,
+      "agent_visible_tokens": 2379,
+      "selected_candidates": [
+        {
+          "entity_id": "file-96e14f6e1b4b5346a4427dd5b4fd75f8",
+          "qualified_name": "scripts/ckb_core/obsidian.py",
+          "source_path": "scripts/ckb_core/obsidian.py",
+          "score": 134.04422821,
+          "score_breakdown": {
+            "entity-fts": 12.76526146,
+            "graph": 8.43692615,
+            "metadata": 50.0,
+            "section-fts": 44.8420406,
+            "term": 18.0
+          }
+        },
+        {
+          "entity_id": "file-4ccd0cfe6ab95cd4934c08e95024a187",
+          "qualified_name": "scripts/ckb_core/knowledge_layers.py",
+          "source_path": "scripts/ckb_core/knowledge_layers.py",
+          "score": 80.07626323,
+          "score_breakdown": {
+            "entity-fts": 7.2402551,
+            "metadata": 30.0,
+            "section-fts": 14.83600813,
+            "term": 28.0
+          }
+        },
+        {
+          "entity_id": "ent-3cf702e4a37f509ea90ce4d60c33d811",
+          "qualified_name": "obsidian_open_uri",
+          "source_path": "scripts/ckb_core/source_links.py",
+          "score": 74.44494184,
+          "score_breakdown": {
+            "entity-fts": 12.68827786,
+            "metadata": 30.0,
+            "section-fts": 21.75666397,
+            "term": 10.0
+          }
+        },
+        {
+          "entity_id": "file-127ad18062a35020a23da6cd63c91282",
+          "qualified_name": "scripts/ckb_core/machine_knowledge.py",
+          "source_path": "scripts/ckb_core/machine_knowledge.py",
+          "score": 70.40068835,
+          "score_breakdown": {
+            "entity-fts": 7.88989184,
+            "metadata": 30.0,
+            "section-fts": 4.51079651,
+            "term": 28.0
+          }
+        },
+        {
+          "entity_id": "ent-0b93d19b9ee35544851768c36b3298a7",
+          "qualified_name": "project_markdown",
+          "source_path": "scripts/ckb_core/pipeline.py",
+          "score": 68.32600249,
+          "score_breakdown": {
+            "entity-fts": 15.91757069,
+            "graph": 4.28683655,
+            "metadata": 12.0,
+            "section-fts": 28.12159525,
+            "term": 8.0
+          }
+        },
+        {
+          "entity_id": "ent-75914a61a3245e75806e2ce8933bae4a",
+          "qualified_name": "record_note",
+          "source_path": "scripts/ckb_core/workspace_notes.py",
+          "score": 35.2206602,
+          "score_breakdown": {
+            "graph": 0.00084626,
+            "section-fts": 23.21981394,
+            "term": 12.0
+          }
+        },
+        {
+          "entity_id": "ent-66b67e6145815b68b8565f1db607f66e",
+          "qualified_name": "package_showcase",
+          "source_path": "scripts/ckb_core/showcase.py",
+          "score": 21.33742403,
+          "score_breakdown": {
+            "graph": 0.00120423,
+            "section-fts": 13.3362198,
+            "term": 8.0
+          }
+        },
+        {
+          "entity_id": "ent-3b99118872405fd1bd473bcbedc35d34",
+          "qualified_name": "retrieve",
+          "source_path": "scripts/ckb_core/agent_index.py",
+          "score": 12.00284794,
+          "score_breakdown": {
+            "graph": 0.00284794,
+            "term": 12.0
+          }
+        }
+      ],
+      "retrieval_stats": {
+        "scored_entities": 376,
+        "overscan_limit": 32,
+        "materialized_candidates": 32,
+        "selected_entities": 8,
+        "budgeted_entity_limit": 8,
+        "selected_source_paths": 8,
+        "batched_entity_queries": 2,
+        "source_link_cache_entries": 8,
+        "static_cache_hit": true
+      },
+      "result_signature": "53980c3a913ea0ed349757b35f7d28c6cc426eb4da7152e0c8acb0367c09a7ce"
+    },
+    {
+      "query_id": "q07",
+      "question": "调整 Graphify 社区聚类与查询子图输出",
+      "expected_path": "scripts/ckb_core/graphify_core.py",
+      "expected_symbol": "query_graph",
+      "terms": [
+        "社区聚类与查询子图输出",
+        "graphify",
+        "与查询",
+        "区聚类",
+        "图输出",
+        "子图输",
+        "查询子",
+        "社区聚",
+        "类与查",
+        "聚类与",
+        "询子图",
+        "与查",
+        "区聚",
+        "图输",
+        "子图",
+        "查询",
+        "社区",
+        "类与",
+        "聚类",
+        "询子",
+        "调整",
+        "输出"
+      ],
+      "term_count": 22,
+      "fts_query": "\"社区聚类与查询子图输出\" OR \"graphify\" OR \"与查询\" OR \"区聚类\" OR \"图输出\" OR \"子图输\" OR \"查询子\" OR \"社区聚\" OR \"类与查\" OR \"聚类与\" OR \"询子图\"",
+      "fts_match_utf8_bytes": 184,
+      "fts_term_count": 11,
+      "cold_latency_ms": 41.6775,
+      "hot_latencies_ms": [
+        18.2801,
+        17.2042,
+        18.3188,
+        18.326,
+        17.7237,
+        18.3946,
+        16.856,
+        18.2984,
+        18.0095
+      ],
+      "hot_latency_ms_median": 18.2801,
+      "hot_latency_ms_p95": 18.367160000000002,
+      "target_source_recalled": true,
+      "agent_visible_tokens": 2235,
+      "selected_candidates": [
+        {
+          "entity_id": "file-b7eb2349510c5992a19d42cffae96018",
+          "qualified_name": "scripts/ckb_core/graphify_core.py",
+          "source_path": "scripts/ckb_core/graphify_core.py",
+          "score": 143.46232657,
+          "score_breakdown": {
+            "entity-fts": 16.80384104,
+            "graph": 4.50754426,
+            "metadata": 50.0,
+            "section-fts": 54.15094127,
+            "term": 18.0
+          }
+        },
+        {
+          "entity_id": "ent-9652907851d4574cb7abb4e8745107fe",
+          "qualified_name": "_readability_report",
+          "source_path": "scripts/ckb_core/pipeline.py",
+          "score": 38.68370663,
+          "score_breakdown": {
+            "graph": 9.233e-05,
+            "section-fts": 38.6836143
+          }
+        },
+        {
+          "entity_id": "ent-66b67e6145815b68b8565f1db607f66e",
+          "qualified_name": "package_showcase",
+          "source_path": "scripts/ckb_core/showcase.py",
+          "score": 27.44514789,
+          "score_breakdown": {
+            "graph": 0.00207119,
+            "section-fts": 23.44307669,
+            "term": 4.0
+          }
+        },
+        {
+          "entity_id": "ent-46ca0be436ad5761aa96bcefbf96f5dc",
+          "qualified_name": "retrieve_machine.add",
+          "source_path": "scripts/ckb_core/machine_knowledge.py",
+          "score": 6.75050686,
+          "score_breakdown": {
+            "graph": 2.75050686,
+            "term": 4.0
+          }
+        },
+        {
+          "entity_id": "ent-73a5f0a903c65567b2be08a8b9b2405c",
+          "qualified_name": "CodeKnowledgeBuilderTests.test_runtime_plan_lite",
+          "source_path": "tests/test_ckb.py",
+          "score": 5.69215602,
+          "score_breakdown": {
+            "graph": 0.00011309,
+            "section-fts": 13.55248318,
+            "test-discount": -7.86044025
+          }
+        },
+        {
+          "entity_id": "ent-5af690e3f68e5f2d80b7b8b92456ef8b",
+          "qualified_name": "main",
+          "source_path": "scripts/ckb.py",
+          "score": 4.39446941,
+          "score_breakdown": {
+            "graph": 0.39446941,
+            "term": 4.0
+          }
+        },
+        {
+          "entity_id": "ent-ce4fa675276e572092f0dad6403d1f61",
+          "qualified_name": "LspClient.start",
+          "source_path": "scripts/ckb_core/providers.py",
+          "score": 4.02695849,
+          "score_breakdown": {
+            "graph": 0.02695849,
+            "term": 4.0
+          }
+        },
+        {
+          "entity_id": "ent-da13a0cb451655389ccf5d78a2c14343",
+          "qualified_name": "query_graph",
+          "source_path": "scripts/ckb_core/graphify_core.py",
+          "score": 137.8112726,
+          "score_breakdown": {
+            "entity-fts": 20.7838406,
+            "graph": 0.6905752,
+            "metadata": 22.0,
+            "section-fts": 80.33685679,
+            "term": 14.0
+          }
+        }
+      ],
+      "retrieval_stats": {
+        "scored_entities": 289,
+        "overscan_limit": 32,
+        "materialized_candidates": 32,
+        "selected_entities": 8,
+        "budgeted_entity_limit": 8,
+        "selected_source_paths": 7,
+        "batched_entity_queries": 2,
+        "source_link_cache_entries": 7,
+        "static_cache_hit": true
+      },
+      "result_signature": "8510032df60af8f744e9b72c302455a5625284f531554e68c0f5e19537ff09d4"
+    },
+    {
+      "query_id": "q08",
+      "question": "修改知识页点击源码时的 VS Code URI 和行号",
+      "expected_path": "scripts/ckb_core/source_links.py",
+      "expected_symbol": "ensure_local_openers",
+      "terms": [
+        "修改知识页点击源码时的",
+        "code",
+        "uri",
+        "修改知",
+        "击源码",
+        "和行号",
+        "改知识",
+        "源码时",
+        "点击源",
+        "知识页",
+        "码时的",
+        "识页点",
+        "页点击",
+        "vs",
+        "修改",
+        "击源",
+        "和行",
+        "改知",
+        "时的",
+        "源码",
+        "点击",
+        "知识",
+        "码时",
+        "行号",
+        "识页",
+        "页点"
+      ],
+      "term_count": 26,
+      "fts_query": "\"修改知识页点击源码时的\" OR \"code\" OR \"uri\" OR \"修改知\" OR \"击源码\" OR \"和行号\" OR \"改知识\" OR \"源码时\" OR \"点击源\" OR \"知识页\" OR \"码时的\" OR \"识页点\" OR \"页点击\"",
+      "fts_match_utf8_bytes": 204,
+      "fts_term_count": 13,
+      "cold_latency_ms": 52.2382,
+      "hot_latencies_ms": [
+        23.1635,
+        21.8909,
+        22.1596,
+        24.3332,
+        24.3424,
+        26.9508,
+        23.3558,
+        22.8028,
+        24.4189
+      ],
+      "hot_latency_ms_median": 23.3558,
+      "hot_latency_ms_p95": 25.93804,
+      "target_source_recalled": true,
+      "agent_visible_tokens": 2394,
+      "selected_candidates": [
+        {
+          "entity_id": "ent-2952d57c49f057a48846d44d57b7cbe4",
+          "qualified_name": "SourceLinkRenderer.uri",
+          "source_path": "scripts/ckb_core/source_links.py",
+          "score": 658.04334887,
+          "score_breakdown": {
+            "anchor": 500.0,
+            "entity-fts": 9.92159164,
+            "graph": 0.2260924,
+            "metadata": 69.0,
+            "section-fts": 52.89566483,
+            "term": 26.0
+          }
+        },
+        {
+          "entity_id": "file-a7c669b371855f3e8541f4718060e9e9",
+          "qualified_name": "scripts/ckb_core/automation_integrations.py",
+          "source_path": "scripts/ckb_core/automation_integrations.py",
+          "score": 101.42106306,
+          "score_breakdown": {
+            "entity-fts": 24.46354347,
+            "graph": 0.09121841,
+            "metadata": 32.0,
+            "section-fts": 36.86630118,
+            "term": 8.0
+          }
+        },
+        {
+          "entity_id": "file-f5cd5f5f6848572bb19754c49d10c376",
+          "qualified_name": "scripts/ckb_core/migration.py",
+          "source_path": "scripts/ckb_core/migration.py",
+          "score": 94.88023152,
+          "score_breakdown": {
+            "entity-fts": 30.77127064,
+            "graph": 0.08026287,
+            "metadata": 32.0,
+            "section-fts": 20.02869802,
+            "term": 12.0
+          }
+        },
+        {
+          "entity_id": "file-e7c091bda50354049dd3e015db7ec72b",
+          "qualified_name": "scripts/build_runtime_payload.py",
+          "source_path": "scripts/build_runtime_payload.py",
+          "score": 94.63701795,
+          "score_breakdown": {
+            "entity-fts": 30.12216382,
+            "graph": 0.49917184,
+            "metadata": 32.0,
+            "section-fts": 20.01568229,
+            "term": 12.0
+          }
+        },
+        {
+          "entity_id": "file-d97926754468598db27e0d60c719c42d",
+          "qualified_name": "scripts/ckb_core/agent_index.py",
+          "source_path": "scripts/ckb_core/agent_index.py",
+          "score": 94.43328011,
+          "score_breakdown": {
+            "entity-fts": 30.12216382,
+            "graph": 0.25640132,
+            "metadata": 32.0,
+            "section-fts": 20.05471497,
+            "term": 12.0
+          }
+        },
+        {
+          "entity_id": "file-5733359b6caf51f380bd1e8fab1c0393",
+          "qualified_name": "scripts/ckb_core/showcase.py",
+          "source_path": "scripts/ckb_core/showcase.py",
+          "score": 93.8695723,
+          "score_breakdown": {
+            "entity-fts": 29.85389001,
+            "metadata": 32.0,
+            "section-fts": 20.01568229,
+            "term": 12.0
+          }
+        },
+        {
+          "entity_id": "file-1e59546ddfc0502bbbb040ae8357dc15",
+          "qualified_name": "scripts/ckb_core/page_config.py",
+          "source_path": "scripts/ckb_core/page_config.py",
+          "score": 93.5606159,
+          "score_breakdown": {
+            "entity-fts": 29.58400988,
+            "metadata": 32.0,
+            "section-fts": 19.97660602,
+            "term": 12.0
+          }
+        },
+        {
+          "entity_id": "file-8ff515bab97b5c4c8af18f4227478f08",
+          "qualified_name": "scripts/ckb_core/runtime.py",
+          "source_path": "scripts/ckb_core/runtime.py",
+          "score": 93.24999505,
+          "score_breakdown": {
+            "entity-fts": 29.31250895,
+            "metadata": 32.0,
+            "section-fts": 19.9374861,
+            "term": 12.0
+          }
+        }
+      ],
+      "retrieval_stats": {
+        "scored_entities": 277,
+        "overscan_limit": 32,
+        "materialized_candidates": 32,
+        "selected_entities": 8,
+        "budgeted_entity_limit": 8,
+        "selected_source_paths": 8,
+        "batched_entity_queries": 2,
+        "source_link_cache_entries": 8,
+        "static_cache_hit": true
+      },
+      "result_signature": "221af858563deb254df1cf2a20027cd0dfbeb51e80b1be25afc736a2b4a45a86"
+    },
+    {
+      "query_id": "q09",
+      "question": "调整页面配置中的每文件关键页上限和上下文预算",
+      "expected_path": "scripts/ckb_core/page_config.py",
+      "expected_symbol": "load_page_config",
+      "terms": [
+        "调整页面配置中的每文件关键页上限和上下文预算",
+        "上下文",
+        "上限和",
+        "下文预",
+        "中的每",
+        "件关键",
+        "关键页",
+        "和上下",
+        "整页面",
+        "文件关",
+        "文预算",
+        "每文件",
+        "的每文",
+        "置中的",
+        "调整页",
+        "配置中",
+        "键页上",
+        "限和上",
+        "面配置",
+        "页上限",
+        "页面配",
+        "上下",
+        "上限",
+        "下文",
+        "中的",
+        "件关",
+        "关键",
+        "和上",
+        "整页",
+        "文件",
+        "文预",
+        "每文",
+        "的每",
+        "置中",
+        "调整",
+        "配置",
+        "键页",
+        "限和",
+        "面配",
+        "页上",
+        "页面",
+        "预算"
+      ],
+      "term_count": 42,
+      "fts_query": "\"调整页面配置中的每文件关键页上限和上下文预算\" OR \"上下文\" OR \"上限和\" OR \"下文预\" OR \"中的每\" OR \"件关键\" OR \"关键页\" OR \"和上下\" OR \"整页面\" OR \"文件关\" OR \"文预算\" OR \"每文件\" OR \"的每文\" OR \"置中的\" OR \"调整页\" OR \"配置中\"",
+      "fts_match_utf8_bytes": 293,
+      "fts_term_count": 16,
+      "cold_latency_ms": 43.8163,
+      "hot_latencies_ms": [
+        24.3353,
+        22.3429,
+        23.2133,
+        25.7787,
+        28.5082,
+        34.2657,
+        28.173,
+        36.2098,
+        25.4395
+      ],
+      "hot_latency_ms_median": 25.7787,
+      "hot_latency_ms_p95": 35.43216,
+      "target_source_recalled": true,
+      "agent_visible_tokens": 2356,
+      "selected_candidates": [
+        {
+          "entity_id": "file-f2c27ca825495fab87e8340ecdd85f0d",
+          "qualified_name": "scripts/ckb_core/navigation.py",
+          "source_path": "scripts/ckb_core/navigation.py",
+          "score": 119.86520278,
+          "score_breakdown": {
+            "entity-fts": 4.10444886,
+            "graph": 10.5081881,
+            "metadata": 45.0,
+            "section-fts": 8.25256581,
+            "term": 52.0
+          }
+        },
+        {
+          "entity_id": "file-127ad18062a35020a23da6cd63c91282",
+          "qualified_name": "scripts/ckb_core/machine_knowledge.py",
+          "source_path": "scripts/ckb_core/machine_knowledge.py",
+          "score": 81.91095711,
+          "score_breakdown": {
+            "entity-fts": 20.91003607,
+            "metadata": 25.0,
+            "section-fts": 12.00092104,
+            "term": 24.0
+          }
+        },
+        {
+          "entity_id": "ent-89d9bf18486a5b53a0336a658b829909",
+          "qualified_name": "_logical_context_budgets",
+          "source_path": "scripts/ckb_core/pipeline.py",
+          "score": 59.92526568,
+          "score_breakdown": {
+            "entity-fts": 6.14696429,
+            "graph": 3.18706065,
+            "metadata": 15.0,
+            "section-fts": 3.59124074,
+            "term": 32.0
+          }
+        },
+        {
+          "entity_id": "file-1e59546ddfc0502bbbb040ae8357dc15",
+          "qualified_name": "scripts/ckb_core/page_config.py",
+          "source_path": "scripts/ckb_core/page_config.py",
+          "score": 54.0,
+          "score_breakdown": {
+            "metadata": 30.0,
+            "term": 24.0
+          }
+        },
+        {
+          "entity_id": "ent-8554e8107310533593c23072334da10a",
+          "qualified_name": "_hook_context",
+          "source_path": "scripts/ckb_core/automation.py",
+          "score": 47.49738046,
+          "score_breakdown": {
+            "entity-fts": 18.72307888,
+            "graph": 0.00021907,
+            "metadata": 5.0,
+            "section-fts": 11.77408251,
+            "term": 12.0
+          }
+        },
+        {
+          "entity_id": "ent-b2ffd554d98156b6a127f4e86ffed257",
+          "qualified_name": "CodeKnowledgeBuilderTests.test_navigation_page_quota_relation_budget_and_context_bundle",
+          "source_path": "tests/test_ckb.py",
+          "score": 29.92327403,
+          "score_breakdown": {
+            "entity-fts": 10.79563857,
+            "graph": 0.00176017,
+            "metadata": 15.0,
+            "section-fts": 5.4460611,
+            "term": 40.0,
+            "test-discount": -41.32018581
+          }
+        },
+        {
+          "entity_id": "ent-57ef818395db52f5a0a74339e43114c3",
+          "qualified_name": "_codex_hooks",
+          "source_path": "scripts/ckb_core/automation_integrations.py",
+          "score": 20.56580246,
+          "score_breakdown": {
+            "section-fts": 20.56580246
+          }
+        },
+        {
+          "entity_id": "ent-a6410e372c9059d79e96bd1eaa179a7e",
+          "qualified_name": "estimated_tokens",
+          "source_path": "scripts/ckb_core/navigation.py",
+          "score": 87.06579574,
+          "score_breakdown": {
+            "entity-fts": 4.72059152,
+            "graph": 2.60855199,
+            "metadata": 25.0,
+            "section-fts": 2.73665223,
+            "term": 52.0
+          }
+        }
+      ],
+      "retrieval_stats": {
+        "scored_entities": 372,
+        "overscan_limit": 32,
+        "materialized_candidates": 32,
+        "selected_entities": 8,
+        "budgeted_entity_limit": 8,
+        "selected_source_paths": 7,
+        "batched_entity_queries": 2,
+        "source_link_cache_entries": 7,
+        "static_cache_hit": true
+      },
+      "result_signature": "23b88dbfc31cf34091b5db34f575135c1e4932e45df8b9f0f3f3e674a5c3bbd2"
+    },
+    {
+      "query_id": "q10",
+      "question": "修改 full 私有运行时部署和 remove 回滚流程",
+      "expected_path": "scripts/ckb_core/runtime.py",
+      "expected_symbol": "deploy",
+      "terms": [
+        "私有运行时部署和",
+        "remove",
+        "full",
+        "回滚流程",
+        "回滚流",
+        "时部署",
+        "有运行",
+        "滚流程",
+        "私有运",
+        "行时部",
+        "运行时",
+        "部署和",
+        "修改",
+        "回滚",
+        "时部",
+        "有运",
+        "流程",
+        "滚流",
+        "私有",
+        "署和",
+        "行时",
+        "运行",
+        "部署"
+      ],
+      "term_count": 23,
+      "fts_query": "\"私有运行时部署和\" OR \"remove\" OR \"full\" OR \"回滚流程\" OR \"回滚流\" OR \"时部署\" OR \"有运行\" OR \"滚流程\" OR \"私有运\" OR \"行时部\" OR \"运行时\" OR \"部署和\"",
+      "fts_match_utf8_bytes": 186,
+      "fts_term_count": 12,
+      "cold_latency_ms": 76.4933,
+      "hot_latencies_ms": [
+        27.9979,
+        31.1946,
+        29.4928,
+        32.3869,
+        25.546,
+        20.685,
+        31.6434,
+        37.1868,
+        27.0401
+      ],
+      "hot_latency_ms_median": 29.4928,
+      "hot_latency_ms_p95": 35.266839999999995,
+      "target_source_recalled": true,
+      "agent_visible_tokens": 2076,
+      "selected_candidates": [
+        {
+          "entity_id": "ent-0f9813a456cb514b98d6398fca9dd798",
+          "qualified_name": "remove",
+          "source_path": "scripts/ckb_core/runtime.py",
+          "score": 132.98955905,
+          "score_breakdown": {
+            "entity-fts": 6.24562714,
+            "graph": 0.92473564,
+            "metadata": 57.0,
+            "section-fts": 38.81919627,
+            "term": 30.0
+          }
+        },
+        {
+          "entity_id": "file-e7c091bda50354049dd3e015db7ec72b",
+          "qualified_name": "scripts/build_runtime_payload.py",
+          "source_path": "scripts/build_runtime_payload.py",
+          "score": 90.25643957,
+          "score_breakdown": {
+            "entity-fts": 16.97268006,
+            "graph": 0.47606607,
+            "metadata": 25.0,
+            "section-fts": 31.80769345,
+            "term": 16.0
+          }
+        },
+        {
+          "entity_id": "file-1d04900db82f5069a3cd905246b35b99",
+          "qualified_name": "scripts/package_release.py",
+          "source_path": "scripts/package_release.py",
+          "score": 87.55023907,
+          "score_breakdown": {
+            "entity-fts": 9.00858888,
+            "graph": 1.51734316,
+            "metadata": 37.0,
+            "section-fts": 20.02430703,
+            "term": 20.0
+          }
+        },
+        {
+          "entity_id": "file-033b9a94633a55589099ca5c5d92fd2a",
+          "qualified_name": "scripts/make_source_patch.py",
+          "source_path": "scripts/make_source_patch.py",
+          "score": 72.31838682,
+          "score_breakdown": {
+            "entity-fts": 20.56813337,
+            "metadata": 25.0,
+            "section-fts": 10.75025344,
+            "term": 16.0
+          }
+        },
+        {
+          "entity_id": "ent-32e2aae781605459944c8d08a226d467",
+          "qualified_name": "private_runtime_root",
+          "source_path": "scripts/ckb_core/providers.py",
+          "score": 55.94886202,
+          "score_breakdown": {
+            "entity-fts": 19.10132279,
+            "graph": 1.35833628,
+            "metadata": 5.0,
+            "section-fts": 10.48920295,
+            "term": 20.0
+          }
+        },
+        {
+          "entity_id": "ent-66b67e6145815b68b8565f1db607f66e",
+          "qualified_name": "package_showcase",
+          "source_path": "scripts/ckb_core/showcase.py",
+          "score": 34.18390754,
+          "score_breakdown": {
+            "graph": 0.00054307,
+            "section-fts": 30.18336447,
+            "term": 4.0
+          }
+        },
+        {
+          "entity_id": "ent-d2071431a334535db319afdf207c2c80",
+          "qualified_name": "parse_file",
+          "source_path": "scripts/ckb_core/parsers.py",
+          "score": 33.88967807,
+          "score_breakdown": {
+            "graph": 0.48949942,
+            "section-fts": 29.40017865,
+            "term": 4.0
+          }
+        },
+        {
+          "entity_id": "ent-e7cc2225b28450e1af310d702e95b2b6",
+          "qualified_name": "audit_graphify",
+          "source_path": "scripts/ckb_core/graphify_core.py",
+          "score": 33.42790324,
+          "score_breakdown": {
+            "graph": 0.00282149,
+            "section-fts": 29.42508175,
+            "term": 4.0
+          }
+        }
+      ],
+      "retrieval_stats": {
+        "scored_entities": 369,
+        "overscan_limit": 32,
+        "materialized_candidates": 32,
+        "selected_entities": 8,
+        "budgeted_entity_limit": 8,
+        "selected_source_paths": 8,
+        "batched_entity_queries": 2,
+        "source_link_cache_entries": 8,
+        "static_cache_hit": true
+      },
+      "result_signature": "33c2b93b56e405d68b36ac05ac74f18657d533f9ac6892bd4789833796219077"
+    },
+    {
+      "query_id": "q11",
+      "question": "修改 C++ 与 Python 展示样例的 Wiki 打包输出",
+      "expected_path": "scripts/ckb_core/showcase.py",
+      "expected_symbol": "package_showcase",
+      "terms": [
+        "python",
+        "展示样例的",
+        "wiki",
+        "打包输出",
+        "包输出",
+        "展示样",
+        "打包输",
+        "样例的",
+        "示样例",
+        "例的",
+        "修改",
+        "包输",
+        "展示",
+        "打包",
+        "样例",
+        "示样",
+        "输出",
+        "与"
+      ],
+      "term_count": 18,
+      "fts_query": "\"python\" OR \"展示样例的\" OR \"wiki\" OR \"打包输出\" OR \"包输出\" OR \"展示样\" OR \"打包输\" OR \"样例的\" OR \"示样例\"",
+      "fts_match_utf8_bytes": 132,
+      "fts_term_count": 9,
+      "cold_latency_ms": 68.2688,
+      "hot_latencies_ms": [
+        24.8999,
+        28.6733,
+        28.3559,
+        25.1941,
+        24.6733,
+        34.4525,
+        30.017,
+        29.8305,
+        30.1525
+      ],
+      "hot_latency_ms_median": 28.6733,
+      "hot_latency_ms_p95": 32.7325,
+      "target_source_recalled": true,
+      "agent_visible_tokens": 2395,
+      "selected_candidates": [
+        {
+          "entity_id": "file-5733359b6caf51f380bd1e8fab1c0393",
+          "qualified_name": "scripts/ckb_core/showcase.py",
+          "source_path": "scripts/ckb_core/showcase.py",
+          "score": 105.3515017,
+          "score_breakdown": {
+            "entity-fts": 13.35035456,
+            "graph": 5.91369515,
+            "metadata": 32.0,
+            "section-fts": 34.08745198,
+            "term": 20.0
+          }
+        },
+        {
+          "entity_id": "ent-1f43db7fd74452619b2566b63e1469ca",
+          "qualified_name": "relink_preserved_notes",
+          "source_path": "scripts/ckb_core/migration.py",
+          "score": 78.65475959,
+          "score_breakdown": {
+            "entity-fts": 15.2420108,
+            "graph": 3.02919492,
+            "metadata": 12.0,
+            "section-fts": 44.38355387,
+            "term": 4.0
+          }
+        },
+        {
+          "entity_id": "ent-27c0ddaab5045ecfb12c92169e2b2948",
+          "qualified_name": "_wiki_document",
+          "source_path": "scripts/ckb_core/pipeline.py",
+          "score": 63.8254089,
+          "score_breakdown": {
+            "entity-fts": 11.96178941,
+            "graph": 0.03185063,
+            "metadata": 30.0,
+            "section-fts": 11.83176886,
+            "term": 10.0
+          }
+        },
+        {
+          "entity_id": "ent-d2071431a334535db319afdf207c2c80",
+          "qualified_name": "parse_file",
+          "source_path": "scripts/ckb_core/parsers.py",
+          "score": 39.30332405,
+          "score_breakdown": {
+            "graph": 1.993e-05,
+            "section-fts": 31.30330413,
+            "term": 8.0
+          }
+        },
+        {
+          "entity_id": "file-ddd0044468285d24847a5bc8661ef10d",
+          "qualified_name": "tests/test_migration.py",
+          "source_path": "tests/test_migration.py",
+          "score": 29.84909859,
+          "score_breakdown": {
+            "entity-fts": 15.70933116,
+            "metadata": 32.0,
+            "section-fts": 11.35995121,
+            "term": 12.0,
+            "test-discount": -41.22018377
+          }
+        },
+        {
+          "entity_id": "ent-14aee69dd9ea5d819a1677557e78012f",
+          "qualified_name": "audit_obsidian",
+          "source_path": "scripts/ckb_core/obsidian.py",
+          "score": 22.65498917,
+          "score_breakdown": {
+            "graph": 0.00027656,
+            "section-fts": 22.65471261
+          }
+        },
+        {
+          "entity_id": "ent-0ca79440f88257ac89d9b8908ffedbe3",
+          "qualified_name": "_opencode_stable_plugin",
+          "source_path": "scripts/ckb_core/automation_integrations.py",
+          "score": 19.87333546,
+          "score_breakdown": {
+            "graph": 3.638e-05,
+            "section-fts": 15.87329908,
+            "term": 4.0
+          }
+        },
+        {
+          "entity_id": "ent-c9613f3e941a5cb6a488fe1376fcf1bd",
+          "qualified_name": "_provider_spec",
+          "source_path": "scripts/ckb_core/providers.py",
+          "score": 17.95620576,
+          "score_breakdown": {
+            "section-fts": 17.95620576
+          }
+        }
+      ],
+      "retrieval_stats": {
+        "scored_entities": 334,
+        "overscan_limit": 32,
+        "materialized_candidates": 32,
+        "selected_entities": 8,
+        "budgeted_entity_limit": 8,
+        "selected_source_paths": 8,
+        "batched_entity_queries": 2,
+        "source_link_cache_entries": 8,
+        "static_cache_hit": true
+      },
+      "result_signature": "dd5e940e02eb0df85b151fd4cedd2805bc9527609e94224364818af88f5c9ec5"
+    },
+    {
+      "query_id": "q12",
+      "question": "修改 Tree-sitter 解析文件和命名实体清单",
+      "expected_path": "scripts/ckb_core/parsers.py",
+      "expected_symbol": "parse_file",
+      "terms": [
+        "tree-sitter",
+        "解析文件和命名实体清单",
+        "sitter",
+        "tree",
+        "件和命",
+        "体清单",
+        "名实体",
+        "命名实",
+        "和命名",
+        "实体清",
+        "文件和",
+        "析文件",
+        "解析文",
+        "件和",
+        "体清",
+        "修改",
+        "名实",
+        "命名",
+        "和命",
+        "实体",
+        "文件",
+        "析文",
+        "清单",
+        "解析"
+      ],
+      "term_count": 24,
+      "fts_query": "\"tree-sitter\" OR \"解析文件和命名实体清单\" OR \"sitter\" OR \"tree\" OR \"件和命\" OR \"体清单\" OR \"名实体\" OR \"命名实\" OR \"和命名\" OR \"实体清\" OR \"文件和\" OR \"析文件\" OR \"解析文\"",
+      "fts_match_utf8_bytes": 209,
+      "fts_term_count": 13,
+      "cold_latency_ms": 69.2849,
+      "hot_latencies_ms": [
+        27.6149,
+        23.5824,
+        26.9917,
+        29.2526,
+        31.9902,
+        34.7383,
+        36.9914,
+        46.2031,
+        35.9854
+      ],
+      "hot_latency_ms_median": 31.9902,
+      "hot_latency_ms_p95": 42.51841999999999,
+      "target_source_recalled": true,
+      "agent_visible_tokens": 2036,
+      "selected_candidates": [
+        {
+          "entity_id": "file-dfdfc841fa115baa9302c9434f90f57b",
+          "qualified_name": "scripts/ckb_core/parsers.py",
+          "source_path": "scripts/ckb_core/parsers.py",
+          "score": 101.03588398,
+          "score_breakdown": {
+            "entity-fts": 5.37625511,
+            "graph": 4.31644624,
+            "metadata": 56.0,
+            "section-fts": 11.34318263,
+            "term": 24.0
+          }
+        },
+        {
+          "entity_id": "ent-20c26aa08209560aa1bc531fb6a63386",
+          "qualified_name": "create_source_snapshot",
+          "source_path": "scripts/ckb_core/gitrepo.py",
+          "score": 68.16933363,
+          "score_breakdown": {
+            "entity-fts": 16.24656163,
+            "graph": 0.0060711,
+            "metadata": 12.0,
+            "section-fts": 35.9167009,
+            "term": 4.0
+          }
+        },
+        {
+          "entity_id": "ent-e68d7501955a54e09a3477402d2347a3",
+          "qualified_name": "safe_rmtree",
+          "source_path": "scripts/ckb_core/common.py",
+          "score": 56.57855881,
+          "score_breakdown": {
+            "entity-fts": 13.72226398,
+            "graph": 9.75e-05,
+            "metadata": 30.0,
+            "section-fts": 12.85619733
+          }
+        },
+        {
+          "entity_id": "ent-4be7947978c25846bfe31327fc11e6c2",
+          "qualified_name": "sync_human_layer",
+          "source_path": "scripts/ckb_core/knowledge_layers.py",
+          "score": 38.11826308,
+          "score_breakdown": {
+            "graph": 0.00013238,
+            "section-fts": 30.1181307,
+            "term": 8.0
+          }
+        },
+        {
+          "entity_id": "ent-cc69225315b152c0bf5afa30a6b57bd2",
+          "qualified_name": "_cursor_hooks",
+          "source_path": "scripts/ckb_core/automation_integrations.py",
+          "score": 35.55195303,
+          "score_breakdown": {
+            "entity-fts": 11.45631731,
+            "metadata": 5.0,
+            "section-fts": 7.09563572,
+            "term": 12.0
+          }
+        },
+        {
+          "entity_id": "ent-6f3ab6a34cd35a43982ac40689fb9ea9",
+          "qualified_name": "audit_global",
+          "source_path": "scripts/ckb_core/pipeline.py",
+          "score": 34.65504245,
+          "score_breakdown": {
+            "graph": 0.00153165,
+            "section-fts": 34.6535108
+          }
+        },
+        {
+          "entity_id": "ent-2996c79f572d5caaa8df757f2cf8498e",
+          "qualified_name": "CodeKnowledgeBuilderTests.test_entry_scope_uses_fixed_snapshot_while_live_worktree_changes",
+          "source_path": "tests/test_ckb.py",
+          "score": 34.13122924,
+          "score_breakdown": {
+            "entity-fts": 14.18683755,
+            "graph": 0.00041818,
+            "metadata": 30.0,
+            "section-fts": 33.07699831,
+            "term": 4.0,
+            "test-discount": -47.1330248
+          }
+        },
+        {
+          "entity_id": "ent-38b48ca5bbb25564be9f8eb412ba639a",
+          "qualified_name": "_replace_review_packs",
+          "source_path": "scripts/ckb_core/migration.py",
+          "score": 33.22620445,
+          "score_breakdown": {
+            "graph": 3.641e-05,
+            "section-fts": 29.22616804,
+            "term": 4.0
+          }
+        }
+      ],
+      "retrieval_stats": {
+        "scored_entities": 360,
+        "overscan_limit": 32,
+        "materialized_candidates": 32,
+        "selected_entities": 8,
+        "budgeted_entity_limit": 8,
+        "selected_source_paths": 8,
+        "batched_entity_queries": 2,
+        "source_link_cache_entries": 8,
+        "static_cache_hit": true
+      },
+      "result_signature": "3043d54bf35abfc20edaa5b5f7d1bb2462206846c234cb097f0cfc41d780fafb"
+    }
+  ],
+  "summary": {
+    "query_count": 12,
+    "target_source_recall_at_8": 1.0,
+    "term_count_median": 23.5,
+    "fts_match_utf8_bytes_median": 195.0,
+    "materialized_candidates_median": 32.0,
+    "cold_latency_ms_median": 52.46725,
+    "cold_latency_ms_p95": 85.556345,
+    "hot_latency_ms_median": 24.9697,
+    "hot_latency_ms_p95": 34.63827,
+    "agent_visible_tokens_median": 2373.5,
+    "deterministic_within_process": true
+  },
+  "acceptance_targets": {
+    "mechanical_fragments_not_high_priority": [
+      "包不满",
+      "否会回",
+      "回的检"
+    ],
+    "preserve": [
+      "订单服务",
+      "orderservice",
+      "scripts/ckb_core/machine_knowledge.py",
+      "retrievemachine",
+      "fts5"
+    ]
+  }
+}

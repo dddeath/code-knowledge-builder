@@ -9,7 +9,7 @@ from typing import Any
 
 from .common import CkbError, json_load, json_write, safe_rmtree, sha256_file, utc_now
 from .machine_knowledge import contains_chinese_narrative
-from .obsidian import NOTE_DIRECTORIES
+from .obsidian import FEEDBACK_DIRECTORIES, NOTE_DIRECTORIES
 
 
 FACTS_SCHEMA_VERSION = 1
@@ -154,6 +154,10 @@ def sync_human_layer(output: Path, graph: dict[str, Any]) -> dict[str, Any]:
         (human / directory).mkdir(parents=True, exist_ok=True)
         for note in sorted((markdown / directory).glob("*.md")):
             _copy_file(note, human / directory / note.name)
+    for directory in FEEDBACK_DIRECTORIES:
+        (human / directory).mkdir(parents=True, exist_ok=True)
+        for note in sorted((markdown / directory).glob("*.md")):
+            _copy_file(note, human / directory / note.name)
     # Preserve user-owned Obsidian workspace/config additions while refreshing
     # the generator-owned app/plugin/snippet files from the compatibility vault.
     if (markdown / ".obsidian").is_dir():
@@ -170,6 +174,7 @@ def sync_human_layer(output: Path, graph: dict[str, Any]) -> dict[str, Any]:
         "compatibility_vault": str(markdown.resolve()),
         "generated_files": sorted(set(copied)),
         "note_directories": list(NOTE_DIRECTORIES),
+        "feedback_directories": list(FEEDBACK_DIRECTORIES),
         "language": "zh-CN",
         "language_contract": "正文说明使用简体中文；英文仅用于专有名词、代码符号、路径和必要术语。",
         "built_at_utc": utc_now(),
@@ -178,6 +183,12 @@ def sync_human_layer(output: Path, graph: dict[str, Any]) -> dict[str, Any]:
     ownership = json_load(human / ".ckb-generated-files.json")
     ownership["files"] = sorted(set(ownership.get("files", [])) | {"manifest.json", "audit.json"})
     json_write(human / ".ckb-generated-files.json", ownership)
+    # Refreshes may remove generator-owned contract bytes before preserving the
+    # user-installed plugin directory. Reproject only when that plugin is still
+    # physically installed; plugin-free vaults remain not-required.
+    from .output_contract import project_output_contract
+
+    project_output_contract(output, human)
     return audit_human_layer(output, graph)
 
 
@@ -186,6 +197,7 @@ def audit_human_layer(output: Path, graph: dict[str, Any] | None = None) -> dict
     markdown = output / "markdown"
     human = output / "human"
     errors: list[dict[str, Any]] = []
+    ignored_user_state_differences: list[str] = []
     if not human.is_dir():
         errors.append({"reason": "human-root-missing"})
     elif not (human / "manifest.json").is_file():
@@ -194,13 +206,23 @@ def audit_human_layer(output: Path, graph: dict[str, Any] | None = None) -> dict
         for relative in _generated_files(markdown):
             left = markdown / relative
             right = human / relative
-            if left.is_file() and (not right.is_file() or left.read_bytes() != right.read_bytes()):
+            differs = left.is_file() and (not right.is_file() or left.read_bytes() != right.read_bytes())
+            if str(relative).replace("\\", "/").startswith(".obsidian/"):
+                if differs:
+                    ignored_user_state_differences.append(str(relative).replace("\\", "/"))
+                continue
+            if differs:
                 errors.append({"reason": "human-markdown-parity", "path": relative})
         for directory in NOTE_DIRECTORIES:
             markdown_notes = {path.name: path.read_bytes() for path in (markdown / directory).glob("*.md")}
             human_notes = {path.name: path.read_bytes() for path in (human / directory).glob("*.md")}
             if markdown_notes != human_notes:
                 errors.append({"reason": "human-note-parity", "directory": directory})
+        for directory in FEEDBACK_DIRECTORIES:
+            markdown_feedback = {path.name: path.read_bytes() for path in (markdown / directory).glob("*.md")}
+            human_feedback = {path.name: path.read_bytes() for path in (human / directory).glob("*.md")}
+            if markdown_feedback != human_feedback:
+                errors.append({"reason": "human-feedback-parity", "directory": directory})
         readability = json_load(human / "readability-audit.json") if (human / "readability-audit.json").is_file() else {}
         if readability.get("status") != "passed":
             errors.append({"reason": "human-readability-not-passed", "detail": readability})
@@ -221,6 +243,7 @@ def audit_human_layer(output: Path, graph: dict[str, Any] | None = None) -> dict
         "root": str(human.resolve()),
         "compatibility_root": str(markdown.resolve()),
         "language": "zh-CN",
+        "ignored_user_state_differences": sorted(ignored_user_state_differences),
         "errors": errors,
     }
     if human.is_dir():

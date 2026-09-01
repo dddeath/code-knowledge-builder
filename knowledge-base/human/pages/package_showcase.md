@@ -14,12 +14,12 @@
 
 ## 相关代码
 
+- 实现时会用到 [[CkbError]]。
+- 实现时会用到 [[CkbError 与 DependencyError 的协作实现]]。
+- 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
+- 实现时会用到 [[append]]。
 - 实现时会用到 [[package_showcase 与 _parse_sample 的协作实现]]。
-- 实现时会用到 [[retrieve_machine]]。
-- 实现时会用到 [[run 与 CkbError 的协作实现]]。
-- 实现时会用到 [[status]]。
 
 ## 谁会来到这里
 
-- [[main（ckb 实现）]] 会使用这里提供的行为。
 - [[package_showcase 与 _parse_sample 的协作实现]] 汇总了本页。

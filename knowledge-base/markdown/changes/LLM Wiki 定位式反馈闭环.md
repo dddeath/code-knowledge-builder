@@ -24,13 +24,13 @@
 
 ## 相关知识页
 
-- [[prepare_vault 与 install_obsidian 的协作实现]]
+- [[audit_obsidian 与 prepare_vault 的协作实现]]
 - [[retrieve_machine 与 estimated_tokens 的协作实现]]
 - [[retrieve 与 _tokens 的协作实现]]
 - [[query_graph 与 _networkx_modules 的协作实现]]
 - [[audit_migration]]
 - [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]]
-- [[run 与 CkbError 的协作实现]]
+- [[CkbError 与 DependencyError 的协作实现]]
 - [[package_showcase 与 _parse_sample 的协作实现]]
 - [[record_note 与 page_tag 的协作实现]]
 - [[sync_human_layer 与 _source_manifest 的协作实现]]

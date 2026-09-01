@@ -24,12 +24,12 @@ Claudian 固定源码通过 typecheck、lint、5 个测试套件共 33 项测试
 
 ## 相关知识页
 
-- [[prepare_vault 与 install_obsidian 的协作实现]]
-- [[status 与 _replace_output_prefix 的协作实现]]
-- [[create_source_snapshot 与 git 的协作实现]]
-- [[add_initial_arguments 与 add_git_bootstrap_arguments 的协作实现]]
+- [[audit_obsidian 与 prepare_vault 的协作实现]]
+- [[initialize 与 _replace_output_prefix 的协作实现]]
+- [[preflight 与 git 的协作实现]]
+- [[keyword_provider_config 与 parser 的协作实现]]
 - [[__init__ 实现概览]]
-- [[run 与 CkbError 的协作实现]]
+- [[CkbError 与 DependencyError 的协作实现]]
 - [[render_integration 与 _looks_windows 的协作实现]]
 - [[retrieve 与 _tokens 的协作实现]]
 

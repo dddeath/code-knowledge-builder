@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "status": "agent-reviewed",
+  "kind": "analysis",
+  "title": "Code Knowledge Builder 秋招面试官拷问手册",
+  "file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human\\analysis\\Code Knowledge Builder 秋招面试官拷问手册.md",
+  "compatibility_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown\\analysis\\Code Knowledge Builder 秋招面试官拷问手册.md",
+  "linked_pages": [
+    "retrieve_machine 与 estimated_tokens 的协作实现",
+    "render_integration 与 _looks_windows 的协作实现",
+    "register_obsidian_plugin 与 default_obsidian_plugin_registry 的协作实现",
+    "deploy 的协作边界",
+    "build 的协作边界",
+    "ingest_event 与 default_registry_path 的协作实现",
+    "audit_global 与 _replace_output_prefix 的协作实现",
+    "load_page_config 与 _merge_known 的协作实现"
+  ],
+  "source_links": [
+    "[打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1715`",
+    "[打开源码：scripts/ckb_core/automation_integrations.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation_integrations.py:1:1)  `scripts/ckb_core/automation_integrations.py:1-536`",
+    "[打开源码：scripts/ckb_core/obsidian_plugin.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/obsidian_plugin.py:1:1)  `scripts/ckb_core/obsidian_plugin.py:1-262`",
+    "[打开源码：scripts/ckb_core/automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation.py:1:1)  `scripts/ckb_core/automation.py:1-1665`",
+    "[打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3482`",
+    "[打开源码：scripts/ckb_core/page_config.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/page_config.py:1:1)  `scripts/ckb_core/page_config.py:1-244`"
+  ],
+  "query_record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260831-172858-488299-01.json",
+  "updated_at_utc": "2026-08-31T17:31:17Z",
+  "obsidian_uri": "obsidian://open?path=E%3A%5Cknowledge_builder%5Cself-workspace%5Cknowledge-base%5Cmarkdown%5Canalysis%5CCode%20Knowledge%20Builder%20%E7%A7%8B%E6%8B%9B%E9%9D%A2%E8%AF%95%E5%AE%98%E6%8B%B7%E9%97%AE%E6%89%8B%E5%86%8C.md"
+}

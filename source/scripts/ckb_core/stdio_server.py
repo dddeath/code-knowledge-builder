@@ -12,7 +12,9 @@ from typing import Any, Callable, TextIO
 from .agent_protocol import audit_agent_protocol
 from .common import CkbError, json_load, json_write
 from .feedback import audit_feedback
-from .machine_knowledge import retrieve_machine
+from .keyword_fallback import KeywordFallbackOptions, KeywordProviderConfig, validate_provider_config
+from .llm_wiki_capabilities import compact_agent_brief
+from .machine_knowledge import change_documents, entity_lookup, neighbor_lookup, retrieve_machine, source_lookup
 
 
 STDIO_RETRIEVAL_PROTOCOL = "ckb-stdio-retrieval"
@@ -46,6 +48,60 @@ def _required_text(request: dict[str, Any], name: str, maximum: int) -> str:
     if len(value) > maximum:
         raise CkbError(f"stdio record-explanation {name} exceeds {maximum} characters")
     return value
+
+
+def _keyword_fallback_options(request: dict[str, Any]) -> KeywordFallbackOptions | None:
+    value = request.get("keyword_fallback")
+    if value is None:
+        return None
+    if not isinstance(value, dict):
+        raise CkbError("stdio keyword_fallback must be an object")
+    allowed = {
+        "mode",
+        "command",
+        "provider",
+        "model",
+        "version",
+        "timeout_seconds",
+        "retries",
+        "required_environment",
+        "use_cache",
+    }
+    if set(value) - allowed:
+        raise CkbError("stdio keyword_fallback contains unsupported fields")
+    mode = value.get("mode")
+    if mode not in {"allow", "force"}:
+        raise CkbError("stdio keyword_fallback mode must be allow or force")
+    command = value.get("command")
+    if (
+        not isinstance(command, list)
+        or not 1 <= len(command) <= 32
+        or any(not isinstance(item, str) or not item or len(item) > 4_096 for item in command)
+    ):
+        raise CkbError("stdio keyword_fallback command must contain 1 to 32 bounded strings")
+    required_environment = value.get("required_environment", [])
+    if not isinstance(required_environment, list):
+        raise CkbError("stdio keyword_fallback required_environment must be an array")
+    timeout = value.get("timeout_seconds", 20.0)
+    if isinstance(timeout, bool) or not isinstance(timeout, (int, float)):
+        raise CkbError("stdio keyword_fallback timeout_seconds must be a number")
+    retries = value.get("retries", 1)
+    if isinstance(retries, bool) or not isinstance(retries, int):
+        raise CkbError("stdio keyword_fallback retries must be an integer")
+    use_cache = value.get("use_cache", True)
+    if not isinstance(use_cache, bool):
+        raise CkbError("stdio keyword_fallback use_cache must be a boolean")
+    config = KeywordProviderConfig(
+        command=tuple(command),
+        provider=value.get("provider"),
+        model=value.get("model"),
+        version=value.get("version"),
+        timeout_seconds=float(timeout),
+        retries=retries,
+        required_environment=tuple(required_environment),
+    )
+    validate_provider_config(config)
+    return KeywordFallbackOptions(config=config, force=mode == "force", use_cache=use_cache)
 
 
 def _record_explanation(
@@ -148,7 +204,7 @@ def serve_stdio(
     *,
     input_stream: TextIO | None = None,
     output_stream: TextIO | None = None,
-    retrieve: Callable[[Path, str, int, int, str], dict[str, Any]] | None = None,
+    retrieve: Callable[..., dict[str, Any]] | None = None,
     record_explanation: Callable[[Path, dict[str, Any], dict[str, Any]], dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     """Serve newline-delimited retrieval requests until shutdown or EOF.
@@ -196,9 +252,19 @@ def serve_stdio(
                     "protocol": STDIO_RETRIEVAL_PROTOCOL,
                     "protocol_version": STDIO_RETRIEVAL_PROTOCOL_VERSION,
                     "output": str(output),
-                    "methods": ["ping", "retrieve", "record-explanation", "shutdown"],
+                    "methods": [
+                        "ping",
+                        "retrieve",
+                        "brief",
+                        "entity",
+                        "neighbors",
+                        "source",
+                        "changes",
+                        "record-explanation",
+                        "shutdown",
+                    ],
                 }
-            elif method == "retrieve":
+            elif method in {"retrieve", "brief"}:
                 question = request.get("question")
                 if not isinstance(question, str) or not question.strip():
                     raise CkbError("stdio retrieve question must be a non-empty string")
@@ -208,10 +274,50 @@ def serve_stdio(
                 profile = request.get("profile", "fast")
                 if profile not in {"fast", "precise"}:
                     raise CkbError("stdio retrieve profile must be fast or precise")
-                result = retrieve_value(output, question, budget, max_pages, profile)
+                keyword_fallback = _keyword_fallback_options(request)
+                if keyword_fallback is None:
+                    result = retrieve_value(output, question, budget, max_pages, profile)
+                else:
+                    result = retrieve_value(
+                        output,
+                        question,
+                        budget,
+                        max_pages,
+                        profile,
+                        keyword_fallback=keyword_fallback,
+                    )
                 if result.get("status") != "passed" or not result.get("pack"):
                     raise CkbError("stdio retrieve did not return a passed Agent pack")
                 retrievals[str(request_id)] = {**result, "request_id": str(request_id)}
+                if method == "brief":
+                    result = compact_agent_brief(output, result)
+            elif method == "entity":
+                selector = request.get("selector")
+                if not isinstance(selector, str) or not selector.strip():
+                    raise CkbError("stdio entity selector must be a non-empty string")
+                result = entity_lookup(output, _utf8_safe(selector).strip())
+            elif method == "neighbors":
+                selector = request.get("selector")
+                if not isinstance(selector, str) or not selector.strip():
+                    raise CkbError("stdio neighbors selector must be a non-empty string")
+                depth = _integer(request.get("depth", 1), "depth", 1, 8)
+                limit = _integer(request.get("limit", 50), "limit", 1, 500)
+                relation = request.get("relation")
+                if relation is not None and not isinstance(relation, str):
+                    raise CkbError("stdio neighbors relation must be a string")
+                result = neighbor_lookup(output, _utf8_safe(selector).strip(), depth, relation, limit)
+            elif method == "source":
+                selector = request.get("selector")
+                if not isinstance(selector, str) or not selector.strip():
+                    raise CkbError("stdio source selector must be a non-empty string")
+                context_lines = _integer(request.get("context_lines", 3), "context_lines", 0, 100)
+                result = source_lookup(output, _utf8_safe(selector).strip(), context_lines)
+            elif method == "changes":
+                kind = request.get("kind")
+                if kind is not None and not isinstance(kind, str):
+                    raise CkbError("stdio changes kind must be a string")
+                limit = _integer(request.get("limit", 20), "limit", 1, 500)
+                result = change_documents(output, kind, limit)
             elif method == "record-explanation":
                 retrieval_id = request.get("retrieval_request_id")
                 if not isinstance(retrieval_id, (str, int)) or isinstance(retrieval_id, bool):
@@ -224,7 +330,10 @@ def serve_stdio(
                 result = {"status": "shutting-down"}
                 shutdown = True
             else:
-                raise CkbError("stdio request method must be ping, retrieve, record-explanation, or shutdown")
+                raise CkbError(
+                    "stdio request method must be ping, retrieve, brief, entity, neighbors, source, "
+                    "changes, record-explanation, or shutdown"
+                )
             succeeded += 1
             _write_line(
                 destination,

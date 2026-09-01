@@ -19,8 +19,8 @@
 ## 相关知识页
 
 - [[source_files 与 sha256 的协作实现]]
-- [[prepare_vault 与 install_obsidian 的协作实现]]
-- [[remove 与 skill_root 的协作实现]]
+- [[audit_obsidian 与 prepare_vault 的协作实现]]
+- [[deployment_plan 与 skill_root 的协作实现]]
 - [[package_showcase]]
 - [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]]
 - [[retrieve_machine 与 estimated_tokens 的协作实现]]

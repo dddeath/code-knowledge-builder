@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "status": "ready",
+  "updated_at_utc": "2026-08-31T01:18:15Z",
+  "counts": {
+    "total": 3,
+    "open": 3,
+    "deferred": 0,
+    "resolved": 0
+  },
+  "counts_by_kind": {
+    "insufficient-evidence": 3,
+    "conflicting-sources": 0,
+    "deferred-feedback": 0
+  },
+  "gaps": [
+    {
+      "gap_id": "gap-00b32bb494b250ee9f73b6fdc9937f5b",
+      "kind": "insufficient-evidence",
+      "status": "open",
+      "summary_zh": "QMD 向量检索尚缺少在同一中文代码知识库、固定问题集和资源上限下相对 SQLite 基线的质量与成本证据。",
+      "evidence_count": 1,
+      "updated_at_utc": "2026-08-31T01:18:11Z"
+    },
+    {
+      "gap_id": "gap-9dc58ab149375bfd98332149a3ba6cb3",
+      "kind": "insufficient-evidence",
+      "status": "open",
+      "summary_zh": "PDF、网页和 OCR 提取尚缺少页码定位、乱码率、代码与表格保真以及失败诊断的固定样例评测证据。",
+      "evidence_count": 1,
+      "updated_at_utc": "2026-08-31T01:18:13Z"
+    },
+    {
+      "gap_id": "gap-da2148a026de59c2b09fbf2cf3c1eb0b",
+      "kind": "insufficient-evidence",
+      "status": "open",
+      "summary_zh": "单文档自动扩散概念页面尚缺少人类查找收益、页面增量上限和中文引用真实性的对照任务证据。",
+      "evidence_count": 1,
+      "updated_at_utc": "2026-08-31T01:18:15Z"
+    }
+  ]
+}

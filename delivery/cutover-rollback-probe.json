@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "root": "/mnt/e/knowledge_builder/self-workspace/kb-probe-150a1ce",
+  "expected_candidate": {
+    "algorithm": "sha256-tree-v1",
+    "file_count": 1891,
+    "byte_count": 754033530,
+    "sha256": "6d85c1fb5aa075ca191d98c7f63d1c87887c01dfd02dda721d4c176dbbd0caaf"
+  },
+  "candidate_copy": {
+    "algorithm": "sha256-tree-v1",
+    "file_count": 1891,
+    "byte_count": 754033530,
+    "sha256": "6d85c1fb5aa075ca191d98c7f63d1c87887c01dfd02dda721d4c176dbbd0caaf"
+  },
+  "cutover": {
+    "active_exists": true,
+    "backup_exists": true,
+    "target_commit": "150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3",
+    "status": "complete"
+  },
+  "rollback": {
+    "active_exists": true,
+    "quarantine_exists": true,
+    "tree": {
+      "algorithm": "sha256-tree-v1",
+      "file_count": 1612,
+      "byte_count": 712035338,
+      "sha256": "8654b04bcceb485c469c94d6088f83b0869b72cd0f2432210afc84038ddea376"
+    },
+    "baseline_restored": true
+  },
+  "commands": [
+    "rename active -> backup",
+    "rename candidate -> active",
+    "rename active -> quarantine",
+    "rename backup -> active"
+  ]
+}

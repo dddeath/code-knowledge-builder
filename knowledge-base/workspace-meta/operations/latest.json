@@ -1,0 +1,258 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "updated_at_utc": "2026-09-01T11:34:43Z",
+  "retention_days": 30,
+  "max_records_per_shard": 2000,
+  "max_shard_bytes": 1048576,
+  "records": 126,
+  "counts_by_operation": {
+    "compile": 15,
+    "query": 81,
+    "record": 21,
+    "audit": 5,
+    "maintenance": 4
+  },
+  "counts_by_status": {
+    "agent-reviewed": 17,
+    "complete": 4,
+    "completed": 2,
+    "failed": 3,
+    "not-found": 3,
+    "open": 3,
+    "passed": 88,
+    "pending-agent-review": 4,
+    "ready": 1,
+    "ready-to-finalize": 1
+  },
+  "shards": [
+    {
+      "date": "2026-08-31",
+      "path": "2026-08-31.jsonl",
+      "records": 93,
+      "bytes": 27398
+    },
+    {
+      "date": "2026-09-01",
+      "path": "2026-09-01.jsonl",
+      "records": 33,
+      "bytes": 8825
+    }
+  ],
+  "latest": [
+    {
+      "schema_version": 1,
+      "event_id": "operation-b8067d6c6aa855db8973a4ef9a9c3140",
+      "recorded_at_utc": "2026-09-01T02:08:07Z",
+      "operation": "query",
+      "command": "brief",
+      "result_status": "passed",
+      "evidence_paths": [
+        "machine/agent-packs/pack-20260901-020807-785529-01.json",
+        "machine/agent-packs/pack-20260901-020807-785529-01.md"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-e8fbc3febd3e5261b7cade427b743c40",
+      "recorded_at_utc": "2026-09-01T02:36:28Z",
+      "operation": "query",
+      "command": "brief",
+      "result_status": "passed",
+      "evidence_paths": [
+        "machine/agent-packs/pack-20260901-023628-720361-01.json",
+        "machine/agent-packs/pack-20260901-023628-720361-01.md"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-7a90c2e9aac55e5c92b3a7ab656c13f2",
+      "recorded_at_utc": "2026-09-01T04:26:02Z",
+      "operation": "record",
+      "command": "record:change",
+      "result_status": "agent-reviewed",
+      "evidence_paths": [
+        "human/changes/低版本完整知识库批量迁移合并审计.md",
+        "markdown/changes/低版本完整知识库批量迁移合并审计.md"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-ace7904b78d051d187c9dc8c17d5f54f",
+      "recorded_at_utc": "2026-09-01T04:48:56Z",
+      "operation": "record",
+      "command": "record:change",
+      "result_status": "agent-reviewed",
+      "evidence_paths": [
+        "human/changes/Agent 会话级 stdio 生命周期合并审计.md",
+        "markdown/changes/Agent 会话级 stdio 生命周期合并审计.md"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-6985d422e99858889f6b0e3300e95b93",
+      "recorded_at_utc": "2026-09-01T05:15:49Z",
+      "operation": "compile",
+      "command": "migrate:start",
+      "result_status": "pending-agent-review",
+      "evidence_paths": []
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-570d93902ec95c33a74803b05dd92139",
+      "recorded_at_utc": "2026-09-01T05:16:26Z",
+      "operation": "compile",
+      "command": "review-pack",
+      "result_status": "passed",
+      "evidence_paths": []
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-679543b345da50a18783040645b39867",
+      "recorded_at_utc": "2026-09-01T05:18:49Z",
+      "operation": "compile",
+      "command": "migrate:audit",
+      "result_status": "failed",
+      "evidence_paths": []
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-49ee81822c5d5c30a6674445b6c19830",
+      "recorded_at_utc": "2026-09-01T05:19:02Z",
+      "operation": "compile",
+      "command": "merge",
+      "result_status": "completed",
+      "evidence_paths": []
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-50228ff0752f534fb9ec85dce1baed60",
+      "recorded_at_utc": "2026-09-01T05:19:11Z",
+      "operation": "compile",
+      "command": "migrate:audit",
+      "result_status": "passed",
+      "evidence_paths": []
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-6b9aecbe85b35c91b5ba7b51e9efd6a3",
+      "recorded_at_utc": "2026-09-01T05:22:00Z",
+      "operation": "compile",
+      "command": "reindex",
+      "result_status": "passed",
+      "evidence_paths": []
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-acf0852600dd58f889f0df2c6d55297f",
+      "recorded_at_utc": "2026-09-01T05:22:24Z",
+      "operation": "audit",
+      "command": "agent-policy:check",
+      "result_status": "passed",
+      "evidence_paths": []
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-da558c0795805312b2aa2e6bcf548c60",
+      "recorded_at_utc": "2026-09-01T05:22:44Z",
+      "operation": "compile",
+      "command": "finalize",
+      "result_status": "complete",
+      "evidence_paths": []
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-fb9a72188dbb51d087d1ea3fef16b7cb",
+      "recorded_at_utc": "2026-09-01T05:22:53Z",
+      "operation": "maintenance",
+      "command": "maintain",
+      "result_status": "failed",
+      "evidence_paths": [
+        "workspace-meta/maintenance/latest.json"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-2ceda0cd5e1351aaae0aa3235b594527",
+      "recorded_at_utc": "2026-09-01T05:23:51Z",
+      "operation": "audit",
+      "command": "gaps:audit",
+      "result_status": "passed",
+      "evidence_paths": []
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-c1973885596154e98230e7a6343ff081",
+      "recorded_at_utc": "2026-09-01T05:24:19Z",
+      "operation": "query",
+      "command": "status",
+      "result_status": "complete",
+      "evidence_paths": []
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-62f35753e103590a926a005f289b5e8d",
+      "recorded_at_utc": "2026-09-01T05:24:20Z",
+      "operation": "query",
+      "command": "brief",
+      "result_status": "passed",
+      "evidence_paths": [
+        "machine/agent-packs/pack-20260901-052420-266825-01.json",
+        "machine/agent-packs/pack-20260901-052420-266825-01.md"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-6fcd4bc268305780907370b0e93ec9a0",
+      "recorded_at_utc": "2026-09-01T05:37:06Z",
+      "operation": "record",
+      "command": "record:change",
+      "result_status": "agent-reviewed",
+      "evidence_paths": [
+        "human/changes/稳定知识库恢复与当前 HEAD 同步.md",
+        "markdown/changes/稳定知识库恢复与当前 HEAD 同步.md"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-e7cd35bdf5e855c7b5e04cc70ae5226e",
+      "recorded_at_utc": "2026-09-01T05:38:11Z",
+      "operation": "record",
+      "command": "record:change",
+      "result_status": "agent-reviewed",
+      "evidence_paths": [
+        "human/changes/CKB 5.3.0 GitHub 发布边界.md",
+        "markdown/changes/CKB 5.3.0 GitHub 发布边界.md"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-52be4ba1b7ba5708bd6f4a060a169e08",
+      "recorded_at_utc": "2026-09-01T05:47:07Z",
+      "operation": "query",
+      "command": "brief",
+      "result_status": "passed",
+      "evidence_paths": [
+        "machine/agent-packs/pack-20260901-054707-907157-01.json",
+        "machine/agent-packs/pack-20260901-054707-907157-01.md"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-d4f6ffa52a555bc7a7739553410f5bc5",
+      "recorded_at_utc": "2026-09-01T11:19:55Z",
+      "operation": "query",
+      "command": "brief",
+      "result_status": "passed",
+      "evidence_paths": [
+        "machine/agent-packs/pack-20260901-111955-521715-01.json",
+        "machine/agent-packs/pack-20260901-111955-521715-01.md"
+      ]
+    }
+  ],
+  "bounded_drops": {
+    "size_or_count": 0,
+    "retention": 0,
+    "deduplicated": 330
+  }
+}

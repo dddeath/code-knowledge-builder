@@ -6,26 +6,26 @@
   "file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human\\changes\\CKB 5.3.0 GitHub 发布边界.md",
   "compatibility_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown\\changes\\CKB 5.3.0 GitHub 发布边界.md",
   "linked_pages": [
-    "add_git_bootstrap_arguments",
-    "create_source_snapshot 与 git 的协作实现",
-    "retrieve_machine 与 estimated_tokens 的协作实现",
-    "status 与 _replace_output_prefix 的协作实现",
-    "remove 与 skill_root 的协作实现",
-    "SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现",
-    "run 与 CkbError 的协作实现",
-    "query_graph 与 _networkx_modules 的协作实现"
+    "create_knowledge_batch_plan 与 KnowledgeRelease 的协作实现",
+    "serve_stdio 与 _write_line 的协作实现",
+    "start_session 与 _session_directory 的协作实现",
+    "_Transport.close 与 _StartGate 的协作实现",
+    "run_keyword_provider 与 KeywordProviderConfig 的协作实现",
+    "parse_file 与 _language 的协作实现",
+    "maintenance_check 与 capability_matrix 的协作实现",
+    "audit_migration 与 _entity_key 的协作实现"
   ],
   "source_links": [
-    "[打开源码：scripts/ckb.py 第 104 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:104:1)  `scripts/ckb.py:104-112`",
-    "[打开源码：scripts/ckb_core/gitrepo.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/gitrepo.py:1:1)  `scripts/ckb_core/gitrepo.py:1-417`",
-    "[打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1458`",
-    "[打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3314`",
-    "[打开源码：scripts/ckb_core/runtime.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/runtime.py:1:1)  `scripts/ckb_core/runtime.py:1-153`",
-    "[打开源码：scripts/ckb_core/source_links.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/source_links.py:1:1)  `scripts/ckb_core/source_links.py:1-184`",
-    "[打开源码：scripts/ckb_core/common.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/common.py:1:1)  `scripts/ckb_core/common.py:1-158`",
-    "[打开源码：scripts/ckb_core/graphify_core.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/graphify_core.py:1:1)  `scripts/ckb_core/graphify_core.py:1-676`"
+    "[打开源码：scripts/ckb_core/knowledge_batch_migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/knowledge_batch_migration.py:1:1)  `scripts/ckb_core/knowledge_batch_migration.py:1-2076`",
+    "[打开源码：scripts/ckb_core/stdio_server.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/stdio_server.py:1:1)  `scripts/ckb_core/stdio_server.py:1-392`",
+    "[打开源码：scripts/ckb_core/agent_maintenance.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_maintenance.py:1:1)  `scripts/ckb_core/agent_maintenance.py:1-255`",
+    "[打开源码：scripts/ckb_core/session_stdio.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/session_stdio.py:1:1)  `scripts/ckb_core/session_stdio.py:1-1459`",
+    "[打开源码：scripts/ckb_core/keyword_fallback.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/keyword_fallback.py:1:1)  `scripts/ckb_core/keyword_fallback.py:1-633`",
+    "[打开源码：scripts/ckb_core/parsers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/parsers.py:1:1)  `scripts/ckb_core/parsers.py:1-538`",
+    "[打开源码：scripts/ckb_core/llm_wiki_capabilities.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/llm_wiki_capabilities.py:1:1)  `scripts/ckb_core/llm_wiki_capabilities.py:1-459`",
+    "[打开源码：scripts/ckb_core/migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/migration.py:1:1)  `scripts/ckb_core/migration.py:1-604`"
   ],
-  "query_record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260830-124634-556511-01.json",
-  "updated_at_utc": "2026-08-30T12:51:34Z",
+  "query_record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260901-052420-266825-01.json",
+  "updated_at_utc": "2026-09-01T05:38:07Z",
   "obsidian_uri": "obsidian://open?path=E%3A%5Cknowledge_builder%5Cself-workspace%5Cknowledge-base%5Cmarkdown%5Cchanges%5CCKB%205.3.0%20GitHub%20%E5%8F%91%E5%B8%83%E8%BE%B9%E7%95%8C.md"
 }

@@ -1,0 +1,50 @@
+{
+  "schema_version": 3,
+  "registration_id": "reg-5b4b7449e52b5a6fa0b4e3e39cd360bb",
+  "repo_root": "E:\\knowledge_builder\\self-workspace\\source",
+  "knowledge_output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+  "event": {
+    "schema_version": 3,
+    "harness": "codex",
+    "event_name": "UserPromptSubmit",
+    "canonical_type": "turn.prompt",
+    "external_event_id": null,
+    "session_id": "ckb-probe-127",
+    "turn_id": null,
+    "tool_use_id": null,
+    "cwd": "E:\\knowledge_builder\\self-workspace",
+    "prompt": "$code-knowledge-builder probe",
+    "assistant_message": "",
+    "tool_name": null,
+    "tool_input": null,
+    "tool_output": null,
+    "tool_status": "completed",
+    "skill_name": "code-knowledge-builder",
+    "changed_paths": [],
+    "source": null,
+    "received_at_utc": "2026-08-29T18:18:09Z",
+    "raw": {
+      "hook_event_name": "UserPromptSubmit",
+      "session_id": "ckb-probe-127",
+      "cwd": "E:\\knowledge_builder\\self-workspace",
+      "prompt": "$code-knowledge-builder probe"
+    },
+    "redaction_count": 0,
+    "redaction_types": [],
+    "skill_activation": {
+      "status": "activated",
+      "activation_key": "skillactivation-126c138386b95f8682259bc9d4ea1bb2",
+      "harness": "codex",
+      "session_id": "ckb-probe-127",
+      "repo_root": "E:\\knowledge_builder\\self-workspace\\source",
+      "knowledge_output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+      "skill_name": "code-knowledge-builder",
+      "activation_source": "explicit-prompt-invocation",
+      "activated_at_utc": "2026-08-29T18:18:09Z"
+    },
+    "registration_match": {
+      "kind": "workspace",
+      "root": "E:\\knowledge_builder\\self-workspace"
+    }
+  }
+}

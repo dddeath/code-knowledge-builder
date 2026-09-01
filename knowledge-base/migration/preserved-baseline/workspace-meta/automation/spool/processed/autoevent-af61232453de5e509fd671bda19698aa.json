@@ -1,0 +1,47 @@
+{
+  "schema_version": 3,
+  "registration_id": "reg-5b4b7449e52b5a6fa0b4e3e39cd360bb",
+  "repo_root": "E:\\knowledge_builder\\self-workspace\\source",
+  "knowledge_output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+  "event": {
+    "schema_version": 3,
+    "harness": "codex",
+    "event_name": "UserPromptSubmit",
+    "canonical_type": "turn.prompt",
+    "external_event_id": "recovery-01a05117-d4d5-7ad2-ad91-6d86ea3fd77e-user-prompt",
+    "session_id": "01a029b9-a488-75f3-be36-6a1ce86ee345",
+    "turn_id": "01a05117-d4d5-7ad2-ad91-6d86ea3fd77e",
+    "tool_use_id": null,
+    "cwd": "E:\\knowledge_builder",
+    "prompt": "钩子 UserPromptSubmit 插件 hook exited with code 127；PreToolUse 显示 Checking the Stop Ladder 并累计历史失败。",
+    "assistant_message": "",
+    "tool_name": null,
+    "tool_input": null,
+    "tool_output": null,
+    "tool_status": "completed",
+    "skill_name": null,
+    "changed_paths": [],
+    "source": null,
+    "received_at_utc": "2026-08-30T05:20:59Z",
+    "raw": {
+      "event_id": "recovery-01a05117-d4d5-7ad2-ad91-6d86ea3fd77e-user-prompt",
+      "session_id": "01a029b9-a488-75f3-be36-6a1ce86ee345",
+      "turn_id": "01a05117-d4d5-7ad2-ad91-6d86ea3fd77e",
+      "cwd": "/mnt/e/knowledge_builder",
+      "hook_event_name": "UserPromptSubmit",
+      "permission_mode": "bypassPermissions",
+      "prompt": "钩子 UserPromptSubmit 插件 hook exited with code 127；PreToolUse 显示 Checking the Stop Ladder 并累计历史失败。"
+    },
+    "redaction_count": 0,
+    "redaction_types": [],
+    "skill_activation": {
+      "activation_key": "skillactivation-9a5c79417ddd5ab7a20913f6564dc327",
+      "activation_source": "explicit-user-task",
+      "activated_at_utc": "2026-08-27T12:38:41Z"
+    },
+    "registration_match": {
+      "kind": "workspace",
+      "root": "E:\\knowledge_builder"
+    }
+  }
+}

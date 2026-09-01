@@ -1,4 +1,437 @@
 {
-  "entities": [],
-  "links": []
+  "entities": [
+    {
+      "id": "ent-3f44815274d8516699085b0b49bdc2bb",
+      "kind": "boundary",
+      "name": "main",
+      "qualified_name": "main",
+      "language": "python",
+      "path": "plugins/obsidian-code-knowledge-builder/scripts/build.py",
+      "blob": "77b322a94dd9c8e53f236a6abaa41825fd9c5ce3",
+      "commit": "150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3",
+      "range": {
+        "start_byte": 6696,
+        "end_byte": 11786,
+        "start_line": 187,
+        "end_line": 313,
+        "name_line": 187,
+        "name_column_utf8": 4
+      },
+      "parent_id": "file-4cde9e585e165b4aa13b89bf6be23bdd",
+      "candidate_classification": "boundary",
+      "classification_evidence": [
+        "one-hop-outside-selected-scope"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "kind_original": "function",
+      "classification": "boundary",
+      "owner_page_id": "ent-3f44815274d8516699085b0b49bdc2bb",
+      "navigation_evidence": [
+        "cross-file-reference",
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0003",
+      "parse_batch_id": "batch-0003"
+    },
+    {
+      "id": "ent-51af9bf0452c5061a7a5c5a476abbaa4",
+      "kind": "boundary",
+      "name": "status",
+      "qualified_name": "status",
+      "language": "python",
+      "path": "plugins/obsidian-code-knowledge-builder/deploy.py",
+      "blob": "8a506988d84488c5f17cd7156d4f8938786067a5",
+      "commit": "150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3",
+      "range": {
+        "start_byte": 4599,
+        "end_byte": 5558,
+        "start_line": 103,
+        "end_line": 115,
+        "name_line": 103,
+        "name_column_utf8": 4
+      },
+      "parent_id": "file-1c438f29feb45bc994c2719a6705a871",
+      "candidate_classification": "boundary",
+      "classification_evidence": [
+        "one-hop-outside-selected-scope"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "kind_original": "function",
+      "classification": "boundary",
+      "owner_page_id": "ent-51af9bf0452c5061a7a5c5a476abbaa4",
+      "navigation_evidence": [
+        "cross-file-reference",
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0003",
+      "parse_batch_id": "batch-0003"
+    },
+    {
+      "id": "ent-681c0ae8a97d5d7db9d231f1a5fe3ce9",
+      "kind": "boundary",
+      "name": "validate_selection_provider_routing",
+      "qualified_name": "validate_selection_provider_routing",
+      "language": "python",
+      "path": "plugins/obsidian-code-knowledge-builder/scripts/build.py",
+      "blob": "77b322a94dd9c8e53f236a6abaa41825fd9c5ce3",
+      "commit": "150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3",
+      "range": {
+        "start_byte": 1465,
+        "end_byte": 6558,
+        "start_line": 58,
+        "end_line": 180,
+        "name_line": 58,
+        "name_column_utf8": 4
+      },
+      "parent_id": "file-4cde9e585e165b4aa13b89bf6be23bdd",
+      "candidate_classification": "boundary",
+      "classification_evidence": [
+        "one-hop-outside-selected-scope"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "kind_original": "function",
+      "classification": "boundary",
+      "owner_page_id": "ent-681c0ae8a97d5d7db9d231f1a5fe3ce9",
+      "navigation_evidence": [
+        "cross-file-reference",
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0001",
+      "parse_batch_id": "batch-0001"
+    },
+    {
+      "id": "ent-708c72667c85576f89ca6f9b0989c8ba",
+      "kind": "boundary",
+      "name": "main",
+      "qualified_name": "main",
+      "language": "python",
+      "path": "plugins/obsidian-code-knowledge-builder/deploy.py",
+      "blob": "8a506988d84488c5f17cd7156d4f8938786067a5",
+      "commit": "150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3",
+      "range": {
+        "start_byte": 6315,
+        "end_byte": 7121,
+        "start_line": 135,
+        "end_line": 148,
+        "name_line": 135,
+        "name_column_utf8": 4
+      },
+      "parent_id": "file-1c438f29feb45bc994c2719a6705a871",
+      "candidate_classification": "boundary",
+      "classification_evidence": [
+        "one-hop-outside-selected-scope"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "kind_original": "function",
+      "classification": "boundary",
+      "owner_page_id": "ent-708c72667c85576f89ca6f9b0989c8ba",
+      "navigation_evidence": [
+        "cross-file-reference",
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0003",
+      "parse_batch_id": "batch-0003"
+    },
+    {
+      "id": "ent-76541eb598f65fecad141beb6bacf3e8",
+      "kind": "boundary",
+      "name": "run",
+      "qualified_name": "run",
+      "language": "python",
+      "path": "plugins/obsidian-code-knowledge-builder/scripts/build.py",
+      "blob": "77b322a94dd9c8e53f236a6abaa41825fd9c5ce3",
+      "commit": "150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3",
+      "range": {
+        "start_byte": 528,
+        "end_byte": 1145,
+        "start_line": 26,
+        "end_line": 45,
+        "name_line": 26,
+        "name_column_utf8": 4
+      },
+      "parent_id": "file-4cde9e585e165b4aa13b89bf6be23bdd",
+      "candidate_classification": "boundary",
+      "classification_evidence": [
+        "one-hop-outside-selected-scope"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "kind_original": "function",
+      "classification": "boundary",
+      "owner_page_id": "ent-76541eb598f65fecad141beb6bacf3e8",
+      "navigation_evidence": [
+        "cross-file-reference",
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0003",
+      "parse_batch_id": "batch-0003"
+    },
+    {
+      "id": "ent-b71b89a4c5295a6db621d8a54d2231c7",
+      "kind": "boundary",
+      "name": "remove",
+      "qualified_name": "remove",
+      "language": "python",
+      "path": "plugins/obsidian-code-knowledge-builder/deploy.py",
+      "blob": "8a506988d84488c5f17cd7156d4f8938786067a5",
+      "commit": "150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3",
+      "range": {
+        "start_byte": 5561,
+        "end_byte": 6312,
+        "start_line": 118,
+        "end_line": 132,
+        "name_line": 118,
+        "name_column_utf8": 4
+      },
+      "parent_id": "file-1c438f29feb45bc994c2719a6705a871",
+      "candidate_classification": "boundary",
+      "classification_evidence": [
+        "one-hop-outside-selected-scope"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "kind_original": "function",
+      "classification": "boundary",
+      "owner_page_id": "ent-b71b89a4c5295a6db621d8a54d2231c7",
+      "navigation_evidence": [
+        "cross-file-reference",
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0003",
+      "parse_batch_id": "batch-0003"
+    },
+    {
+      "id": "ent-c82a3f2498c35a6a9ff56941db3ec836",
+      "kind": "boundary",
+      "name": "deploy",
+      "qualified_name": "deploy",
+      "language": "python",
+      "path": "plugins/obsidian-code-knowledge-builder/deploy.py",
+      "blob": "8a506988d84488c5f17cd7156d4f8938786067a5",
+      "commit": "150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3",
+      "range": {
+        "start_byte": 3219,
+        "end_byte": 4596,
+        "start_line": 81,
+        "end_line": 100,
+        "name_line": 81,
+        "name_column_utf8": 4
+      },
+      "parent_id": "file-1c438f29feb45bc994c2719a6705a871",
+      "candidate_classification": "boundary",
+      "classification_evidence": [
+        "one-hop-outside-selected-scope"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "kind_original": "function",
+      "classification": "boundary",
+      "owner_page_id": "ent-c82a3f2498c35a6a9ff56941db3ec836",
+      "navigation_evidence": [
+        "cross-file-reference",
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0003",
+      "parse_batch_id": "batch-0003"
+    },
+    {
+      "id": "ent-eaac2d5f31845910a9b932d57329746f",
+      "kind": "boundary",
+      "name": "_write_contract",
+      "qualified_name": "_write_contract",
+      "language": "python",
+      "path": "plugins/obsidian-code-knowledge-builder/deploy.py",
+      "blob": "8a506988d84488c5f17cd7156d4f8938786067a5",
+      "commit": "150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3",
+      "range": {
+        "start_byte": 2379,
+        "end_byte": 3216,
+        "start_line": 59,
+        "end_line": 78,
+        "name_line": 59,
+        "name_column_utf8": 4
+      },
+      "parent_id": "file-1c438f29feb45bc994c2719a6705a871",
+      "candidate_classification": "boundary",
+      "classification_evidence": [
+        "one-hop-outside-selected-scope"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": false,
+      "is_partial": false,
+      "kind_original": "function",
+      "classification": "boundary",
+      "owner_page_id": "ent-eaac2d5f31845910a9b932d57329746f",
+      "navigation_evidence": [
+        "cross-file-reference"
+      ],
+      "chunk_id": "batch-0003",
+      "parse_batch_id": "batch-0003"
+    }
+  ],
+  "links": [
+    {
+      "id": "link-13e1b6a4b0fa5e7baeadd6a88a4a349a",
+      "type": "references",
+      "source": "ent-eaac2d5f31845910a9b932d57329746f",
+      "target": "ent-b7822df67e4b5446bd9ce69012763d97",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "command",
+        "source_path": "plugins/obsidian-code-knowledge-builder/deploy.py"
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-61ea2f0de1665dc78a04e6c1cf34cbb6",
+      "type": "references",
+      "source": "ent-eaac2d5f31845910a9b932d57329746f",
+      "target": "ent-23ea92d15cbd5ba6ad5d6814981155dd",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "retrieve",
+        "source_path": "plugins/obsidian-code-knowledge-builder/deploy.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-803b5c1f530e589f958afc404efb6e8a",
+      "type": "references",
+      "source": "ent-c82a3f2498c35a6a9ff56941db3ec836",
+      "target": "ent-3f2b3cdae9905a449788f4d8ed818066",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "config",
+        "source_path": "plugins/obsidian-code-knowledge-builder/deploy.py"
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-55e3b1a50fda5db98eade9018fe12e94",
+      "type": "references",
+      "source": "ent-51af9bf0452c5061a7a5c5a476abbaa4",
+      "target": "ent-3f2b3cdae9905a449788f4d8ed818066",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "config",
+        "source_path": "plugins/obsidian-code-knowledge-builder/deploy.py"
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-6164cbd44d8c5504a5ebf115d056b4c8",
+      "type": "references",
+      "source": "ent-b71b89a4c5295a6db621d8a54d2231c7",
+      "target": "ent-3f2b3cdae9905a449788f4d8ed818066",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "config",
+        "source_path": "plugins/obsidian-code-knowledge-builder/deploy.py"
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-0dd3d27f75c7520ab23a88a46cae110d",
+      "type": "references",
+      "source": "ent-708c72667c85576f89ca6f9b0989c8ba",
+      "target": "ent-b7822df67e4b5446bd9ce69012763d97",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "command",
+        "source_path": "plugins/obsidian-code-knowledge-builder/deploy.py"
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-6cc540e167cf5450bdcdd03c2838d678",
+      "type": "references",
+      "source": "ent-708c72667c85576f89ca6f9b0989c8ba",
+      "target": "ent-d33d13c012545539a2c5f9a70864451d",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "parser",
+        "source_path": "plugins/obsidian-code-knowledge-builder/deploy.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-5cfe58c1badc5addabb118b7e78ebc09",
+      "type": "references",
+      "source": "ent-76541eb598f65fecad141beb6bacf3e8",
+      "target": "ent-b7822df67e4b5446bd9ce69012763d97",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "command",
+        "source_path": "plugins/obsidian-code-knowledge-builder/scripts/build.py"
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-7df400d5bacd53cc9fc775a7658bf6e4",
+      "type": "references",
+      "source": "ent-681c0ae8a97d5d7db9d231f1a5fe3ce9",
+      "target": "ent-23ea92d15cbd5ba6ad5d6814981155dd",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "retrieve",
+        "source_path": "plugins/obsidian-code-knowledge-builder/scripts/build.py"
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-0ecefc5c7e9953ae9f863fbd5d8cbdb3",
+      "type": "references",
+      "source": "ent-3f44815274d8516699085b0b49bdc2bb",
+      "target": "ent-c9c445fda7bc57d68bf34094f61cd4e4",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "append",
+        "source_path": "plugins/obsidian-code-knowledge-builder/scripts/build.py"
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-297b1949adaa53c98292e2fae0230f8e",
+      "type": "references",
+      "source": "ent-3f44815274d8516699085b0b49bdc2bb",
+      "target": "ent-d33d13c012545539a2c5f9a70864451d",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "parser",
+        "source_path": "plugins/obsidian-code-knowledge-builder/scripts/build.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-a61f633ac26e5cd498354a5a70e278ba",
+      "type": "references",
+      "source": "ent-3f44815274d8516699085b0b49bdc2bb",
+      "target": "ent-23ea92d15cbd5ba6ad5d6814981155dd",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "retrieve",
+        "source_path": "plugins/obsidian-code-knowledge-builder/scripts/build.py"
+      },
+      "cross_chunk": true
+    }
+  ]
 }

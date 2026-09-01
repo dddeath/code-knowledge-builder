@@ -1,0 +1,371 @@
+{
+  "schema_version": 3,
+  "status": "passed",
+  "question": "将最终 integration 源码与完整稳定知识库发布到 GitHub 新开发分支，并验证远端 clone、Git LFS、双 SQLite、镜像和回滚",
+  "profile": "fast",
+  "budget": 1800,
+  "estimated_tokens": 1784,
+  "terms": [
+    "源码与完整稳定知识库发布到",
+    "integration",
+    "github",
+    "sqlite",
+    "clone",
+    "并验证远端",
+    "新开发分支",
+    "镜像和回滚",
+    "git",
+    "lfs",
+    "将最终",
+    "双",
+    "完整稳定知识库发布",
+    "验证远端",
+    "hub",
+    "回滚",
+    "最终",
+    "源码",
+    "镜像",
+    "发分支",
+    "完整稳",
+    "定知识",
+    "库发布",
+    "开发分",
+    "整稳定",
+    "新开发",
+    "知识库",
+    "稳定知",
+    "证远端",
+    "识库发",
+    "验证远",
+    "分支",
+    "发分",
+    "发布",
+    "完整",
+    "定知",
+    "库发",
+    "开发",
+    "整稳",
+    "新开",
+    "知识",
+    "稳定",
+    "证远",
+    "识库",
+    "远端",
+    "验证"
+  ],
+  "anchors": [
+    "github",
+    "lfs",
+    "sqlite"
+  ],
+  "seed_entity_ids": [
+    "file-b5f4b740ff7558728c2c5148de44f331",
+    "ent-2587ecf86e72552f8014a4870d3aef41",
+    "file-a0fdd22bd5615ca29fa79120f163a37d",
+    "ent-39f5b6bf648c56a7be8a30c317d745c2",
+    "ent-b36cdb7c108e5998821742f480959658"
+  ],
+  "selected_entities": [
+    {
+      "entity_id": "file-b5f4b740ff7558728c2c5148de44f331",
+      "name": "automation_integrations.py",
+      "qualified_name": "scripts/ckb_core/automation_integrations.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/automation_integrations.py",
+      "start_line": 1,
+      "end_line": 575,
+      "human_page_title": "render_integration 与 _looks_windows 的协作实现",
+      "human_page_file": "pages/render_integration 与 _looks_windows 的协作实现.md",
+      "display_mode": "page",
+      "score": 107.04449686,
+      "score_breakdown": {
+        "entity-fts": 14.16698458,
+        "graph": 0.23382784,
+        "metadata": 50.0,
+        "section-fts": 38.64368443,
+        "term": 4.0
+      },
+      "reasons": [
+        "确定性词项 `源码`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "file-a0fdd22bd5615ca29fa79120f163a37d",
+      "name": "gitrepo.py",
+      "qualified_name": "scripts/ckb_core/gitrepo.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/gitrepo.py",
+      "start_line": 1,
+      "end_line": 419,
+      "human_page_title": "preflight 与 git 的协作实现",
+      "human_page_file": "pages/preflight 与 git 的协作实现.md",
+      "display_mode": "page",
+      "score": 78.96872232,
+      "score_breakdown": {
+        "entity-fts": 14.98958897,
+        "graph": 1.97913334,
+        "metadata": 50.0,
+        "term": 12.0
+      },
+      "reasons": [
+        "确定性词项 `git`",
+        "确定性词项 `分支`",
+        "确定性词项 `源码`",
+        "机器实体全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "ent-4026d1afa4715f8b8ca977409fca42d9",
+      "name": "_git_preflight",
+      "qualified_name": "_git_preflight",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/management_agent.py",
+      "start_line": 371,
+      "end_line": 414,
+      "human_page_title": "bind_conversation 与 default_management_registry_path 的协作实现",
+      "human_page_file": "pages/bind_conversation 与 default_management_registry_path 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 63.24158519,
+      "score_breakdown": {
+        "entity-fts": 14.87044537,
+        "graph": 0.00017466,
+        "metadata": 30.0,
+        "section-fts": 8.37096516,
+        "term": 10.0
+      },
+      "reasons": [
+        "确定性词项 `git`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "固定源码摘录"
+      ]
+    },
+    {
+      "entity_id": "file-d853af3c060356aaa54fb3c83571b6bc",
+      "name": "machine_knowledge.py",
+      "qualified_name": "scripts/ckb_core/machine_knowledge.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 1,
+      "end_line": 1852,
+      "human_page_title": "retrieve_machine 与 estimated_tokens 的协作实现",
+      "human_page_file": "pages/retrieve_machine 与 estimated_tokens 的协作实现.md",
+      "display_mode": "page",
+      "score": 58.93054295,
+      "score_breakdown": {
+        "entity-fts": 14.93054295,
+        "metadata": 32.0,
+        "term": 12.0
+      },
+      "reasons": [
+        "确定性词项 `sqlite`",
+        "确定性词项 `源码`",
+        "确定性词项 `知识`",
+        "机器实体全文命中",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "file-e483c001d3fe5a89a6bb5fd85ef0a9cf",
+      "name": "provider_integration.py",
+      "qualified_name": "tests/provider_integration.py",
+      "kind": "file",
+      "source_path": "tests/provider_integration.py",
+      "start_line": 1,
+      "end_line": 325,
+      "human_page_title": "execute 等测试场景",
+      "human_page_file": "pages/execute 等测试场景.md",
+      "display_mode": "page",
+      "score": 55.72091159,
+      "score_breakdown": {
+        "entity-fts": 13.99945751,
+        "metadata": 50.0,
+        "section-fts": 50.66937962,
+        "term": 18.0,
+        "test-discount": -76.94792553
+      },
+      "reasons": [
+        "确定性词项 `integration`",
+        "确定性词项 `源码`",
+        "确定性词项 `验证`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "实现定位查询对测试实体应用固定折扣"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "ent-e1e1be966c385aa6ad68a0876e967252",
+      "name": "add_git_bootstrap_arguments",
+      "qualified_name": "add_git_bootstrap_arguments",
+      "kind": "function",
+      "source_path": "scripts/ckb.py",
+      "start_line": 208,
+      "end_line": 216,
+      "human_page_title": "keyword_provider_config 与 parser 的协作实现",
+      "human_page_file": "pages/keyword_provider_config 与 parser 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 54.92392535,
+      "score_breakdown": {
+        "entity-fts": 14.92392535,
+        "metadata": 30.0,
+        "term": 10.0
+      },
+      "reasons": [
+        "确定性词项 `git`",
+        "机器实体全文命中",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "ent-0af421fa44db5c5db87f42441afe7895",
+      "name": "_git_status_paths",
+      "qualified_name": "_git_status_paths",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 727,
+      "end_line": 747,
+      "human_page_title": "ingest_event 与 default_registry_path 的协作实现",
+      "human_page_file": "pages/ingest_event 与 default_registry_path 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 54.88204971,
+      "score_breakdown": {
+        "entity-fts": 14.88190995,
+        "graph": 0.00013976,
+        "metadata": 30.0,
+        "term": 10.0
+      },
+      "reasons": [
+        "确定性词项 `git`",
+        "机器实体全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文作用"
+      ]
+    },
+    {
+      "entity_id": "file-ae456e0ef43f5c11863c7f46e3aff574",
+      "name": "make_source_patch.py",
+      "qualified_name": "scripts/make_source_patch.py",
+      "kind": "file",
+      "source_path": "scripts/make_source_patch.py",
+      "start_line": 1,
+      "end_line": 47,
+      "human_page_title": "main 相关实现",
+      "human_page_file": "pages/main 相关实现.md",
+      "display_mode": "page",
+      "score": 52.44321735,
+      "score_breakdown": {
+        "entity-fts": 19.44321735,
+        "metadata": 25.0,
+        "term": 8.0
+      },
+      "reasons": [
+        "确定性词项 `git`",
+        "确定性词项 `源码`",
+        "机器实体全文命中",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": [
+        "中文含义"
+      ]
+    }
+  ],
+  "related_documents": [
+    {
+      "document_id": "note:analysis:自动同步与 LLM Wiki 后续待办",
+      "title": "自动同步与 LLM Wiki 后续待办",
+      "kind": "analysis",
+      "status": "agent-reviewed",
+      "human_file": "analysis/自动同步与 LLM Wiki 后续待办.md",
+      "source_path": null,
+      "start_line": null,
+      "end_line": null
+    },
+    {
+      "document_id": "note:changes:CKB 5.3.0 GitHub 发布边界",
+      "title": "CKB 5.3.0 GitHub 发布边界",
+      "kind": "change",
+      "status": "agent-reviewed",
+      "human_file": "changes/CKB 5.3.0 GitHub 发布边界.md",
+      "source_path": null,
+      "start_line": null,
+      "end_line": null
+    },
+    {
+      "document_id": "note:analysis:OpenViking 记忆系统调研",
+      "title": "OpenViking 记忆系统调研",
+      "kind": "analysis",
+      "status": "agent-reviewed",
+      "human_file": "analysis/OpenViking 记忆系统调研.md",
+      "source_path": null,
+      "start_line": null,
+      "end_line": null
+    },
+    {
+      "document_id": "note:analysis:CKB Agent 方法调用防偏移机制",
+      "title": "CKB Agent 方法调用防偏移机制",
+      "kind": "analysis",
+      "human_file": "analysis/CKB Agent 方法调用防偏移机制.md"
+    },
+    {
+      "document_id": "note:changes:Obsidian 多 Harness 选区学习插件",
+      "title": "Obsidian 多 Harness 选区学习插件",
+      "kind": "change",
+      "human_file": "changes/Obsidian 多 Harness 选区学习插件.md"
+    },
+    {
+      "document_id": "note:analysis:当前 Codex Hook 触发流程核对",
+      "title": "当前 Codex Hook 触发流程核对",
+      "kind": "analysis",
+      "human_file": "analysis/当前 Codex Hook 触发流程核对.md"
+    },
+    {
+      "document_id": "note:changes:中文检索确定性词项合并审计",
+      "title": "中文检索确定性词项合并审计",
+      "kind": "change",
+      "human_file": "changes/中文检索确定性词项合并审计.md"
+    },
+    {
+      "document_id": "note:changes:既有知识库追加新中心合并审计",
+      "title": "既有知识库追加新中心合并审计",
+      "kind": "change",
+      "human_file": "changes/既有知识库追加新中心合并审计.md"
+    }
+  ],
+  "open_feedback": 0,
+  "retrieval_stats": {
+    "scored_entities": 692,
+    "overscan_limit": 32,
+    "materialized_candidates": 32,
+    "selected_entities": 8,
+    "budgeted_entity_limit": 8,
+    "selected_source_paths": 8,
+    "batched_entity_queries": 2,
+    "source_link_cache_entries": 8,
+    "static_cache_hit": false
+  },
+  "pack": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260901-111955-521715-01.md",
+  "record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260901-111955-521715-01.json",
+  "retrieval": "sqlite-exact-fts5-sections-deterministic-weighted-graph",
+  "deterministic": true,
+  "source_grounded": true,
+  "grep_fallback_required": false
+}

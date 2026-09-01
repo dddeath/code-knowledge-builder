@@ -14,10 +14,9 @@
 
 ## 相关代码
 
-- 实现时会用到 [[LspClient.start 与 _version_matches 的协作实现]]。
+- 实现时会用到 [[doctor_report 与 _version_matches 的协作实现]]。
 - 实现时会用到 [[execute]]。
 - 实现时会用到 [[main 等测试场景（fake_logseq 测试）]]。
-- 实现时会用到 [[status]]。
 
 ## 谁会来到这里
 

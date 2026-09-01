@@ -129,6 +129,20 @@ def render_work_record_index(root: Path) -> tuple[str, list[dict[str, Any]]]:
         "在 Obsidian 中先使用本页标题浏览；记录较多时，再用核心搜索输入任务中的两个或三个稳定关键词。需要定位源码时，转到首页的确定性检索入口。",
         "",
     ]
+    from .research_gaps import gap_navigation_counts
+
+    gap_counts = gap_navigation_counts(root)
+    if gap_counts is not None:
+        lines.extend(
+            [
+                "## 研究缺口与待补来源",
+                "",
+                "这里仅汇总待验证主张，不把缺口写成已确认事实，也不为每个缺口创建页面。使用 `gaps list` 查看机器记录和证据路径。",
+                "",
+                f"- 当前共 {gap_counts['total']} 项：待补证据 {gap_counts['open']} 项，暂缓 {gap_counts['deferred']} 项，已关闭 {gap_counts['resolved']} 项。",
+                "",
+            ]
+        )
     by_directory = {directory: [] for directory in NOTE_DIRECTORIES}
     for record in records:
         by_directory[record["directory"]].append(record)

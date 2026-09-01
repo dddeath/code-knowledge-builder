@@ -9,6 +9,7 @@ import sqlite3
 import subprocess
 import sys
 import tempfile
+from types import SimpleNamespace
 import unittest
 import zipfile
 from pathlib import Path
@@ -41,6 +42,8 @@ from ckb_core.obsidian_plugin import (
     register_obsidian_plugin,
     remove_obsidian_plugin,
 )
+from ckb_core import operation_journal
+from ckb_core import research_gaps
 from ckb_core.output_contract import audit_output_contract, project_output_contract
 from ckb_core.page_config import DEFAULT_PAGE_CONFIG, page_config_sha256
 from ckb_core.pipeline import (
@@ -49,7 +52,8 @@ from ckb_core.pipeline import (
     _audit_markdown,
     _logical_projection,
 )
-from ckb_core.providers import _fallback_flags, _provider_status
+from ckb_core.parsers import parse_file
+from ckb_core.providers import _fallback_flags, _provider_spec, _provider_status
 from ckb_core.stdio_server import _record_explanation, serve_stdio
 from ckb_core.work_record_index import audit_work_record_index, refresh_work_record_index
 
@@ -217,6 +221,110 @@ class CodeKnowledgeBuilderTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0)
         self.assertEqual(launched.call_args.kwargs["creationflags"], 12345)
 
+    def test_bounded_machine_operation_journal_is_private_deduplicated_and_audited(self) -> None:
+        output = self.root / "operation-output"
+        write(output / "state.json", "{}")
+        evidence = output / "machine/agent-packs/pack-01.json"
+        write(evidence, '{"status":"passed"}')
+        args = SimpleNamespace(command="brief", out=output, question="不得进入日志的原始问题", token="secret")
+        result = {
+            "status": "passed",
+            "question": "不得进入日志的原始问题",
+            "token": "secret",
+            "pack": str(evidence),
+            "outside": str(self.root / "outside.txt"),
+        }
+        recorded = operation_journal.record_cli_operation(args, result)
+        self.assertIsNotNone(recorded)
+        duplicate = operation_journal.record_cli_operation(args, result)
+        self.assertTrue(duplicate["idempotent"])
+        listed = operation_journal.list_operations(output)
+        self.assertEqual(listed["count"], 1)
+        event = listed["operations"][0]
+        self.assertEqual(set(event), operation_journal._EVENT_FIELDS)
+        self.assertNotIn("问题", json.dumps(event, ensure_ascii=False))
+        self.assertNotIn("secret", json.dumps(event, ensure_ascii=False))
+        self.assertEqual(event["evidence_paths"], ["machine/agent-packs/pack-01.json"])
+        latest = json.loads((output / "workspace-meta/operations/latest.json").read_text(encoding="utf-8"))
+        self.assertEqual(latest["bounded_drops"]["deduplicated"], 1)
+        self.assertFalse((output / "human/operations").exists())
+
+        cli_audit = invoke("operations", "audit", "--out", str(output))
+        self.assertEqual(cli_audit.returncode, 0, cli_audit.stderr)
+        cli_list = invoke("operations", "list", "--out", str(output), "--operation", "query", "--limit", "1")
+        self.assertEqual(cli_list.returncode, 0, cli_list.stderr)
+        self.assertEqual(json.loads(cli_list.stdout)["count"], 1)
+
+        with patch.object(operation_journal, "MAX_RECORDS_PER_SHARD", 2), patch.object(
+            operation_journal, "MAX_SHARD_BYTES", 100_000
+        ):
+            for index in range(3):
+                path = output / f"audit/evidence-{index}.json"
+                write(path, "{}")
+                operation_journal.record_operation(output, "audit", f"audit:test-{index}", "passed", [f"audit/evidence-{index}.json"])
+            bounded = operation_journal.list_operations(output, limit=20)
+            self.assertEqual(bounded["count"], 2)
+            audit = operation_journal.audit_operation_journal(output)
+            self.assertEqual(audit["status"], "passed", audit)
+
+        shard = next((output / "workspace-meta/operations").glob("*.jsonl"))
+        values = [json.loads(line) for line in shard.read_text(encoding="utf-8").splitlines()]
+        values[0]["raw_output"] = "forbidden"
+        shard.write_text("".join(json.dumps(item) + "\n" for item in values), encoding="utf-8")
+        failed = operation_journal.audit_operation_journal(output)
+        self.assertEqual(failed["status"], "failed")
+        self.assertTrue(any("fixed operation schema" in error for error in failed["errors"]))
+
+    def test_research_gap_register_is_machine_only_deduplicated_and_resolvable(self) -> None:
+        output = self.root / "gap-output"
+        write(output / "state.json", "{}")
+        (output / "human").mkdir()
+        (output / "markdown").mkdir()
+        evidence = output / "machine/agent-packs/pack-gap.json"
+        write(evidence, '{"status":"passed"}')
+        summary = self.root / "gap-summary.md"
+        write(summary, "当前证据只能确认检索入口存在，仍缺少跨平台冷启动数据。")
+        created = research_gaps.create_gap(output, "insufficient-evidence", summary, ["machine/agent-packs/pack-gap.json"])
+        self.assertEqual(created["status"], "open")
+        self.assertFalse(created["idempotent"])
+        duplicate = research_gaps.create_gap(output, "insufficient-evidence", summary, ["machine/agent-packs/pack-gap.json"])
+        self.assertTrue(duplicate["idempotent"])
+        self.assertEqual(research_gaps.list_gaps(output, "open")["count"], 1)
+        for root in (output / "human", output / "markdown"):
+            text = (root / "RECORDS.md").read_text(encoding="utf-8")
+            self.assertEqual(text.count("## 研究缺口与待补来源"), 1)
+            self.assertIn("待补证据 1 项", text)
+            self.assertFalse((root / "gaps").exists())
+
+        cli_list = invoke("gaps", "list", "--out", str(output), "--status", "open")
+        self.assertEqual(cli_list.returncode, 0, cli_list.stderr)
+        self.assertEqual(json.loads(cli_list.stdout)["count"], 1)
+        cli_audit = invoke("gaps", "audit", "--out", str(output))
+        self.assertEqual(cli_audit.returncode, 0, cli_audit.stderr)
+
+        outside = self.root / "outside.json"
+        write(outside, "{}")
+        with self.assertRaises(CkbError):
+            research_gaps.create_gap(output, "conflicting-sources", summary, [str(outside)])
+
+        closure = output / "audit/gap-closure.json"
+        write(closure, '{"status":"passed"}')
+        resolution = self.root / "gap-resolution.md"
+        write(resolution, "已补充跨平台冷启动数据并完成固定协议复核，因此关闭该缺口。")
+        resolved = research_gaps.resolve_gap(output, created["gap_id"], resolution, ["audit/gap-closure.json"])
+        self.assertEqual(resolved["status"], "resolved")
+        self.assertEqual(research_gaps.list_gaps(output, "resolved")["count"], 1)
+        self.assertEqual(research_gaps.audit_gap_register(output)["status"], "passed")
+        self.assertIn("已关闭 1 项", (output / "human/RECORDS.md").read_text(encoding="utf-8"))
+
+        record_path = Path(resolved["record"])
+        tampered = json.loads(record_path.read_text(encoding="utf-8"))
+        tampered["confirmed_fact"] = True
+        record_path.write_text(json.dumps(tampered, ensure_ascii=False), encoding="utf-8")
+        failed = research_gaps.audit_gap_register(output)
+        self.assertEqual(failed["status"], "failed")
+        self.assertTrue(any("fixed gap schema" in error for error in failed["errors"]))
+
     def test_llm_wiki_capability_matrix_has_closed_four_state_boundaries(self) -> None:
         matrix = capability_matrix()
         self.assertEqual(matrix["status_order"], list(CAPABILITY_STATUSES))
@@ -241,6 +349,38 @@ class CodeKnowledgeBuilderTests(unittest.TestCase):
         self.assertEqual(invoke("merge", "--out", str(output)).returncode, 0)
         finalized = invoke("finalize", "--out", str(output))
         self.assertEqual(finalized.returncode, 0, finalized.stderr)
+
+        gap_summary = self.root / "retrieval-gap.md"
+        write(gap_summary, "当前资料没有跨平台冷启动测量，因此该性能结论仍需补充来源。")
+        gap_created = invoke(
+            "gaps", "create", "--out", str(output), "--kind", "insufficient-evidence",
+            "--summary", str(gap_summary), "--evidence", "audit/global.json",
+        )
+        self.assertEqual(gap_created.returncode, 0, gap_created.stderr)
+        gap_value = json.loads(gap_created.stdout)
+        self.assertEqual(gap_value["status"], "open")
+        self.assertEqual((output / "human/RECORDS.md").read_text(encoding="utf-8").count("## 研究缺口与待补来源"), 1)
+        self.assertFalse((output / "human/gaps").exists())
+        connection = sqlite3.connect(output / "machine/knowledge.sqlite")
+        try:
+            self.assertEqual(connection.execute("SELECT count(*) FROM research_gaps").fetchone()[0], 1)
+            self.assertEqual(connection.execute("SELECT count(*) FROM documents WHERE kind='gap'").fetchone()[0], 1)
+        finally:
+            connection.close()
+        gap_retrieved = invoke("retrieve", "--out", str(output), "跨平台冷启动测量来源", "--budget", "1000", "--profile", "fast")
+        self.assertEqual(gap_retrieved.returncode, 0, gap_retrieved.stderr)
+        gap_retrieval = json.loads(gap_retrieved.stdout)
+        self.assertTrue(any(item["kind"] == "gap" and item["status"] == "pending-evidence" for item in gap_retrieval["related_documents"]))
+        self.assertIn("待验证研究缺口", Path(gap_retrieval["pack"]).read_text(encoding="utf-8"))
+
+        gap_resolution = self.root / "retrieval-gap-resolution.md"
+        write(gap_resolution, "已确认当前批次只登记缺失来源，不把该性能结论写成已确认事实。")
+        gap_resolved = invoke(
+            "gaps", "resolve", "--out", str(output), "--gap", gap_value["gap_id"],
+            "--resolution", str(gap_resolution), "--evidence", "audit/global.json",
+        )
+        self.assertEqual(gap_resolved.returncode, 0, gap_resolved.stderr)
+        self.assertEqual(json.loads(gap_resolved.stdout)["status"], "resolved")
 
         source = self.root / "stellar-compression.md"
         source.write_text(
@@ -1234,6 +1374,110 @@ def __getattr__(name):
         precise = invoke("retrieve", "--out", str(output), "OrderService 服务修改", "--budget", "1200", "--profile", "precise")
         self.assertEqual(precise.returncode, 0, precise.stderr)
         self.assertTrue(json.loads(precise.stdout)["deterministic"])
+        keyword_fixture = SKILL_ROOT / "tests" / "fixtures" / "keyword_provider.py"
+        keyword_provider_args = (
+            "--keyword-provider-command",
+            str(PYTHON),
+            "--keyword-provider-arg",
+            str(keyword_fixture),
+            "--keyword-provider",
+            "fixture",
+            "--keyword-model",
+            "fixture-model",
+            "--keyword-provider-version",
+            "1",
+            "--keyword-provider-timeout",
+            "2",
+            "--keyword-provider-retries",
+            "0",
+            "--keyword-provider-no-cache",
+        )
+        zero_start_marker = self.root / "default-provider-started.txt"
+        default_probe = invoke(
+            "retrieve",
+            "--out",
+            str(output),
+            "OrderService 服务修改",
+            "--budget",
+            "1200",
+            *keyword_provider_args,
+            env={"CKB_FAKE_KEYWORD_PROVIDER_MARKER": str(zero_start_marker)},
+        )
+        self.assertEqual(default_probe.returncode, 0, default_probe.stderr)
+        self.assertFalse(zero_start_marker.exists())
+        self.assertNotIn("keyword_fallback", json.loads(default_probe.stdout))
+        forced_marker = self.root / "forced-provider-started.txt"
+        forced = invoke(
+            "retrieve",
+            "--out",
+            str(output),
+            "OrderService 服务修改",
+            "--budget",
+            "1200",
+            "--force-keyword-fallback",
+            *keyword_provider_args,
+            env={
+                "CKB_FAKE_KEYWORD_PROVIDER_MODE": "order-service",
+                "CKB_FAKE_KEYWORD_PROVIDER_MARKER": str(forced_marker),
+            },
+        )
+        self.assertEqual(forced.returncode, 0, forced.stderr)
+        forced_record = json.loads(forced.stdout)
+        self.assertTrue(forced_marker.is_file())
+        self.assertEqual(forced_record["keyword_fallback"]["status"], "passed")
+        self.assertTrue(forced_record["keyword_fallback"]["final"]["deterministic_selection"])
+        self.assertTrue(Path(forced_record["keyword_fallback_record"]).is_file())
+        automatic = invoke(
+            "brief",
+            "--out",
+            str(output),
+            "星际织网不存在术语",
+            "--budget",
+            "1200",
+            "--allow-keyword-fallback",
+            *keyword_provider_args,
+            env={"CKB_FAKE_KEYWORD_PROVIDER_MODE": "order-service"},
+        )
+        self.assertEqual(automatic.returncode, 0, automatic.stderr)
+        automatic_record = json.loads(automatic.stdout)
+        self.assertEqual(automatic_record["status"], "passed")
+        self.assertEqual(automatic_record["keyword_fallback"]["trigger"], "needs-source-read")
+        self.assertTrue(Path(automatic_record["record"]).is_file())
+        fallback = invoke(
+            "retrieve",
+            "--out",
+            str(output),
+            "OrderService 服务修改",
+            "--budget",
+            "1200",
+            "--force-keyword-fallback",
+            *keyword_provider_args,
+            env={"CKB_FAKE_KEYWORD_PROVIDER_MODE": "invalid-json"},
+        )
+        self.assertEqual(fallback.returncode, 0, fallback.stderr)
+        fallback_record = json.loads(fallback.stdout)
+        self.assertEqual(fallback_record["status"], "passed")
+        self.assertEqual(fallback_record["keyword_fallback"]["status"], "fallback")
+        self.assertEqual(fallback_record["keyword_fallback"]["provider"]["failure_type"], "invalid-json")
+        benchmark_report = self.root / "keyword-benchmark.json"
+        benchmark = invoke(
+            "keyword-benchmark",
+            "--out",
+            str(output),
+            "--cases",
+            str(SKILL_ROOT / "tests" / "fixtures" / "keyword_benchmark.json"),
+            "--write",
+            str(benchmark_report),
+            *keyword_provider_args[:-1],
+            env={"CKB_FAKE_KEYWORD_PROVIDER_MODE": "order-service"},
+        )
+        self.assertEqual(benchmark.returncode, 0, benchmark.stderr)
+        benchmark_record = json.loads(benchmark.stdout)
+        self.assertEqual(benchmark_record["status"], "passed")
+        self.assertEqual(benchmark_record["summary"]["quality_claim"], "measured-gain")
+        self.assertTrue(benchmark_record["cases"][0]["hot"]["cache_hit"])
+        self.assertEqual(benchmark_record["cases"][0]["hot"]["usage"]["total_tokens"], 0)
+        self.assertEqual(json.loads(benchmark_report.read_text(encoding="utf-8")), benchmark_record)
         entity_result = invoke("entity", "--out", str(output), "OrderService")
         self.assertEqual(entity_result.returncode, 0, entity_result.stderr)
         self.assertEqual(len(json.loads(entity_result.stdout)["candidates"]), 1)
@@ -1986,6 +2230,108 @@ public partial class Core {
         changed = stable_id("entity", "commit", "path", 1, 3)
         self.assertEqual(first, second)
         self.assertNotEqual(first, changed)
+
+
+class CppParserAndSconsTests(unittest.TestCase):
+    FIXTURES = SKILL_ROOT / "tests" / "fixtures" / "cpp-parser-scons"
+
+    def setUp(self) -> None:
+        self.temp = tempfile.TemporaryDirectory(prefix="ckb-cpp-parser-")
+        self.root = Path(self.temp.name)
+
+    def tearDown(self) -> None:
+        self.temp.cleanup()
+
+    def parse_fixture(self, name: str) -> dict:
+        path = self.FIXTURES / name
+        source = path.read_bytes()
+        return parse_file(
+            {"commit": "cpp-parser-fixture"},
+            {"id": f"file-{name}", "path": name, "blob": hashlib.sha1(source).hexdigest(), "language": "cpp"},
+            source,
+        )
+
+    def test_cpp_conditional_compilation_valid_and_incomplete(self) -> None:
+        valid = self.parse_fixture("conditional-valid.cpp")
+        self.assertEqual(valid["parse"]["status"], "passed")
+        debug_value = next(entity for entity in valid["entities"] if entity["name"] == "debug_value")
+        self.assertEqual(debug_value["kind"], "function")
+        self.assertEqual((debug_value["range"]["start_line"], debug_value["range"]["end_line"]), (2, 4))
+
+        invalid = self.parse_fixture("conditional-incomplete.cpp.txt")
+        self.assertEqual(invalid["parse"]["status"], "failed")
+        self.assertTrue(invalid["parse"]["has_error"])
+
+    def test_cpp_reference_direct_initialization_is_declaration_not_function(self) -> None:
+        valid = self.parse_fixture("reference-direct-init-valid.cpp")
+        self.assertEqual(valid["parse"]["status"], "passed")
+        named_x = [entity for entity in valid["entities"] if entity["name"] == "x"]
+        self.assertEqual([(entity["kind"], entity["qualified_name"]) for entity in named_x], [("declaration", "bind_reference.x")])
+
+        invalid = self.parse_fixture("reference-direct-init-incomplete.cpp.txt")
+        self.assertEqual(invalid["parse"]["status"], "failed")
+        self.assertTrue(invalid["parse"]["has_error"])
+
+    def test_cpp_explicit_template_instantiation_has_no_pseudo_entities(self) -> None:
+        valid = self.parse_fixture("explicit-instantiation-valid.cpp")
+        self.assertEqual(valid["parse"]["status"], "passed")
+        declarations = [
+            (entity["kind"], entity["qualified_name"], entity["range"]["start_line"])
+            for entity in valid["entities"]
+            if entity["kind"] != "file"
+        ]
+        self.assertEqual(declarations, [("class", "Box", 1), ("function", "run", 3)])
+        self.assertEqual(valid["parse"]["raw_has_error"], True)
+        self.assertEqual(
+            [item["kind"] for item in valid["parse"]["recoveries"]],
+            ["tree-sitter-cpp-explicit-class-template-instantiation"],
+        )
+
+        invalid = self.parse_fixture("explicit-instantiation-incomplete.cpp.txt")
+        self.assertEqual(invalid["parse"]["status"], "failed")
+        self.assertTrue(invalid["parse"]["has_error"])
+
+    def test_scons_fallback_is_auditable_and_compile_database_stays_exact(self) -> None:
+        repo = self.root / "scons"
+        shutil.copytree(self.FIXTURES / "scons-project", repo)
+        flags, evidence = _fallback_flags(repo, "cpp")
+        self.assertEqual(flags, ["-x", "c++", "-std=c++20"])
+        self.assertEqual(evidence["resolution"], "build-config-unique")
+        self.assertEqual(evidence["candidates"], ["c++20"])
+        self.assertEqual(evidence["selected"], "c++20")
+        self.assertEqual(
+            [(item["path"], item["match"], item["standard"]) for item in evidence["matches"]],
+            [
+                ("SConstruct", "-std=c++20", "c++20"),
+                ("src/SConscript", "-std=c++20", "c++20"),
+            ],
+        )
+
+        no_evidence = self.root / "scons-no-evidence"
+        no_evidence.mkdir()
+        write(no_evidence / "SConstruct", "env = Environment()")
+        default_flags, default_evidence = _fallback_flags(no_evidence, "cpp")
+        self.assertEqual(default_flags, ["-x", "c++", "-std=c++17"])
+        self.assertEqual(default_evidence["resolution"], "fallback-no-evidence")
+
+        ambiguous = self.root / "scons-ambiguous"
+        ambiguous.mkdir()
+        write(ambiguous / "SConstruct", "env = Environment(CXXFLAGS=['-std=c++20'])")
+        write(ambiguous / "src" / "SConscript", "env.Append(CXXFLAGS=['-std=c++23'])")
+        ambiguous_flags, ambiguous_evidence = _fallback_flags(ambiguous, "cpp")
+        self.assertEqual(ambiguous_flags, ["-x", "c++", "-std=c++17"])
+        self.assertEqual(ambiguous_evidence["resolution"], "fallback-ambiguous-evidence")
+        self.assertEqual(ambiguous_evidence["candidates"], ["c++20", "c++23"])
+
+        with patch("ckb_core.providers.resolve_executable", return_value="clangd"):
+            _, _, bounded_options, bounded_precision, _, _ = _provider_spec("cpp", repo)
+            self.assertEqual(bounded_precision, "bounded-approximate")
+            self.assertEqual(bounded_options["fallbackFlags"], ["-x", "c++", "-std=c++20"])
+            (repo / "compile_commands.json").write_text("[]\n", encoding="utf-8", newline="\n")
+            command, _, exact_options, exact_precision, _, _ = _provider_spec("cpp", repo)
+        self.assertEqual(exact_precision, "exact")
+        self.assertIn(f"--compile-commands-dir={repo}", command)
+        self.assertEqual(exact_options, {"compilationDatabasePath": str(repo)})
 
 
 if __name__ == "__main__":

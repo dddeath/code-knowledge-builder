@@ -30,7 +30,7 @@ Linux Node 24.16.0 环境中的 typecheck、lint、三项新增功能测试、�
 
 ## 相关知识页
 
-- [[prepare_vault 与 install_obsidian 的协作实现]]
+- [[audit_obsidian 与 prepare_vault 的协作实现]]
 
 ## 源码入口
 

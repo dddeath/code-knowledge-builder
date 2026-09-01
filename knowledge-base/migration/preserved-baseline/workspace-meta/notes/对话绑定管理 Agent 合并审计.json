@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "status": "agent-reviewed",
+  "kind": "change",
+  "title": "对话绑定管理 Agent 合并审计",
+  "file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human\\changes\\对话绑定管理 Agent 合并审计.md",
+  "compatibility_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown\\changes\\对话绑定管理 Agent 合并审计.md",
+  "linked_pages": [
+    "ingest_event 与 default_registry_path 的协作实现",
+    "audit_agent_protocol",
+    "retrieve 与 _tokens 的协作实现",
+    "audit_global 与 _replace_output_prefix 的协作实现",
+    "start_session 与 _session_directory 的协作实现",
+    "render_integration 与 _looks_windows 的协作实现",
+    "audit_references",
+    "sync_human_layer 与 _source_manifest 的协作实现"
+  ],
+  "source_links": [
+    "[打开源码：scripts/ckb_core/automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation.py:1:1)  `scripts/ckb_core/automation.py:1-1665`",
+    "[打开源码：scripts/ckb_core/agent_protocol.py 第 420 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_protocol.py:420:1)  `scripts/ckb_core/agent_protocol.py:420-496`",
+    "[打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-569`",
+    "[打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3482`",
+    "[打开源码：scripts/ckb_core/agent_maintenance.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_maintenance.py:1:1)  `scripts/ckb_core/agent_maintenance.py:1-255`",
+    "[打开源码：scripts/ckb_core/automation_integrations.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation_integrations.py:1:1)  `scripts/ckb_core/automation_integrations.py:1-536`",
+    "[打开源码：scripts/ckb_core/reference_documents.py 第 470 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/reference_documents.py:470:1)  `scripts/ckb_core/reference_documents.py:470-558`",
+    "[打开源码：scripts/ckb_core/knowledge_layers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/knowledge_layers.py:1:1)  `scripts/ckb_core/knowledge_layers.py:1-262`"
+  ],
+  "query_record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260831-193122-945865-01.json",
+  "updated_at_utc": "2026-08-31T19:46:19Z",
+  "obsidian_uri": "obsidian://open?path=E%3A%5Cknowledge_builder%5Cself-workspace%5Cknowledge-base%5Cmarkdown%5Cchanges%5C%E5%AF%B9%E8%AF%9D%E7%BB%91%E5%AE%9A%E7%AE%A1%E7%90%86%20Agent%20%E5%90%88%E5%B9%B6%E5%AE%A1%E8%AE%A1.md"
+}

@@ -3,20 +3,59 @@
   "pack_id": "migrated-page-review-pack-0007",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-08-27T17:41:57Z",
+  "reviewed_at_utc": "2026-09-01T05:15:39Z",
   "reviews": [
     {
-      "entity_id": "file-127ad18062a35020a23da6cd63c91282",
+      "entity_id": "file-f77e104b1b4a53d1bb7342ed2f38fe4b",
       "classification": "page",
-      "owner_page_id": "file-127ad18062a35020a23da6cd63c91282",
-      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "owner_page_id": "file-f77e104b1b4a53d1bb7342ed2f38fe4b",
+      "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 1,
-      "end_line": 1458,
+      "end_line": 604,
       "status": "agent-reviewed",
-      "evidence_note": "Agent 已从目标固定提交对应的 Git blob 重新打开 scripts/ckb_core/machine_knowledge.py 第 1 至 1458 行，核对声明名称、签名、关键分支与调用后确认本条说明。",
-      "meaning_zh": "该文件实现完整 SQLite 机器知识库及纯确定性 Agent 检索。",
-      "role_zh": "它负责构建实体、关系、来源、中文章节和 FTS 索引，并以固定候选上限、批量读取、图传播和静态缓存生成低上下文阅读包。",
-      "change_when_zh": "机器 Schema、检索召回规则、排序权重、缓存失效条件或阅读包预算策略变化时，需要修改该文件。"
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/reference_documents.py` 第 1 至 604 行，核对 `scripts/ckb_core/reference_documents.py` 的签名、分支和数据流后写出本条简体中文说明。",
+      "meaning_zh": "`scripts/ckb_core/reference_documents.py` 是 `scripts/ckb_core/reference_documents.py` 中负责汇总并提供审阅文本资料的归档、逐项核对、投影、索引与回滚的文件入口。",
+      "role_zh": "它按源码所示的参数、条件分支和数据结构完成汇总并提供审阅文本资料的归档、逐项核对、投影、索引与回滚，并把确定结果交给调用方或后续审计、索引、投影阶段。",
+      "change_when_zh": "当审阅文本资料的归档、逐项核对、投影、索引与回滚的输入格式、状态规则、错误处理或输出契约变化时，需要修改该代码单元并复核对应测试。"
+    },
+    {
+      "entity_id": "ent-63f8abcea5655f049fc645123c57fb35",
+      "classification": "page",
+      "owner_page_id": "ent-63f8abcea5655f049fc645123c57fb35",
+      "source_path": "scripts/ckb_core/reference_documents.py",
+      "start_line": 470,
+      "end_line": 558,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/reference_documents.py` 第 470 至 558 行，核对 `audit_references` 的签名、分支和数据流后写出本条简体中文说明。",
+      "meaning_zh": "`audit_references` 是 `scripts/ckb_core/reference_documents.py` 中负责核对资料原文、许可证、逐项引用、中文主张、镜像和机器索引的函数。",
+      "role_zh": "它按源码所示的参数、条件分支和数据结构完成核对资料原文、许可证、逐项引用、中文主张、镜像和机器索引，并把确定结果交给调用方或后续审计、索引、投影阶段。",
+      "change_when_zh": "当审阅文本资料的归档、逐项核对、投影、索引与回滚的输入格式、状态规则、错误处理或输出契约变化时，需要修改该代码单元并复核对应测试。"
+    },
+    {
+      "entity_id": "file-52a6fab0477d5c0895da9f7412053f9d",
+      "classification": "page",
+      "owner_page_id": "file-52a6fab0477d5c0895da9f7412053f9d",
+      "source_path": "scripts/ckb_core/research_gaps.py",
+      "start_line": 1,
+      "end_line": 273,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/research_gaps.py` 第 1 至 273 行，核对 `scripts/ckb_core/research_gaps.py` 的签名、分支和数据流后写出本条简体中文说明。",
+      "meaning_zh": "`scripts/ckb_core/research_gaps.py` 是 `scripts/ckb_core/research_gaps.py` 中负责汇总并提供研究缺口的确定性登记、状态转换、聚合与审计的文件入口。",
+      "role_zh": "它按源码所示的参数、条件分支和数据结构完成汇总并提供研究缺口的确定性登记、状态转换、聚合与审计，并把确定结果交给调用方或后续审计、索引、投影阶段。",
+      "change_when_zh": "当研究缺口的确定性登记、状态转换、聚合与审计的输入格式、状态规则、错误处理或输出契约变化时，需要修改该代码单元并复核对应测试。"
+    },
+    {
+      "entity_id": "file-ee23e5707245586099b9c705645d4386",
+      "classification": "page",
+      "owner_page_id": "file-ee23e5707245586099b9c705645d4386",
+      "source_path": "scripts/ckb_core/runtime.py",
+      "start_line": 1,
+      "end_line": 153,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 源码中 scripts/ckb_core/runtime.py 第 1 至 153 行，核对名称、签名和局部实现后写出本条中文说明。",
+      "meaning_zh": "该文件集中实现私有离线运行时部署、复用检查和移除。",
+      "role_zh": "它是 Code Knowledge Builder 中承载私有离线运行时部署、复用检查和移除的源码边界，并连接相邻模块或测试。",
+      "change_when_zh": "当私有离线运行时部署、复用检查和移除的输入、输出、状态门或验证契约发生变化时，需要同步修改该文件并运行对应测试。"
     }
   ]
 }

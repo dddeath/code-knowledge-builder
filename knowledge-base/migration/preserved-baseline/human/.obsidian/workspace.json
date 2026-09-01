@@ -13,15 +13,100 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "analysis/自动同步与 LLM Wiki 后续待办.md",
+                "file": "experiments/LLM Wiki 吸收特性与 Flask 检索收益.md",
                 "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "自动同步与 LLM Wiki 后续待办"
+              "title": "LLM Wiki 吸收特性与 Flask 检索收益"
+            }
+          },
+          {
+            "id": "ced483a270a1b2bc",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "学习笔记/2026-08-29.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "2026-08-29"
+            }
+          },
+          {
+            "id": "9c654f159320d930",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "学习笔记/2026-08-29.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "2026-08-29"
+            }
+          },
+          {
+            "id": "c287948b9ffe3831",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "analysis/Code Knowledge Builder 秋招面试官拷问手册.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Code Knowledge Builder 秋招面试官拷问手册"
+            }
+          },
+          {
+            "id": "469cb4e7df980e87",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "analysis/Code Knowledge Builder 秋招面试官拷问手册.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Code Knowledge Builder 秋招面试官拷问手册"
+            }
+          },
+          {
+            "id": "7168c16bb28e4ba7",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "analysis/Code Knowledge Builder 秋招面试官拷问手册.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Code Knowledge Builder 秋招面试官拷问手册"
+            }
+          },
+          {
+            "id": "1975189877cb7dcb",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "analysis/OpenViking 记忆系统调研.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "OpenViking 记忆系统调研"
             }
           }
-        ]
+        ],
+        "currentTab": 6
       }
     ],
     "direction": "vertical"
@@ -161,7 +246,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "analysis/自动同步与 LLM Wiki 后续待办.md",
+                "file": "学习笔记/2026-08-30.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -169,16 +254,27 @@
               "icon": "lucide-list",
               "title": "大纲"
             }
+          },
+          {
+            "id": "924f2a0c5a8fb360",
+            "type": "leaf",
+            "state": {
+              "type": "ckb-selection-learning-view",
+              "state": {},
+              "icon": "book-open-check",
+              "title": "CKB 解释"
+            }
           }
-        ]
+        ],
+        "currentTab": 5
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 377.833251953125
   },
   "left-ribbon": {
     "hiddenItems": {
+      "code-knowledge-builder-companion:Open Claudian": false,
       "switcher:打开快速切换": false,
       "graph:查看关系图谱": false,
       "canvas:新建白板": false,
@@ -186,30 +282,39 @@
       "bases:新建数据库": false
     }
   },
-  "active": "b54bf1c467b3319a",
+  "active": "1975189877cb7dcb",
   "lastOpenFiles": [
-    "changes/跨 Harness 会话与修改自动同步实现.md",
-    "pages/tests 职责导览.md",
+    "changes/CKB 5.3.0 GitHub 发布边界.md",
     "analysis/自动同步与 LLM Wiki 后续待办.md",
-    "pages/write.md",
-    "pages/sync_human_layer 与 _source_manifest 的协作实现.md",
-    "pages/execute.md",
-    "pages/add_initial_arguments 与 add_git_bootstrap_arguments 的协作实现.md",
-    "pages/add_git_bootstrap_arguments.md",
-    "pages/__init__ 实现概览.md",
-    "analysis/Code Knowledge Builder 5.0.0 工程方法.md",
-    "changes/双知识库与确定性检索改造记录.md",
-    "sessions/session-20260826-124551-01 分析总结.md",
-    "sessions/Agent 会话 20260826-124551-01.md",
-    "INDEX.md",
-    "pages/main（build_runtime_payload 实现）.md",
-    "pages/main 等测试场景（generate_large_fixture 测试）.md",
-    "pages/load_page_config.md",
-    "pages/add_initial_arguments.md",
-    "pages/create_source_snapshot.md",
-    "pages/ensure_local_openers 与 default_openers 的协作实现.md",
-    "pages/create_source_snapshot 与 git 的协作实现.md",
-    "WIKI.md",
-    "pages/repository 代码导览.md"
+    "analysis/Code Knowledge Builder：一份代码，两种读法.md",
+    "changes/CKB 5.3.0 审阅文本资料吸收.md",
+    "REFERENCES.md",
+    "references/CKB 审阅文本资料层说明.md",
+    "references",
+    "analysis/Code Knowledge Builder 项目说明书结构与验收样例.md",
+    "changes/LLM Wiki 功能矩阵与紧凑维护入口.md",
+    "analysis/OpenViking 记忆系统调研.md",
+    "学习笔记/2026-08-30.md",
+    "analysis/Code Knowledge Builder 秋招面试官拷问手册.md",
+    "analysis/Obsidian 解释流式过程与快速路径实施计划.md",
+    "analysis/LLM Wiki 快速检索性能复验（5.1.4）.md",
+    "changes/Obsidian 解释追问与逐轮 CKB 审计.md",
+    "changes/修复 Obsidian Codex WSL 非交互启动路径.md",
+    "analysis/Flask 3.1.3 知识库与 grep 对比测试（秋招版）.md",
+    "changes/修复 GUI 学习解释乱码与错误归档.md",
+    "audit.json",
+    "analysis/GUI 学习解释 2026-08-30.md",
+    "analysis/GUI 瀛︿範瑙ｉ噴 2026-08-30.md",
+    "学习笔记/2026-08-29.md",
+    "analysis/LLM Wiki 快速检索性能验证（5.1.3）.md",
+    "changes/插件门控的 CKB 输出契约投影.md",
+    "changes/Obsidian 解释快速路径与跨知识库部署.md",
+    "changes/修复 Codex commandWindows 在 WSL 中二次启动失败.md",
+    "analysis/GUI 学习解释 2026-08-29.md",
+    "analysis/知识库人类可读性与任务完成标准.md",
+    "学习笔记",
+    "feedback/resolved",
+    "feedback/open",
+    "feedback"
   ]
 }

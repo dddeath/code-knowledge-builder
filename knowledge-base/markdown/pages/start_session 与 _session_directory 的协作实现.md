@@ -14,12 +14,13 @@
 
 ## 相关代码
 
+- 实现时会用到 [[CkbError]]。
+- 实现时会用到 [[CkbError 与 DependencyError 的协作实现]]。
+- 实现时会用到 [[append]]。
 - 实现时会用到 [[record_note]]。
 - 实现时会用到 [[record_note 与 page_tag 的协作实现]]。
 - 实现时会用到 [[retrieve_machine 与 estimated_tokens 的协作实现]]。
-- 实现时会用到 [[run 与 CkbError 的协作实现]]。
 - 主要代码单元是 [[start_session]]。
-- 实现时会用到 [[status]]。
 
 ## 谁会来到这里
 

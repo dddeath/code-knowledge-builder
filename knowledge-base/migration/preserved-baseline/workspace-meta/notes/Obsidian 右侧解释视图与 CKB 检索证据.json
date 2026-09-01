@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "status": "agent-reviewed",
+  "kind": "change",
+  "title": "Obsidian 右侧解释视图与 CKB 检索证据",
+  "file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human\\changes\\Obsidian 右侧解释视图与 CKB 检索证据.md",
+  "compatibility_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown\\changes\\Obsidian 右侧解释视图与 CKB 检索证据.md",
+  "linked_pages": [
+    "audit_obsidian 与 prepare_vault 的协作实现",
+    "SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现",
+    "ingest_event 与 default_registry_path 的协作实现",
+    "CkbError 与 DependencyError 的协作实现",
+    "audit_migration 与 _entity_key 的协作实现",
+    "audit_global 与 _replace_output_prefix 的协作实现",
+    "start_session 与 _session_directory 的协作实现",
+    "module_name 与 estimated_tokens 的协作实现"
+  ],
+  "source_links": [
+    "[打开源码：scripts/ckb_core/obsidian.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/obsidian.py:1:1)  `scripts/ckb_core/obsidian.py:1-134`",
+    "[打开源码：scripts/ckb_core/source_links.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/source_links.py:1:1)  `scripts/ckb_core/source_links.py:1-184`",
+    "[打开源码：scripts/ckb_core/automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation.py:1:1)  `scripts/ckb_core/automation.py:1-1632`",
+    "[打开源码：scripts/ckb_core/common.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/common.py:1:1)  `scripts/ckb_core/common.py:1-158`",
+    "[打开源码：scripts/ckb_core/migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/migration.py:1:1)  `scripts/ckb_core/migration.py:1-585`",
+    "[打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3314`",
+    "[打开源码：scripts/ckb_core/agent_maintenance.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_maintenance.py:1:1)  `scripts/ckb_core/agent_maintenance.py:1-255`",
+    "[打开源码：scripts/ckb_core/navigation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/navigation.py:1:1)  `scripts/ckb_core/navigation.py:1-456`"
+  ],
+  "query_record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260829-111926-403843-01.json",
+  "updated_at_utc": "2026-08-29T13:09:53Z",
+  "obsidian_uri": "obsidian://open?path=E%3A%5Cknowledge_builder%5Cself-workspace%5Cknowledge-base%5Cmarkdown%5Cchanges%5CObsidian%20%E5%8F%B3%E4%BE%A7%E8%A7%A3%E9%87%8A%E8%A7%86%E5%9B%BE%E4%B8%8E%20CKB%20%E6%A3%80%E7%B4%A2%E8%AF%81%E6%8D%AE.md"
+}

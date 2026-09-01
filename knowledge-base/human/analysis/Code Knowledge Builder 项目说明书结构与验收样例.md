@@ -188,7 +188,7 @@ Code Knowledge Builder 同时从这两种困难出发。
 - [[audit_migration 与 _entity_key 的协作实现]]
 - [[query_graph 与 _networkx_modules 的协作实现]]
 - [[module_name 与 estimated_tokens 的协作实现]]
-- [[add_initial_arguments 与 add_git_bootstrap_arguments 的协作实现]]
+- [[keyword_provider_config 与 parser 的协作实现]]
 
 ## 源码入口
 

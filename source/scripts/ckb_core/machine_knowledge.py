@@ -14,16 +14,22 @@ import math
 from pathlib import Path
 import re
 import sqlite3
-import unicodedata
 from typing import Any, Iterable
 from urllib.parse import quote
 
 from .common import CkbError, json_load, json_write, sha256_file, utc_now
+from .keyword_fallback import (
+    KeywordFallbackOptions,
+    run_keyword_provider,
+    unique_casefold,
+    write_keyword_fallback_record,
+)
 from .obsidian import NOTE_DIRECTORIES
+from .query_terms import build_fts_query, explicit_anchors, index_terms, search_terms
 from .source_links import SourceLinkRenderer, source_markdown_link
 
 
-MACHINE_SCHEMA_VERSION = 2
+MACHINE_SCHEMA_VERSION = 3
 MACHINE_PATH = Path("machine/knowledge.sqlite")
 FAST_RETRIEVAL_OVERSCAN = 32
 PRECISE_RETRIEVAL_OVERSCAN = 64
@@ -57,49 +63,12 @@ def contains_chinese_narrative(value: Any, minimum_han: int = 2) -> bool:
     return len(re.findall(r"[\u3400-\u9fff]", value)) >= minimum_han
 
 
-def _split_camel(value: str) -> list[str]:
-    return [
-        part
-        for part in re.sub(r"([a-z0-9])([A-Z])", r"\1 \2", value).replace("::", " ").split()
-        if part
-    ]
-
-
-def search_terms(text: str) -> list[str]:
-    """Deterministic NFKC tokenizer for code identifiers and Chinese prose."""
-    normalized = unicodedata.normalize("NFKC", text)
-    terms: set[str] = set()
-    for run in re.findall(r"[A-Za-z0-9_.$:/\\#+-]+", normalized):
-        lowered = run.casefold().strip("._$:/\\#+-")
-        if len(lowered) >= 2:
-            terms.add(lowered)
-        for part in re.split(r"[._$:/\\#+-]+", run):
-            if len(part) >= 2:
-                terms.add(part.casefold())
-            for camel in _split_camel(part):
-                if len(camel) >= 2:
-                    terms.add(camel.casefold())
-    for run in re.findall(r"[\u3400-\u9fff]+", normalized):
-        if run:
-            terms.add(run)
-        for index in range(max(0, len(run) - 1)):
-            terms.add(run[index : index + 2])
-        for index in range(max(0, len(run) - 2)):
-            terms.add(run[index : index + 3])
-    return sorted(terms, key=lambda value: (-len(value), value))
-
-
-def explicit_anchors(text: str) -> list[str]:
-    normalized = unicodedata.normalize("NFKC", text)
-    anchors: set[str] = set()
-    for value in re.findall(r"[A-Za-z_][A-Za-z0-9_]*(?:(?:::|[./#$:-])[A-Za-z0-9_]+)+|[A-Za-z_][A-Za-z0-9_]{2,}", normalized):
-        if any(character.isupper() for character in value[1:]) or any(character in value for character in "_./#$:-") or any(character.isdigit() for character in value):
-            anchors.add(value.casefold())
-    return sorted(anchors)
-
-
 def _fts_query(question: str) -> str | None:
-    values = [term for term in search_terms(question) if len(term) >= 3][:16]
+    return build_fts_query(question)
+
+
+def _fts_query_values(values: Iterable[str]) -> str | None:
+    values = [term for term in values if len(term) >= 3][:16]
     if not values:
         return None
     return " OR ".join('"' + value.replace('"', '""') + '"' for value in values)
@@ -316,6 +285,17 @@ def _create_schema(connection: sqlite3.Connection) -> None:
             supersedes TEXT,
             human_file TEXT
         );
+        CREATE TABLE research_gaps(
+            gap_id TEXT PRIMARY KEY,
+            kind TEXT NOT NULL,
+            status TEXT NOT NULL,
+            summary_zh TEXT NOT NULL,
+            evidence_json TEXT NOT NULL,
+            created_at_utc TEXT NOT NULL,
+            updated_at_utc TEXT NOT NULL,
+            resolution_zh TEXT,
+            resolution_evidence_json TEXT NOT NULL
+        );
         CREATE TABLE documents(
             document_id TEXT PRIMARY KEY,
             kind TEXT NOT NULL,
@@ -466,7 +446,7 @@ def build_machine_knowledge(
                 (path, 6.0),
                 (_description(entity), 4.0),
             ):
-                for term in search_terms(str(value)):
+                for term in index_terms(str(value)):
                     weighted[term] = max(weighted.get(term, 0.0), weight)
             connection.executemany(
                 "INSERT INTO terms VALUES(?,?,?)",
@@ -584,6 +564,37 @@ def build_machine_knowledge(
                     "INSERT OR IGNORE INTO document_links VALUES(?,?,?,?)",
                     (document["document_id"], None, target_title, "wikilink"),
                 )
+        from .research_gaps import gap_machine_records
+
+        gap_records = gap_machine_records(output)
+        for item in gap_records["records"]:
+            connection.execute(
+                "INSERT INTO research_gaps VALUES(?,?,?,?,?,?,?,?,?)",
+                (
+                    item["gap_id"], item["kind"], item["status"], item["summary_zh"],
+                    json.dumps(item["evidence_paths"], ensure_ascii=False), item["created_at_utc"],
+                    item["updated_at_utc"], item.get("resolution_zh"),
+                    json.dumps(item.get("resolution_evidence_paths", []), ensure_ascii=False),
+                ),
+            )
+        for document in gap_records["documents"]:
+            content = str(document["content"])
+            connection.execute(
+                "INSERT INTO documents VALUES(?,?,?,?,?,?,?,?)",
+                (
+                    document["document_id"], document["kind"], document["title"], document["tag"],
+                    None, None, content, estimated_tokens(content),
+                ),
+            )
+            section_id = f"{document['document_id']}:0"
+            connection.execute(
+                "INSERT INTO sections VALUES(?,?,?,?,?,?,?,?,?)",
+                (section_id, document["document_id"], 0, document["section_heading"], content, estimated_tokens(content), None, None, None),
+            )
+            connection.execute(
+                "INSERT INTO section_fts VALUES(?,?,?,?,?)",
+                (section_id, document["document_id"], document["section_heading"], content, ""),
+            )
         overlay = output / "workspace-meta/working-overlay.json"
         if overlay.is_file():
             value = json_load(overlay)
@@ -636,7 +647,7 @@ def audit_machine_knowledge(output: Path, graph: dict[str, Any] | None = None) -
         foreign_keys = connection.execute("PRAGMA foreign_key_check").fetchall()
         counts = {
             name: connection.execute(f"SELECT count(*) FROM {name}").fetchone()[0]
-            for name in ("files", "entities", "source_ranges", "relations", "reviews", "documents", "sections", "human_projection", "workspace_changes", "reference_sources")
+            for name in ("files", "entities", "source_ranges", "relations", "reviews", "documents", "sections", "human_projection", "workspace_changes", "reference_sources", "research_gaps")
         }
         meta = dict(connection.execute("SELECT key,value FROM meta"))
         language_errors = [
@@ -661,8 +672,10 @@ def audit_machine_knowledge(output: Path, graph: dict[str, Any] | None = None) -
     expected_files = len([entity for entity in graph.get("entities", []) if entity.get("kind") == "file"])
     expected_relations = len(graph.get("links", []))
     from .reference_documents import reference_machine_records
+    from .research_gaps import gap_machine_records
 
     reference_records = reference_machine_records(output)
+    gap_records = gap_machine_records(output)
     if integrity != "ok": errors.append({"reason": "sqlite-integrity", "detail": integrity})
     if foreign_keys: errors.append({"reason": "foreign-key-errors", "detail": foreign_keys})
     for name, actual, expected in (
@@ -681,7 +694,9 @@ def audit_machine_knowledge(output: Path, graph: dict[str, Any] | None = None) -
         errors.append({"reason": "section-fts-count-mismatch", "actual": fts_counts["section_fts"], "expected": counts["sections"]})
     if counts["reference_sources"] != len(reference_records["sources"]):
         errors.append({"reason": "reference-source-count-mismatch", "actual": counts["reference_sources"], "expected": len(reference_records["sources"])})
-    reference_documents = counts["documents"] - expected_entities - len(_note_documents(_human_projection(output)[1]))
+    if counts["research_gaps"] != len(gap_records["records"]):
+        errors.append({"reason": "research-gap-count-mismatch", "actual": counts["research_gaps"], "expected": len(gap_records["records"])})
+    reference_documents = counts["documents"] - expected_entities - len(_note_documents(_human_projection(output)[1])) - len(gap_records["documents"])
     if reference_documents != len(reference_records["documents"]):
         errors.append({"reason": "reference-document-count-mismatch", "actual": reference_documents, "expected": len(reference_records["documents"])})
     if language_errors:
@@ -1044,7 +1059,7 @@ def _document_source_link(row: dict[str, Any]) -> str | None:
 
 
 def _document_block(row: dict[str, Any], allocation_bytes: int) -> str:
-    kind_label = "已审阅参考资料" if row["kind"] == "reference" else "已审阅知识记录"
+    kind_label = "已审阅参考资料" if row["kind"] == "reference" else "待验证研究缺口" if row["kind"] == "gap" else "已审阅知识记录"
     lines = [f"## {row['title']}", "", f"类型：{kind_label}", ""]
     if row.get("human_file"):
         lines.extend([f"人类知识页：[[{row['title']}]]", ""])
@@ -1059,12 +1074,16 @@ def _document_block(row: dict[str, Any], allocation_bytes: int) -> str:
     return text.rstrip() + "\n\n"
 
 
-def retrieve_machine(
+def _retrieve_machine_deterministic(
     output: Path,
     question: str,
     budget: int = 1500,
     entity_limit: int = 8,
     profile: str = "fast",
+    *,
+    extra_terms: Iterable[str] = (),
+    extra_anchors: Iterable[str] = (),
+    rewrite_queries: Iterable[str] = (),
 ) -> dict[str, Any]:
     if profile not in {"fast", "precise"}:
         raise CkbError("machine retrieval profile must be fast or precise")
@@ -1079,8 +1098,13 @@ def retrieve_machine(
     breakdown: dict[str, dict[str, float]] = defaultdict(lambda: defaultdict(float))
     reasons: dict[str, list[str]] = defaultdict(list)
     section_scores: dict[str, float] = {}
-    terms = search_terms(question)
-    anchors = explicit_anchors(question)
+    original_terms = search_terms(question)
+    original_anchors = explicit_anchors(question)
+    extra_term_values = unique_casefold(list(extra_terms))
+    extra_anchor_values = unique_casefold([value.casefold() for value in extra_anchors])
+    rewrite_values = unique_casefold(list(rewrite_queries))
+    terms = unique_casefold([*original_terms, *extra_term_values])
+    anchors = unique_casefold([*original_anchors, *extra_anchor_values])
     from .automation import search_automation
     from .feedback import search_feedback
 
@@ -1135,7 +1159,13 @@ def retrieve_machine(
                 terms,
             ):
                 add(row["entity_id"], float(row["weight"]), "term", f"确定性词项 `{row['term']}`")
-        fts = _fts_query(question)
+        if extra_term_values or extra_anchor_values or rewrite_values:
+            rewrite_terms = search_terms(" ".join(rewrite_values))
+            fts = _fts_query_values(
+                unique_casefold([*extra_term_values, *extra_anchor_values, *rewrite_terms, *original_terms])
+            )
+        else:
+            fts = _fts_query(question)
         if fts:
             document_matches = _matching_documents(connection, fts, 8)
             for row in connection.execute(
@@ -1388,7 +1418,7 @@ def retrieve_machine(
                     "document_id": row["document_id"],
                     "title": row["title"],
                     "kind": row["kind"],
-                    "status": "agent-reviewed",
+                    "status": "pending-evidence" if row["kind"] == "gap" else "agent-reviewed",
                     "human_file": row.get("human_file"),
                     "source_path": row.get("source_path"),
                     "start_line": row.get("start_line"),
@@ -1524,6 +1554,159 @@ def retrieve_machine(
     }
     json_write(record_path, result)
     return result
+
+
+def _provider_record(provider: dict[str, Any]) -> dict[str, Any]:
+    return {
+        key: provider.get(key)
+        for key in (
+            "status",
+            "failure_type",
+            "request_id",
+            "provider",
+            "model",
+            "version",
+            "usage",
+            "cached_usage",
+            "attempts",
+            "latency_ms",
+            "cache_hit",
+            "cache_key",
+            "missing_environment",
+        )
+        if provider.get(key) is not None
+    }
+
+
+def _attach_keyword_fallback(
+    output: Path,
+    question: str,
+    result: dict[str, Any],
+    metadata: dict[str, Any],
+) -> dict[str, Any]:
+    record_path = write_keyword_fallback_record(output, question, metadata)
+    metadata = {**metadata, "record": str(record_path.resolve())}
+    result = {**result, "keyword_fallback": metadata, "keyword_fallback_record": str(record_path.resolve())}
+    retrieval_record = result.get("record")
+    if isinstance(retrieval_record, str) and Path(retrieval_record).is_file():
+        persisted = json_load(Path(retrieval_record))
+        if isinstance(persisted, dict):
+            persisted["keyword_fallback"] = metadata
+            persisted["keyword_fallback_record"] = str(record_path.resolve())
+            json_write(Path(retrieval_record), persisted)
+    return result
+
+
+def retrieve_machine(
+    output: Path,
+    question: str,
+    budget: int = 1500,
+    entity_limit: int = 8,
+    profile: str = "fast",
+    *,
+    keyword_fallback: KeywordFallbackOptions | None = None,
+) -> dict[str, Any]:
+    """Run deterministic retrieval and, only when explicit, one keyword fallback."""
+
+    original = _retrieve_machine_deterministic(output, question, budget, entity_limit, profile)
+    if keyword_fallback is None:
+        return original
+    trigger = "forced" if keyword_fallback.force else "needs-source-read"
+    if original.get("status") != "needs-source-read" and not keyword_fallback.force:
+        metadata = {
+            "schema_version": 1,
+            "status": "skipped",
+            "trigger": trigger,
+            "original": {
+                "status": original.get("status"),
+                "terms": original.get("terms", []),
+                "anchors": original.get("anchors", []),
+            },
+            "provider": {
+                "status": "not-started",
+                "provider": keyword_fallback.config.provider,
+                "model": keyword_fallback.config.model,
+                "version": keyword_fallback.config.version,
+            },
+            "model_candidates": {"keywords": [], "anchors": [], "rewrites": []},
+            "validated_extensions": {"terms": [], "anchors": [], "rewrites": []},
+            "final": {"status": original.get("status"), "deterministic_selection": True},
+        }
+        return _attach_keyword_fallback(output, question, original, metadata)
+    provider = run_keyword_provider(
+        output,
+        question,
+        keyword_fallback.config,
+        use_cache=keyword_fallback.use_cache,
+    )
+    original_terms = list(original.get("terms") or search_terms(question))
+    original_anchors = list(original.get("anchors") or explicit_anchors(question))
+    candidates = {
+        "keywords": list(provider.get("keywords") or []),
+        "anchors": list(provider.get("anchors") or []),
+        "rewrites": list(provider.get("rewrites") or []),
+    }
+    extension_terms = unique_casefold(
+        [
+            term
+            for value in [*candidates["keywords"], *candidates["rewrites"]]
+            for term in search_terms(value)
+        ]
+    )
+    original_term_ids = {value.casefold() for value in original_terms}
+    extension_terms = [value for value in extension_terms if value.casefold() not in original_term_ids]
+    original_anchor_ids = {value.casefold() for value in original_anchors}
+    extension_anchors = [
+        value.casefold()
+        for value in unique_casefold(candidates["anchors"])
+        if value.casefold() not in original_anchor_ids
+    ]
+    extensions = {
+        "terms": extension_terms,
+        "anchors": extension_anchors,
+        "rewrites": candidates["rewrites"],
+    }
+    if provider.get("status") != "passed" or not any(extensions.values()):
+        provider_record = _provider_record(provider)
+        if provider.get("status") == "passed":
+            provider_record = {**provider_record, "status": "failed", "failure_type": "invalid-output"}
+        metadata = {
+            "schema_version": 1,
+            "status": "fallback",
+            "trigger": trigger,
+            "original": {"status": original.get("status"), "terms": original_terms, "anchors": original_anchors},
+            "provider": provider_record,
+            "model_candidates": candidates,
+            "validated_extensions": extensions,
+            "final": {"status": original.get("status"), "deterministic_selection": True},
+        }
+        return _attach_keyword_fallback(output, question, original, metadata)
+    final = _retrieve_machine_deterministic(
+        output,
+        question,
+        budget,
+        entity_limit,
+        profile,
+        extra_terms=extension_terms,
+        extra_anchors=extension_anchors,
+        rewrite_queries=candidates["rewrites"],
+    )
+    metadata = {
+        "schema_version": 1,
+        "status": "passed" if final.get("status") == "passed" else "no-quality-gain",
+        "trigger": trigger,
+        "original": {"status": original.get("status"), "terms": original_terms, "anchors": original_anchors},
+        "provider": _provider_record(provider),
+        "model_candidates": candidates,
+        "validated_extensions": extensions,
+        "final": {
+            "status": final.get("status"),
+            "deterministic_selection": True,
+            "selected_entities": len(final.get("selected_entities") or []),
+            "estimated_tokens": final.get("estimated_tokens"),
+        },
+    }
+    return _attach_keyword_fallback(output, question, final, metadata)
 
 
 def coverage(output: Path) -> dict[str, Any]:

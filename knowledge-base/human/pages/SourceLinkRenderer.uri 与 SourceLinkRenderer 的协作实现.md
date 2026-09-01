@@ -14,28 +14,32 @@
 
 ## 相关代码
 
+- 实现时会用到 [[CkbError]]。
+- 实现时会用到 [[CkbError 与 DependencyError 的协作实现]]。
+- 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
 - 主要代码单元是 [[SourceLinkRenderer.uri]]。
 - 实现时会用到 [[render_integration 与 _looks_windows 的协作实现]]。
-- 实现时会用到 [[run 与 CkbError 的协作实现]]。
 
 ## 谁会来到这里
 
 - [[SourceLinkRenderer.uri]] 会使用这里提供的行为。
+- [[initialize 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 - [[record_note]] 会使用这里提供的行为。
 - [[record_note 与 page_tag 的协作实现]] 会使用这里提供的行为。
 - [[retrieve 与 _tokens 的协作实现]] 会使用这里提供的行为。
-- [[retrieve_machine]] 会使用这里提供的行为。
 - [[retrieve_machine 与 estimated_tokens 的协作实现]] 会使用这里提供的行为。
 - 可从 [[scripts 职责导览]] 进入本页。
 
 ## 相关测试
 
-- [[AutomationTest.event 等测试场景]]
+- [[AgentProtocolBatchApplyTests]]
+- [[AgentProtocolBatchApplyTests 等测试场景]]
+- [[AutomationTest.register 等测试场景]]
 - [[CodeKnowledgeBuilderTests]]
-- [[MigrationTest]]
-- [[MigrationTest 等测试场景]]
-- [[execute 等测试场景]]
-- [[main（generate_large_fixture 测试）]]
+- [[CodeKnowledgeBuilderTests 等测试场景]]
+- [[KeywordFallbackRetrievalWiringTests]]
+
+> 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 
 ## 内部细节
 

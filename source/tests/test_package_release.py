@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import subprocess
+import sys
 import tempfile
 import unittest
 import zipfile
@@ -36,10 +38,26 @@ class PackageReleaseTests(unittest.TestCase):
             self.assertEqual("core", manifest["category"])
             self.assertTrue(manifest["capabilities"]["source_scanning"])
             self.assertTrue(manifest["capabilities"]["machine_sqlite_knowledge"])
+            self.assertTrue(manifest["capabilities"]["session_scoped_stdio"])
             self.assertFalse(manifest["capabilities"]["bundled_offline_runtime"])
             self.assertFalse(manifest["capabilities"]["obsidian_companion_plugin"])
             with zipfile.ZipFile(result["archive"]) as archive:
                 self.assertFalse(any("/plugins/" in name for name in archive.namelist()))
+                session_modules = [name for name in archive.namelist() if name.endswith("/scripts/ckb_core/session_stdio.py")]
+                self.assertEqual(len(session_modules), 1)
+                archive.extractall(Path(temporary) / "installed")
+                package_root = Path(temporary) / "installed" / Path(session_modules[0]).parents[2]
+                canary = subprocess.run(
+                    [sys.executable, str(package_root / "scripts/ckb.py"), "stdio-session", "--help"],
+                    text=True,
+                    encoding="utf-8",
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    timeout=30,
+                )
+                self.assertEqual(canary.returncode, 0, canary.stderr)
+                self.assertIn("request", canary.stdout)
+                self.assertIn("cleanup", canary.stdout)
 
     def test_obsidian_plugin_is_independently_versioned(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

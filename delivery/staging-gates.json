@@ -1,0 +1,241 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "target_commit": "150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3",
+  "target_tree": "7976883a0f6ff177deb649eaef6e8d2e7af2fda8",
+  "checks": [
+    {
+      "name": "status-complete",
+      "passed": true,
+      "detail": "complete"
+    },
+    {
+      "name": "fixed-head",
+      "passed": true,
+      "detail": {
+        "root": "E:\\knowledge_builder\\self-workspace\\source",
+        "commit": "150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3",
+        "tree": "7976883a0f6ff177deb649eaef6e8d2e7af2fda8",
+        "git_bootstrap": {
+          "requested": false,
+          "performed": false,
+          "repository_created": false,
+          "initial_commit_created": false,
+          "root": "E:\\knowledge_builder\\self-workspace\\source",
+          "commit": "150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3",
+          "commit_count": 77,
+          "commit_message": null,
+          "author": null
+        }
+      }
+    },
+    {
+      "name": "fixed-tree",
+      "passed": true,
+      "detail": {
+        "root": "E:\\knowledge_builder\\self-workspace\\source",
+        "commit": "150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3",
+        "tree": "7976883a0f6ff177deb649eaef6e8d2e7af2fda8",
+        "git_bootstrap": {
+          "requested": false,
+          "performed": false,
+          "repository_created": false,
+          "initial_commit_created": false,
+          "root": "E:\\knowledge_builder\\self-workspace\\source",
+          "commit": "150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3",
+          "commit_count": 77,
+          "commit_message": null,
+          "author": null
+        }
+      }
+    },
+    {
+      "name": ".complete-complete",
+      "passed": true,
+      "detail": "complete"
+    },
+    {
+      "name": ".machine.complete-complete",
+      "passed": true,
+      "detail": "complete"
+    },
+    {
+      "name": ".human.complete-complete",
+      "passed": true,
+      "detail": "complete"
+    },
+    {
+      "name": "global-audit",
+      "passed": true,
+      "detail": "passed"
+    },
+    {
+      "name": "maintain",
+      "passed": true,
+      "detail": {
+        "status": "passed",
+        "failed_checks": []
+      }
+    },
+    {
+      "name": "agent-policy",
+      "passed": true,
+      "detail": {
+        "status": "passed",
+        "workspace_root_count": 0,
+        "errors": []
+      }
+    },
+    {
+      "name": "readability",
+      "passed": true,
+      "detail": {
+        "status": "passed",
+        "errors": []
+      }
+    },
+    {
+      "name": "human-markdown-mirror",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "work-records-preserved",
+      "passed": true,
+      "detail": 50
+    },
+    {
+      "name": "reference-preserved",
+      "passed": true,
+      "detail": 1
+    },
+    {
+      "name": "research-gaps-preserved",
+      "passed": true,
+      "detail": 3
+    },
+    {
+      "name": "learning-note-originals-and-mirrors",
+      "passed": true,
+      "detail": [
+        {
+          "name": "2026-08-29.md",
+          "expected": "62059c19c42a0969e116c66d747627c6fae1b9fef3ef412e2c0ed03ced45ceeb",
+          "human": "62059c19c42a0969e116c66d747627c6fae1b9fef3ef412e2c0ed03ced45ceeb",
+          "markdown": "62059c19c42a0969e116c66d747627c6fae1b9fef3ef412e2c0ed03ced45ceeb",
+          "passed": true
+        },
+        {
+          "name": "2026-08-30.md",
+          "expected": "dc7e8eb4791816b8d7989bb7bb82e97f50d6cbdb2f586f769422baf79ea91e67",
+          "human": "dc7e8eb4791816b8d7989bb7bb82e97f50d6cbdb2f586f769422baf79ea91e67",
+          "markdown": "dc7e8eb4791816b8d7989bb7bb82e97f50d6cbdb2f586f769422baf79ea91e67",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "double-sqlite",
+      "passed": true,
+      "detail": [
+        {
+          "path": "agent-index.sqlite",
+          "integrity_check": "ok",
+          "foreign_key_error_count": 0,
+          "schema_version": "1",
+          "sha256": "351dbac051018af659177dd94c03dec6cfe65f86b93b435d7a2280f953914347",
+          "passed": true
+        },
+        {
+          "path": "machine/knowledge.sqlite",
+          "integrity_check": "ok",
+          "foreign_key_error_count": 0,
+          "schema_version": "3",
+          "sha256": "9bb4176fe101c546a564c37c36565d863c20b0b16c69b56099ee188cd18b44ae",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "brief-retrieval",
+      "passed": true,
+      "detail": {
+        "status": "passed",
+        "pack": "E:\\knowledge_builder\\self-workspace\\kb-stg-89eac148\\machine\\agent-packs\\pack-20260901-052420-266825-01.md",
+        "record": "E:\\knowledge_builder\\self-workspace\\kb-stg-89eac148\\machine\\agent-packs\\pack-20260901-052420-266825-01.json",
+        "open_feedback": 0
+      }
+    },
+    {
+      "name": "entity-retrieval",
+      "passed": true,
+      "detail": [
+        {
+          "symbol": "create_knowledge_batch_plan",
+          "candidate_count": 1,
+          "passed": true,
+          "paths": [
+            "scripts/ckb_core/knowledge_batch_migration.py"
+          ]
+        },
+        {
+          "symbol": "bind_conversation",
+          "candidate_count": 1,
+          "passed": true,
+          "paths": [
+            "scripts/ckb_core/management_agent.py"
+          ]
+        },
+        {
+          "symbol": "search_terms",
+          "candidate_count": 1,
+          "passed": true,
+          "paths": [
+            "scripts/ckb_core/query_terms.py"
+          ]
+        },
+        {
+          "symbol": "run_keyword_provider",
+          "candidate_count": 1,
+          "passed": true,
+          "paths": [
+            "scripts/ckb_core/keyword_fallback.py"
+          ]
+        },
+        {
+          "symbol": "serve_stdio",
+          "candidate_count": 1,
+          "passed": true,
+          "paths": [
+            "scripts/ckb_core/stdio_server.py"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "snapshot-probe",
+      "passed": true,
+      "detail": {
+        "head": "150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3",
+        "status": ""
+      }
+    },
+    {
+      "name": "migration-audit",
+      "passed": true,
+      "detail": {
+        "status": "passed",
+        "counts": {
+          "passed": 8,
+          "total": 8
+        }
+      }
+    }
+  ],
+  "staging_tree": {
+    "algorithm": "sha256-tree-v1",
+    "file_count": 1891,
+    "byte_count": 754033530,
+    "sha256": "6d85c1fb5aa075ca191d98c7f63d1c87887c01dfd02dda721d4c176dbbd0caaf"
+  }
+}

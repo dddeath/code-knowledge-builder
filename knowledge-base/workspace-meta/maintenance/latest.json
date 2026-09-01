@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
   "status": "passed",
-  "checked_at_utc": "2026-08-30T12:51:37Z",
+  "checked_at_utc": "2026-09-01T11:34:43Z",
   "output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
   "page_writes": 0,
   "checks": {
     "agent_protocol": {
       "schema_version": 1,
-      "protocol_version": "1.4.0",
+      "protocol_version": "1.5.0",
       "status": "passed",
       "output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
       "internal_roots": [
@@ -47,11 +47,11 @@
       },
       "work_record_index": {
         "status": "passed",
-        "record_count": 38,
-        "linked_record_count": 38,
+        "record_count": 51,
+        "linked_record_count": 51,
         "section_counts": {
-          "analysis": 15,
-          "changes": 18,
+          "analysis": 18,
+          "changes": 28,
           "pitfalls": 0,
           "experiments": 2,
           "sessions": 3
@@ -62,11 +62,11 @@
     },
     "work_record_index": {
       "status": "passed",
-      "record_count": 38,
-      "linked_record_count": 38,
+      "record_count": 51,
+      "linked_record_count": 51,
       "section_counts": {
-        "analysis": 15,
-        "changes": 18,
+        "analysis": 18,
+        "changes": 28,
         "pitfalls": 0,
         "experiments": 2,
         "sessions": 3
@@ -79,39 +79,47 @@
       "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\agent-index.sqlite",
       "integrity": "ok",
       "counts": {
-        "pages": 67,
-        "symbols": 483,
-        "edges": 576,
-        "terms": 4404,
-        "notes": 38
+        "pages": 145,
+        "symbols": 1229,
+        "edges": 1245,
+        "terms": 15624,
+        "notes": 51
       },
       "projection_format": "markdown",
       "errors": []
     },
     "machine_knowledge": {
-      "schema_version": 2,
+      "schema_version": 3,
       "status": "passed",
       "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\knowledge.sqlite",
       "integrity": "ok",
       "counts": {
-        "files": 31,
-        "entities": 483,
-        "source_ranges": 483,
-        "relations": 1985,
-        "reviews": 483,
-        "documents": 522,
-        "sections": 2118,
-        "human_projection": 483,
+        "files": 70,
+        "entities": 1229,
+        "source_ranges": 1229,
+        "relations": 4766,
+        "reviews": 1229,
+        "documents": 1284,
+        "sections": 4576,
+        "human_projection": 1229,
         "workspace_changes": 0,
-        "reference_sources": 1
+        "reference_sources": 1,
+        "research_gaps": 3
       },
       "fts_counts": {
-        "entity_fts": 483,
-        "section_fts": 2118,
-        "source_fts": 31
+        "entity_fts": 1229,
+        "section_fts": 4576,
+        "source_fts": 70
       },
       "language_contract": "所有说明使用简体中文，允许英文专有名词和代码标识符",
       "retrieval": "sqlite-exact-fts5-sections-deterministic-weighted-graph",
+      "errors": []
+    },
+    "keyword_fallback": {
+      "schema_version": 1,
+      "status": "passed",
+      "cache_records": 0,
+      "request_records": 0,
       "errors": []
     },
     "human_layer": {
@@ -139,6 +147,28 @@
         "documents": 1
       },
       "errors": []
+    },
+    "operations": {
+      "schema_version": 1,
+      "status": "passed",
+      "records": 126,
+      "shards": 2,
+      "initialized": true,
+      "latest": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\operations\\latest.json",
+      "errors": []
+    },
+    "research_gaps": {
+      "schema_version": 1,
+      "status": "passed",
+      "initialized": true,
+      "counts": {
+        "total": 3,
+        "open": 3,
+        "deferred": 0,
+        "resolved": 0
+      },
+      "index": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\gaps\\index.json",
+      "errors": []
     }
   },
   "human_readability": {
@@ -147,8 +177,8 @@
     "errors": []
   },
   "capability_counts": {
-    "已吸收": 11,
-    "待吸收": 2,
+    "已吸收": 13,
+    "待吸收": 0,
     "明确排除": 3,
     "需要 benchmark": 3
   },

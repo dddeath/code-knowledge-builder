@@ -6,30 +6,25 @@
   "file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human\\analysis\\自动同步与 LLM Wiki 后续待办.md",
   "compatibility_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown\\analysis\\自动同步与 LLM Wiki 后续待办.md",
   "linked_pages": [
-    "prepare_vault 与 install_obsidian 的协作实现",
-    "retrieve_machine 与 estimated_tokens 的协作实现",
-    "retrieve 与 _tokens 的协作实现",
-    "query_graph 与 _networkx_modules 的协作实现",
-    "audit_migration",
-    "SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现",
-    "run 与 CkbError 的协作实现",
-    "package_showcase 与 _parse_sample 的协作实现",
-    "record_note 与 page_tag 的协作实现",
-    "sync_human_layer 与 _source_manifest 的协作实现"
+    "module_name 与 estimated_tokens 的协作实现",
+    "audit_references 与 _root 的协作实现",
+    "main 与 sha256 的协作实现",
+    "source_files 与 sha256 的协作实现",
+    "deploy 的协作边界",
+    "audit_migration 与 _entity_key 的协作实现",
+    "initialize 与 _replace_output_prefix 的协作实现",
+    "retrieve 与 _tokens 的协作实现"
   ],
   "source_links": [
-    "[打开源码：scripts/ckb_core/obsidian.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/obsidian.py:1:1)  `scripts/ckb_core/obsidian.py:1-134`",
-    "[打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1458`",
-    "[打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-569`",
-    "[打开源码：scripts/ckb_core/graphify_core.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/graphify_core.py:1:1)  `scripts/ckb_core/graphify_core.py:1-676`",
-    "[打开源码：scripts/ckb_core/migration.py 第 353 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/migration.py:353:1)  `scripts/ckb_core/migration.py:353-460`",
-    "[打开源码：scripts/ckb_core/source_links.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/source_links.py:1:1)  `scripts/ckb_core/source_links.py:1-184`",
-    "[打开源码：scripts/ckb_core/common.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/common.py:1:1)  `scripts/ckb_core/common.py:1-158`",
-    "[打开源码：scripts/ckb_core/showcase.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/showcase.py:1:1)  `scripts/ckb_core/showcase.py:1-173`",
-    "[打开源码：scripts/ckb_core/workspace_notes.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/workspace_notes.py:1:1)  `scripts/ckb_core/workspace_notes.py:1-374`",
-    "[打开源码：scripts/ckb_core/knowledge_layers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/knowledge_layers.py:1:1)  `scripts/ckb_core/knowledge_layers.py:1-239`"
+    "[打开源码：scripts/ckb_core/navigation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/navigation.py:1:1)  `scripts/ckb_core/navigation.py:1-456`",
+    "[打开源码：scripts/ckb_core/reference_documents.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/reference_documents.py:1:1)  `scripts/ckb_core/reference_documents.py:1-604`",
+    "[打开源码：scripts/build_runtime_payload.py 第 32 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/build_runtime_payload.py:32:1)  `scripts/build_runtime_payload.py:32-98`",
+    "[打开源码：scripts/package_release.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/package_release.py:1:1)  `scripts/package_release.py:1-306`",
+    "[打开源码：scripts/ckb_core/migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/migration.py:1:1)  `scripts/ckb_core/migration.py:1-585`",
+    "[打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3482`",
+    "[打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-569`"
   ],
-  "query_record": "E:\\knowledge_builder\\evaluations\\llm-wiki-remaining-features-20260829\\retrieval.json",
-  "updated_at_utc": "2026-08-28T18:44:07Z",
+  "query_record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260901-023628-720361-01.json",
+  "updated_at_utc": "2026-09-01T03:29:18Z",
   "obsidian_uri": "obsidian://open?path=E%3A%5Cknowledge_builder%5Cself-workspace%5Cknowledge-base%5Cmarkdown%5Canalysis%5C%E8%87%AA%E5%8A%A8%E5%90%8C%E6%AD%A5%E4%B8%8E%20LLM%20Wiki%20%E5%90%8E%E7%BB%AD%E5%BE%85%E5%8A%9E.md"
 }

@@ -2,22 +2,23 @@
 
 标签：#类型/代码
 
-> `render_integration` 在隔离目录中生成指定 Harness 的完整适配包和清单。 它写入 Hook/Plugin 文件，并在 `integration.json` 固定 `session_skill_activation_required=true` 与精确 required skill。
+> `render_integration` 是 `scripts/ckb_core/automation_integrations.py` 第 432-574 行定义的函数，本页绑定该固定源码范围。 负责为不同 Harness 生成事件接入脚本和固定配置。
 
 ## 什么时候需要修改
 
-当适配器文件布局、集成版本、激活字段或宿主命令模板变化时，需要修改该函数。
+当 `render_integration` 的输入、输出、状态转换或失败返回变化时，应更新本页并重跑对应测试。
 
 ## 在代码中的位置
 
-[打开源码：scripts/ckb_core/automation_integrations.py 第 391 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation_integrations.py:391:1)  `scripts/ckb_core/automation_integrations.py:391-501`
+[打开源码：scripts/ckb_core/automation_integrations.py 第 432 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation_integrations.py:432:1)  `scripts/ckb_core/automation_integrations.py:432-574`
 
 ## 相关代码
 
-- 实现时会用到 [[AutomationTest.event]]。
+- 实现时会用到 [[CkbError]]。
+- 实现时会用到 [[append]]。
+- 实现时会用到 [[bind_conversation 与 default_management_registry_path 的协作实现]]。
+- 实现时会用到 [[command]]。
 - 实现时会用到 [[render_integration 与 _looks_windows 的协作实现]]。
-- 实现时会用到 [[run 与 CkbError 的协作实现]]。
-- 实现时会用到 [[status]]。
 
 ## 谁会来到这里
 
@@ -25,7 +26,7 @@
 
 ## 相关测试
 
-- [[AutomationTest.event 等测试场景]]
+- [[AutomationTest.register 等测试场景]]
 
 ## 内部细节
 
@@ -33,6 +34,6 @@
 
 | 代码单元 | 一句话作用 |
 |---|---|
-| `render_integration.write` | 把适配器文件按 UTF-8 写入隔离目标并登记到清单。 |
+| `render_integration.write` | `render_integration.write` 是第 461-467 行的函数，供所属页面定位实现。 |
 
 </details>

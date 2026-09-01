@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "status": "frozen",
+  "frozen_before_run": true,
+  "benchmark": "llm-wiki-fast-retrieval-v1-revalidation-5.1.4",
+  "corpus": {
+    "source_commit": "abeac3eb116552d5c223503205625e9fafefa2e0",
+    "knowledge_version": "5.1.3",
+    "runtime_skill_version": "5.1.4",
+    "entities": 483,
+    "relations": 1985,
+    "human_pages": 67,
+    "excluded_non_knowledge_adapters": [
+      "AGENTS.md",
+      "CLAUDE.md",
+      "GEMINI.md",
+      ".github/copilot-instructions.md",
+      ".cursor/rules/code-knowledge-builder.mdc"
+    ]
+  },
+  "methods": [
+    {
+      "id": "manual-wide-scan",
+      "description": "原 LLM Wiki 先读索引、宽扫描 Markdown、读取高分页面并跟随一跳链接的纯确定性代理；不包含模型推理时间。"
+    },
+    {
+      "id": "legacy-page-sqlite",
+      "description": "agent-index.sqlite 页面级 exact/terms/FTS5/trigram 加一跳图兼容路径。"
+    },
+    {
+      "id": "machine-fast",
+      "description": "machine/knowledge.sqlite 实体与章节 FTS5、确定性词项、固定权重两跳图传播的当前路径。"
+    }
+  ],
+  "budget_tokens": 2400,
+  "max_results": 8,
+  "warmups": 1,
+  "repetitions": 9,
+  "query_order": "fixed",
+  "method_order": "rotated-by-query-index",
+  "queries": [
+    {
+      "id": "q01",
+      "question": "调整 retrieve_machine 的 FTS5 权重和 fast 两跳图传播",
+      "expected_path": "scripts/ckb_core/machine_knowledge.py",
+      "expected_symbol": "retrieve_machine"
+    },
+    {
+      "id": "q02",
+      "question": "修复未明确应用 code-knowledge-builder Skill 时仍记录 Hook 事件",
+      "expected_path": "scripts/ckb_core/automation.py",
+      "expected_symbol": "ingest_event"
+    },
+    {
+      "id": "q03",
+      "question": "修改 Claude 与 OpenCode 的跨 Harness Hook 配置生成模板",
+      "expected_path": "scripts/ckb_core/automation_integrations.py",
+      "expected_symbol": "render_integration"
+    },
+    {
+      "id": "q04",
+      "question": "修改增量迁移时 exact blob 复用集合的审计规则",
+      "expected_path": "scripts/ckb_core/migration.py",
+      "expected_symbol": "audit_migration"
+    },
+    {
+      "id": "q05",
+      "question": "修改兼容 Agent 页面索引的构建与 FTS 查询",
+      "expected_path": "scripts/ckb_core/agent_index.py",
+      "expected_symbol": "build_agent_index"
+    },
+    {
+      "id": "q06",
+      "question": "修改机器知识同步到中文人类 Obsidian 页面投影",
+      "expected_path": "scripts/ckb_core/knowledge_layers.py",
+      "expected_symbol": "sync_human_layer"
+    },
+    {
+      "id": "q07",
+      "question": "调整 Graphify 社区聚类与查询子图输出",
+      "expected_path": "scripts/ckb_core/graphify_core.py",
+      "expected_symbol": "query_graph"
+    },
+    {
+      "id": "q08",
+      "question": "修改知识页点击源码时的 VS Code URI 和行号",
+      "expected_path": "scripts/ckb_core/source_links.py",
+      "expected_symbol": "ensure_local_openers"
+    },
+    {
+      "id": "q09",
+      "question": "调整页面配置中的每文件关键页上限和上下文预算",
+      "expected_path": "scripts/ckb_core/page_config.py",
+      "expected_symbol": "load_page_config"
+    },
+    {
+      "id": "q10",
+      "question": "修改 full 私有运行时部署和 remove 回滚流程",
+      "expected_path": "scripts/ckb_core/runtime.py",
+      "expected_symbol": "deploy"
+    },
+    {
+      "id": "q11",
+      "question": "修改 C++ 与 Python 展示样例的 Wiki 打包输出",
+      "expected_path": "scripts/ckb_core/showcase.py",
+      "expected_symbol": "package_showcase"
+    },
+    {
+      "id": "q12",
+      "question": "修改 Tree-sitter 解析文件和命名实体清单",
+      "expected_path": "scripts/ckb_core/parsers.py",
+      "expected_symbol": "parse_file"
+    }
+  ],
+  "metrics": [
+    "engine_latency_ms_median",
+    "engine_latency_ms_p95",
+    "target_source_recall_at_8",
+    "fallback_rate",
+    "determinism_rate",
+    "agent_visible_tokens_median",
+    "selected_documents_median",
+    "search_workset_bytes"
+  ],
+  "acceptance_gates": {
+    "machine_target_source_recall_at_8_min": 0.9,
+    "machine_recall_not_below_manual": true,
+    "machine_fallback_rate_max": 0.0,
+    "machine_determinism_rate_min": 1.0,
+    "machine_visible_context_reduction_vs_manual_min": 0.4,
+    "machine_engine_latency_p95_ms_max": 200.0,
+    "machine_latency_speedup_vs_manual_min": 1.0
+  },
+  "interpretation": "所有质量与成本门及延迟门同时通过，才确认整体性能提升；若部分门失败，只报告通过的维度并保留待办状态。",
+  "revalidation_of": "E:\\knowledge_builder\\self-workspace\\work\\retrieval-optimization-5.1.3\\benchmark\\protocol.json",
+  "frozen_at_utc": "2026-08-28T11:49:00Z",
+  "execution_boundary": "测量只在知识库 SQLite 与 human Markdown 的独立副本上执行；不修改固定知识图、源码仓库或原始知识页。阈值、查询、预算、方法顺序和重复次数沿用原冻结协议。",
+  "downstream_boundary": "目标源码 Recall@8 是修改任务导航成功的必要条件，但不等同于真实模型完成代码修改；本轮只确认确定性检索引擎的定位、上下文与延迟效果。"
+}

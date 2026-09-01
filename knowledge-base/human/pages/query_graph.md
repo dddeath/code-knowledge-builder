@@ -14,13 +14,12 @@
 
 ## 相关代码
 
+- 实现时会用到 [[CkbError]]。
+- 实现时会用到 [[append]]。
 - 实现时会用到 [[query_graph 与 _networkx_modules 的协作实现]]。
-- 实现时会用到 [[retrieve_machine]]。
-- 实现时会用到 [[run 与 CkbError 的协作实现]]。
 - 实现时会用到 [[source_files]]。
-- 实现时会用到 [[status]]。
+- 实现时会用到 [[start_scope_extension 与 _error 的协作实现]]。
 
 ## 谁会来到这里
 
-- [[main（ckb 实现）]] 会使用这里提供的行为。
 - [[query_graph 与 _networkx_modules 的协作实现]] 汇总了本页。

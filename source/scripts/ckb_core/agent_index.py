@@ -13,6 +13,7 @@ from typing import Any
 
 from .common import CkbError, json_load, json_write, utc_now
 from .obsidian import NOTE_DIRECTORIES
+from .query_terms import build_fts_query, index_terms, search_terms
 from .source_links import ensure_local_openers, source_markdown_link
 
 
@@ -22,18 +23,6 @@ DEFAULT_PAGE_LIMIT = 8
 
 def _tokens(text: str) -> int:
     return math.ceil(len(text.encode("utf-8")) / 3)
-
-
-def _terms(text: str) -> list[str]:
-    result = {
-        token.casefold()
-        for token in re.findall(r"[\w.$:/\\-]+", text, flags=re.UNICODE)
-        if len(token) >= 2
-    }
-    for run in re.findall(r"[\u3400-\u9fff]+", text):
-        result.add(run)
-        result.update(run[index : index + 2] for index in range(max(0, len(run) - 1)))
-    return sorted(result, key=lambda value: (-len(value), value))
 
 
 def _note_documents(markdown_root: Path) -> list[dict[str, Any]]:
@@ -300,7 +289,7 @@ def build_agent_index(output: Path) -> dict[str, Any]:
             )
             weighted_terms: dict[str, float] = {}
             for value, weight in ((page["title"], 8.0), (" ".join(symbols), 6.0), (summary, 3.0), (source_path or "", 2.0)):
-                for term in _terms(value):
+                for term in index_terms(value):
                     weighted_terms[term] = max(weighted_terms.get(term, 0.0), weight)
             connection.executemany(
                 "INSERT INTO terms(term,page_id,weight) VALUES(?,?,?)",
@@ -417,10 +406,7 @@ def _agent_index_ready(output: Path) -> None:
 
 
 def _fts_query(question: str) -> str | None:
-    candidates = [term for term in _terms(question) if len(term) >= 3]
-    if not candidates:
-        return None
-    return " OR ".join('"' + term.replace('"', '""') + '"' for term in candidates[:12])
+    return build_fts_query(question, 12)
 
 
 def _next_pack_path(output: Path) -> tuple[Path, Path]:
@@ -448,7 +434,7 @@ def retrieve(output: Path, question: str, budget: int = 1500, page_limit: int = 
     connection.row_factory = sqlite3.Row
     scores: dict[str, float] = defaultdict(float)
     reasons: dict[str, list[str]] = defaultdict(list)
-    terms = _terms(question)
+    terms = search_terms(question)
     try:
         for row in connection.execute("SELECT page_id,title FROM pages WHERE title=? COLLATE NOCASE", (question,)):
             scores[row["page_id"]] += 160

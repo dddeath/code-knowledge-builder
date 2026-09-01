@@ -1,0 +1,311 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "target_commit": "150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3",
+  "target_tree": "7976883a0f6ff177deb649eaef6e8d2e7af2fda8",
+  "knowledge_tree": {
+    "algorithm": "sha256-tree-v1",
+    "file_count": 1895,
+    "byte_count": 754073907,
+    "sha256": "8c7cb1c06e5c7163503a6ea881471ec6e46b37f4a84f00076adfd056708cd71d"
+  },
+  "checks": [
+    {
+      "name": "installed-entry-status",
+      "passed": true,
+      "detail": {
+        "status": "complete",
+        "repository": {
+          "root": "E:\\knowledge_builder\\self-workspace\\source",
+          "commit": "150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3",
+          "tree": "7976883a0f6ff177deb649eaef6e8d2e7af2fda8",
+          "git_bootstrap": {
+            "requested": false,
+            "performed": false,
+            "repository_created": false,
+            "initial_commit_created": false,
+            "root": "E:\\knowledge_builder\\self-workspace\\source",
+            "commit": "150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3",
+            "commit_count": 77,
+            "commit_message": null,
+            "author": null
+          }
+        },
+        "source_snapshot": {
+          "status": "snapshot-ready",
+          "root": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\.source-snapshot\\worktree",
+          "repository_root": "E:\\knowledge_builder\\self-workspace\\source",
+          "commit": "150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3",
+          "tree": "7976883a0f6ff177deb649eaef6e8d2e7af2fda8",
+          "mode": "detached-git-worktree"
+        }
+      }
+    },
+    {
+      "name": "installed-entry-maintain",
+      "passed": true,
+      "detail": {
+        "status": "passed",
+        "failed_checks": [],
+        "checks": {
+          "agent_protocol": "passed",
+          "work_record_index": "passed",
+          "agent_index": "passed",
+          "machine_knowledge": "passed",
+          "keyword_fallback": "passed",
+          "human_layer": "passed",
+          "references": "passed",
+          "operations": "passed",
+          "research_gaps": "passed"
+        }
+      }
+    },
+    {
+      "name": "installed-entry-brief",
+      "passed": true,
+      "detail": {
+        "status": "passed",
+        "pack": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260901-054707-907157-01.md",
+        "record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260901-054707-907157-01.json",
+        "open_feedback": 0
+      }
+    },
+    {
+      "name": "installed-entry-entity",
+      "passed": true,
+      "detail": {
+        "status": "passed",
+        "candidates": [
+          {
+            "qualified_name": "create_knowledge_batch_plan",
+            "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
+            "commit_id": "150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3"
+          }
+        ]
+      }
+    },
+    {
+      "name": "installed-stdio-lifecycle",
+      "passed": true,
+      "detail": {
+        "status": "passed",
+        "pids": [
+          81596,
+          81596,
+          81596
+        ],
+        "close": "closed",
+        "audit": {
+          "schema_version": 1,
+          "status": "passed",
+          "root": "E:\\knowledge_builder\\artifacts\\verification\\stable-kb-sync-89eac148\\installed-stdio-canary-live\\lifecycle",
+          "active": 0,
+          "object_counts": {
+            "active_leases": 0,
+            "processes": 0,
+            "pending_requests": 0,
+            "reader_threads": 0,
+            "timers": 0,
+            "listeners": 0,
+            "pipes": 0,
+            "session_mappings": 0,
+            "cache_references": 0
+          },
+          "errors": []
+        }
+      }
+    },
+    {
+      "name": "installed-skill-matches-source",
+      "passed": true,
+      "detail": {
+        "schema_version": 1,
+        "status": "passed",
+        "distribution": "lite",
+        "version": "5.4.0",
+        "archive_sha256": "9039b45a4b445233d8ee377cfea1478afa4c797cc48ba6e83dc62a3bec180250",
+        "installed": "/mnt/c/Users/19739/.codex/skills/code-knowledge-builder",
+        "rollback_backup": "/mnt/c/Users/19739/.codex/skills/.ckb-backups/code-knowledge-builder-pre-150a1ce",
+        "file_count": 715,
+        "installed_ckb_sha256": "6d5f5b25709a1b73189ad4db47fc86a65064c14eb0dacefc30f251467bd302af",
+        "source_ckb_sha256": "6d5f5b25709a1b73189ad4db47fc86a65064c14eb0dacefc30f251467bd302af",
+        "ckb_matches_source": true
+      }
+    },
+    {
+      "name": "rollback-ready",
+      "passed": true,
+      "detail": {
+        "schema_version": 1,
+        "status": "passed",
+        "mode": "preflight",
+        "active": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+        "phase": "rollback-ready",
+        "active_commit": "150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3",
+        "candidate": "E:\\knowledge_builder\\self-workspace\\kb-stg-89eac148",
+        "candidate_commit": null,
+        "origin_commit": "2d1ddc4de65c36c2ebe244e3d0556d4b613b2d3d",
+        "origin_destination_absent": false,
+        "rollback_quarantine_absent": true,
+        "protocol_backup_present": true,
+        "skill_backup_present": true,
+        "skill_quarantine_absent": true
+      }
+    },
+    {
+      "name": "cutover-rollback-probe",
+      "passed": true,
+      "detail": {
+        "schema_version": 1,
+        "status": "passed",
+        "root": "/mnt/e/knowledge_builder/self-workspace/kb-probe-150a1ce",
+        "expected_candidate": {
+          "algorithm": "sha256-tree-v1",
+          "file_count": 1891,
+          "byte_count": 754033530,
+          "sha256": "6d85c1fb5aa075ca191d98c7f63d1c87887c01dfd02dda721d4c176dbbd0caaf"
+        },
+        "candidate_copy": {
+          "algorithm": "sha256-tree-v1",
+          "file_count": 1891,
+          "byte_count": 754033530,
+          "sha256": "6d85c1fb5aa075ca191d98c7f63d1c87887c01dfd02dda721d4c176dbbd0caaf"
+        },
+        "cutover": {
+          "active_exists": true,
+          "backup_exists": true,
+          "target_commit": "150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3",
+          "status": "complete"
+        },
+        "rollback": {
+          "active_exists": true,
+          "quarantine_exists": true,
+          "tree": {
+            "algorithm": "sha256-tree-v1",
+            "file_count": 1612,
+            "byte_count": 712035338,
+            "sha256": "8654b04bcceb485c469c94d6088f83b0869b72cd0f2432210afc84038ddea376"
+          },
+          "baseline_restored": true
+        },
+        "commands": [
+          "rename active -> backup",
+          "rename candidate -> active",
+          "rename active -> quarantine",
+          "rename backup -> active"
+        ]
+      }
+    },
+    {
+      "name": "work-records-preserved-plus-sync-record",
+      "passed": true,
+      "detail": {
+        "count": 51,
+        "sync_record": true
+      }
+    },
+    {
+      "name": "reference-preserved",
+      "passed": true,
+      "detail": 1
+    },
+    {
+      "name": "research-gaps-preserved",
+      "passed": true,
+      "detail": 3
+    },
+    {
+      "name": "learning-note-originals-and-mirrors",
+      "passed": true,
+      "detail": [
+        {
+          "name": "2026-08-29.md",
+          "expected": "62059c19c42a0969e116c66d747627c6fae1b9fef3ef412e2c0ed03ced45ceeb",
+          "human": "62059c19c42a0969e116c66d747627c6fae1b9fef3ef412e2c0ed03ced45ceeb",
+          "markdown": "62059c19c42a0969e116c66d747627c6fae1b9fef3ef412e2c0ed03ced45ceeb",
+          "passed": true
+        },
+        {
+          "name": "2026-08-30.md",
+          "expected": "dc7e8eb4791816b8d7989bb7bb82e97f50d6cbdb2f586f769422baf79ea91e67",
+          "human": "dc7e8eb4791816b8d7989bb7bb82e97f50d6cbdb2f586f769422baf79ea91e67",
+          "markdown": "dc7e8eb4791816b8d7989bb7bb82e97f50d6cbdb2f586f769422baf79ea91e67",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "human-markdown-mirror",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "readability",
+      "passed": true,
+      "detail": {
+        "status": "passed",
+        "errors": []
+      }
+    },
+    {
+      "name": "agent-policy",
+      "passed": true,
+      "detail": {
+        "status": "passed",
+        "workspace_root_count": 1,
+        "errors": []
+      }
+    },
+    {
+      "name": "double-sqlite",
+      "passed": true,
+      "detail": [
+        {
+          "path": "agent-index.sqlite",
+          "integrity_check": "ok",
+          "foreign_key_error_count": 0,
+          "schema_version": "1",
+          "sha256": "e37b4183730100691da5109ec475c7aa2c89b79f3321f4628a49e4a9baf6aa8e",
+          "passed": true
+        },
+        {
+          "path": "machine/knowledge.sqlite",
+          "integrity_check": "ok",
+          "foreign_key_error_count": 0,
+          "schema_version": "3",
+          "sha256": "20f80cc7d8f81262069a9ce14bfd30fe857f80abdd2ef28287c7250f26e2bb79",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "integration-clean-final-head",
+      "passed": true,
+      "detail": {
+        "head": "150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3",
+        "tree": "7976883a0f6ff177deb649eaef6e8d2e7af2fda8",
+        "status": ""
+      }
+    },
+    {
+      "name": "final-head-regression",
+      "passed": true,
+      "detail": ".....................................\n----------------------------------------------------------------------\nRan 37 tests in 276.361s\n\nOK\n"
+    },
+    {
+      "name": "github-remote-missing",
+      "passed": true,
+      "detail": {
+        "remote_output": "",
+        "status": "awaiting-remote-configuration"
+      }
+    }
+  ],
+  "github_publish": {
+    "status": "awaiting-remote-configuration",
+    "required": [
+      "OWNER/REPOSITORY",
+      "target branch"
+    ]
+  }
+}

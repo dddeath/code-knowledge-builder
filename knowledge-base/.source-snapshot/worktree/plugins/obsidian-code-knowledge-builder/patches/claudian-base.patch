@@ -1,0 +1,2932 @@
+diff --git a/src/app/settings/defaultSettings.ts b/src/app/settings/defaultSettings.ts
+index 526fba11..7d89bbe6 100644
+--- a/src/app/settings/defaultSettings.ts
++++ b/src/app/settings/defaultSettings.ts
+@@ -33,6 +33,7 @@ export const DEFAULT_CLAUDIAN_SETTINGS: ClaudianSettings = {
+     focusInputKey: 'i',
+   },
+   requireCommandOrControlEnterToSend: false,
++  selectionLearningProvider: 'follow-default',
+ 
+   locale: 'en',
+ 
+diff --git a/src/core/auxiliary/AuxiliarySessionController.ts b/src/core/auxiliary/AuxiliarySessionController.ts
+index 551c77e5..17d0caf2 100644
+--- a/src/core/auxiliary/AuxiliarySessionController.ts
++++ b/src/core/auxiliary/AuxiliarySessionController.ts
+@@ -9,6 +9,7 @@ import type { AuxiliaryExecutionContext } from './AuxiliaryExecutionContext';
+ import { TextResponseCollector } from './TextResponseCollector';
+ 
+ export interface AuxiliaryRequest {
++  readonly externalWorkspaceRoots?: readonly string[];
+   readonly model?: string;
+   readonly onProgress?: (text: string) => void;
+   readonly prompt: string;
+@@ -96,6 +97,9 @@ export class AuxiliarySessionController {
+     const abortController = new AbortController();
+     const executionRequest: ProviderExecutionRequest = {
+       configuration: {
++        ...(request.externalWorkspaceRoots?.length
++          ? { externalWorkspaceRoots: request.externalWorkspaceRoots }
++          : {}),
+         ...(request.model ? { model: request.model } : {}),
+         systemInstructions: {
+           instructions: request.systemPrompt,
+diff --git a/src/core/auxiliary/InlineEditService.ts b/src/core/auxiliary/InlineEditService.ts
+index 420f5137..3dc05abe 100644
+--- a/src/core/auxiliary/InlineEditService.ts
++++ b/src/core/auxiliary/InlineEditService.ts
+@@ -1,4 +1,5 @@
+ import { appendContextFiles } from '../../utils/context';
++import type { ProviderToolPolicy } from '../execution';
+ import {
+   buildInlineEditPrompt,
+   getInlineEditSystemPrompt,
+@@ -15,18 +16,29 @@ import { AuxiliarySessionController } from './AuxiliarySessionController';
+ const CONTINUITY_RESET_MESSAGE =
+   'The provider environment changed. Start a new inline edit.';
+ 
++export interface InlineEditExecutionOptions {
++  readonly externalWorkspaceRoots?: readonly string[];
++  readonly toolPolicy?: ProviderToolPolicy;
++}
++
+ export class InlineEditService implements InlineEditServiceContract {
+   private readonly controller: AuxiliarySessionController;
++  private readonly externalWorkspaceRoots: readonly string[];
+   private readonly vaultWorkingDirectory: string;
+   private hasConversation = false;
+   private modelOverride: string | undefined;
++  private progressCallback: ((text: string) => void) | undefined;
+ 
+-  constructor(context: AuxiliaryExecutionContext) {
++  constructor(
++    context: AuxiliaryExecutionContext,
++    options: InlineEditExecutionOptions = {},
++  ) {
++    this.externalWorkspaceRoots = options.externalWorkspaceRoots ?? [];
+     this.vaultWorkingDirectory = context.vaultWorkingDirectory;
+     this.controller = new AuxiliarySessionController(
+       context,
+       'inline-edit',
+-      { kind: 'read-only' },
++      options.toolPolicy ?? { kind: 'read-only' },
+     );
+   }
+ 
+@@ -35,6 +47,10 @@ export class InlineEditService implements InlineEditServiceContract {
+     this.modelOverride = trimmed ? trimmed : undefined;
+   }
+ 
++  setProgressCallback(callback?: (text: string) => void): void {
++    this.progressCallback = callback;
++  }
++
+   resetConversation(): void {
+     this.hasConversation = false;
+     this.controller.reset();
+@@ -78,7 +94,9 @@ export class InlineEditService implements InlineEditServiceContract {
+   private async sendMessage(prompt: string): Promise<InlineEditResult> {
+     try {
+       const text = await this.controller.execute({
++        externalWorkspaceRoots: this.externalWorkspaceRoots,
+         model: this.modelOverride,
++        onProgress: this.progressCallback,
+         prompt,
+         systemPrompt: getInlineEditSystemPrompt(this.vaultWorkingDirectory),
+       });
+diff --git a/src/core/providers/ProviderRegistry.ts b/src/core/providers/ProviderRegistry.ts
+index e459377a..2c59ac15 100644
+--- a/src/core/providers/ProviderRegistry.ts
++++ b/src/core/providers/ProviderRegistry.ts
+@@ -112,6 +112,20 @@ export class ProviderRegistry {
+     );
+   }
+ 
++  static createSelectionLearningService(
++    plugin: ProviderHost,
++    providerId: ProviderId,
++    outputRoot: string,
++  ): InlineEditService {
++    return new SharedInlineEditService(
++      this.createAuxiliaryExecutionContext(plugin, providerId),
++      {
++        externalWorkspaceRoots: [outputRoot],
++        toolPolicy: { kind: 'passive' },
++      },
++    );
++  }
++
+   private static createAuxiliaryExecutionContext(
+     plugin: ProviderHost,
+     providerId: ProviderId,
+diff --git a/src/core/providers/types.ts b/src/core/providers/types.ts
+index abffc58b..c274f5e2 100644
+--- a/src/core/providers/types.ts
++++ b/src/core/providers/types.ts
+@@ -702,6 +702,7 @@ export type InlineEditResult = InlineEditOutcome | AuxiliaryContinuityReset;
+ 
+ export interface InlineEditService {
+   setModelOverride?(model?: string): void;
++  setProgressCallback?(callback?: (text: string) => void): void;
+   resetConversation(): void;
+   editText(request: InlineEditRequest): Promise<InlineEditResult>;
+   continueConversation(message: string, contextFiles?: string[]): Promise<InlineEditResult>;
+diff --git a/src/core/types/settings.ts b/src/core/types/settings.ts
+index 717a54d5..7c069b91 100644
+--- a/src/core/types/settings.ts
++++ b/src/core/types/settings.ts
+@@ -155,6 +155,7 @@ export interface ClaudianSettings {
+   // UI settings
+   keyboardNavigation: KeyboardNavigationSettings;
+   requireCommandOrControlEnterToSend: boolean;
++  selectionLearningProvider?: string;
+ 
+   // Internationalization
+   locale: string;
+diff --git a/src/features/selection-learning/CkbStdioClient.ts b/src/features/selection-learning/CkbStdioClient.ts
+new file mode 100644
+index 00000000..0189abfb
+--- /dev/null
++++ b/src/features/selection-learning/CkbStdioClient.ts
+@@ -0,0 +1,380 @@
++import { type ChildProcessWithoutNullStreams, spawn } from 'node:child_process';
++import { readFile, stat } from 'node:fs/promises';
++import path from 'node:path';
++import { createInterface, type Interface } from 'node:readline';
++
++import { type App, FileSystemAdapter } from 'obsidian';
++
++export interface CkbStdioBinding {
++  ckbScript: string;
++  outputRoot: string;
++  python: string;
++}
++
++interface CkbOutputContract {
++  contract?: unknown;
++  output?: unknown;
++  runtime?: { ckb?: unknown; python?: unknown };
++  schema_version?: unknown;
++  status?: unknown;
++  stdio?: { methods?: unknown; minimum_version?: unknown; protocol?: unknown };
++  vault?: unknown;
++}
++
++export interface CkbStdioRetrieval {
++  elapsedMs: number;
++  outputRoot: string;
++  pack: string;
++  packText: string;
++  requestId: string;
++  status: 'passed';
++}
++
++export interface CkbRecordedExplanation {
++  agentPolicyAudit: string;
++  evidence: string;
++  feedbackAudit: string;
++  pack: string;
++  retrievalRequestId: string;
++  status: 'passed';
++}
++
++export interface CkbRecordExplanationInput {
++  explanation: string;
++  idempotencyKey: string;
++  pack: string;
++  question: string;
++  retrievalRequestId: string;
++  selectedText: string;
++  sourcePath: string;
++  sourceTitle: string;
++}
++
++interface PendingRequest {
++  reject: (error: Error) => void;
++  resolve: (value: Record<string, unknown>) => void;
++  timer: number;
++}
++
++interface StdioResponse {
++  error?: { message?: string };
++  id?: string | number;
++  ok?: boolean;
++  result?: Record<string, unknown>;
++}
++
++export function utf8SafeText(value: string): string {
++  let normalized = '';
++  for (let index = 0; index < value.length; index += 1) {
++    const code = value.charCodeAt(index);
++    if (code >= 0xD800 && code <= 0xDBFF) {
++      const next = value.charCodeAt(index + 1);
++      if (next >= 0xDC00 && next <= 0xDFFF) {
++        normalized += value[index] + value[index + 1];
++        index += 1;
++      } else {
++        normalized += '\uFFFD';
++      }
++    } else if (code >= 0xDC00 && code <= 0xDFFF) {
++      normalized += '\uFFFD';
++    } else {
++      normalized += value[index];
++    }
++  }
++  return normalized;
++}
++
++async function isFile(value: string): Promise<boolean> {
++  try {
++    return (await stat(value)).isFile();
++  } catch {
++    return false;
++  }
++}
++
++export function parseCkbBinding(document: string, outputRoot: string): CkbStdioBinding | null {
++  const windows = document.match(/&\s*'([^'\r\n]*python\.exe)'\s*'([^'\r\n]*ckb\.py)'/i);
++  if (windows) {
++    return { ckbScript: windows[2], outputRoot, python: windows[1] };
++  }
++  const posix = document.match(/(?:^|\n)\s*(\S*python(?:3(?:\.\d+)?)?)\s+["']?([^"'\s]+ckb\.py)["']?/i);
++  if (posix) {
++    return { ckbScript: posix[2], outputRoot, python: posix[1] };
++  }
++  return null;
++}
++
++export function parseCkbOutputContract(document: string, vaultRoot: string): CkbStdioBinding | null {
++  let value: CkbOutputContract;
++  try {
++    value = JSON.parse(document) as CkbOutputContract;
++  } catch {
++    return null;
++  }
++  const methods = Array.isArray(value.stdio?.methods) ? value.stdio.methods : [];
++  if (
++    value.schema_version !== 1
++    || value.contract !== 'code-knowledge-builder-output'
++    || value.status !== 'ready'
++    || typeof value.output !== 'string'
++    || typeof value.vault !== 'string'
++    || typeof value.runtime?.python !== 'string'
++    || typeof value.runtime?.ckb !== 'string'
++    || value.stdio?.protocol !== 'ckb-stdio-retrieval'
++    || typeof value.stdio.minimum_version !== 'number'
++    || value.stdio.minimum_version < 2
++    || !['ping', 'retrieve', 'record-explanation', 'shutdown'].every(method => methods.includes(method))
++    || path.resolve(value.vault) !== path.resolve(vaultRoot)
++  ) {
++    return null;
++  }
++  return {
++    ckbScript: value.runtime.ckb,
++    outputRoot: path.resolve(value.output),
++    python: value.runtime.python,
++  };
++}
++
++async function discoverBinding(app: App): Promise<CkbStdioBinding> {
++  const adapter = app.vault.adapter;
++  if (!(adapter instanceof FileSystemAdapter)) {
++    throw new Error('CKB stdio 需要桌面端本地 vault。');
++  }
++  const vaultRoot = path.resolve(adapter.getBasePath());
++  const outputContract = path.join(vaultRoot, '.ckb', 'output-contract.json');
++  if (await isFile(outputContract)) {
++    const parsed = parseCkbOutputContract(await readFile(outputContract, 'utf8'), vaultRoot);
++    if (!parsed) throw new Error('CKB 输出契约无效；请用 ckb.py obsidian-plugin deploy 重新投影。');
++    if (!await isFile(path.join(parsed.outputRoot, 'machine', 'knowledge.sqlite'))) {
++      throw new Error('CKB 输出契约指向的 machine/knowledge.sqlite 不存在。');
++    }
++    if (!await isFile(parsed.python) || !await isFile(parsed.ckbScript)) {
++      throw new Error('CKB 输出契约中的 Python 或 ckb.py 不存在。');
++    }
++    return parsed;
++  }
++  const configuredOutput = process.env.CKB_OUTPUT?.trim();
++  const candidates = [configuredOutput, vaultRoot, path.dirname(vaultRoot)]
++    .filter((value): value is string => Boolean(value));
++  let outputRoot = '';
++  for (const candidate of candidates) {
++    if (await isFile(path.join(candidate, 'machine', 'knowledge.sqlite'))) {
++      outputRoot = path.resolve(candidate);
++      break;
++    }
++  }
++  if (!outputRoot) {
++    throw new Error('CKB stdio 未找到 machine/knowledge.sqlite；请打开已完成的 CKB vault。');
++  }
++  const envPython = process.env.CKB_PYTHON?.trim();
++  const envScript = process.env.CKB_SCRIPT?.trim();
++  if (envPython && envScript) {
++    return { ckbScript: envScript, outputRoot, python: envPython };
++  }
++  for (const instruction of [
++    path.join(vaultRoot, 'AGENTS.md'),
++    path.join(outputRoot, 'AGENTS.md'),
++  ]) {
++    if (!await isFile(instruction)) continue;
++    const parsed = parseCkbBinding(await readFile(instruction, 'utf8'), outputRoot);
++    if (parsed && await isFile(parsed.python) && await isFile(parsed.ckbScript)) return parsed;
++  }
++  throw new Error('CKB stdio 未从 AGENTS.md 解析到可执行的 Python 和 ckb.py 绑定。');
++}
++
++export class CkbStdioClient {
++  private binding: CkbStdioBinding | null = null;
++  private child: ChildProcessWithoutNullStreams | null = null;
++  private counter = 0;
++  private pending = new Map<string, PendingRequest>();
++  private reader: Interface | null = null;
++  private startPromise: Promise<void> | null = null;
++  private stderrTail = '';
++
++  constructor(private readonly app: App) {}
++
++  start(): Promise<void> {
++    if (this.startPromise) return this.startPromise;
++    if (this.child) return Promise.resolve();
++    this.startPromise = this.startProcess().finally(() => {
++      this.startPromise = null;
++    });
++    return this.startPromise;
++  }
++
++  async retrieve(question: string): Promise<CkbStdioRetrieval> {
++    await this.start();
++    const requestId = `obsidian-${Date.now()}-${++this.counter}`;
++    const response = await this.send(requestId, {
++      budget: 1800,
++      max_pages: 8,
++      method: 'retrieve',
++      profile: 'fast',
++      question: utf8SafeText(question),
++    }, 60_000);
++    const status = response.status;
++    const pack = response.pack;
++    if (status !== 'passed' || typeof pack !== 'string' || !pack.trim()) {
++      throw new Error('CKB stdio 检索未返回通过的 Agent pack。');
++    }
++    if (!this.binding) throw new Error('CKB stdio 绑定已丢失。');
++    const resolvedPack = path.resolve(pack);
++    const packText = utf8SafeText(await readFile(resolvedPack, 'utf8'));
++    return {
++      elapsedMs: Number(response.elapsed_ms ?? 0),
++      outputRoot: this.binding.outputRoot,
++      pack: resolvedPack,
++      packText,
++      requestId,
++      status: 'passed',
++    };
++  }
++
++  async recordExplanation(input: CkbRecordExplanationInput): Promise<CkbRecordedExplanation> {
++    await this.start();
++    const requestId = `record-${Date.now()}-${++this.counter}`;
++    const response = await this.send(requestId, {
++      explanation: utf8SafeText(input.explanation),
++      idempotency_key: input.idempotencyKey,
++      method: 'record-explanation',
++      pack: input.pack,
++      question: utf8SafeText(input.question),
++      retrieval_request_id: input.retrievalRequestId,
++      selected_text: utf8SafeText(input.selectedText),
++      source_path: input.sourcePath,
++      source_title: input.sourceTitle,
++    }, 120_000);
++    const evidence = response.evidence ?? response.record;
++    const feedbackAudit = response.feedback_audit;
++    const agentPolicyAudit = response.agent_policy_audit;
++    if (
++      response.status !== 'passed'
++      || typeof evidence !== 'string'
++      || typeof feedbackAudit !== 'string'
++      || typeof agentPolicyAudit !== 'string'
++    ) {
++      throw new Error('CKB stdio 没有返回完整的记录与审计凭据。');
++    }
++    return {
++      agentPolicyAudit: path.resolve(agentPolicyAudit),
++      evidence: path.resolve(evidence),
++      feedbackAudit: path.resolve(feedbackAudit),
++      pack: path.resolve(input.pack),
++      retrievalRequestId: input.retrievalRequestId,
++      status: 'passed',
++    };
++  }
++
++  async dispose(): Promise<void> {
++    const child = this.child;
++    if (!child) return;
++    try {
++      await this.send(`shutdown-${Date.now()}`, { method: 'shutdown' }, 1_500);
++    } catch {
++      child.kill();
++    }
++    this.close(new Error('CKB stdio 已关闭。'));
++  }
++
++  private async startProcess(): Promise<void> {
++    this.binding = await discoverBinding(this.app);
++    const child = spawn(
++      this.binding.python,
++      [this.binding.ckbScript, 'serve', '--out', this.binding.outputRoot, '--stdio'],
++      {
++        cwd: this.binding.outputRoot,
++        env: {
++          ...process.env,
++          PYTHONIOENCODING: 'utf-8',
++          PYTHONUTF8: '1',
++        },
++        stdio: ['pipe', 'pipe', 'pipe'],
++        windowsHide: true,
++      },
++    );
++    this.child = child;
++    this.stderrTail = '';
++    child.stderr.setEncoding('utf8');
++    child.stderr.on('data', chunk => {
++      this.stderrTail = `${this.stderrTail}${String(chunk)}`.slice(-4_000);
++    });
++    this.reader = createInterface({ input: child.stdout });
++    this.reader.on('line', line => this.onLine(line));
++    child.once('exit', (code, signal) => {
++      const detail = this.stderrTail.trim();
++      this.close(new Error(`CKB stdio 退出：code=${code}; signal=${signal}; ${detail}`));
++    });
++    child.once('error', error => this.close(error));
++    try {
++      const ping = await this.send(`ping-${Date.now()}`, { method: 'ping' }, 10_000);
++      const methods = Array.isArray(ping.methods) ? ping.methods : [];
++      if (
++        ping.status !== 'ready'
++        || ping.protocol !== 'ckb-stdio-retrieval'
++        || Number(ping.protocol_version ?? 0) < 2
++        || !methods.includes('record-explanation')
++      ) {
++        throw new Error('CKB stdio ping 协议不匹配。');
++      }
++    } catch (error) {
++      child.kill();
++      this.close(error instanceof Error ? error : new Error(String(error)));
++      throw error;
++    }
++  }
++
++  private send(
++    id: string,
++    body: Record<string, unknown>,
++    timeoutMs: number,
++  ): Promise<Record<string, unknown>> {
++    const child = this.child;
++    if (!child?.stdin.writable) return Promise.reject(new Error('CKB stdio 进程未就绪。'));
++    return new Promise((resolve, reject) => {
++      const timer = window.setTimeout(() => {
++        this.pending.delete(id);
++        reject(new Error(`CKB stdio 请求超时：${id}`));
++      }, timeoutMs);
++      this.pending.set(id, { reject, resolve, timer });
++      child.stdin.write(`${JSON.stringify({ id, ...body })}\n`, 'utf8', error => {
++        if (!error) return;
++        const pending = this.pending.get(id);
++        if (!pending) return;
++        window.clearTimeout(pending.timer);
++        this.pending.delete(id);
++        pending.reject(error);
++      });
++    });
++  }
++
++  private onLine(line: string): void {
++    let response: StdioResponse;
++    try {
++      response = JSON.parse(line) as StdioResponse;
++    } catch {
++      return;
++    }
++    const id = String(response.id ?? '');
++    const pending = this.pending.get(id);
++    if (!pending) return;
++    window.clearTimeout(pending.timer);
++    this.pending.delete(id);
++    if (!response.ok || !response.result) {
++      pending.reject(new Error(response.error?.message || 'CKB stdio 返回未知错误。'));
++      return;
++    }
++    const elapsedMs = Number((response as { elapsed_ms?: number }).elapsed_ms ?? 0);
++    pending.resolve({ ...response.result, elapsed_ms: elapsedMs });
++  }
++
++  private close(error: Error): void {
++    this.reader?.close();
++    this.reader = null;
++    this.child = null;
++    for (const pending of this.pending.values()) {
++      window.clearTimeout(pending.timer);
++      pending.reject(error);
++    }
++    this.pending.clear();
++  }
++}
+diff --git a/src/features/selection-learning/DailyLearningNoteStore.ts b/src/features/selection-learning/DailyLearningNoteStore.ts
+new file mode 100644
+index 00000000..5cee906e
+--- /dev/null
++++ b/src/features/selection-learning/DailyLearningNoteStore.ts
+@@ -0,0 +1,70 @@
++import { type App, normalizePath, TFile } from 'obsidian';
++
++import {
++  createDailyLearningDocument,
++  formatLocalDate,
++  type LearningNoteEntry,
++  renderLearningNoteEntry,
++} from './LearningNoteDocument';
++
++const LEARNING_FOLDER = '学习笔记';
++
++export class DailyLearningNoteStore {
++  private writeTail: Promise<void> = Promise.resolve();
++
++  constructor(private readonly app: App) {}
++
++  pathFor(date: Date): string {
++    return normalizePath(`${LEARNING_FOLDER}/${formatLocalDate(date)}.md`);
++  }
++
++  async append(entry: LearningNoteEntry): Promise<TFile> {
++    let written: TFile | null = null;
++    const operation = this.writeTail.then(async () => {
++      await this.ensureFolder(LEARNING_FOLDER);
++      const path = this.pathFor(entry.createdAt);
++      const existing = this.app.vault.getAbstractFileByPath(path);
++      const block = renderLearningNoteEntry(entry);
++      if (existing) {
++        if (!(existing instanceof TFile) || existing.extension !== 'md') {
++          throw new Error(`Learning note path is not a Markdown file: ${path}`);
++        }
++        await this.app.vault.process(existing, current => (
++          `${current.trimEnd()}\n\n${block}`
++        ));
++        written = existing;
++        return;
++      }
++      written = await this.app.vault.create(
++        path,
++        `${createDailyLearningDocument(entry.createdAt)}${block}`,
++      );
++    });
++    this.writeTail = operation.then(() => undefined, () => undefined);
++    await operation;
++    if (!written) {
++      throw new Error('Daily learning note write completed without a file.');
++    }
++    return written;
++  }
++
++  async open(date = new Date()): Promise<void> {
++    const path = this.pathFor(date);
++    const file = this.app.vault.getAbstractFileByPath(path);
++    if (!(file instanceof TFile) || file.extension !== 'md') {
++      throw new Error(`Today's learning note does not exist: ${path}`);
++    }
++    await this.app.workspace.getLeaf(true).openFile(file);
++  }
++
++  private async ensureFolder(path: string): Promise<void> {
++    const parts = normalizePath(path).split('/').filter(Boolean);
++    let current = '';
++    for (const part of parts) {
++      current = current ? `${current}/${part}` : part;
++      if (!this.app.vault.getAbstractFileByPath(current)) {
++        await this.app.vault.createFolder(current);
++      }
++    }
++  }
++}
+diff --git a/src/features/selection-learning/LearningNoteDocument.ts b/src/features/selection-learning/LearningNoteDocument.ts
+new file mode 100644
+index 00000000..eeefa071
+--- /dev/null
++++ b/src/features/selection-learning/LearningNoteDocument.ts
+@@ -0,0 +1,85 @@
++export interface LearningNoteEntry {
++  createdAt: Date;
++  endLine?: number;
++  explanation: string;
++  followUp?: boolean;
++  parentQuestion?: string;
++  providerLabel: string;
++  question: string;
++  selectedText: string;
++  sourcePath: string;
++  sourceTitle: string;
++  startLine?: number;
++}
++
++export function formatLocalDate(value: Date): string {
++  const year = value.getFullYear();
++  const month = String(value.getMonth() + 1).padStart(2, '0');
++  const day = String(value.getDate()).padStart(2, '0');
++  return `${year}-${month}-${day}`;
++}
++
++function formatLocalTime(value: Date): string {
++  return [value.getHours(), value.getMinutes(), value.getSeconds()]
++    .map(part => String(part).padStart(2, '0'))
++    .join(':');
++}
++
++function quoteMarkdown(value: string): string {
++  return value
++    .trim()
++    .split('\n')
++    .map(line => `> ${line}`)
++    .join('\n');
++}
++
++function sourceLink(path: string, title: string): string {
++  const target = path.replace(/\.md$/i, '').replace(/\|/g, '\\|');
++  const alias = title.replace(/\|/g, '\\|');
++  return `[[${target}|${alias}]]`;
++}
++
++export function createDailyLearningDocument(date: Date): string {
++  const day = formatLocalDate(date);
++  return [
++    `# ${day} 学习笔记`,
++    '',
++    '标签：#类型/学习',
++    '',
++    '> 本页汇总当天从文档选区发起的概念提问与解释。',
++    '',
++  ].join('\n');
++}
++
++export function renderLearningNoteEntry(entry: LearningNoteEntry): string {
++  const lineRange = entry.startLine === undefined || entry.endLine === undefined
++    ? '阅览模式选中文本'
++    : entry.startLine === entry.endLine
++      ? `第 ${entry.startLine} 行`
++      : `第 ${entry.startLine}–${entry.endLine} 行`;
++  const lines = [
++    `## ${formatLocalTime(entry.createdAt)} · ${entry.followUp ? '追问 · ' : ''}${entry.sourceTitle}`,
++    '',
++    `来源：${sourceLink(entry.sourcePath, entry.sourceTitle)} · ${lineRange}`,
++    '',
++    `执行器：${entry.providerLabel}`,
++    '',
++  ];
++  if (entry.followUp && entry.parentQuestion) {
++    lines.push('### 承接问题', '', entry.parentQuestion.trim(), '');
++  }
++  lines.push(
++    entry.followUp ? '### 我的追问' : '### 我的问题',
++    '', entry.question.trim(), '',
++  );
++  if (!entry.followUp) {
++    lines.push('### 选中文本', '', quoteMarkdown(entry.selectedText), '');
++  }
++  lines.push(
++    '### 解释',
++    '',
++    entry.explanation.trim(),
++    '',
++  );
++  return lines.join('\n');
++}
+diff --git a/src/features/selection-learning/SelectionLearningProgress.ts b/src/features/selection-learning/SelectionLearningProgress.ts
+new file mode 100644
+index 00000000..799cb314
+--- /dev/null
++++ b/src/features/selection-learning/SelectionLearningProgress.ts
+@@ -0,0 +1,52 @@
++export type SelectionLearningStage =
++  | 'waiting-question'
++  | 'retrieving'
++  | 'initializing-provider'
++  | 'generating'
++  | 'validating'
++  | 'writing'
++  | 'completed'
++  | 'failed'
++  | 'cancelled';
++
++export type SelectionLearningStatus =
++  | 'waiting'
++  | 'running'
++  | 'passed'
++  | 'failed'
++  | 'cancelled';
++
++export interface SelectionLearningTimelineEntry {
++  at: number;
++  message: string;
++  stage: SelectionLearningStage;
++}
++
++export interface SelectionLearningProgressSnapshot {
++  explanation: string;
++  finishedAt?: number;
++  message: string;
++  outputPath?: string;
++  providerLabel?: string;
++  question?: string;
++  retrievalPack?: string;
++  retrievalRequestId?: string;
++  selectedText: string;
++  sourcePath: string;
++  sourceTitle: string;
++  stage: SelectionLearningStage;
++  startedAt: number;
++  status: SelectionLearningStatus;
++  timeline: readonly SelectionLearningTimelineEntry[];
++}
++
++const EXPLANATION_START = '---CKB_EXPLANATION---';
++const EXPLANATION_END = '---END_CKB_EXPLANATION---';
++
++export function extractExplanationProgress(value: string): string {
++  const start = value.indexOf(EXPLANATION_START);
++  if (start < 0) return '';
++  const bodyStart = start + EXPLANATION_START.length;
++  const end = value.indexOf(EXPLANATION_END, bodyStart);
++  return value.slice(bodyStart, end < 0 ? undefined : end).trim();
++}
+diff --git a/src/features/selection-learning/SelectionLearningProvider.ts b/src/features/selection-learning/SelectionLearningProvider.ts
+new file mode 100644
+index 00000000..af3571e2
+--- /dev/null
++++ b/src/features/selection-learning/SelectionLearningProvider.ts
+@@ -0,0 +1,89 @@
++import {
++  findProviderModelOption,
++  resolveNewConversationModel,
++  resolveProviderDefaultModel,
++} from '../../core/providers/conversationModel';
++import { ProviderRegistry } from '../../core/providers/ProviderRegistry';
++import type { ProviderId } from '../../core/providers/types';
++
++export const FOLLOW_DEFAULT_SELECTION_PROVIDER = 'follow-default';
++
++export interface SelectionLearningProviderContext {
++  modelOverride?: string;
++  providerId: ProviderId;
++  source: 'default-model' | 'fixed-provider';
++}
++
++function storedPreference(settings: Record<string, unknown>): string {
++  return typeof settings.selectionLearningProvider === 'string'
++    ? settings.selectionLearningProvider.trim()
++    : '';
++}
++
++export function normalizeSelectionLearningProvider(
++  settings: Record<string, unknown>,
++): string {
++  const preference = storedPreference(settings);
++  if (
++    preference !== FOLLOW_DEFAULT_SELECTION_PROVIDER
++    && ProviderRegistry.getRegisteredProviderIds().includes(preference)
++    && ProviderRegistry.isEnabled(preference, settings)
++  ) {
++    return preference;
++  }
++  return FOLLOW_DEFAULT_SELECTION_PROVIDER;
++}
++
++function fixedProviderModel(
++  providerId: ProviderId,
++  settings: Record<string, unknown>,
++): string | undefined {
++  const savedProviderModel = settings.savedProviderModel;
++  const savedModel = savedProviderModel
++    && typeof savedProviderModel === 'object'
++    && !Array.isArray(savedProviderModel)
++    && typeof (savedProviderModel as Record<string, unknown>)[providerId] === 'string'
++    ? ((savedProviderModel as Record<string, string>)[providerId] ?? '').trim()
++    : '';
++  if (savedModel) {
++    const availableModel = findProviderModelOption(providerId, savedModel, settings);
++    if (availableModel) return availableModel;
++  }
++  return resolveProviderDefaultModel(providerId, settings) ?? undefined;
++}
++
++export function resolveSelectionLearningProviderContext(
++  settings: Record<string, unknown>,
++): SelectionLearningProviderContext {
++  const preference = normalizeSelectionLearningProvider(settings);
++  if (preference !== FOLLOW_DEFAULT_SELECTION_PROVIDER) {
++    return {
++      modelOverride: fixedProviderModel(preference, settings),
++      providerId: preference,
++      source: 'fixed-provider',
++    };
++  }
++
++  const defaultSelection = resolveNewConversationModel(settings);
++  if (defaultSelection) {
++    return {
++      modelOverride: defaultSelection.model,
++      providerId: defaultSelection.providerId,
++      source: 'default-model',
++    };
++  }
++
++  const providerId = ProviderRegistry.resolveSettingsProviderId(settings);
++  return {
++    modelOverride: resolveProviderDefaultModel(providerId, settings) ?? undefined,
++    providerId,
++    source: 'default-model',
++  };
++}
++
++export function formatSelectionLearningProviderContext(
++  context: SelectionLearningProviderContext,
++): string {
++  const provider = ProviderRegistry.getProviderDisplayName(context.providerId);
++  return context.modelOverride ? `${provider} / ${context.modelOverride}` : provider;
++}
+diff --git a/src/features/selection-learning/SelectionLearningService.ts b/src/features/selection-learning/SelectionLearningService.ts
+new file mode 100644
+index 00000000..6f6bd8ae
+--- /dev/null
++++ b/src/features/selection-learning/SelectionLearningService.ts
+@@ -0,0 +1,644 @@
++import { readFile, stat } from 'node:fs/promises';
++import path from 'node:path';
++
++import type { Editor, MarkdownView, TFile } from 'obsidian';
++import { Notice } from 'obsidian';
++
++import type { ProviderHost } from '../../core/providers/ProviderHost';
++import { ProviderRegistry } from '../../core/providers/ProviderRegistry';
++import { ProviderWorkspaceRegistry } from '../../core/providers/ProviderWorkspaceRegistry';
++import type { InlineEditService } from '../../core/providers/types';
++import { type CkbStdioClient, type CkbStdioRetrieval, utf8SafeText } from './CkbStdioClient';
++import { DailyLearningNoteStore } from './DailyLearningNoteStore';
++import { formatLocalDate } from './LearningNoteDocument';
++import { extractExplanationProgress } from './SelectionLearningProgress';
++import {
++  formatSelectionLearningProviderContext,
++  resolveSelectionLearningProviderContext,
++} from './SelectionLearningProvider';
++import type { SelectionLearningViewController } from './SelectionLearningView';
++import { SelectionQuestionModal } from './SelectionQuestionModal';
++
++export interface AuditedExplanation {
++  agentPolicyAuditReference: string;
++  evidenceReference: string;
++  explanation: string;
++  feedbackAuditReference: string;
++  stdioPack: string;
++  stdioRequestId: string;
++}
++
++interface GeneratedExplanation {
++  explanation: string;
++  stdioPack: string;
++  stdioRequestId: string;
++}
++
++interface SelectionContext {
++  endLine?: number;
++  selectedText: string;
++  sourcePath: string;
++  sourceTitle: string;
++  startLine?: number;
++}
++
++interface FollowUpState {
++  context: SelectionContext;
++  explanation: string;
++  providerLabel: string;
++  question: string;
++  service: InlineEditService;
++}
++
++const EXPLANATION_START = '---CKB_EXPLANATION---';
++const EXPLANATION_END = '---END_CKB_EXPLANATION---';
++const CKB_PRODUCT_NAME = 'CKB';
++const EXPLANATION_TIMEOUT_MS = 5 * 60 * 1_000;
++const TERMINAL_NOTICE_MS = 30_000;
++
++async function withTimeout<T>(
++  promise: Promise<T>,
++  timeoutMs: number,
++  onTimeout: () => void,
++): Promise<T> {
++  let timer: number | undefined;
++  const timeout = new Promise<never>((_resolve, reject) => {
++    timer = window.setTimeout(() => {
++      onTimeout();
++      reject(new Error(`解释执行超过 ${Math.round(timeoutMs / 60_000)} 分钟，已终止。`));
++    }, timeoutMs);
++  });
++  try {
++    return await Promise.race([promise, timeout]);
++  } finally {
++    if (timer !== undefined) window.clearTimeout(timer);
++  }
++}
++
++export function buildSelectionLearningInstruction(
++  question: string,
++  date: Date = new Date(),
++  retrieval: CkbStdioRetrieval,
++): string {
++  const day = formatLocalDate(date);
++  return [
++    '这是 CKB 选区解释快速路径。插件已经完成确定性知识库检索；只根据下方 Agent pack 与选中文本生成解释。',
++    '禁止调用任何工具、Shell、grep、ripgrep、文件读取、Skill 或子 Agent；记录和审计由插件随后通过同一 CKB stdio 进程确定性完成。',
++    '',
++    `CKB stdio 请求：${retrieval.requestId}`,
++    `Agent pack 路径：${retrieval.pack}`,
++    `最终解释只写入：学习笔记/${day}.md；不得创建 analysis 页面。`,
++    '',
++    '---CKB_AGENT_PACK---',
++    retrieval.packText,
++    '---END_CKB_AGENT_PACK---',
++    '',
++    '解释应直接面向正在学习该文档的人，先给出核心含义，再说明它在当前上下文中的作用、容易混淆的边界，并给出一个必要的简短例子。',
++    '解释字段只放最终正文，不改写选中文本，不返回 replacement 或 insertion 标签。',
++    '',
++    `问题：${utf8SafeText(question).trim()}`,
++    '',
++    '严格使用以下返回形状，不添加其他文字：',
++    'CKB_RETRIEVAL: passed',
++    'CKB_GENERATION: passed',
++    `CKB_STDIO_REQUEST: ${retrieval.requestId}`,
++    `CKB_STDIO_PACK: ${retrieval.pack}`,
++    EXPLANATION_START,
++    '<通过知识库审计的简体中文解释>',
++    EXPLANATION_END,
++  ].join('\n');
++}
++
++export function buildSelectionFollowUpInstruction(
++  question: string,
++  retrieval: CkbStdioRetrieval,
++  parentQuestion: string,
++  parentExplanation: string,
++): string {
++  return [
++    '这是 CKB 选区解释追问。保持同一 Provider 会话，但本轮必须只依据新的 Agent pack 和既有对话上下文回答。',
++    '禁止调用任何工具、Shell、grep、ripgrep、文件读取、Skill 或子 Agent；本轮记录和审计仍由同一 CKB stdio 进程完成。',
++    '追问答案只追加到当天学习笔记，不得创建 analysis 页面。',
++    '',
++    `CKB stdio 请求：${retrieval.requestId}`,
++    `Agent pack 路径：${retrieval.pack}`,
++    '',
++    '---CKB_AGENT_PACK---',
++    retrieval.packText,
++    '---END_CKB_AGENT_PACK---',
++    '',
++    `承接问题：${utf8SafeText(parentQuestion).trim()}`,
++    `上一轮解释：${utf8SafeText(parentExplanation).trim().slice(0, 4_000)}`,
++    `本轮追问：${utf8SafeText(question).trim()}`,
++    '',
++    '直接回答追问，并明确它与上一轮解释的关系；不要重复整段初始解释。',
++    '严格使用以下返回形状，不添加其他文字：',
++    'CKB_RETRIEVAL: passed',
++    'CKB_GENERATION: passed',
++    `CKB_STDIO_REQUEST: ${retrieval.requestId}`,
++    `CKB_STDIO_PACK: ${retrieval.pack}`,
++    EXPLANATION_START,
++    '<通过知识库审计的简体中文追问答案>',
++    EXPLANATION_END,
++  ].join('\n');
++}
++
++export function parseAuditedExplanation(value: string): AuditedExplanation | null {
++  const generated = parseGeneratedExplanation(value);
++  if (!generated) return null;
++  return {
++    agentPolicyAuditReference: '',
++    evidenceReference: '',
++    explanation: generated.explanation,
++    feedbackAuditReference: '',
++    stdioPack: generated.stdioPack,
++    stdioRequestId: generated.stdioRequestId,
++  };
++}
++
++function parseGeneratedExplanation(value: string): GeneratedExplanation | null {
++  const normalized = value.trim();
++  const requiredMarkers = [
++    'CKB_RETRIEVAL: passed',
++    'CKB_GENERATION: passed',
++  ];
++  if (!requiredMarkers.every(marker => normalized.includes(marker))) return null;
++  const stdioRequestId = normalized.match(/^CKB_STDIO_REQUEST:\s*(.+)$/m)?.[1]?.trim() ?? '';
++  const stdioPack = normalized.match(/^CKB_STDIO_PACK:\s*(.+)$/m)?.[1]?.trim() ?? '';
++  if (!stdioRequestId || !stdioPack) return null;
++  const start = normalized.indexOf(EXPLANATION_START);
++  const end = normalized.indexOf(EXPLANATION_END);
++  if (start < 0 || end <= start) return null;
++  const explanation = normalized.slice(start + EXPLANATION_START.length, end).trim();
++  if (!explanation) return null;
++  return {
++    explanation,
++    stdioPack,
++    stdioRequestId,
++  };
++}
++
++function outputRootForEvidence(evidencePath: string): string | null {
++  const normalized = path.resolve(evidencePath);
++  const folded = normalized.toLocaleLowerCase();
++  const marker = `${path.sep}workspace-meta${path.sep}stdio${path.sep}explanations${path.sep}`;
++  const index = folded.lastIndexOf(marker);
++  return index < 0 ? null : normalized.slice(0, index);
++}
++
++function samePath(left: string, right: string): boolean {
++  return path.resolve(left).toLocaleLowerCase() === path.resolve(right).toLocaleLowerCase();
++}
++
++async function readPassedAudit(auditPath: string, notBefore: number): Promise<void> {
++  const info = await stat(auditPath);
++  if (!info.isFile() || info.mtimeMs < notBefore) {
++    throw new Error(`CKB 审计文件不属于本次请求：${auditPath}`);
++  }
++  const audit = JSON.parse(await readFile(auditPath, 'utf8')) as {
++    errors?: unknown[];
++    status?: string;
++  };
++  if (audit.status !== 'passed' || (audit.errors?.length ?? 0) > 0) {
++    throw new Error(`CKB 审计状态未通过：${auditPath}`);
++  }
++}
++
++export async function validateCkbEvidence(
++  evidence: AuditedExplanation,
++  startedAt: number,
++  retrieval: CkbStdioRetrieval,
++): Promise<void> {
++  const evidencePath = path.resolve(evidence.evidenceReference);
++  const outputRoot = outputRootForEvidence(evidencePath);
++  if (!outputRoot) throw new Error('CKB 解释证据不在 workspace-meta/stdio/explanations 中。');
++  const evidenceInfo = await stat(evidencePath);
++  const notBefore = startedAt - 5_000;
++  if (!evidenceInfo.isFile() || evidenceInfo.mtimeMs < notBefore) {
++    throw new Error(`CKB 解释证据不属于本次请求：${evidencePath}`);
++  }
++  if (evidence.stdioRequestId !== retrieval.requestId || !samePath(evidence.stdioPack, retrieval.pack)) {
++    throw new Error('Agent 返回的 CKB stdio 请求与插件实际检索不一致。');
++  }
++  if (!samePath(outputRoot, retrieval.outputRoot)) {
++    throw new Error('CKB stdio Agent pack 与解释证据不属于同一知识库。');
++  }
++  const evidenceRecord = JSON.parse(await readFile(evidencePath, 'utf8')) as {
++    kind?: string;
++    pack?: string;
++    retrieval_request_id?: string;
++    status?: string;
++  };
++  if (
++    evidenceRecord.status !== 'passed'
++    || evidenceRecord.kind !== 'learning-explanation-evidence'
++    || evidenceRecord.retrieval_request_id !== retrieval.requestId
++    || typeof evidenceRecord.pack !== 'string'
++    || !samePath(evidenceRecord.pack, retrieval.pack)
++  ) {
++    throw new Error('CKB 解释证据内容与本次检索不一致。');
++  }
++  const packInfo = await stat(retrieval.pack);
++  if (!packInfo.isFile() || packInfo.mtimeMs < notBefore) {
++    throw new Error('CKB stdio Agent pack 不属于本次请求。');
++  }
++  const expectedFeedback = path.join(outputRoot, 'workspace-meta', 'feedback-audit.json');
++  const expectedAgentPolicy = path.join(outputRoot, 'workspace-meta', 'agent-protocol-audit.json');
++  if (!samePath(evidence.feedbackAuditReference, expectedFeedback)) {
++    throw new Error('CKB 反馈审计路径与解释证据不属于同一知识库。');
++  }
++  if (!samePath(evidence.agentPolicyAuditReference, expectedAgentPolicy)) {
++    throw new Error('CKB Agent Policy 审计路径与解释证据不属于同一知识库。');
++  }
++  await readPassedAudit(expectedFeedback, notBefore);
++  await readPassedAudit(expectedAgentPolicy, notBefore);
++}
++
++export class SelectionLearningService {
++  private activeService: InlineEditService | null = null;
++  private followUpState: FollowUpState | null = null;
++  private readonly store: DailyLearningNoteStore;
++
++  constructor(
++    private readonly plugin: ProviderHost,
++    private readonly stdio: CkbStdioClient,
++    private readonly progress: SelectionLearningViewController,
++  ) {
++    this.store = new DailyLearningNoteStore(plugin.app);
++    this.progress.setFollowUpHandler(question => this.followUp(question));
++  }
++
++  async promptAndExplain(editor: Editor, view: MarkdownView): Promise<TFile | null> {
++    const selectedText = utf8SafeText(editor.getSelection());
++    if (!selectedText.trim()) {
++      new Notice('请先在文档中选择一段文本。');
++      return null;
++    }
++    const file = view.file;
++    if (!file) {
++      new Notice('当前没有可用的 Markdown 文件。');
++      return null;
++    }
++    const from = editor.getCursor('from');
++    const to = editor.getCursor('to');
++    return this.promptContext({
++      endLine: to.line + 1,
++      selectedText,
++      sourcePath: file.path,
++      sourceTitle: file.basename,
++      startLine: from.line + 1,
++    });
++  }
++
++  async promptReadingSelection(
++    selectedText: string,
++    view: MarkdownView,
++  ): Promise<TFile | null> {
++    const normalizedText = utf8SafeText(selectedText);
++    if (!normalizedText.trim()) {
++      new Notice('请先在文档中选择一段文本。');
++      return null;
++    }
++    const file = view.file;
++    if (!file) {
++      new Notice('当前没有可用的 Markdown 文件。');
++      return null;
++    }
++    return this.promptContext({
++      selectedText: normalizedText,
++      sourcePath: file.path,
++      sourceTitle: file.basename,
++    });
++  }
++
++  private async promptContext(context: SelectionContext): Promise<TFile | null> {
++    this.releaseConversation();
++    try {
++      await this.progress.start(context);
++    } catch (error) {
++      new Notice(error instanceof Error ? error.message : String(error));
++    }
++    const preview = context.selectedText.length > 360
++      ? `${context.selectedText.slice(0, 360)}…`
++      : context.selectedText;
++    const question = await new SelectionQuestionModal(
++      this.plugin.app,
++      preview,
++    ).openAndWait();
++    if (!question) {
++      this.progress.cancel();
++      return null;
++    }
++    this.progress.setQuestion(utf8SafeText(question));
++    return this.explainAndRecord(context, utf8SafeText(question));
++  }
++
++  private async explainAndRecord(
++    context: SelectionContext,
++    question: string,
++  ): Promise<TFile | null> {
++    const startedAt = Date.now();
++    let retainConversation = false;
++    const providerContext = resolveSelectionLearningProviderContext(this.plugin.settings);
++    const providerId = providerContext.providerId;
++    const selectedText = context.selectedText;
++    const progressNotice = new Notice(`${CKB_PRODUCT_NAME} 解释：正在检索知识库……`, 0);
++    this.progress.setStage({
++      message: '正在检索知识库并生成预算化 Agent pack。',
++      stage: 'retrieving',
++      status: 'running',
++    });
++    try {
++      const retrieval = await this.stdio.retrieve([
++        question,
++        `来源文档：${context.sourcePath}`,
++        `选中文本：${selectedText}`,
++      ].join('\n'));
++      progressNotice.setMessage('CKB 解释：正在初始化模型工作区……');
++      this.progress.setStage({
++        message: '检索完成，正在初始化模型工作区。',
++        retrievalPack: retrieval.pack,
++        retrievalRequestId: retrieval.requestId,
++        stage: 'initializing-provider',
++        status: 'running',
++      });
++      await ProviderWorkspaceRegistry.ensureInitialized(
++        this.plugin,
++        providerId,
++        'selection-learning',
++      );
++      const service = ProviderRegistry.createSelectionLearningService(
++        this.plugin,
++        providerId,
++        retrieval.outputRoot,
++      );
++      service.setModelOverride?.(providerContext.modelOverride);
++      this.activeService?.cancel();
++      this.activeService = service;
++      const providerLabel = formatSelectionLearningProviderContext(providerContext);
++      progressNotice.setMessage(`CKB 解释：${providerLabel} 正在快速生成……`);
++      this.progress.setStage({
++        message: 'Provider 正在无工具模式下根据已注入的 Agent pack 生成解释。',
++        providerLabel,
++        stage: 'generating',
++        status: 'running',
++      });
++      service.setProgressCallback?.((text) => {
++        const explanation = extractExplanationProgress(text);
++        if (explanation) this.progress.streamExplanation(explanation);
++      });
++      const result = await withTimeout(
++        service.editText({
++          instruction: buildSelectionLearningInstruction(question, new Date(), retrieval),
++          lineCount: context.startLine !== undefined && context.endLine !== undefined
++            ? context.endLine - context.startLine + 1
++            : Math.max(1, selectedText.split('\n').length),
++          mode: 'selection',
++          notePath: context.sourcePath,
++          selectedText,
++          startLine: context.startLine ?? 1,
++        }),
++        EXPLANATION_TIMEOUT_MS,
++        () => service.cancel(),
++      );
++      if (!result.success) {
++        throw new Error(result.error || '执行器没有返回解释。');
++      }
++      const rawExplanation = (
++        result.clarification
++        ?? result.editedText
++        ?? result.insertedText
++        ?? ''
++      ).trim();
++      if (!rawExplanation) {
++        throw new Error('执行器返回了空解释。');
++      }
++      const generated = parseGeneratedExplanation(rawExplanation);
++      if (!generated) {
++        throw new Error('Provider 没有返回与本次检索一致的解释凭据，学习页保持不变。');
++      }
++      if (
++        generated.stdioRequestId !== retrieval.requestId
++        || !samePath(generated.stdioPack, retrieval.pack)
++      ) {
++        throw new Error('Provider 返回的 CKB stdio 请求或 Agent pack 与本次检索不一致。');
++      }
++      progressNotice.setMessage('CKB 解释：正在确定性记录并审计……');
++      this.progress.setStage({
++        message: '生成完成，正在通过同一 CKB stdio 进程记录并执行审计。',
++        stage: 'validating',
++        status: 'running',
++      });
++      const recorded = await this.stdio.recordExplanation({
++        explanation: generated.explanation,
++        idempotencyKey: `${retrieval.requestId}-record`,
++        pack: retrieval.pack,
++        question,
++        retrievalRequestId: retrieval.requestId,
++        selectedText,
++        sourcePath: context.sourcePath,
++        sourceTitle: context.sourceTitle,
++      });
++      const audited: AuditedExplanation = {
++        agentPolicyAuditReference: recorded.agentPolicyAudit,
++        evidenceReference: recorded.evidence,
++        explanation: generated.explanation,
++        feedbackAuditReference: recorded.feedbackAudit,
++        stdioPack: recorded.pack,
++        stdioRequestId: recorded.retrievalRequestId,
++      };
++      await validateCkbEvidence(audited, startedAt, retrieval);
++      progressNotice.setMessage('CKB 解释：正在写入今日学习笔记……');
++      this.progress.setStage({
++        message: '审计凭据通过，正在写入今日学习笔记。',
++        stage: 'writing',
++        status: 'running',
++      });
++      const learningFile = await this.store.append({
++        createdAt: new Date(),
++        endLine: context.endLine,
++        explanation: audited.explanation,
++        providerLabel,
++        question,
++        selectedText,
++        sourcePath: context.sourcePath,
++        sourceTitle: context.sourceTitle,
++        startLine: context.startLine,
++      });
++      progressNotice.setMessage(`CKB 解释完成：已写入 ${learningFile.path}`);
++      this.followUpState = {
++        context,
++        explanation: audited.explanation,
++        providerLabel,
++        question,
++        service,
++      };
++      retainConversation = true;
++      this.progress.complete(audited.explanation, learningFile.path);
++      window.setTimeout(() => progressNotice.hide(), TERMINAL_NOTICE_MS);
++      await this.plugin.app.workspace.getLeaf(true).openFile(learningFile);
++      return learningFile;
++    } catch (error) {
++      const message = error instanceof Error ? error.message : String(error);
++      progressNotice.setMessage(`CKB 解释失败：${message}`);
++      this.progress.fail(message);
++      window.setTimeout(() => progressNotice.hide(), TERMINAL_NOTICE_MS);
++      return null;
++    } finally {
++      this.activeService?.setProgressCallback?.(undefined);
++      if (!retainConversation) this.releaseConversation();
++    }
++  }
++
++  private async followUp(question: string): Promise<void> {
++    const state = this.followUpState;
++    const service = this.activeService;
++    if (!state || !service || state.service !== service) {
++      this.progress.fail('当前解释会话已经结束，请重新选择文本发起解释。');
++      return;
++    }
++    const startedAt = Date.now();
++    const parentQuestion = state.question;
++    const progressNotice = new Notice(`${CKB_PRODUCT_NAME} 追问：正在检索知识库……`, 0);
++    this.progress.setQuestion(`追问：${question}`);
++    this.progress.setStage({
++      explanation: '',
++      message: '正在为追问执行新的 CKB 检索。',
++      stage: 'retrieving',
++      status: 'running',
++    });
++    try {
++      const retrieval = await this.stdio.retrieve([
++        question,
++        `来源文档：${state.context.sourcePath}`,
++        `原始选中文本：${state.context.selectedText}`,
++        `承接问题：${parentQuestion}`,
++        `上一轮解释：${state.explanation.slice(0, 4_000)}`,
++      ].join('\n'));
++      this.progress.setStage({
++        message: '追问检索完成，正在复用同一 Provider 会话生成回答。',
++        providerLabel: state.providerLabel,
++        retrievalPack: retrieval.pack,
++        retrievalRequestId: retrieval.requestId,
++        stage: 'generating',
++        status: 'running',
++      });
++      progressNotice.setMessage(`CKB 追问：${state.providerLabel} 正在回答……`);
++      service.setProgressCallback?.((text) => {
++        const explanation = extractExplanationProgress(text);
++        if (explanation) this.progress.streamExplanation(explanation);
++      });
++      const result = await withTimeout(
++        service.continueConversation(
++          buildSelectionFollowUpInstruction(
++            question,
++            retrieval,
++            parentQuestion,
++            state.explanation,
++          ),
++        ),
++        EXPLANATION_TIMEOUT_MS,
++        () => service.cancel(),
++      );
++      if (!result.success) {
++        throw new Error(result.error || '执行器没有返回追问答案。');
++      }
++      const rawExplanation = (
++        result.clarification
++        ?? result.editedText
++        ?? result.insertedText
++        ?? ''
++      ).trim();
++      const generated = parseGeneratedExplanation(rawExplanation);
++      if (!generated) {
++        throw new Error('Provider 没有返回与追问检索一致的解释凭据。');
++      }
++      if (
++        generated.stdioRequestId !== retrieval.requestId
++        || !samePath(generated.stdioPack, retrieval.pack)
++      ) {
++        throw new Error('追问返回的 CKB stdio 请求或 Agent pack 与实际检索不一致。');
++      }
++      progressNotice.setMessage('CKB 追问：正在写入机器证据并审计……');
++      this.progress.setStage({
++        message: '追问生成完成，正在通过同一 CKB stdio 进程执行审计。',
++        stage: 'validating',
++        status: 'running',
++      });
++      const recorded = await this.stdio.recordExplanation({
++        explanation: generated.explanation,
++        idempotencyKey: `${retrieval.requestId}-follow-up`,
++        pack: retrieval.pack,
++        question,
++        retrievalRequestId: retrieval.requestId,
++        selectedText: state.context.selectedText,
++        sourcePath: state.context.sourcePath,
++        sourceTitle: state.context.sourceTitle,
++      });
++      const audited: AuditedExplanation = {
++        agentPolicyAuditReference: recorded.agentPolicyAudit,
++        evidenceReference: recorded.evidence,
++        explanation: generated.explanation,
++        feedbackAuditReference: recorded.feedbackAudit,
++        stdioPack: recorded.pack,
++        stdioRequestId: recorded.retrievalRequestId,
++      };
++      await validateCkbEvidence(audited, startedAt, retrieval);
++      this.progress.setStage({
++        message: '追问审计通过，正在追加到今日学习笔记。',
++        stage: 'writing',
++        status: 'running',
++      });
++      const learningFile = await this.store.append({
++        createdAt: new Date(),
++        endLine: state.context.endLine,
++        explanation: audited.explanation,
++        followUp: true,
++        parentQuestion,
++        providerLabel: state.providerLabel,
++        question,
++        selectedText: state.context.selectedText,
++        sourcePath: state.context.sourcePath,
++        sourceTitle: state.context.sourceTitle,
++        startLine: state.context.startLine,
++      });
++      this.followUpState = {
++        ...state,
++        explanation: audited.explanation,
++        question,
++      };
++      progressNotice.setMessage(`CKB 追问完成：已写入 ${learningFile.path}`);
++      this.progress.complete(audited.explanation, learningFile.path);
++      window.setTimeout(() => progressNotice.hide(), TERMINAL_NOTICE_MS);
++    } catch (error) {
++      const message = error instanceof Error ? error.message : String(error);
++      progressNotice.setMessage(`CKB 追问失败：${message}`);
++      this.progress.fail(message);
++      this.releaseConversation();
++      window.setTimeout(() => progressNotice.hide(), TERMINAL_NOTICE_MS);
++    } finally {
++      service.setProgressCallback?.(undefined);
++    }
++  }
++
++  private releaseConversation(): void {
++    this.activeService?.setProgressCallback?.(undefined);
++    this.activeService?.resetConversation();
++    this.activeService = null;
++    this.followUpState = null;
++  }
++
++  async openToday(): Promise<void> {
++    try {
++      await this.store.open();
++    } catch (error) {
++      new Notice(error instanceof Error ? error.message : String(error));
++    }
++  }
++
++  dispose(): void {
++    this.progress.setFollowUpHandler(null);
++    this.activeService?.cancel();
++    this.releaseConversation();
++  }
++}
+diff --git a/src/features/selection-learning/SelectionLearningView.ts b/src/features/selection-learning/SelectionLearningView.ts
+new file mode 100644
+index 00000000..9dd41295
+--- /dev/null
++++ b/src/features/selection-learning/SelectionLearningView.ts
+@@ -0,0 +1,340 @@
++import type { App, WorkspaceLeaf } from 'obsidian';
++import { ItemView, MarkdownRenderer, setIcon, TFile } from 'obsidian';
++
++import type {
++  SelectionLearningProgressSnapshot,
++  SelectionLearningStage,
++  SelectionLearningStatus,
++  SelectionLearningTimelineEntry,
++} from './SelectionLearningProgress';
++
++export const SELECTION_LEARNING_VIEW_TYPE = 'ckb-selection-learning-view';
++
++const CKB_PRODUCT_NAME = 'CKB';
++
++export interface SelectionLearningContextSummary {
++  selectedText: string;
++  sourcePath: string;
++  sourceTitle: string;
++}
++
++interface ProgressPatch {
++  explanation?: string;
++  finishedAt?: number;
++  message: string;
++  outputPath?: string;
++  providerLabel?: string;
++  question?: string;
++  retrievalPack?: string;
++  retrievalRequestId?: string;
++  stage: SelectionLearningStage;
++  status: SelectionLearningStatus;
++}
++
++const STATUS_LABELS: Record<SelectionLearningStatus, string> = {
++  cancelled: '已取消',
++  failed: '失败',
++  passed: '已完成',
++  running: '进行中',
++  waiting: '等待提问',
++};
++
++export class SelectionLearningViewController {
++  private followUpHandler: ((question: string) => Promise<void>) | null = null;
++  private pendingExplanation = '';
++  private renderTimer: number | null = null;
++  private snapshot: SelectionLearningProgressSnapshot | null = null;
++  private readonly views = new Set<SelectionLearningView>();
++
++  constructor(private readonly app: App) {}
++
++  attach(view: SelectionLearningView): void {
++    this.views.add(view);
++    view.renderSnapshot(this.snapshot);
++  }
++
++  detach(view: SelectionLearningView): void {
++    this.views.delete(view);
++  }
++
++  setFollowUpHandler(handler: ((question: string) => Promise<void>) | null): void {
++    this.followUpHandler = handler;
++    this.publish();
++  }
++
++  canFollowUp(): boolean {
++    return this.followUpHandler !== null && this.snapshot?.status === 'passed';
++  }
++
++  async submitFollowUp(question: string): Promise<void> {
++    const normalized = question.trim();
++    if (!normalized || !this.followUpHandler || this.snapshot?.status !== 'passed') return;
++    await this.followUpHandler(normalized);
++  }
++
++  async start(context: SelectionLearningContextSummary): Promise<void> {
++    this.cancelPendingRender();
++    const now = Date.now();
++    this.snapshot = {
++      explanation: '',
++      message: '已接收选中文本，等待输入问题。',
++      selectedText: context.selectedText,
++      sourcePath: context.sourcePath,
++      sourceTitle: context.sourceTitle,
++      stage: 'waiting-question',
++      startedAt: now,
++      status: 'waiting',
++      timeline: [{ at: now, message: '等待输入问题', stage: 'waiting-question' }],
++    };
++    this.publish();
++    await this.open();
++  }
++
++  setQuestion(question: string): void {
++    if (!this.snapshot) return;
++    this.snapshot = { ...this.snapshot, question };
++    this.publish();
++  }
++
++  setStage(patch: ProgressPatch): void {
++    if (!this.snapshot) return;
++    const timeline = this.appendTimeline(this.snapshot.timeline, patch);
++    this.snapshot = {
++      ...this.snapshot,
++      ...patch,
++      timeline,
++    };
++    this.publish();
++  }
++
++  streamExplanation(explanation: string): void {
++    if (!this.snapshot || !explanation || this.snapshot.status !== 'running') return;
++    this.pendingExplanation = explanation;
++    if (this.renderTimer !== null) return;
++    this.renderTimer = window.setTimeout(() => {
++      this.renderTimer = null;
++      if (!this.snapshot || !this.pendingExplanation) return;
++      this.snapshot = { ...this.snapshot, explanation: this.pendingExplanation };
++      this.publish();
++    }, 120);
++  }
++
++  complete(explanation: string, outputPath: string): void {
++    this.cancelPendingRender();
++    this.setStage({
++      explanation,
++      finishedAt: Date.now(),
++      message: `解释已写入 ${outputPath}`,
++      outputPath,
++      stage: 'completed',
++      status: 'passed',
++    });
++  }
++
++  fail(message: string): void {
++    this.cancelPendingRender();
++    this.setStage({
++      finishedAt: Date.now(),
++      message,
++      stage: 'failed',
++      status: 'failed',
++    });
++  }
++
++  cancel(): void {
++    this.cancelPendingRender();
++    this.setStage({
++      finishedAt: Date.now(),
++      message: '已取消本次解释，知识库没有写入新内容。',
++      stage: 'cancelled',
++      status: 'cancelled',
++    });
++  }
++
++  async open(): Promise<void> {
++    const workspace = this.app.workspace;
++    const existing = workspace.getLeavesOfType(SELECTION_LEARNING_VIEW_TYPE)[0];
++    const leaf = existing ?? workspace.getRightLeaf(true);
++    if (!leaf) throw new Error('右侧 CKB 解释视图不可用。');
++    if (!existing) {
++      await leaf.setViewState({ active: true, type: SELECTION_LEARNING_VIEW_TYPE });
++    }
++    await workspace.revealLeaf(leaf);
++  }
++
++  async openPath(path: string): Promise<void> {
++    const file = this.app.vault.getAbstractFileByPath(path);
++    if (!(file instanceof TFile)) throw new Error(`知识库页面不存在：${path}`);
++    await this.app.workspace.getLeaf(true).openFile(file);
++  }
++
++  dispose(): void {
++    this.cancelPendingRender();
++    this.views.clear();
++  }
++
++  private appendTimeline(
++    timeline: readonly SelectionLearningTimelineEntry[],
++    patch: ProgressPatch,
++  ): readonly SelectionLearningTimelineEntry[] {
++    const previous = timeline.at(-1);
++    if (previous?.stage === patch.stage && previous.message === patch.message) return timeline;
++    return [...timeline, { at: Date.now(), message: patch.message, stage: patch.stage }];
++  }
++
++  private cancelPendingRender(): void {
++    if (this.renderTimer !== null) {
++      window.clearTimeout(this.renderTimer);
++      this.renderTimer = null;
++    }
++    this.pendingExplanation = '';
++  }
++
++  private publish(): void {
++    for (const view of this.views) view.renderSnapshot(this.snapshot);
++  }
++}
++
++export class SelectionLearningView extends ItemView {
++  constructor(
++    leaf: WorkspaceLeaf,
++    private readonly controller: SelectionLearningViewController,
++  ) {
++    super(leaf);
++  }
++
++  getViewType(): string {
++    return SELECTION_LEARNING_VIEW_TYPE;
++  }
++
++  getDisplayText(): string {
++    return `${CKB_PRODUCT_NAME} 解释`;
++  }
++
++  getIcon(): string {
++    return 'book-open-check';
++  }
++
++  async onOpen(): Promise<void> {
++    this.contentEl.addClass('ckb-selection-learning-view');
++    this.controller.attach(this);
++  }
++
++  async onClose(): Promise<void> {
++    this.controller.detach(this);
++  }
++
++  renderSnapshot(snapshot: SelectionLearningProgressSnapshot | null): void {
++    const root = this.contentEl;
++    root.replaceChildren();
++    const header = root.createDiv({ cls: 'ckb-selection-learning-view-header' });
++    const icon = header.createSpan({ cls: 'ckb-selection-learning-view-icon' });
++    setIcon(icon, 'book-open-check');
++    header.createEl('h3', { text: `${CKB_PRODUCT_NAME} 解释` });
++    if (!snapshot) {
++      root.createEl('p', {
++        cls: 'ckb-selection-learning-view-empty',
++        text: '选中文本后使用右键菜单，这里会显示检索、生成、审计和写入过程。',
++      });
++      return;
++    }
++
++    const status = root.createDiv({
++      cls: `ckb-selection-learning-status is-${snapshot.status}`,
++    });
++    status.createSpan({
++      cls: 'ckb-selection-learning-status-label',
++      text: STATUS_LABELS[snapshot.status],
++    });
++    status.createSpan({ text: snapshot.message });
++
++    const context = root.createDiv({ cls: 'ckb-selection-learning-context' });
++    context.createDiv({ cls: 'ckb-selection-learning-source', text: snapshot.sourceTitle });
++    context.createDiv({ cls: 'ckb-selection-learning-path', text: snapshot.sourcePath });
++    if (snapshot.question) {
++      context.createDiv({ cls: 'ckb-selection-learning-question-value', text: snapshot.question });
++    }
++    if (snapshot.providerLabel) {
++      context.createDiv({
++        cls: 'ckb-selection-learning-provider',
++        text: `执行器：${snapshot.providerLabel}`,
++      });
++    }
++    if (snapshot.retrievalRequestId && snapshot.retrievalPack) {
++      const evidence = context.createDiv({ cls: 'ckb-selection-learning-retrieval-evidence' });
++      evidence.createDiv({ text: '知识库检索证据' });
++      evidence.createDiv({
++        text: `路径：${CKB_PRODUCT_NAME} stdio · retrieve --profile fast`,
++      });
++      evidence.createDiv({ text: `请求：${snapshot.retrievalRequestId}` });
++      evidence.createDiv({ text: `Agent pack：${snapshot.retrievalPack}` });
++    }
++    const selection = context.createEl('details', { cls: 'ckb-selection-learning-selection' });
++    selection.createEl('summary', { text: '查看选中文本' });
++    selection.createEl('blockquote', { text: snapshot.selectedText });
++
++    root.createEl('h4', { text: '执行过程' });
++    const timeline = root.createEl('ol', { cls: 'ckb-selection-learning-timeline' });
++    for (const entry of snapshot.timeline) {
++      const item = timeline.createEl('li');
++      item.createEl('time', { text: formatTime(entry.at) });
++      item.createSpan({ text: entry.message });
++    }
++
++    if (snapshot.explanation) {
++      root.createEl('h4', { text: snapshot.status === 'passed' ? '解释结果' : '生成中的解释' });
++      const explanation = root.createDiv({ cls: 'ckb-selection-learning-explanation markdown-rendered' });
++      void MarkdownRenderer.render(
++        this.app,
++        snapshot.explanation,
++        explanation,
++        snapshot.sourcePath,
++        this,
++      );
++    }
++
++    if (snapshot.status === 'passed' && this.controller.canFollowUp()) {
++      const followUp = root.createDiv({ cls: 'ckb-selection-learning-follow-up' });
++      followUp.createEl('h4', { text: '继续追问' });
++      const input = followUp.createEl('textarea', {
++        attr: { placeholder: '基于当前解释继续提问；Ctrl/Cmd + Enter 提交。' },
++        cls: 'ckb-selection-learning-follow-up-input',
++      });
++      const submit = followUp.createEl('button', { text: '追问并记录' });
++      const send = () => {
++        const question = input.value.trim();
++        if (!question) return;
++        input.disabled = true;
++        submit.disabled = true;
++        void this.controller.submitFollowUp(question);
++      };
++      input.addEventListener('keydown', event => {
++        if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
++          event.preventDefault();
++          send();
++        }
++      });
++      submit.addEventListener('click', send);
++    }
++
++    const actions = root.createDiv({ cls: 'ckb-selection-learning-view-actions' });
++    if (snapshot.outputPath) {
++      const output = actions.createEl('button', { text: '打开学习笔记' });
++      output.addEventListener('click', () => {
++        void this.controller.openPath(snapshot.outputPath ?? '');
++      });
++    }
++    const source = actions.createEl('button', { text: '打开来源页面' });
++    source.addEventListener('click', () => {
++      void this.controller.openPath(snapshot.sourcePath);
++    });
++  }
++}
++
++function formatTime(value: number): string {
++  return new Date(value).toLocaleTimeString('zh-CN', {
++    hour: '2-digit',
++    minute: '2-digit',
++    second: '2-digit',
++  });
++}
+diff --git a/src/features/selection-learning/SelectionQuestionModal.ts b/src/features/selection-learning/SelectionQuestionModal.ts
+new file mode 100644
+index 00000000..3a985386
+--- /dev/null
++++ b/src/features/selection-learning/SelectionQuestionModal.ts
+@@ -0,0 +1,76 @@
++import { type App, ButtonComponent, Modal } from 'obsidian';
++
++const DEFAULT_QUESTION = '请解释这段内容中的核心概念、作用、上下文和容易误解的边界。';
++
++export class SelectionQuestionModal extends Modal {
++  private question = DEFAULT_QUESTION;
++  private resolveResult: ((value: string | null) => void) | null = null;
++
++  constructor(app: App, private readonly previewText: string) {
++    super(app);
++  }
++
++  openAndWait(): Promise<string | null> {
++    return new Promise(resolve => {
++      this.resolveResult = resolve;
++      super.open();
++    });
++  }
++
++  onOpen(): void {
++    this.contentEl.empty();
++    this.contentEl.addClass('ckb-selection-learning-modal');
++    this.contentEl.createEl('h3', { text: '询问选中文本' });
++
++    const preview = this.contentEl.createEl('pre', {
++      cls: 'ckb-selection-learning-preview',
++    });
++    preview.setText(this.previewText);
++
++    const textarea = this.contentEl.createEl('textarea', {
++      cls: 'ckb-selection-learning-question',
++    });
++    textarea.value = this.question;
++    textarea.addEventListener('input', () => {
++      this.question = textarea.value;
++    });
++    textarea.addEventListener('keydown', event => {
++      if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
++        event.preventDefault();
++        this.submit();
++      }
++    });
++
++    const buttons = this.contentEl.createDiv({ cls: 'ckb-selection-learning-buttons' });
++    new ButtonComponent(buttons)
++      .setButtonText('取消')
++      .onClick(() => this.finish(null));
++    new ButtonComponent(buttons)
++      .setButtonText('提问并记录')
++      .setCta()
++      .onClick(() => this.submit());
++    window.setTimeout(() => textarea.focus(), 20);
++  }
++
++  onClose(): void {
++    this.contentEl.empty();
++    if (this.resolveResult) {
++      const resolve = this.resolveResult;
++      this.resolveResult = null;
++      resolve(null);
++    }
++  }
++
++  private submit(): void {
++    const question = this.question.trim();
++    if (!question) return;
++    this.finish(question);
++  }
++
++  private finish(value: string | null): void {
++    const resolve = this.resolveResult;
++    this.resolveResult = null;
++    this.close();
++    resolve?.(value);
++  }
++}
+diff --git a/src/features/settings/ClaudianSettings.ts b/src/features/settings/ClaudianSettings.ts
+index 48a12c07..0890b005 100644
+--- a/src/features/settings/ClaudianSettings.ts
++++ b/src/features/settings/ClaudianSettings.ts
+@@ -25,6 +25,12 @@ import {
+   MIN_WARM_AGENT_PROCESSES,
+ } from '../chat/execution/WarmExecutionPool';
+ import type { FeatureHost } from '../FeatureHost';
++import {
++  FOLLOW_DEFAULT_SELECTION_PROVIDER,
++  formatSelectionLearningProviderContext,
++  normalizeSelectionLearningProvider,
++  resolveSelectionLearningProviderContext,
++} from '../selection-learning/SelectionLearningProvider';
+ import { AgentSkillManagementCoordinator } from './AgentSkillManagementCoordinator';
+ import { buildNavMappingText, parseNavMappings } from './keyboardNavigation';
+ 
+@@ -329,6 +335,46 @@ export class ClaudianSettingTab extends PluginSettingTab {
+   }
+ 
+   private renderGeneralTab(container: HTMLElement): void {
++    new Setting(container).setName('知识库选区解释').setHeading();
++
++    const enabledSelectionProviders = ProviderRegistry.getEnabledProviderIds(
++      this.plugin.settings,
++    );
++    const selectionProviderContext = enabledSelectionProviders.length > 0
++      ? resolveSelectionLearningProviderContext(this.plugin.settings)
++      : null;
++    const selectionProviderLabel = selectionProviderContext
++      ? formatSelectionLearningProviderContext(selectionProviderContext)
++      : '尚无启用 provider';
++    new Setting(container)
++      .setName('右键解释 provider')
++      .setDesc([
++        '“跟随默认模型”会在每次右键解释时读取聊天中最近选择的默认模型。',
++        `当前实际执行器：${selectionProviderLabel}`,
++      ].join(' '))
++      .addDropdown((dropdown) => {
++        dropdown.addOption(
++          FOLLOW_DEFAULT_SELECTION_PROVIDER,
++          `跟随默认模型（${selectionProviderLabel}）`,
++        );
++        for (const providerId of enabledSelectionProviders) {
++          dropdown.addOption(
++            providerId,
++            `固定使用 ${ProviderRegistry.getProviderDisplayName(providerId)}`,
++          );
++        }
++        dropdown
++          .setValue(normalizeSelectionLearningProvider(this.plugin.settings))
++          .onChange(async (value) => {
++            await this.plugin.mutateSettings((settings) => {
++              settings.selectionLearningProvider = value;
++            });
++            this.update();
++          });
++      });
++
++    // --- Language ---
++
+     new Setting(container)
+       .setName(t('settings.language.name'))
+       .setDesc(t('settings.language.desc'))
+diff --git a/src/main.ts b/src/main.ts
+index 2d550cf9..6f218592 100644
+--- a/src/main.ts
++++ b/src/main.ts
+@@ -9,7 +9,7 @@ StartupProfiler.finishModuleEvaluation();
+ 
+ import { isCollabOpaqueId, isCollabProjectId } from '@claudian-collab/protocol';
+ import type { Editor, TAbstractFile, WorkspaceLeaf } from 'obsidian';
+-import { MarkdownView, normalizePath, Notice, Plugin, TFile, TFolder } from 'obsidian';
++import { MarkdownView, Menu, normalizePath, Notice, Plugin, TFile, TFolder } from 'obsidian';
+ 
+ import type {
+   LocalAgentRuntimeHttpServer,
+@@ -105,6 +105,13 @@ import { DeferredCollabSurfaceController } from './features/collab/sidebar/Defer
+ import type { GitSetupResolution } from './features/collab/sidebar/GitSetupPanel';
+ import type { CollabSidebarSurfaceFactory } from './features/FeatureHost';
+ import { type InlineEditContext, InlineEditModal } from './features/inline-edit/ui/InlineEditModal';
++import { CkbStdioClient } from './features/selection-learning/CkbStdioClient';
++import { SelectionLearningService } from './features/selection-learning/SelectionLearningService';
++import {
++  SELECTION_LEARNING_VIEW_TYPE,
++  SelectionLearningView,
++  SelectionLearningViewController,
++} from './features/selection-learning/SelectionLearningView';
+ import { ClaudianSettingTab } from './features/settings/ClaudianSettings';
+ import { setLocale, t } from './i18n/i18n';
+ import type { Locale } from './i18n/types';
+@@ -224,6 +231,9 @@ export default class ClaudianPlugin extends Plugin {
+   private isUnloading = false;
+   private applicationShutdownPromise: Promise<void> | null = null;
+   private tabWorkspaceMigrationCoordinator!: TabWorkspaceMigrationCoordinator;
++  private ckbStdioClient: CkbStdioClient | null = null;
++  private selectionLearningService: SelectionLearningService | null = null;
++  private selectionLearningViewController: SelectionLearningViewController | null = null;
+ 
+   get executionPersistence(): ChatExecutionPersistence {
+     return this.conversationRepository;
+@@ -246,6 +256,11 @@ export default class ClaudianPlugin extends Plugin {
+         VIEW_TYPE_CLAUDIAN,
+         (leaf) => new ClaudianView(leaf, this)
+       );
++      this.selectionLearningViewController = new SelectionLearningViewController(this.app);
++      this.registerView(
++        SELECTION_LEARNING_VIEW_TYPE,
++        leaf => new SelectionLearningView(leaf, this.selectionLearningViewController!),
++      );
+       this.registerView(
+         COLLAB_DETAIL_VIEW_TYPE,
+         leaf => new CollabDetailView(leaf, this.createCollabDetailViewPort(), {
+@@ -378,6 +393,86 @@ export default class ClaudianPlugin extends Plugin {
+         },
+       });
+ 
++      this.ckbStdioClient = new CkbStdioClient(this.app);
++      void this.ckbStdioClient.start().catch(error => {
++        new Notice(`CKB stdio 初始化失败：${error instanceof Error ? error.message : String(error)}`);
++      });
++      this.selectionLearningService = new SelectionLearningService(
++        this,
++        this.ckbStdioClient,
++        this.selectionLearningViewController,
++      );
++      this.registerEvent(
++        this.app.workspace.on('editor-menu', (menu, editor, info) => {
++          const view = info instanceof MarkdownView
++            ? info
++            : this.app.workspace.getActiveViewOfType(MarkdownView);
++          if (!view || !editor.getSelection().trim()) return;
++          menu.addItem(item => item
++            .setTitle('使用知识库解释选中文本')
++            .setIcon('book-open')
++            .onClick(() => {
++              void this.selectionLearningService?.promptAndExplain(editor, view);
++            }));
++        }),
++      );
++      const activeDocument = this.app.workspace.containerEl.ownerDocument;
++      this.registerDomEvent(activeDocument, 'contextmenu', event => {
++        const target = event.target as HTMLElement | null;
++        if (!target?.closest) return;
++        const preview = target.closest('.markdown-preview-view');
++        if (!preview) return;
++        const selection = target.ownerDocument.defaultView?.getSelection();
++        if (!selection || selection.isCollapsed || selection.rangeCount === 0) return;
++        const range = selection.getRangeAt(0);
++        if (!preview.contains(range.commonAncestorContainer)) return;
++        const selectedText = selection.toString().trim();
++        if (!selectedText) return;
++        const view = this.app.workspace.getActiveViewOfType(MarkdownView);
++        if (!view?.file) return;
++        event.preventDefault();
++        event.stopImmediatePropagation();
++        const menu = new Menu();
++        menu.addItem(item => item
++          .setTitle('使用知识库解释选中文本')
++          .setIcon('book-open')
++          .onClick(() => {
++            void this.selectionLearningService?.promptReadingSelection(selectedText, view);
++          }));
++        menu.showAtMouseEvent(event);
++      }, { capture: true });
++
++      this.addCommand({
++        id: 'explain-selection-to-daily-note',
++        name: 'Ask about selection and save to daily learning note',
++        editorCallback: async (editor: Editor, ctx) => {
++          const view = ctx instanceof MarkdownView
++            ? ctx
++            : this.app.workspace.getActiveViewOfType(MarkdownView);
++          if (!view) {
++            new Notice('Selection learning requires an active Markdown view.');
++            return;
++          }
++          await this.selectionLearningService?.promptAndExplain(editor, view);
++        },
++      });
++
++      this.addCommand({
++        id: 'open-today-learning-note',
++        name: "Open today's learning note",
++        callback: () => {
++          void this.selectionLearningService?.openToday();
++        },
++      });
++
++      this.addCommand({
++        id: 'open-selection-learning-view',
++        name: '打开知识库解释视图',
++        callback: () => {
++          void this.selectionLearningViewController?.open();
++        },
++      });
++
+       this.addCommand({
+         id: 'new-tab',
+         name: 'New',
+@@ -455,6 +550,12 @@ export default class ClaudianPlugin extends Plugin {
+ 
+   onunload(): void {
+     this.isUnloading = true;
++    this.selectionLearningService?.dispose();
++    this.selectionLearningService = null;
++    this.selectionLearningViewController?.dispose();
++    this.selectionLearningViewController = null;
++    void this.ckbStdioClient?.dispose();
++    this.ckbStdioClient = null;
+     this.collabTransientSurfaces.closeAll();
+     if (this.sessionMetadataLoadTimer !== null) {
+       window.clearTimeout(this.sessionMetadataLoadTimer);
+diff --git a/src/providers/codex/runtime/codexAppServerSupport.ts b/src/providers/codex/runtime/codexAppServerSupport.ts
+index f11c9b18..50ccb9c9 100644
+--- a/src/providers/codex/runtime/codexAppServerSupport.ts
++++ b/src/providers/codex/runtime/codexAppServerSupport.ts
+@@ -16,6 +16,44 @@ const CODEX_APP_SERVER_CLIENT_INFO = Object.freeze({
+   version: '1.0.0',
+ });
+ 
++function wslEnvironmentName(entry: string): string {
++  return entry.split('/', 1)[0]?.trim().toUpperCase() ?? '';
++}
++
++export function mergeWslEnvironmentPassThrough(
++  current: string | undefined,
++  customEnv: Record<string, string>,
++): string {
++  const entries = (current ?? '').split(':').map(value => value.trim()).filter(Boolean);
++  const indexByName = new Map<string, number>();
++  entries.forEach((entry, index) => {
++    const name = wslEnvironmentName(entry);
++    if (name && !indexByName.has(name)) indexByName.set(name, index);
++  });
++  for (const key of Object.keys(customEnv).sort()) {
++    const normalized = key.trim().toUpperCase();
++    if (
++      !/^[A-Z_][A-Z0-9_]*$/.test(normalized)
++      || normalized === 'PATH'
++      || normalized === 'WSLENV'
++    ) {
++      continue;
++    }
++    const existingIndex = indexByName.get(normalized);
++    if (existingIndex !== undefined) {
++      const existing = entries[existingIndex] ?? key;
++      const flags = existing.split('/', 2)[1]?.toLowerCase() ?? '';
++      if (customEnv[key]?.startsWith('/') && flags.includes('p')) {
++        entries[existingIndex] = key;
++      }
++      continue;
++    }
++    entries.push(key);
++    indexByName.set(normalized, entries.length - 1);
++  }
++  return entries.join(':');
++}
++
+ export function getCodexAppServerWorkingDirectory(plugin: ProviderHost): string {
+   return getVaultPath(plugin.app) ?? process.cwd();
+ }
+@@ -29,11 +67,13 @@ export function buildCodexAppServerEnvironment(
+     Object.entries(process.env).filter((entry): entry is [string, string] => entry[1] !== undefined),
+   );
+   const enhancedPath = getEnhancedPath(customEnv.PATH);
++  const wslEnv = mergeWslEnvironmentPassThrough(baseEnv.WSLENV, customEnv);
+ 
+   return {
+     ...baseEnv,
+     ...customEnv,
+     PATH: enhancedPath,
++    ...(wslEnv ? { WSLENV: wslEnv } : {}),
+   };
+ }
+ 
+diff --git a/src/style/features/selection-learning.css b/src/style/features/selection-learning.css
+new file mode 100644
+index 00000000..b56bb9ab
+--- /dev/null
++++ b/src/style/features/selection-learning.css
+@@ -0,0 +1,179 @@
++.ckb-selection-learning-modal {
++  display: flex;
++  flex-direction: column;
++  gap: 0.75rem;
++}
++
++.ckb-selection-learning-preview {
++  max-height: 12rem;
++  margin: 0;
++  overflow: auto;
++  padding: 0.75rem;
++  border: 1px solid var(--background-modifier-border);
++  border-radius: var(--radius-s);
++  background: var(--background-secondary);
++  white-space: pre-wrap;
++}
++
++.ckb-selection-learning-question {
++  min-height: 7rem;
++  resize: vertical;
++}
++
++.ckb-selection-learning-buttons {
++  display: flex;
++  justify-content: flex-end;
++  gap: 0.5rem;
++}
++
++.ckb-selection-learning-view {
++  display: flex;
++  flex-direction: column;
++  gap: 0.85rem;
++  overflow: auto;
++  padding: 0.8rem;
++}
++
++.ckb-selection-learning-view-header {
++  display: flex;
++  align-items: center;
++  gap: 0.5rem;
++}
++
++.ckb-selection-learning-view-header h3 {
++  margin: 0;
++}
++
++.ckb-selection-learning-view-icon {
++  display: inline-flex;
++  color: var(--interactive-accent);
++}
++
++.ckb-selection-learning-status {
++  display: flex;
++  flex-direction: column;
++  gap: 0.35rem;
++  padding: 0.65rem;
++  border: 1px solid var(--background-modifier-border);
++  border-radius: var(--radius-s);
++  background: var(--background-secondary);
++}
++
++.ckb-selection-learning-status-label {
++  width: fit-content;
++  padding: 0.1rem 0.45rem;
++  border-radius: 999px;
++  background: var(--interactive-accent);
++  color: var(--text-on-accent);
++  font-size: var(--font-ui-smaller);
++  font-weight: var(--font-semibold);
++}
++
++.ckb-selection-learning-status.is-failed .ckb-selection-learning-status-label {
++  background: var(--background-modifier-error);
++}
++
++.ckb-selection-learning-status.is-cancelled .ckb-selection-learning-status-label {
++  background: var(--text-muted);
++}
++
++.ckb-selection-learning-context {
++  display: flex;
++  flex-direction: column;
++  gap: 0.3rem;
++  font-size: var(--font-ui-small);
++}
++
++.ckb-selection-learning-source,
++.ckb-selection-learning-question-value {
++  color: var(--text-normal);
++  font-weight: var(--font-semibold);
++}
++
++.ckb-selection-learning-path,
++.ckb-selection-learning-provider {
++  color: var(--text-muted);
++  overflow-wrap: anywhere;
++}
++
++.ckb-selection-learning-retrieval-evidence {
++  display: flex;
++  flex-direction: column;
++  gap: 0.2rem;
++  margin-top: 0.35rem;
++  padding: 0.55rem;
++  border-left: 3px solid var(--interactive-accent);
++  background: var(--background-secondary-alt);
++  color: var(--text-muted);
++  overflow-wrap: anywhere;
++}
++
++.ckb-selection-learning-retrieval-evidence > :first-child {
++  color: var(--text-normal);
++  font-weight: var(--font-semibold);
++}
++
++.ckb-selection-learning-selection blockquote {
++  max-height: 10rem;
++  overflow: auto;
++  white-space: pre-wrap;
++}
++
++.ckb-selection-learning-timeline {
++  display: flex;
++  flex-direction: column;
++  gap: 0.5rem;
++  margin: 0;
++  padding-inline-start: 1.4rem;
++}
++
++.ckb-selection-learning-timeline li {
++  padding-inline-start: 0.2rem;
++}
++
++.ckb-selection-learning-timeline time {
++  display: block;
++  color: var(--text-muted);
++  font-size: var(--font-ui-smaller);
++}
++
++.ckb-selection-learning-explanation {
++  padding: 0.7rem;
++  border: 1px solid var(--background-modifier-border);
++  border-radius: var(--radius-s);
++  background: var(--background-primary-alt);
++}
++
++.ckb-selection-learning-follow-up {
++  display: flex;
++  flex-direction: column;
++  gap: 0.5rem;
++  padding: 0.7rem;
++  border: 1px solid var(--background-modifier-border);
++  border-radius: var(--radius-s);
++  background: var(--background-secondary);
++}
++
++.ckb-selection-learning-follow-up h4 {
++  margin: 0;
++}
++
++.ckb-selection-learning-follow-up-input {
++  min-height: 5rem;
++  resize: vertical;
++}
++
++.ckb-selection-learning-follow-up button {
++  align-self: flex-end;
++}
++
++.ckb-selection-learning-view-actions {
++  display: flex;
++  flex-wrap: wrap;
++  gap: 0.5rem;
++  padding-block-end: 0.5rem;
++}
++
++.ckb-selection-learning-view-empty {
++  color: var(--text-muted);
++}
+diff --git a/src/style/index.css b/src/style/index.css
+index dea15902..9178f67e 100644
+--- a/src/style/index.css
++++ b/src/style/index.css
+@@ -40,6 +40,7 @@
+ @import "./features/resume-session.css";
+ @import "./features/ask-user-question.css";
+ @import "./features/plan-mode.css";
++@import "./features/selection-learning.css";
+ @import "./features/collab-git.css";
+ @import "./features/collab-project.css";
+ @import "./features/collab-join.css";
+diff --git a/tests/unit/features/selection-learning/LearningNoteDocument.test.ts b/tests/unit/features/selection-learning/LearningNoteDocument.test.ts
+new file mode 100644
+index 00000000..61a5cc50
+--- /dev/null
++++ b/tests/unit/features/selection-learning/LearningNoteDocument.test.ts
+@@ -0,0 +1,253 @@
++import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
++import { tmpdir } from 'node:os';
++import path from 'node:path';
++
++import {
++  parseCkbBinding,
++  parseCkbOutputContract,
++  utf8SafeText,
++} from '@/features/selection-learning/CkbStdioClient';
++import {
++  createDailyLearningDocument,
++  formatLocalDate,
++  renderLearningNoteEntry,
++} from '@/features/selection-learning/LearningNoteDocument';
++import {
++  buildSelectionFollowUpInstruction,
++  buildSelectionLearningInstruction,
++  parseAuditedExplanation,
++  validateCkbEvidence,
++} from '@/features/selection-learning/SelectionLearningService';
++
++describe('selection learning notes', () => {
++  const createdAt = new Date(2026, 7, 29, 9, 5, 7);
++  const retrieval = {
++    elapsedMs: 12.5,
++    outputRoot: 'E:/knowledge-base',
++    pack: 'E:/knowledge-base/machine/agent-packs/pack-01.md',
++    packText: '# Agent pack\n\n- ProviderRegistry 负责选择执行器。',
++    requestId: 'obsidian-test-01',
++    status: 'passed' as const,
++  };
++
++  it('uses one date-scoped page with one human page tag', () => {
++    expect(formatLocalDate(createdAt)).toBe('2026-08-29');
++    expect(createDailyLearningDocument(createdAt)).toBe(
++      '# 2026-08-29 学习笔记\n\n'
++      + '标签：#类型/学习\n\n'
++      + '> 本页汇总当天从文档选区发起的概念提问与解释。\n',
++    );
++  });
++
++  it('links the source range and keeps the selected text as a quote', () => {
++    const rendered = renderLearningNoteEntry({
++      createdAt,
++      endLine: 14,
++      explanation: '这个概念描述系统如何把请求交给当前执行器。',
++      providerLabel: 'Codex',
++      question: '它在这里起什么作用？',
++      selectedText: 'provider registry\nselects one runtime',
++      sourcePath: 'docs/runtime.md',
++      sourceTitle: 'runtime',
++      startLine: 13,
++    });
++
++    expect(rendered).toContain('## 09:05:07 · runtime');
++    expect(rendered).toContain('来源：[[docs/runtime|runtime]] · 第 13–14 行');
++    expect(rendered).toContain('执行器：Codex');
++    expect(rendered).toContain('> provider registry\n> selects one runtime');
++    expect(rendered).toContain('### 解释\n\n这个概念描述系统如何把请求交给当前执行器。');
++  });
++
++  it('keeps a readable source link without inventing line numbers in reading mode', () => {
++    const rendered = renderLearningNoteEntry({
++      createdAt,
++      explanation: '阅览模式仍复用同一知识库流程。',
++      providerLabel: 'Codex',
++      question: '解释这段文本。',
++      selectedText: '只需要选中文本',
++      sourcePath: 'analysis/retrieval.md',
++      sourceTitle: 'retrieval',
++    });
++
++    expect(rendered).toContain('来源：[[analysis/retrieval|retrieval]] · 阅览模式选中文本');
++    expect(rendered).not.toContain('第 undefined 行');
++  });
++
++  it('renders a follow-up as a compact continuation without repeating the selection', () => {
++    const rendered = renderLearningNoteEntry({
++      createdAt,
++      explanation: '追问答案仍经过新的 CKB 检索与审计。',
++      followUp: true,
++      parentQuestion: '它在这里起什么作用？',
++      providerLabel: 'Codex',
++      question: '那它和直接 grep 有什么区别？',
++      selectedText: 'provider registry selects one runtime',
++      sourcePath: 'docs/runtime.md',
++      sourceTitle: 'runtime',
++    });
++
++    expect(rendered).toContain('## 09:05:07 · 追问 · runtime');
++    expect(rendered).toContain('### 承接问题\n\n它在这里起什么作用？');
++    expect(rendered).toContain('### 我的追问\n\n那它和直接 grep 有什么区别？');
++    expect(rendered).not.toContain('### 选中文本');
++  });
++
++  it('asks for an explanation without requesting a document edit', () => {
++    const prompt = buildSelectionLearningInstruction('解释 provider registry。', createdAt, retrieval);
++    expect(prompt).toContain('选区解释快速路径');
++    expect(prompt).toContain('禁止调用任何工具');
++    expect(prompt).toContain('---CKB_AGENT_PACK---');
++    expect(prompt).toContain('ProviderRegistry 负责选择执行器');
++    expect(prompt).toContain('学习笔记/2026-08-29.md');
++    expect(prompt).toContain('不得创建 analysis 页面');
++    expect(prompt).toContain('CKB_STDIO_REQUEST: obsidian-test-01');
++    expect(prompt).toContain('CKB_STDIO_PACK: E:/knowledge-base/machine/agent-packs/pack-01.md');
++    expect(prompt).toContain('不改写选中文本');
++    expect(prompt).toContain('问题：解释 provider registry。');
++  });
++
++  it('accepts one retrieval-bound provider explanation envelope', () => {
++    expect(parseAuditedExplanation([
++      'CKB_RETRIEVAL: passed',
++      'CKB_GENERATION: passed',
++      'CKB_STDIO_REQUEST: obsidian-test-01',
++      'CKB_STDIO_PACK: E:/knowledge-base/machine/agent-packs/pack-01.md',
++      '---CKB_EXPLANATION---',
++      '这是经过知识库检索与审计的解释。',
++      '---END_CKB_EXPLANATION---',
++    ].join('\n'))).toEqual({
++      agentPolicyAuditReference: '',
++      evidenceReference: '',
++      explanation: '这是经过知识库检索与审计的解释。',
++      feedbackAuditReference: '',
++      stdioPack: 'E:/knowledge-base/machine/agent-packs/pack-01.md',
++      stdioRequestId: 'obsidian-test-01',
++    });
++  });
++
++  it('binds every follow-up to a fresh Agent pack and the previous answer', () => {
++    const prompt = buildSelectionFollowUpInstruction(
++      '那它和直接 grep 有什么区别？',
++      retrieval,
++      '它在这里起什么作用？',
++      '上一轮解释说明了 ProviderRegistry 的职责。',
++    );
++
++    expect(prompt).toContain('保持同一 Provider 会话');
++    expect(prompt).toContain('本轮必须只依据新的 Agent pack');
++    expect(prompt).toContain('ProviderRegistry 负责选择执行器');
++    expect(prompt).toContain('承接问题：它在这里起什么作用？');
++    expect(prompt).toContain('本轮追问：那它和直接 grep 有什么区别？');
++    expect(prompt).toContain('不得创建 analysis 页面');
++    expect(prompt).toContain('CKB_STDIO_REQUEST: obsidian-test-01');
++  });
++
++  it('reopens machine evidence and fresh passed audits before accepting an explanation', async () => {
++    const root = await mkdtemp(path.join(tmpdir(), 'ckb-selection-evidence-'));
++    const evidence = path.join(root, 'workspace-meta', 'stdio', 'explanations', 'request.json');
++    const feedbackAudit = path.join(root, 'workspace-meta', 'feedback-audit.json');
++    const agentPolicyAudit = path.join(root, 'workspace-meta', 'agent-protocol-audit.json');
++    const pack = path.join(root, 'machine', 'agent-packs', 'pack-01.md');
++    try {
++      await mkdir(path.dirname(evidence), { recursive: true });
++      await mkdir(path.dirname(feedbackAudit), { recursive: true });
++      await mkdir(path.dirname(pack), { recursive: true });
++      const startedAt = Date.now();
++      await writeFile(evidence, JSON.stringify({
++        status: 'passed',
++        kind: 'learning-explanation-evidence',
++        retrieval_request_id: 'obsidian-test-01',
++        pack,
++      }), 'utf8');
++      await writeFile(feedbackAudit, JSON.stringify({ status: 'passed', errors: [] }), 'utf8');
++      await writeFile(agentPolicyAudit, JSON.stringify({ status: 'passed', errors: [] }), 'utf8');
++      await writeFile(pack, '# Agent pack\n', 'utf8');
++      await expect(validateCkbEvidence({
++        agentPolicyAuditReference: agentPolicyAudit,
++        evidenceReference: evidence,
++        explanation: '已通过确定性文件审计。',
++        feedbackAuditReference: feedbackAudit,
++        stdioPack: pack,
++        stdioRequestId: 'obsidian-test-01',
++      }, startedAt, {
++        elapsedMs: 1,
++        outputRoot: root,
++        pack,
++        packText: '# Agent pack',
++        requestId: 'obsidian-test-01',
++        status: 'passed',
++      })).resolves.toBeUndefined();
++    } finally {
++      await rm(root, { recursive: true, force: true });
++    }
++  });
++
++  it('discovers the Windows CKB stdio binding from the managed AGENTS file', () => {
++    expect(parseCkbBinding([
++      '# Agent protocol',
++      "& 'C:\\runtime\\python.exe' 'C:\\skills\\code-knowledge-builder\\scripts\\ckb.py' retrieve --out 'E:\\knowledge-base'",
++    ].join('\n'), 'E:/knowledge-base')).toEqual({
++      ckbScript: 'C:\\skills\\code-knowledge-builder\\scripts\\ckb.py',
++      outputRoot: 'E:/knowledge-base',
++      python: 'C:\\runtime\\python.exe',
++    });
++  });
++
++  it('uses the plugin-gated CKB output contract without parsing prose', () => {
++    expect(parseCkbOutputContract(JSON.stringify({
++      schema_version: 1,
++      contract: 'code-knowledge-builder-output',
++      status: 'ready',
++      output: 'E:\\knowledge-base',
++      vault: 'E:\\knowledge-base\\human',
++      runtime: {
++        python: 'C:\\runtime\\python.exe',
++        ckb: 'C:\\skills\\code-knowledge-builder\\scripts\\ckb.py',
++      },
++      stdio: {
++        protocol: 'ckb-stdio-retrieval',
++        minimum_version: 2,
++        methods: ['ping', 'retrieve', 'record-explanation', 'shutdown'],
++      },
++    }), 'E:\\knowledge-base\\human')).toEqual({
++      ckbScript: 'C:\\skills\\code-knowledge-builder\\scripts\\ckb.py',
++      outputRoot: 'E:\\knowledge-base',
++      python: 'C:\\runtime\\python.exe',
++    });
++  });
++
++  it('rejects a contract projected for a different vault', () => {
++    expect(parseCkbOutputContract(JSON.stringify({
++      schema_version: 1,
++      contract: 'code-knowledge-builder-output',
++      status: 'ready',
++      output: 'E:\\knowledge-base',
++      vault: 'E:\\knowledge-base\\human',
++      runtime: { python: 'python.exe', ckb: 'ckb.py' },
++      stdio: {
++        protocol: 'ckb-stdio-retrieval',
++        minimum_version: 2,
++        methods: ['ping', 'retrieve', 'record-explanation', 'shutdown'],
++      },
++    }), 'E:\\other-vault')).toBeNull();
++  });
++
++  it('preserves valid emoji pairs and replaces lone UTF-16 surrogates before stdio', () => {
++    const normalized = utf8SafeText(`正常😀尾部${String.fromCharCode(0xDCA6)}`);
++    expect(normalized).toBe('正常😀尾部�');
++    expect([...normalized].some(character => {
++      const code = character.charCodeAt(0);
++      return code >= 0xD800 && code <= 0xDFFF && character.length === 1;
++    })).toBe(false);
++  });
++
++  it('keeps the learning page unchanged when provider retrieval evidence is absent', () => {
++    expect(parseAuditedExplanation([
++      'CKB_GENERATION: passed',
++      '---CKB_EXPLANATION---',
++      '缺少审计凭据。',
++      '---END_CKB_EXPLANATION---',
++    ].join('\n'))).toBeNull();
++  });
++});
+diff --git a/tests/unit/features/selection-learning/SelectionLearningProgress.test.ts b/tests/unit/features/selection-learning/SelectionLearningProgress.test.ts
+new file mode 100644
+index 00000000..0a7d9787
+--- /dev/null
++++ b/tests/unit/features/selection-learning/SelectionLearningProgress.test.ts
+@@ -0,0 +1,30 @@
++import { extractExplanationProgress } from '@/features/selection-learning/SelectionLearningProgress';
++
++describe('extractExplanationProgress', () => {
++  it('returns nothing before the audited explanation marker appears', () => {
++    expect(extractExplanationProgress('CKB_WORKFLOW_AUDIT: passed')).toBe('');
++  });
++
++  it('returns a partial explanation while the provider is still streaming', () => {
++    expect(extractExplanationProgress([
++      '---CKB_EXPLANATION---',
++      '正在生成的中文解释',
++    ].join('\n'))).toBe('正在生成的中文解释');
++  });
++
++  it('stops before the terminal marker', () => {
++    expect(extractExplanationProgress([
++      '---CKB_EXPLANATION---',
++      '最终解释',
++      '---END_CKB_EXPLANATION---',
++      'ignored',
++    ].join('\n'))).toBe('最终解释');
++  });
++
++  it('does not expose protocol fields as explanation text', () => {
++    expect(extractExplanationProgress([
++      'CKB_RECORD: E:/knowledge/record.md',
++      'CKB_AUDIT: passed',
++    ].join('\n'))).toBe('');
++  });
++});
+diff --git a/tests/unit/features/selection-learning/SelectionLearningProvider.test.ts b/tests/unit/features/selection-learning/SelectionLearningProvider.test.ts
+new file mode 100644
+index 00000000..d95f4677
+--- /dev/null
++++ b/tests/unit/features/selection-learning/SelectionLearningProvider.test.ts
+@@ -0,0 +1,116 @@
++import { ProviderRegistry } from '@/core/providers/ProviderRegistry';
++import type { ProviderChatUIConfig, ProviderId } from '@/core/providers/types';
++import {
++  FOLLOW_DEFAULT_SELECTION_PROVIDER,
++  formatSelectionLearningProviderContext,
++  normalizeSelectionLearningProvider,
++  resolveSelectionLearningProviderContext,
++} from '@/features/selection-learning/SelectionLearningProvider';
++
++interface TestProviderConfig {
++  defaultModel: string;
++  options: string[];
++}
++
++function createUiConfig(config: TestProviderConfig): ProviderChatUIConfig {
++  return {
++    getModelOptions: () => config.options.map(value => ({ label: value, value })),
++    getCustomModelIds: () => new Set(),
++    getDefaultModel: () => config.defaultModel,
++    ownsModel: model => config.options.includes(model),
++    isAdaptiveReasoningModel: () => false,
++    getReasoningOptions: () => [],
++    getDefaultReasoningValue: () => 'off',
++    getContextWindowSize: () => 200_000,
++    isDefaultModel: model => model === config.defaultModel,
++    applyModelDefaults: () => undefined,
++    normalizeAvailableModelSelection: model => model,
++    normalizeModelVariant: model => model,
++  };
++}
++
++describe('selection learning provider resolution', () => {
++  const providers: Record<ProviderId, TestProviderConfig> = {
++    claude: { defaultModel: 'opus', options: ['haiku', 'opus'] },
++    codex: { defaultModel: 'gpt-5.6-sol', options: ['gpt-5.6-sol', 'gpt-5.6-luna'] },
++  };
++
++  beforeEach(() => {
++    jest.spyOn(ProviderRegistry, 'getRegisteredProviderIds')
++      .mockReturnValue(['claude', 'codex']);
++    jest.spyOn(ProviderRegistry, 'getEnabledProviderIds')
++      .mockImplementation(settings => (
++        ((settings.enabledProviders as ProviderId[] | undefined) ?? [])
++      ));
++    jest.spyOn(ProviderRegistry, 'getBlankTabProviderIds')
++      .mockImplementation(settings => (
++        ((settings.enabledProviders as ProviderId[] | undefined) ?? [])
++      ));
++    jest.spyOn(ProviderRegistry, 'isEnabled')
++      .mockImplementation((providerId, settings) => (
++        ((settings.enabledProviders as ProviderId[] | undefined) ?? []).includes(providerId)
++      ));
++    jest.spyOn(ProviderRegistry, 'getChatUIConfig')
++      .mockImplementation(providerId => createUiConfig(providers[providerId ?? 'claude']!));
++    jest.spyOn(ProviderRegistry, 'getProviderDisplayName')
++      .mockImplementation(providerId => providerId === 'codex' ? 'Codex' : 'Claude Code');
++    jest.spyOn(ProviderRegistry, 'resolveSettingsProviderId').mockReturnValue('claude');
++  });
++
++  afterEach(() => {
++    jest.restoreAllMocks();
++  });
++
++  it('follows the provider and model selected as the new-chat default', () => {
++    const settings = {
++      enabledProviders: ['claude', 'codex'],
++      lastSelectedChatModel: { providerId: 'codex', model: 'gpt-5.6-luna' },
++      selectionLearningProvider: FOLLOW_DEFAULT_SELECTION_PROVIDER,
++    };
++
++    expect(resolveSelectionLearningProviderContext(settings)).toEqual({
++      modelOverride: 'gpt-5.6-luna',
++      providerId: 'codex',
++      source: 'default-model',
++    });
++
++    settings.lastSelectedChatModel = { providerId: 'claude', model: 'opus' };
++    expect(resolveSelectionLearningProviderContext(settings)).toEqual({
++      modelOverride: 'opus',
++      providerId: 'claude',
++      source: 'default-model',
++    });
++  });
++
++  it('uses the saved model when the user fixes one Provider', () => {
++    const context = resolveSelectionLearningProviderContext({
++      enabledProviders: ['claude', 'codex'],
++      lastSelectedChatModel: { providerId: 'claude', model: 'opus' },
++      savedProviderModel: { codex: 'gpt-5.6-luna' },
++      selectionLearningProvider: 'codex',
++    });
++
++    expect(context).toEqual({
++      modelOverride: 'gpt-5.6-luna',
++      providerId: 'codex',
++      source: 'fixed-provider',
++    });
++    expect(formatSelectionLearningProviderContext(context)).toBe('Codex / gpt-5.6-luna');
++  });
++
++  it('falls back to follow-default when a fixed Provider is disabled or unknown', () => {
++    const base = {
++      enabledProviders: ['codex'],
++      lastSelectedChatModel: { providerId: 'codex', model: 'gpt-5.6-sol' },
++    };
++
++    expect(normalizeSelectionLearningProvider({
++      ...base,
++      selectionLearningProvider: 'claude',
++    })).toBe(FOLLOW_DEFAULT_SELECTION_PROVIDER);
++    expect(normalizeSelectionLearningProvider({
++      ...base,
++      selectionLearningProvider: 'missing',
++    })).toBe(FOLLOW_DEFAULT_SELECTION_PROVIDER);
++  });
++});
+diff --git a/tests/unit/features/settings/ClaudianSettings.display.test.ts b/tests/unit/features/settings/ClaudianSettings.display.test.ts
+index 37df2544..7c8a9c52 100644
+--- a/tests/unit/features/settings/ClaudianSettings.display.test.ts
++++ b/tests/unit/features/settings/ClaudianSettings.display.test.ts
+@@ -2,6 +2,8 @@ const mockRenderedSettingNames: string[] = [];
+ const mockSettingDescriptionEls = new Map<string, MockContainer>();
+ const mockToggleChanges = new Map<string, (value: boolean) => Promise<void>>();
+ const mockTextChanges = new Map<string, (value: string) => Promise<void>>();
++const mockDropdownChanges = new Map<string, (value: string) => Promise<void>>();
++const mockDropdownOptions = new Map<string, Array<[string, string]>>();
+ const mockGitStatusElements: Array<{
+   attributes: Map<string, string>;
+   className: string;
+@@ -45,6 +47,16 @@ jest.mock('obsidian', () => {
+ 
+     addDropdown(callback: (dropdown: MockChainableComponent) => void): this {
+       const dropdown = createChainableComponent();
++      const options: Array<[string, string]> = [];
++      dropdown.addOption.mockImplementation((value: string, label: string) => {
++        options.push([value, label]);
++        return dropdown;
++      });
++      dropdown.onChange.mockImplementation((handler: (value: string) => Promise<void>) => {
++        mockDropdownChanges.set(this.name, handler);
++        return dropdown;
++      });
++      mockDropdownOptions.set(this.name, options);
+       dropdown.selectEl = { replaceChildren: jest.fn() };
+       callback(dropdown);
+       return this;
+@@ -276,6 +288,8 @@ describe('ClaudianSettingTab display settings', () => {
+     mockGitStatusElements.length = 0;
+     mockToggleChanges.clear();
+     mockTextChanges.clear();
++    mockDropdownChanges.clear();
++    mockDropdownOptions.clear();
+   });
+ 
+   it('renders the custom settings surface through a declarative definition', () => {
+@@ -296,6 +310,38 @@ describe('ClaudianSettingTab display settings', () => {
+     expect(findContainer(container, t('settings.tabs.general'))).not.toBeNull();
+   });
+ 
++  it('shows a right-click explanation Provider selector and persists a fixed choice', async () => {
++    jest.spyOn(ProviderRegistry, 'getRegisteredProviderIds')
++      .mockReturnValue(['claude', 'codex']);
++    jest.spyOn(ProviderRegistry, 'getEnabledProviderIds')
++      .mockReturnValue(['claude', 'codex']);
++    jest.spyOn(ProviderRegistry, 'isEnabled').mockReturnValue(true);
++    jest.spyOn(ProviderRegistry, 'getProviderDisplayName')
++      .mockImplementation(providerId => providerId === 'codex' ? 'Codex' : 'Claude Code');
++    jest.spyOn(ProviderRegistry, 'getBlankTabProviderIds')
++      .mockReturnValue(['claude', 'codex']);
++    jest.spyOn(ProviderRegistry, 'getChatUIConfig').mockReturnValue({
++      getModelOptions: () => [{ label: 'GPT-5.6-Sol', value: 'gpt-5.6-sol' }],
++      getDefaultModel: () => 'gpt-5.6-sol',
++    } as any);
++    const { tab, plugin } = createTab(true);
++    plugin.settings.lastSelectedChatModel = {
++      providerId: 'codex',
++      model: 'gpt-5.6-sol',
++    };
++    (tab as any).renderGeneralTab(createContainer());
++
++    expect(mockRenderedSettingNames).toContain('右键解释 provider');
++    expect(mockDropdownOptions.get('右键解释 provider')).toEqual([
++      ['follow-default', '跟随默认模型（Codex / gpt-5.6-sol）'],
++      ['claude', '固定使用 Claude Code'],
++      ['codex', '固定使用 Codex'],
++    ]);
++
++    await mockDropdownChanges.get('右键解释 provider')?.('claude');
++    expect(plugin.settings.selectionLearningProvider).toBe('claude');
++  });
++
+   it('renders the dual-pane position only while dual-pane mode is enabled', () => {
+     const enabled = createTab(true);
+     (enabled.tab as any).renderGeneralTab(createContainer());
+diff --git a/tests/unit/providers/codex/runtime/codexAppServerSupport.test.ts b/tests/unit/providers/codex/runtime/codexAppServerSupport.test.ts
+new file mode 100644
+index 00000000..021ae4ec
+--- /dev/null
++++ b/tests/unit/providers/codex/runtime/codexAppServerSupport.test.ts
+@@ -0,0 +1,28 @@
++import { mergeWslEnvironmentPassThrough } from '@/providers/codex/runtime/codexAppServerSupport';
++
++describe('mergeWslEnvironmentPassThrough', () => {
++  it('passes custom Codex variables into WSL without replacing the Linux PATH', () => {
++    expect(mergeWslEnvironmentPassThrough(
++      'EXISTING/u:CODEX_HOME/up',
++      {
++        CODEX_HOME: '/home/agent/.codex',
++        OPENAI_API_KEY: 'token',
++        PATH: 'C:\\tools',
++        WSLENV: 'ignored',
++      },
++    )).toBe('EXISTING/u:CODEX_HOME:OPENAI_API_KEY');
++  });
++
++  it('preserves WSL path translation for an explicitly configured Windows path', () => {
++    expect(mergeWslEnvironmentPassThrough('CODEX_HOME/p', {
++      CODEX_HOME: 'C:\\Users\\agent\\.codex',
++    })).toBe('CODEX_HOME/p');
++  });
++
++  it('creates a stable sorted pass-through list when WSLENV is absent', () => {
++    expect(mergeWslEnvironmentPassThrough(undefined, {
++      OPENAI_BASE_URL: 'https://example.invalid/v1',
++      CODEX_HOME: '/home/agent/.codex',
++    })).toBe('CODEX_HOME:OPENAI_BASE_URL');
++  });
++});

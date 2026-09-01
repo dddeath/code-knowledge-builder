@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import json
-from pathlib import Path
+from pathlib import Path, PurePosixPath, PureWindowsPath
 import shlex
 import subprocess
 import sys
@@ -13,7 +13,7 @@ from .automation import SUPPORTED_HARNESSES
 from .common import CkbError, json_write
 
 
-INTEGRATION_VERSION = "1.2.0"
+INTEGRATION_VERSION = "1.2.2"
 
 
 def _looks_windows(path: Path) -> bool:
@@ -21,9 +21,24 @@ def _looks_windows(path: Path) -> bool:
     return (len(text) >= 3 and text[1:3] in {":\\", ":/"}) or text.startswith("\\\\")
 
 
+def _wsl_launch_path(path: Path) -> str:
+    """Return the WSL mount path for a drive-letter Windows executable."""
+    if not _looks_windows(path):
+        return str(path)
+    windows = PureWindowsPath(str(path))
+    drive = windows.drive
+    if len(drive) == 2 and drive[1] == ":":
+        return str(PurePosixPath("/mnt", drive[0].lower(), *windows.parts[1:]))
+    return str(path)
+
+
 def _commands(python: Path, ckb: Path, harness: str, registry: Path) -> tuple[str, str]:
-    args = [str(python), "-X", "utf8", str(ckb), "automation", "hook", "--harness", harness, "--registry", str(registry)]
-    return shlex.join(args), subprocess.list2cmdline(args)
+    windows_args = [str(python), "-X", "utf8", str(ckb), "automation", "hook", "--harness", harness, "--registry", str(registry)]
+    # Codex may run its app-server in WSL while still invoking the bundled
+    # Windows Python through interop. Only the executable needs a WSL launch
+    # path; the script and registry stay as Windows arguments for that Python.
+    posix_args = [_wsl_launch_path(python), *windows_args[1:]]
+    return shlex.join(posix_args), subprocess.list2cmdline(windows_args)
 
 
 def _powershell_command(python: Path, ckb: Path, harness: str, registry: Path) -> str:
@@ -47,6 +62,22 @@ def _powershell_command(python: Path, ckb: Path, harness: str, registry: Path) -
     )
 
 
+def _codex_windows_bridge(destination: Path, windows_args: list[str]) -> tuple[str, str]:
+    """Return a Windows launcher file and a command usable from Windows or WSL.
+
+    Codex Desktop can classify the host as Windows while its app-server and
+    command shell run inside WSL.  A raw drive-letter ``commandWindows`` then
+    loses its backslashes in ``/bin/sh`` before Windows Python starts.  Calling
+    a generated ``.cmd`` through the interoperable ``cmd.exe`` name avoids that
+    shell boundary and remains valid for a native Windows app-server.
+    """
+    bridge = destination / "hooks" / "ckb-hook.cmd"
+    bridge_argument = str(bridge).replace("\\", "/")
+    command = subprocess.list2cmdline(["cmd.exe", "/d", "/s", "/c", bridge_argument])
+    content = "@echo off\r\n" + subprocess.list2cmdline(windows_args) + "\r\nexit /b %ERRORLEVEL%\r\n"
+    return command, content
+
+
 def _handler(posix: str, windows: str, timeout: int, status: str | None = None) -> dict[str, Any]:
     result: dict[str, Any] = {
         "type": "command",
@@ -67,7 +98,7 @@ def _codex_hooks(posix: str, windows: str, *, dsh_subset: bool = False) -> dict[
                 "hooks": [_handler(posix, windows, 8, "正在恢复 CKB 自动化上下文")],
             }
         ],
-        "UserPromptSubmit": [{"hooks": [_handler(posix, windows, 8)]}],
+        "UserPromptSubmit": [{"hooks": [_handler(posix, windows, 20)]}],
         "PostToolUse": [
             {
                 "matcher": "Bash|apply_patch|Edit|Write",
@@ -97,9 +128,9 @@ def _claude_hooks(command: str) -> dict[str, Any]:
     return {
         "hooks": {
             "SessionStart": [{"matcher": "startup|resume|clear|compact", "hooks": [handler(8)]}],
-            "UserPromptSubmit": [{"hooks": [handler(8)]}],
-            "UserPromptExpansion": [{"matcher": "code-knowledge-builder", "hooks": [handler(8)]}],
-            "PreToolUse": [{"matcher": "Skill", "hooks": [handler(8)]}],
+            "UserPromptSubmit": [{"hooks": [handler(20)]}],
+            "UserPromptExpansion": [{"matcher": "code-knowledge-builder", "hooks": [handler(20)]}],
+            "PreToolUse": [{"matcher": "Skill", "hooks": [handler(20)]}],
             "PostToolUse": [{"matcher": "Write|Edit|Bash|NotebookEdit", "hooks": [handler(8)]}],
             "PostToolUseFailure": [{"matcher": "Write|Edit|Bash|NotebookEdit", "hooks": [handler(8)]}],
             "FileChanged": [{"hooks": [handler(8)]}],
@@ -119,7 +150,7 @@ def _gemini_hooks(command: str) -> dict[str, Any]:
     return {
         "hooks": {
             "SessionStart": [{"matcher": "startup|resume|clear", "hooks": [handler(8_000)]}],
-            "BeforeAgent": [{"hooks": [handler(8_000)]}],
+            "BeforeAgent": [{"hooks": [handler(20_000)]}],
             "AfterTool": [{"matcher": ".*", "hooks": [handler(8_000)]}],
             "AfterAgent": [{"hooks": [handler(15_000)]}],
             "PreCompress": [{"hooks": [handler(8_000)]}],
@@ -147,7 +178,7 @@ def _copilot_hooks(posix: str, powershell: str) -> dict[str, Any]:
         "version": 1,
         "hooks": {
             "SessionStart": [handler(8)],
-            "UserPromptSubmit": [handler(8)],
+            "UserPromptSubmit": [handler(20)],
             "PostToolUse": [handler(8, "Bash|Edit|Write|NotebookEdit")],
             "PostToolUseFailure": [handler(8, "Bash|Edit|Write|NotebookEdit")],
             "Stop": [handler(15)],
@@ -168,7 +199,7 @@ def _cursor_hooks(command: str) -> dict[str, Any]:
         "version": 1,
         "hooks": {
             "sessionStart": [handler()],
-            "beforeSubmitPrompt": [handler("UserPromptSubmit")],
+            "beforeSubmitPrompt": [handler("UserPromptSubmit", 20)],
             "postToolUse": [handler("Shell|Write|Delete|MCP:.*")],
             "postToolUseFailure": [handler("Shell|Write|Delete|MCP:.*")],
             "afterFileEdit": [handler("Write")],
@@ -210,7 +241,8 @@ function text(object) {{
 
 function emit(payload) {{
   try {{
-    spawnSync(PYTHON, ARGS, {{ input: JSON.stringify(payload), encoding: "utf8", timeout: 8000, windowsHide: true }})
+    const event = {{ ...payload, harness_pid: process.pid }}
+    spawnSync(PYTHON, ARGS, {{ input: JSON.stringify(event), encoding: "utf8", timeout: payload?.ckb_skill_applied ? 20000 : 8000, windowsHide: true }})
   }} catch {{}}
 }}
 
@@ -269,7 +301,10 @@ const PYTHON = {json.dumps(str(python))}
 const ARGS = {json.dumps(command_args)}
 
 function emit(payload) {{
-  try {{ spawnSync(PYTHON, ARGS, {{ input: JSON.stringify(payload), encoding: "utf8", timeout: 8000, windowsHide: true }}) }} catch {{}}
+  try {{
+    const event = {{ ...payload, harness_pid: process.pid }}
+    spawnSync(PYTHON, ARGS, {{ input: JSON.stringify(event), encoding: "utf8", timeout: payload?.ckb_skill_applied ? 20000 : 8000, windowsHide: true }})
+  }} catch {{}}
 }}
 
 function messageText(message) {{
@@ -297,9 +332,11 @@ export default Plugin.define({{
   id: "code-knowledge-builder.sync",
   setup: async (ctx) => {{
     const seenSessions = new Set()
+    const sessionCwds = new Map()
     await ctx.session.hook("context", (event) => {{
       const sessionID = String(event.sessionID ?? "session-unknown")
       const cwd = eventCwd(event)
+      sessionCwds.set(sessionID, cwd)
       if (!seenSessions.has(sessionID)) {{
         seenSessions.add(sessionID)
         emit({{ session_id: sessionID, cwd, hook_event_name: "SessionStart", source: "startup", event_id: `session:${{sessionID}}` }})
@@ -342,7 +379,10 @@ export default Plugin.define({{
         }}
       }} catch {{}}
     }})()
-    return () => controller.abort()
+    return () => {{
+      for (const sessionID of seenSessions) emit({{ session_id: sessionID, cwd: sessionCwds.get(sessionID) ?? process.cwd(), hook_event_name: "SessionEnd", reason: "plugin-unload", event_id: `plugin-unload:${{sessionID}}` }})
+      controller.abort()
+    }}
   }},
 }})
 '''
@@ -383,6 +423,7 @@ def _generic_schema() -> dict[str, Any]:
             "changed_paths": {"type": "array", "items": {"type": "string"}},
             "skill_name": {"type": "string", "const": "code-knowledge-builder"},
             "ckb_skill_applied": {"type": "boolean", "const": True},
+            "harness_pid": {"type": "integer", "minimum": 1},
         },
         "additionalProperties": True,
     }
@@ -397,6 +438,8 @@ def render_integration(
     *,
     force: bool = False,
 ) -> dict[str, Any]:
+    from .management_agent import binding_schema, harness_capabilities
+
     if harness not in SUPPORTED_HARNESSES:
         raise CkbError(f"unsupported integration harness: {harness}")
     destination = destination.resolve()
@@ -411,6 +454,7 @@ def render_integration(
         raise CkbError(f"integration destination is not empty: {destination}; use --force to replace generated files")
     destination.mkdir(parents=True, exist_ok=True)
     posix, windows = _commands(python, ckb, harness, registry)
+    windows_args = [str(python), "-X", "utf8", str(ckb), "automation", "hook", "--harness", harness, "--registry", str(registry)]
     powershell = _powershell_command(python, ckb, harness, registry)
     files: list[Path] = []
 
@@ -423,6 +467,7 @@ def render_integration(
         return path
 
     if harness == "codex":
+        windows, windows_bridge = _codex_windows_bridge(destination, windows_args)
         write(
             ".codex-plugin/plugin.json",
             {
@@ -441,6 +486,7 @@ def render_integration(
                 },
             },
         )
+        write("hooks/ckb-hook.cmd", windows_bridge)
         write("hooks/hooks.json", _codex_hooks(posix, windows))
     elif harness == "claude":
         command = windows if _looks_windows(python) else posix
@@ -472,6 +518,7 @@ def render_integration(
         write(".cursor/hooks.json", _cursor_hooks(command))
     else:
         write("automation-event.schema.json", _generic_schema())
+        write("management-binding.schema.json", binding_schema())
         write(
             "example-event.json",
             {
@@ -481,6 +528,19 @@ def render_integration(
                 "cwd": "/absolute/project/path",
                 "skill_name": "code-knowledge-builder",
                 "ckb_skill_applied": True,
+            },
+        )
+        write(
+            "example-management-binding.json",
+            {
+                "schema_version": 1,
+                "conversation_id": "HARNESS_CONVERSATION_ID",
+                "harness_id": "generic",
+                "workspace_root": "/absolute/workspace/path",
+                "repo_root": "/absolute/workspace/path/source",
+                "knowledge_base": "/absolute/workspace/path/knowledge-base",
+                "integration_branch": "INTEGRATION_BRANCH",
+                "notification_policy": "none",
             },
         )
     manifest = {
@@ -495,6 +555,19 @@ def render_integration(
         "session_skill_activation_required": True,
         "required_skill": "code-knowledge-builder",
         "transcript_parsing": False,
+        "management_capabilities": harness_capabilities(harness),
+        "session_stdio_capability": {
+            "activation": "exact-skill-application",
+            "session_end": harness not in {"dsh"},
+            "parent_monitor": (
+                "native-plugin-process"
+                if harness in {"opencode", "opencode-v2"}
+                else "caller-supplied"
+                if harness == "generic"
+                else "unavailable"
+            ),
+            "degraded": harness not in {"opencode", "opencode-v2"},
+        },
         "files": [str(path.relative_to(destination).as_posix()) for path in files],
     }
     manifest_path = write("integration.json", manifest)

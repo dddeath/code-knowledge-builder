@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "status": "agent-reviewed",
+  "kind": "change",
+  "title": "CKB 5.3.0 审阅文本资料吸收",
+  "file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human\\changes\\CKB 5.3.0 审阅文本资料吸收.md",
+  "compatibility_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown\\changes\\CKB 5.3.0 审阅文本资料吸收.md",
+  "linked_pages": [
+    "retrieve 与 _tokens 的协作实现",
+    "retrieve_machine 与 estimated_tokens 的协作实现",
+    "ingest_event 与 default_registry_path 的协作实现",
+    "audit_migration",
+    "audit_global 与 _replace_output_prefix 的协作实现",
+    "AutomationTest.event 等测试场景",
+    "MigrationTest 等测试场景"
+  ],
+  "source_links": [
+    "[打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-569`",
+    "[打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1458`",
+    "[打开源码：scripts/ckb_core/automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation.py:1:1)  `scripts/ckb_core/automation.py:1-1632`",
+    "[打开源码：scripts/ckb_core/migration.py 第 353 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/migration.py:353:1)  `scripts/ckb_core/migration.py:353-460`",
+    "[打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3314`",
+    "[打开源码：tests/test_automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_automation.py:1:1)  `tests/test_automation.py:1-801`",
+    "[打开源码：tests/test_migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_migration.py:1:1)  `tests/test_migration.py:1-194`"
+  ],
+  "query_record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260830-115521-357298-01.json",
+  "updated_at_utc": "2026-08-30T11:56:40Z",
+  "obsidian_uri": "obsidian://open?path=E%3A%5Cknowledge_builder%5Cself-workspace%5Cknowledge-base%5Cmarkdown%5Cchanges%5CCKB%205.3.0%20%E5%AE%A1%E9%98%85%E6%96%87%E6%9C%AC%E8%B5%84%E6%96%99%E5%90%B8%E6%94%B6.md"
+}

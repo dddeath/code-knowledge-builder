@@ -18,12 +18,12 @@ Obsidian 伴侣插件新增独立的右侧 `CKB 解释` ItemView。右键解释�
 
 ## 相关知识页
 
-- [[prepare_vault 与 install_obsidian 的协作实现]]
+- [[audit_obsidian 与 prepare_vault 的协作实现]]
 - [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]]
 - [[ingest_event 与 default_registry_path 的协作实现]]
-- [[run 与 CkbError 的协作实现]]
+- [[CkbError 与 DependencyError 的协作实现]]
 - [[audit_migration 与 _entity_key 的协作实现]]
-- [[status 与 _replace_output_prefix 的协作实现]]
+- [[initialize 与 _replace_output_prefix 的协作实现]]
 - [[start_session 与 _session_directory 的协作实现]]
 - [[module_name 与 estimated_tokens 的协作实现]]
 

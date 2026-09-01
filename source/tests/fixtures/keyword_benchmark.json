@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "id": "opaque-order-entry",
+      "question": "星际织网不存在术语",
+      "expected_names": ["OrderService"],
+      "expected_source_paths": ["py/service.py"],
+      "budget": 1200,
+      "max_pages": 8,
+      "profile": "fast"
+    }
+  ]
+}

@@ -2,25 +2,27 @@
   "schema_version": 4,
   "status": "complete",
   "machine": {
-    "schema_version": 1,
+    "schema_version": 3,
     "status": "passed",
     "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\knowledge.sqlite",
     "integrity": "ok",
     "counts": {
-      "files": 31,
-      "entities": 483,
-      "source_ranges": 483,
-      "relations": 1985,
-      "reviews": 483,
-      "documents": 495,
-      "sections": 1639,
-      "human_projection": 483,
-      "workspace_changes": 0
+      "files": 70,
+      "entities": 1229,
+      "source_ranges": 1229,
+      "relations": 4766,
+      "reviews": 1229,
+      "documents": 1283,
+      "sections": 4572,
+      "human_projection": 1229,
+      "workspace_changes": 0,
+      "reference_sources": 1,
+      "research_gaps": 3
     },
     "fts_counts": {
-      "entity_fts": 483,
-      "section_fts": 1639,
-      "source_fts": 31
+      "entity_fts": 1229,
+      "section_fts": 4572,
+      "source_fts": 70
     },
     "language_contract": "所有说明使用简体中文，允许英文专有名词和代码标识符",
     "retrieval": "sqlite-exact-fts5-sections-deterministic-weighted-graph",
@@ -33,5 +35,5 @@
     "errors": []
   },
   "global_audit": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\audit\\global.json",
-  "completed_at_utc": "2026-08-27T18:00:06Z"
+  "completed_at_utc": "2026-09-01T05:22:44Z"
 }

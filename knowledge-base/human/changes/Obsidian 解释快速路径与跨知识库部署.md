@@ -22,11 +22,11 @@ Obsidian Companion 升级到 0.7.0。右键解释仍跟随用户选择的 Provid
 
 - [[audit_migration 与 _entity_key 的协作实现]]
 - [[retrieve_machine 与 estimated_tokens 的协作实现]]
-- [[remove 与 skill_root 的协作实现]]
-- [[run 与 CkbError 的协作实现]]
-- [[status 与 _replace_output_prefix 的协作实现]]
-- [[create_source_snapshot 与 git 的协作实现]]
-- [[add_initial_arguments 与 add_git_bootstrap_arguments 的协作实现]]
+- [[deployment_plan 与 skill_root 的协作实现]]
+- [[CkbError 与 DependencyError 的协作实现]]
+- [[initialize 与 _replace_output_prefix 的协作实现]]
+- [[preflight 与 git 的协作实现]]
+- [[keyword_provider_config 与 parser 的协作实现]]
 - [[query_graph 与 _networkx_modules 的协作实现]]
 
 ## 源码入口
