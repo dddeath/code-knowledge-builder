@@ -81,6 +81,15 @@ from ckb_core.keyword_fallback import (
     KeywordProviderConfig,
     validate_provider_config,
 )
+from ckb_core.knowledge_batch_migration import (
+    apply_knowledge_batch_plan,
+    audit_knowledge_batch_state,
+    create_knowledge_batch_plan,
+    cutover_knowledge_batch_state,
+    knowledge_batch_status,
+    resume_knowledge_batch_state,
+    rollback_knowledge_batch_state,
+)
 from ckb_core.management_agent import (
     MANAGEMENT_SCHEMA_VERSION,
     NOTIFICATION_POLICIES,
@@ -306,6 +315,26 @@ def parser() -> argparse.ArgumentParser:
     migration_audit_command = migration_sub.add_parser("audit")
     migration_audit_command.add_argument("--out", type=Path, required=True)
     migration_audit_command.add_argument("--allow-pending-reviews", action="store_true")
+    migration_batch = migration_sub.add_parser("batch")
+    migration_batch_sub = migration_batch.add_subparsers(dest="migration_batch_command", required=True)
+    migration_batch_plan = migration_batch_sub.add_parser("plan")
+    migration_batch_plan.add_argument("--manifest", type=Path, required=True)
+    migration_batch_plan.add_argument("--write", type=Path)
+    migration_batch_apply = migration_batch_sub.add_parser("apply")
+    migration_batch_apply.add_argument("--plan", type=Path, required=True)
+    migration_batch_apply.add_argument("--state", type=Path, required=True)
+    migration_batch_resume = migration_batch_sub.add_parser("resume")
+    migration_batch_resume.add_argument("--state", type=Path, required=True)
+    migration_batch_status = migration_batch_sub.add_parser("status")
+    migration_batch_status.add_argument("--state", type=Path, required=True)
+    migration_batch_audit = migration_batch_sub.add_parser("audit")
+    migration_batch_audit.add_argument("--state", type=Path, required=True)
+    migration_batch_cutover = migration_batch_sub.add_parser("cutover")
+    migration_batch_cutover.add_argument("--state", type=Path, required=True)
+    migration_batch_cutover.add_argument("--project", action="append", default=[])
+    migration_batch_rollback = migration_batch_sub.add_parser("rollback")
+    migration_batch_rollback.add_argument("--state", type=Path, required=True)
+    migration_batch_rollback.add_argument("--project", action="append", default=[])
     scope_command = sub.add_parser("scope")
     scope_sub = scope_command.add_subparsers(dest="scope_command", required=True)
     scope_extend = scope_sub.add_parser("extend")
@@ -702,6 +731,34 @@ def main() -> int:
         emit(result)
         return 0 if result.get("status") == "passed" else 5
     elif args.command == "migrate":
+        if args.migration_command == "batch":
+            if args.migration_batch_command == "plan":
+                result = create_knowledge_batch_plan(args.manifest, args.write)
+                emit(result)
+                return 0 if result.get("status") == "ready" else 5
+            if args.migration_batch_command == "apply":
+                result = apply_knowledge_batch_plan(args.plan, args.state)
+                emit(result)
+                return 4 if result.get("status") == "review-pending" else 0 if result.get("status") in {"ready", "cutover-complete"} else 5
+            if args.migration_batch_command == "resume":
+                result = resume_knowledge_batch_state(args.state)
+                emit(result)
+                return 4 if result.get("status") == "review-pending" else 0 if result.get("status") in {"ready", "cutover-complete"} else 5
+            if args.migration_batch_command == "status":
+                result = knowledge_batch_status(args.state)
+                emit(result)
+                return 4 if result.get("status") == "review-pending" else 0 if result.get("status") not in {"failed", "drifted"} else 5
+            if args.migration_batch_command == "audit":
+                result = audit_knowledge_batch_state(args.state)
+                emit(result)
+                return 0 if result.get("status") == "passed" else 4 if result.get("status") == "review-pending" else 5
+            if args.migration_batch_command == "cutover":
+                result = cutover_knowledge_batch_state(args.state, args.project)
+                emit(result)
+                return 0 if result.get("status") == "passed" else 5
+            result = rollback_knowledge_batch_state(args.state, args.project)
+            emit(result)
+            return 0 if result.get("status") == "passed" else 5
         if args.migration_command == "start":
             result = migrate_output(args.from_out, args.repo, args.out, args.format)
             emit(result)

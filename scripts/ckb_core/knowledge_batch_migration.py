@@ -10,17 +10,34 @@ from __future__ import annotations
 from dataclasses import dataclass
 import hashlib
 import json
-from pathlib import Path, PurePath
+from pathlib import Path
 import re
+import shutil
 import sqlite3
 from typing import Any
 
 from . import SCHEMA_VERSION, VERSION
-from .agent_protocol import AGENT_PROTOCOL_VERSION
-from .agent_protocol_batch import BatchProjectError, SUPPORTED_HARNESSES, supported_upgrade_path
-from .common import CkbError, json_load, json_write, path_inside, sha256_file, stable_id
+from .agent_protocol import AGENT_PROTOCOL_VERSION, install_agent_protocol, project_agent_protocol
+from .agent_protocol_batch import (
+    BatchProjectError,
+    SUPPORTED_HARNESSES,
+    _create_backup as _create_protocol_backup,
+    _output_lock,
+    _restore_backup as _restore_protocol_backup,
+    snapshot_digest as _protocol_snapshot_digest,
+    snapshot_files as _protocol_snapshot_files,
+    supported_upgrade_path,
+)
+from .common import CkbError, json_load, json_write, path_inside, sha256_file, stable_id, utc_now
 from .gitrepo import preflight
-from .scope_extension import _layer_inventory, _sqlite_checks, _tree_manifest
+from .migration import (
+    _preserve_mutable_layers,
+    _replace_review_packs,
+    audit_migration,
+    migrate_output,
+)
+from .pipeline import build_chunk, finalize, initialize, status as pipeline_status
+from .scope_extension import _layer_inventory, _preservation_errors, _release_audit_handles, _sqlite_checks, _tree_manifest
 
 
 KNOWLEDGE_BATCH_MANIFEST_SCHEMA_VERSION = 1
@@ -30,6 +47,7 @@ KNOWLEDGE_BATCH_PROJECT_SCHEMA_VERSION = 1
 MAX_BATCH_PROJECTS = 128
 MAX_PATH_LIMIT = 32760
 DEFAULT_PATH_LIMIT = 240
+MAX_STATE_EVENTS = 512
 HEX_SHA1 = re.compile(r"^[0-9a-f]{40}$")
 HEX_SHA256 = re.compile(r"^[0-9a-f]{64}$")
 PROJECT_ID = re.compile(r"^[a-z0-9][a-z0-9._-]{0,63}$")
@@ -68,6 +86,7 @@ SCOPE_KEYS = frozenset(
     {
         "scope_paths",
         "entries",
+        "entry_ids",
         "expand_depth",
         "expand_direction",
         "include",
@@ -424,6 +443,7 @@ def _normalized_scope(value: Any, location: str) -> dict[str, Any]:
     result = {
         "scope_paths": list(scope.get("scope_paths") or []),
         "entries": list(scope.get("entries") or []),
+        "entry_ids": list(scope.get("entry_ids") or []),
         "expand_depth": int(scope.get("expand_depth", 1)),
         "expand_direction": str(scope.get("expand_direction", "both")),
         "include": list(scope.get("include") or []),
@@ -705,3 +725,1054 @@ def create_knowledge_batch_plan(manifest_path: Path, write: Path | None = None) 
         return {**plan, "plan_path": str(write)}
     return plan
 
+
+def _load_knowledge_batch_plan(path: Path) -> dict[str, Any]:
+    path = path.expanduser().resolve()
+    if not path.is_file():
+        raise CkbError(f"knowledge batch plan is missing: {path}")
+    plan = json_load(path)
+    if not isinstance(plan, dict) or plan.get("schema_version") != KNOWLEDGE_BATCH_PLAN_SCHEMA_VERSION:
+        raise CkbError(f"unsupported knowledge batch plan schema: {path}")
+    digest = plan.get("plan_digest")
+    if not isinstance(digest, str) or not HEX_SHA256.fullmatch(digest):
+        raise CkbError(f"knowledge batch plan digest is invalid: {path}")
+    body = {key: value for key, value in plan.items() if key not in {"plan_digest", "plan_path"}}
+    if _digest_value(body) != digest:
+        raise CkbError(f"knowledge batch plan digest mismatch: {path}")
+    return plan
+
+
+def _save_knowledge_state(path: Path, state: dict[str, Any]) -> None:
+    state["updated_at_utc"] = utc_now()
+    json_write(path, state)
+
+
+def _load_knowledge_state(path: Path) -> dict[str, Any]:
+    path = path.expanduser().resolve()
+    if not path.is_file():
+        raise CkbError(f"knowledge batch state is missing: {path}")
+    state = json_load(path)
+    if not isinstance(state, dict) or state.get("schema_version") != KNOWLEDGE_BATCH_STATE_SCHEMA_VERSION:
+        raise CkbError(f"unsupported knowledge batch state schema: {path}")
+    if Path(str(state.get("state"))).resolve() != path:
+        raise CkbError("knowledge batch state absolute binding is invalid")
+    return state
+
+
+def _state_event(
+    state: dict[str, Any],
+    project_id: str,
+    action: str,
+    status: str,
+    category: str | None = None,
+) -> None:
+    events = state.setdefault("events", [])
+    events.append(
+        {
+            "event_id": stable_id("knowledge-batch-event", state["batch_id"], len(events), project_id, action, status),
+            "project_id": project_id,
+            "action": action,
+            "status": status,
+            "category": category,
+            "recorded_at_utc": utc_now(),
+        }
+    )
+    if len(events) > MAX_STATE_EVENTS:
+        del events[: len(events) - MAX_STATE_EVENTS]
+
+
+def _new_knowledge_state(plan: dict[str, Any], plan_path: Path, state_path: Path) -> dict[str, Any]:
+    projects: dict[str, dict[str, Any]] = {}
+    for project in plan["projects"]:
+        plan_status = project["status"]
+        actionable = plan_status in {"ready", "cold-build-required"}
+        projects[project["project_id"]] = {
+            "project_id": project["project_id"],
+            "status": "pending" if actionable else plan_status,
+            "plan_status": plan_status,
+            "strategy": project.get("strategy"),
+            "operation_id": stable_id(
+                "knowledge-migration",
+                plan["operation_id"],
+                project["project_id"],
+                (project.get("origin_manifest") or {}).get("sha256"),
+                (project.get("target_snapshot") or {}).get("commit"),
+            ) if actionable else None,
+            "output": project["output"],
+            "staging": project["staging"],
+            "origin_digest": (project.get("origin_manifest") or {}).get("sha256"),
+            "staging_digest": None,
+            "modified_digest": None,
+            "audit": None,
+            "pending_review_packs": [],
+            "backup_output": None,
+            "control": None,
+            "protocol_backup": None,
+            "failure": project.get("failure"),
+        }
+    stamp = utc_now()
+    return {
+        "schema_version": KNOWLEDGE_BATCH_STATE_SCHEMA_VERSION,
+        "batch_id": plan["batch_id"],
+        "operation_id": plan["operation_id"],
+        "status": "running",
+        "plan": str(plan_path.resolve()),
+        "plan_digest": plan["plan_digest"],
+        "state": str(state_path.resolve()),
+        "created_at_utc": stamp,
+        "updated_at_utc": stamp,
+        "projects": projects,
+        "events": [],
+    }
+
+
+def _summarize_knowledge_state(state: dict[str, Any]) -> str:
+    values = [item["status"] for item in state["projects"].values()]
+    eligible = [value for value in values if value not in {"failed", "awaiting-review"}]
+    if eligible and all(value == "rolled-back" for value in eligible):
+        return "rolled-back"
+    if values and all(value == "cutover-complete" for value in values):
+        return "cutover-complete"
+    if any(value == "cutover-complete" for value in values):
+        return "partial"
+    if any(value == "ready" for value in values):
+        return "ready"
+    if any(value == "review-pending" for value in values):
+        return "review-pending"
+    if any(value in {"pending", "applying"} for value in values):
+        return "running"
+    if values and all(value in {"failed", "awaiting-review", "cold-build-required"} for value in values):
+        return "failed"
+    return "partial" if any(value == "failed" for value in values) else "running"
+
+
+def _manifest_matches(expected: dict[str, Any], actual: dict[str, Any]) -> bool:
+    return all(expected.get(key) == actual.get(key) for key in ("algorithm", "file_count", "byte_count", "sha256", "files"))
+
+
+def _verify_plan_bindings(project: dict[str, Any]) -> None:
+    output = Path(project["output"]).resolve()
+    actual = _tree_manifest(output)
+    if not _manifest_matches(project["origin_manifest"], actual):
+        raise BatchProjectError("origin-drift", f"origin knowledge OUTPUT changed after plan: {project['project_id']}")
+    repository = preflight(Path(project["repository"]))
+    if {"commit": repository["commit"], "tree": repository["tree"]} != project["target_snapshot"]:
+        raise BatchProjectError("repository-drift", f"target repository changed after plan: {project['project_id']}")
+
+
+def _knowledge_output_lock(output: Path):
+    """Use the proven owner-token lock outside the directory being renamed.
+
+    The Agent Protocol batch lock file lives inside OUTPUT because that batch
+    edits individual files.  Complete migration atomically renames OUTPUT, so
+    its equivalent lock anchor is a deterministic sibling; otherwise Windows
+    would keep an open descriptor inside the directory being promoted.
+    """
+    anchor = output.resolve().parent / f".{output.name}.knowledge-batch-lock"
+    anchor.mkdir(parents=True, exist_ok=True)
+    return _output_lock(anchor)
+
+
+def _detach_staging_workspace_roots(staging: Path, project: dict[str, Any]) -> dict[str, Any]:
+    record_path = staging / "workspace-meta/agent-protocol.json"
+    if record_path.is_file():
+        record = json_load(record_path)
+        record["workspace_roots"] = []
+        record["output"] = str(staging.resolve())
+        record["python"] = project["runtime"]["python"]
+        record["ckb"] = project["runtime"]["ckb"]
+        json_write(record_path, record)
+    # This writes only internal staging adapters.  External Harness roots are
+    # upgraded transactionally during cutover and are separately backed up.
+    return project_agent_protocol(
+        staging,
+        python=Path(project["runtime"]["python"]),
+        ckb=Path(project["runtime"]["ckb"]),
+    )
+
+
+def _cold_build(project: dict[str, Any]) -> dict[str, Any]:
+    previous_output = Path(project["output"]).resolve()
+    repository = Path(project["repository"]).resolve()
+    staging = Path(project["staging"]).resolve()
+    selectors = project["scope_selectors"]
+    initialize(
+        repository,
+        staging,
+        project["format"],
+        list(selectors.get("scope_paths") or []),
+        list(selectors.get("entries") or []),
+        int(selectors.get("expand_depth", 1)),
+        str(selectors.get("expand_direction", "both")),
+        list(selectors.get("include") or []),
+        csharp_solution=selectors.get("csharp_solution"),
+        csharp_project=selectors.get("csharp_project"),
+        allow_dotnet_restore=bool(selectors.get("allow_dotnet_restore", False)),
+        page_config_path=previous_output / "page-config.json",
+    )
+    preserved = _preserve_mutable_layers(previous_output, staging)
+    state = json_load(staging / "state.json")
+    for batch in state["parse_batches"]:
+        build_chunk(staging, batch["id"], "all")
+    _reused, delta_ids = _replace_review_packs(staging, {})
+    state = json_load(staging / "state.json")
+    migration = {
+        "schema_version": 1,
+        "mode": "cold-build",
+        "origin_output": str(previous_output),
+        "origin_version": project["source"]["ckb_version"],
+        "origin_commit": project["origin_snapshot"]["commit"],
+        "target_version": VERSION,
+        "target_commit": project["target_snapshot"]["commit"],
+        "status": "pending-agent-review",
+        "started_at_utc": utc_now(),
+    }
+    state["migration"] = migration
+    json_write(staging / "state.json", state)
+    migration_plan = {
+        "schema_version": 1,
+        "status": "pending-agent-review",
+        "mode": "cold-build",
+        "origin": {
+            "output": str(previous_output),
+            "version": project["source"]["ckb_version"],
+            "commit": project["origin_snapshot"]["commit"],
+        },
+        "target": {
+            "output": str(staging),
+            "version": VERSION,
+            "repository": str(repository),
+            "commit": project["target_snapshot"]["commit"],
+        },
+        "files": {"reused": [], "reused_count": 0, "parsed_count": len(state.get("parse_batches", []))},
+        "entities": {"reused_review_count": 0, "delta_review_count": len(delta_ids), "old_to_new_id_map": {}},
+        "mutable_files": preserved,
+        "cold_build": {
+            "reused_fact_count": 0,
+            "reused_review_count": 0,
+            "required_review_entity_ids": sorted(delta_ids),
+            "incompatible_layers": ["facts", "graph", "review", "human-projection", "machine-indexes"],
+        },
+        "created_at_utc": utc_now(),
+    }
+    json_write(staging / "migration/plan.json", migration_plan)
+    return {
+        "schema_version": 1,
+        "status": "pending-agent-review",
+        "output": str(staging),
+        "strategy": "cold-build",
+        "delta_review_entity_count": len(delta_ids),
+        "preserved_mutable_file_count": len(preserved),
+    }
+
+
+def _project_record(staging: Path, batch_id: str, project: dict[str, Any], project_state: dict[str, Any]) -> dict[str, Any]:
+    migration_plan = json_load(staging / "migration/plan.json")
+    record = {
+        "schema_version": KNOWLEDGE_BATCH_PROJECT_SCHEMA_VERSION,
+        "batch_id": batch_id,
+        "project_id": project["project_id"],
+        "operation_id": project_state["operation_id"],
+        "status": "review-pending",
+        "strategy": project_state["strategy"],
+        "bindings": {
+            "origin_output": project["output"],
+            "staging_output": project["staging"],
+            "repository": project["repository"],
+            "origin_snapshot": project["origin_snapshot"],
+            "target_snapshot": project["target_snapshot"],
+        },
+        "version_chain": project["version_chain"],
+        "protocol_chain": project["protocol_chain"],
+        "origin_manifest": project["origin_manifest"],
+        "origin_layers": project["origin_layers"],
+        "mutable_files": migration_plan.get("mutable_files", []),
+        "workspace_roots": project["workspace_roots"],
+        "created_at_utc": utc_now(),
+    }
+    json_write(staging / "knowledge-batch/project.json", record)
+    return record
+
+
+def _pending_reviews(staging: Path) -> list[str]:
+    state = json_load(staging / "state.json")
+    return [item["id"] for item in state.get("review_packs", []) if item.get("status") != "passed"]
+
+
+def _mutable_preservation_check(staging: Path, record: dict[str, Any]) -> dict[str, Any]:
+    files = list(record.get("mutable_files") or [])
+    errors = _preservation_errors(staging, files)
+    missing_baselines = []
+    for item in files:
+        relative = item.get("baseline_relative_target")
+        if not relative:
+            missing_baselines.append(item.get("relative_target"))
+            continue
+        path = staging / str(relative)
+        if not path.is_file() or sha256_file(path) != item.get("baseline_sha256"):
+            missing_baselines.append(item.get("relative_target"))
+    return {"passed": not errors and not missing_baselines, "errors": errors, "missing_baselines": missing_baselines}
+
+
+def _old_entity_id_errors(staging: Path) -> list[str]:
+    migration_plan = json_load(staging / "migration/plan.json")
+    mapping = (migration_plan.get("entities") or {}).get("old_to_new_id_map", {})
+    old_ids = {old for old, new in mapping.items() if old != new}
+    graph = json_load(staging / "graph.json") if (staging / "graph.json").is_file() else {}
+    new_ids = {item.get("id") for item in graph.get("entities", [])}
+    return sorted(old_ids & new_ids)
+
+
+def _knowledge_project_audit(project: dict[str, Any], project_state: dict[str, Any]) -> dict[str, Any]:
+    staging = Path(project["staging"]).resolve()
+    record_path = staging / "knowledge-batch/project.json"
+    checks: list[dict[str, Any]] = []
+
+    def check(name: str, passed: bool, detail: Any, category: str) -> None:
+        checks.append({"name": name, "passed": bool(passed), "category": category, "detail": detail})
+
+    if not record_path.is_file():
+        result = {
+            "schema_version": KNOWLEDGE_BATCH_PROJECT_SCHEMA_VERSION,
+            "project_id": project["project_id"],
+            "status": "failed",
+            "checks": [{"name": "project-record", "passed": False, "category": "staging-record-missing", "detail": str(record_path)}],
+        }
+        return result
+    record = json_load(record_path)
+    check(
+        "absolute-bindings",
+        record.get("batch_id") is not None
+        and record.get("project_id") == project["project_id"]
+        and record.get("operation_id") == project_state["operation_id"]
+        and Path(record.get("bindings", {}).get("staging_output", "")).resolve() == staging,
+        record.get("bindings"),
+        "staging-binding",
+    )
+    try:
+        _verify_plan_bindings(project)
+    except BatchProjectError as exc:
+        check("origin-and-repository-pinned", False, str(exc), exc.category)
+    else:
+        check("origin-and-repository-pinned", True, project["target_snapshot"], "drift")
+    pending = _pending_reviews(staging)
+    migration_audit = audit_migration(staging, require_complete_reviews=False)
+    check(
+        "migration-reuse-and-review-binding",
+        migration_audit.get("status") in {"passed", "pending-agent-review"},
+        migration_audit,
+        "migration-audit",
+    )
+    if project_state["strategy"] == "cold-build":
+        migration_plan = json_load(staging / "migration/plan.json")
+        cold = migration_plan.get("cold_build") or {}
+        cold_ok = (
+            migration_plan.get("files", {}).get("reused_count") == 0
+            and migration_plan.get("entities", {}).get("reused_review_count") == 0
+            and cold.get("reused_fact_count") == 0
+            and cold.get("reused_review_count") == 0
+        )
+        check("cold-build-does-not-reuse-incompatible-facts", cold_ok, cold, "cold-build-reuse")
+    check("delta-reviews-complete", not pending, pending, "review-pending")
+    if not pending and all(item["passed"] for item in checks):
+        try:
+            if json_load(staging / "state.json").get("status") != "complete":
+                finalize(staging)
+        except (CkbError, OSError, ValueError, json.JSONDecodeError, sqlite3.Error) as exc:
+            check("current-finalize", False, str(exc), "global-finalize")
+        else:
+            check("current-finalize", True, "complete", "global-finalize")
+    else:
+        check("current-finalize", False, "blocked by pending review or earlier check", "blocked")
+    global_audit = json_load(staging / "audit/global.json") if (staging / "audit/global.json").is_file() else {}
+    check("global-audit", global_audit.get("status") == "passed", global_audit, "global-audit")
+    markers = {
+        name: json_load(staging / name) if (staging / name).is_file() else {}
+        for name in (".complete", ".machine.complete", ".human.complete")
+    }
+    check("three-completion-markers", all(value.get("status") == "complete" for value in markers.values()), markers, "completion-markers")
+    sqlite_checks = _sqlite_checks(staging)
+    required_sqlite = {item["path"]: item for item in sqlite_checks}
+    check(
+        "double-sqlite-integrity-and-foreign-keys",
+        all(required_sqlite.get(name, {}).get("passed") for name in ("machine/knowledge.sqlite", "agent-index.sqlite")),
+        sqlite_checks,
+        "sqlite-integrity",
+    )
+    preservation = _mutable_preservation_check(staging, record)
+    check("all-mutable-layers-preserved", preservation["passed"], preservation, "mutable-layer-loss")
+    old_ids = _old_entity_id_errors(staging)
+    check("old-entity-id-residue-zero", not old_ids, old_ids[:40], "old-entity-id-residue")
+    readability = json_load(staging / "markdown/readability-audit.json") if (staging / "markdown/readability-audit.json").is_file() else {}
+    check("human-readability", readability.get("status") == "passed" and not readability.get("errors"), readability, "readability")
+    from .agent_protocol import audit_agent_protocol
+    from .llm_wiki_capabilities import maintenance_check
+    from .operation_journal import audit_operation_journal
+    from .reference_documents import audit_references
+    from .research_gaps import audit_gap_register
+
+    if global_audit.get("status") == "passed":
+        reference = audit_references(staging)
+        gaps = audit_gap_register(staging)
+        operations = audit_operation_journal(staging)
+        agent_policy = audit_agent_protocol(staging)
+        maintenance = maintenance_check(staging)
+    else:
+        reference = gaps = operations = agent_policy = maintenance = {"status": "blocked"}
+    _release_audit_handles()
+    check("reference-layer", reference.get("status") == "passed", reference, "reference-audit")
+    check("research-gap-layer", gaps.get("status") == "passed", gaps, "gap-audit")
+    check("operation-journal", operations.get("status") == "passed", operations, "operation-audit")
+    check("agent-policy", agent_policy.get("status") == "passed", agent_policy, "agent-policy-audit")
+    check("maintain", maintenance.get("status") == "passed", maintenance, "maintain")
+    passed = all(item["passed"] for item in checks)
+    pending_only = bool(pending) and all(item["passed"] or item["category"] in {"review-pending", "blocked", "global-audit", "completion-markers", "sqlite-integrity", "readability", "reference-audit", "gap-audit", "operation-audit", "agent-policy-audit", "maintain"} for item in checks)
+    status = "ready" if passed else "review-pending" if pending_only else "failed"
+    result = {
+        "schema_version": KNOWLEDGE_BATCH_PROJECT_SCHEMA_VERSION,
+        "project_id": project["project_id"],
+        "operation_id": project_state["operation_id"],
+        "status": status,
+        "strategy": project_state["strategy"],
+        "checks": checks,
+        "counts": {"passed": sum(item["passed"] for item in checks), "total": len(checks)},
+        "pending_review_packs": pending,
+        "origin_layers": record.get("origin_layers"),
+        "current_layers": _layer_inventory(staging, record.get("mutable_files")),
+        "sqlite": sqlite_checks,
+        "audited_at_utc": utc_now(),
+    }
+    json_write(staging / "knowledge-batch/audit.json", result)
+    record["status"] = status
+    record["audited_at_utc"] = result["audited_at_utc"]
+    json_write(record_path, record)
+    return result
+
+
+def _apply_one_project(
+    state: dict[str, Any],
+    state_path: Path,
+    project: dict[str, Any],
+    *,
+    retry_failed: bool,
+    fault: str | None = None,
+) -> None:
+    project_id = project["project_id"]
+    item = state["projects"][project_id]
+    if project["status"] not in {"ready", "cold-build-required"}:
+        return
+    if item["status"] in {"ready", "review-pending", "cutover-complete", "rolled-back"}:
+        if item["status"] in {"ready", "review-pending"}:
+            staging = Path(project["staging"])
+            if not staging.is_dir() or not (staging / "knowledge-batch/project.json").is_file():
+                raise BatchProjectError("staging-missing", f"recorded staging is missing for {project_id}")
+            if item["status"] == "review-pending" and retry_failed:
+                with _knowledge_output_lock(Path(project["output"])):
+                    audit = _knowledge_project_audit(project, item)
+                item["audit"] = str((staging / "knowledge-batch/audit.json").resolve())
+                item["pending_review_packs"] = audit.get("pending_review_packs", [])
+                item["status"] = audit["status"]
+                item["staging_digest"] = _tree_manifest(staging)["sha256"]
+                item["failure"] = None if audit["status"] in {"ready", "review-pending"} else {
+                    "category": "staging-audit-failed",
+                    "detail": item["audit"],
+                }
+                _state_event(state, project_id, "resume", item["status"], (item.get("failure") or {}).get("category"))
+                _save_knowledge_state(state_path, state)
+        return
+    if item["status"] == "failed" and not retry_failed:
+        return
+    if item["status"] == "failed":
+        item["status"] = "pending"
+        item["failure"] = None
+    output = Path(project["output"]).resolve()
+    staging = Path(project["staging"]).resolve()
+    with _knowledge_output_lock(output):
+        _verify_plan_bindings(project)
+        if item["status"] == "applying" and staging.exists():
+            marker = staging / "knowledge-batch/project.json"
+            if marker.is_file():
+                value = json_load(marker)
+                if value.get("operation_id") != item["operation_id"]:
+                    raise BatchProjectError("resume-staging-conflict", f"interrupted staging belongs to another operation: {project_id}")
+            shutil.rmtree(staging)
+            _state_event(state, project_id, "resume", "staging-reset")
+            item["status"] = "pending"
+            _save_knowledge_state(state_path, state)
+        if staging.exists():
+            raise BatchProjectError("staging-conflict", f"staging exists before apply: {staging}")
+        item["status"] = "applying"
+        item["failure"] = None
+        _state_event(state, project_id, "apply", "applying")
+        _save_knowledge_state(state_path, state)
+        if fault == "before-build":
+            raise OSError("injected failure before staging build")
+        if item["strategy"] == "cold-build":
+            _cold_build(project)
+        else:
+            migrate_output(output, Path(project["repository"]), staging, project["format"])
+        _detach_staging_workspace_roots(staging, project)
+        _project_record(staging, state["batch_id"], project, item)
+        if fault == "after-build":
+            raise OSError("injected failure after staging build")
+        audit = _knowledge_project_audit(project, item)
+        item["audit"] = str((staging / "knowledge-batch/audit.json").resolve())
+        item["pending_review_packs"] = audit.get("pending_review_packs", [])
+        item["status"] = audit["status"]
+        item["staging_digest"] = _tree_manifest(staging)["sha256"]
+        item["failure"] = None if audit["status"] in {"ready", "review-pending"} else {
+            "category": "staging-audit-failed",
+            "detail": str(item["audit"]),
+        }
+        _state_event(state, project_id, "apply", item["status"], (item.get("failure") or {}).get("category"))
+        _save_knowledge_state(state_path, state)
+
+
+def apply_knowledge_batch_plan(
+    plan_path: Path,
+    state_path: Path,
+    *,
+    retry_failed: bool = False,
+    faults: dict[str, str] | None = None,
+) -> dict[str, Any]:
+    plan_path = plan_path.expanduser().resolve()
+    state_path = state_path.expanduser().resolve()
+    plan = _load_knowledge_batch_plan(plan_path)
+    for project in plan["projects"]:
+        if path_inside(state_path, Path(project["output"])) or path_inside(state_path, Path(project["staging"])):
+            raise CkbError("knowledge batch state must be outside every OUTPUT and staging directory")
+    if state_path.is_file():
+        state = _load_knowledge_state(state_path)
+        if state.get("operation_id") != plan["operation_id"] or state.get("plan_digest") != plan["plan_digest"]:
+            raise CkbError("knowledge batch state is bound to another immutable plan")
+    else:
+        state = _new_knowledge_state(plan, plan_path, state_path)
+        _save_knowledge_state(state_path, state)
+    plan_by_id = {item["project_id"]: item for item in plan["projects"]}
+    for project_id in sorted(plan_by_id):
+        project = plan_by_id[project_id]
+        try:
+            _apply_one_project(
+                state,
+                state_path,
+                project,
+                retry_failed=retry_failed,
+                fault=(faults or {}).get(project_id),
+            )
+        except BatchProjectError as exc:
+            item = state["projects"][project_id]
+            item["status"] = "failed"
+            item["failure"] = {"category": exc.category, "detail": str(exc)}
+            _state_event(state, project_id, "apply", "failed", exc.category)
+            _save_knowledge_state(state_path, state)
+        except (CkbError, OSError, ValueError, json.JSONDecodeError, sqlite3.Error) as exc:
+            item = state["projects"][project_id]
+            item["status"] = "failed"
+            item["failure"] = {"category": "apply-failed", "detail": str(exc)}
+            _state_event(state, project_id, "apply", "failed", "apply-failed")
+            _save_knowledge_state(state_path, state)
+    state["status"] = _summarize_knowledge_state(state)
+    _save_knowledge_state(state_path, state)
+    return knowledge_batch_status(state_path)
+
+
+def resume_knowledge_batch_state(
+    state_path: Path,
+    *,
+    faults: dict[str, str] | None = None,
+) -> dict[str, Any]:
+    state = _load_knowledge_state(state_path)
+    return apply_knowledge_batch_plan(Path(state["plan"]), state_path, retry_failed=True, faults=faults)
+
+
+def knowledge_batch_status(state_path: Path) -> dict[str, Any]:
+    state_path = state_path.expanduser().resolve()
+    state = _load_knowledge_state(state_path)
+    plan = _load_knowledge_batch_plan(Path(state["plan"]))
+    plan_by_id = {item["project_id"]: item for item in plan["projects"]}
+    projects = []
+    drifted = 0
+    for project_id in sorted(state["projects"]):
+        value = dict(state["projects"][project_id])
+        project = plan_by_id[project_id]
+        drift = None
+        try:
+            if value["status"] in {"ready", "review-pending"}:
+                staging = Path(project["staging"])
+                if not staging.is_dir():
+                    drift = {"category": "staging-missing"}
+                else:
+                    actual = _tree_manifest(staging)["sha256"]
+                    if value.get("staging_digest") and actual != value["staging_digest"]:
+                        drift = {"category": "staging-drift", "expected": value["staging_digest"], "actual": actual}
+            elif value["status"] == "cutover-complete":
+                output = Path(project["output"])
+                actual = _tree_manifest(output)["sha256"] if output.is_dir() else None
+                if actual != value.get("modified_digest"):
+                    drift = {"category": "cutover-output-drift", "expected": value.get("modified_digest"), "actual": actual}
+            elif value["status"] == "rolled-back":
+                output = Path(project["output"])
+                actual = _tree_manifest(output)["sha256"] if output.is_dir() else None
+                if actual != value.get("origin_digest"):
+                    drift = {"category": "rollback-output-drift", "expected": value.get("origin_digest"), "actual": actual}
+        except (CkbError, OSError, ValueError, json.JSONDecodeError, sqlite3.Error) as exc:
+            drift = {"category": "status-probe-failed", "detail": str(exc)}
+        value["drift"] = drift
+        if drift:
+            drifted += 1
+        value["commands"] = {
+            "resume": f"migrate batch resume --state '{state_path}'",
+            "audit": f"migrate batch audit --state '{state_path}'",
+            "cutover": f"migrate batch cutover --state '{state_path}' --project {project_id}",
+            "rollback": f"migrate batch rollback --state '{state_path}' --project {project_id}",
+        }
+        projects.append(value)
+    counts: dict[str, int] = {}
+    for item in projects:
+        counts[item["status"]] = counts.get(item["status"], 0) + 1
+    return {
+        "schema_version": KNOWLEDGE_BATCH_STATE_SCHEMA_VERSION,
+        "batch_id": state["batch_id"],
+        "operation_id": state["operation_id"],
+        "status": "drifted" if drifted else state["status"],
+        "state": str(state_path),
+        "plan": state["plan"],
+        "summary": {"projects": len(projects), "drifted": drifted, "counts": dict(sorted(counts.items()))},
+        "projects": projects,
+        "event_count": len(state.get("events", [])),
+    }
+
+
+def audit_knowledge_batch_state(state_path: Path) -> dict[str, Any]:
+    state_path = state_path.expanduser().resolve()
+    state = _load_knowledge_state(state_path)
+    plan = _load_knowledge_batch_plan(Path(state["plan"]))
+    plan_by_id = {item["project_id"]: item for item in plan["projects"]}
+    results = []
+    for project_id in sorted(state["projects"]):
+        item = state["projects"][project_id]
+        project = plan_by_id[project_id]
+        if project["status"] not in {"ready", "cold-build-required"}:
+            result = {
+                "project_id": project_id,
+                "status": project["status"],
+                "failure": project.get("failure") or {"category": project.get("reason")},
+            }
+        elif item["status"] in {"cutover-complete", "rolled-back"}:
+            result = {
+                "project_id": project_id,
+                "status": "passed",
+                "phase": item["status"],
+                "control": item.get("control"),
+            }
+        elif not Path(project["staging"]).is_dir():
+            result = {
+                "project_id": project_id,
+                "status": "failed",
+                "failure": {"category": "staging-missing"},
+            }
+            item["status"] = "failed"
+            item["failure"] = result["failure"]
+        else:
+            result = _knowledge_project_audit(project, item)
+            item["audit"] = str((Path(project["staging"]) / "knowledge-batch/audit.json").resolve())
+            item["pending_review_packs"] = result.get("pending_review_packs", [])
+            item["status"] = result["status"]
+            item["staging_digest"] = _tree_manifest(Path(project["staging"]))["sha256"]
+            item["failure"] = None if result["status"] in {"ready", "review-pending"} else {
+                "category": "staging-audit-failed",
+                "detail": item["audit"],
+            }
+        results.append(result)
+        _state_event(state, project_id, "audit", result["status"], (result.get("failure") or {}).get("category"))
+        _save_knowledge_state(state_path, state)
+    state["status"] = _summarize_knowledge_state(state)
+    _save_knowledge_state(state_path, state)
+    failed = sum(item["status"] in {"failed", "awaiting-review"} for item in results)
+    pending = sum(item["status"] == "review-pending" for item in results)
+    ready = sum(item["status"] in {"ready", "passed"} for item in results)
+    return {
+        "schema_version": KNOWLEDGE_BATCH_STATE_SCHEMA_VERSION,
+        "batch_id": state["batch_id"],
+        "status": "passed" if failed == 0 and pending == 0 else "review-pending" if failed == 0 else "failed" if ready == 0 else "partial",
+        "state": str(state_path),
+        "summary": {"projects": len(results), "ready": ready, "review_pending": pending, "failed": failed},
+        "projects": results,
+    }
+
+
+def _control_path(output: Path, operation_id: str, project_id: str) -> Path:
+    return output.parent / f".{output.name}.knowledge-migration-{operation_id}-{project_id}.json"
+
+
+def _control_records(output: Path) -> list[tuple[Path, dict[str, Any]]]:
+    records = []
+    for path in sorted(output.parent.glob(f".{output.name}.knowledge-migration-*.json")):
+        try:
+            value = json_load(path)
+        except (CkbError, OSError, ValueError, json.JSONDecodeError):
+            continue
+        if value.get("schema_version") == KNOWLEDGE_BATCH_PROJECT_SCHEMA_VERSION and value.get("output") == str(output.resolve()):
+            records.append((path, value))
+    return records
+
+
+def _active_control(output: Path, actual: dict[str, Any] | None = None) -> tuple[Path, dict[str, Any]] | None:
+    actual = actual or _tree_manifest(output)
+    matches = [
+        (path, value)
+        for path, value in _control_records(output)
+        if value.get("status") == "cutover-complete"
+        and isinstance(value.get("modified_manifest"), dict)
+        and _manifest_matches(value["modified_manifest"], actual)
+    ]
+    if len(matches) > 1:
+        raise BatchProjectError("active-chain-ambiguous", f"multiple migration controls match the active OUTPUT: {output}")
+    return matches[0] if matches else None
+
+
+def _protocol_digest(project: dict[str, Any]) -> str:
+    return _protocol_snapshot_digest(
+        _protocol_snapshot_files(
+            Path(project["output"]),
+            [Path(value) for value in project.get("workspace_roots", [])],
+        )
+    )
+
+
+def _cutover_one(
+    state: dict[str, Any],
+    state_path: Path,
+    project: dict[str, Any],
+    *,
+    fault: str | None = None,
+) -> dict[str, Any]:
+    project_id = project["project_id"]
+    item = state["projects"][project_id]
+    output = Path(project["output"]).resolve()
+    staging = Path(project["staging"]).resolve()
+    if item["status"] == "cutover-complete":
+        control = json_load(Path(item["control"]))
+        if not _manifest_matches(control["modified_manifest"], _tree_manifest(output)):
+            raise BatchProjectError("cutover-post-drift", f"completed cutover drifted for {project_id}")
+        return {"project_id": project_id, "status": "skipped", "control": item["control"]}
+    if item["status"] != "ready":
+        raise BatchProjectError("not-ready", f"project audit has not marked staging ready: {project_id}")
+    with _knowledge_output_lock(output):
+        _verify_plan_bindings(project)
+        audit = json_load(Path(item["audit"])) if item.get("audit") and Path(item["audit"]).is_file() else {}
+        if audit.get("status") != "ready":
+            raise BatchProjectError("audit-not-ready", f"staging audit is not ready for {project_id}")
+        current_staging = _tree_manifest(staging)
+        if current_staging["sha256"] != item.get("staging_digest"):
+            raise BatchProjectError("staging-drift", f"staging changed after audit for {project_id}")
+        operation_id = item["operation_id"]
+        backup_root = Path(project["cutover"]["backup_root"]).resolve()
+        backup_root.mkdir(parents=True, exist_ok=True)
+        backup = backup_root / f"{output.name}.{operation_id}.{project_id}"
+        if backup.exists():
+            raise BatchProjectError("cutover-backup-conflict", f"cutover backup already exists: {backup}")
+        control_path = _control_path(output, operation_id, project_id)
+        if control_path.exists():
+            raise BatchProjectError("cutover-control-conflict", f"cutover control already exists: {control_path}")
+        active_parent = _active_control(output, project["origin_manifest"])
+        protocol_backup_root = state_path.parent / ".ckb-knowledge-migration-protocol-backups" / state["batch_id"] / project_id
+        protocol_backup_project = {
+            "project_id": project_id,
+            "output": str(output),
+            "workspace_roots": project["workspace_roots"],
+        }
+        protocol_backup = _create_protocol_backup(protocol_backup_project, protocol_backup_root)
+        record = {
+            "schema_version": KNOWLEDGE_BATCH_PROJECT_SCHEMA_VERSION,
+            "batch_id": state["batch_id"],
+            "project_id": project_id,
+            "operation_id": operation_id,
+            "status": "cutover-started",
+            "output": str(output),
+            "staging_output": str(staging),
+            "backup_output": str(backup),
+            "parent_operation_id": active_parent[1]["operation_id"] if active_parent else None,
+            "chain_depth": int(active_parent[1].get("chain_depth", 0)) + 1 if active_parent else 1,
+            "origin_manifest": project["origin_manifest"],
+            "staging_manifest": current_staging,
+            "protocol_backup": protocol_backup["manifest_path"],
+            "started_at_utc": utc_now(),
+        }
+        json_write(control_path, record)
+        moved_staging = False
+        try:
+            _release_audit_handles()
+            output.rename(backup)
+            if fault == "after-backup-rename":
+                raise OSError("injected failure after backup rename")
+            if not _manifest_matches(project["origin_manifest"], _tree_manifest(backup)):
+                raise BatchProjectError("backup-verification", f"cutover backup differs from origin for {project_id}")
+            staging.rename(output)
+            moved_staging = True
+            if fault == "after-staging-rename":
+                raise OSError("injected failure after staging rename")
+            pipeline_status(output)
+            install_agent_protocol(
+                output,
+                [Path(value) for value in project["workspace_roots"]],
+                python=Path(project["runtime"]["python"]),
+                ckb=Path(project["runtime"]["ckb"]),
+            )
+            if fault == "after-protocol-upgrade":
+                raise OSError("injected failure after Agent Protocol upgrade")
+            sqlite_checks = _sqlite_checks(output)
+            if not sqlite_checks or not all(value["passed"] for value in sqlite_checks):
+                raise BatchProjectError("cutover-sqlite", f"promoted SQLite verification failed for {project_id}: {sqlite_checks}")
+            from .llm_wiki_capabilities import maintenance_check
+
+            maintenance = maintenance_check(output)
+            _release_audit_handles()
+            if maintenance.get("status") != "passed":
+                raise BatchProjectError("cutover-maintain", f"promoted maintain failed for {project_id}")
+            modified = _tree_manifest(output)
+            protocol_digest = _protocol_digest(project)
+            record.update(
+                {
+                    "status": "cutover-complete",
+                    "backup_manifest": _tree_manifest(backup),
+                    "modified_manifest": modified,
+                    "protocol_applied_digest": protocol_digest,
+                    "sqlite": sqlite_checks,
+                    "maintenance_status": maintenance.get("status"),
+                    "completed_at_utc": utc_now(),
+                }
+            )
+            json_write(control_path, record)
+            item["status"] = "cutover-complete"
+            item["modified_digest"] = modified["sha256"]
+            item["backup_output"] = str(backup)
+            item["control"] = str(control_path)
+            item["protocol_backup"] = protocol_backup["manifest_path"]
+            item["failure"] = None
+            _state_event(state, project_id, "cutover", "cutover-complete")
+            _save_knowledge_state(state_path, state)
+            return {
+                "project_id": project_id,
+                "status": "cutover-complete",
+                "operation_id": operation_id,
+                "parent_operation_id": record["parent_operation_id"],
+                "chain_depth": record["chain_depth"],
+                "output": str(output),
+                "backup_output": str(backup),
+                "control": str(control_path),
+                "sqlite": sqlite_checks,
+            }
+        except Exception as exc:
+            try:
+                if moved_staging and output.exists():
+                    output.rename(staging)
+                if backup.exists() and not output.exists():
+                    backup.rename(output)
+                _restore_protocol_backup(Path(protocol_backup["manifest_path"]))
+            finally:
+                restored = output.is_dir() and _manifest_matches(project["origin_manifest"], _tree_manifest(output))
+                record.update(
+                    {
+                        "status": "cutover-failed-restored" if restored else "cutover-failed",
+                        "failure": str(exc),
+                        "origin_restored": restored,
+                    }
+                )
+                json_write(control_path, record)
+            if isinstance(exc, BatchProjectError):
+                raise
+            raise BatchProjectError("cutover-failed", str(exc)) from exc
+
+
+def cutover_knowledge_batch_state(
+    state_path: Path,
+    project_ids: list[str] | None = None,
+    *,
+    faults: dict[str, str] | None = None,
+) -> dict[str, Any]:
+    state_path = state_path.expanduser().resolve()
+    state = _load_knowledge_state(state_path)
+    plan = _load_knowledge_batch_plan(Path(state["plan"]))
+    plan_by_id = {item["project_id"]: item for item in plan["projects"]}
+    requested = sorted(set(project_ids or []))
+    unknown = sorted(set(requested) - set(plan_by_id))
+    if unknown:
+        raise CkbError(f"unknown knowledge batch cutover project: {', '.join(unknown)}")
+    selected = requested or sorted(project_id for project_id, item in state["projects"].items() if item["status"] in {"ready", "cutover-complete"})
+    if not selected:
+        raise CkbError("knowledge batch cutover has no audit-ready project")
+    results = []
+    for project_id in selected:
+        try:
+            result = _cutover_one(state, state_path, plan_by_id[project_id], fault=(faults or {}).get(project_id))
+        except BatchProjectError as exc:
+            item = state["projects"][project_id]
+            item["failure"] = {"category": exc.category, "detail": str(exc)}
+            _state_event(state, project_id, "cutover", "failed", exc.category)
+            _save_knowledge_state(state_path, state)
+            result = {"project_id": project_id, "status": "failed", "failure": item["failure"]}
+        results.append(result)
+    state["status"] = _summarize_knowledge_state(state)
+    _save_knowledge_state(state_path, state)
+    failed = sum(item["status"] == "failed" for item in results)
+    passed = sum(item["status"] == "cutover-complete" for item in results)
+    return {
+        "schema_version": KNOWLEDGE_BATCH_STATE_SCHEMA_VERSION,
+        "batch_id": state["batch_id"],
+        "status": "passed" if failed == 0 else "failed" if passed == 0 else "partial",
+        "state": str(state_path),
+        "summary": {"selected": len(results), "cutover_complete": passed, "skipped": len(results) - passed - failed, "failed": failed},
+        "projects": results,
+    }
+
+
+def _rollback_one(
+    state: dict[str, Any],
+    state_path: Path,
+    project: dict[str, Any],
+    *,
+    fault: str | None = None,
+) -> dict[str, Any]:
+    project_id = project["project_id"]
+    item = state["projects"][project_id]
+    output = Path(project["output"]).resolve()
+    if item["status"] == "rolled-back":
+        if not _manifest_matches(project["origin_manifest"], _tree_manifest(output)):
+            raise BatchProjectError("rollback-post-drift", f"rolled-back OUTPUT drifted for {project_id}")
+        return {"project_id": project_id, "status": "skipped", "idempotent": True}
+    if item["status"] != "cutover-complete" or not item.get("control"):
+        raise BatchProjectError("rollback-not-eligible", f"project has no completed cutover: {project_id}")
+    control_path = Path(item["control"])
+    if not control_path.is_file():
+        raise BatchProjectError("rollback-control-missing", f"rollback control is missing for {project_id}")
+    record = json_load(control_path)
+    with _knowledge_output_lock(output):
+        actual = _tree_manifest(output)
+        if not _manifest_matches(record["modified_manifest"], actual):
+            raise BatchProjectError("rollback-external-drift", f"promoted OUTPUT changed after cutover: {project_id}")
+        if _protocol_digest(project) != record.get("protocol_applied_digest"):
+            raise BatchProjectError("rollback-protocol-drift", f"Agent Protocol managed bytes changed after cutover: {project_id}")
+        backup = Path(record["backup_output"])
+        if not backup.is_dir() or not _manifest_matches(record["origin_manifest"], _tree_manifest(backup)):
+            raise BatchProjectError("rollback-backup-drift", f"rollback backup is missing or changed: {project_id}")
+        quarantine_root = Path(project["rollback"]["quarantine_root"]).resolve()
+        quarantine_root.mkdir(parents=True, exist_ok=True)
+        quarantine = quarantine_root / f"{output.name}.{record['operation_id']}.{project_id}"
+        if quarantine.exists():
+            raise BatchProjectError("rollback-quarantine-conflict", f"rollback quarantine already exists: {quarantine}")
+        restored_origin = False
+        try:
+            _release_audit_handles()
+            output.rename(quarantine)
+            if fault == "after-modified-rename":
+                raise OSError("injected failure after modified rename")
+            backup.rename(output)
+            restored_origin = True
+            if fault == "after-backup-restore":
+                raise OSError("injected failure after backup restore")
+            _restore_protocol_backup(Path(record["protocol_backup"]))
+            if fault == "after-protocol-restore":
+                raise OSError("injected failure after Agent Protocol restore")
+            restored = _tree_manifest(output)
+            if not _manifest_matches(record["origin_manifest"], restored):
+                raise BatchProjectError("rollback-verification", f"restored OUTPUT differs from the exact origin for {project_id}")
+            sqlite_checks = _sqlite_checks(output)
+            if not sqlite_checks or not all(value["passed"] for value in sqlite_checks):
+                raise BatchProjectError("rollback-sqlite", f"restored SQLite verification failed for {project_id}")
+            record.update(
+                {
+                    "status": "rolled-back",
+                    "rolled_forward_output": str(quarantine),
+                    "restored_manifest": restored,
+                    "rollback_sqlite": sqlite_checks,
+                    "rolled_back_at_utc": utc_now(),
+                }
+            )
+            json_write(control_path, record)
+            item["status"] = "rolled-back"
+            item["failure"] = None
+            _state_event(state, project_id, "rollback", "rolled-back")
+            _save_knowledge_state(state_path, state)
+            return {
+                "project_id": project_id,
+                "status": "rolled-back",
+                "operation_id": record["operation_id"],
+                "reactivated_operation_id": record.get("parent_operation_id"),
+                "output": str(output),
+                "modified_output": str(quarantine),
+                "control": str(control_path),
+                "sqlite": sqlite_checks,
+            }
+        except Exception as exc:
+            try:
+                if restored_origin and output.exists():
+                    output.rename(backup)
+                if quarantine.exists() and not output.exists():
+                    quarantine.rename(output)
+                # Restore the promoted managed bytes when the old backup was
+                # partially applied.  The quarantined promoted OUTPUT carries
+                # its exact internal bytes; external blocks are guarded by the
+                # applied digest and remain untouched unless backup restore ran.
+                if _protocol_digest(project) != record.get("protocol_applied_digest"):
+                    install_agent_protocol(
+                        output,
+                        [Path(value) for value in project["workspace_roots"]],
+                        python=Path(project["runtime"]["python"]),
+                        ckb=Path(project["runtime"]["ckb"]),
+                    )
+            finally:
+                restored_modified = output.is_dir() and _manifest_matches(record["modified_manifest"], _tree_manifest(output))
+                record.update(
+                    {
+                        "status": "cutover-complete" if restored_modified else "rollback-failed",
+                        "last_rollback_failure": str(exc),
+                        "modified_restored": restored_modified,
+                    }
+                )
+                json_write(control_path, record)
+            if isinstance(exc, BatchProjectError):
+                raise
+            raise BatchProjectError("rollback-failed", str(exc)) from exc
+
+
+def rollback_knowledge_batch_state(
+    state_path: Path,
+    project_ids: list[str] | None = None,
+    *,
+    faults: dict[str, str] | None = None,
+) -> dict[str, Any]:
+    state_path = state_path.expanduser().resolve()
+    state = _load_knowledge_state(state_path)
+    plan = _load_knowledge_batch_plan(Path(state["plan"]))
+    plan_by_id = {item["project_id"]: item for item in plan["projects"]}
+    requested = sorted(set(project_ids or []))
+    unknown = sorted(set(requested) - set(plan_by_id))
+    if unknown:
+        raise CkbError(f"unknown knowledge batch rollback project: {', '.join(unknown)}")
+    selected = requested or sorted(project_id for project_id, item in state["projects"].items() if item["status"] in {"cutover-complete", "rolled-back"})
+    if not selected:
+        raise CkbError("knowledge batch rollback has no completed project to restore")
+    results = []
+    for project_id in selected:
+        try:
+            result = _rollback_one(state, state_path, plan_by_id[project_id], fault=(faults or {}).get(project_id))
+        except BatchProjectError as exc:
+            item = state["projects"][project_id]
+            item["failure"] = {"category": exc.category, "detail": str(exc)}
+            _state_event(state, project_id, "rollback", "failed", exc.category)
+            _save_knowledge_state(state_path, state)
+            result = {"project_id": project_id, "status": "failed", "failure": item["failure"]}
+        results.append(result)
+    state["status"] = _summarize_knowledge_state(state)
+    _save_knowledge_state(state_path, state)
+    failed = sum(item["status"] == "failed" for item in results)
+    passed = sum(item["status"] == "rolled-back" for item in results)
+    return {
+        "schema_version": KNOWLEDGE_BATCH_STATE_SCHEMA_VERSION,
+        "batch_id": state["batch_id"],
+        "status": "passed" if failed == 0 else "failed" if passed == 0 else "partial",
+        "state": str(state_path),
+        "summary": {"selected": len(results), "rolled_back": passed, "skipped": len(results) - passed - failed, "failed": failed},
+        "projects": results,
+    }
