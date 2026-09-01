@@ -28,15 +28,15 @@ Manifest schema 位于 `references/knowledge-base-batch-migration-manifest.schem
 - 源/目标 CKB、Schema、Agent Protocol 与历史 release commit；
 - 旧 OUTPUT 固定 commit/tree、目标 repo commit/tree、format 和完整 scope selectors；
 - 锁定 Python、CKB、workspace roots 与 Harness；
-- 旧 OUTPUT 全树摘要及八个关键记录 SHA-256；
+- 旧 OUTPUT 全树摘要及恰好八个固定关键记录 SHA-256；`origin.records` 禁止额外键、绝对路径、反斜杠、`.`、`..` 和非规范相对路径，并在读取或哈希任何文件前完成键集检查；
 - 允许的 `compatible-migration`、`delta-review`、`cold-build` 策略；
 - cutover 备份根、rollback 隔离根和 Windows 路径上限。
 
-路径和摘要必须由调用方在计划前显式生成，命令不会扫描 allowed roots 寻找项目。完整字段、必填项和禁止额外字段以 JSON Schema 为准。
+路径和摘要必须由调用方在计划前显式生成，命令不会扫描 allowed roots 寻找项目。完整字段、必填项和禁止额外字段以 JSON Schema 为准。Runtime 还会在只读计划阶段计算每库实际 backup/quarantine 叶：同项目两个叶及跨项目所有恢复叶不得相等或嵌套；恢复根和投影叶不得等于、包含或位于任何生产 OUTPUT/staging 内。不同项目可以共享安全的 backup 父目录或 quarantine 父目录，因为各自使用不同 operation/project token 叶。
 
 ## 只读计划与版本决策
 
-`plan` 不写目标 OUTPUT、repo 或 staging。它核对旧 state、三个完成标记、全局审计、facts、graph、review pack、实体审阅绑定、双 SQLite integrity/foreign keys、人类/Markdown 镜像和 readability 记录；再核对 manifest 全树与关键记录摘要、固定 repo、scope、runtime、路径边界和最长后代路径。
+`plan` 不写目标 OUTPUT、repo 或 staging。它先核对固定八键和恢复拓扑，再核对旧 state、三个完成标记、全局审计、facts、graph、review pack、实体审阅绑定、双 SQLite integrity/foreign keys、人类/Markdown 镜像和 readability 记录；随后核对 manifest 全树与关键记录摘要、固定 repo、scope、runtime、路径边界和最长后代路径。畸形 `origin.records` 在形成外部路径或读取文件前失败，畸形恢复拓扑在写 state、staging、backup 或 control 前失败。
 
 版本矩阵位于 `references/knowledge-base-batch-migration-versions.json`。每行绑定历史 commit，不接受只修改当前 state 版本号得到的伪旧库。当前兼容链包含 `5.1.4/Schema 4/Protocol 1.0.0`、`5.2.9/4/1.3.0`、两个有不同协议来源的 `5.3.0` 检查点和 `5.4.0/4/1.5.0`。`5.1.1` 没有 Agent Protocol，固定进入 `cold-build-required`。未知组合或缺失链进入 `awaiting-review`；目标不是当前版本、摘要漂移或缺失完成门则固定失败。
 

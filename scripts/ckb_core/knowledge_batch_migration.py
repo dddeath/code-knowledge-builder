@@ -10,7 +10,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 import hashlib
 import json
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 import re
 import shutil
 import sqlite3
@@ -106,6 +106,7 @@ REQUIRED_RECORDS = (
     ".machine.complete",
     ".human.complete",
 )
+REQUIRED_RECORD_SET = frozenset(REQUIRED_RECORDS)
 
 
 @dataclass(frozen=True)
@@ -572,7 +573,98 @@ def _operation_token(operation_id: str, project_id: str) -> str:
     return hashlib.sha256(f"{operation_id}\0{project_id}".encode("utf-8")).hexdigest()[:20]
 
 
-def _inspect_knowledge_project(project: dict[str, Any], roots: list[Path]) -> dict[str, Any]:
+def _project_operation_id(batch_operation_id: str, project: dict[str, Any]) -> str:
+    origin = _object(project.get("origin"), f"{project.get('project_id')}.origin")
+    tree = _validate_tree_summary(origin.get("tree"), f"{project.get('project_id')}.origin.tree")
+    target = _validate_snapshot(project.get("target_snapshot"), f"{project.get('project_id')}.target_snapshot")
+    return stable_id(
+        "knowledge-migration",
+        batch_operation_id,
+        project["project_id"],
+        tree["sha256"],
+        target["commit"],
+    )
+
+
+def _paths_overlap(left: Path, right: Path) -> bool:
+    return left == right or path_inside(left, right) or path_inside(right, left)
+
+
+def _validate_recovery_topology(
+    manifest: dict[str, Any],
+    roots: list[Path],
+    batch_operation_id: str,
+) -> None:
+    primary: list[tuple[str, Path]] = []
+    recovery: list[tuple[str, str, Path, Path]] = []
+    for project in manifest["projects"]:
+        project_id = str(project["project_id"])
+        output = _absolute(project.get("output"), f"{project_id}.output")
+        staging = _absolute(project.get("staging"), f"{project_id}.staging")
+        primary.extend(((f"{project_id}.output", output), (f"{project_id}.staging", staging)))
+        cutover = _object(project.get("cutover"), f"{project_id}.cutover")
+        _reject_unknown(cutover, CUTOVER_KEYS, f"{project_id}.cutover")
+        rollback = _object(project.get("rollback"), f"{project_id}.rollback")
+        _reject_unknown(rollback, ROLLBACK_KEYS, f"{project_id}.rollback")
+        backup_root = _absolute(cutover.get("backup_root"), f"{project_id}.cutover.backup_root")
+        quarantine_root = _absolute(rollback.get("quarantine_root"), f"{project_id}.rollback.quarantine_root")
+        if not all(_within_any(value, roots) for value in (backup_root, quarantine_root)):
+            raise CkbError(f"knowledge batch recovery root escapes allowed_roots: {project_id}")
+        operation_id = _project_operation_id(batch_operation_id, project)
+        leaf = _operation_token(operation_id, project_id)
+        recovery.extend(
+            (
+                (project_id, "backup", backup_root, backup_root / leaf),
+                (project_id, "quarantine", quarantine_root, quarantine_root / leaf),
+            )
+        )
+    for project_id, role, root, target in recovery:
+        for primary_role, primary_path in primary:
+            if _paths_overlap(root, primary_path) or _paths_overlap(target, primary_path):
+                raise CkbError(
+                    f"knowledge batch recovery topology overlaps {primary_role}: "
+                    f"{project_id}.{role} root={root} target={target}"
+                )
+    for index, (project_id, role, _root, target) in enumerate(recovery):
+        for other_project, other_role, _other_root, other_target in recovery[index + 1 :]:
+            if _paths_overlap(target, other_target):
+                raise CkbError(
+                    "knowledge batch projected recovery targets overlap: "
+                    f"{project_id}.{role}={target} ; {other_project}.{other_role}={other_target}"
+                )
+
+
+def _validate_origin_record_keys(value: Any, project_id: str) -> dict[str, str]:
+    if not isinstance(value, dict):
+        raise BatchProjectError("origin-record-keys", f"origin.records must be an object for {project_id}")
+    keys = set(value)
+    missing = sorted(REQUIRED_RECORD_SET - keys)
+    extra = sorted(keys - REQUIRED_RECORD_SET)
+    if missing or extra:
+        raise BatchProjectError(
+            "origin-record-keys",
+            f"origin.records must contain exactly the fixed eight keys for {project_id}: missing={missing}, extra={extra}",
+        )
+    for relative in value:
+        if not isinstance(relative, str) or not relative:
+            raise BatchProjectError("origin-record-path", f"origin.records path is not a string for {project_id}")
+        normalized = PurePosixPath(relative)
+        if (
+            "\\" in relative
+            or normalized.is_absolute()
+            or "." in normalized.parts
+            or ".." in normalized.parts
+            or normalized.as_posix() != relative
+        ):
+            raise BatchProjectError("origin-record-path", f"origin.records path is not canonical for {project_id}: {relative}")
+    return value
+
+
+def _inspect_knowledge_project(
+    project: dict[str, Any],
+    roots: list[Path],
+    batch_operation_id: str,
+) -> dict[str, Any]:
     project_id = str(project["project_id"])
     output = _absolute(project["output"], f"{project_id}.output")
     repository = _absolute(project["repository"], f"{project_id}.repository")
@@ -639,9 +731,7 @@ def _inspect_knowledge_project(project: dict[str, Any], roots: list[Path]) -> di
     origin_descriptor = _object(project.get("origin"), f"{project_id}.origin")
     _reject_unknown(origin_descriptor, ORIGIN_KEYS, f"{project_id}.origin")
     expected_tree = _validate_tree_summary(origin_descriptor.get("tree"), f"{project_id}.origin.tree")
-    expected_records = origin_descriptor.get("records")
-    if not isinstance(expected_records, dict) or set(REQUIRED_RECORDS) - set(expected_records):
-        raise BatchProjectError("origin-record-summary-incomplete", f"origin.records must include every required record for {project_id}")
+    expected_records = _validate_origin_record_keys(origin_descriptor.get("records"), project_id)
     if any(not isinstance(value, str) or not HEX_SHA256.fullmatch(value) for value in expected_records.values()):
         raise BatchProjectError("origin-record-digest-invalid", f"origin.records contains an invalid SHA-256 for {project_id}")
     missing_records = [relative for relative in expected_records if not (output / relative).is_file()]
@@ -651,13 +741,8 @@ def _inspect_knowledge_project(project: dict[str, Any], roots: list[Path]) -> di
     tree_fields = {key: actual_tree[key] for key in TREE_KEYS}
     if tree_fields != expected_tree:
         raise BatchProjectError("origin-tree-drift", f"origin full-tree summary differs from manifest for {project_id}")
-    provisional_operation = stable_id(
-        "knowledge-migration-path",
-        project_id,
-        expected_tree["sha256"],
-        target_snapshot["commit"],
-    )
-    leaf = _operation_token(provisional_operation, project_id)
+    operation_id = _project_operation_id(batch_operation_id, project)
+    leaf = _operation_token(operation_id, project_id)
     projected_roots = [staging, backup_root / leaf, quarantine_root / leaf]
     deep_risks = [
         {"path": str(root / item["path"]), "length": len(str(root / item["path"])), "limit": maximum}
@@ -765,6 +850,7 @@ def _inspect_knowledge_project(project: dict[str, Any], roots: list[Path]) -> di
     layers = _complete_layer_inventory(output)
     return {
         "project_id": project_id,
+        "operation_id": operation_id,
         "status": decision,
         "reason": reason,
         "strategy": "compatible-migration" if decision == "ready" else "cold-build" if decision == "cold-build-required" else None,
@@ -810,10 +896,12 @@ def create_knowledge_batch_plan(manifest_path: Path, write: Path | None = None) 
         "projects": sorted(projects, key=lambda item: str(item["project_id"])),
     }
     manifest_digest = _digest_value(normalized_manifest)
+    batch_operation_id = stable_id("knowledge-batch", manifest["batch_id"], manifest_digest)
+    _validate_recovery_topology(normalized_manifest, roots, batch_operation_id)
     results: list[dict[str, Any]] = []
     for project in normalized_manifest["projects"]:
         try:
-            results.append(_inspect_knowledge_project(project, roots))
+            results.append(_inspect_knowledge_project(project, roots, batch_operation_id))
         except BatchProjectError as exc:
             results.append(
                 {
@@ -849,7 +937,7 @@ def create_knowledge_batch_plan(manifest_path: Path, write: Path | None = None) 
     body = {
         "schema_version": KNOWLEDGE_BATCH_PLAN_SCHEMA_VERSION,
         "batch_id": manifest["batch_id"],
-        "operation_id": stable_id("knowledge-batch", manifest["batch_id"], manifest_digest),
+        "operation_id": batch_operation_id,
         "status": status,
         "dry_run": True,
         "manifest": str(manifest_path),
@@ -894,6 +982,7 @@ def _verify_plan_manifest_binding(plan: dict[str, Any]) -> None:
         "allowed_roots": sorted(str(path) for path in roots),
         "projects": sorted(projects, key=lambda item: str(item["project_id"])),
     }
+    _validate_recovery_topology(normalized, roots, str(plan.get("operation_id")))
     actual = _digest_value(normalized)
     if actual != plan.get("manifest_digest"):
         raise CkbError(
@@ -950,13 +1039,7 @@ def _new_knowledge_state(plan: dict[str, Any], plan_path: Path, state_path: Path
             "status": "pending" if actionable else plan_status,
             "plan_status": plan_status,
             "strategy": project.get("strategy"),
-            "operation_id": stable_id(
-                "knowledge-migration",
-                plan["operation_id"],
-                project["project_id"],
-                (project.get("origin_manifest") or {}).get("sha256"),
-                (project.get("target_snapshot") or {}).get("commit"),
-            ) if actionable else None,
+            "operation_id": project.get("operation_id") if actionable else None,
             "output": project["output"],
             "staging": project["staging"],
             "origin_digest": (project.get("origin_manifest") or {}).get("sha256"),

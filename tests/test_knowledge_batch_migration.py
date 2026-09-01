@@ -9,6 +9,7 @@ import sys
 import tempfile
 import time
 import unittest
+from unittest.mock import patch
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -345,12 +346,30 @@ class KnowledgeBatchWorkflowTests(unittest.TestCase):
         repo_b, output_b, staging_b = self._build_additional_output("second")
         project_a = self._project_document("project-a", self.output, self.repo, self.staging)
         project_b = self._project_document("project-b", output_b, repo_b, staging_b)
+        invalid_a = json.loads(json.dumps(project_a))
+        invalid_a["cutover"]["backup_root"] = str((output_b / "nested-backup").resolve())
+        invalid_manifest = self._manifest([invalid_a, project_b])
+        from ckb_core.common import CkbError
+
+        with self.assertRaisesRegex(CkbError, "recovery topology overlaps"):
+            create_knowledge_batch_plan(invalid_manifest, self.root / "invalid-plan.json")
+        self.assertFalse((self.root / "invalid-plan.json").exists())
+        self.assertFalse(self.staging.exists())
+        self.assertFalse(staging_b.exists())
+
+        (self.root / "shared-recovery").mkdir()
+        shared_backup = self.root / "shared-recovery/backups"
+        shared_quarantine = self.root / "shared-recovery/quarantine"
+        for project in (project_a, project_b):
+            project["cutover"]["backup_root"] = str(shared_backup.resolve())
+            project["rollback"]["quarantine_root"] = str(shared_quarantine.resolve())
         manifest = self._manifest([project_a, project_b])
         origin_a = _tree_manifest(self.output)
         origin_b = _tree_manifest(output_b)
         plan_path = self.root / "plan.json"
         planned = create_knowledge_batch_plan(manifest, plan_path)
         self.assertEqual("ready", planned["status"], planned)
+        self.assertEqual(2, len({item["operation_id"] for item in planned["projects"]}))
         state_path = self.root / "state.json"
         partial_apply = apply_knowledge_batch_plan(plan_path, state_path, faults={"project-a": "before-build"})
         self.assertEqual("partial", partial_apply["status"], partial_apply)
@@ -499,6 +518,68 @@ class KnowledgeBatchWorkflowTests(unittest.TestCase):
         )
         with self.assertRaises(CkbError):
             create_knowledge_batch_plan(manifest)
+
+    def test_origin_records_are_exact_fixed_keys_before_any_external_read(self) -> None:
+        import ckb_core.knowledge_batch_migration as migration
+        from ckb_core.common import json_load, json_write, sha256_file
+        from ckb_core.knowledge_batch_migration import REQUIRED_RECORDS, create_knowledge_batch_plan
+
+        sentinel = self.root / "outside-secret.txt"
+        sentinel.write_text("外部 sentinel 不得进入 plan。\n", encoding="utf-8")
+        observed: list[str] = []
+        original = migration._file_record
+
+        def guarded(output: Path, relative: str) -> dict[str, object]:
+            observed.append(relative)
+            self.assertIn(relative, REQUIRED_RECORDS)
+            return original(output, relative)
+
+        malformed = (
+            "../outside-secret.txt",
+            str(sentinel.resolve()),
+            "./state.json",
+            "audit\\global.json",
+        )
+        for index, relative in enumerate(malformed):
+            manifest = self._manifest()
+            value = json_load(manifest)
+            value["batch_id"] = f"malformed-record-{index}"
+            value["projects"][0]["origin"]["records"][relative] = sha256_file(sentinel)
+            json_write(manifest, value)
+            with patch.object(migration, "_file_record", side_effect=guarded):
+                result = create_knowledge_batch_plan(manifest)
+            self.assertEqual("failed", result["status"])
+            project = result["projects"][0]
+            self.assertEqual("origin-record-keys", project["failure"]["category"])
+            self.assertNotIn("origin_records", project)
+        self.assertEqual([], observed)
+        self.assertEqual("外部 sentinel 不得进入 plan。\n", sentinel.read_text(encoding="utf-8"))
+
+        schema = json_load(ROOT / "references/knowledge-base-batch-migration-manifest.schema.json")
+        records = schema["properties"]["projects"]["items"]["properties"]["origin"]["properties"]["records"]
+        self.assertFalse(records["additionalProperties"])
+        self.assertEqual(set(REQUIRED_RECORDS), set(records["required"]))
+        self.assertEqual(set(REQUIRED_RECORDS), set(records["properties"]))
+
+    def test_recovery_topology_rejects_same_root_before_any_transaction_write(self) -> None:
+        from ckb_core.common import CkbError, json_load, json_write
+        from ckb_core.knowledge_batch_migration import create_knowledge_batch_plan
+
+        manifest = self._manifest()
+        value = json_load(manifest)
+        shared = self.root / "same-recovery-root"
+        value["projects"][0]["cutover"]["backup_root"] = str(shared.resolve())
+        value["projects"][0]["rollback"]["quarantine_root"] = str(shared.resolve())
+        json_write(manifest, value)
+        plan_path = self.root / "plan.json"
+        state_path = self.root / "state.json"
+        with self.assertRaisesRegex(CkbError, "projected recovery targets overlap"):
+            create_knowledge_batch_plan(manifest, plan_path)
+        self.assertFalse(plan_path.exists())
+        self.assertFalse(state_path.exists())
+        self.assertFalse(self.staging.exists())
+        self.assertFalse(shared.exists())
+        self.assertEqual([], list(self.output.parent.glob(f".{self.output.name}.knowledge-migration-*.json")))
 
     def test_apply_rejects_manifest_origin_and_repository_drift_before_staging_write(self) -> None:
         from ckb_core.common import CkbError, json_load, json_write
