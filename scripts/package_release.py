@@ -73,6 +73,7 @@ def core_capabilities(kind: str) -> dict[str, bool]:
         "local_scope_and_segmented_build": True,
         "agent_review_and_audit": True,
         "automation_adapters": True,
+        "session_scoped_stdio": True,
         "bundled_offline_runtime": kind == "full-win-x64",
         "obsidian_companion_plugin": False,
     }

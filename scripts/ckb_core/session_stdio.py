@@ -598,7 +598,9 @@ def controller_main(
             {
                 "state": "closed",
                 "server_pid": None,
-                "supervisor_pid": None,
+                # Retain the supervisor PID until another process observes
+                # that it has really exited; cleanup then clears the reference.
+                "supervisor_pid": os.getpid(),
                 "closed_at_utc": utc_now(),
                 "last_used_at_utc": utc_now(),
                 "close_detail": close_detail,
@@ -632,19 +634,32 @@ def _supervisor_process_options() -> dict[str, Any]:
     return {"start_new_session": True}
 
 
+def _reap_supervisor(process: subprocess.Popen[Any]) -> None:
+    try:
+        process.wait()
+    except OSError:
+        pass
+
+
 def _acquire_start_lock(directory: Path, timeout: float) -> Path | None:
     lock = directory / "start.lock"
     deadline = time.monotonic() + timeout
     while time.monotonic() < deadline:
         try:
-            lock.mkdir(parents=False)
-            json_write(lock / "owner.json", {"pid": os.getpid(), "created_at_utc": utc_now()})
+            descriptor = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+            try:
+                os.write(
+                    descriptor,
+                    json.dumps({"pid": os.getpid(), "created_at_utc": utc_now()}, separators=(",", ":")).encode("utf-8"),
+                )
+            finally:
+                os.close(descriptor)
             return lock
         except FileExistsError:
-            owner = _read_json(lock / "owner.json") or {}
+            owner = _read_json(lock) or {}
             if owner.get("pid") and not pid_exists(int(owner["pid"])):
                 try:
-                    shutil.rmtree(lock)
+                    lock.unlink()
                 except OSError:
                     pass
             time.sleep(POLL_SECONDS)
@@ -654,7 +669,7 @@ def _acquire_start_lock(directory: Path, timeout: float) -> Path | None:
 def _release_start_lock(lock: Path | None) -> None:
     if lock is not None:
         try:
-            shutil.rmtree(lock)
+            lock.unlink()
         except OSError:
             pass
 
@@ -792,6 +807,14 @@ def _start_supervisor(
         if active:
             return active
         cleanup_sessions(root=root, only_key=key)
+        previous = _read_json(_lease_path(directory)) or {}
+        previous_pid = previous.get("supervisor_pid")
+        previous_deadline = time.monotonic() + timeout
+        while pid_exists(previous_pid) and time.monotonic() < previous_deadline:
+            time.sleep(POLL_SECONDS)
+        if pid_exists(previous_pid):
+            raise CkbError("session stdio previous supervisor did not exit before restart")
+        cleanup_sessions(root=root, only_key=key)
         log_root = directory / "logs"
         log_root.mkdir(parents=True, exist_ok=True)
         command = [
@@ -829,6 +852,12 @@ def _start_supervisor(
                 close_fds=True,
                 **_supervisor_process_options(),
             )
+        threading.Thread(
+            target=_reap_supervisor,
+            args=(process,),
+            name=f"ckb-stdio-reap-{process.pid}",
+            daemon=True,
+        ).start()
         deadline = time.monotonic() + timeout
         while time.monotonic() < deadline:
             lease = _read_json(_lease_path(directory))
@@ -1188,7 +1217,13 @@ def close_session(
         deadline = time.monotonic() + timeout
         while time.monotonic() < deadline:
             current = _read_json(_lease_path(directory)) or lease
-            if current.get("state") == "closed" and not pid_exists(current.get("server_pid")):
+            if (
+                current.get("state") == "closed"
+                and not pid_exists(current.get("server_pid"))
+                and not pid_exists(current.get("supervisor_pid"))
+            ):
+                cleanup_sessions(root=root_value, only_key=str(current.get("lifecycle_key") or directory.name))
+                current = _read_json(_lease_path(directory)) or current
                 closed.append({"lifecycle_key": current.get("lifecycle_key"), "status": "closed", "lease": current})
                 break
             if not pid_exists(current.get("supervisor_pid")):
@@ -1228,7 +1263,7 @@ def cleanup_sessions(*, root: Path | None = None, only_key: str | None = None) -
             json_write(directory / "control" / f"close-cleanup-{uuid.uuid4().hex}.json", {"reason": "parent-death-cleanup"})
             cleaned.append({"lifecycle_key": lease.get("lifecycle_key"), "action": "close-requested"})
             continue
-        if supervisor_dead or lease.get("state") in {"fallback", "closed"}:
+        if (supervisor_dead or not supervisor_pid) and lease.get("state") in {"fallback", "closed"}:
             deadline = time.monotonic() + 1.5
             while pid_exists(server_pid) and time.monotonic() < deadline:
                 time.sleep(POLL_SECONDS)
