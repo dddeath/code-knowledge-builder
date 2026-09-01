@@ -29,6 +29,7 @@ from ckb_core.session_stdio import (
     cleanup_sessions,
     close_session,
     list_sessions,
+    lifecycle_key,
     pid_exists,
     request_session,
 )
@@ -281,6 +282,103 @@ class SessionStdioLifecycleTests(unittest.TestCase):
         self.assertFalse(result["resident"])
         self.assertTrue(result["fallback"]["active"])
         self.assertLessEqual(len(result["fallback"]["reason"]), 340)
+
+    def test_same_external_id_immediate_reactivation_uses_new_generation(self) -> None:
+        session_id = "same-external-id"
+        server_pids: list[int] = []
+        generations: list[str] = []
+        for index in range(10):
+            activation = activate_session_stdio(
+                harness="generic",
+                session_id=session_id,
+                output=self.output,
+                root=self.session_root,
+            )
+            self.assertEqual(activation["status"], "ready", activation)
+            self.assertTrue(activation["resident"], activation)
+            request = request_session(
+                harness="generic",
+                session_id=session_id,
+                output=self.output,
+                root=self.session_root,
+                request={"id": f"cycle-{index:02d}", "method": "ping"},
+                require_activation=False,
+            )
+            self.assertEqual(request["status"], "passed", request)
+            self.assertTrue(request["resident"], request)
+            self.assertEqual(request["server_pid"], activation["server_pid"])
+            closed = close_session(
+                harness="generic",
+                session_id=session_id,
+                output=self.output,
+                root=self.session_root,
+                reason="same-id-cycle-close",
+            )
+            self.assertEqual(closed["status"], "closed", closed)
+            server_pids.append(int(activation["server_pid"]))
+            generations.append(str(activation["generation"]))
+        self.assertEqual(len(set(server_pids)), 10)
+        self.assertEqual(len(set(generations)), 10)
+        audit = audit_sessions(root=self.session_root)
+        self.assertEqual(audit["active"], 0)
+        self.assertFalse(any(audit["object_counts"].values()))
+
+    def test_compact_lease_temporary_supports_long_windows_root(self) -> None:
+        session_id = "long-root-session"
+        key = lifecycle_key("generic", session_id, self.output)
+        long_root = self.root / "long-root"
+        while len(str(long_root / key)) < 205:
+            candidate = long_root / "segment-123456"
+            if len(str(candidate / key)) > 215:
+                break
+            long_root = candidate
+        directory_chars = len(str(long_root / key))
+        self.assertGreaterEqual(directory_chars, 190)
+        self.assertLessEqual(directory_chars, 223)
+        activation = activate_session_stdio(
+            harness="generic",
+            session_id=session_id,
+            output=self.output,
+            root=long_root,
+        )
+        self.assertEqual(activation["status"], "ready", activation)
+        self.assertLessEqual(activation["path_budget"]["directory_chars"], 223)
+        request = request_session(
+            harness="generic",
+            session_id=session_id,
+            output=self.output,
+            root=long_root,
+            request={"id": "long-root-ping", "method": "ping"},
+            require_activation=False,
+        )
+        self.assertEqual(request["status"], "passed", request)
+        close_session(
+            harness="generic",
+            session_id=session_id,
+            output=self.output,
+            root=long_root,
+            reason="long-root-close",
+        )
+        self.assertFalse(any(audit_sessions(root=long_root)["object_counts"].values()))
+
+    @unittest.skipUnless(os.name == "nt", "Windows path budget is platform-specific")
+    def test_over_budget_windows_root_returns_explicit_fallback(self) -> None:
+        session_id = "over-budget-session"
+        key = lifecycle_key("generic", session_id, self.output)
+        over_root = self.root / "over-root"
+        while len(str(over_root / key)) <= 223:
+            over_root = over_root / "segment-123456"
+        activation = activate_session_stdio(
+            harness="generic",
+            session_id=session_id,
+            output=self.output,
+            root=over_root,
+        )
+        self.assertEqual(activation["status"], "fallback", activation)
+        self.assertFalse(activation["resident"])
+        reason = activation["fallback"]["reason"]
+        self.assertIn("directory_limit=223", reason)
+        self.assertIn("generated_path_limit=259", reason)
 
     def test_server_crash_restarts_once_then_falls_back_to_per_command_cli(self) -> None:
         session_id = "crash-session"

@@ -464,6 +464,7 @@ def parser() -> argparse.ArgumentParser:
     session_stdio_controller.add_argument("--out", type=Path, required=True)
     session_stdio_controller.add_argument("--python", type=Path, required=True)
     session_stdio_controller.add_argument("--ckb", type=Path, required=True)
+    session_stdio_controller.add_argument("--generation", required=True)
     session_stdio_controller.add_argument("--parent-pid", type=int)
     reindex_command = sub.add_parser("reindex")
     reindex_command.add_argument("--out", type=Path, required=True)
@@ -739,6 +740,7 @@ def _session_query(output: Path, request: dict[str, object]) -> dict[str, object
         "mode": wrapper.get("mode"),
         "resident": wrapper.get("resident"),
         "lifecycle_key": wrapper.get("lifecycle_key"),
+        "generation": wrapper.get("generation"),
         "supervisor_pid": wrapper.get("supervisor_pid"),
         "server_pid": wrapper.get("server_pid"),
         "fallback": wrapper.get("fallback"),
@@ -1012,6 +1014,7 @@ def main() -> int:
                 executable=args.python,
                 ckb=args.ckb,
                 parent_pid=args.parent_pid,
+                generation=args.generation,
             )
     elif args.command == "reindex":
         output = args.out.resolve()

@@ -110,7 +110,7 @@ Codex 可从 `CODEX_SESSION_ID` / `CODEX_THREAD_ID` 推断 session；其他适�
 - payload 中精确的 `active_skill` / `applied_skills` 等元数据；
 - generic `canonical_type=skill.applied`、`skill_name=code-knowledge-builder`。
 
-普通自然语言中的项目名称只视为讨论内容。激活按 `Harness + session_id + repo_root + skill_name` 唯一，重放返回 `already-activated` 并复用健康 PID。同一 session 的 `turn.stop` 后继续沿用；`session.end` 删除当前激活并关闭 lease，因此相同外部 ID 的下一次精确 Skill 应用会创建新进程，不复用旧 PID 或进程内缓存。
+普通自然语言中的项目名称只视为讨论内容。激活按 `Harness + session_id + repo_root + skill_name` 唯一，重放返回 `already-activated` 并复用健康 PID。同一 session 的 `turn.stop` 后继续沿用；`session.end` 删除当前激活并关闭 lease，因此相同外部 ID 的下一次精确 Skill 应用会创建新 generation、新进程和新进程内缓存。启动轮询只接受本次 16 位十六进制 generation 的 lease，不把上一代 `closed` 状态误判为本次启动失败。
 
 其他 Harness 通过 `automation render --harness generic` 获得 JSON Schema。最小事件为：
 
@@ -275,6 +275,8 @@ DSH 生成 Codex 方言的四事件 Hook 配置和 `cordis.yml.fragment`，供�
 ```
 
 状态文件只保存生命周期键摘要、Harness、session 摘要、OUTPUT、PID、协议、时间、fallback 和对象计数，不保存 prompt、Assistant 内容、凭据、transcript 或完整工具输入。关闭先拒绝新请求，再发送协议 `shutdown`；超时才升级 `terminate` 与 `kill`，每条路径都执行 wait/reap。`audit` 在关闭后要求活动 lease、进程、pending、reader、timer、listener、pipe、session mapping 和 cache reference 为 0。
+
+Windows 锁定 runtime 使用非 `\\?\` 路径时，生命周期目录预算为 223 个字符，最长生成路径预算为 259 个字符。实现使用紧凑 lease 临时名和 16 位 request token；超预算返回包含实际字符数与两个固定上限的结构化 fallback。状态中的 `path_budget` 可直接审计本次目录长度。
 
 回滚前先使用当前版本执行 `stdio-session cleanup`；确认 `stdio-session audit` 无活动对象后，再回退实现提交。回退后旧逐命令 CLI 和显式 `serve --stdio` 保持可用，稳定知识库缓存与记录不属于会话 lease，不会被清理命令删除。
 

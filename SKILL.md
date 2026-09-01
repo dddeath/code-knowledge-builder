@@ -164,6 +164,8 @@ Automatic capture has two deterministic gates: the repository/Harness must be re
 
 第一次精确 Skill 应用会立即 single-flight 启动并握手会话级 `ckb.py serve --stdio --out OUTPUT`；同次调用的首个 `brief`/`retrieve`/`entity` 等查询等待并复用该 PID，不先执行一次逐命令 CLI。`session.start` 不启动，`turn.stop` 不释放；`session.end`、显式 `stdio-session close|terminate|cancel`、management `unbind`、Harness unload 或可靠父 PID 死亡执行有界 `shutdown -> terminate -> kill` 和 wait/reap。使用 `stdio-session list|status|cleanup|audit` 检查状态与对象计数。缺少可靠 Harness PID 的适配器在生成 manifest 中明确降级并依赖结束事件或显式清理；启动或协议失败明确返回 `mode=cli-fallback`、`resident=false`，不得报告常驻成功。
 
+相同外部 session ID 结束后再次精确应用 Skill 时必须创建新 generation 和新 PID；启动方只接受本次 generation 的 lease。Windows 非扩展路径下生命周期目录固定最多 223 字符、生成路径最多 259 字符，超预算返回带实际长度的结构化 fallback。
+
 Register the fixed repository/output pair before installing any Hook or Plugin:
 
 ```powershell

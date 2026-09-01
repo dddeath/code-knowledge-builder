@@ -33,6 +33,12 @@ DEFAULT_START_TIMEOUT_SECONDS = 15.0
 DEFAULT_REQUEST_TIMEOUT_SECONDS = 45.0
 DEFAULT_CLOSE_TIMEOUT_SECONDS = 8.0
 POLL_SECONDS = 0.025
+WINDOWS_MAX_PATH_CHARS = 259
+# The longest compact generated relative path is
+# ``responses/<16-hex>.json.tmp`` (36 characters including separators).
+# 223 + 36 = 259, the non-prefixed Windows path ceiling observed by the
+# locked runtime.  Longer roots return an explicit structured fallback.
+WINDOWS_LIFECYCLE_DIRECTORY_CHARS = 223
 _FORBIDDEN_STATE_KEYS = {
     "prompt",
     "assistant",
@@ -131,13 +137,39 @@ def _read_json(path: Path) -> dict[str, Any] | None:
         return None
 
 
+def _validate_lifecycle_path_budget(directory: Path) -> dict[str, int]:
+    characters = len(str(directory))
+    if os.name == "nt" and characters > WINDOWS_LIFECYCLE_DIRECTORY_CHARS:
+        raise CkbError(
+            "session stdio lifecycle path budget exceeded: "
+            f"directory_chars={characters}; directory_limit={WINDOWS_LIFECYCLE_DIRECTORY_CHARS}; "
+            f"generated_path_limit={WINDOWS_MAX_PATH_CHARS}"
+        )
+    return {
+        "directory_chars": characters,
+        "directory_limit": WINDOWS_LIFECYCLE_DIRECTORY_CHARS,
+        "generated_path_limit": WINDOWS_MAX_PATH_CHARS,
+    }
+
+
 def _write_lease(directory: Path, value: dict[str, Any], timeout: float = 3.0) -> None:
     """Replace lease state despite short Windows reader sharing conflicts."""
 
     path = _lease_path(directory)
     path.parent.mkdir(parents=True, exist_ok=True)
-    temporary = path.with_name(f"{path.name}.{os.getpid()}.{threading.get_ident()}.{uuid.uuid4().hex}.tmp")
-    temporary.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
+    _validate_lifecycle_path_budget(directory)
+    temporary: Path | None = None
+    for _attempt in range(32):
+        candidate = directory / f".l{uuid.uuid4().hex[:6]}"
+        try:
+            with candidate.open("x", encoding="utf-8", newline="\n") as stream:
+                stream.write(json.dumps(value, ensure_ascii=False, indent=2) + "\n")
+            temporary = candidate
+            break
+        except FileExistsError:
+            continue
+    if temporary is None:
+        raise CkbError("session stdio could not allocate a compact lease temporary file")
     deadline = time.monotonic() + timeout
     try:
         while True:
@@ -301,11 +333,13 @@ def _base_lease(
     executable: Path,
     ckb: Path,
     parent_pid: int | None,
+    generation: str,
 ) -> dict[str, Any]:
     stamp = utc_now()
     return {
         "schema_version": SESSION_STDIO_SCHEMA_VERSION,
         "lifecycle_key": key,
+        "generation": generation,
         "harness": harness.strip().casefold(),
         "session_digest": opaque_session,
         "output": str(output.resolve()),
@@ -491,10 +525,12 @@ def controller_main(
     executable: Path,
     ckb: Path,
     parent_pid: int | None,
+    generation: str,
     start_timeout: float = DEFAULT_START_TIMEOUT_SECONDS,
     close_timeout: float = DEFAULT_CLOSE_TIMEOUT_SECONDS,
 ) -> dict[str, Any]:
     directory = _lifecycle_directory(root, key)
+    path_budget = _validate_lifecycle_path_budget(directory)
     for name in ("requests", "responses", "control"):
         (directory / name).mkdir(parents=True, exist_ok=True)
     lease = _base_lease(
@@ -505,7 +541,9 @@ def controller_main(
         executable=executable,
         ckb=ckb,
         parent_pid=parent_pid,
+        generation=generation,
     )
+    lease["path_budget"] = path_budget
     _write_lease(directory, lease)
     transport = _Transport(executable=executable, ckb=ckb, output=output)
     close_reason = "controller-stop"
@@ -541,7 +579,7 @@ def controller_main(
             if parent_pid and not pid_exists(parent_pid):
                 close_reason = "parent-death"
                 break
-            controls = sorted((directory / "control").glob("close-*.json"))
+            controls = sorted((directory / "control").glob("*.json"))
             if controls:
                 control = _read_json(controls[0]) or {}
                 close_reason = str(control.get("reason") or "explicit-close")[:120]
@@ -576,6 +614,7 @@ def controller_main(
                     "mode": "resident-stdio",
                     "resident": True,
                     "lifecycle_key": key,
+                    "generation": lease.get("generation"),
                     "supervisor_pid": os.getpid(),
                     "server_pid": transport.process.pid if transport.process else None,
                     "response": response,
@@ -597,6 +636,7 @@ def controller_main(
                             "mode": "resident-stdio",
                             "resident": True,
                             "lifecycle_key": key,
+                            "generation": lease.get("generation"),
                             "supervisor_pid": os.getpid(),
                             "server_pid": transport.process.pid,
                             "response": response,
@@ -787,6 +827,7 @@ def activate_session_stdio(
             "resident": False,
             "created": False,
             "lifecycle_key": key,
+            "generation": None,
             "supervisor_pid": None,
             "server_pid": None,
             "protocol": None,
@@ -819,11 +860,13 @@ def activate_session_stdio(
             "resident": True,
             "created": created,
             "lifecycle_key": key,
+            "generation": lease.get("generation"),
             "supervisor_pid": lease.get("supervisor_pid"),
             "server_pid": lease.get("server_pid"),
             "protocol": lease.get("protocol"),
             "protocol_version": lease.get("protocol_version"),
             "parent_monitor": lease.get("parent_monitor"),
+            "path_budget": lease.get("path_budget"),
             "fallback": {"active": False, "reason": None},
         }
     except Exception as exc:
@@ -834,6 +877,7 @@ def activate_session_stdio(
             "resident": False,
             "created": False,
             "lifecycle_key": key,
+            "generation": None,
             "supervisor_pid": None,
             "server_pid": None,
             "protocol": None,
@@ -874,6 +918,7 @@ def _start_supervisor_locked(
     parent_pid: int | None,
     timeout: float,
 ) -> dict[str, Any]:
+    _validate_lifecycle_path_budget(directory)
     directory.mkdir(parents=True, exist_ok=True)
     lock = _acquire_start_lock(directory, timeout)
     if lock is None:
@@ -891,6 +936,7 @@ def _start_supervisor_locked(
         if pid_exists(previous_pid):
             raise CkbError("session stdio previous supervisor did not exit before restart")
         cleanup_sessions(root=root, only_key=key)
+        generation = uuid.uuid4().hex[:16]
         log_root = directory / "logs"
         log_root.mkdir(parents=True, exist_ok=True)
         command = [
@@ -914,6 +960,8 @@ def _start_supervisor_locked(
             str(executable),
             "--ckb",
             str(ckb),
+            "--generation",
+            generation,
         ]
         if parent_pid:
             command.extend(["--parent-pid", str(parent_pid)])
@@ -937,9 +985,15 @@ def _start_supervisor_locked(
         deadline = time.monotonic() + timeout
         while time.monotonic() < deadline:
             lease = _read_json(_lease_path(directory))
-            if lease and lease.get("state") == "ready" and pid_exists(lease.get("server_pid")):
+            current_generation = lease.get("generation") if lease else None
+            if (
+                lease
+                and current_generation == generation
+                and lease.get("state") == "ready"
+                and pid_exists(lease.get("server_pid"))
+            ):
                 return lease
-            if lease and lease.get("state") in {"fallback", "closed"}:
+            if lease and current_generation == generation and lease.get("state") in {"fallback", "closed"}:
                 reason = (lease.get("fallback") or {}).get("reason") or lease.get("close_reason") or "startup-failed"
                 raise CkbError(f"session stdio supervisor did not become ready: {reason}")
             if process.poll() is not None:
@@ -1108,7 +1162,7 @@ def request_session(
         raise CkbError("session stdio request must be one JSON object")
     request = dict(request)
     if not isinstance(request.get("id"), (str, int)) or isinstance(request.get("id"), bool):
-        request["id"] = "request-" + uuid.uuid4().hex
+        request["id"] = "request-" + uuid.uuid4().hex[:16]
     normalized_harness = harness.strip().casefold()
     if require_activation and not _activation_exists(output_value, normalized_harness, session_id):
         return {
@@ -1147,7 +1201,7 @@ def request_session(
             reason=f"startup:{type(exc).__name__}:{str(exc)[:300]}",
             timeout=request_timeout,
         )
-    token = uuid.uuid4().hex
+    token = uuid.uuid4().hex[:16]
     request_path = directory / "requests" / f"{token}.json"
     response_path = directory / "responses" / f"{token}.json"
     json_write(
@@ -1303,8 +1357,8 @@ def close_session(
         if lease.get("state") == "closed" and not pid_exists(lease.get("supervisor_pid")) and not pid_exists(lease.get("server_pid")):
             closed.append({"lifecycle_key": lease.get("lifecycle_key"), "status": "already-closed"})
             continue
-        token = uuid.uuid4().hex
-        json_write(directory / "control" / f"close-{token}.json", {"reason": reason[:120], "requested_at_utc": utc_now()})
+        token = uuid.uuid4().hex[:12]
+        json_write(directory / "control" / f"c-{token}.json", {"reason": reason[:120], "requested_at_utc": utc_now()})
         deadline = time.monotonic() + timeout
         while time.monotonic() < deadline:
             current = _read_json(_lease_path(directory)) or lease
@@ -1351,7 +1405,7 @@ def cleanup_sessions(*, root: Path | None = None, only_key: str | None = None) -
         parent_dead = bool(parent_pid) and not pid_exists(parent_pid)
         supervisor_dead = bool(supervisor_pid) and not pid_exists(supervisor_pid)
         if lease.get("state") in {"starting", "ready", "closing"} and pid_exists(supervisor_pid) and parent_dead:
-            json_write(directory / "control" / f"close-cleanup-{uuid.uuid4().hex}.json", {"reason": "parent-death-cleanup"})
+            json_write(directory / "control" / f"c-{uuid.uuid4().hex[:12]}.json", {"reason": "parent-death-cleanup"})
             cleaned.append({"lifecycle_key": lease.get("lifecycle_key"), "action": "close-requested"})
             continue
         if (supervisor_dead or not supervisor_pid) and lease.get("state") in {"fallback", "closed"}:
