@@ -16,6 +16,9 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPTS = ROOT / "scripts"
 sys.path.insert(0, str(SCRIPTS))
+sys.path.insert(0, str(ROOT / "tests"))
+
+from git_checkout import resolve_git_common_dir
 
 from ckb_core import SCHEMA_VERSION, VERSION
 from ckb_core.agent_protocol import AGENT_PROTOCOL_VERSION
@@ -32,7 +35,7 @@ from ckb_core.machine_knowledge import retrieve_machine
 from ckb_core.scope_extension import _tree_manifest
 
 
-GIT_COMMON_DIR = ROOT.parents[1] / "source" / ".git"
+GIT_COMMON_DIR = resolve_git_common_dir(ROOT)
 FIXTURES = ROOT / "tests/fixtures/knowledge-batch-migration/versions.json"
 
 
@@ -239,7 +242,12 @@ def run_e2e(write_report: Path | None = None) -> dict[str, Any]:
         state_path = root / "state.json"
         applied = apply_knowledge_batch_plan(plan_path, state_path)
         if applied["status"] != "ready":
-            raise RuntimeError(json.dumps(applied, ensure_ascii=False, indent=2))
+            staging_audits = {
+                project["project_id"]: json_load(Path(project["staging"]) / "knowledge-batch/audit.json")
+                for project in projects
+                if (Path(project["staging"]) / "knowledge-batch/audit.json").is_file()
+            }
+            raise RuntimeError(json.dumps({"apply": applied, "staging_audits": staging_audits}, ensure_ascii=False, indent=2))
         for project in projects:
             new_result = retrieve_machine(Path(project["staging"]), "calculate", 800, 4, "fast")
             retrieval[project["project_id"]].update(

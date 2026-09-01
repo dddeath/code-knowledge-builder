@@ -15,10 +15,65 @@ from unittest.mock import patch
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 sys.path.insert(0, str(ROOT / "tests"))
-GIT_COMMON_DIR = ROOT.parents[1] / "source" / ".git"
+
+from git_checkout import resolve_checkout_git_dir, resolve_git_common_dir
+
+
+GIT_COMMON_DIR = resolve_git_common_dir(ROOT)
 
 
 class KnowledgeBatchVersionMatrixTests(unittest.TestCase):
+    def test_git_common_dir_resolves_worktree_and_ordinary_clone(self) -> None:
+        self.assertTrue(GIT_COMMON_DIR.is_dir())
+        worktree_show = subprocess.run(
+            ["git", f"--git-dir={GIT_COMMON_DIR}", "show", "3f117b8a3565b24633b88799a3ee180d6b3451ab:scripts/ckb_core/__init__.py"],
+            check=True,
+            text=True,
+            encoding="utf-8",
+            stdout=subprocess.PIPE,
+        ).stdout
+        self.assertIn('VERSION = "5.2.9"', worktree_show)
+        with tempfile.TemporaryDirectory(prefix="ckb-git-layout-") as value:
+            clone = Path(value) / "ordinary-clone"
+            checkout_git_dir = resolve_checkout_git_dir(ROOT)
+            current_head = subprocess.run(
+                ["git", f"--git-dir={checkout_git_dir}", "rev-parse", "HEAD"],
+                check=True,
+                text=True,
+                encoding="utf-8",
+                stdout=subprocess.PIPE,
+            ).stdout.strip()
+            subprocess.run(
+                ["git", "-c", "core.autocrlf=false", "clone", "--shared", "--no-checkout", str(GIT_COMMON_DIR), str(clone)],
+                check=True,
+                text=True,
+                encoding="utf-8",
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
+            subprocess.run(
+                ["git", "-C", str(clone), "config", "core.autocrlf", "false"],
+                check=True,
+            )
+            subprocess.run(
+                ["git", "-C", str(clone), "checkout", "--detach", current_head],
+                check=True,
+                text=True,
+                encoding="utf-8",
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
+            clone_common = resolve_git_common_dir(clone)
+            self.assertEqual((clone / ".git").resolve(), clone_common)
+            clone_show = subprocess.run(
+                ["git", f"--git-dir={clone_common}", "show", "b666233cd4ec2cd1aecb3e6a7b194f61613be662:scripts/ckb_core/__init__.py"],
+                check=True,
+                text=True,
+                encoding="utf-8",
+                stdout=subprocess.PIPE,
+            ).stdout
+            self.assertIn('VERSION = "5.3.0"', clone_show)
+
     def test_matrix_uses_real_historical_releases(self) -> None:
         from ckb_core.knowledge_batch_migration import KNOWLEDGE_RELEASES, knowledge_version_matrix
 
