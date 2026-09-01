@@ -47,6 +47,33 @@ _FORBIDDEN_STATE_KEYS = {
 }
 
 
+class _StartGate:
+    def __init__(self) -> None:
+        self.lock = threading.Lock()
+        self.users = 0
+
+
+_START_GATES_GUARD = threading.Lock()
+_START_GATES: dict[str, _StartGate] = {}
+
+
+def _retain_start_gate(key: str) -> _StartGate:
+    with _START_GATES_GUARD:
+        gate = _START_GATES.get(key)
+        if gate is None:
+            gate = _StartGate()
+            _START_GATES[key] = gate
+        gate.users += 1
+        return gate
+
+
+def _release_start_gate(key: str, gate: _StartGate) -> None:
+    with _START_GATES_GUARD:
+        gate.users -= 1
+        if gate.users == 0 and _START_GATES.get(key) is gate:
+            _START_GATES.pop(key, None)
+
+
 def default_session_stdio_root() -> Path:
     configured = os.environ.get("CKB_SESSION_STDIO_ROOT")
     return (Path(configured).expanduser() if configured else Path.home() / ".ckb" / "session-stdio").resolve()
@@ -104,11 +131,50 @@ def _read_json(path: Path) -> dict[str, Any] | None:
         return None
 
 
+def _write_lease(directory: Path, value: dict[str, Any], timeout: float = 3.0) -> None:
+    """Replace lease state despite short Windows reader sharing conflicts."""
+
+    path = _lease_path(directory)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_name(f"{path.name}.{os.getpid()}.{threading.get_ident()}.{uuid.uuid4().hex}.tmp")
+    temporary.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
+    deadline = time.monotonic() + timeout
+    try:
+        while True:
+            try:
+                os.replace(temporary, path)
+                return
+            except OSError as exc:
+                sharing_conflict = os.name == "nt" and getattr(exc, "winerror", None) in {5, 32}
+                if not sharing_conflict or time.monotonic() >= deadline:
+                    raise
+                time.sleep(POLL_SECONDS)
+    finally:
+        temporary.unlink(missing_ok=True)
+
+
 def pid_exists(pid: int | None) -> bool:
     if not isinstance(pid, int) or pid <= 0:
         return False
     if pid == os.getpid():
         return True
+    if os.name == "nt":
+        try:
+            import ctypes
+            from ctypes import wintypes
+
+            handle = ctypes.windll.kernel32.OpenProcess(0x00100000 | 0x1000, False, pid)
+            if not handle:
+                return False
+            try:
+                exit_code = wintypes.DWORD()
+                if not ctypes.windll.kernel32.GetExitCodeProcess(handle, ctypes.byref(exit_code)):
+                    return False
+                return int(exit_code.value) == 259  # STILL_ACTIVE
+            finally:
+                ctypes.windll.kernel32.CloseHandle(handle)
+        except Exception:
+            return False
     try:
         os.kill(pid, 0)
     except ProcessLookupError:
@@ -116,18 +182,7 @@ def pid_exists(pid: int | None) -> bool:
     except PermissionError:
         return True
     except OSError:
-        if os.name != "nt":
-            return False
-        try:
-            import ctypes
-
-            handle = ctypes.windll.kernel32.OpenProcess(0x1000, False, pid)
-            if not handle:
-                return False
-            ctypes.windll.kernel32.CloseHandle(handle)
-            return True
-        except Exception:
-            return False
+        return False
     return True
 
 
@@ -451,7 +506,7 @@ def controller_main(
         ckb=ckb,
         parent_pid=parent_pid,
     )
-    json_write(_lease_path(directory), lease)
+    _write_lease(directory, lease)
     transport = _Transport(executable=executable, ckb=ckb, output=output)
     close_reason = "controller-stop"
     restart_budget = 1
@@ -470,7 +525,7 @@ def controller_main(
                     "last_used_at_utc": utc_now(),
                 }
             )
-            json_write(_lease_path(directory), lease)
+            _write_lease(directory, lease)
             return lease
         assert transport.process is not None
         lease.update(
@@ -481,7 +536,7 @@ def controller_main(
                 "last_used_at_utc": utc_now(),
             }
         )
-        json_write(_lease_path(directory), lease)
+        _write_lease(directory, lease)
         while True:
             if parent_pid and not pid_exists(parent_pid):
                 close_reason = "parent-death"
@@ -511,7 +566,7 @@ def controller_main(
                 continue
             lease["object_counts"] = _state_counts(lease=1, process=1, pending=1, readers=2, pipes=3)
             lease["last_used_at_utc"] = utc_now()
-            json_write(_lease_path(directory), lease)
+            _write_lease(directory, lease)
             response_value: dict[str, Any]
             try:
                 response = transport.request(request, float(envelope.get("timeout_seconds") or DEFAULT_REQUEST_TIMEOUT_SECONDS))
@@ -581,7 +636,7 @@ def controller_main(
                 break
             lease["object_counts"] = _state_counts(lease=1, process=1, pending=0, readers=2, pipes=3)
             lease["last_used_at_utc"] = utc_now()
-            json_write(_lease_path(directory), lease)
+            _write_lease(directory, lease)
     finally:
         lease["state"] = "closing"
         lease["close_reason"] = close_reason
@@ -592,7 +647,7 @@ def controller_main(
             readers=sum(reader is not None for reader in (transport.stdout_reader, transport.stderr_reader)),
             pipes=3 if transport.process else 0,
         )
-        json_write(_lease_path(directory), lease)
+        _write_lease(directory, lease)
         close_detail = transport.close(close_timeout)
         lease.update(
             {
@@ -607,7 +662,7 @@ def controller_main(
                 "object_counts": _state_counts(lease=0, process=0, pending=0, readers=0, pipes=0),
             }
         )
-        json_write(_lease_path(directory), lease)
+        _write_lease(directory, lease)
         for path in (directory / "requests").glob("*.json"):
             envelope = _read_json(path) or {}
             token = str(envelope.get("request_token") or path.stem)
@@ -641,44 +696,65 @@ def _reap_supervisor(process: subprocess.Popen[Any]) -> None:
         pass
 
 
-def _acquire_start_lock(directory: Path, timeout: float) -> Path | None:
+def _acquire_start_lock(directory: Path, timeout: float) -> Any | None:
     lock = directory / "start.lock"
     deadline = time.monotonic() + timeout
     while time.monotonic() < deadline:
+        handle = lock.open("a+b")
         try:
-            descriptor = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
-            try:
-                os.write(
-                    descriptor,
-                    json.dumps({"pid": os.getpid(), "created_at_utc": utc_now()}, separators=(",", ":")).encode("utf-8"),
-                )
-            finally:
-                os.close(descriptor)
-            return lock
-        except FileExistsError:
-            owner = _read_json(lock) or {}
-            if owner.get("pid") and not pid_exists(int(owner["pid"])):
-                try:
-                    lock.unlink()
-                except OSError:
-                    pass
+            if lock.stat().st_size == 0:
+                handle.write(b"0")
+                handle.flush()
+            handle.seek(0)
+            if os.name == "nt":
+                import msvcrt
+
+                msvcrt.locking(handle.fileno(), msvcrt.LK_NBLCK, 1)
+            else:
+                import fcntl
+
+                fcntl.flock(handle.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+            handle.seek(0)
+            handle.write(
+                json.dumps({"pid": os.getpid(), "created_at_utc": utc_now()}, separators=(",", ":")).encode("utf-8")
+            )
+            handle.truncate()
+            handle.flush()
+            return handle
+        except OSError:
+            handle.close()
             time.sleep(POLL_SECONDS)
     return None
 
 
-def _release_start_lock(lock: Path | None) -> None:
-    if lock is not None:
+def _release_start_lock(lock: Any | None) -> None:
+    if lock is not None and not lock.closed:
         try:
-            lock.unlink()
+            lock.seek(0)
+            if os.name == "nt":
+                import msvcrt
+
+                msvcrt.locking(lock.fileno(), msvcrt.LK_UNLCK, 1)
+            else:
+                import fcntl
+
+                fcntl.flock(lock.fileno(), fcntl.LOCK_UN)
         except OSError:
             pass
+        finally:
+            lock.close()
 
 
 def _active_lease(directory: Path) -> dict[str, Any] | None:
     lease = _read_json(_lease_path(directory))
     if not lease:
         return None
-    if lease.get("state") == "ready" and pid_exists(lease.get("supervisor_pid")) and pid_exists(lease.get("server_pid")):
+    # The supervisor owns child health and the one permitted restart.  A dead
+    # server with a live ready supervisor is therefore still the active lease;
+    # clients must queue the request instead of racing a second supervisor.
+    if lease.get("state") == "ready" and (
+        pid_exists(lease.get("supervisor_pid")) or pid_exists(lease.get("server_pid"))
+    ):
         return lease
     return None
 
@@ -785,7 +861,7 @@ def _activation_exists(output: Path, harness: str, session_id: str) -> bool:
         return False
 
 
-def _start_supervisor(
+def _start_supervisor_locked(
     *,
     directory: Path,
     root: Path,
@@ -872,6 +948,21 @@ def _start_supervisor(
         raise CkbError("session stdio supervisor start timeout")
     finally:
         _release_start_lock(lock)
+
+
+def _start_supervisor(**arguments: Any) -> dict[str, Any]:
+    key = str(arguments["key"])
+    timeout = float(arguments["timeout"])
+    gate = _retain_start_gate(key)
+    acquired = gate.lock.acquire(timeout=timeout)
+    if not acquired:
+        _release_start_gate(key, gate)
+        raise CkbError("session stdio in-process single-flight timeout")
+    try:
+        return _start_supervisor_locked(**arguments)
+    finally:
+        gate.lock.release()
+        _release_start_gate(key, gate)
 
 
 def _fallback_command(executable: Path, ckb: Path, output: Path, request: dict[str, Any]) -> tuple[list[str] | None, str | None]:
@@ -1280,7 +1371,7 @@ def cleanup_sessions(*, root: Path | None = None, only_key: str | None = None) -
                     "object_counts": _state_counts(lease=0, process=0, pending=0, readers=0, pipes=0),
                 }
             )
-            json_write(_lease_path(directory), lease)
+            _write_lease(directory, lease)
             _clear_transient(directory)
             cleaned.append({"lifecycle_key": lease.get("lifecycle_key"), "action": "stale-cleaned", "forced_server": forced})
     return {"schema_version": SESSION_STDIO_SCHEMA_VERSION, "status": "passed", "root": str(root_value), "cleaned": cleaned}

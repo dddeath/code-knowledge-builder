@@ -156,6 +156,7 @@ class SessionStdioLifecycleTests(unittest.TestCase):
             )
             for request in requests
         ]
+        self.assertTrue(all("server_pid" in item for item in results), results)
         self.assertEqual({item["server_pid"] for item in results}, {server_pid})
         self.assertEqual([item["response"]["id"] for item in results], ["ping-one", "entity-one", "bad-one"])
         self.assertFalse(results[-1]["response"]["ok"])
@@ -169,6 +170,7 @@ class SessionStdioLifecycleTests(unittest.TestCase):
             root=self.session_root,
             request={"id": "followup", "method": "ping"},
         )
+        self.assertIn("server_pid", followup, followup)
         self.assertEqual(followup["server_pid"], server_pid)
         ended = ingest_event("generic", self.event("session.end", session_id), self.registry)
         self.assertEqual(ended["session_stdio"]["status"], "closed")
@@ -209,6 +211,7 @@ class SessionStdioLifecycleTests(unittest.TestCase):
 
         with ThreadPoolExecutor(max_workers=16) as executor:
             results = list(executor.map(request, range(16)))
+        self.assertTrue(all("server_pid" in item for item in results), results)
         pids = {int(item["server_pid"]) for item in results}
         self.assertEqual(len(pids), 1)
         self.assertEqual(
