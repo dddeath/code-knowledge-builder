@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "command": "patch --batch --forward -d /mnt/e/knowledge_builder/artifacts/verification/readability-readme-v4-patch-probe-20260902 -p1 < /mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4/delivery/readability-readme-v4/README.md.patch",
+  "input": {
+    "baseline_sha256": "63b5f320d600f92c4aa83dc71aa45f464773e685c5706b41f1b71d7c04ac0135",
+    "patch_sha256": "2a6db73ef8de2ecaf6bd2934088d224005fd98374adc875636dc6bc64e907c86"
+  },
+  "literal_stdout": "patching file README.md\n",
+  "literal_stderr": "",
+  "exit_status": 0,
+  "output": {
+    "path": "/mnt/e/knowledge_builder/artifacts/verification/readability-readme-v4-patch-probe-20260902/README.md",
+    "sha256": "255ff54a543a1658da678fc6bdfb4b526b58bce6ebd55d0a620c1ea2891c0b8a",
+    "expected_sha256": "255ff54a543a1658da678fc6bdfb4b526b58bce6ebd55d0a620c1ea2891c0b8a"
+  }
+}

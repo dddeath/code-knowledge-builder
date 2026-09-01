@@ -1,0 +1,192 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "baseline_commit": "c9c0f098387a3138ba79484fa2c520d4c0ecf989",
+  "readme_commit": "8282784",
+  "behavior": {
+    "baseline": {
+      "readme_sha256": "63b5f320d600f92c4aa83dc71aa45f464773e685c5706b41f1b71d7c04ac0135",
+      "heading": "Code Knowledge Builder 5.4.0 使用教程"
+    },
+    "modified": {
+      "readme_sha256": "255ff54a543a1658da678fc6bdfb4b526b58bce6ebd55d0a620c1ea2891c0b8a",
+      "heading": "Code Knowledge Builder 5.4.0",
+      "approved_first_screen_sha256": "c2bca48989e740130e2bfaba4011ea61d264cb26e774fcb94dbed1f2a3663ea5",
+      "task_entry_count": 3
+    },
+    "rollback": {
+      "readme_sha256": "63b5f320d600f92c4aa83dc71aa45f464773e685c5706b41f1b71d7c04ac0135",
+      "artifact_directory_absent": true
+    }
+  },
+  "artifacts": {
+    "modified_readme": {
+      "path": "/mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4/README.md",
+      "sha256": "255ff54a543a1658da678fc6bdfb4b526b58bce6ebd55d0a620c1ea2891c0b8a"
+    },
+    "baseline_readme": {
+      "path": "/mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4/delivery/readability-readme-v4/README.baseline.md",
+      "sha256": "63b5f320d600f92c4aa83dc71aa45f464773e685c5706b41f1b71d7c04ac0135"
+    },
+    "patch": {
+      "path": "/mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4/delivery/readability-readme-v4/README.md.patch",
+      "sha256": "2a6db73ef8de2ecaf6bd2934088d224005fd98374adc875636dc6bc64e907c86"
+    },
+    "readme_checker": {
+      "path": "/mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4/delivery/readability-readme-v4/check_readme.py",
+      "sha256": "7c94b4307bb9854cb14b88433d012fc75a5f824aa8fde1b0a83d0bcf528dfee4"
+    },
+    "supported_claims": {
+      "path": "/mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4/delivery/readability-readme-v4/supported-claims.json",
+      "sha256": "22fb6a1bd1a199ab9e0a605b0f251e494f7c8752e1e0a024f5edbda0c62867a5"
+    },
+    "readme_verification": {
+      "path": "/mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4/delivery/readability-readme-v4/readme-verification.json",
+      "sha256": "99812acd8bbc0f6f179fed1537a05d4bc8936487d8608b81f5afe1a892ad4d85"
+    },
+    "publication_verification": {
+      "path": "/mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4/delivery/readability-readme-v4/publication-verification.json",
+      "sha256": "5e1a38d71ff899e02c379a77b4fcd139bf1bd81001e20b0bc35ff314008f317c"
+    },
+    "patch_replay": {
+      "path": "/mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4/delivery/readability-readme-v4/patch-replay.json",
+      "sha256": "504568907f050d690332907db49030413da4c33985238a0a88a2e72b3d54e8da"
+    },
+    "rollback": {
+      "path": "/mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4/delivery/readability-readme-v4/rollback.ps1",
+      "sha256": "f12c742d47e302988c8787b86482063483397443674e8b3027c82fd8a72dcaaa"
+    },
+    "rollback_probe": {
+      "path": "/mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4/delivery/readability-readme-v4/rollback-probe.json",
+      "sha256": "f64e030f71d2764ae977ed2ec5cac4a7e5a1848755ea6385d471474a71105b81"
+    }
+  },
+  "commands": [
+    {
+      "name": "baseline-readme-sha256",
+      "command": "sha256sum /mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4/delivery/readability-readme-v4/README.baseline.md",
+      "inputs": {
+        "path": "/mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4/delivery/readability-readme-v4/README.baseline.md"
+      },
+      "literal_stdout": "63b5f320d600f92c4aa83dc71aa45f464773e685c5706b41f1b71d7c04ac0135  /mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4/delivery/readability-readme-v4/README.baseline.md\n",
+      "literal_stderr": "",
+      "exit_status": 0
+    },
+    {
+      "name": "modified-readme-sha256",
+      "command": "sha256sum /mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4/README.md",
+      "inputs": {
+        "path": "/mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4/README.md"
+      },
+      "literal_stdout": "255ff54a543a1658da678fc6bdfb4b526b58bce6ebd55d0a620c1ea2891c0b8a  /mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4/README.md\n",
+      "literal_stderr": "",
+      "exit_status": 0
+    },
+    {
+      "name": "readme-acceptance",
+      "command": "python3 /mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4/delivery/readability-readme-v4/check_readme.py --root /mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4 --sample /mnt/e/knowledge_builder/artifacts/verification/readability-sample-v4/README-first-screen-sample-v4.md --write /mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4/delivery/readability-readme-v4/readme-verification.json",
+      "inputs": {
+        "readme": "/mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4/README.md",
+        "readme_sha256": "255ff54a543a1658da678fc6bdfb4b526b58bce6ebd55d0a620c1ea2891c0b8a",
+        "sample": "/mnt/e/knowledge_builder/artifacts/verification/readability-sample-v4/README-first-screen-sample-v4.md",
+        "sample_sha256": "c2bca48989e740130e2bfaba4011ea61d264cb26e774fcb94dbed1f2a3663ea5",
+        "baseline": "/mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4/delivery/readability-readme-v4/README.baseline.md",
+        "baseline_sha256": "63b5f320d600f92c4aa83dc71aa45f464773e685c5706b41f1b71d7c04ac0135",
+        "publication_manifest": "/mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4/publication-manifest.json",
+        "publication_manifest_sha256": "be44825d83f7330c31ceb5b69ee38bb54ef4c2744cba5c28892e8d34d3a815e4",
+        "supported_claims": "/mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4/delivery/readability-readme-v4/supported-claims.json",
+        "supported_claims_sha256": "22fb6a1bd1a199ab9e0a605b0f251e494f7c8752e1e0a024f5edbda0c62867a5"
+      },
+      "literal_stdout": "README_CHECK status=passed checks=21/21 failed=0 readme_sha256=255ff54a543a1658da678fc6bdfb4b526b58bce6ebd55d0a620c1ea2891c0b8a\n",
+      "literal_stderr": "",
+      "exit_status": 0,
+      "result": {
+        "passed": 21,
+        "failed": 0,
+        "total": 21
+      }
+    },
+    {
+      "name": "publication-verification",
+      "command": "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\python\\python.exe E:\\knowledge_builder\\self-workspace\\worktrees\\readme-human-first-v4\\delivery\\verify-publication.py --root E:\\knowledge_builder\\self-workspace\\worktrees\\readme-human-first-v4 --write E:\\knowledge_builder\\self-workspace\\worktrees\\readme-human-first-v4\\delivery\\readability-readme-v4\\publication-verification.json",
+      "inputs": {
+        "root": "/mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4",
+        "script_sha256": "462482d5dfef3e99d3b236b6a5458bfc15cf6f3c945200f71f2ec7dbf8566222"
+      },
+      "literal_stdout": "{\n  \"schema_version\": 1,\n  \"status\": \"passed\",\n  \"root\": \"E:\\\\knowledge_builder\\\\self-workspace\\\\worktrees\\\\readme-human-first-v4\",\n  \"checks\": [\n    {\n      \"name\": \"source-files\",\n      \"passed\": true,\n      \"detail\": {\n        \"passed\": true,\n        \"expected_count\": 731,\n        \"actual_count\": 731,\n        \"missing\": [],\n        \"extra\": [],\n        \"changed\": []\n      }\n    },\n    {\n      \"name\": \"knowledge-files\",\n      \"passed\": true,\n      \"detail\": {\n        \"passed\": true,\n        \"expected_count\": 1906,\n        \"actual_count\": 1906,\n        \"missing\": [],\n        \"extra\": [],\n        \"changed\": []\n      }\n    },\n    {\n      \"name\": \"fixed-source-commit\",\n      \"passed\": true,\n      \"detail\": {\n        \"root\": \"E:\\\\knowledge_builder\\\\self-workspace\\\\source\",\n        \"commit\": \"150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3\",\n        \"tree\": \"7976883a0f6ff177deb649eaef6e8d2e7af2fda8\",\n        \"git_bootstrap\": {\n          \"requested\": false,\n          \"performed\": false,\n          \"repository_created\": false,\n          \"initial_commit_created\": false,\n          \"root\": \"E:\\\\knowledge_builder\\\\self-workspace\\\\source\",\n          \"commit\": \"150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3\",\n          \"commit_count\": 77,\n          \"commit_message\": null,\n          \"author\": null\n        }\n      }\n    },\n    {\n      \"name\": \"completion-markers\",\n      \"passed\": true,\n      \"detail\": \"three markers\"\n    },\n    {\n      \"name\": \"global-audit\",\n      \"passed\": true,\n      \"detail\": \"passed\"\n    },\n    {\n      \"name\": \"double-sqlite\",\n      \"passed\": true,\n      \"detail\": [\n        {\n          \"path\": \"E:\\\\knowledge_builder\\\\self-workspace\\\\worktrees\\\\readme-human-first-v4\\\\knowledge-base\\\\agent-index.sqlite\",\n          \"passed\": true,\n          \"integrity_check\": \"ok\",\n          \"foreign_key_error_count\": 0,\n          \"schema_version\": \"1\",\n          \"sha256\": \"69fe9e47aff5cd95d30f0c653fba015a14a024d80fbc56e08fa93e09fedbfbc4\"\n        },\n        {\n          \"path\": \"E:\\\\knowledge_builder\\\\self-workspace\\\\worktrees\\\\readme-human-first-v4\\\\knowledge-base\\\\machine\\\\knowledge.sqlite\",\n          \"passed\": true,\n          \"integrity_check\": \"ok\",\n          \"foreign_key_error_count\": 0,\n          \"schema_version\": \"3\",\n          \"sha256\": \"4cec59d1a827f59b51dffaeb2122560a2705e03eb27dd721e93bcca21cb1116e\"\n        }\n      ]\n    },\n    {\n      \"name\": \"human-markdown-mirror\",\n      \"passed\": true,\n      \"detail\": {\n        \"passed\": true,\n        \"errors\": []\n      }\n    },\n    {\n      \"name\": \"readability\",\n      \"passed\": true,\n      \"detail\": []\n    },\n    {\n      \"name\": \"durable-counts\",\n      \"passed\": true,\n      \"detail\": {\n        \"records\": 52,\n        \"expected_records\": 52,\n        \"references\": 1,\n        \"research_gaps\": 3\n      }\n    },\n    {\n      \"name\": \"learning-note-originals\",\n      \"passed\": true,\n      \"detail\": [\n        {\n          \"name\": \"2026-08-29.md\",\n          \"expected\": \"62059c19c42a0969e116c66d747627c6fae1b9fef3ef412e2c0ed03ced45ceeb\",\n          \"human\": \"62059c19c42a0969e116c66d747627c6fae1b9fef3ef412e2c0ed03ced45ceeb\",\n          \"markdown\": \"62059c19c42a0969e116c66d747627c6fae1b9fef3ef412e2c0ed03ced45ceeb\",\n          \"passed\": true\n        },\n        {\n          \"name\": \"2026-08-30.md\",\n          \"expected\": \"dc7e8eb4791816b8d7989bb7bb82e97f50d6cbdb2f586f769422baf79ea91e67\",\n          \"human\": \"dc7e8eb4791816b8d7989bb7bb82e97f50d6cbdb2f586f769422baf79ea91e67\",\n          \"markdown\": \"dc7e8eb4791816b8d7989bb7bb82e97f50d6cbdb2f586f769422baf79ea91e67\",\n          \"passed\": true\n        }\n      ]\n    },\n    {\n      \"name\": \"no-transient-git-or-sqlite-state\",\n      \"passed\": true,\n      \"detail\": []\n    },\n    {\n      \"name\": \"lfs-objects-materialized\",\n      \"passed\": true,\n      \"detail\": []\n    }\n  ]\n}\n",
+      "literal_stderr": "",
+      "exit_status": 0,
+      "result": {
+        "status": "passed",
+        "passed": 12,
+        "total": 12
+      }
+    },
+    {
+      "name": "patch-replay",
+      "command": "patch --batch --forward -d /mnt/e/knowledge_builder/artifacts/verification/readability-readme-v4-patch-probe-20260902 -p1 < /mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4/delivery/readability-readme-v4/README.md.patch",
+      "inputs": {
+        "baseline_sha256": "63b5f320d600f92c4aa83dc71aa45f464773e685c5706b41f1b71d7c04ac0135",
+        "patch_sha256": "2a6db73ef8de2ecaf6bd2934088d224005fd98374adc875636dc6bc64e907c86"
+      },
+      "literal_stdout": "patching file README.md\n",
+      "literal_stderr": "",
+      "exit_status": 0,
+      "result": {
+        "path": "/mnt/e/knowledge_builder/artifacts/verification/readability-readme-v4-patch-probe-20260902/README.md",
+        "sha256": "255ff54a543a1658da678fc6bdfb4b526b58bce6ebd55d0a620c1ea2891c0b8a",
+        "expected_sha256": "255ff54a543a1658da678fc6bdfb4b526b58bce6ebd55d0a620c1ea2891c0b8a"
+      }
+    },
+    {
+      "name": "rollback-probe",
+      "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File E:\\knowledge_builder\\artifacts\\verification\\readability-readme-v4-rollback-probe-20260902-d\\delivery\\readability-readme-v4\\rollback.ps1 -Root E:\\knowledge_builder\\artifacts\\verification\\readability-readme-v4-rollback-probe-20260902-d -Write E:\\knowledge_builder\\artifacts\\verification\\readability-readme-v4-rollback-probe-20260902-d-result.json",
+      "inputs": {
+        "modified_readme_sha256": "255ff54a543a1658da678fc6bdfb4b526b58bce6ebd55d0a620c1ea2891c0b8a",
+        "artifact_directory": "/mnt/e/knowledge_builder/artifacts/verification/readability-readme-v4-rollback-probe-20260902-d/delivery/readability-readme-v4"
+      },
+      "literal_stdout": "{\n    \"schema_version\":  1,\n    \"status\":  \"passed\",\n    \"root\":  \"E:\\\\knowledge_builder\\\\artifacts\\\\verification\\\\readability-readme-v4-rollback-probe-20260902-d\",\n    \"restored\":  \"README.md\",\n    \"removed\":  \"delivery/readability-readme-v4/\",\n    \"removed_files\":  [\n                          \"delivery/readability-readme-v4/check_readme.py\",\n                          \"delivery/readability-readme-v4/patch-replay.json\",\n                          \"delivery/readability-readme-v4/publication-verification.json\",\n                          \"delivery/readability-readme-v4/README.baseline.md\",\n                          \"delivery/readability-readme-v4/README.md.patch\",\n                          \"delivery/readability-readme-v4/readme-verification.json\",\n                          \"delivery/readability-readme-v4/rollback.ps1\",\n                          \"delivery/readability-readme-v4/rollback-probe.json\",\n                          \"delivery/readability-readme-v4/supported-claims.json\",\n                          \"delivery/readability-readme-v4/verification-record.json\"\n                      ],\n    \"baseline_sha256\":  \"63b5f320d600f92c4aa83dc71aa45f464773e685c5706b41f1b71d7c04ac0135\",\n    \"restored_sha256\":  \"63b5f320d600f92c4aa83dc71aa45f464773e685c5706b41f1b71d7c04ac0135\",\n    \"artifact_directory_absent\":  true\n}\n",
+      "literal_stderr": "",
+      "exit_status": 0,
+      "result": {
+        "readme": "/mnt/e/knowledge_builder/artifacts/verification/readability-readme-v4-rollback-probe-20260902-d/README.md",
+        "readme_sha256": "63b5f320d600f92c4aa83dc71aa45f464773e685c5706b41f1b71d7c04ac0135",
+        "expected_baseline_sha256": "63b5f320d600f92c4aa83dc71aa45f464773e685c5706b41f1b71d7c04ac0135",
+        "artifact_directory_absent": true,
+        "script_result": {
+          "schema_version": 1,
+          "status": "passed",
+          "root": "E:\\knowledge_builder\\artifacts\\verification\\readability-readme-v4-rollback-probe-20260902-d",
+          "restored": "README.md",
+          "removed": "delivery/readability-readme-v4/",
+          "removed_files": [
+            "delivery/readability-readme-v4/check_readme.py",
+            "delivery/readability-readme-v4/patch-replay.json",
+            "delivery/readability-readme-v4/publication-verification.json",
+            "delivery/readability-readme-v4/README.baseline.md",
+            "delivery/readability-readme-v4/README.md.patch",
+            "delivery/readability-readme-v4/readme-verification.json",
+            "delivery/readability-readme-v4/rollback.ps1",
+            "delivery/readability-readme-v4/rollback-probe.json",
+            "delivery/readability-readme-v4/supported-claims.json",
+            "delivery/readability-readme-v4/verification-record.json"
+          ],
+          "baseline_sha256": "63b5f320d600f92c4aa83dc71aa45f464773e685c5706b41f1b71d7c04ac0135",
+          "restored_sha256": "63b5f320d600f92c4aa83dc71aa45f464773e685c5706b41f1b71d7c04ac0135",
+          "artifact_directory_absent": true
+        }
+      }
+    },
+    {
+      "name": "forbidden-paths-unchanged",
+      "command": "C:\\Program Files\\Git\\cmd\\git.exe -C E:\\knowledge_builder\\self-workspace\\worktrees\\readme-human-first-v4 diff --exit-code c9c0f098387a3138ba79484fa2c520d4c0ecf989 8282784 -- source knowledge-base publication-manifest.json",
+      "inputs": {
+        "baseline": "c9c0f098387a3138ba79484fa2c520d4c0ecf989",
+        "readme_commit": "8282784"
+      },
+      "literal_stdout": "",
+      "literal_stderr": "",
+      "exit_status": 0
+    }
+  ]
+}
