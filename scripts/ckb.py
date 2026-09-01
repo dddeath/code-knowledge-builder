@@ -158,6 +158,16 @@ from ckb_core.operation_journal import (
 )
 from ckb_core.showcase import package_showcase
 from ckb_core.stdio_server import serve_stdio
+from ckb_core.session_stdio import (
+    audit_sessions,
+    cleanup_sessions,
+    close_session,
+    controller_main,
+    list_sessions,
+    process_metrics,
+    request_session,
+    session_digest,
+)
 from ckb_core.workspace_notes import record_note, sync_workspace, workspace_status
 
 
@@ -413,6 +423,47 @@ def parser() -> argparse.ArgumentParser:
     serve_command = sub.add_parser("serve")
     serve_command.add_argument("--out", type=Path, required=True)
     serve_command.add_argument("--stdio", action="store_true", required=True)
+    session_stdio_command = sub.add_parser("stdio-session")
+    session_stdio_sub = session_stdio_command.add_subparsers(dest="session_stdio_command", required=True)
+    session_stdio_request = session_stdio_sub.add_parser("request")
+    session_stdio_request.add_argument("--harness", choices=sorted(SUPPORTED_HARNESSES), required=True)
+    session_stdio_request.add_argument("--session-id", required=True)
+    session_stdio_request.add_argument("--out", type=Path, required=True)
+    session_stdio_request.add_argument("--request", type=Path, help="JSON request file; omit to read one JSON object from stdin")
+    session_stdio_request.add_argument("--root", type=Path)
+    session_stdio_request.add_argument("--parent-pid", type=int)
+    session_stdio_request.add_argument("--start-timeout", type=float, default=15.0)
+    session_stdio_request.add_argument("--request-timeout", type=float, default=45.0)
+    session_stdio_list = session_stdio_sub.add_parser("list")
+    session_stdio_list.add_argument("--root", type=Path)
+    session_stdio_list.add_argument("--active", action="store_true")
+    session_stdio_status = session_stdio_sub.add_parser("status")
+    session_stdio_status.add_argument("--harness", choices=sorted(SUPPORTED_HARNESSES), required=True)
+    session_stdio_status.add_argument("--session-id", required=True)
+    session_stdio_status.add_argument("--out", type=Path, required=True)
+    session_stdio_status.add_argument("--root", type=Path)
+    for name in ("close", "terminate", "cancel"):
+        session_stdio_close = session_stdio_sub.add_parser(name)
+        session_stdio_close.add_argument("--harness", choices=sorted(SUPPORTED_HARNESSES), required=True)
+        session_stdio_close.add_argument("--session-id", required=True)
+        session_stdio_close.add_argument("--out", type=Path, required=True)
+        session_stdio_close.add_argument("--root", type=Path)
+        session_stdio_close.add_argument("--timeout", type=float, default=8.0)
+    session_stdio_cleanup = session_stdio_sub.add_parser("cleanup")
+    session_stdio_cleanup.add_argument("--root", type=Path)
+    session_stdio_audit = session_stdio_sub.add_parser("audit")
+    session_stdio_audit.add_argument("--root", type=Path)
+    session_stdio_metrics = session_stdio_sub.add_parser("metrics")
+    session_stdio_metrics.add_argument("--pid", type=int)
+    session_stdio_controller = session_stdio_sub.add_parser("_controller")
+    session_stdio_controller.add_argument("--root", type=Path, required=True)
+    session_stdio_controller.add_argument("--key", required=True)
+    session_stdio_controller.add_argument("--harness", required=True)
+    session_stdio_controller.add_argument("--session-digest", required=True)
+    session_stdio_controller.add_argument("--out", type=Path, required=True)
+    session_stdio_controller.add_argument("--python", type=Path, required=True)
+    session_stdio_controller.add_argument("--ckb", type=Path, required=True)
+    session_stdio_controller.add_argument("--parent-pid", type=int)
     reindex_command = sub.add_parser("reindex")
     reindex_command.add_argument("--out", type=Path, required=True)
     coverage_command = sub.add_parser("coverage")
@@ -832,6 +883,73 @@ def main() -> int:
             emit(rollback_reference(args.out.resolve(), args.reference))
     elif args.command == "serve":
         serve_stdio(args.out.resolve())
+    elif args.command == "stdio-session":
+        if args.session_stdio_command == "request":
+            raw_text = args.request.read_text(encoding="utf-8-sig") if args.request else sys.stdin.read()
+            request = json.loads(raw_text)
+            emit(
+                request_session(
+                    harness=args.harness,
+                    session_id=args.session_id,
+                    output=args.out,
+                    request=request,
+                    root=args.root,
+                    parent_pid=args.parent_pid,
+                    start_timeout=args.start_timeout,
+                    request_timeout=args.request_timeout,
+                )
+            )
+        elif args.session_stdio_command == "list":
+            emit(list_sessions(root=args.root, active_only=args.active))
+        elif args.session_stdio_command == "status":
+            listing = list_sessions(root=args.root)
+            opaque = session_digest(args.session_id)
+            output_identity = str(args.out.resolve()).replace("\\", "/").casefold()
+            matches = [
+                item
+                for item in listing["leases"]
+                if item.get("harness") == args.harness
+                and item.get("session_digest") == opaque
+                and str(item.get("output") or "").replace("\\", "/").casefold() == output_identity
+            ]
+            emit(
+                {
+                    "schema_version": 1,
+                    "status": "ready" if any(item.get("active") for item in matches) else "closed" if matches else "not-started",
+                    "count": len(matches),
+                    "leases": matches,
+                }
+            )
+        elif args.session_stdio_command in {"close", "terminate", "cancel"}:
+            emit(
+                close_session(
+                    harness=args.harness,
+                    session_id=args.session_id,
+                    output=args.out,
+                    root=args.root,
+                    reason=args.session_stdio_command,
+                    timeout=args.timeout,
+                )
+            )
+        elif args.session_stdio_command == "cleanup":
+            emit(cleanup_sessions(root=args.root))
+        elif args.session_stdio_command == "audit":
+            result = audit_sessions(root=args.root)
+            emit(result)
+            return 0 if result.get("status") == "passed" else 5
+        elif args.session_stdio_command == "metrics":
+            emit({"schema_version": 1, "status": "passed", "metrics": process_metrics(args.pid)})
+        else:
+            controller_main(
+                root=args.root,
+                key=args.key,
+                harness=args.harness,
+                opaque_session=args.session_digest,
+                output=args.out,
+                executable=args.python,
+                ckb=args.ckb,
+                parent_pid=args.parent_pid,
+            )
     elif args.command == "reindex":
         output = args.out.resolve()
         emit({"status": "passed", "machine": build_machine_knowledge(output), "compatibility": build_agent_index(output)})
