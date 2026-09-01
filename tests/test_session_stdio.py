@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from concurrent.futures import ThreadPoolExecutor
+import io
 import json
 import os
 from pathlib import Path
@@ -19,7 +20,9 @@ if str(SCRIPTS) not in sys.path:
     sys.path.insert(0, str(SCRIPTS))
 
 from ckb_core.automation import activate_skill_session, ingest_event, register_project
+from ckb_core.common import CkbError
 from ckb_core.session_stdio import (
+    _Transport,
     _force_terminate_pid,
     activate_session_stdio,
     audit_sessions,
@@ -351,6 +354,88 @@ class SessionStdioLifecycleTests(unittest.TestCase):
             reason="recovery-complete",
         )
         self.assertFalse(any(audit_sessions(root=self.session_root)["object_counts"].values()))
+
+    def test_protocol_version_mismatch_fails_handshake_with_bounded_reason(self) -> None:
+        class FakeProcess:
+            pid = 12345
+            returncode: int | None = None
+
+            def __init__(self) -> None:
+                self.stdin = io.StringIO()
+                self.stdout = io.StringIO()
+                self.stderr = io.StringIO()
+
+            def poll(self) -> int | None:
+                return self.returncode
+
+            def wait(self, timeout: float | None = None) -> int:
+                self.returncode = 0
+                return 0
+
+            def terminate(self) -> None:
+                self.returncode = 143
+
+            def kill(self) -> None:
+                self.returncode = 137
+
+        transport = _Transport(executable=Path(sys.executable), ckb=ROOT / "scripts/ckb.py", output=self.output)
+        wrong = {
+            "id": "handshake",
+            "ok": True,
+            "result": {
+                "status": "ready",
+                "protocol": "ckb-stdio-retrieval",
+                "protocol_version": 999,
+                "output": str(self.output.resolve()),
+            },
+        }
+        with (
+            patch("ckb_core.session_stdio.subprocess.Popen", return_value=FakeProcess()),
+            patch.object(_Transport, "request", return_value=wrong),
+        ):
+            with self.assertRaisesRegex(CkbError, "protocol version mismatch"):
+                transport.start(1)
+            closed = transport.close(1)
+        self.assertEqual(closed["exit_code"], 0)
+
+    def test_close_timeout_escalates_to_terminate_then_kill_and_waits(self) -> None:
+        class TimeoutProcess:
+            pid = 54321
+            returncode: int | None = None
+
+            def __init__(self) -> None:
+                self.stdin = io.StringIO()
+                self.stdout = io.StringIO()
+                self.stderr = io.StringIO()
+                self.wait_calls = 0
+                self.terminated = False
+                self.killed = False
+
+            def poll(self) -> int | None:
+                return self.returncode
+
+            def wait(self, timeout: float | None = None) -> int:
+                self.wait_calls += 1
+                if self.wait_calls < 3:
+                    raise subprocess.TimeoutExpired("fixture", timeout)
+                self.returncode = 137
+                return self.returncode
+
+            def terminate(self) -> None:
+                self.terminated = True
+
+            def kill(self) -> None:
+                self.killed = True
+
+        process = TimeoutProcess()
+        transport = _Transport(executable=Path(sys.executable), ckb=ROOT / "scripts/ckb.py", output=self.output, process=process)
+        with patch.object(_Transport, "request", side_effect=CkbError("shutdown response timeout")):
+            closed = transport.close(0.6)
+        self.assertEqual(closed["escalation"], "kill")
+        self.assertTrue(process.terminated)
+        self.assertTrue(process.killed)
+        self.assertEqual(process.wait_calls, 3)
+        self.assertEqual(closed["exit_code"], 137)
 
 
 if __name__ == "__main__":
