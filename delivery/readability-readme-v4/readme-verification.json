@@ -1,0 +1,415 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "root": "/mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4",
+  "inputs": {
+    "readme": "/mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4/README.md",
+    "readme_sha256": "255ff54a543a1658da678fc6bdfb4b526b58bce6ebd55d0a620c1ea2891c0b8a",
+    "sample": "/mnt/e/knowledge_builder/artifacts/verification/readability-sample-v4/README-first-screen-sample-v4.md",
+    "sample_sha256": "c2bca48989e740130e2bfaba4011ea61d264cb26e774fcb94dbed1f2a3663ea5",
+    "baseline": "/mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4/delivery/readability-readme-v4/README.baseline.md",
+    "baseline_sha256": "63b5f320d600f92c4aa83dc71aa45f464773e685c5706b41f1b71d7c04ac0135",
+    "publication_manifest": "/mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4/publication-manifest.json",
+    "publication_manifest_sha256": "be44825d83f7330c31ceb5b69ee38bb54ef4c2744cba5c28892e8d34d3a815e4",
+    "supported_claims": "/mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4/delivery/readability-readme-v4/supported-claims.json",
+    "supported_claims_sha256": "22fb6a1bd1a199ab9e0a605b0f251e494f7c8752e1e0a024f5edbda0c62867a5"
+  },
+  "summary": {
+    "passed": 21,
+    "failed": 0,
+    "total": 21
+  },
+  "checks": [
+    {
+      "name": "required-inputs",
+      "passed": true,
+      "detail": {
+        "missing": []
+      }
+    },
+    {
+      "name": "approved-first-screen-sha256",
+      "passed": true,
+      "detail": {
+        "expected": "c2bca48989e740130e2bfaba4011ea61d264cb26e774fcb94dbed1f2a3663ea5",
+        "actual": "c2bca48989e740130e2bfaba4011ea61d264cb26e774fcb94dbed1f2a3663ea5",
+        "bytes": 5467,
+        "source": "/mnt/e/knowledge_builder/artifacts/verification/readability-sample-v4/README-first-screen-sample-v4.md"
+      }
+    },
+    {
+      "name": "first-screen-byte-prefix",
+      "passed": true,
+      "detail": {
+        "sample_bytes": 5467,
+        "readme_bytes": 19106
+      }
+    },
+    {
+      "name": "baseline-readme-sha256",
+      "passed": true,
+      "detail": {
+        "expected": "63b5f320d600f92c4aa83dc71aa45f464773e685c5706b41f1b71d7c04ac0135",
+        "actual": "63b5f320d600f92c4aa83dc71aa45f464773e685c5706b41f1b71d7c04ac0135"
+      }
+    },
+    {
+      "name": "modified-readme-sha256",
+      "passed": true,
+      "detail": {
+        "expected": "255ff54a543a1658da678fc6bdfb4b526b58bce6ebd55d0a620c1ea2891c0b8a",
+        "actual": "255ff54a543a1658da678fc6bdfb4b526b58bce6ebd55d0a620c1ea2891c0b8a"
+      }
+    },
+    {
+      "name": "unique-headings",
+      "passed": true,
+      "detail": {
+        "headings": [
+          {
+            "line": 1,
+            "level": 1,
+            "title": "Code Knowledge Builder 5.4.0"
+          },
+          {
+            "line": 5,
+            "level": 2,
+            "title": "先选择你要完成的任务"
+          },
+          {
+            "line": 13,
+            "level": 2,
+            "title": "了解本项目知识库结构"
+          },
+          {
+            "line": 44,
+            "level": 2,
+            "title": "让 Agent 安装本项目"
+          },
+          {
+            "line": 71,
+            "level": 2,
+            "title": "让 Agent 解释自己的项目"
+          },
+          {
+            "line": 104,
+            "level": 3,
+            "title": "安装后的解释与使用"
+          },
+          {
+            "line": 108,
+            "level": 4,
+            "title": "复核发布包和运行环境"
+          },
+          {
+            "line": 139,
+            "level": 4,
+            "title": "先检索知识库，再窄读源码"
+          },
+          {
+            "line": 173,
+            "level": 4,
+            "title": "建立或接管目标仓库的知识库"
+          },
+          {
+            "line": 210,
+            "level": 4,
+            "title": "保存分析、修改和实验记录"
+          },
+          {
+            "line": 239,
+            "level": 4,
+            "title": "让后续 Agent 自动遵循检索协议"
+          },
+          {
+            "line": 257,
+            "level": 4,
+            "title": "在 Agent 会话中复用常驻 stdio"
+          },
+          {
+            "line": 308,
+            "level": 4,
+            "title": "绑定管理 Agent 对话"
+          },
+          {
+            "line": 334,
+            "level": 3,
+            "title": "建库后的维护"
+          },
+          {
+            "line": 336,
+            "level": 4,
+            "title": "运行统一维护门"
+          },
+          {
+            "line": 346,
+            "level": 4,
+            "title": "迁移到新的源码提交"
+          },
+          {
+            "line": 376,
+            "level": 4,
+            "title": "使用对应的回滚入口"
+          },
+          {
+            "line": 382,
+            "level": 4,
+            "title": "按目的阅读实现协议"
+          }
+        ]
+      }
+    },
+    {
+      "name": "three-task-entry-sections",
+      "passed": true,
+      "detail": {
+        "expected": [
+          "先选择你要完成的任务",
+          "了解本项目知识库结构",
+          "让 Agent 安装本项目",
+          "让 Agent 解释自己的项目"
+        ],
+        "actual": [
+          "先选择你要完成的任务",
+          "了解本项目知识库结构",
+          "让 Agent 安装本项目",
+          "让 Agent 解释自己的项目"
+        ]
+      }
+    },
+    {
+      "name": "advanced-stage-sections",
+      "passed": true,
+      "detail": {
+        "expected": [
+          "安装后的解释与使用",
+          "建库后的维护"
+        ],
+        "actual": [
+          "安装后的解释与使用",
+          "建库后的维护"
+        ]
+      }
+    },
+    {
+      "name": "advanced-headings-classified",
+      "passed": true,
+      "detail": {
+        "unclassified": []
+      }
+    },
+    {
+      "name": "task-navigation-anchors",
+      "passed": true,
+      "detail": {
+        "navigation": [
+          "了解本项目知识库结构",
+          "让-agent-安装本项目",
+          "让-agent-解释自己的项目"
+        ],
+        "available": [
+          "code-knowledge-builder-540",
+          "了解本项目知识库结构",
+          "使用对应的回滚入口",
+          "保存分析修改和实验记录",
+          "先检索知识库再窄读源码",
+          "先选择你要完成的任务",
+          "在-agent-会话中复用常驻-stdio",
+          "复核发布包和运行环境",
+          "安装后的解释与使用",
+          "建库后的维护",
+          "建立或接管目标仓库的知识库",
+          "按目的阅读实现协议",
+          "绑定管理-agent-对话",
+          "让-agent-安装本项目",
+          "让-agent-解释自己的项目",
+          "让后续-agent-自动遵循检索协议",
+          "迁移到新的源码提交",
+          "运行统一维护门"
+        ]
+      }
+    },
+    {
+      "name": "relative-links",
+      "passed": true,
+      "detail": {
+        "count": 7,
+        "missing": []
+      }
+    },
+    {
+      "name": "descriptive-link-labels",
+      "passed": true,
+      "detail": {
+        "isolated": []
+      }
+    },
+    {
+      "name": "folding-blocks-closed",
+      "passed": true,
+      "detail": {
+        "details_open": 2,
+        "details_close": 2,
+        "summary_open": 2,
+        "summary_close": 2
+      }
+    },
+    {
+      "name": "fenced-blocks-closed",
+      "passed": true,
+      "detail": {
+        "fence_lines": [
+          17,
+          24,
+          28,
+          40,
+          51,
+          67,
+          78,
+          98,
+          112,
+          133,
+          143,
+          158,
+          164,
+          169,
+          177,
+          186,
+          192,
+          199,
+          203,
+          206,
+          214,
+          224,
+          228,
+          235,
+          243,
+          253,
+          263,
+          279,
+          285,
+          304,
+          312,
+          330,
+          340,
+          342,
+          350,
+          361,
+          365,
+          370
+        ]
+      }
+    },
+    {
+      "name": "old-overlap-headings-absent",
+      "passed": true,
+      "detail": {
+        "forbidden": [
+          "五分钟开始",
+          "发布目录分别保存什么",
+          "阅读现有知识库",
+          "构建新的知识库",
+          "进一步阅读"
+        ]
+      }
+    },
+    {
+      "name": "human-reader-wording",
+      "passed": true,
+      "detail": {
+        "forbidden_hits": [],
+        "required": "人类"
+      }
+    },
+    {
+      "name": "single-install-flow",
+      "passed": true,
+      "detail": {
+        "install_prompt_count": 1,
+        "manual_clone_present": false
+      }
+    },
+    {
+      "name": "prompt-role-separation",
+      "passed": true,
+      "detail": {
+        "install_prompt_sha256": "bba0d43cccd95249d59a9a7a9a558398ccac32b77a28d5eb09080766914178d4",
+        "explain_prompt_sha256": "0b5a7c1135278111ec03150687a068335dcba736fcbd42ac85fa669a419690b6"
+      }
+    },
+    {
+      "name": "term-definitions-before-advanced-use",
+      "passed": true,
+      "detail": {
+        "required": [
+          "`Skill` 是 Agent 可发现",
+          "`Git LFS`（Git Large File Storage）用于",
+          "`Harness` 是承载 Agent 会话"
+        ]
+      }
+    },
+    {
+      "name": "task-order",
+      "passed": true,
+      "detail": {
+        "status": "ordered"
+      }
+    },
+    {
+      "name": "supported-claims",
+      "passed": true,
+      "detail": [
+        {
+          "id": "release-identity",
+          "passed": true,
+          "errors": []
+        },
+        {
+          "id": "publication-verification",
+          "passed": true,
+          "errors": []
+        },
+        {
+          "id": "deterministic-retrieval",
+          "passed": true,
+          "errors": []
+        },
+        {
+          "id": "build-and-review-gates",
+          "passed": true,
+          "errors": []
+        },
+        {
+          "id": "durable-records",
+          "passed": true,
+          "errors": []
+        },
+        {
+          "id": "agent-policy",
+          "passed": true,
+          "errors": []
+        },
+        {
+          "id": "session-stdio",
+          "passed": true,
+          "errors": []
+        },
+        {
+          "id": "management-agent",
+          "passed": true,
+          "errors": []
+        },
+        {
+          "id": "maintenance-and-migration",
+          "passed": true,
+          "errors": []
+        },
+        {
+          "id": "release-rollback",
+          "passed": true,
+          "errors": []
+        }
+      ]
+    }
+  ]
+}

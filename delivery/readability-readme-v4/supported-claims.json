@@ -1,0 +1,217 @@
+{
+  "schema_version": 1,
+  "claims": [
+    {
+      "id": "release-identity",
+      "readme_contains": [
+        "Code Knowledge Builder 5.4.0",
+        "codex/release-5.4.0-stable-knowledge",
+        "150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3"
+      ],
+      "manifest_fields": {
+        "target_branch": "codex/release-5.4.0-stable-knowledge",
+        "integration_commit": "150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3",
+        "knowledge_state.version": "5.4.0"
+      }
+    },
+    {
+      "id": "publication-verification",
+      "readme_contains": [
+        "verify-publication.py",
+        "Git LFS 对象"
+      ],
+      "evidence": [
+        {
+          "path": "delivery/verify-publication.py",
+          "contains": [
+            "verify_inventory",
+            "double-sqlite",
+            "human-markdown-mirror",
+            "lfs-objects-materialized"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "deterministic-retrieval",
+      "readme_contains": [
+        "brief --profile fast",
+        "needs-source-read",
+        "--profile precise"
+      ],
+      "evidence": [
+        {
+          "path": "source/references/agent-retrieval.md",
+          "contains": [
+            "brief",
+            "needs-source-read",
+            "fast",
+            "precise",
+            "默认行为保持离线确定性"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "build-and-review-gates",
+      "readme_contains": [
+        "--format markdown",
+        "review-pack",
+        "run --out $NewOut --resume",
+        "finalize --out $NewOut"
+      ],
+      "evidence": [
+        {
+          "path": "source/references/workflow.md",
+          "contains": [
+            "doctor --json",
+            "review-pack",
+            "finalize",
+            "--init-git"
+          ]
+        },
+        {
+          "path": "source/scripts/ckb.py",
+          "contains": [
+            "return 4 if result.get(\"status\") == \"pending-agent-review\"",
+            "--init-git"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "durable-records",
+      "readme_contains": [
+        "record --from-pack",
+        "--kind analysis",
+        "--append"
+      ],
+      "evidence": [
+        {
+          "path": "source/references/workspace-mode.md",
+          "contains": [
+            "record --out",
+            "--kind analysis",
+            "--from-pack"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "agent-policy",
+      "readme_contains": [
+        "agent-policy install",
+        "agent-policy check"
+      ],
+      "evidence": [
+        {
+          "path": "source/references/agent-policy.md",
+          "contains": [
+            "agent-policy install",
+            "Harness 发现文件",
+            "brief --profile fast"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "session-stdio",
+      "readme_contains": [
+        "stdio-session list --active",
+        "mode=cli-fallback",
+        "resident=false"
+      ],
+      "evidence": [
+        {
+          "path": "source/references/automation.md",
+          "contains": [
+            "single-flight",
+            "mode=cli-fallback",
+            "stdio-session close",
+            "stdio-session audit"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "management-agent",
+      "readme_contains": [
+        "manager bind",
+        "manager context",
+        "manager task-create",
+        "但不执行合并"
+      ],
+      "evidence": [
+        {
+          "path": "source/references/workspace-mode.md",
+          "contains": [
+            "manager task-create",
+            "manager task-review",
+            "manager task-status",
+            "命令本身不执行 merge"
+          ]
+        },
+        {
+          "path": "source/references/agent-policy.md",
+          "contains": [
+            "manager context",
+            "integration branch",
+            "maintain"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "maintenance-and-migration",
+      "readme_contains": [
+        "maintain --out $ActiveOut",
+        "migrate start",
+        "migrate audit"
+      ],
+      "evidence": [
+        {
+          "path": "source/scripts/ckb_core/llm_wiki_capabilities.py",
+          "contains": [
+            "maintenance_check",
+            "agent_protocol",
+            "work_record_index",
+            "audit_operation_journal",
+            "research_gaps",
+            "human_readability"
+          ]
+        },
+        {
+          "path": "source/references/migration.md",
+          "contains": [
+            "migrate start",
+            "migrate audit",
+            "staging"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "release-rollback",
+      "readme_contains": [
+        "delivery/rollback-stable-kb.ps1",
+        "delivery/rollback-github-release-5.4.0.ps1",
+        "不 force push"
+      ],
+      "evidence": [
+        {
+          "path": "delivery/rollback-stable-kb.ps1",
+          "contains": [
+            "rollback_stable_kb.py"
+          ]
+        },
+        {
+          "path": "delivery/rollback-github-release-5.4.0.ps1",
+          "contains": [
+            "git revert -m 1",
+            "git push"
+          ]
+        }
+      ]
+    }
+  ]
+}
