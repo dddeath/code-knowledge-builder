@@ -16,6 +16,9 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPTS = ROOT / "scripts"
 sys.path.insert(0, str(SCRIPTS))
+sys.path.insert(0, str(ROOT / "tests"))
+
+from git_checkout import resolve_git_common_dir
 
 from ckb_core import SCHEMA_VERSION, VERSION
 from ckb_core.agent_protocol import AGENT_PROTOCOL_VERSION
@@ -32,7 +35,7 @@ from ckb_core.machine_knowledge import retrieve_machine
 from ckb_core.scope_extension import _tree_manifest
 
 
-GIT_COMMON_DIR = ROOT.parents[1] / "source" / ".git"
+GIT_COMMON_DIR = resolve_git_common_dir(ROOT)
 FIXTURES = ROOT / "tests/fixtures/knowledge-batch-migration/versions.json"
 
 
