@@ -3,7 +3,7 @@
   "status": "passed",
   "fixed_source_commit": "150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3",
   "algorithm": "sha256-per-file-v1",
-  "file_count": 1899,
+  "file_count": 1906,
   "exclusions": [
     ".source-snapshot/worktree/.git",
     "*.sqlite-wal",
@@ -3708,8 +3708,8 @@
     },
     {
       "path": "agent-index.sqlite",
-      "size": 7086080,
-      "sha256": "97f89b4352638b9346e6075cb2da774ac35a735f9aaa936b00aa64f67e784c06"
+      "size": 7073792,
+      "sha256": "69fe9e47aff5cd95d30f0c653fba015a14a024d80fbc56e08fa93e09fedbfbc4"
     },
     {
       "path": "audit/global.json",
@@ -3953,8 +3953,8 @@
     },
     {
       "path": "human/.obsidian/workspace.json",
-      "size": 9985,
-      "sha256": "856b3dc08cbdb7e66acaed488c2f639e7a4cf9ce51962f8f943704482d3700dc"
+      "size": 9954,
+      "sha256": "9da44565fd3478a6e56e498f23a447de2ddba8ffa21c19fa7f97dfb392329045"
     },
     {
       "path": "human/AGENTS.md",
@@ -3978,8 +3978,8 @@
     },
     {
       "path": "human/RECORDS.md",
-      "size": 16922,
-      "sha256": "0e71fcfc8416d5c08d5d5e2f93abfe4637a9f716d90a860342bdde47cfddbcbc"
+      "size": 16917,
+      "sha256": "11ab9eb84a2793ce142e00df70ea53e9eb481d45129d9a1dad355093cc1039e9"
     },
     {
       "path": "human/REFERENCES.md",
@@ -4108,8 +4108,8 @@
     },
     {
       "path": "human/changes/CKB 5.4.0 GitHub 发布与远端复验.md",
-      "size": 3596,
-      "sha256": "07294e61a6e95453a9c4c6faff258c61c29c8eef3f10e62048eaa9f1e34ab6fc"
+      "size": 2593,
+      "sha256": "b4378557afb646b893a6f1b678a5e639a4b5ff07988b4fcb715e66bb8657826b"
     },
     {
       "path": "human/changes/LLM Wiki 功能矩阵与紧凑维护入口.md",
@@ -4245,6 +4245,11 @@
       "path": "human/experiments/常驻 stdio 检索性能复测（Flask 3.1.3）.md",
       "size": 7703,
       "sha256": "b4104f6a058b87ad13d66b55517bd3b0ded523a1bc014788e212e380cb1176ce"
+    },
+    {
+      "path": "human/feedback/resolved/feedback-20260901-123006-01.md",
+      "size": 2846,
+      "sha256": "a71b986a29143e16496c4ef9aae7ea0b60a299b61ad244f87221d63b3506f023"
     },
     {
       "path": "human/logseq/config.edn",
@@ -5077,9 +5082,29 @@
       "sha256": "f12b93338392bb559afdaa7e5479f4af89b630b54e8d1bf6e04fe7f618402e2f"
     },
     {
+      "path": "machine/agent-packs/pack-20260901-122120-029597-01.json",
+      "size": 12274,
+      "sha256": "02cd23b7613af75bc8c49da9f94ca06da69dfddf8b615b98fa291b614297928a"
+    },
+    {
+      "path": "machine/agent-packs/pack-20260901-122120-029597-01.md",
+      "size": 5381,
+      "sha256": "99c2a9e9996795461664bdbe62ce0eef1862f0fa221b129540ac4cdfd5a5ad20"
+    },
+    {
+      "path": "machine/agent-packs/pack-20260901-123110-951416-01.json",
+      "size": 10785,
+      "sha256": "933c5107a4e5bdf73a907749bd4a9839003f7b4e3aa5edf12388137a8c61ef38"
+    },
+    {
+      "path": "machine/agent-packs/pack-20260901-123110-951416-01.md",
+      "size": 5263,
+      "sha256": "97a0145ad1b6fe176e6b34c9fc49ce54655ceee20a861752c4fd62ea8b2b10c1"
+    },
+    {
       "path": "machine/audit.json",
       "size": 731,
-      "sha256": "c05fc26b72feec6905f77479597754f99fd9c9ece43ff47147d39c39b6c7134d"
+      "sha256": "75b97c5956f999fb4103d9a4f6760664505b8c29ecf41820977d1269d882e1ae"
     },
     {
       "path": "machine/automation.sqlite",
@@ -5089,7 +5114,7 @@
     {
       "path": "machine/knowledge.sqlite",
       "size": 38551552,
-      "sha256": "fda6970ee52736a33db527bac11b5d67d1099c0952f9d5b79d962a826cccf81c"
+      "sha256": "4cec59d1a827f59b51dffaeb2122560a2705e03eb27dd721e93bcca21cb1116e"
     },
     {
       "path": "markdown/.ckb-generated-files.json",
@@ -5148,8 +5173,8 @@
     },
     {
       "path": "markdown/RECORDS.md",
-      "size": 16922,
-      "sha256": "0e71fcfc8416d5c08d5d5e2f93abfe4637a9f716d90a860342bdde47cfddbcbc"
+      "size": 16917,
+      "sha256": "11ab9eb84a2793ce142e00df70ea53e9eb481d45129d9a1dad355093cc1039e9"
     },
     {
       "path": "markdown/REFERENCES.md",
@@ -5273,8 +5298,8 @@
     },
     {
       "path": "markdown/changes/CKB 5.4.0 GitHub 发布与远端复验.md",
-      "size": 3596,
-      "sha256": "07294e61a6e95453a9c4c6faff258c61c29c8eef3f10e62048eaa9f1e34ab6fc"
+      "size": 2593,
+      "sha256": "b4378557afb646b893a6f1b678a5e639a4b5ff07988b4fcb715e66bb8657826b"
     },
     {
       "path": "markdown/changes/LLM Wiki 功能矩阵与紧凑维护入口.md",
@@ -5410,6 +5435,11 @@
       "path": "markdown/experiments/常驻 stdio 检索性能复测（Flask 3.1.3）.md",
       "size": 7703,
       "sha256": "b4104f6a058b87ad13d66b55517bd3b0ded523a1bc014788e212e380cb1176ce"
+    },
+    {
+      "path": "markdown/feedback/resolved/feedback-20260901-123006-01.md",
+      "size": 2846,
+      "sha256": "a71b986a29143e16496c4ef9aae7ea0b60a299b61ad244f87221d63b3506f023"
     },
     {
       "path": "markdown/logseq/config.edn",
@@ -9038,8 +9068,8 @@
     },
     {
       "path": "workspace-meta/agent-protocol-audit.json",
-      "size": 1366,
-      "sha256": "e64e1580cad09a95f8dbfbee20eb2b5b24bba16bc1a2046495167bc3d81d0a9d"
+      "size": 1504,
+      "sha256": "c9e4bdd316743b655a1deef6378d3ce4863adbffda1d24843bc6839e16ca1184"
     },
     {
       "path": "workspace-meta/agent-protocol.json",
@@ -9162,9 +9192,14 @@
       "sha256": "d87e58998d7e55c4966adfedff2925cacf4d8aec62fd97472920f3937e95327c"
     },
     {
+      "path": "workspace-meta/feedback/resolved/feedback-20260901-123006-01.json",
+      "size": 3372,
+      "sha256": "a8201674c126dbc7e5d2d73d87104e550233420911a31c67b6b8893430a20331"
+    },
+    {
       "path": "workspace-meta/feedback-audit.json",
-      "size": 154,
-      "sha256": "c03ebf4d02008270147808d413e68c85205098ff5b966bbc81215f73b0d77f7a"
+      "size": 280,
+      "sha256": "13febe2fce31987f74a14d52f73694d50d69517bca3be2c6fd63dc6c89a23809"
     },
     {
       "path": "workspace-meta/gaps/index.json",
@@ -9193,8 +9228,8 @@
     },
     {
       "path": "workspace-meta/maintenance/latest.json",
-      "size": 5258,
-      "sha256": "1c9c0c2ec627fdfbf6e9b6938de0a2b027dcb95c9b2379b64457b64a2f8dba92"
+      "size": 5420,
+      "sha256": "3692b5f807d1ae952bee02cfa6ced033824ef3cadf5ce5ddd93c7b0e3c14b3ca"
     },
     {
       "path": "workspace-meta/notes/Agent 会话 20260826-124551-01.json",
@@ -9223,8 +9258,8 @@
     },
     {
       "path": "workspace-meta/notes/CKB 5.4.0 GitHub 发布与远端复验.json",
-      "size": 2854,
-      "sha256": "d846126a7ad5da216800242be525be7f2ca2603e1d605f5f88d49a26a25e15aa"
+      "size": 940,
+      "sha256": "a3496b591acb432bb576160f56a054eadd38dc82ebdddc1b1017704e3736f707"
     },
     {
       "path": "workspace-meta/notes/CKB Agent 方法调用防偏移机制.json",
@@ -9463,18 +9498,18 @@
     },
     {
       "path": "workspace-meta/operations/2026-09-01.jsonl",
-      "size": 9161,
-      "sha256": "784501a669489ab15260dbc634c77e68ef76cb0d8c4a142b3f1b4fa4e935900c"
+      "size": 10491,
+      "sha256": "c6ca4c0121248b1e29ff5f629f0465358352a8e70904b4021c3365f3d04b1bb3"
     },
     {
       "path": "workspace-meta/operations/latest.json",
-      "size": 7793,
-      "sha256": "272b67c1341a39a032ca00df4303c977d86387b5a299183e0994480e2b2246fd"
+      "size": 7678,
+      "sha256": "5c4ea76e94c90ff486e1f77d9484a6bc6a2c85a6f3e99e1baf3afe1b8ccd9826"
     },
     {
       "path": "workspace-meta/operations/state.json",
       "size": 105,
-      "sha256": "029aabd7716583d2c641cdd738263107fdf4b6b203664946cce0b049876d2f68"
+      "sha256": "9301d2f8e63aaf2f253c5223f5f5f7d8857686e411a0998af87827e4fc024712"
     },
     {
       "path": "workspace-meta/pending-notes/Agent 会话 20260826-124551-01-01.json",

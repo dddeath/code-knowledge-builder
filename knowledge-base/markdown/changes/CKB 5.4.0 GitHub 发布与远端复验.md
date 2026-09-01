@@ -2,32 +2,41 @@
 
 标签：#类型/变更
 
-GitHub 发布分支 `codex/release-5.4.0-stable-knowledge` 已创建并完成第一次远端发布。发布合并提交为 `bb33098`，第一父提交是远端 `main` 的 `917c790`，第二父历史是 integration 历史的 LFS 等价副本 `ca38aeb`；发布树中的 `source/` 仍逐文件等于原 integration 提交 `150a1ce`。
+CKB 5.4.0 的可验证交付已发布到 GitHub 分支 [`codex/release-5.4.0-stable-knowledge`](https://github.com/dddeath/code-knowledge-builder/tree/codex/release-5.4.0-stable-knowledge)。该分支同时提供源码、稳定知识库和发布校验工具；远端 `main` 未被本次发布改动。
 
-第一次推送尝试被 GitHub 拒绝，原因是原 integration 历史可达对象中包含未使用 LFS 的大体积 `assets/runtime/win-x64/payload.zip`。审计确认只有这一项超过远端普通 Git 限制。发布过程在隔离仓库中保留 77 个提交的顺序、作者、时间、标题和父节点数量，只把该文件替换为指向相同 SHA-256 与大小的 Git LFS 指针；原 integration branch 和提交均未改写。
+## 发布内容
 
-修正后的非强制推送成功，远端 `main` 保持不变。随后从 GitHub 新克隆目标分支并展开 Git LFS 对象，逐文件核对 `source/` 与 `knowledge-base/`，双 SQLite、human/markdown 镜像、readability、51 条发布前工作记录、1 个 reference、3 个 research gap、两份学习笔记原始字节、无 SQLite WAL/SHM 与 LFS 对象均通过，共 12 个只读检查；`git lfs fsck` 也通过。
+- `source/`：与本次 integration 基线逐文件一致的 CKB 5.4.0 源码。
+- `knowledge-base/`：绑定同一源码基线的事实层、双 SQLite、人类与 Markdown 镜像、工作记录、reference、research gap、操作日志和两份学习笔记。
+- `delivery/`：源码与知识库清单、只读校验程序、校验结果、Git LFS 检查结果和回滚脚本。
+- `publication-manifest.json`：发布范围、排除项、知识库状态和校验入口。
 
-远端发布回滚使用目标分支中的 PowerShell 脚本创建新的 revert commit，不使用 force push。当前这条记录是发布完成后新增的第 52 条本地工作记录，下一次对同一发布分支的普通 fast-forward 提交会把它和更新后的索引一并纳入远端知识库。
+## 获取与验证
+
+```powershell
+git clone --branch codex/release-5.4.0-stable-knowledge --single-branch https://github.com/dddeath/code-knowledge-builder.git
+Set-Location .\code-knowledge-builder
+git lfs pull
+python .\delivery\verify-publication.py --root . --write .\delivery\verification.json
+git lfs fsck
+```
+
+校验程序会逐文件核对 `source/` 与 `knowledge-base/`，并检查完成标记、双 SQLite 完整性、human/markdown 镜像、readability、工作记录、reference、research gap、学习笔记原始字节和 Git LFS 对象。发布后从 GitHub 新克隆的副本已通过全部 12 项只读检查，`git lfs fsck` 也已通过。
+
+## 使用边界
+
+发布知识库可直接用于阅读、检索结果复核和发布完整性检查。它保留了构建时固定源码快照及其本机绑定路径；如果要在另一台机器上继续执行 `ckb status`、`ckb maintain` 或追加记录，应先按迁移流程把知识库重新绑定到当地的源码仓库与 Agent Policy，不应直接把发布副本当作已迁移的活动知识库。
+
+大体积 ZIP 和 SQLite 文件由 Git LFS 管理。未执行 `git lfs pull` 时，工作树中可能只有指针文件，此时发布校验不会通过。
+
+## 回滚
+
+远端回滚脚本位于 `delivery/rollback-github-release-5.4.0.ps1`。具备目标分支推送权限的维护者可在发布仓库中运行该脚本；它会创建新的 revert commit 并推送，不执行 force push，也不改写公开历史。
 
 ## 相关知识页
 
-- [[render_integration 与 _looks_windows 的协作实现]]
-- [[preflight 与 git 的协作实现]]
-- [[bind_conversation 与 default_management_registry_path 的协作实现]]
-- [[retrieve_machine 与 estimated_tokens 的协作实现]]
-- [[execute 等测试场景]]
-- [[keyword_provider_config 与 parser 的协作实现]]
-- [[ingest_event 与 default_registry_path 的协作实现]]
-- [[main 相关实现]]
+- [[preflight]]
 
 ## 源码入口
 
-- [打开源码：scripts/ckb_core/automation_integrations.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation_integrations.py:1:1)  `scripts/ckb_core/automation_integrations.py:1-575`
-- [打开源码：scripts/ckb_core/gitrepo.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/gitrepo.py:1:1)  `scripts/ckb_core/gitrepo.py:1-419`
-- [打开源码：scripts/ckb_core/management_agent.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/management_agent.py:1:1)  `scripts/ckb_core/management_agent.py:1-1337`
-- [打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1852`
-- [打开源码：tests/provider_integration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/provider_integration.py:1:1)  `tests/provider_integration.py:1-325`
-- [打开源码：scripts/ckb.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:1:1)  `scripts/ckb.py:1-1405`
-- [打开源码：scripts/ckb_core/automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation.py:1:1)  `scripts/ckb_core/automation.py:1-1744`
-- [打开源码：scripts/make_source_patch.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/make_source_patch.py:1:1)  `scripts/make_source_patch.py:1-47`
+- [打开源码：scripts/ckb_core/gitrepo.py 第 194 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/gitrepo.py:194:1)  `scripts/ckb_core/gitrepo.py:194-217`

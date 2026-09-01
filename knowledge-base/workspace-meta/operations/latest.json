@@ -1,16 +1,16 @@
 {
   "schema_version": 1,
   "status": "passed",
-  "updated_at_utc": "2026-09-01T12:11:11Z",
+  "updated_at_utc": "2026-09-01T12:31:11Z",
   "retention_days": 30,
   "max_records_per_shard": 2000,
   "max_shard_bytes": 1048576,
-  "records": 127,
+  "records": 132,
   "counts_by_operation": {
     "compile": 15,
-    "query": 81,
-    "record": 22,
-    "audit": 5,
+    "query": 83,
+    "record": 24,
+    "audit": 6,
     "maintenance": 4
   },
   "counts_by_status": {
@@ -19,11 +19,12 @@
     "completed": 2,
     "failed": 3,
     "not-found": 3,
-    "open": 3,
-    "passed": 88,
+    "open": 4,
+    "passed": 91,
     "pending-agent-review": 4,
     "ready": 1,
-    "ready-to-finalize": 1
+    "ready-to-finalize": 1,
+    "resolved": 1
   },
   "shards": [
     {
@@ -35,65 +36,11 @@
     {
       "date": "2026-09-01",
       "path": "2026-09-01.jsonl",
-      "records": 34,
-      "bytes": 9161
+      "records": 39,
+      "bytes": 10491
     }
   ],
   "latest": [
-    {
-      "schema_version": 1,
-      "event_id": "operation-e8fbc3febd3e5261b7cade427b743c40",
-      "recorded_at_utc": "2026-09-01T02:36:28Z",
-      "operation": "query",
-      "command": "brief",
-      "result_status": "passed",
-      "evidence_paths": [
-        "machine/agent-packs/pack-20260901-023628-720361-01.json",
-        "machine/agent-packs/pack-20260901-023628-720361-01.md"
-      ]
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-7a90c2e9aac55e5c92b3a7ab656c13f2",
-      "recorded_at_utc": "2026-09-01T04:26:02Z",
-      "operation": "record",
-      "command": "record:change",
-      "result_status": "agent-reviewed",
-      "evidence_paths": [
-        "human/changes/低版本完整知识库批量迁移合并审计.md",
-        "markdown/changes/低版本完整知识库批量迁移合并审计.md"
-      ]
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-ace7904b78d051d187c9dc8c17d5f54f",
-      "recorded_at_utc": "2026-09-01T04:48:56Z",
-      "operation": "record",
-      "command": "record:change",
-      "result_status": "agent-reviewed",
-      "evidence_paths": [
-        "human/changes/Agent 会话级 stdio 生命周期合并审计.md",
-        "markdown/changes/Agent 会话级 stdio 生命周期合并审计.md"
-      ]
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-6985d422e99858889f6b0e3300e95b93",
-      "recorded_at_utc": "2026-09-01T05:15:49Z",
-      "operation": "compile",
-      "command": "migrate:start",
-      "result_status": "pending-agent-review",
-      "evidence_paths": []
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-570d93902ec95c33a74803b05dd92139",
-      "recorded_at_utc": "2026-09-01T05:16:26Z",
-      "operation": "compile",
-      "command": "review-pack",
-      "result_status": "passed",
-      "evidence_paths": []
-    },
     {
       "schema_version": 1,
       "event_id": "operation-679543b345da50a18783040645b39867",
@@ -248,11 +195,64 @@
         "human/changes/CKB 5.4.0 GitHub 发布与远端复验.md",
         "markdown/changes/CKB 5.4.0 GitHub 发布与远端复验.md"
       ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-6970809e3bb55bc7b000b6f9a718ee7b",
+      "recorded_at_utc": "2026-09-01T12:21:20Z",
+      "operation": "query",
+      "command": "brief",
+      "result_status": "passed",
+      "evidence_paths": [
+        "machine/agent-packs/pack-20260901-122120-029597-01.json",
+        "machine/agent-packs/pack-20260901-122120-029597-01.md"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-3be6e99fce8c5327bf23436279664eb4",
+      "recorded_at_utc": "2026-09-01T12:30:06Z",
+      "operation": "record",
+      "command": "feedback:create",
+      "result_status": "open",
+      "evidence_paths": []
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-b1de3c09ac955182849752c152cbb6a7",
+      "recorded_at_utc": "2026-09-01T12:30:11Z",
+      "operation": "record",
+      "command": "feedback:resolve",
+      "result_status": "resolved",
+      "evidence_paths": [
+        "workspace-meta/feedback/resolved/feedback-20260901-123006-01.json"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-359bcd8db9ce599685512651872b95ad",
+      "recorded_at_utc": "2026-09-01T12:30:11Z",
+      "operation": "audit",
+      "command": "feedback:audit",
+      "result_status": "passed",
+      "evidence_paths": []
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-226598e8faa856ba830dff9fc95266c6",
+      "recorded_at_utc": "2026-09-01T12:31:10Z",
+      "operation": "query",
+      "command": "brief",
+      "result_status": "passed",
+      "evidence_paths": [
+        "machine/agent-packs/pack-20260901-123110-951416-01.json",
+        "machine/agent-packs/pack-20260901-123110-951416-01.md"
+      ]
     }
   ],
   "bounded_drops": {
     "size_or_count": 0,
     "retention": 0,
-    "deduplicated": 331
+    "deduplicated": 336
   }
 }

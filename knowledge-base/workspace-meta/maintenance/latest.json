@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "status": "passed",
-  "checked_at_utc": "2026-09-01T12:11:11Z",
+  "checked_at_utc": "2026-09-01T12:30:13Z",
   "output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
   "page_writes": 0,
   "checks": {
@@ -21,10 +21,16 @@
         "status": "passed",
         "counts": {
           "open": 0,
-          "resolved": 0,
+          "resolved": 1,
           "stale_open": 0
         },
-        "records": [],
+        "records": [
+          {
+            "feedback_id": "feedback-20260901-123006-01",
+            "status": "resolved",
+            "anchor_status": "stale"
+          }
+        ],
         "errors": []
       },
       "output_contracts": {
@@ -100,7 +106,7 @@
         "relations": 4766,
         "reviews": 1229,
         "documents": 1285,
-        "sections": 4579,
+        "sections": 4583,
         "human_projection": 1229,
         "workspace_changes": 0,
         "reference_sources": 1,
@@ -108,7 +114,7 @@
       },
       "fts_counts": {
         "entity_fts": 1229,
-        "section_fts": 4579,
+        "section_fts": 4583,
         "source_fts": 70
       },
       "language_contract": "所有说明使用简体中文，允许英文专有名词和代码标识符",
@@ -155,7 +161,7 @@
     "operations": {
       "schema_version": 1,
       "status": "passed",
-      "records": 127,
+      "records": 131,
       "shards": 2,
       "initialized": true,
       "latest": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\operations\\latest.json",

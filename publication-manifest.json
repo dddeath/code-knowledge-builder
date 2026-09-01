@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "final-knowledge-trace-local-verification-passed-awaiting-fast-forward",
+  "status": "published-readability-repair-local-verification-passed-awaiting-fast-forward",
   "repository": "https://github.com/dddeath/code-knowledge-builder",
   "target_branch": "codex/release-5.4.0-stable-knowledge",
   "remote_base": "917c79094a9ff31f39900a28776a38077159638b",
@@ -37,7 +37,7 @@
     "source": "delivery/source-files.json",
     "source_sha256": "65bb5396ac78ceeda0f598357bba0a2285834541583a12624b0d02674839651c",
     "knowledge": "delivery/knowledge-files.json",
-    "knowledge_sha256": "0bc532c6a251977829c39f1294119e64b361438a9b64542f74a5f3e2505ddb7a"
+    "knowledge_sha256": "633afc79f361012bf3fc3ba4f6fec114b43d9b5d746be991fd30a885f85010d1"
   },
   "lfs_patterns": [
     "*.zip",
@@ -61,8 +61,8 @@
     },
     {
       "path": "knowledge-base/agent-index.sqlite",
-      "size": 7086080,
-      "sha256": "97f89b4352638b9346e6075cb2da774ac35a735f9aaa936b00aa64f67e784c06"
+      "size": 7073792,
+      "sha256": "69fe9e47aff5cd95d30f0c653fba015a14a024d80fbc56e08fa93e09fedbfbc4"
     },
     {
       "path": "knowledge-base/machine/automation.sqlite",
@@ -72,7 +72,7 @@
     {
       "path": "knowledge-base/machine/knowledge.sqlite",
       "size": 38551552,
-      "sha256": "fda6970ee52736a33db527bac11b5d67d1099c0952f9d5b79d962a826cccf81c"
+      "sha256": "4cec59d1a827f59b51dffaeb2122560a2705e03eb27dd721e93bcca21cb1116e"
     },
     {
       "path": "knowledge-base/migration/preserved-baseline/machine/automation.sqlite",
@@ -96,17 +96,13 @@
   ],
   "local_verification": {
     "status": "passed",
-    "path": "delivery/local-publication-verification-final.json",
-    "sha256": "466f55f28f182882ab016f3cabd711031b50040c77b20a348abd3ddb5f07bcbb",
+    "path": "delivery/local-publication-verification-readability-repair.json",
+    "sha256": "f7e2928d404623c42a0d8c921b3edf109eb748001f818d23cdec01a1d39752dd",
     "checks": 12
   },
   "remote_clone_verification": {
-    "status": "passed",
-    "release_commit": "bb330982056688ebe69c23e9dbf3050c13289099",
-    "path": "delivery/fresh-clone-verification.json",
-    "sha256": "26326005370a04d99519331deace12aafe04adb6055e216db679d2e753960114",
-    "checks": 12,
-    "lfs_fsck": "passed"
+    "status": "superseded-pending-readability-repair-verification",
+    "previous_release_commit": "bb330982056688ebe69c23e9dbf3050c13289099"
   },
   "credential_scan": {
     "status": "passed",
@@ -129,9 +125,19 @@
     "initial_rejection": "delivery/initial-push-rejection.txt"
   },
   "final_knowledge_trace": {
-    "status": "included-in-working-tree",
+    "status": "readability-repaired-and-included",
     "record_count": 52,
     "record": "knowledge-base/human/changes/CKB 5.4.0 GitHub 发布与远端复验.md",
     "maintain": "passed"
+  },
+  "readability_repair": {
+    "status": "passed",
+    "feedback_id": "feedback-20260901-123006-01",
+    "page": "knowledge-base/human/changes/CKB 5.4.0 GitHub 发布与远端复验.md",
+    "mirror": "passed",
+    "double_sqlite": "passed",
+    "retrieval": "passed",
+    "maintain": "passed",
+    "rollback_probe": "passed"
   }
 }
