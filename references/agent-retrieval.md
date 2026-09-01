@@ -121,17 +121,52 @@ Provider 是调用方显式配置的本地命令/stdio JSON 适配器。CKB 向�
 
 ## 常驻 stdio 检索
 
-同一 Agent 会话需要连续检索时，可启动一个本地、单线程、无网络端口的 JSONL 进程，复用 Python 模块和进程内静态检索缓存：
+当前 Harness 会话第一次精确应用 `code-knowledge-builder` Skill 时，`automation activate` 或等价 `skill.applied` 事件会立即 single-flight 启动一个会话监督器，并由监督器创建、握手和拥有本地 `serve --stdio` 子进程。`session.start`、普通 prompt 和只提及项目名的消息不会启动进程。同一 `Harness + session + OUTPUT + executable/protocol` 身份的 `brief`、`retrieve`、`entity`、`neighbors`、`source` 和 `changes` 命令自动复用同一健康 PID；首次查询等待已开始的握手，不先执行一次逐命令 CLI。
+
+显式激活：
+
+```powershell
+& PYTHON scripts\ckb.py automation activate `
+  --harness HARNESS --session-id SESSION_ID --cwd TASK_ROOT --registry REGISTRY
+```
+
+状态、显式请求与关闭入口：
+
+```powershell
+& PYTHON scripts\ckb.py stdio-session list --active
+& PYTHON scripts\ckb.py stdio-session status `
+  --harness HARNESS --session-id SESSION_ID --out OUTPUT
+
+Get-Content REQUEST.json -Raw |
+  & PYTHON scripts\ckb.py stdio-session request `
+    --harness HARNESS --session-id SESSION_ID --out OUTPUT
+
+& PYTHON scripts\ckb.py stdio-session close `
+  --harness HARNESS --session-id SESSION_ID --out OUTPUT
+& PYTHON scripts\ckb.py stdio-session cleanup
+& PYTHON scripts\ckb.py stdio-session audit
+```
+
+`turn.stop` 只完成当前轮次，不释放 PID；`session.end`、`terminate`、`cancel`、management `unbind`、Harness 正常 unload 或可靠父 PID 死亡会触发 `shutdown -> terminate -> kill` 的有界关闭顺序，并等待回收子进程。关闭后的审计计数必须把 lease、process、pending、reader、timer、listener、pipe、session mapping 和 cache reference 全部归零。
+
+每次真正创建 supervisor 都生成新的 16 位十六进制 `generation`；启动方只接受同 generation 的 `starting/ready/fallback/closed` lease，上一代刚关闭的 lease 不会影响相同外部 session ID 的立即重建。Windows 非扩展路径预算固定为：生命周期目录最多 223 个字符，所有紧凑生成路径最多 259 个字符；lease 临时名使用 8 字符 `.lXXXXXX`。超过目录预算时结果明确返回 `resident=false` 和 `directory_chars`、`directory_limit=223`、`generated_path_limit=259`，不进入半启动状态。
+
+只有 OpenCode stable/V2 适配器会从长寿命 Plugin 进程提供可靠 `harness_pid`；generic 调用方可显式提供 `harness_pid` 或 `--parent-pid`。其他适配器在 `integration.json.session_stdio_capability` 中诚实标记 `parent_monitor=unavailable`，依靠原生 `session.end` 或显式关闭；DSH 当前四事件桥接还需显式关闭或外部清理。短命 Hook 的 `atexit` 不承担会话生命周期。
+
+启动、握手、协议或健康检查失败时，结果明确标记 `mode=cli-fallback`、`resident=false` 和有界原因；受支持的查询随后执行一次逐命令 CLI。失败状态不报告为常驻生效。子进程异常退出最多自动重启一次，第二次失败进入同一显式降级。
+
+底层 JSONL 服务仍可单独用于 transport 调试：
 
 ```powershell
 & PYTHON scripts\ckb.py serve --stdio --out OUTPUT
 ```
 
-每行输入一个 JSON 对象，每个响应也严格占一行。`id` 必须是字符串或整数；服务支持 `ping`、`retrieve` 和 `shutdown`：
+每行输入一个 JSON 对象，每个响应也严格占一行。`id` 必须是字符串或整数；服务支持 `ping`、`retrieve`、`brief`、`entity`、`neighbors`、`source`、`changes`、`record-explanation` 和 `shutdown`：
 
 ```json
 {"id":"ready","method":"ping"}
 {"id":"q1","method":"retrieve","question":"修改订单失败后的库存回滚","budget":1800,"max_pages":8,"profile":"fast"}
+{"id":"e1","method":"entity","selector":"OrderService"}
 {"id":"stop","method":"shutdown"}
 ```
 

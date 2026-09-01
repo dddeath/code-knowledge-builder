@@ -21,6 +21,7 @@ from urllib.parse import unquote, urlparse
 import uuid
 
 from .common import CkbError, json_load, json_write, run, safe_title, stable_id, utc_now
+from .session_stdio import activate_session_stdio, close_session
 
 
 AUTOMATION_SCHEMA_VERSION = 3
@@ -444,6 +445,11 @@ def _canonical_type(raw: dict[str, Any], name: str) -> str:
         "session.compacted": "compact.after",
         "sessionend": "session.end",
         "session.deleted": "session.end",
+        "session.terminated": "session.end",
+        "session.cancelled": "session.end",
+        "session.canceled": "session.end",
+        "terminate": "session.end",
+        "cancel": "session.end",
         "beforeagent": "turn.prompt",
         "beforesubmitprompt": "turn.prompt",
         "userpromptsubmitted": "turn.prompt",
@@ -509,6 +515,15 @@ def normalize_event(harness: str, raw: dict[str, Any]) -> dict[str, Any]:
     )
     failed_names = {"posttoolusefailure", "stopfailure", "session.execution.failed.1"}
     event_status = str(raw.get("status") or ("error" if name.casefold() in failed_names else "completed"))
+    harness_pid_value = raw.get("harness_pid", raw.get("host_pid"))
+    harness_pid = (
+        int(harness_pid_value)
+        if isinstance(harness_pid_value, (int, str))
+        and not isinstance(harness_pid_value, bool)
+        and str(harness_pid_value).isdigit()
+        and int(harness_pid_value) > 0
+        else None
+    )
     return {
         "schema_version": AUTOMATION_SCHEMA_VERSION,
         "harness": harness,
@@ -528,6 +543,7 @@ def normalize_event(harness: str, raw: dict[str, Any]) -> dict[str, Any]:
         "skill_name": _skill_name(raw, tool_name, tool_input),
         "changed_paths": _extract_paths(raw),
         "source": raw.get("source") or raw.get("reason") or raw.get("trigger"),
+        "harness_pid": harness_pid,
         "received_at_utc": utc_now(),
         "raw": raw,
     }
@@ -912,6 +928,8 @@ def activate_skill_session(
     cwd: Path,
     registry_path: Path | None = None,
     source: str = "agent-skill-start",
+    parent_pid: int | None = None,
+    session_stdio_root: Path | None = None,
 ) -> dict[str, Any]:
     if harness not in SUPPORTED_HARNESSES:
         raise CkbError(f"unsupported automation harness: {harness}")
@@ -934,11 +952,34 @@ def activate_skill_session(
     output = Path(registration["knowledge_output"]).resolve()
     repo = Path(registration["repo_root"]).resolve()
     activation = _record_skill_activation(output, repo, harness, resolved_session, source)
+    lifecycle = activate_session_stdio(
+        harness=harness,
+        session_id=resolved_session,
+        output=output,
+        parent_pid=parent_pid,
+        root=session_stdio_root,
+    )
     return {
         "schema_version": AUTOMATION_SCHEMA_VERSION,
         **activation,
         "registration_match": {"kind": match_kind, "root": matched_root},
+        "session_stdio": lifecycle,
     }
+
+
+def _remove_skill_activation(output: Path, repo: Path, harness: str, session_id: str) -> None:
+    path = output / AUTOMATION_DATABASE
+    if not path.is_file():
+        return
+    connection = sqlite3.connect(path, timeout=10)
+    try:
+        connection.execute(
+            "DELETE FROM skill_activations WHERE harness=? AND external_session_id=? AND repo_root=? AND skill_name=?",
+            (harness, session_id, str(repo), REQUIRED_SKILL),
+        )
+        connection.commit()
+    finally:
+        connection.close()
 
 
 def _explicit_skill_application(event: dict[str, Any]) -> str | None:
@@ -1380,6 +1421,27 @@ def ingest_event(
         if activation_source
         else _skill_activation(output, repo, harness, normalized["session_id"])
     )
+    if activation is None and normalized["canonical_type"] == "session.end":
+        lifecycle = close_session(
+            harness=harness,
+            session_id=normalized["session_id"],
+            output=output,
+            reason="session.end",
+        )
+        return {
+            "schema_version": AUTOMATION_SCHEMA_VERSION,
+            "status": "ignored",
+            "reason": "skill-not-applied-in-session",
+            "required_skill": REQUIRED_SKILL,
+            "harness": harness,
+            "session_id": normalized["session_id"],
+            "cwd": str(cwd),
+            "repo_root": str(repo),
+            "registration_match": {"kind": match_kind, "root": matched_root},
+            "knowledge_output": str(output),
+            "session_stdio": lifecycle,
+            "hook_output": {},
+        }
     if activation is None:
         return {
             "schema_version": AUTOMATION_SCHEMA_VERSION,
@@ -1394,6 +1456,14 @@ def ingest_event(
             "knowledge_output": str(output),
             "hook_output": {},
         }
+    lifecycle = None
+    if activation_source:
+        lifecycle = activate_session_stdio(
+            harness=harness,
+            session_id=normalized["session_id"],
+            output=output,
+            parent_pid=normalized.get("harness_pid"),
+        )
     redacted = redact_event(normalized, registration.get("custom_redactions", []), int(registration.get("max_field_chars", 12_000)))
     redacted["skill_activation"] = activation
     redacted["registration_match"] = {"kind": match_kind, "root": matched_root}
@@ -1408,6 +1478,14 @@ def ingest_event(
         },
     )
     drained = drain_automation(output)
+    if normalized["canonical_type"] == "session.end":
+        lifecycle = close_session(
+            harness=harness,
+            session_id=normalized["session_id"],
+            output=output,
+            reason="session.end",
+        )
+        _remove_skill_activation(output, repo, harness, normalized["session_id"])
     return {
         "schema_version": AUTOMATION_SCHEMA_VERSION,
         "status": "recorded" if drained["processed"] else "duplicate" if drained["duplicates"] else "queued",
@@ -1421,6 +1499,7 @@ def ingest_event(
         "redaction_count": redacted["redaction_count"],
         "redaction_types": redacted["redaction_types"],
         "drain": drained,
+        "session_stdio": lifecycle,
         "hook_output": _hook_output(harness, normalized["event_name"], _hook_context(output)),
     }
 

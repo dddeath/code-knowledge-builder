@@ -167,6 +167,17 @@ from ckb_core.operation_journal import (
 )
 from ckb_core.showcase import package_showcase
 from ckb_core.stdio_server import serve_stdio
+from ckb_core.session_stdio import (
+    audit_sessions,
+    cleanup_sessions,
+    close_session,
+    controller_main,
+    list_sessions,
+    maybe_request_session,
+    process_metrics,
+    request_session,
+    session_digest,
+)
 from ckb_core.workspace_notes import record_note, sync_workspace, workspace_status
 
 
@@ -442,6 +453,48 @@ def parser() -> argparse.ArgumentParser:
     serve_command = sub.add_parser("serve")
     serve_command.add_argument("--out", type=Path, required=True)
     serve_command.add_argument("--stdio", action="store_true", required=True)
+    session_stdio_command = sub.add_parser("stdio-session")
+    session_stdio_sub = session_stdio_command.add_subparsers(dest="session_stdio_command", required=True)
+    session_stdio_request = session_stdio_sub.add_parser("request")
+    session_stdio_request.add_argument("--harness", choices=sorted(SUPPORTED_HARNESSES), required=True)
+    session_stdio_request.add_argument("--session-id", required=True)
+    session_stdio_request.add_argument("--out", type=Path, required=True)
+    session_stdio_request.add_argument("--request", type=Path, help="JSON request file; omit to read one JSON object from stdin")
+    session_stdio_request.add_argument("--root", type=Path)
+    session_stdio_request.add_argument("--parent-pid", type=int)
+    session_stdio_request.add_argument("--start-timeout", type=float, default=15.0)
+    session_stdio_request.add_argument("--request-timeout", type=float, default=45.0)
+    session_stdio_list = session_stdio_sub.add_parser("list")
+    session_stdio_list.add_argument("--root", type=Path)
+    session_stdio_list.add_argument("--active", action="store_true")
+    session_stdio_status = session_stdio_sub.add_parser("status")
+    session_stdio_status.add_argument("--harness", choices=sorted(SUPPORTED_HARNESSES), required=True)
+    session_stdio_status.add_argument("--session-id", required=True)
+    session_stdio_status.add_argument("--out", type=Path, required=True)
+    session_stdio_status.add_argument("--root", type=Path)
+    for name in ("close", "terminate", "cancel"):
+        session_stdio_close = session_stdio_sub.add_parser(name)
+        session_stdio_close.add_argument("--harness", choices=sorted(SUPPORTED_HARNESSES), required=True)
+        session_stdio_close.add_argument("--session-id", required=True)
+        session_stdio_close.add_argument("--out", type=Path, required=True)
+        session_stdio_close.add_argument("--root", type=Path)
+        session_stdio_close.add_argument("--timeout", type=float, default=8.0)
+    session_stdio_cleanup = session_stdio_sub.add_parser("cleanup")
+    session_stdio_cleanup.add_argument("--root", type=Path)
+    session_stdio_audit = session_stdio_sub.add_parser("audit")
+    session_stdio_audit.add_argument("--root", type=Path)
+    session_stdio_metrics = session_stdio_sub.add_parser("metrics")
+    session_stdio_metrics.add_argument("--pid", type=int)
+    session_stdio_controller = session_stdio_sub.add_parser("_controller")
+    session_stdio_controller.add_argument("--root", type=Path, required=True)
+    session_stdio_controller.add_argument("--key", required=True)
+    session_stdio_controller.add_argument("--harness", required=True)
+    session_stdio_controller.add_argument("--session-digest", required=True)
+    session_stdio_controller.add_argument("--out", type=Path, required=True)
+    session_stdio_controller.add_argument("--python", type=Path, required=True)
+    session_stdio_controller.add_argument("--ckb", type=Path, required=True)
+    session_stdio_controller.add_argument("--generation", required=True)
+    session_stdio_controller.add_argument("--parent-pid", type=int)
     reindex_command = sub.add_parser("reindex")
     reindex_command.add_argument("--out", type=Path, required=True)
     coverage_command = sub.add_parser("coverage")
@@ -579,6 +632,8 @@ def parser() -> argparse.ArgumentParser:
     automation_activate.add_argument("--cwd", type=Path, default=Path.cwd())
     automation_activate.add_argument("--registry", type=Path, default=default_registry_path())
     automation_activate.add_argument("--source", default="agent-skill-start")
+    automation_activate.add_argument("--parent-pid", type=int)
+    automation_activate.add_argument("--stdio-root", type=Path)
     for name in ("ingest", "hook"):
         parser_value = automation_sub.add_parser(name)
         parser_value.add_argument("--harness", choices=sorted(SUPPORTED_HARNESSES), required=True)
@@ -697,6 +752,31 @@ def emit(value) -> None:
     print(json.dumps(value, ensure_ascii=False, indent=2))
 
 
+def _session_query(output: Path, request: dict[str, object]) -> dict[str, object] | None:
+    wrapper = maybe_request_session(output.resolve(), request)
+    if wrapper is None:
+        return None
+    response = wrapper.get("response")
+    if not isinstance(response, dict) or not response.get("ok"):
+        error = response.get("error") if isinstance(response, dict) else wrapper.get("error")
+        message = str((error or {}).get("message") if isinstance(error, dict) else error or wrapper.get("status"))
+        raise CkbError(f"session stdio request failed: {message[:500]}")
+    result = response.get("result")
+    if not isinstance(result, dict):
+        raise CkbError("session stdio request returned no structured result")
+    value = dict(result)
+    value["session_stdio"] = {
+        "mode": wrapper.get("mode"),
+        "resident": wrapper.get("resident"),
+        "lifecycle_key": wrapper.get("lifecycle_key"),
+        "generation": wrapper.get("generation"),
+        "supervisor_pid": wrapper.get("supervisor_pid"),
+        "server_pid": wrapper.get("server_pid"),
+        "fallback": wrapper.get("fallback"),
+    }
+    return value
+
+
 def main() -> int:
     global _ACTIVE_ARGS
     args = parser().parse_args()
@@ -794,6 +874,24 @@ def main() -> int:
     elif args.command == "retrieve":
         output = args.out.resolve()
         fallback_options = keyword_fallback_options(args)
+        session_value = (
+            _session_query(
+                output,
+                {
+                    "id": "retrieve-" + os.urandom(8).hex(),
+                    "method": "retrieve",
+                    "question": args.question,
+                    "budget": args.budget,
+                    "max_pages": args.max_pages,
+                    "profile": args.profile,
+                },
+            )
+            if fallback_options is None
+            else None
+        )
+        if session_value is not None:
+            emit(session_value)
+            return 0
         if (output / "machine/knowledge.sqlite").is_file():
             emit(
                 retrieve_machine(
@@ -812,6 +910,24 @@ def main() -> int:
     elif args.command == "brief":
         output = args.out.resolve()
         fallback_options = keyword_fallback_options(args)
+        session_value = (
+            _session_query(
+                output,
+                {
+                    "id": "brief-" + os.urandom(8).hex(),
+                    "method": "brief",
+                    "question": args.question,
+                    "budget": args.budget,
+                    "max_pages": args.max_pages,
+                    "profile": args.profile,
+                },
+            )
+            if fallback_options is None
+            else None
+        )
+        if session_value is not None:
+            emit(session_value)
+            return 0
         if fallback_options is not None and not (output / "machine/knowledge.sqlite").is_file():
             raise CkbError("keyword fallback requires machine/knowledge.sqlite")
         retrieval_result = (
@@ -889,19 +1005,123 @@ def main() -> int:
             emit(rollback_reference(args.out.resolve(), args.reference))
     elif args.command == "serve":
         serve_stdio(args.out.resolve())
+    elif args.command == "stdio-session":
+        if args.session_stdio_command == "request":
+            raw_text = args.request.read_text(encoding="utf-8-sig") if args.request else sys.stdin.read()
+            request = json.loads(raw_text)
+            emit(
+                request_session(
+                    harness=args.harness,
+                    session_id=args.session_id,
+                    output=args.out,
+                    request=request,
+                    root=args.root,
+                    parent_pid=args.parent_pid,
+                    start_timeout=args.start_timeout,
+                    request_timeout=args.request_timeout,
+                )
+            )
+        elif args.session_stdio_command == "list":
+            emit(list_sessions(root=args.root, active_only=args.active))
+        elif args.session_stdio_command == "status":
+            listing = list_sessions(root=args.root)
+            opaque = session_digest(args.session_id)
+            output_identity = str(args.out.resolve()).replace("\\", "/").casefold()
+            matches = [
+                item
+                for item in listing["leases"]
+                if item.get("harness") == args.harness
+                and item.get("session_digest") == opaque
+                and str(item.get("output") or "").replace("\\", "/").casefold() == output_identity
+            ]
+            emit(
+                {
+                    "schema_version": 1,
+                    "status": "ready" if any(item.get("active") for item in matches) else "closed" if matches else "not-started",
+                    "count": len(matches),
+                    "leases": matches,
+                }
+            )
+        elif args.session_stdio_command in {"close", "terminate", "cancel"}:
+            emit(
+                close_session(
+                    harness=args.harness,
+                    session_id=args.session_id,
+                    output=args.out,
+                    root=args.root,
+                    reason=args.session_stdio_command,
+                    timeout=args.timeout,
+                )
+            )
+        elif args.session_stdio_command == "cleanup":
+            emit(cleanup_sessions(root=args.root))
+        elif args.session_stdio_command == "audit":
+            result = audit_sessions(root=args.root)
+            emit(result)
+            return 0 if result.get("status") == "passed" else 5
+        elif args.session_stdio_command == "metrics":
+            emit({"schema_version": 1, "status": "passed", "metrics": process_metrics(args.pid)})
+        else:
+            controller_main(
+                root=args.root,
+                key=args.key,
+                harness=args.harness,
+                opaque_session=args.session_digest,
+                output=args.out,
+                executable=args.python,
+                ckb=args.ckb,
+                parent_pid=args.parent_pid,
+                generation=args.generation,
+            )
     elif args.command == "reindex":
         output = args.out.resolve()
         emit({"status": "passed", "machine": build_machine_knowledge(output), "compatibility": build_agent_index(output)})
     elif args.command == "coverage":
         emit(machine_coverage(args.out.resolve()))
     elif args.command == "entity":
-        emit(entity_lookup(args.out.resolve(), args.selector))
+        emit(
+            _session_query(
+                args.out.resolve(),
+                {"id": "entity-" + os.urandom(8).hex(), "method": "entity", "selector": args.selector},
+            )
+            or entity_lookup(args.out.resolve(), args.selector)
+        )
     elif args.command == "neighbors":
-        emit(neighbor_lookup(args.out.resolve(), args.selector, args.depth, args.relation, args.limit))
+        emit(
+            _session_query(
+                args.out.resolve(),
+                {
+                    "id": "neighbors-" + os.urandom(8).hex(),
+                    "method": "neighbors",
+                    "selector": args.selector,
+                    "depth": args.depth,
+                    "relation": args.relation,
+                    "limit": args.limit,
+                },
+            )
+            or neighbor_lookup(args.out.resolve(), args.selector, args.depth, args.relation, args.limit)
+        )
     elif args.command == "source":
-        emit(source_lookup(args.out.resolve(), args.selector, args.context_lines))
+        emit(
+            _session_query(
+                args.out.resolve(),
+                {
+                    "id": "source-" + os.urandom(8).hex(),
+                    "method": "source",
+                    "selector": args.selector,
+                    "context_lines": args.context_lines,
+                },
+            )
+            or source_lookup(args.out.resolve(), args.selector, args.context_lines)
+        )
     elif args.command == "changes":
-        emit(change_documents(args.out.resolve(), args.kind, args.limit))
+        emit(
+            _session_query(
+                args.out.resolve(),
+                {"id": "changes-" + os.urandom(8).hex(), "method": "changes", "kind": args.kind, "limit": args.limit},
+            )
+            or change_documents(args.out.resolve(), args.kind, args.limit)
+        )
     elif args.command == "path":
         emit(shortest_path(args.out.resolve(), args.source, args.target))
     elif args.command == "explain":
@@ -1028,7 +1248,17 @@ def main() -> int:
         elif args.automation_command == "registry":
             emit(registry_status(args.registry))
         elif args.automation_command == "activate":
-            emit(activate_skill_session(args.harness, args.session_id, args.cwd, args.registry, args.source))
+            emit(
+                activate_skill_session(
+                    args.harness,
+                    args.session_id,
+                    args.cwd,
+                    args.registry,
+                    args.source,
+                    args.parent_pid,
+                    args.stdio_root,
+                )
+            )
         elif args.automation_command in {"ingest", "hook"}:
             try:
                 raw_text = args.event.read_text(encoding="utf-8-sig") if args.event else sys.stdin.read()

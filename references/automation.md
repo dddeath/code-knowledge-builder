@@ -6,6 +6,7 @@
 
 - **显式项目启用**：事件只有在注册表中匹配已启用的仓库根和 Harness 时才写入；其他目录返回 `ignored`。
 - **显式会话应用 Skill**：已登记项目中的 Hook 仍保持休眠；当前 Harness session 只有通过 `$code-knowledge-builder`、`/code-knowledge-builder`、原生 Skill 事件或 `automation activate` 明确应用本 Skill 后，事件才进入队列。普通文字提及项目名不会激活。
+- **激活即创建会话 stdio**：第一次精确 Skill 应用会 single-flight 启动、握手并拥有一个会话级 `serve --stdio`；同次 Skill 调用的首个 CKB 查询等待并复用该 PID。`session.start` 不启动，`turn.stop` 不关闭。
 - **机器层优先**：原始轮次经过脱敏后进入 `machine/automation.sqlite` 和写前队列。逐轮对话不会直接膨胀为人类 Markdown 页面。
 - **Agent 审阅后晋升**：`Stop` 或等价事件只产生 `pending-agent-review`。Agent 重新核对修改路径、源码和验证证据，提交简体中文审阅后，脚本才调用正式 `record_note` 投影到 `human` 与 `markdown`。
 - **不解析 transcript**：Codex 与 Claude Code 都把 transcript 路径视为便利字段而非稳定协议。本实现只使用事件直接提供的 prompt、最终回答、工具输入/结果、会话标识和工作目录。
@@ -73,16 +74,16 @@
 
 | 规范事件 | 含义 | 主要结果 |
 |---|---|---|
-| `skill.applied` | 当前 Harness session 明确应用 `code-knowledge-builder` | 写入会话激活记录并开启后续事件持久化 |
+| `skill.applied` | 当前 Harness session 明确应用 `code-knowledge-builder` | 写入激活记录，single-flight 启动并握手会话 stdio，开启后续事件持久化 |
 | `session.start` | Harness 会话建立或恢复 | 建立会话、保存初始 Git 工作树范围 |
 | `turn.prompt` | 用户消息进入当前轮次 | 保存脱敏 prompt，建立或复用活动 turn |
 | `turn.assistant` | Harness 提供 Assistant 消息 | 更新本轮最终说明候选 |
 | `tool.result` | 工具成功或失败后 | 保存工具证据和可确定的项目内路径 |
 | `file.changed` | Harness 文件观察事件 | 保存项目内文件变化证据 |
-| `turn.stop` | 一轮最终回答完成 | 聚合本轮并生成机器层待审阅记录 |
+| `turn.stop` | 一轮最终回答完成 | 聚合本轮并生成机器层待审阅记录；保留 stdio PID 供继续追问 |
 | `compact.before` | 上下文压缩前 | 保存检查点事件 |
 | `compact.after` | 上下文压缩后 | 保存压缩完成事件 |
-| `session.end` | 主会话结束 | 关闭会话；活动轮次存在时先生成待审阅记录 |
+| `session.end` | 主会话结束 | 关闭会话；活动轮次存在时先生成待审阅记录；确定性回收 stdio 与全部拥有对象 |
 
 Harness 有原生 turn ID 时直接使用；Claude Code 等未提供 turn ID 的事件，脚本按会话内活动轮次和固定序号归并。相同 prompt 在活动轮次内重试会去重；上一轮完成后再次提交相同 prompt 会建立新轮次。工具事件优先使用 Harness 的 tool-use ID。
 
@@ -98,6 +99,8 @@ Harness 有原生 turn ID 时直接使用；Claude Code 等未提供 turn ID 的
   --registry REGISTRY
 ```
 
+激活返回 `session_stdio`：成功时包含不可逆生命周期摘要、`state=ready` 对应的 supervisor/server PID、协议版本和父进程监督能力；失败时包含 `mode=cli-fallback`、`resident=false` 和有界原因。Harness 提供可靠宿主 PID 时增加 `--parent-pid PID`。测试或隔离运行可用 `--stdio-root ROOT` 指定 lease 根；生产默认位于 `~/.ckb/session-stdio`。
+
 Codex 可从 `CODEX_SESSION_ID` / `CODEX_THREAD_ID` 推断 session；其他适配器可以传入自己的 session ID。确定性自动激活证据包括：
 
 - prompt 中的精确 `$code-knowledge-builder` 或 `/code-knowledge-builder`；
@@ -107,7 +110,7 @@ Codex 可从 `CODEX_SESSION_ID` / `CODEX_THREAD_ID` 推断 session；其他适�
 - payload 中精确的 `active_skill` / `applied_skills` 等元数据；
 - generic `canonical_type=skill.applied`、`skill_name=code-knowledge-builder`。
 
-普通自然语言中的项目名称只视为讨论内容。激活按 `Harness + session_id + repo_root + skill_name` 唯一，重放返回 `already-activated`。同一 session 恢复时继续沿用激活；另一个 session 重新经过独立激活门。
+普通自然语言中的项目名称只视为讨论内容。激活按 `Harness + session_id + repo_root + skill_name` 唯一，重放返回 `already-activated` 并复用健康 PID。同一 session 的 `turn.stop` 后继续沿用；`session.end` 删除当前激活并关闭 lease，因此相同外部 ID 的下一次精确 Skill 应用会创建新 generation、新进程和新进程内缓存。启动轮询只接受本次 16 位十六进制 generation 的 lease，不把上一代 `closed` 状态误判为本次启动失败。
 
 其他 Harness 通过 `automation render --harness generic` 获得 JSON Schema。最小事件为：
 
@@ -235,7 +238,7 @@ Agent 必须重新打开变化路径和关联知识页，把机器草稿重写�
 
 `opencode` 生成稳定 Plugin API 文件，使用 `session.created`、`message.updated`、`file.edited`、`session.idle`、`session.deleted` 和 `tool.execute.after`。将文件放入项目 `.opencode/plugins/`。
 
-`opencode-v2` 生成当前 V2 beta API 文件，使用 `ctx.session.hook("context")`、`ctx.tool.hook("execute.after")` 和公共事件流；同时兼容过渡期 `session.idle` 与当前 `session.execution.succeeded.1` / `session.execution.failed.1` 终态。它只用于与 V2 Plugin API 版本匹配的 OpenCode；升级 OpenCode 后重新生成并运行 canary。V2 API 仍处于 beta，因此 `integration.json` 固定适配器版本，不能把 stable 与 V2 文件混装。
+`opencode-v2` 生成当前 V2 beta API 文件，使用 `ctx.session.hook("context")`、`ctx.tool.hook("execute.after")` 和公共事件流；同时兼容过渡期 `session.idle` 与当前 `session.execution.succeeded.1` / `session.execution.failed.1` 终态。stable/V2 Plugin 都把自己的长寿命 `process.pid` 作为可靠 `harness_pid`，V2 unload 还为已见 session 发送 `SessionEnd`，父死亡监督作为漏发结束事件时的兜底。它只用于与 V2 Plugin API 版本匹配的 OpenCode；升级 OpenCode 后重新生成并运行 canary。V2 API 仍处于 beta，因此 `integration.json` 固定适配器版本，不能把 stable 与 V2 文件混装。
 
 ### DeepSeek Harness
 
@@ -257,7 +260,25 @@ DSH 生成 Codex 方言的四事件 Hook 配置和 `cordis.yml.fragment`，供�
 
 ### 其他 Harness
 
-使用 generic JSON Schema 和 stdin CLI。Harness 至少发送 `session.start`、`turn.prompt`、修改相关 `tool.result`、`turn.stop`；提供 `session.end` 和 compact 事件可改善恢复记录，但不是每轮持久化的必要条件。
+使用 generic JSON Schema 和 stdin CLI。Harness 至少发送 `session.start`、精确 `skill.applied`、`turn.prompt`、修改相关 `tool.result`、`turn.stop` 和 `session.end`；若能稳定识别长寿命宿主进程，可在事件增加正整数 `harness_pid`。省略可靠 PID 时 `integration.json` 标记父死亡监督降级，必须依靠 `session.end`、`stdio-session close` 或 `stdio-session cleanup`，不得由短命 Hook 的退出伪装成会话关闭。
+
+## stdio 生命周期操作与审计
+
+```powershell
+& PYTHON scripts\ckb.py stdio-session list --active
+& PYTHON scripts\ckb.py stdio-session status --harness HARNESS --session-id SESSION_ID --out OUTPUT
+& PYTHON scripts\ckb.py stdio-session close --harness HARNESS --session-id SESSION_ID --out OUTPUT
+& PYTHON scripts\ckb.py stdio-session terminate --harness HARNESS --session-id SESSION_ID --out OUTPUT
+& PYTHON scripts\ckb.py stdio-session cancel --harness HARNESS --session-id SESSION_ID --out OUTPUT
+& PYTHON scripts\ckb.py stdio-session cleanup
+& PYTHON scripts\ckb.py stdio-session audit
+```
+
+状态文件只保存生命周期键摘要、Harness、session 摘要、OUTPUT、PID、协议、时间、fallback 和对象计数，不保存 prompt、Assistant 内容、凭据、transcript 或完整工具输入。关闭先拒绝新请求，再发送协议 `shutdown`；超时才升级 `terminate` 与 `kill`，每条路径都执行 wait/reap。`audit` 在关闭后要求活动 lease、进程、pending、reader、timer、listener、pipe、session mapping 和 cache reference 为 0。
+
+Windows 锁定 runtime 使用非 `\\?\` 路径时，生命周期目录预算为 223 个字符，最长生成路径预算为 259 个字符。实现使用紧凑 lease 临时名和 16 位 request token；超预算返回包含实际字符数与两个固定上限的结构化 fallback。状态中的 `path_budget` 可直接审计本次目录长度。
+
+回滚前先使用当前版本执行 `stdio-session cleanup`；确认 `stdio-session audit` 无活动对象后，再回退实现提交。回退后旧逐命令 CLI 和显式 `serve --stdio` 保持可用，稳定知识库缓存与记录不属于会话 lease，不会被清理命令删除。
 
 ## 完成门
 
