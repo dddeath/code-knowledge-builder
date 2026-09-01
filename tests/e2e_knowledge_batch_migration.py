@@ -28,6 +28,7 @@ from ckb_core.knowledge_batch_migration import (
     cutover_knowledge_batch_state,
     rollback_knowledge_batch_state,
 )
+from ckb_core.machine_knowledge import retrieve_machine
 from ckb_core.scope_extension import _tree_manifest
 
 
@@ -210,9 +211,15 @@ def run_e2e(write_report: Path | None = None) -> dict[str, Any]:
     try:
         projects = []
         origins = {}
+        retrieval = {}
         for fixture in fixture_doc["fixtures"]:
             repo, output, fixture_commands = historical_output(root, fixture)
             commands.extend(fixture_commands)
+            old_result = retrieve_machine(output, "calculate", 800, 4, "fast")
+            retrieval[fixture["fixture_id"]] = {
+                "old_status": old_result["status"],
+                "old_selected_count": len(old_result.get("selected_entities", [])),
+            }
             projects.append(project_manifest(root, fixture, repo, output))
             origins[fixture["fixture_id"]] = _tree_manifest(output)
         manifest = root / "manifest.json"
@@ -233,6 +240,22 @@ def run_e2e(write_report: Path | None = None) -> dict[str, Any]:
         applied = apply_knowledge_batch_plan(plan_path, state_path)
         if applied["status"] != "ready":
             raise RuntimeError(json.dumps(applied, ensure_ascii=False, indent=2))
+        for project in projects:
+            new_result = retrieve_machine(Path(project["staging"]), "calculate", 800, 4, "fast")
+            retrieval[project["project_id"]].update(
+                {
+                    "new_status": new_result["status"],
+                    "new_selected_count": len(new_result.get("selected_entities", [])),
+                }
+            )
+        if any(
+            value["old_status"] != "passed"
+            or value["new_status"] != "passed"
+            or value["old_selected_count"] < 1
+            or value["new_selected_count"] < 1
+            for value in retrieval.values()
+        ):
+            raise RuntimeError(f"old/new center retrieval failed: {retrieval}")
         audited = audit_knowledge_batch_state(state_path)
         if audited["status"] != "passed":
             raise RuntimeError(json.dumps(audited, ensure_ascii=False, indent=2))
@@ -259,6 +282,7 @@ def run_e2e(write_report: Path | None = None) -> dict[str, Any]:
             "cutover_status": cutover["status"],
             "rollback_status": rollback["status"],
             "byte_exact_restored": restored,
+            "old_and_new_retrieval": retrieval,
         }
         if write_report:
             json_write(write_report.resolve(), result)

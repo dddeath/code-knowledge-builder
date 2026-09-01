@@ -65,6 +65,7 @@ class KnowledgeBatchVersionMatrixTests(unittest.TestCase):
             release = next(value for value in KNOWLEDGE_RELEASES.values() if value.release_id.startswith(item["ckb_version"]) and value.source_commit == item["source_commit"])
             self.assertEqual(item["schema_version"], release.schema_version)
             self.assertEqual(item["protocol_version"], release.protocol_version)
+            self.assertEqual(item["machine_schema_version"], release.machine_schema_version)
 
 
 class KnowledgeBatchWorkflowTests(unittest.TestCase):
@@ -231,6 +232,8 @@ class KnowledgeBatchWorkflowTests(unittest.TestCase):
         self.assertEqual(48, dry["projects"][0]["origin_layers"]["work_record_count"])
         self.assertEqual(1, dry["projects"][0]["origin_layers"]["reference_count"])
         self.assertEqual(3, dry["projects"][0]["origin_layers"]["gap_count"])
+        self.assertEqual(2, dry["projects"][0]["origin_layers"]["learning_note_count"])
+        self.assertEqual([], dry["projects"][0]["origin_layers"]["learning_note_mirror_errors"])
         plan_path = self.root / "plan.json"
         create_knowledge_batch_plan(manifest, plan_path)
         state_path = self.root / "state.json"
@@ -399,6 +402,19 @@ class KnowledgeBatchWorkflowTests(unittest.TestCase):
         result = plan_for(project, "bad-sqlite")
         self.assertEqual("origin-sqlite", result["projects"][0]["failure"]["category"])
 
+        wrong_schema, project = case_project("wrong-sqlite-schema")
+        import sqlite3
+
+        connection = sqlite3.connect(wrong_schema / "machine/knowledge.sqlite")
+        try:
+            connection.execute("UPDATE meta SET value='999' WHERE key='schema_version'")
+            connection.commit()
+        finally:
+            connection.close()
+        refresh(project, wrong_schema)
+        result = plan_for(project, "wrong-sqlite-schema")
+        self.assertEqual("source-sqlite-schema", result["projects"][0]["failure"]["category"])
+
         mirror, project = case_project("mirror-drift")
         page = next((mirror / "markdown/pages").glob("*.md"))
         page.write_text(page.read_text(encoding="utf-8") + "\n镜像漂移。\n", encoding="utf-8")
@@ -453,6 +469,70 @@ class KnowledgeBatchWorkflowTests(unittest.TestCase):
         )
         with self.assertRaises(CkbError):
             create_knowledge_batch_plan(manifest)
+
+    def test_apply_rejects_manifest_origin_and_repository_drift_before_staging_write(self) -> None:
+        from ckb_core.common import CkbError, json_load, json_write
+        from ckb_core.knowledge_batch_migration import (
+            apply_knowledge_batch_plan,
+            create_knowledge_batch_plan,
+            resume_knowledge_batch_state,
+        )
+
+        manifest = self._manifest()
+        plan_path = self.root / "plan.json"
+        create_knowledge_batch_plan(manifest, plan_path)
+        changed_manifest = json_load(manifest)
+        changed_manifest["projects"][0]["harnesses"].append("dsh")
+        json_write(manifest, changed_manifest)
+        state_path = self.root / "state.json"
+        with self.assertRaises(CkbError):
+            apply_knowledge_batch_plan(plan_path, state_path)
+        self.assertFalse(state_path.exists())
+        self.assertFalse(self.staging.exists())
+
+        self._manifest()
+        create_knowledge_batch_plan(manifest, plan_path)
+        wiki = self.output / "human/WIKI.md"
+        original = wiki.read_bytes()
+        wiki.write_bytes(original + "\n漂移。\n".encode("utf-8"))
+        failed = apply_knowledge_batch_plan(plan_path, state_path)
+        project = failed["projects"][0]
+        self.assertEqual("origin-drift", project["failure"]["category"])
+        self.assertFalse(self.staging.exists())
+        wiki.write_bytes(original)
+
+        (self.repo / "dirty.py").write_text("value = 1\n", encoding="utf-8")
+        failed = resume_knowledge_batch_state(state_path)
+        project = failed["projects"][0]
+        self.assertEqual("repository-drift", project["failure"]["category"])
+        self.assertFalse(self.staging.exists())
+
+    def test_owner_token_lock_serializes_apply_and_cutover_then_allows_retry(self) -> None:
+        from ckb_core.knowledge_batch_migration import (
+            _knowledge_output_lock,
+            apply_knowledge_batch_plan,
+            create_knowledge_batch_plan,
+            cutover_knowledge_batch_state,
+            resume_knowledge_batch_state,
+            rollback_knowledge_batch_state,
+        )
+
+        manifest = self._manifest()
+        plan_path = self.root / "plan.json"
+        create_knowledge_batch_plan(manifest, plan_path)
+        state_path = self.root / "state.json"
+        with _knowledge_output_lock(self.output):
+            busy = apply_knowledge_batch_plan(plan_path, state_path)
+        self.assertEqual("concurrent-output-lock", busy["projects"][0]["failure"]["category"])
+        resumed = resume_knowledge_batch_state(state_path)
+        self.assertEqual("ready", resumed["status"], resumed)
+        with _knowledge_output_lock(self.output):
+            busy_cutover = cutover_knowledge_batch_state(state_path)
+        self.assertEqual("concurrent-output-lock", busy_cutover["projects"][0]["failure"]["category"])
+        retried = cutover_knowledge_batch_state(state_path)
+        self.assertEqual("passed", retried["status"], retried)
+        rolled = rollback_knowledge_batch_state(state_path)
+        self.assertEqual("passed", rolled["status"], rolled)
 
 
 if __name__ == "__main__":

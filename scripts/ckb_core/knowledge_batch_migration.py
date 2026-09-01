@@ -114,6 +114,7 @@ class KnowledgeRelease:
     ckb_version: str
     schema_version: int
     protocol_version: str | None
+    machine_schema_version: int
     source_commit: str
     next_release_id: str | None
     compatible: bool
@@ -128,6 +129,7 @@ KNOWLEDGE_RELEASES: dict[str, KnowledgeRelease] = {
         "5.1.1",
         4,
         None,
+        1,
         "5034de2cc81e36385cbbe794d8105d2de687c725",
         "5.1.4-s4-p1.0.0",
         False,
@@ -137,6 +139,7 @@ KNOWLEDGE_RELEASES: dict[str, KnowledgeRelease] = {
         "5.1.4",
         4,
         "1.0.0",
+        1,
         "c0e6cb650d707512d0edbcc481db373359a8f46f",
         "5.2.9-s4-p1.3.0",
         True,
@@ -146,6 +149,7 @@ KNOWLEDGE_RELEASES: dict[str, KnowledgeRelease] = {
         "5.2.9",
         4,
         "1.3.0",
+        1,
         "3f117b8a3565b24633b88799a3ee180d6b3451ab",
         "5.3.0-s4-p1.3.0",
         True,
@@ -155,6 +159,7 @@ KNOWLEDGE_RELEASES: dict[str, KnowledgeRelease] = {
         "5.3.0",
         4,
         "1.3.0",
+        2,
         "b666233cd4ec2cd1aecb3e6a7b194f61613be662",
         "5.3.0-s4-p1.4.0",
         True,
@@ -164,6 +169,7 @@ KNOWLEDGE_RELEASES: dict[str, KnowledgeRelease] = {
         "5.3.0",
         4,
         "1.4.0",
+        2,
         "02b3f9bae10663f8d8d41626bb52454a226d4228",
         "5.4.0-s4-p1.5.0",
         True,
@@ -173,6 +179,7 @@ KNOWLEDGE_RELEASES: dict[str, KnowledgeRelease] = {
         "5.4.0",
         4,
         "1.5.0",
+        3,
         "2d1ddc4de65c36c2ebe244e3d0556d4b613b2d3d",
         None,
         True,
@@ -269,6 +276,7 @@ def knowledge_version_matrix() -> dict[str, Any]:
                 "ckb_version": item.ckb_version,
                 "schema_version": item.schema_version,
                 "protocol_version": item.protocol_version,
+                "machine_schema_version": item.machine_schema_version,
                 "source_commit": item.source_commit,
                 "next_release_id": item.next_release_id,
                 "compatible": item.compatible,
@@ -514,6 +522,25 @@ def _complete_layer_inventory(output: Path, mutable_files: list[dict[str, Any]] 
     }
 
 
+def _sqlite_schema_versions(output: Path) -> dict[str, str | None]:
+    versions: dict[str, str | None] = {}
+    for relative in ("machine/knowledge.sqlite", "agent-index.sqlite"):
+        path = output / relative
+        if not path.is_file():
+            versions[relative] = None
+            continue
+        connection = sqlite3.connect(f"file:{path.as_posix()}?mode=ro", uri=True)
+        try:
+            row = connection.execute("SELECT value FROM meta WHERE key='schema_version'").fetchone()
+        except sqlite3.Error:
+            versions[relative] = None
+        else:
+            versions[relative] = str(row[0]) if row else None
+        finally:
+            connection.close()
+    return versions
+
+
 def _normalized_scope(value: Any, location: str) -> dict[str, Any]:
     scope = _object(value, location)
     _reject_unknown(scope, SCOPE_KEYS, location)
@@ -678,7 +705,10 @@ def _inspect_knowledge_project(project: dict[str, Any], roots: list[Path]) -> di
     actual_scope = _normalized_scope((health["scope"].get("selectors") or {}), f"{project_id}.actual-scope")
     if actual_scope != scope_selectors:
         raise BatchProjectError("scope-selector-mismatch", f"origin scope selectors differ from manifest for {project_id}")
-    repository_state = preflight(repository)
+    try:
+        repository_state = preflight(repository)
+    except CkbError as exc:
+        raise BatchProjectError("target-repository-drift", f"target repository is not a clean fixed snapshot for {project_id}: {exc}") from exc
     if {"commit": repository_state["commit"], "tree": repository_state["tree"]} != target_snapshot:
         raise BatchProjectError("target-repository-drift", f"target repository commit/tree differs from manifest for {project_id}")
     if target["ckb_version"] != VERSION or target["schema_version"] != SCHEMA_VERSION or _normalized_protocol(target.get("protocol_version")) != AGENT_PROTOCOL_VERSION:
@@ -687,6 +717,17 @@ def _inspect_knowledge_project(project: dict[str, Any], roots: list[Path]) -> di
     target_release = _release_for(target)
     if target_release is None:
         raise BatchProjectError("target-release-unknown", f"target release provenance is absent from the frozen matrix for {project_id}")
+    sqlite_versions = _sqlite_schema_versions(output)
+    if source_release is not None:
+        expected_sqlite_versions = {
+            "machine/knowledge.sqlite": str(source_release.machine_schema_version),
+            "agent-index.sqlite": "1",
+        }
+        if sqlite_versions != expected_sqlite_versions:
+            raise BatchProjectError(
+                "source-sqlite-schema",
+                f"origin SQLite schema versions differ from the historical release for {project_id}: {sqlite_versions} != {expected_sqlite_versions}",
+            )
     if source_release is None:
         decision = "awaiting-review"
         chain: list[KnowledgeRelease] = []
@@ -746,6 +787,7 @@ def _inspect_knowledge_project(project: dict[str, Any], roots: list[Path]) -> di
         "origin_records": {relative: _file_record(output, relative) for relative in sorted(expected_records)},
         "origin_layers": layers,
         "sqlite": health["sqlite"],
+        "sqlite_schema_versions": sqlite_versions,
         "cutover": {"output": str(cutover_output), "backup_root": str(backup_root)},
         "rollback": {"quarantine_root": str(quarantine_root)},
         "max_path": maximum,
@@ -840,6 +882,23 @@ def _load_knowledge_batch_plan(path: Path) -> dict[str, Any]:
     if _digest_value(body) != digest:
         raise CkbError(f"knowledge batch plan digest mismatch: {path}")
     return plan
+
+
+def _verify_plan_manifest_binding(plan: dict[str, Any]) -> None:
+    manifest_path = Path(str(plan.get("manifest"))).expanduser().resolve()
+    manifest = load_knowledge_batch_manifest(manifest_path)
+    roots, projects = _validate_structural_manifest(manifest)
+    normalized = {
+        "schema_version": KNOWLEDGE_BATCH_MANIFEST_SCHEMA_VERSION,
+        "batch_id": manifest["batch_id"],
+        "allowed_roots": sorted(str(path) for path in roots),
+        "projects": sorted(projects, key=lambda item: str(item["project_id"])),
+    }
+    actual = _digest_value(normalized)
+    if actual != plan.get("manifest_digest"):
+        raise CkbError(
+            f"knowledge batch manifest changed after plan: expected {plan.get('manifest_digest')}, found {actual}"
+        )
 
 
 def _save_knowledge_state(path: Path, state: dict[str, Any]) -> None:
@@ -976,7 +1035,10 @@ def _verify_plan_bindings(project: dict[str, Any]) -> None:
     actual = _tree_manifest(output)
     if not _manifest_matches(project["origin_manifest"], actual):
         raise BatchProjectError("origin-drift", f"origin knowledge OUTPUT changed after plan: {project['project_id']}")
-    repository = preflight(Path(project["repository"]))
+    try:
+        repository = preflight(Path(project["repository"]))
+    except CkbError as exc:
+        raise BatchProjectError("repository-drift", f"target repository is no longer the clean planned snapshot: {project['project_id']}: {exc}") from exc
     if {"commit": repository["commit"], "tree": repository["tree"]} != project["target_snapshot"]:
         raise BatchProjectError("repository-drift", f"target repository changed after plan: {project['project_id']}")
 
@@ -1220,6 +1282,14 @@ def _knowledge_project_audit(project: dict[str, Any], project_state: dict[str, A
         sqlite_checks,
         "sqlite-integrity",
     )
+    sqlite_versions = _sqlite_schema_versions(staging)
+    expected_sqlite_versions = {"machine/knowledge.sqlite": "3", "agent-index.sqlite": "1"}
+    check(
+        "current-sqlite-schema-versions",
+        sqlite_versions == expected_sqlite_versions,
+        {"expected": expected_sqlite_versions, "actual": sqlite_versions},
+        "sqlite-schema-version",
+    )
     preservation = _mutable_preservation_check(staging, record)
     check("all-mutable-layers-preserved", preservation["passed"], preservation, "mutable-layer-loss")
     old_ids = _old_entity_id_errors(staging)
@@ -1261,6 +1331,7 @@ def _knowledge_project_audit(project: dict[str, Any], project_state: dict[str, A
         "origin_layers": record.get("origin_layers"),
         "current_layers": _complete_layer_inventory(staging, record.get("mutable_files")),
         "sqlite": sqlite_checks,
+        "sqlite_schema_versions": sqlite_versions,
         "audited_at_utc": utc_now(),
     }
     json_write(staging / "knowledge-batch/audit.json", result)
@@ -1359,6 +1430,7 @@ def apply_knowledge_batch_plan(
     plan_path = plan_path.expanduser().resolve()
     state_path = state_path.expanduser().resolve()
     plan = _load_knowledge_batch_plan(plan_path)
+    _verify_plan_manifest_binding(plan)
     for project in plan["projects"]:
         if path_inside(state_path, Path(project["output"])) or path_inside(state_path, Path(project["staging"])):
             raise CkbError("knowledge batch state must be outside every OUTPUT and staging directory")
@@ -1410,6 +1482,7 @@ def knowledge_batch_status(state_path: Path) -> dict[str, Any]:
     state_path = state_path.expanduser().resolve()
     state = _load_knowledge_state(state_path)
     plan = _load_knowledge_batch_plan(Path(state["plan"]))
+    _verify_plan_manifest_binding(plan)
     plan_by_id = {item["project_id"]: item for item in plan["projects"]}
     projects = []
     drifted = 0
@@ -1468,6 +1541,7 @@ def audit_knowledge_batch_state(state_path: Path) -> dict[str, Any]:
     state_path = state_path.expanduser().resolve()
     state = _load_knowledge_state(state_path)
     plan = _load_knowledge_batch_plan(Path(state["plan"]))
+    _verify_plan_manifest_binding(plan)
     plan_by_id = {item["project_id"]: item for item in plan["projects"]}
     results = []
     for project_id in sorted(state["projects"]):
@@ -1732,6 +1806,7 @@ def cutover_knowledge_batch_state(
     state_path = state_path.expanduser().resolve()
     state = _load_knowledge_state(state_path)
     plan = _load_knowledge_batch_plan(Path(state["plan"]))
+    _verify_plan_manifest_binding(plan)
     plan_by_id = {item["project_id"]: item for item in plan["projects"]}
     requested = sorted(set(project_ids or []))
     unknown = sorted(set(requested) - set(plan_by_id))
@@ -1883,6 +1958,7 @@ def rollback_knowledge_batch_state(
     state_path = state_path.expanduser().resolve()
     state = _load_knowledge_state(state_path)
     plan = _load_knowledge_batch_plan(Path(state["plan"]))
+    _verify_plan_manifest_binding(plan)
     plan_by_id = {item["project_id"]: item for item in plan["projects"]}
     requested = sorted(set(project_ids or []))
     unknown = sorted(set(requested) - set(plan_by_id))
