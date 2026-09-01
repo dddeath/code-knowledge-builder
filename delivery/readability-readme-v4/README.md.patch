@@ -2,26 +2,26 @@ diff --git a/README.md b/README.md
 index 15230c5..72e15b5 100644
 --- a/README.md
 +++ b/README.md
-@@ -1,175 +1,178 @@
+@@ -1 +1 @@
 -# Code Knowledge Builder 5.4.0 使用教程
 +# Code Knowledge Builder 5.4.0
- 
+@@ -3 +3 @@
 -Code Knowledge Builder（CKB）把一个干净 Git 提交固定为不可漂移的源码快照，并生成两套互相校验的知识层：Agent 使用 SQLite 和预算化阅读包定位实体、关系与源码范围；人类使用简体中文 Markdown 页面、工作记录、reference 和 research gap 理解项目。默认检索不调用向量模型或外部 LLM。
 +Code Knowledge Builder（CKB）把一个干净的 Git 提交转换为可供 Agent 检索、也可供人类阅读的项目知识库。人类从任务入口、职责页面和历史记录理解项目；Agent 从机器索引定位相关源码范围。
- 
+@@ -5 +5 @@ Code Knowledge Builder（CKB）把一个干净 Git 提交固定为不可漂移
 -本分支同时提供 CKB 源码、当前稳定知识库和可独立运行的发布校验工具。第一次使用时先完成下面的五分钟流程；需要为自己的代码仓库建库时，再继续阅读“构建新的知识库”。
 +## 先选择你要完成的任务
- 
+@@ -7 +7,5 @@ Code Knowledge Builder（CKB）把一个干净 Git 提交固定为不可漂移
 -## 五分钟开始
 +| 你现在需要什么 | 继续阅读 | 完成后得到什么 |
 +|---|---|---|
 +| 先看懂下载内容和知识库入口 | [了解本项目知识库结构](#了解本项目知识库结构) | 知道各目录保存什么，并能从人类入口开始阅读 |
 +| 尚未安装 Code Knowledge Builder | [让 Agent 安装本项目](#让-agent-安装本项目) | 项目、Git LFS 内容、Skill 和运行环境均通过安装验收 |
 +| 已经安装，想了解自己的代码仓库 | [让 Agent 解释自己的项目](#让-agent-解释自己的项目) | 为目标仓库建立或接管知识库，并得到带源码依据的回答 |
- 
+@@ -9 +13 @@ Code Knowledge Builder（CKB）把一个干净 Git 提交固定为不可漂移
 -### 1. 克隆并展开 Git LFS
 +## 了解本项目知识库结构
- 
+@@ -11,9 +15 @@ Code Knowledge Builder（CKB）把一个干净 Git 提交固定为不可漂移
 -```powershell
 -git lfs install
 -git clone --branch codex/release-5.4.0-stable-knowledge --single-branch https://github.com/dddeath/code-knowledge-builder.git
@@ -32,7 +32,7 @@ index 15230c5..72e15b5 100644
 -
 -仓库使用 Git LFS 保存 `*.sqlite` 和 `*.zip`。如果没有执行 `git lfs pull`，工作树中可能只有指针文件，知识库和发布校验都不会得到完整输入。
 +下载本项目后，首先会看到四个入口：
- 
+@@ -21 +17,8 @@ git lfs fsck
 -### 2. 验证发布内容
 +```text
 +code-knowledge-builder/
@@ -42,7 +42,7 @@ index 15230c5..72e15b5 100644
 +├─ delivery/                  发布校验结果与回滚工具
 +└─ publication-manifest.json  发布范围、固定版本与文件清单
 +```
- 
+@@ -23,4 +26,14 @@ git lfs fsck
 -```powershell
 -python .\delivery\verify-publication.py `
 -  --root . `
@@ -61,14 +61,13 @@ index 15230c5..72e15b5 100644
 +├─ markdown/            与 human 对应的 Obsidian 兼容镜像
 +├─ machine/             Agent 使用的检索数据库与来源证据
 +└─ AGENTS.md            Agent 自动发现的知识库使用规则
- ```
- 
+@@ -29 +42 @@ python .\delivery\verify-publication.py `
 -校验程序会逐文件检查 `source/` 与 `knowledge-base/`，并验证完成标记、双 SQLite、human/markdown 镜像、readability、工作记录、reference、research gap、两份学习笔记原始字节和 Git LFS 对象。
 +人类从 `knowledge-base/human/INDEX.md` 开始即可。想了解某项功能现在如何工作时进入职责页；想了解为什么发生变化时进入工作记录；想核对外部资料时进入 reference。`machine/` 由 Agent 使用。
- 
+@@ -31 +44 @@ python .\delivery\verify-publication.py `
 -### 3. 设置本轮命令变量
 +## 让 Agent 安装本项目
- 
+@@ -33,7 +46 @@ python .\delivery\verify-publication.py `
 -```powershell
 -$env:PYTHONUTF8 = '1'
 -$env:PYTHONIOENCODING = 'utf-8'
@@ -77,21 +76,21 @@ index 15230c5..72e15b5 100644
 -$PublishedOut = (Resolve-Path '.\knowledge-base').Path
 -$Out = $PublishedOut
 +下面的 Prompt 负责下载并安装 Code Knowledge Builder。安装位置可以省略，由 Agent 使用当前 Harness 的标准位置。
- 
+@@ -41,2 +48,2 @@ $Out = $PublishedOut
 -& $Python $Ckb doctor --json
 -```
 +<details>
 +<summary>复制给 Agent：安装 Code Knowledge Builder</summary>
- 
+@@ -44 +51,2 @@ $Out = $PublishedOut
 -`doctor` 用于确认 Python、解析器、SQLite 和本地工具是否满足当前命令。退出状态 `3` 表示缺少依赖或完整 runtime 尚未部署，应先按返回项补齐运行环境。
 +```text
 +请安装 Code Knowledge Builder 项目及其 code-knowledge-builder Skill。
- 
+@@ -46 +54,3 @@ $Out = $PublishedOut
 -## 发布目录分别保存什么
 +项目来源：https://github.com/dddeath/code-knowledge-builder
 +发布分支：codex/release-5.4.0-stable-knowledge
 +安装位置：<可省略；默认使用当前 Harness 的标准项目与 Skill 目录>
- 
+@@ -48,4 +58,7 @@ $Out = $PublishedOut
 -- `source/`：CKB 5.4.0 源码和正式协议文档。
 -- `knowledge-base/`：绑定固定源码快照的完整稳定知识库，包括事实层、机器 SQLite、兼容 SQLite、human/markdown 镜像、工作记录、reference、research gap、操作日志和学习笔记。
 -- `delivery/`：发布清单、只读校验程序、测试证据和回滚脚本。
@@ -103,17 +102,17 @@ index 15230c5..72e15b5 100644
 +4. 验证当前 Harness 能发现并调用该 Skill，检查 Python、解析器、SQLite 和本地依赖；
 +5. 执行一个不修改业务仓库的最小检索探针；
 +6. 返回安装验收摘要：项目位置、发布分支与提交、Skill 位置、运行环境、Git LFS、发布校验、检索探针和卸载或回滚入口。
- 
+@@ -53 +66,2 @@ $Out = $PublishedOut
 -`knowledge-base/.source-snapshot/worktree` 保存建库时的固定源码字节。发布仓库不会在该目录中嵌套 `.git` 管理文件。
 +本次只完成 Code Knowledge Builder 安装。不要为其他仓库建立知识库，也不要开始解释业务代码。
 +```
- 
+@@ -55 +69 @@ $Out = $PublishedOut
 -## 阅读现有知识库
 +</details>
- 
+@@ -57 +71 @@ $Out = $PublishedOut
 -不运行任何 CKB 命令也可以直接阅读以下入口：
 +## 让 Agent 解释自己的项目
- 
+@@ -59,8 +73 @@ $Out = $PublishedOut
 -| 目标 | 入口 |
 -|---|---|
 -| 按任务选择阅读路径 | `knowledge-base/human/INDEX.md` |
@@ -123,24 +122,24 @@ index 15230c5..72e15b5 100644
 -| 浏览人类知识页 | `knowledge-base/human/pages/` |
 -| 使用 Obsidian 兼容镜像 | `knowledge-base/markdown/` |
 +完成安装后，把下面的 Prompt 交给位于目标仓库中的 Agent。只需说明仓库和问题；仓库留空时，Agent 使用当前工作区内唯一的 Git 仓库。
- 
+@@ -68 +75,2 @@ $Out = $PublishedOut
 -`human/` 与 `markdown/` 中对应知识页应逐字节一致。`human/pages`、`markdown/pages`、`INDEX.md`、`WIKI.md`、`RECORDS.md`、`REFERENCES.md`、投影清单和 SQLite 都由生成器管理，不直接编辑。
 +<details>
 +<summary>复制给 Agent：为自己的仓库建库并解释项目</summary>
- 
+@@ -70 +78,2 @@ $Out = $PublishedOut
 -## 让 Agent 先检索再读源码
 +```text
 +请使用已安装的 $code-knowledge-builder 为我的代码仓库建立或接管知识库，然后回答问题。
- 
+@@ -72 +81,2 @@ $Out = $PublishedOut
 -`brief`、`retrieve` 等查询会在知识库中保存 Agent pack 和操作证据。如果需要保持发布分支工作树完全干净，应在隔离副本中查询；完成迁移或重新建库后，把 `$Out` 改为活动知识库路径。
 +repository=<本地 Git 仓库或 Git URL；留空时使用当前工作区内唯一的 Git 仓库>
 +question=<我想了解的项目问题>
- 
+@@ -74 +84,3 @@ $Out = $PublishedOut
 -### 1. 使用紧凑首轮入口
 +可选参数：
 +knowledge_base=<知识库位置；省略时使用源码仓库同级的 knowledge-base>
 +scope=<目录或入口符号；省略时覆盖整个仓库>
- 
+@@ -76,7 +88,8 @@ $Out = $PublishedOut
 -```powershell
 -$Brief = & $Python $Ckb brief `
 -  --out $Out `
@@ -156,33 +155,31 @@ index 15230c5..72e15b5 100644
 +5. 使用 brief 获取紧凑阅读包，按阅读包回答 question，并区分已确认事实、推断和待核验内容；
 +6. 运行知识库维护门和一个与 question 对应的真实检索验证；
 +7. 返回交付摘要：固定源码版本、知识库位置、人类入口、覆盖范围、待审阅项、双 SQLite、镜像、检索验证、feedback、research gap、维护结果、回答依据和回滚入口。
- 
+@@ -84 +97 @@ $Brief = & $Python $Ckb brief `
 -Get-Content $Brief.pack -Raw
 +本次从已经安装的 Skill 开始，不重复安装 Code Knowledge Builder。
- ```
- 
+@@ -87 +100 @@ Get-Content $Brief.pack -Raw
 -`brief` 返回两个不同文件：
 +</details>
- 
+@@ -89,2 +102 @@ Get-Content $Brief.pack -Raw
 -- `pack`：预算内的 Markdown 阅读包，先打开它；
 -- `record`：完整 JSON 检索记录，供 `record --from-pack` 回链和排序调试使用。
 +`Skill` 是 Agent 可发现并按约定调用的一组本地说明、脚本和资源。`Git LFS`（Git Large File Storage）用于把大型二进制文件作为独立对象下载，避免仓库只留下指针文本。`Harness` 是承载 Agent 会话、工具和生命周期事件的宿主，例如 Codex、Claude Code 或 OpenCode。
- 
+@@ -92 +104 @@ Get-Content $Brief.pack -Raw
 -不要把 Markdown `pack` 路径传给 `record --from-pack`；该参数使用 `$Brief.record` 指向的 JSON 文件。
 +### 安装后的解释与使用
- 
+@@ -94 +106 @@ Get-Content $Brief.pack -Raw
 -若 `$Brief.open_feedback` 大于零，先读取开放反馈：
 +完成安装 Prompt 后，人类可以直接使用前面的解释 Prompt；只有需要核对安装、复现检索或控制高级行为时，才使用下面的命令行入口。
- 
+@@ -96,3 +108 @@ Get-Content $Brief.pack -Raw
 -```powershell
 -& $Python $Ckb feedback list --out $Out --status open
 -```
 +#### 复核发布包和运行环境
- 
+@@ -100 +110 @@ Get-Content $Brief.pack -Raw
 -### 2. 按检索结果窄读
 +先进入安装得到的项目目录，再核对发布分支、Git LFS 对象、发布清单和运行依赖：
- 
- ```powershell
+@@ -103,5 +113,12 @@ Get-Content $Brief.pack -Raw
 -& $Python $Ckb entity --out $Out 'serve_stdio'
 -& $Python $Ckb neighbors --out $Out 'serve_stdio' --depth 2
 -& $Python $Ckb source --out $Out 'serve_stdio' --context-lines 3
@@ -200,7 +197,7 @@ index 15230c5..72e15b5 100644
 +$Python = 'python'  # 也可以换成已安装 CKB Skill 使用的 Python
 +$Ckb = (Resolve-Path '.\source\scripts\ckb.py').Path
 +$PublishedOut = (Resolve-Path '.\knowledge-base').Path
- 
+@@ -109 +126,8 @@ Get-Content $Brief.pack -Raw
 -推荐顺序固定为：
 +& $Python '.\delivery\verify-publication.py' `
 +  --root . `
@@ -210,24 +207,23 @@ index 15230c5..72e15b5 100644
 +& $Python $Ckb doctor --json
 +if ($LASTEXITCODE -ne 0) { throw 'CKB 运行环境校验失败。' }
 +```
- 
+@@ -111,5 +135 @@ Get-Content $Brief.pack -Raw
 -1. `brief --profile fast`；
 -2. 打开返回的 Agent pack；
 -3. 使用 `entity`、`neighbors`、`source`、`changes` 缩小范围；
 -4. 只有返回 `needs-source-read`，或已经给出精确路径和行范围时，才窄读源码；
 -5. `grep` 只用于补充已经确定的范围，不替代首轮 SQLite 检索。
 +`publication-manifest.json` 把本发布版本标记为 `5.4.0`，固定源码提交为 `150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3`。`verify-publication.py` 会检查 `source/`、`knowledge-base/`、完成标记、双 SQLite、human/markdown 镜像、工作记录、reference、research gap、学习笔记和 Git LFS 对象；`doctor` 再检查当前机器的 Python、解析器、SQLite 和本地工具。`doctor` 退出状态 `3` 表示仍有依赖或完整运行环境需要部署。
- 
+@@ -117 +137 @@ Get-Content $Brief.pack -Raw
 -普通实现定位使用 `fast`。复杂跨模块关系可以改用 `--profile precise`；它会增加固定源码 FTS 和确定性 PageRank，但仍不调用模型。LLM 关键词扩展属于显式备选慢路径，只有调用方提供 `--allow-keyword-fallback` 或 `--force-keyword-fallback` 以及完整 Provider 配置时才会启动。
 +稳定发布中的 `knowledge-base/` 可直接阅读和检索。若希望发布分支工作树保持干净，应在隔离副本中执行会写入 Agent pack 或操作证据的查询。生成器管理的 `human/pages`、`markdown/pages`、`INDEX.md`、`WIKI.md`、`RECORDS.md`、`REFERENCES.md`、投影清单和 SQLite 不直接编辑。
- 
+@@ -119 +139 @@ Get-Content $Brief.pack -Raw
 -## 保存分析、修改和实验记录
 +#### 先检索知识库，再窄读源码
- 
+@@ -121 +141 @@ Get-Content $Brief.pack -Raw
 -本节只用于已经迁移或重新构建的活动知识库，不向发布分支中的原始副本追加记录。先对活动知识库执行 `brief` 并审阅阅读包：
 +`brief` 是 Agent 的紧凑首轮入口。它返回预算内的 Markdown 阅读包和完整 JSON 检索记录，但不把候选实体、词项和得分展开到首轮上下文：
- 
- ```powershell
+@@ -124,4 +144,5 @@ Get-Content $Brief.pack -Raw
 -$ActiveOut = 'E:\project\knowledge-base'
 -$ActiveBrief = & $Python $Ckb brief `
 -  --out $ActiveOut `
@@ -237,29 +233,24 @@ index 15230c5..72e15b5 100644
 +$Brief = & $Python $Ckb brief `
 +  --out $Out `
 +  '当前项目如何维护稳定知识库' `
-   --budget 1800 `
-   --max-pages 8 `
-   --profile fast | ConvertFrom-Json
- 
+@@ -132,4 +153 @@ $ActiveBrief = & $Python $Ckb brief `
 -Get-Content $ActiveBrief.pack -Raw
 -```
 -
 -再准备只含正文的简体中文文件。例如 `analysis-body.md`：
 +Get-Content $Brief.pack -Raw
- 
+@@ -137,2 +155,3 @@ Get-Content $ActiveBrief.pack -Raw
 -```markdown
 -当前检索首先使用机器 SQLite 的实体与章节 FTS，再按固定权重扩展相邻关系。只有机器索引缺少来源绑定候选时，结果才标记为需要继续窄读源码。
 +if ($Brief.open_feedback -gt 0) {
 +  & $Python $Ckb feedback list --out $Out --status open
 +}
- ```
- 
+@@ -141 +160,3 @@ Get-Content $ActiveBrief.pack -Raw
 -写入一条 analysis：
 +`$Brief.pack` 指向先读的 Markdown 阅读包；`$Brief.record` 指向完整 JSON 记录，供 `record --from-pack` 回链。不要把 Markdown pack 路径传给 `--from-pack`。
 +
 +阅读包给出精确符号或源码范围后，再缩小查询：
- 
- ```powershell
+@@ -144,6 +165,4 @@ Get-Content $ActiveBrief.pack -Raw
 -& $Python $Ckb record `
 -  --out $ActiveOut `
 -  --kind analysis `
@@ -270,8 +261,7 @@ index 15230c5..72e15b5 100644
 +& $Python $Ckb neighbors --out $Out 'serve_stdio' --depth 2
 +& $Python $Ckb source --out $Out 'serve_stdio' --context-lines 3
 +& $Python $Ckb changes --out $Out --kind change --limit 10
- ```
- 
+@@ -152,13 +171 @@ Get-Content $ActiveBrief.pack -Raw
 -可用类型：
 -
 -| 类型 | 用途 |
@@ -286,39 +276,27 @@ index 15230c5..72e15b5 100644
 -
 -## 构建新的知识库
 +推荐顺序固定为 `brief --profile fast` → 打开 Agent pack → `entity`、`neighbors`、`source` 或 `changes` → 按返回范围窄读源码。只有结果标记 `needs-source-read`，或已经返回精确路径和行范围时，才补充源码读取；`grep` 不替代首轮 SQLite 检索。复杂跨模块关系可使用 `--profile precise`。两种档位默认都不调用模型；只有显式提供关键词 fallback 选项和完整 Provider 配置时才进入备选慢路径。
- 
+@@ -166 +173 @@ Get-Content $ActiveBrief.pack -Raw
 -### 1. 准备固定源码边界
 +#### 建立或接管目标仓库的知识库
- 
+@@ -168,5 +175 @@ Get-Content $ActiveBrief.pack -Raw
 -目标源码必须是具有提交的干净 Git 工作树，知识库输出目录不得与源码仓库重叠。先选择输出格式：
 -
 -- `markdown`：人类 Markdown/Obsidian 投影和机器层；
 -- `logseq-db`：增加 Logseq DB 投影；
 -- `both`：同时生成并验证两种投影。
 +目标源码必须是具有提交的干净 Git 工作树，知识库输出目录不得与源码仓库重叠。输出格式包括 `markdown`、`logseq-db` 和 `both`；通常先使用 `markdown`，同时得到人类 Markdown/Obsidian 投影和机器层：
- 
- ```powershell
- $Repo = 'E:\project\source'
-@@ -182,13 +185,9 @@ $NewOut = 'E:\project\knowledge-base'
-   --format markdown
- ```
- 
+@@ -185,5 +188 @@ $NewOut = 'E:\project\knowledge-base'
 -初次 `run` 会立即建立脱离活动工作树的固定源码快照。命令在遇到下一个 Agent review pack 时以退出状态 `4` 停下，这是正常审阅检查点，不表示构建失败。
 -
 -如果输入目录还没有 Git 提交，CKB 会退出并提示 `--init-git`。该选项只在用户明确选择后使用；它最多创建一个初始提交，不会把已有 Git 仓库的脏工作树重新提交。
 -
 -### 2. 审阅并继续构建
 +初次 `run` 会建立脱离活动工作树的固定源码快照。遇到下一个 Agent review pack 时，命令以退出状态 `4` 停在人工审阅门；这表示需要继续审阅，不表示构建已经完成。没有 Git 提交的目录会收到 `--init-git` 提示，只有人类明确选择创建仓库和首个提交后才使用该选项。
- 
+@@ -191 +190 @@ $NewOut = 'E:\project\knowledge-base'
 -重新打开 review pack 中列出的每个源码范围，为页面、附录和边界写入事实一致的简体中文说明，然后提交审阅 JSON：
 +重新打开 review pack 列出的每个源码范围，提交事实一致的简体中文审阅，再继续构建：
- 
- ```powershell
- & $Python $Ckb review-pack `
-@@ -206,48 +205,71 @@ $NewOut = 'E:\project\knowledge-base'
- & $Python $Ckb status --out $NewOut --json
- ```
- 
+@@ -209 +208,19 @@ $NewOut = 'E:\project\knowledge-base'
 -只有来源、中文、页面、镜像、Graphify、双 SQLite、Agent 审阅和所选投影格式全部通过时，`finalize` 才写入完成标记。
 +只有来源、简体中文、页面、镜像、Graphify 关系图、双 SQLite、Agent 审阅和所选投影格式全部通过时，`finalize` 才写入完成标记。
 +
@@ -339,7 +317,7 @@ index 15230c5..72e15b5 100644
 +```
 +
 +准备只含简体中文正文的 `analysis-body.md`，再写入记录：
- 
+@@ -211 +228,10 @@ $NewOut = 'E:\project\knowledge-base'
 -## 让任意 Agent 自动遵循同一检索协议
 +```powershell
 +& $Python $Ckb record `
@@ -351,143 +329,93 @@ index 15230c5..72e15b5 100644
 +```
 +
 +`analysis` 保存可复用解释和判断，`change` 保存已完成修改、原因、验证与回滚边界，`pitfall` 保存已确认的失败路线，`experiment` 保存有固定输入和测量的实验，`session` 保存完整 Agent 任务总结。非 `session` 记录必须通过 `--from-pack`、`--from-query` 或唯一 `--link` 回链知识页；同标题追加使用 `--append`。脚本会同步 human/markdown 镜像、记录元数据、`RECORDS.md` 和两个 SQLite 索引。
- 
+@@ -213 +239,3 @@ $NewOut = 'E:\project\knowledge-base'
 -知识库完成后，把“先 brief、后窄读、记录通过 record、结束前 maintain”的规则安装到 Agent 实际启动任务的工作区：
 +#### 让后续 Agent 自动遵循检索协议
 +
 +Agent Policy 是投影到项目工作区的跨 Harness 规则，要求后续 Agent 先运行 `brief`、按返回范围窄读源码、通过 `record` 写入记录并在结束前运行 `maintain`：
- 
- ```powershell
- $Workspace = 'E:\project'
- 
- & $Python $Ckb agent-policy install `
+@@ -219 +247 @@ $Workspace = 'E:\project'
 -  --out $NewOut `
 +  --out $ActiveOut `
-   --workspace-root $Workspace `
-   --python $Python `
-   --ckb $Ckb
- 
+@@ -224 +252 @@ $Workspace = 'E:\project'
 -& $Python $Ckb agent-policy check --out $NewOut
 +& $Python $Ckb agent-policy check --out $ActiveOut
- ```
- 
+@@ -227 +255 @@ $Workspace = 'E:\project'
 -该命令为 Codex、OpenCode、Claude Code、Gemini CLI、GitHub Copilot 和 Cursor 写入各自可发现的项目级规则。它只更新带规范 marker 的受管区块，保留文件中的其他项目说明。
 +该命令写入各 Harness 可发现的项目级规则，只更新带规范 marker 的受管区块，并保留文件中的其他项目说明。
- 
+@@ -229 +257 @@ $Workspace = 'E:\project'
 -## 在 Agent 会话中复用常驻 stdio
 +#### 在 Agent 会话中复用常驻 stdio
- 
+@@ -231 +259 @@ $Workspace = 'E:\project'
 -推荐通过 Harness 自动化注册和适配包管理会话生命周期，而不是让每轮对话手工启动后台进程。
 +`stdio` 是基于标准输入输出的一行一个 JSON 对象的本地传输。正式会话通过 Harness 自动化管理其生命周期，不需要每轮手工启动后台进程。
- 
+@@ -233 +261 @@ $Workspace = 'E:\project'
 -### 1. 注册仓库与知识库
 +先登记源码仓库、活动知识库、工作区和明确启用的 Harness：
- 
- ```powershell
- $Registry = "$HOME\.ckb\automation-registry.json"
- 
- & $Python $Ckb automation register `
-   --repo $Repo `
+@@ -240 +268 @@ $Registry = "$HOME\.ckb\automation-registry.json"
 -  --out $NewOut `
 +  --out $ActiveOut `
-   --workspace-root $Workspace `
-   --registry $Registry `
-   --harness codex
+@@ -244,3 +271,0 @@ $Registry = "$HOME\.ckb\automation-registry.json"
 -```
 -
 -注册只声明该项目允许使用自动化，不会单独启动 stdio，也不会采集其他目录的会话。
- 
+@@ -248,3 +272,0 @@ $Registry = "$HOME\.ckb\automation-registry.json"
 -### 2. 生成并安装 Harness 适配包
 -
 -```powershell
- & $Python $Ckb automation render `
-   --harness codex `
-   --destination 'E:\project\ckb-codex-bundle' `
-@@ -256,44 +278,36 @@ $Registry = "$HOME\.ckb\automation-registry.json"
-   --registry $Registry
- ```
- 
+@@ -259 +281 @@ $Registry = "$HOME\.ckb\automation-registry.json"
 -`automation render` 只写入指定的隔离目录。检查生成内容后，再按 Harness 的正常信任和配置流程安装；不要用整目录覆盖已有 Hook 或项目配置。
 +`automation render` 只写入指定隔离目录。检查生成内容后，按 Harness 自身的信任和配置方式安装，不使用整目录覆盖现有 Hook 或项目配置。注册本身不启动进程，也不采集其他目录的会话。
- 
+@@ -261,3 +283 @@ $Registry = "$HOME\.ckb\automation-registry.json"
 -### 3. 激活、检查和释放会话
 -
 -当前会话第一次精确应用 `code-knowledge-builder` Skill 时，适配器会执行等价的激活：
 +当前会话第一次精确应用 `code-knowledge-builder` Skill 时，适配器执行等价激活，并 single-flight 启动、握手和拥有一个会话级 `serve --stdio`：
- 
- ```powershell
- & $Python $Ckb automation activate `
-   --harness codex `
-   --cwd $Workspace `
-   --registry $Registry
+@@ -270,3 +289,0 @@ $Registry = "$HOME\.ckb\automation-registry.json"
 -```
 -
 -激活会 single-flight 启动并握手一个会话级 `serve --stdio`。同一 `Harness + session + OUTPUT + executable/protocol` 身份下的 `brief`、`retrieve`、`entity`、`neighbors`、`source` 和 `changes` 自动复用同一健康 PID。
- 
+@@ -274 +290,0 @@ $Registry = "$HOME\.ckb\automation-registry.json"
 -```powershell
- & $Python $Ckb stdio-session list --active
- & $Python $Ckb stdio-session status `
-   --harness codex `
-   --session-id SESSION_ID `
+@@ -279 +295 @@ $Registry = "$HOME\.ckb\automation-registry.json"
 -  --out $NewOut
 +  --out $ActiveOut
- 
- & $Python $Ckb stdio-session close `
-   --harness codex `
-   --session-id SESSION_ID `
+@@ -284 +300 @@ $Registry = "$HOME\.ckb\automation-registry.json"
 -  --out $NewOut
 +  --out $ActiveOut
- 
- & $Python $Ckb stdio-session cleanup
- & $Python $Ckb stdio-session audit
- ```
- 
+@@ -290,3 +306 @@ $Registry = "$HOME\.ckb\automation-registry.json"
 -`session.start` 不启动常驻进程，`turn.stop` 也不释放它。`session.end`、显式 `close`、`terminate`、`cancel`、management `unbind`、Harness unload 或可靠父 PID 死亡会按 `shutdown → terminate → kill` 的有界顺序关闭并等待回收。启动或握手失败时状态会明确返回 `mode=cli-fallback`、`resident=false`，随后查询退回一次性 CLI。
 -
 -底层 `serve --stdio --out OUTPUT` 只用于 transport 调试；正式 Agent 会话优先使用上述 session supervisor。
 +同一 `Harness + session + OUTPUT + executable/protocol` 身份的 `brief`、`retrieve`、`entity`、`neighbors`、`source` 和 `changes` 会复用同一健康 PID。`session.start` 不启动，`turn.stop` 不释放；`session.end`、显式关闭、management `unbind`、Harness unload 或可靠父 PID 死亡会执行有界关闭并等待回收。启动或握手失败时返回 `mode=cli-fallback`、`resident=false`，查询随后退回一次性 CLI。
- 
+@@ -294 +308 @@ $Registry = "$HOME\.ckb\automation-registry.json"
 -## 绑定管理 Agent 对话
 +#### 绑定管理 Agent 对话
- 
+@@ -296 +310 @@ $Registry = "$HOME\.ckb\automation-registry.json"
 -`agent-policy` 规定所有 Agent 的项目级读取和写入规则；`manager` 再为一个具体 conversation 绑定 workspace、源码仓库、知识库、integration branch 和绑定时 HEAD。
 +`agent-policy` 规定项目级读写规则；`manager` 把一个具体 conversation 绑定到 workspace、源码仓库、知识库、integration branch 和绑定时 HEAD：
- 
- ```powershell
- $ManagerRegistry = "$HOME\.ckb\manager-registry.json"
-@@ -303,7 +317,7 @@ $ManagerRegistry = "$HOME\.ckb\manager-registry.json"
-   --harness codex `
-   --workspace-root $Workspace `
-   --repo $Repo `
+@@ -306 +320 @@ $ManagerRegistry = "$HOME\.ckb\manager-registry.json"
 -  --out $NewOut `
 +  --out $ActiveOut `
-   --integration-branch INTEGRATION_BRANCH `
-   --registry $ManagerRegistry
- 
-@@ -315,40 +329,26 @@ $ManagerRegistry = "$HOME\.ckb\manager-registry.json"
-   --format prompt
- ```
- 
+@@ -318 +332 @@ $ManagerRegistry = "$HOME\.ckb\manager-registry.json"
 -`manager context` 每次重新检查 integration HEAD、工作树、`brief`、开放 feedback、research gap、双 SQLite 和 `maintain`，再返回可注入当前 Agent 的完整中文管理 Prompt。绑定记录只保存不透明 conversation ID、路径、分支、HEAD、生命周期和能力声明，不保存对话正文、凭据或 transcript。
 +`manager context` 会重新检查 integration HEAD、工作树、`brief`、开放 feedback、research gap、双 SQLite 和 `maintain`，再生成可注入 Agent 的完整中文管理 Prompt。`manager task-create`、`manager task-review` 和 `manager task-status` 用固定 HEAD 创建并审阅独立 branch/worktree，但不执行合并；合并和活动知识库同步仍由管理 Agent 完成。
- 
+@@ -320 +334 @@ $ManagerRegistry = "$HOME\.ckb\manager-registry.json"
 -需要派发开发任务时使用 `manager task-create` 创建固定 HEAD 的独立 branch/worktree，再由 `manager task-review` 和 `manager task-status` 运行派发时冻结的测试门。这些命令只生成和审阅任务，不执行合并；合并与稳定知识库同步仍由管理 Agent 负责。
 +### 建库后的维护
- 
+@@ -322 +336 @@ $ManagerRegistry = "$HOME\.ckb\manager-registry.json"
 -## 维护活动知识库
 +#### 运行统一维护门
- 
+@@ -324 +338 @@ $ManagerRegistry = "$HOME\.ckb\manager-registry.json"
 -写入记录、处理 feedback、迁移、重新投影或更新索引后执行：
 +写入记录、处理 feedback、迁移、重新投影或更新索引后，运行：
- 
- ```powershell
+@@ -327 +341 @@ $ManagerRegistry = "$HOME\.ckb\manager-registry.json"
 -& $Python $Ckb maintain --out $NewOut
 +& $Python $Ckb maintain --out $ActiveOut
- ```
- 
+@@ -330 +344 @@ $ManagerRegistry = "$HOME\.ckb\manager-registry.json"
 -只有以下项目同时通过，才把知识库描述为维护完成：
 +只有 Agent Policy、简体中文和页面链接、human/markdown 镜像、工作记录、reference、research gap、feedback、operation journal、`agent-index.sqlite`、`machine/knowledge.sqlite` 和人类可读性审计全部通过，才把知识库描述为维护完成。`maintain` 证明协议与索引一致，不替代源码功能测试或运行时验证；源码符号、关系或页面来源变化时，选择迁移、局部重建或 `reindex`，不因一次小修改无条件重扫整个仓库。
- 
+@@ -332,11 +346 @@ $ManagerRegistry = "$HOME\.ckb\manager-registry.json"
 -- Agent Policy；
 -- 简体中文和页面链接；
 -- human/markdown 镜像；
@@ -500,44 +428,37 @@ index 15230c5..72e15b5 100644
 -- `machine/knowledge.sqlite`；
 -- 人类可读性审计。
 +#### 迁移到新的源码提交
- 
+@@ -344,5 +348 @@ $ManagerRegistry = "$HOME\.ckb\manager-registry.json"
 -源码符号、关系或页面来源发生变化时，使用迁移、局部重建或 `reindex`；不要因为一次小修改无条件重扫整个仓库。`maintain` 通过只证明知识库协议与索引一致，不替代功能测试或源码运行时验证。
 -
 -## 把知识库迁移到新的源码提交
 -
 -旧知识库已经完成审计、而新提交只修改部分源码时，优先使用隔离增量迁移：
 +旧知识库已经完成审计、而新提交只修改部分源码时，在隔离目录启动增量迁移：
- 
- ```powershell
+@@ -351 +351 @@ $ManagerRegistry = "$HOME\.ckb\manager-registry.json"
 -$OldOut = 'E:\project\knowledge-base'
 +$OldOut = $ActiveOut
- $NewRepo = 'E:\project\source-next'
- $StagingOut = 'E:\project\knowledge-base-staging'
- 
-@@ -369,23 +369,22 @@ $StagingOut = 'E:\project\knowledge-base-staging'
- & $Python $Ckb maintain --out $StagingOut
- ```
- 
+@@ -372,3 +372 @@ $StagingOut = 'E:\project\knowledge-base-staging'
 -迁移始终写入新的 staging 目录。所有门通过后，在同一卷内保留旧输出目录作为回滚基线，再用目录改名切换；不要直接在旧知识库上覆盖重建。
 -
 -本发布分支中的 `knowledge-base/` 仍保留构建机的固定快照和本机绑定路径。它可以直接用于阅读、SQLite 检索和发布完整性复核；在另一台机器上继续执行写入、`status`、`maintain` 或源码定位前，应先按上述迁移流程重新绑定，或从当地干净 Git 提交重新建库。
 +迁移始终写入新的 staging 目录。所有门通过后，在同一卷内保留旧输出目录作为回滚基线，再通过目录改名切换，不直接覆盖旧知识库。
- 
+@@ -376 +374 @@ $StagingOut = 'E:\project\knowledge-base-staging'
 -## 发布回滚
 +本发布分支的 `knowledge-base/` 保留构建机固定快照和本机绑定路径，可直接用于阅读、SQLite 检索和发布完整性复核。在另一台机器继续写入、运行 `status`、`maintain` 或定位源码前，先迁移到当地干净 Git 提交，或从该提交重新建库。
- 
+@@ -378,2 +376 @@ $StagingOut = 'E:\project\knowledge-base-staging'
 -- 本机构建与稳定知识库切换回滚：`delivery/rollback-stable-kb.ps1`
 -- 已推送发布分支回滚：`delivery/rollback-github-release-5.4.0.ps1`
 +#### 使用对应的回滚入口
- 
+@@ -381 +378,3 @@ $StagingOut = 'E:\project\knowledge-base-staging'
 -远端回滚通过新的 revert commit 恢复发布树，不执行 force push，也不改写公开历史。
 +- 活动知识库切换：保留切换前的旧输出目录；出现问题时先停止写入，再把目录名称切回旧输出并重新运行检索与维护门。
 +- CKB 5.4.0 本机构建环境的稳定知识库切换：运行 `delivery/rollback-stable-kb.ps1`。该脚本使用构建机保留的基线与回滚程序。
 +- 已推送发布分支：运行 `delivery/rollback-github-release-5.4.0.ps1`，通过新的 revert commit 恢复发布树，不 force push，也不改写公开历史。
- 
+@@ -383 +382 @@ $StagingOut = 'E:\project\knowledge-base-staging'
 -## 进一步阅读
 +#### 按目的阅读实现协议
- 
+@@ -385,7 +384,7 @@ $StagingOut = 'E:\project\knowledge-base-staging'
 -- [完整建库工作流](source/references/workflow.md)
 -- [Agent 确定性检索](source/references/agent-retrieval.md)
 -- [固定基线与 Agent 修改会话](source/references/workspace-mode.md)

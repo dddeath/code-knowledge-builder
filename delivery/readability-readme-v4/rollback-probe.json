@@ -1,23 +1,23 @@
 {
   "schema_version": 1,
   "status": "passed",
-  "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File E:\\knowledge_builder\\artifacts\\verification\\readability-readme-v4-rollback-probe-20260902-d\\delivery\\readability-readme-v4\\rollback.ps1 -Root E:\\knowledge_builder\\artifacts\\verification\\readability-readme-v4-rollback-probe-20260902-d -Write E:\\knowledge_builder\\artifacts\\verification\\readability-readme-v4-rollback-probe-20260902-d-result.json",
+  "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File E:\\knowledge_builder\\artifacts\\verification\\readability-readme-v4-rollback-probe-20260902-fix1\\delivery\\readability-readme-v4\\rollback.ps1 -Root E:\\knowledge_builder\\artifacts\\verification\\readability-readme-v4-rollback-probe-20260902-fix1 -Write E:\\knowledge_builder\\artifacts\\verification\\readability-readme-v4-rollback-probe-20260902-fix1-result.json",
   "input": {
     "modified_readme_sha256": "255ff54a543a1658da678fc6bdfb4b526b58bce6ebd55d0a620c1ea2891c0b8a",
-    "artifact_directory": "/mnt/e/knowledge_builder/artifacts/verification/readability-readme-v4-rollback-probe-20260902-d/delivery/readability-readme-v4"
+    "artifact_directory": "/mnt/e/knowledge_builder/artifacts/verification/readability-readme-v4-rollback-probe-20260902-fix1/delivery/readability-readme-v4"
   },
-  "literal_stdout": "{\n    \"schema_version\":  1,\n    \"status\":  \"passed\",\n    \"root\":  \"E:\\\\knowledge_builder\\\\artifacts\\\\verification\\\\readability-readme-v4-rollback-probe-20260902-d\",\n    \"restored\":  \"README.md\",\n    \"removed\":  \"delivery/readability-readme-v4/\",\n    \"removed_files\":  [\n                          \"delivery/readability-readme-v4/check_readme.py\",\n                          \"delivery/readability-readme-v4/patch-replay.json\",\n                          \"delivery/readability-readme-v4/publication-verification.json\",\n                          \"delivery/readability-readme-v4/README.baseline.md\",\n                          \"delivery/readability-readme-v4/README.md.patch\",\n                          \"delivery/readability-readme-v4/readme-verification.json\",\n                          \"delivery/readability-readme-v4/rollback.ps1\",\n                          \"delivery/readability-readme-v4/rollback-probe.json\",\n                          \"delivery/readability-readme-v4/supported-claims.json\",\n                          \"delivery/readability-readme-v4/verification-record.json\"\n                      ],\n    \"baseline_sha256\":  \"63b5f320d600f92c4aa83dc71aa45f464773e685c5706b41f1b71d7c04ac0135\",\n    \"restored_sha256\":  \"63b5f320d600f92c4aa83dc71aa45f464773e685c5706b41f1b71d7c04ac0135\",\n    \"artifact_directory_absent\":  true\n}\n",
+  "literal_stdout": "{\n    \"schema_version\":  1,\n    \"status\":  \"passed\",\n    \"root\":  \"E:\\\\knowledge_builder\\\\artifacts\\\\verification\\\\readability-readme-v4-rollback-probe-20260902-fix1\",\n    \"restored\":  \"README.md\",\n    \"removed\":  \"delivery/readability-readme-v4/\",\n    \"removed_files\":  [\n                          \"delivery/readability-readme-v4/check_readme.py\",\n                          \"delivery/readability-readme-v4/patch-replay.json\",\n                          \"delivery/readability-readme-v4/publication-verification.json\",\n                          \"delivery/readability-readme-v4/README.baseline.md\",\n                          \"delivery/readability-readme-v4/README.md.patch\",\n                          \"delivery/readability-readme-v4/readme-verification.json\",\n                          \"delivery/readability-readme-v4/rollback.ps1\",\n                          \"delivery/readability-readme-v4/rollback-probe.json\",\n                          \"delivery/readability-readme-v4/supported-claims.json\",\n                          \"delivery/readability-readme-v4/verification-record.json\"\n                      ],\n    \"baseline_sha256\":  \"63b5f320d600f92c4aa83dc71aa45f464773e685c5706b41f1b71d7c04ac0135\",\n    \"restored_sha256\":  \"63b5f320d600f92c4aa83dc71aa45f464773e685c5706b41f1b71d7c04ac0135\",\n    \"artifact_directory_absent\":  true\n}\n",
   "literal_stderr": "",
   "exit_status": 0,
   "output": {
-    "readme": "/mnt/e/knowledge_builder/artifacts/verification/readability-readme-v4-rollback-probe-20260902-d/README.md",
+    "readme": "/mnt/e/knowledge_builder/artifacts/verification/readability-readme-v4-rollback-probe-20260902-fix1/README.md",
     "readme_sha256": "63b5f320d600f92c4aa83dc71aa45f464773e685c5706b41f1b71d7c04ac0135",
     "expected_baseline_sha256": "63b5f320d600f92c4aa83dc71aa45f464773e685c5706b41f1b71d7c04ac0135",
     "artifact_directory_absent": true,
     "script_result": {
       "schema_version": 1,
       "status": "passed",
-      "root": "E:\\knowledge_builder\\artifacts\\verification\\readability-readme-v4-rollback-probe-20260902-d",
+      "root": "E:\\knowledge_builder\\artifacts\\verification\\readability-readme-v4-rollback-probe-20260902-fix1",
       "restored": "README.md",
       "removed": "delivery/readability-readme-v4/",
       "removed_files": [

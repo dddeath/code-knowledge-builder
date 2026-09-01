@@ -30,7 +30,7 @@
     },
     "patch": {
       "path": "/mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4/delivery/readability-readme-v4/README.md.patch",
-      "sha256": "2a6db73ef8de2ecaf6bd2934088d224005fd98374adc875636dc6bc64e907c86"
+      "sha256": "f6902345cd646b589acf89788ea53ef96f48d232aded3649ef3994e742787052"
     },
     "readme_checker": {
       "path": "/mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4/delivery/readability-readme-v4/check_readme.py",
@@ -50,7 +50,7 @@
     },
     "patch_replay": {
       "path": "/mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4/delivery/readability-readme-v4/patch-replay.json",
-      "sha256": "504568907f050d690332907db49030413da4c33985238a0a88a2e72b3d54e8da"
+      "sha256": "65dd456e731050cf5ac5821b271b6db4643718e42bbc3df6b118bcc60861c391"
     },
     "rollback": {
       "path": "/mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4/delivery/readability-readme-v4/rollback.ps1",
@@ -58,7 +58,7 @@
     },
     "rollback_probe": {
       "path": "/mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4/delivery/readability-readme-v4/rollback-probe.json",
-      "sha256": "f64e030f71d2764ae977ed2ec5cac4a7e5a1848755ea6385d471474a71105b81"
+      "sha256": "5c4fd92c71691aec3809fae93caaac2ab02eabfc8ff30a16a438a23447395b1b"
     }
   },
   "commands": [
@@ -124,39 +124,43 @@
     },
     {
       "name": "patch-replay",
-      "command": "patch --batch --forward -d /mnt/e/knowledge_builder/artifacts/verification/readability-readme-v4-patch-probe-20260902 -p1 < /mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4/delivery/readability-readme-v4/README.md.patch",
+      "command": "patch --batch --forward -d /mnt/e/knowledge_builder/artifacts/verification/readability-readme-v4-patch-probe-20260902-fix1 -p1 < /mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4/delivery/readability-readme-v4/README.md.patch",
       "inputs": {
         "baseline_sha256": "63b5f320d600f92c4aa83dc71aa45f464773e685c5706b41f1b71d7c04ac0135",
-        "patch_sha256": "2a6db73ef8de2ecaf6bd2934088d224005fd98374adc875636dc6bc64e907c86"
+        "patch_sha256": "f6902345cd646b589acf89788ea53ef96f48d232aded3649ef3994e742787052",
+        "patch_trailing_whitespace_lines": 0,
+        "patch_context_lines": 0
       },
       "literal_stdout": "patching file README.md\n",
       "literal_stderr": "",
       "exit_status": 0,
       "result": {
-        "path": "/mnt/e/knowledge_builder/artifacts/verification/readability-readme-v4-patch-probe-20260902/README.md",
+        "path": "/mnt/e/knowledge_builder/artifacts/verification/readability-readme-v4-patch-probe-20260902-fix1/README.md",
         "sha256": "255ff54a543a1658da678fc6bdfb4b526b58bce6ebd55d0a620c1ea2891c0b8a",
-        "expected_sha256": "255ff54a543a1658da678fc6bdfb4b526b58bce6ebd55d0a620c1ea2891c0b8a"
+        "expected_sha256": "255ff54a543a1658da678fc6bdfb4b526b58bce6ebd55d0a620c1ea2891c0b8a",
+        "byte_equal_current_readme": true,
+        "cmp_exit_status": 0
       }
     },
     {
       "name": "rollback-probe",
-      "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File E:\\knowledge_builder\\artifacts\\verification\\readability-readme-v4-rollback-probe-20260902-d\\delivery\\readability-readme-v4\\rollback.ps1 -Root E:\\knowledge_builder\\artifacts\\verification\\readability-readme-v4-rollback-probe-20260902-d -Write E:\\knowledge_builder\\artifacts\\verification\\readability-readme-v4-rollback-probe-20260902-d-result.json",
+      "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File E:\\knowledge_builder\\artifacts\\verification\\readability-readme-v4-rollback-probe-20260902-fix1\\delivery\\readability-readme-v4\\rollback.ps1 -Root E:\\knowledge_builder\\artifacts\\verification\\readability-readme-v4-rollback-probe-20260902-fix1 -Write E:\\knowledge_builder\\artifacts\\verification\\readability-readme-v4-rollback-probe-20260902-fix1-result.json",
       "inputs": {
         "modified_readme_sha256": "255ff54a543a1658da678fc6bdfb4b526b58bce6ebd55d0a620c1ea2891c0b8a",
-        "artifact_directory": "/mnt/e/knowledge_builder/artifacts/verification/readability-readme-v4-rollback-probe-20260902-d/delivery/readability-readme-v4"
+        "artifact_directory": "/mnt/e/knowledge_builder/artifacts/verification/readability-readme-v4-rollback-probe-20260902-fix1/delivery/readability-readme-v4"
       },
-      "literal_stdout": "{\n    \"schema_version\":  1,\n    \"status\":  \"passed\",\n    \"root\":  \"E:\\\\knowledge_builder\\\\artifacts\\\\verification\\\\readability-readme-v4-rollback-probe-20260902-d\",\n    \"restored\":  \"README.md\",\n    \"removed\":  \"delivery/readability-readme-v4/\",\n    \"removed_files\":  [\n                          \"delivery/readability-readme-v4/check_readme.py\",\n                          \"delivery/readability-readme-v4/patch-replay.json\",\n                          \"delivery/readability-readme-v4/publication-verification.json\",\n                          \"delivery/readability-readme-v4/README.baseline.md\",\n                          \"delivery/readability-readme-v4/README.md.patch\",\n                          \"delivery/readability-readme-v4/readme-verification.json\",\n                          \"delivery/readability-readme-v4/rollback.ps1\",\n                          \"delivery/readability-readme-v4/rollback-probe.json\",\n                          \"delivery/readability-readme-v4/supported-claims.json\",\n                          \"delivery/readability-readme-v4/verification-record.json\"\n                      ],\n    \"baseline_sha256\":  \"63b5f320d600f92c4aa83dc71aa45f464773e685c5706b41f1b71d7c04ac0135\",\n    \"restored_sha256\":  \"63b5f320d600f92c4aa83dc71aa45f464773e685c5706b41f1b71d7c04ac0135\",\n    \"artifact_directory_absent\":  true\n}\n",
+      "literal_stdout": "{\n    \"schema_version\":  1,\n    \"status\":  \"passed\",\n    \"root\":  \"E:\\\\knowledge_builder\\\\artifacts\\\\verification\\\\readability-readme-v4-rollback-probe-20260902-fix1\",\n    \"restored\":  \"README.md\",\n    \"removed\":  \"delivery/readability-readme-v4/\",\n    \"removed_files\":  [\n                          \"delivery/readability-readme-v4/check_readme.py\",\n                          \"delivery/readability-readme-v4/patch-replay.json\",\n                          \"delivery/readability-readme-v4/publication-verification.json\",\n                          \"delivery/readability-readme-v4/README.baseline.md\",\n                          \"delivery/readability-readme-v4/README.md.patch\",\n                          \"delivery/readability-readme-v4/readme-verification.json\",\n                          \"delivery/readability-readme-v4/rollback.ps1\",\n                          \"delivery/readability-readme-v4/rollback-probe.json\",\n                          \"delivery/readability-readme-v4/supported-claims.json\",\n                          \"delivery/readability-readme-v4/verification-record.json\"\n                      ],\n    \"baseline_sha256\":  \"63b5f320d600f92c4aa83dc71aa45f464773e685c5706b41f1b71d7c04ac0135\",\n    \"restored_sha256\":  \"63b5f320d600f92c4aa83dc71aa45f464773e685c5706b41f1b71d7c04ac0135\",\n    \"artifact_directory_absent\":  true\n}\n",
       "literal_stderr": "",
       "exit_status": 0,
       "result": {
-        "readme": "/mnt/e/knowledge_builder/artifacts/verification/readability-readme-v4-rollback-probe-20260902-d/README.md",
+        "readme": "/mnt/e/knowledge_builder/artifacts/verification/readability-readme-v4-rollback-probe-20260902-fix1/README.md",
         "readme_sha256": "63b5f320d600f92c4aa83dc71aa45f464773e685c5706b41f1b71d7c04ac0135",
         "expected_baseline_sha256": "63b5f320d600f92c4aa83dc71aa45f464773e685c5706b41f1b71d7c04ac0135",
         "artifact_directory_absent": true,
         "script_result": {
           "schema_version": 1,
           "status": "passed",
-          "root": "E:\\knowledge_builder\\artifacts\\verification\\readability-readme-v4-rollback-probe-20260902-d",
+          "root": "E:\\knowledge_builder\\artifacts\\verification\\readability-readme-v4-rollback-probe-20260902-fix1",
           "restored": "README.md",
           "removed": "delivery/readability-readme-v4/",
           "removed_files": [
@@ -187,6 +191,21 @@
       "literal_stdout": "",
       "literal_stderr": "",
       "exit_status": 0
+    },
+    {
+      "name": "patch-text-whitespace-check",
+      "command": "scan delivery/readability-readme-v4/README.md.patch for trailing spaces or tabs and context lines",
+      "inputs": {
+        "path": "/mnt/e/knowledge_builder/self-workspace/worktrees/readme-human-first-v4/delivery/readability-readme-v4/README.md.patch",
+        "sha256": "f6902345cd646b589acf89788ea53ef96f48d232aded3649ef3994e742787052"
+      },
+      "literal_stdout": "PATCH_TEXT_CHECK trailing_whitespace_lines=0 context_lines=0\n",
+      "literal_stderr": "",
+      "exit_status": 0,
+      "result": {
+        "trailing_whitespace_lines": 0,
+        "context_lines": 0
+      }
     }
   ]
 }
