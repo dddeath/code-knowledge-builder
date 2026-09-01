@@ -22,6 +22,7 @@ from typing import Any, Iterator
 
 from .automation import SUPPORTED_HARNESSES
 from .common import CkbError, json_load, json_write, run, stable_id, utc_now
+from .session_stdio import close_session
 
 
 MANAGEMENT_SCHEMA_VERSION = 1
@@ -658,6 +659,13 @@ def unbind_conversation(
     if error is not None:
         raise error
     assert result is not None
+    binding_value = result["binding"]
+    result["session_stdio"] = close_session(
+        harness=str(binding_value["harness_id"]),
+        session_id=str(binding_value["conversation_id"]),
+        output=Path(binding_value["knowledge_base"]),
+        reason="management-unbind",
+    )
     return result
 
 

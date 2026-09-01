@@ -164,6 +164,7 @@ from ckb_core.session_stdio import (
     close_session,
     controller_main,
     list_sessions,
+    maybe_request_session,
     process_metrics,
     request_session,
     session_digest,
@@ -601,6 +602,8 @@ def parser() -> argparse.ArgumentParser:
     automation_activate.add_argument("--cwd", type=Path, default=Path.cwd())
     automation_activate.add_argument("--registry", type=Path, default=default_registry_path())
     automation_activate.add_argument("--source", default="agent-skill-start")
+    automation_activate.add_argument("--parent-pid", type=int)
+    automation_activate.add_argument("--stdio-root", type=Path)
     for name in ("ingest", "hook"):
         parser_value = automation_sub.add_parser(name)
         parser_value.add_argument("--harness", choices=sorted(SUPPORTED_HARNESSES), required=True)
@@ -719,6 +722,30 @@ def emit(value) -> None:
     print(json.dumps(value, ensure_ascii=False, indent=2))
 
 
+def _session_query(output: Path, request: dict[str, object]) -> dict[str, object] | None:
+    wrapper = maybe_request_session(output.resolve(), request)
+    if wrapper is None:
+        return None
+    response = wrapper.get("response")
+    if not isinstance(response, dict) or not response.get("ok"):
+        error = response.get("error") if isinstance(response, dict) else wrapper.get("error")
+        message = str((error or {}).get("message") if isinstance(error, dict) else error or wrapper.get("status"))
+        raise CkbError(f"session stdio request failed: {message[:500]}")
+    result = response.get("result")
+    if not isinstance(result, dict):
+        raise CkbError("session stdio request returned no structured result")
+    value = dict(result)
+    value["session_stdio"] = {
+        "mode": wrapper.get("mode"),
+        "resident": wrapper.get("resident"),
+        "lifecycle_key": wrapper.get("lifecycle_key"),
+        "supervisor_pid": wrapper.get("supervisor_pid"),
+        "server_pid": wrapper.get("server_pid"),
+        "fallback": wrapper.get("fallback"),
+    }
+    return value
+
+
 def main() -> int:
     global _ACTIVE_ARGS
     args = parser().parse_args()
@@ -788,6 +815,24 @@ def main() -> int:
     elif args.command == "retrieve":
         output = args.out.resolve()
         fallback_options = keyword_fallback_options(args)
+        session_value = (
+            _session_query(
+                output,
+                {
+                    "id": "retrieve-" + os.urandom(8).hex(),
+                    "method": "retrieve",
+                    "question": args.question,
+                    "budget": args.budget,
+                    "max_pages": args.max_pages,
+                    "profile": args.profile,
+                },
+            )
+            if fallback_options is None
+            else None
+        )
+        if session_value is not None:
+            emit(session_value)
+            return 0
         if (output / "machine/knowledge.sqlite").is_file():
             emit(
                 retrieve_machine(
@@ -806,6 +851,24 @@ def main() -> int:
     elif args.command == "brief":
         output = args.out.resolve()
         fallback_options = keyword_fallback_options(args)
+        session_value = (
+            _session_query(
+                output,
+                {
+                    "id": "brief-" + os.urandom(8).hex(),
+                    "method": "brief",
+                    "question": args.question,
+                    "budget": args.budget,
+                    "max_pages": args.max_pages,
+                    "profile": args.profile,
+                },
+            )
+            if fallback_options is None
+            else None
+        )
+        if session_value is not None:
+            emit(session_value)
+            return 0
         if fallback_options is not None and not (output / "machine/knowledge.sqlite").is_file():
             raise CkbError("keyword fallback requires machine/knowledge.sqlite")
         retrieval_result = (
@@ -956,13 +1019,49 @@ def main() -> int:
     elif args.command == "coverage":
         emit(machine_coverage(args.out.resolve()))
     elif args.command == "entity":
-        emit(entity_lookup(args.out.resolve(), args.selector))
+        emit(
+            _session_query(
+                args.out.resolve(),
+                {"id": "entity-" + os.urandom(8).hex(), "method": "entity", "selector": args.selector},
+            )
+            or entity_lookup(args.out.resolve(), args.selector)
+        )
     elif args.command == "neighbors":
-        emit(neighbor_lookup(args.out.resolve(), args.selector, args.depth, args.relation, args.limit))
+        emit(
+            _session_query(
+                args.out.resolve(),
+                {
+                    "id": "neighbors-" + os.urandom(8).hex(),
+                    "method": "neighbors",
+                    "selector": args.selector,
+                    "depth": args.depth,
+                    "relation": args.relation,
+                    "limit": args.limit,
+                },
+            )
+            or neighbor_lookup(args.out.resolve(), args.selector, args.depth, args.relation, args.limit)
+        )
     elif args.command == "source":
-        emit(source_lookup(args.out.resolve(), args.selector, args.context_lines))
+        emit(
+            _session_query(
+                args.out.resolve(),
+                {
+                    "id": "source-" + os.urandom(8).hex(),
+                    "method": "source",
+                    "selector": args.selector,
+                    "context_lines": args.context_lines,
+                },
+            )
+            or source_lookup(args.out.resolve(), args.selector, args.context_lines)
+        )
     elif args.command == "changes":
-        emit(change_documents(args.out.resolve(), args.kind, args.limit))
+        emit(
+            _session_query(
+                args.out.resolve(),
+                {"id": "changes-" + os.urandom(8).hex(), "method": "changes", "kind": args.kind, "limit": args.limit},
+            )
+            or change_documents(args.out.resolve(), args.kind, args.limit)
+        )
     elif args.command == "path":
         emit(shortest_path(args.out.resolve(), args.source, args.target))
     elif args.command == "explain":
@@ -1089,7 +1188,17 @@ def main() -> int:
         elif args.automation_command == "registry":
             emit(registry_status(args.registry))
         elif args.automation_command == "activate":
-            emit(activate_skill_session(args.harness, args.session_id, args.cwd, args.registry, args.source))
+            emit(
+                activate_skill_session(
+                    args.harness,
+                    args.session_id,
+                    args.cwd,
+                    args.registry,
+                    args.source,
+                    args.parent_pid,
+                    args.stdio_root,
+                )
+            )
         elif args.automation_command in {"ingest", "hook"}:
             try:
                 raw_text = args.event.read_text(encoding="utf-8-sig") if args.event else sys.stdin.read()

@@ -98,7 +98,7 @@ def _codex_hooks(posix: str, windows: str, *, dsh_subset: bool = False) -> dict[
                 "hooks": [_handler(posix, windows, 8, "正在恢复 CKB 自动化上下文")],
             }
         ],
-        "UserPromptSubmit": [{"hooks": [_handler(posix, windows, 8)]}],
+        "UserPromptSubmit": [{"hooks": [_handler(posix, windows, 20)]}],
         "PostToolUse": [
             {
                 "matcher": "Bash|apply_patch|Edit|Write",
@@ -128,9 +128,9 @@ def _claude_hooks(command: str) -> dict[str, Any]:
     return {
         "hooks": {
             "SessionStart": [{"matcher": "startup|resume|clear|compact", "hooks": [handler(8)]}],
-            "UserPromptSubmit": [{"hooks": [handler(8)]}],
-            "UserPromptExpansion": [{"matcher": "code-knowledge-builder", "hooks": [handler(8)]}],
-            "PreToolUse": [{"matcher": "Skill", "hooks": [handler(8)]}],
+            "UserPromptSubmit": [{"hooks": [handler(20)]}],
+            "UserPromptExpansion": [{"matcher": "code-knowledge-builder", "hooks": [handler(20)]}],
+            "PreToolUse": [{"matcher": "Skill", "hooks": [handler(20)]}],
             "PostToolUse": [{"matcher": "Write|Edit|Bash|NotebookEdit", "hooks": [handler(8)]}],
             "PostToolUseFailure": [{"matcher": "Write|Edit|Bash|NotebookEdit", "hooks": [handler(8)]}],
             "FileChanged": [{"hooks": [handler(8)]}],
@@ -150,7 +150,7 @@ def _gemini_hooks(command: str) -> dict[str, Any]:
     return {
         "hooks": {
             "SessionStart": [{"matcher": "startup|resume|clear", "hooks": [handler(8_000)]}],
-            "BeforeAgent": [{"hooks": [handler(8_000)]}],
+            "BeforeAgent": [{"hooks": [handler(20_000)]}],
             "AfterTool": [{"matcher": ".*", "hooks": [handler(8_000)]}],
             "AfterAgent": [{"hooks": [handler(15_000)]}],
             "PreCompress": [{"hooks": [handler(8_000)]}],
@@ -178,7 +178,7 @@ def _copilot_hooks(posix: str, powershell: str) -> dict[str, Any]:
         "version": 1,
         "hooks": {
             "SessionStart": [handler(8)],
-            "UserPromptSubmit": [handler(8)],
+            "UserPromptSubmit": [handler(20)],
             "PostToolUse": [handler(8, "Bash|Edit|Write|NotebookEdit")],
             "PostToolUseFailure": [handler(8, "Bash|Edit|Write|NotebookEdit")],
             "Stop": [handler(15)],
@@ -199,7 +199,7 @@ def _cursor_hooks(command: str) -> dict[str, Any]:
         "version": 1,
         "hooks": {
             "sessionStart": [handler()],
-            "beforeSubmitPrompt": [handler("UserPromptSubmit")],
+            "beforeSubmitPrompt": [handler("UserPromptSubmit", 20)],
             "postToolUse": [handler("Shell|Write|Delete|MCP:.*")],
             "postToolUseFailure": [handler("Shell|Write|Delete|MCP:.*")],
             "afterFileEdit": [handler("Write")],
@@ -241,7 +241,8 @@ function text(object) {{
 
 function emit(payload) {{
   try {{
-    spawnSync(PYTHON, ARGS, {{ input: JSON.stringify(payload), encoding: "utf8", timeout: 8000, windowsHide: true }})
+    const event = {{ ...payload, harness_pid: process.pid }}
+    spawnSync(PYTHON, ARGS, {{ input: JSON.stringify(event), encoding: "utf8", timeout: payload?.ckb_skill_applied ? 20000 : 8000, windowsHide: true }})
   }} catch {{}}
 }}
 
@@ -300,7 +301,10 @@ const PYTHON = {json.dumps(str(python))}
 const ARGS = {json.dumps(command_args)}
 
 function emit(payload) {{
-  try {{ spawnSync(PYTHON, ARGS, {{ input: JSON.stringify(payload), encoding: "utf8", timeout: 8000, windowsHide: true }}) }} catch {{}}
+  try {{
+    const event = {{ ...payload, harness_pid: process.pid }}
+    spawnSync(PYTHON, ARGS, {{ input: JSON.stringify(event), encoding: "utf8", timeout: payload?.ckb_skill_applied ? 20000 : 8000, windowsHide: true }})
+  }} catch {{}}
 }}
 
 function messageText(message) {{
@@ -328,9 +332,11 @@ export default Plugin.define({{
   id: "code-knowledge-builder.sync",
   setup: async (ctx) => {{
     const seenSessions = new Set()
+    const sessionCwds = new Map()
     await ctx.session.hook("context", (event) => {{
       const sessionID = String(event.sessionID ?? "session-unknown")
       const cwd = eventCwd(event)
+      sessionCwds.set(sessionID, cwd)
       if (!seenSessions.has(sessionID)) {{
         seenSessions.add(sessionID)
         emit({{ session_id: sessionID, cwd, hook_event_name: "SessionStart", source: "startup", event_id: `session:${{sessionID}}` }})
@@ -373,7 +379,10 @@ export default Plugin.define({{
         }}
       }} catch {{}}
     }})()
-    return () => controller.abort()
+    return () => {{
+      for (const sessionID of seenSessions) emit({{ session_id: sessionID, cwd: sessionCwds.get(sessionID) ?? process.cwd(), hook_event_name: "SessionEnd", reason: "plugin-unload", event_id: `plugin-unload:${{sessionID}}` }})
+      controller.abort()
+    }}
   }},
 }})
 '''
@@ -414,6 +423,7 @@ def _generic_schema() -> dict[str, Any]:
             "changed_paths": {"type": "array", "items": {"type": "string"}},
             "skill_name": {"type": "string", "const": "code-knowledge-builder"},
             "ckb_skill_applied": {"type": "boolean", "const": True},
+            "harness_pid": {"type": "integer", "minimum": 1},
         },
         "additionalProperties": True,
     }
@@ -546,6 +556,18 @@ def render_integration(
         "required_skill": "code-knowledge-builder",
         "transcript_parsing": False,
         "management_capabilities": harness_capabilities(harness),
+        "session_stdio_capability": {
+            "activation": "exact-skill-application",
+            "session_end": harness not in {"dsh"},
+            "parent_monitor": (
+                "native-plugin-process"
+                if harness in {"opencode", "opencode-v2"}
+                else "caller-supplied"
+                if harness == "generic"
+                else "unavailable"
+            ),
+            "degraded": harness not in {"opencode", "opencode-v2"},
+        },
         "files": [str(path.relative_to(destination).as_posix()) for path in files],
     }
     manifest_path = write("integration.json", manifest)

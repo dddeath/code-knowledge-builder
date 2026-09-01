@@ -685,11 +685,24 @@ def activate_session_stdio(
     executable_value = (executable or Path(sys.executable)).expanduser().resolve()
     ckb_value = (ckb or Path(__file__).resolve().parents[1] / "ckb.py").expanduser().resolve()
     root_value = (root or default_session_stdio_root()).expanduser().resolve()
-    if not (output_value / "machine" / "knowledge.sqlite").is_file():
-        raise CkbError(f"session stdio requires machine/knowledge.sqlite: {output_value}")
     normalized_harness = harness.strip().casefold()
     opaque_session = session_digest(session_id)
     key = lifecycle_key(normalized_harness, session_id, output_value, executable=executable_value, ckb=ckb_value)
+    if not (output_value / "machine" / "knowledge.sqlite").is_file():
+        return {
+            "schema_version": SESSION_STDIO_SCHEMA_VERSION,
+            "status": "fallback",
+            "mode": "cli-fallback",
+            "resident": False,
+            "created": False,
+            "lifecycle_key": key,
+            "supervisor_pid": None,
+            "server_pid": None,
+            "protocol": None,
+            "protocol_version": None,
+            "parent_monitor": "pid" if parent_pid else "unavailable",
+            "fallback": {"active": True, "reason": "startup:machine-knowledge-missing"},
+        }
     directory = _lifecycle_directory(root_value, key)
     root_value.mkdir(parents=True, exist_ok=True)
     try:
