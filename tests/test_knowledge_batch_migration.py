@@ -3,9 +3,11 @@ from __future__ import annotations
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 import tempfile
+import time
 import unittest
 
 
@@ -79,7 +81,13 @@ class KnowledgeBatchWorkflowTests(unittest.TestCase):
             os.environ.pop("CKB_TEST_PROVIDER", None)
         else:
             os.environ["CKB_TEST_PROVIDER"] = self.old_provider
-        self.temporary.cleanup()
+        try:
+            self.temporary.cleanup()
+        except OSError:
+            # Windows may release a recently relocated SQLite/plugin directory
+            # one scheduling turn after the rollback verification closes it.
+            time.sleep(0.2)
+            shutil.rmtree(self.root, ignore_errors=True)
 
     def _add_complete_mutable_fixture(self) -> None:
         from ckb_core.workspace_notes import record_note
@@ -98,17 +106,36 @@ class KnowledgeBatchWorkflowTests(unittest.TestCase):
             (user / "学习笔记一.md").write_text("# 学习笔记一\n\n第一份原文必须保持不变。\n", encoding="utf-8")
             (user / "学习笔记二.md").write_text("# 学习笔记二\n\n第二份原文必须保持不变。\n", encoding="utf-8")
 
-    def _manifest(self) -> Path:
-        from ckb_core.common import json_load, json_write, sha256_file
+    def _build_additional_output(self, name: str) -> tuple[Path, Path, Path]:
+        from ckb_core.pipeline import finalize, initialize
+        from test_scope_extension import review_all
+
+        repo = self.root / f"{name}-repo"
+        output = self.root / f"{name}-knowledge"
+        staging = self.root / f"{name}-staging"
+        repo.mkdir()
+        (repo / "app.py").write_text(f"def {name}(number):\n    return number * 2\n", encoding="utf-8")
+        subprocess.run(["git", "-C", str(repo), "init"], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        subprocess.run(["git", "-C", str(repo), "config", "user.email", "fixture@example.invalid"], check=True)
+        subprocess.run(["git", "-C", str(repo), "config", "user.name", "Fixture"], check=True)
+        subprocess.run(["git", "-C", str(repo), "add", "."], check=True)
+        subprocess.run(["git", "-C", str(repo), "commit", "-m", name], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        initialize(repo, output, "markdown", ["app.py"], [f"python:app.py#{name}"], 0, "both", [])
+        review_all(output)
+        finalize(output)
+        return repo, output, staging
+
+    def _project_document(self, project_id: str, output: Path, repo: Path, staging: Path) -> dict[str, object]:
+        from ckb_core.common import json_load, sha256_file
         from ckb_core.gitrepo import preflight
         from ckb_core.scope_extension import _tree_manifest
 
-        state = json_load(self.output / "state.json")
-        scope = json_load(self.output / "scope.json")
-        target = preflight(self.repo)
-        tree = _tree_manifest(self.output)
+        state = json_load(output / "state.json")
+        scope = json_load(output / "scope.json")
+        target = preflight(repo)
+        tree = _tree_manifest(output)
         records = {
-            relative: sha256_file(self.output / relative)
+            relative: sha256_file(output / relative)
             for relative in (
                 "state.json",
                 "scope.json",
@@ -120,8 +147,44 @@ class KnowledgeBatchWorkflowTests(unittest.TestCase):
                 ".human.complete",
             )
         }
-        backup_root = self.root / "backups"
-        quarantine_root = self.root / "quarantine"
+        backup_root = self.root / f"{project_id}-backups"
+        quarantine_root = self.root / f"{project_id}-quarantine"
+        return {
+            "project_id": project_id,
+            "output": str(output.resolve()),
+            "repository": str(repo.resolve()),
+            "staging": str(staging.resolve()),
+            "source": {
+                "ckb_version": "5.4.0",
+                "schema_version": 4,
+                "protocol_version": "1.5.0",
+                "release_commit": "2d1ddc4de65c36c2ebe244e3d0556d4b613b2d3d",
+            },
+            "target": {
+                "ckb_version": "5.4.0",
+                "schema_version": 4,
+                "protocol_version": "1.5.0",
+                "release_commit": "2d1ddc4de65c36c2ebe244e3d0556d4b613b2d3d",
+            },
+            "origin_snapshot": {"commit": state["repository"]["commit"], "tree": state["repository"]["tree"]},
+            "target_snapshot": {"commit": target["commit"], "tree": target["tree"]},
+            "format": state["format"],
+            "scope_selectors": scope["selectors"],
+            "runtime": {"python": str(Path(sys.executable).resolve()), "ckb": str((ROOT / "scripts/ckb.py").resolve())},
+            "workspace_roots": [],
+            "harnesses": ["codex", "generic"],
+            "origin": {
+                "tree": {key: tree[key] for key in ("algorithm", "file_count", "byte_count", "sha256")},
+                "records": records,
+            },
+            "strategies": ["compatible-migration", "delta-review", "cold-build"],
+            "cutover": {"output": str(output.resolve()), "backup_root": str(backup_root.resolve())},
+            "rollback": {"quarantine_root": str(quarantine_root.resolve())},
+        }
+
+    def _manifest(self, projects: list[dict[str, object]] | None = None) -> Path:
+        from ckb_core.common import json_write
+
         manifest = self.root / "manifest.json"
         json_write(
             manifest,
@@ -129,40 +192,7 @@ class KnowledgeBatchWorkflowTests(unittest.TestCase):
                 "schema_version": 1,
                 "batch_id": "fixture-batch",
                 "allowed_roots": [str(self.root.resolve()), str(ROOT.resolve())],
-                "projects": [
-                    {
-                        "project_id": "project-a",
-                        "output": str(self.output.resolve()),
-                        "repository": str(self.repo.resolve()),
-                        "staging": str(self.staging.resolve()),
-                        "source": {
-                            "ckb_version": "5.4.0",
-                            "schema_version": 4,
-                            "protocol_version": "1.5.0",
-                            "release_commit": "2d1ddc4de65c36c2ebe244e3d0556d4b613b2d3d",
-                        },
-                        "target": {
-                            "ckb_version": "5.4.0",
-                            "schema_version": 4,
-                            "protocol_version": "1.5.0",
-                            "release_commit": "2d1ddc4de65c36c2ebe244e3d0556d4b613b2d3d",
-                        },
-                        "origin_snapshot": {"commit": state["repository"]["commit"], "tree": state["repository"]["tree"]},
-                        "target_snapshot": {"commit": target["commit"], "tree": target["tree"]},
-                        "format": state["format"],
-                        "scope_selectors": scope["selectors"],
-                        "runtime": {"python": str(Path(sys.executable).resolve()), "ckb": str((ROOT / "scripts/ckb.py").resolve())},
-                        "workspace_roots": [],
-                        "harnesses": ["codex", "generic"],
-                        "origin": {
-                            "tree": {key: tree[key] for key in ("algorithm", "file_count", "byte_count", "sha256")},
-                            "records": records,
-                        },
-                        "strategies": ["compatible-migration", "delta-review", "cold-build"],
-                        "cutover": {"output": str(self.output.resolve()), "backup_root": str(backup_root.resolve())},
-                        "rollback": {"quarantine_root": str(quarantine_root.resolve())},
-                    }
-                ],
+                "projects": projects or [self._project_document("project-a", self.output, self.repo, self.staging)],
             },
         )
         return manifest
@@ -254,6 +284,161 @@ class KnowledgeBatchWorkflowTests(unittest.TestCase):
         review_all(self.staging)
         resumed = resume_knowledge_batch_state(state_path)
         self.assertEqual("ready", resumed["status"], resumed)
+
+    def test_two_projects_isolate_partial_apply_cutover_and_subset_rollback(self) -> None:
+        from ckb_core.knowledge_batch_migration import (
+            apply_knowledge_batch_plan,
+            create_knowledge_batch_plan,
+            cutover_knowledge_batch_state,
+            resume_knowledge_batch_state,
+            rollback_knowledge_batch_state,
+        )
+        from ckb_core.scope_extension import _tree_manifest
+
+        repo_b, output_b, staging_b = self._build_additional_output("second")
+        project_a = self._project_document("project-a", self.output, self.repo, self.staging)
+        project_b = self._project_document("project-b", output_b, repo_b, staging_b)
+        manifest = self._manifest([project_a, project_b])
+        origin_a = _tree_manifest(self.output)
+        origin_b = _tree_manifest(output_b)
+        plan_path = self.root / "plan.json"
+        planned = create_knowledge_batch_plan(manifest, plan_path)
+        self.assertEqual("ready", planned["status"], planned)
+        state_path = self.root / "state.json"
+        partial_apply = apply_knowledge_batch_plan(plan_path, state_path, faults={"project-a": "before-build"})
+        self.assertEqual("partial", partial_apply["status"], partial_apply)
+        statuses = {item["project_id"]: item["status"] for item in partial_apply["projects"]}
+        self.assertEqual("failed", statuses["project-a"])
+        self.assertEqual("ready", statuses["project-b"])
+        self.assertEqual(origin_a, _tree_manifest(self.output))
+        self.assertEqual(origin_b, _tree_manifest(output_b))
+        resumed = resume_knowledge_batch_state(state_path)
+        self.assertEqual("ready", resumed["status"], resumed)
+
+        partial_cutover = cutover_knowledge_batch_state(
+            state_path,
+            faults={"project-a": "after-backup-rename"},
+        )
+        self.assertEqual("partial", partial_cutover["status"], partial_cutover)
+        self.assertEqual(origin_a, _tree_manifest(self.output))
+        self.assertNotEqual(origin_b, _tree_manifest(output_b))
+        retried = cutover_knowledge_batch_state(state_path, ["project-a"])
+        self.assertEqual("passed", retried["status"], retried)
+
+        rolled_b = rollback_knowledge_batch_state(state_path, ["project-b"])
+        self.assertEqual("passed", rolled_b["status"], rolled_b)
+        self.assertEqual(origin_b, _tree_manifest(output_b))
+        self.assertNotEqual(origin_a, _tree_manifest(self.output))
+        rolled_a = rollback_knowledge_batch_state(state_path, ["project-a"])
+        self.assertEqual("passed", rolled_a["status"], rolled_a)
+        self.assertEqual(origin_a, _tree_manifest(self.output))
+
+    def test_plan_classifies_required_origin_version_and_path_failures(self) -> None:
+        from ckb_core.common import CkbError, json_load, json_write, sha256_file
+        from ckb_core.knowledge_batch_migration import create_knowledge_batch_plan
+        from ckb_core.scope_extension import _tree_manifest
+
+        def case_project(name: str) -> tuple[Path, dict[str, object]]:
+            output = self.root / f"case-{name}"
+            shutil.copytree(self.output, output)
+            project = self._project_document(name, output, self.repo, self.root / f"stage-{name}")
+            return output, project
+
+        def refresh(project: dict[str, object], output: Path, changed_records: tuple[str, ...] = ()) -> None:
+            tree = _tree_manifest(output)
+            origin = project["origin"]
+            assert isinstance(origin, dict)
+            origin["tree"] = {key: tree[key] for key in ("algorithm", "file_count", "byte_count", "sha256")}
+            records = origin["records"]
+            assert isinstance(records, dict)
+            for relative in changed_records:
+                records[relative] = sha256_file(output / relative)
+
+        def plan_for(project: dict[str, object], suffix: str) -> dict[str, object]:
+            manifest = self.root / f"manifest-{suffix}.json"
+            json_write(
+                manifest,
+                {
+                    "schema_version": 1,
+                    "batch_id": f"batch-{suffix}",
+                    "allowed_roots": [str(self.root.resolve()), str(ROOT.resolve())],
+                    "projects": [project],
+                },
+            )
+            return create_knowledge_batch_plan(manifest)
+
+        missing, project = case_project("missing-state")
+        (missing / "state.json").unlink()
+        refresh(project, missing)
+        result = plan_for(project, "missing-state")
+        self.assertEqual("origin-record-missing", result["projects"][0]["failure"]["category"])
+
+        no_facts, project = case_project("missing-facts")
+        shutil.rmtree(no_facts / "facts")
+        refresh(project, no_facts)
+        result = plan_for(project, "missing-facts")
+        self.assertEqual("origin-facts-missing", result["projects"][0]["failure"]["category"])
+
+        corrupt_sqlite, project = case_project("bad-sqlite")
+        (corrupt_sqlite / "machine/knowledge.sqlite").write_bytes(b"not-a-sqlite-database")
+        refresh(project, corrupt_sqlite)
+        result = plan_for(project, "bad-sqlite")
+        self.assertEqual("origin-sqlite", result["projects"][0]["failure"]["category"])
+
+        mirror, project = case_project("mirror-drift")
+        page = next((mirror / "markdown/pages").glob("*.md"))
+        page.write_text(page.read_text(encoding="utf-8") + "\n镜像漂移。\n", encoding="utf-8")
+        refresh(project, mirror)
+        result = plan_for(project, "mirror-drift")
+        self.assertEqual("origin-mirror-drift", result["projects"][0]["failure"]["category"])
+
+        unknown, project = case_project("unknown-version")
+        state = json_load(unknown / "state.json")
+        state["version"] = "9.9.9"
+        json_write(unknown / "state.json", state)
+        protocol = json_load(unknown / "workspace-meta/agent-protocol.json")
+        protocol["protocol_version"] = "9.9.9"
+        json_write(unknown / "workspace-meta/agent-protocol.json", protocol)
+        source = project["source"]
+        assert isinstance(source, dict)
+        source.update({"ckb_version": "9.9.9", "protocol_version": "9.9.9"})
+        refresh(project, unknown, ("state.json",))
+        result = plan_for(project, "unknown-version")
+        self.assertEqual("awaiting-review", result["projects"][0]["status"])
+        self.assertEqual("source-release-unknown", result["projects"][0]["reason"])
+
+        _output, project = case_project("target-low")
+        target = project["target"]
+        assert isinstance(target, dict)
+        target.update(
+            {
+                "ckb_version": "5.3.0",
+                "protocol_version": "1.4.0",
+                "release_commit": "02b3f9bae10663f8d8d41626bb52454a226d4228",
+            }
+        )
+        result = plan_for(project, "target-low")
+        self.assertEqual("target-not-current", result["projects"][0]["failure"]["category"])
+
+        _output, project = case_project("long-path")
+        project["max_path"] = 80
+        result = plan_for(project, "long-path")
+        self.assertEqual("path-too-long", result["projects"][0]["failure"]["category"])
+
+        _output, project = case_project("overlap")
+        project["staging"] = project["output"]
+        manifest = self.root / "manifest-overlap.json"
+        json_write(
+            manifest,
+            {
+                "schema_version": 1,
+                "batch_id": "batch-overlap",
+                "allowed_roots": [str(self.root.resolve()), str(ROOT.resolve())],
+                "projects": [project],
+            },
+        )
+        with self.assertRaises(CkbError):
+            create_knowledge_batch_plan(manifest)
 
 
 if __name__ == "__main__":

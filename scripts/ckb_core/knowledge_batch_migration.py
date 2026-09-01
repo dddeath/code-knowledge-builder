@@ -414,7 +414,18 @@ def _origin_health(output: Path) -> dict[str, Any]:
         if item.get("classification") in {"page", "boundary", "appendix"} and item.get("review_status") != "agent-reviewed"
     ]
     check("entity-reviews", not entity_review_errors, entity_review_errors[:40], "origin-review-binding")
-    sqlite_checks = _sqlite_checks(output)
+    try:
+        sqlite_checks = _sqlite_checks(output)
+    except sqlite3.Error as exc:
+        sqlite_checks = [
+            {
+                "path": "machine/knowledge.sqlite",
+                "integrity_check": "error",
+                "foreign_key_errors": None,
+                "passed": False,
+                "detail": str(exc),
+            }
+        ]
     required_sqlite = {item["path"]: item for item in sqlite_checks}
     check(
         "double-sqlite",
@@ -425,6 +436,40 @@ def _origin_health(output: Path) -> dict[str, Any]:
     human = output / "human"
     markdown = output / "markdown"
     check("human-markdown", human.is_dir() and markdown.is_dir(), {"human": human.is_dir(), "markdown": markdown.is_dir()}, "origin-projection-missing")
+    mirror_errors: list[dict[str, Any]] = []
+    if human.is_dir() and markdown.is_dir():
+        excluded = {"AGENTS.md", "CLAUDE.md", "GEMINI.md"}
+        human_files = {
+            path.relative_to(human).as_posix(): path
+            for path in human.rglob("*.md")
+            if path.relative_to(human).as_posix() not in excluded
+            and not path.relative_to(human).as_posix().startswith((".github/", ".cursor/", ".obsidian/"))
+        }
+        markdown_files = {
+            path.relative_to(markdown).as_posix(): path
+            for path in markdown.rglob("*.md")
+            if path.relative_to(markdown).as_posix() not in excluded
+            and not path.relative_to(markdown).as_posix().startswith((".github/", ".cursor/", ".obsidian/"))
+        }
+        if set(human_files) != set(markdown_files):
+            mirror_errors.append(
+                {
+                    "reason": "mirror-file-set",
+                    "human_only": sorted(set(human_files) - set(markdown_files)),
+                    "markdown_only": sorted(set(markdown_files) - set(human_files)),
+                }
+            )
+        for relative in sorted(set(human_files) & set(markdown_files)):
+            if human_files[relative].read_bytes() != markdown_files[relative].read_bytes():
+                mirror_errors.append({"reason": "mirror-byte-drift", "path": relative})
+    check("human-markdown-parity", not mirror_errors, mirror_errors, "origin-mirror-drift")
+    readability = json_load(markdown / "readability-audit.json") if (markdown / "readability-audit.json").is_file() else {}
+    check(
+        "readability-record",
+        readability.get("status") == "passed" and not readability.get("errors"),
+        readability,
+        "origin-readability",
+    )
     return {
         "status": "passed" if all(item["passed"] for item in checks) else "failed",
         "checks": checks,
@@ -434,6 +479,38 @@ def _origin_health(output: Path) -> dict[str, Any]:
         "audit": audit,
         "markers": markers,
         "sqlite": sqlite_checks,
+    }
+
+
+def _complete_layer_inventory(output: Path, mutable_files: list[dict[str, Any]] | None = None) -> dict[str, Any]:
+    base = _layer_inventory(output, mutable_files)
+    names: dict[str, dict[str, str]] = {}
+    mirror_errors: list[dict[str, Any]] = []
+    for root_name in ("human", "markdown"):
+        root = output / root_name / "user"
+        for path in sorted(root.glob("*.md")) if root.is_dir() else []:
+            entry = names.setdefault(path.name, {})
+            entry[root_name] = sha256_file(path)
+    for name, hashes in sorted(names.items()):
+        if set(hashes) != {"human", "markdown"} or hashes.get("human") != hashes.get("markdown"):
+            mirror_errors.append({"name": name, "hashes": hashes})
+    reference_files = sorted(path.relative_to(output).as_posix() for path in (output / "references").rglob("*") if path.is_file()) if (output / "references").is_dir() else []
+    feedback_files = sorted(path.relative_to(output).as_posix() for path in (output / "workspace-meta/feedback").rglob("*.json")) if (output / "workspace-meta/feedback").is_dir() else []
+    operation_files = sorted(path.relative_to(output).as_posix() for path in (output / "workspace-meta/operations").glob("*.jsonl")) if (output / "workspace-meta/operations").is_dir() else []
+    automation = output / "machine/automation.sqlite"
+    protocol = output / "workspace-meta/agent-protocol.json"
+    return {
+        **base,
+        "learning_note_count": len(names),
+        "learning_notes": [{"name": name, "sha256": hashes.get("human"), "mirrors": hashes} for name, hashes in sorted(names.items())],
+        "learning_note_mirror_errors": mirror_errors,
+        "reference_source_file_count": len(reference_files),
+        "reference_source_files": reference_files,
+        "feedback_record_count": len(feedback_files),
+        "operation_file_count": len(operation_files),
+        "automation_database_present": automation.is_file(),
+        "agent_protocol_record_present": protocol.is_file(),
+        "agent_protocol_record_sha256": sha256_file(protocol) if protocol.is_file() else None,
     }
 
 
@@ -536,6 +613,9 @@ def _inspect_knowledge_project(project: dict[str, Any], roots: list[Path]) -> di
         raise BatchProjectError("origin-record-summary-incomplete", f"origin.records must include every required record for {project_id}")
     if any(not isinstance(value, str) or not HEX_SHA256.fullmatch(value) for value in expected_records.values()):
         raise BatchProjectError("origin-record-digest-invalid", f"origin.records contains an invalid SHA-256 for {project_id}")
+    missing_records = [relative for relative in expected_records if not (output / relative).is_file()]
+    if missing_records:
+        raise BatchProjectError("origin-record-missing", f"origin key records are missing for {project_id}: {missing_records}")
     actual_tree = _tree_manifest(output)
     tree_fields = {key: actual_tree[key] for key in TREE_KEYS}
     if tree_fields != expected_tree:
@@ -621,7 +701,7 @@ def _inspect_knowledge_project(project: dict[str, Any], roots: list[Path]) -> di
         if decision == "ready":
             decision = "awaiting-review"
             reason = "protocol-chain-missing"
-    layers = _layer_inventory(output)
+    layers = _complete_layer_inventory(output)
     return {
         "project_id": project_id,
         "status": decision,
@@ -834,6 +914,10 @@ def _summarize_knowledge_state(state: dict[str, Any]) -> str:
     if values and all(value == "cutover-complete" for value in values):
         return "cutover-complete"
     if any(value == "cutover-complete" for value in values):
+        return "partial"
+    if any(value in {"failed", "awaiting-review"} for value in values) and any(
+        value in {"ready", "review-pending", "pending", "applying", "rolled-back"} for value in values
+    ):
         return "partial"
     if any(value == "ready" for value in values):
         return "ready"
@@ -1138,7 +1222,7 @@ def _knowledge_project_audit(project: dict[str, Any], project_state: dict[str, A
         "counts": {"passed": sum(item["passed"] for item in checks), "total": len(checks)},
         "pending_review_packs": pending,
         "origin_layers": record.get("origin_layers"),
-        "current_layers": _layer_inventory(staging, record.get("mutable_files")),
+        "current_layers": _complete_layer_inventory(staging, record.get("mutable_files")),
         "sqlite": sqlite_checks,
         "audited_at_utc": utc_now(),
     }
@@ -1473,8 +1557,19 @@ def _cutover_one(
         if backup.exists():
             raise BatchProjectError("cutover-backup-conflict", f"cutover backup already exists: {backup}")
         control_path = _control_path(output, operation_id, project_id)
+        previous_attempts: list[dict[str, Any]] = []
         if control_path.exists():
-            raise BatchProjectError("cutover-control-conflict", f"cutover control already exists: {control_path}")
+            previous = json_load(control_path)
+            if previous.get("status") != "cutover-failed-restored":
+                raise BatchProjectError("cutover-control-conflict", f"cutover control already exists: {control_path}")
+            previous_attempts = list(previous.get("attempts") or [])
+            previous_attempts.append(
+                {
+                    "status": previous.get("status"),
+                    "failure": previous.get("failure"),
+                    "origin_restored": previous.get("origin_restored"),
+                }
+            )
         active_parent = _active_control(output, project["origin_manifest"])
         protocol_backup_root = state_path.parent / ".ckb-knowledge-migration-protocol-backups" / state["batch_id"] / project_id
         protocol_backup_project = {
@@ -1497,6 +1592,7 @@ def _cutover_one(
             "origin_manifest": project["origin_manifest"],
             "staging_manifest": current_staging,
             "protocol_backup": protocol_backup["manifest_path"],
+            "attempts": previous_attempts,
             "started_at_utc": utc_now(),
         }
         json_write(control_path, record)
