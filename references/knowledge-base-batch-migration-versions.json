@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "purpose_zh": "完整知识库批量迁移只接受仓库历史中可核验的 CKB、Schema 与 Agent Protocol 版本组合。",
+  "current_release_id": "5.4.0-s4-p1.5.0",
+  "releases": [
+    {
+      "release_id": "5.1.1-s4-none",
+      "ckb_version": "5.1.1",
+      "schema_version": 4,
+      "protocol_version": null,
+      "source_commit": "5034de2cc81e36385cbbe794d8105d2de687c725",
+      "next_release_id": "5.1.4-s4-p1.0.0",
+      "compatible": false
+    },
+    {
+      "release_id": "5.1.4-s4-p1.0.0",
+      "ckb_version": "5.1.4",
+      "schema_version": 4,
+      "protocol_version": "1.0.0",
+      "source_commit": "c0e6cb650d707512d0edbcc481db373359a8f46f",
+      "next_release_id": "5.2.9-s4-p1.3.0",
+      "compatible": true
+    },
+    {
+      "release_id": "5.2.9-s4-p1.3.0",
+      "ckb_version": "5.2.9",
+      "schema_version": 4,
+      "protocol_version": "1.3.0",
+      "source_commit": "3f117b8a3565b24633b88799a3ee180d6b3451ab",
+      "next_release_id": "5.3.0-s4-p1.3.0",
+      "compatible": true
+    },
+    {
+      "release_id": "5.3.0-s4-p1.3.0",
+      "ckb_version": "5.3.0",
+      "schema_version": 4,
+      "protocol_version": "1.3.0",
+      "source_commit": "b666233cd4ec2cd1aecb3e6a7b194f61613be662",
+      "next_release_id": "5.3.0-s4-p1.4.0",
+      "compatible": true
+    },
+    {
+      "release_id": "5.3.0-s4-p1.4.0",
+      "ckb_version": "5.3.0",
+      "schema_version": 4,
+      "protocol_version": "1.4.0",
+      "source_commit": "02b3f9bae10663f8d8d41626bb52454a226d4228",
+      "next_release_id": "5.4.0-s4-p1.5.0",
+      "compatible": true
+    },
+    {
+      "release_id": "5.4.0-s4-p1.5.0",
+      "ckb_version": "5.4.0",
+      "schema_version": 4,
+      "protocol_version": "1.5.0",
+      "source_commit": "2d1ddc4de65c36c2ebe244e3d0556d4b613b2d3d",
+      "next_release_id": null,
+      "compatible": true
+    }
+  ]
+}

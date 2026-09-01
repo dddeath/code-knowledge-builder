@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://code-knowledge-builder.local/schema/knowledge-base-batch-migration-manifest-v1.json",
+  "title": "CKB 完整知识库批量迁移 manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "batch_id", "allowed_roots", "projects"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "batch_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{0,63}$"},
+    "allowed_roots": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+    "projects": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 128,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["project_id", "output", "repository", "staging", "source", "target", "origin_snapshot", "target_snapshot", "format", "scope_selectors", "runtime", "workspace_roots", "harnesses", "origin", "strategies", "cutover", "rollback"],
+        "properties": {
+          "project_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{0,63}$"},
+          "output": {"type": "string"},
+          "repository": {"type": "string"},
+          "staging": {"type": "string"},
+          "source": {"$ref": "#/$defs/version"},
+          "target": {"$ref": "#/$defs/version"},
+          "origin_snapshot": {"$ref": "#/$defs/snapshot"},
+          "target_snapshot": {"$ref": "#/$defs/snapshot"},
+          "format": {"enum": ["markdown", "logseq-db", "both"]},
+          "scope_selectors": {"type": "object"},
+          "runtime": {"type": "object", "additionalProperties": false, "required": ["python", "ckb"], "properties": {"python": {"type": "string"}, "ckb": {"type": "string"}}},
+          "workspace_roots": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+          "harnesses": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+          "origin": {"type": "object", "additionalProperties": false, "required": ["tree", "records"], "properties": {"tree": {"$ref": "#/$defs/tree"}, "records": {"type": "object", "additionalProperties": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}}},
+          "strategies": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["compatible-migration", "delta-review", "cold-build"]}},
+          "cutover": {"type": "object", "additionalProperties": false, "required": ["output", "backup_root"], "properties": {"output": {"type": "string"}, "backup_root": {"type": "string"}}},
+          "rollback": {"type": "object", "additionalProperties": false, "required": ["quarantine_root"], "properties": {"quarantine_root": {"type": "string"}}},
+          "max_path": {"type": "integer", "minimum": 80, "maximum": 32760}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "version": {"type": "object", "additionalProperties": false, "required": ["ckb_version", "schema_version", "protocol_version", "release_commit"], "properties": {"ckb_version": {"type": "string"}, "schema_version": {"type": "integer", "minimum": 1}, "protocol_version": {"type": ["string", "null"]}, "release_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"}}},
+    "snapshot": {"type": "object", "additionalProperties": false, "required": ["commit", "tree"], "properties": {"commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"}, "tree": {"type": "string", "pattern": "^[0-9a-f]{40}$"}}},
+    "tree": {"type": "object", "additionalProperties": false, "required": ["algorithm", "file_count", "byte_count", "sha256"], "properties": {"algorithm": {"const": "sha256-tree-v1"}, "file_count": {"type": "integer", "minimum": 0}, "byte_count": {"type": "integer", "minimum": 0}, "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}}
+  }
+}
