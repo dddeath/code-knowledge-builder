@@ -44,12 +44,16 @@ class KnowledgeBatchVersionMatrixTests(unittest.TestCase):
                 stdout=subprocess.PIPE,
             ).stdout.strip()
             subprocess.run(
-                ["git", "clone", "--shared", "--no-checkout", str(GIT_COMMON_DIR), str(clone)],
+                ["git", "-c", "core.autocrlf=false", "clone", "--shared", "--no-checkout", str(GIT_COMMON_DIR), str(clone)],
                 check=True,
                 text=True,
                 encoding="utf-8",
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
+            )
+            subprocess.run(
+                ["git", "-C", str(clone), "config", "core.autocrlf", "false"],
+                check=True,
             )
             subprocess.run(
                 ["git", "-C", str(clone), "checkout", "--detach", current_head],
