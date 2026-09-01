@@ -441,7 +441,12 @@ def audit_migration(output: Path, *, require_complete_reviews: bool = True) -> d
     if graph_path.is_file():
         graph = json_load(graph_path)
         target_commit = state["repository"]["commit"]
-        old_ids = set(plan.get("entities", {}).get("old_to_new_id_map", {}))
+        id_map = plan.get("entities", {}).get("old_to_new_id_map", {})
+        # A CKB-version-only migration may retain the same fixed Git commit.
+        # In that case commit-sensitive IDs are intentionally identical and
+        # are not obsolete IDs.  Only mappings whose target actually changed
+        # may be treated as forbidden old-ID residue.
+        old_ids = {old for old, new in id_map.items() if old != new}
         new_ids = {entity["id"] for entity in graph.get("entities", [])}
         if old_ids & new_ids:
             graph_errors.append({"reason": "old-entity-id-remains", "ids": sorted(old_ids & new_ids)[:20]})
