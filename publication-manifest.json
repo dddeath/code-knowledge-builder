@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "published-readability-repair-local-verification-passed-awaiting-fast-forward",
+  "status": "published-readability-repair-remote-verification-passed",
   "repository": "https://github.com/dddeath/code-knowledge-builder",
   "target_branch": "codex/release-5.4.0-stable-knowledge",
   "remote_base": "917c79094a9ff31f39900a28776a38077159638b",
@@ -101,8 +101,13 @@
     "checks": 12
   },
   "remote_clone_verification": {
-    "status": "superseded-pending-readability-repair-verification",
-    "previous_release_commit": "bb330982056688ebe69c23e9dbf3050c13289099"
+    "status": "passed",
+    "commit": "3c57bea3a16253b699273c59ac4b64047a3cb9f9",
+    "path": "delivery/remote-clone-verification-readability-repair.json",
+    "sha256": "a1ff2f5a9781cd7b9e6513f33710ba895b644d049a79dd4d4aa269fed56e450e",
+    "checks": 12,
+    "lfs_fsck": "passed",
+    "lfs_evidence": "delivery/remote-clone-lfs-fsck-readability-repair.txt"
   },
   "credential_scan": {
     "status": "passed",
@@ -138,6 +143,8 @@
     "double_sqlite": "passed",
     "retrieval": "passed",
     "maintain": "passed",
-    "rollback_probe": "passed"
+    "rollback_probe": "passed",
+    "remote_push": "passed",
+    "remote_clone": "passed"
   }
 }
