@@ -133,7 +133,8 @@ def main() -> int:
     records = list((knowledge / "workspace-meta/notes").glob("*.json"))
     references = list((knowledge / "references/manifests").glob("*.json"))
     gaps = list((knowledge / "workspace-meta/gaps/records").glob("*.json"))
-    check("durable-counts", len(records) == 51 and len(references) == 1 and len(gaps) == 3, {"records": len(records), "references": len(references), "research_gaps": len(gaps)})
+    expected_records = int(publication.get("knowledge_state", {}).get("records", 0))
+    check("durable-counts", len(records) == expected_records and len(references) == 1 and len(gaps) == 3, {"records": len(records), "expected_records": expected_records, "references": len(references), "research_gaps": len(gaps)})
     notes = []
     for name, digest in LEARNING_NOTES.items():
         row = {"name": name, "expected": digest}

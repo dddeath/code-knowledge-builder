@@ -6,7 +6,7 @@
 
 - 目标分支：`codex/release-5.4.0-stable-knowledge`
 - `source/`：当前 integration 源码，不包含工作区未跟踪文件或其他 worktree。
-- `knowledge-base/`：已切换并通过维护门的稳定知识库，包括事实层、机器 SQLite、兼容 SQLite、human/markdown 镜像、51 条工作记录、1 个已审阅 reference、3 个开放 research gap、操作日志和两份学习笔记原文。
+- `knowledge-base/`：已切换并通过维护门的稳定知识库，包括事实层、机器 SQLite、兼容 SQLite、human/markdown 镜像、52 条工作记录、1 个已审阅 reference、3 个开放 research gap、操作日志和两份学习笔记原文；第 52 条记录用于保存首次 GitHub 推送与远端新克隆复验结果。
 - `delivery/`：本次切换、回滚、测试、Skill 安装与 stdio 生命周期验证证据，以及独立发布校验程序。
 - `publication-manifest.json`：源码、知识库、Git LFS、排除项和发布边界的机器清单。
 

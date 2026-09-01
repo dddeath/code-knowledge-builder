@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "expected_files": 2627,
+  "missing": [],
+  "errors": [],
+  "lfs_files": [
+    {
+      "path": "knowledge-base/.source-snapshot/worktree/assets/runtime/win-x64/payload.zip",
+      "pointer_oid": "264bdf247d4b4f667800a7f532fe0404930ad7a0c3f5743460bef38f68fce8ce",
+      "pointer_size": 621187725,
+      "passed": true
+    },
+    {
+      "path": "knowledge-base/agent-index.sqlite",
+      "pointer_oid": "e37b4183730100691da5109ec475c7aa2c89b79f3321f4628a49e4a9baf6aa8e",
+      "pointer_size": 7057408,
+      "passed": true
+    },
+    {
+      "path": "knowledge-base/machine/automation.sqlite",
+      "pointer_oid": "b82c6e910e92b63f5bc0cf070bed360cccbfa2483aecded2941fdfbc25dfce7b",
+      "pointer_size": 208896,
+      "passed": true
+    },
+    {
+      "path": "knowledge-base/machine/knowledge.sqlite",
+      "pointer_oid": "20f80cc7d8f81262069a9ce14bfd30fe857f80abdd2ef28287c7250f26e2bb79",
+      "pointer_size": 38531072,
+      "passed": true
+    },
+    {
+      "path": "knowledge-base/migration/preserved-baseline/machine/automation.sqlite",
+      "pointer_oid": "01620b865e2bd1052a4e0cf73511b424cacce5c7a6e205df3fccb9d4c758821e",
+      "pointer_size": 208896,
+      "passed": true
+    },
+    {
+      "path": "source/assets/runtime/win-x64/payload.zip",
+      "pointer_oid": "264bdf247d4b4f667800a7f532fe0404930ad7a0c3f5743460bef38f68fce8ce",
+      "pointer_size": 621187725,
+      "passed": true
+    }
+  ]
+}

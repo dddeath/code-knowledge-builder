@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "files": [
+    {
+      "path": "source/assets/runtime/win-x64/payload.zip",
+      "passed": true,
+      "oid": "264bdf247d4b4f667800a7f532fe0404930ad7a0c3f5743460bef38f68fce8ce",
+      "size": 621187725
+    },
+    {
+      "path": "knowledge-base/.source-snapshot/worktree/assets/runtime/win-x64/payload.zip",
+      "passed": true,
+      "oid": "264bdf247d4b4f667800a7f532fe0404930ad7a0c3f5743460bef38f68fce8ce",
+      "size": 621187725
+    },
+    {
+      "path": "knowledge-base/agent-index.sqlite",
+      "passed": true,
+      "oid": "e37b4183730100691da5109ec475c7aa2c89b79f3321f4628a49e4a9baf6aa8e",
+      "size": 7057408
+    },
+    {
+      "path": "knowledge-base/machine/automation.sqlite",
+      "passed": true,
+      "oid": "b82c6e910e92b63f5bc0cf070bed360cccbfa2483aecded2941fdfbc25dfce7b",
+      "size": 208896
+    },
+    {
+      "path": "knowledge-base/machine/knowledge.sqlite",
+      "passed": true,
+      "oid": "20f80cc7d8f81262069a9ce14bfd30fe857f80abdd2ef28287c7250f26e2bb79",
+      "size": 38531072
+    },
+    {
+      "path": "knowledge-base/migration/preserved-baseline/machine/automation.sqlite",
+      "passed": true,
+      "oid": "01620b865e2bd1052a4e0cf73511b424cacce5c7a6e205df3fccb9d4c758821e",
+      "size": 208896
+    },
+    {
+      "path": "delivery/code-knowledge-builder-lite-5.4.0.zip",
+      "passed": true,
+      "oid": "9039b45a4b445233d8ee377cfea1478afa4c797cc48ba6e83dc62a3bec180250",
+      "size": 2667430
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "local-verification-passed-awaiting-push",
+  "status": "final-knowledge-trace-local-verification-passed-awaiting-fast-forward",
   "repository": "https://github.com/dddeath/code-knowledge-builder",
   "target_branch": "codex/release-5.4.0-stable-knowledge",
   "remote_base": "917c79094a9ff31f39900a28776a38077159638b",
@@ -28,7 +28,7 @@
         "author": null
       }
     },
-    "records": 51,
+    "records": 52,
     "references": 1,
     "research_gaps": 3,
     "learning_notes": 2
@@ -37,7 +37,7 @@
     "source": "delivery/source-files.json",
     "source_sha256": "65bb5396ac78ceeda0f598357bba0a2285834541583a12624b0d02674839651c",
     "knowledge": "delivery/knowledge-files.json",
-    "knowledge_sha256": "ff01ade4b9416996203423b2fc893e3e29c7d5daf78ca4a62d21192f7e41dc31"
+    "knowledge_sha256": "0bc532c6a251977829c39f1294119e64b361438a9b64542f74a5f3e2505ddb7a"
   },
   "lfs_patterns": [
     "*.zip",
@@ -50,14 +50,19 @@
       "sha256": "264bdf247d4b4f667800a7f532fe0404930ad7a0c3f5743460bef38f68fce8ce"
     },
     {
+      "path": "delivery/code-knowledge-builder-lite-5.4.0.zip",
+      "size": 2667430,
+      "sha256": "9039b45a4b445233d8ee377cfea1478afa4c797cc48ba6e83dc62a3bec180250"
+    },
+    {
       "path": "knowledge-base/.source-snapshot/worktree/assets/runtime/win-x64/payload.zip",
       "size": 621187725,
       "sha256": "264bdf247d4b4f667800a7f532fe0404930ad7a0c3f5743460bef38f68fce8ce"
     },
     {
       "path": "knowledge-base/agent-index.sqlite",
-      "size": 7057408,
-      "sha256": "e37b4183730100691da5109ec475c7aa2c89b79f3321f4628a49e4a9baf6aa8e"
+      "size": 7086080,
+      "sha256": "97f89b4352638b9346e6075cb2da774ac35a735f9aaa936b00aa64f67e784c06"
     },
     {
       "path": "knowledge-base/machine/automation.sqlite",
@@ -66,18 +71,13 @@
     },
     {
       "path": "knowledge-base/machine/knowledge.sqlite",
-      "size": 38531072,
-      "sha256": "20f80cc7d8f81262069a9ce14bfd30fe857f80abdd2ef28287c7250f26e2bb79"
+      "size": 38551552,
+      "sha256": "fda6970ee52736a33db527bac11b5d67d1099c0952f9d5b79d962a826cccf81c"
     },
     {
       "path": "knowledge-base/migration/preserved-baseline/machine/automation.sqlite",
       "size": 208896,
       "sha256": "01620b865e2bd1052a4e0cf73511b424cacce5c7a6e205df3fccb9d4c758821e"
-    },
-    {
-      "path": "delivery/code-knowledge-builder-lite-5.4.0.zip",
-      "size": 2667430,
-      "sha256": "9039b45a4b445233d8ee377cfea1478afa4c797cc48ba6e83dc62a3bec180250"
     }
   ],
   "include": [
@@ -96,11 +96,18 @@
   ],
   "local_verification": {
     "status": "passed",
-    "path": "delivery/local-publication-verification.json",
-    "sha256": "54f040277bed2053780b93027383d4b7f511e7d111c12a33af1d1c1ceb821992",
+    "path": "delivery/local-publication-verification-final.json",
+    "sha256": "466f55f28f182882ab016f3cabd711031b50040c77b20a348abd3ddb5f07bcbb",
     "checks": 12
   },
-  "remote_clone_verification": "pending",
+  "remote_clone_verification": {
+    "status": "passed",
+    "release_commit": "bb330982056688ebe69c23e9dbf3050c13289099",
+    "path": "delivery/fresh-clone-verification.json",
+    "sha256": "26326005370a04d99519331deace12aafe04adb6055e216db679d2e753960114",
+    "checks": 12,
+    "lfs_fsck": "passed"
+  },
   "credential_scan": {
     "status": "passed",
     "path": "delivery/credential-scan.json",
@@ -120,5 +127,11 @@
     "evidence": "delivery/sanitized-history-verification.json",
     "evidence_sha256": "cfd25828ffbdcc71a262d412aff8d1daffea2b8bfeab82d503f0c9d9c6fd8fcd",
     "initial_rejection": "delivery/initial-push-rejection.txt"
+  },
+  "final_knowledge_trace": {
+    "status": "included-in-working-tree",
+    "record_count": 52,
+    "record": "knowledge-base/human/changes/CKB 5.4.0 GitHub 发布与远端复验.md",
+    "maintain": "passed"
   }
 }
