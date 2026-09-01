@@ -2258,7 +2258,7 @@ class CppParserAndSconsTests(unittest.TestCase):
         self.assertEqual(debug_value["kind"], "function")
         self.assertEqual((debug_value["range"]["start_line"], debug_value["range"]["end_line"]), (2, 4))
 
-        invalid = self.parse_fixture("conditional-incomplete.cpp")
+        invalid = self.parse_fixture("conditional-incomplete.cpp.txt")
         self.assertEqual(invalid["parse"]["status"], "failed")
         self.assertTrue(invalid["parse"]["has_error"])
 
@@ -2268,7 +2268,7 @@ class CppParserAndSconsTests(unittest.TestCase):
         named_x = [entity for entity in valid["entities"] if entity["name"] == "x"]
         self.assertEqual([(entity["kind"], entity["qualified_name"]) for entity in named_x], [("declaration", "bind_reference.x")])
 
-        invalid = self.parse_fixture("reference-direct-init-incomplete.cpp")
+        invalid = self.parse_fixture("reference-direct-init-incomplete.cpp.txt")
         self.assertEqual(invalid["parse"]["status"], "failed")
         self.assertTrue(invalid["parse"]["has_error"])
 
@@ -2287,7 +2287,7 @@ class CppParserAndSconsTests(unittest.TestCase):
             ["tree-sitter-cpp-explicit-class-template-instantiation"],
         )
 
-        invalid = self.parse_fixture("explicit-instantiation-incomplete.cpp")
+        invalid = self.parse_fixture("explicit-instantiation-incomplete.cpp.txt")
         self.assertEqual(invalid["parse"]["status"], "failed")
         self.assertTrue(invalid["parse"]["has_error"])
 
