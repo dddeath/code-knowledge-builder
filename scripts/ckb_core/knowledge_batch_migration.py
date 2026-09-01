@@ -1317,7 +1317,7 @@ def _knowledge_project_audit(project: dict[str, Any], project_state: dict[str, A
     check("agent-policy", agent_policy.get("status") == "passed", agent_policy, "agent-policy-audit")
     check("maintain", maintenance.get("status") == "passed", maintenance, "maintain")
     passed = all(item["passed"] for item in checks)
-    pending_only = bool(pending) and all(item["passed"] or item["category"] in {"review-pending", "blocked", "global-audit", "completion-markers", "sqlite-integrity", "readability", "reference-audit", "gap-audit", "operation-audit", "agent-policy-audit", "maintain"} for item in checks)
+    pending_only = bool(pending) and all(item["passed"] or item["category"] in {"review-pending", "blocked", "global-audit", "completion-markers", "sqlite-integrity", "sqlite-schema-version", "readability", "reference-audit", "gap-audit", "operation-audit", "agent-policy-audit", "maintain"} for item in checks)
     status = "ready" if passed else "review-pending" if pending_only else "failed"
     result = {
         "schema_version": KNOWLEDGE_BATCH_PROJECT_SCHEMA_VERSION,
