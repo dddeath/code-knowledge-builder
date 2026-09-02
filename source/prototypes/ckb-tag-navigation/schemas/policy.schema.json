@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ckb.local/schemas/tag-navigation-policy.schema.json",
+  "title": "CKB tag navigation policy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "min_support_votes", "min_independent_agents", "min_independent_sources", "max_opposition_ratio", "max_evidence_age_days", "max_tags_per_page"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "min_support_votes": {"type": "integer", "minimum": 2, "maximum": 20},
+    "min_independent_agents": {"type": "integer", "minimum": 2, "maximum": 20},
+    "min_independent_sources": {"type": "integer", "minimum": 2, "maximum": 20},
+    "max_opposition_ratio": {"type": "number", "minimum": 0, "maximum": 0.49},
+    "max_evidence_age_days": {"type": "integer", "minimum": 1, "maximum": 365},
+    "max_tags_per_page": {"type": "integer", "minimum": 1, "maximum": 8}
+  }
+}

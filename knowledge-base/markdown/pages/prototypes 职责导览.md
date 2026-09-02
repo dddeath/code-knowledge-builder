@@ -6,7 +6,7 @@
 
 ## 相关代码
 
-- 继续浏览 [[rollback 与 RenderedBundle 的协作实现]]。
+- 继续浏览 [[ingest 与 connect 的协作实现]]。
 
 ## 谁会来到这里
 

@@ -19,7 +19,7 @@ from unittest.mock import patch
 SKILL_ROOT = Path(__file__).resolve().parents[1]
 CLI = SKILL_ROOT / "scripts" / "ckb.py"
 sys.path.insert(0, str(SKILL_ROOT / "scripts"))
-from ckb_core.common import CkbError, background_process_options, run, stable_id
+from ckb_core.common import CkbError, DependencyError, background_process_options, run, stable_id
 from ckb_core.feedback import (
     audit_feedback,
     create_feedback,
@@ -2259,8 +2259,10 @@ class CppParserAndSconsTests(unittest.TestCase):
         self.assertEqual((debug_value["range"]["start_line"], debug_value["range"]["end_line"]), (2, 4))
 
         invalid = self.parse_fixture("conditional-incomplete.cpp.txt")
-        self.assertEqual(invalid["parse"]["status"], "failed")
+        self.assertEqual(invalid["parse"]["status"], "passed")
+        self.assertEqual(invalid["parse"]["outcome"], "partial")
         self.assertTrue(invalid["parse"]["has_error"])
+        self.assertFalse(invalid["parse"]["absence_inference_allowed"])
 
     def test_cpp_reference_direct_initialization_is_declaration_not_function(self) -> None:
         valid = self.parse_fixture("reference-direct-init-valid.cpp")
@@ -2269,7 +2271,8 @@ class CppParserAndSconsTests(unittest.TestCase):
         self.assertEqual([(entity["kind"], entity["qualified_name"]) for entity in named_x], [("declaration", "bind_reference.x")])
 
         invalid = self.parse_fixture("reference-direct-init-incomplete.cpp.txt")
-        self.assertEqual(invalid["parse"]["status"], "failed")
+        self.assertEqual(invalid["parse"]["status"], "passed")
+        self.assertEqual(invalid["parse"]["outcome"], "partial")
         self.assertTrue(invalid["parse"]["has_error"])
 
     def test_cpp_explicit_template_instantiation_has_no_pseudo_entities(self) -> None:
@@ -2289,7 +2292,132 @@ class CppParserAndSconsTests(unittest.TestCase):
 
         invalid = self.parse_fixture("explicit-instantiation-incomplete.cpp.txt")
         self.assertEqual(invalid["parse"]["status"], "failed")
+        self.assertEqual(invalid["parse"]["outcome"], "unusable")
         self.assertTrue(invalid["parse"]["has_error"])
+        self.assertIn("byte-coverage-exceeds-local-limit", invalid["parse"]["unusable_reasons"])
+
+    def test_cpp_local_diagnostic_contract_marks_only_affected_ranges_and_blocks_broad_errors(self) -> None:
+        local = self.parse_fixture("local-warning.cpp.txt")
+        self.assertEqual(local["parse"]["status"], "passed")
+        self.assertEqual(local["parse"]["outcome"], "partial")
+        self.assertEqual(len(local["parse"]["warnings"]), 1)
+        warning = local["parse"]["warnings"][0]
+        self.assertEqual(warning["file"], "local-warning.cpp.txt")
+        self.assertEqual(warning["range"]["start_line"], 4)
+        self.assertEqual(warning["diagnostic_categories"], ["missing"])
+        self.assertEqual(warning["diagnostic_count"], 1)
+        self.assertLessEqual(warning["coverage"]["line_ratio"], local["parse"]["thresholds"]["max_line_ratio"])
+        self.assertLessEqual(warning["coverage"]["byte_ratio"], local["parse"]["thresholds"]["max_byte_ratio"])
+        self.assertFalse(warning["absence_inference_allowed"])
+        before = next(entity for entity in local["entities"] if entity["name"] == "before")
+        affected = next(entity for entity in local["entities"] if entity["name"] == "conditional_value")
+        after = next(entity for entity in local["entities"] if entity["name"] == "after")
+        self.assertEqual((before["source_completeness"], before["source_confidence"]), ("complete", "high"))
+        self.assertEqual((affected["source_completeness"], affected["source_confidence"]), ("incomplete", "low"))
+        self.assertFalse(affected["absence_inference_allowed"])
+        self.assertEqual((after["source_completeness"], after["source_confidence"]), ("complete", "high"))
+
+        broad = self.parse_fixture("broad-unusable.cpp.txt")
+        self.assertEqual(broad["parse"]["status"], "failed")
+        self.assertEqual(broad["parse"]["outcome"], "unusable")
+        self.assertIn("root-node-unusable", broad["parse"]["unusable_reasons"])
+        self.assertEqual(broad["parse"]["warnings"], [])
+
+    def test_cpp_parser_dependency_and_root_unavailable_still_fail(self) -> None:
+        source = b"int value() { return 1; }\n"
+        file_entry = {"id": "file-failure", "path": "failure.cpp", "blob": hashlib.sha1(source).hexdigest(), "language": "cpp"}
+        with patch("ckb_core.parsers._language", side_effect=DependencyError("parser missing")):
+            with self.assertRaisesRegex(DependencyError, "parser missing"):
+                parse_file({"commit": "cpp-parser-fixture"}, file_entry, source)
+        with patch("ckb_core.parsers._language", return_value=object()), patch("tree_sitter.Parser") as parser:
+            parser.return_value.parse.return_value = SimpleNamespace(root_node=None)
+            with self.assertRaisesRegex(CkbError, "parse root is unavailable"):
+                parse_file({"commit": "cpp-parser-fixture"}, file_entry, source)
+
+    def test_cpp_local_warning_reaches_status_machine_index_and_brief(self) -> None:
+        repo = self.root / "warning-repo"
+        repo.mkdir()
+        shutil.copy2(self.FIXTURES / "local-warning.cpp.txt", repo / "service.cpp")
+        git(repo, "init")
+        git(repo, "config", "user.email", "fixture@example.invalid")
+        git(repo, "config", "user.name", "Fixture")
+        git(repo, "add", ".")
+        git(repo, "commit", "-m", "local warning")
+        output = self.root / "warning-output"
+        initialized = invoke("init", "--repo", str(repo), "--out", str(output), "--format", "markdown")
+        self.assertEqual(initialized.returncode, 0, initialized.stderr)
+        state = json.loads((output / "state.json").read_text(encoding="utf-8"))
+        self.assertEqual(state["syntax_warnings"]["status"], "warning")
+        self.assertEqual(state["syntax_warnings"]["warning_count"], 1)
+        self.assertLess(len(json.dumps(state["syntax_warnings"])), 4000)
+        current = invoke("status", "--out", str(output), "--json")
+        self.assertEqual(current.returncode, 0, current.stderr)
+        status_record = json.loads(current.stdout)
+        self.assertEqual(status_record["syntax_warnings"]["warning_count"], 1)
+        chunk_id = state["chunks"][0]["id"]
+        syntax = invoke("build-chunk", "--out", str(output), "--chunk", chunk_id, "--stage", "syntax")
+        self.assertEqual(syntax.returncode, 0, syntax.stderr)
+        syntax_record = json.loads((output / "chunks" / chunk_id / "syntax.json").read_text(encoding="utf-8"))
+        self.assertEqual(syntax_record["status"], "passed")
+        self.assertEqual(syntax_record["warning_summary"]["warning_count"], 1)
+
+        review_all(output)
+        self.assertEqual(invoke("merge", "--out", str(output)).returncode, 0)
+        finalized = invoke("finalize", "--out", str(output))
+        self.assertEqual(finalized.returncode, 0, finalized.stderr)
+        graph = json.loads((output / "graph.json").read_text(encoding="utf-8"))
+        self.assertEqual(graph["syntax_warnings"]["status"], "warning")
+        warning = graph["syntax_warnings"]["warnings"][0]
+        affected = next(entity for entity in graph["entities"] if entity["qualified_name"] == "conditional_value")
+        unaffected = next(entity for entity in graph["entities"] if entity["qualified_name"] == "after")
+        self.assertIn(affected["id"], warning["affected_entity_ids"])
+        self.assertEqual((affected["source_completeness"], affected["source_confidence"]), ("incomplete", "low"))
+        self.assertFalse(affected["absence_inference_allowed"])
+        self.assertEqual((unaffected["source_completeness"], unaffected["source_confidence"]), ("complete", "high"))
+
+        connection = sqlite3.connect(output / "machine" / "knowledge.sqlite")
+        try:
+            indexed = connection.execute(
+                "SELECT d.content FROM diagnostics d JOIN providers p USING(provider_id) WHERE p.name='tree-sitter' AND d.severity='warning'"
+            ).fetchall()
+        finally:
+            connection.close()
+        self.assertEqual(len(indexed), 1)
+        self.assertFalse(json.loads(indexed[0][0])["absence_inference_allowed"])
+        brief = invoke("brief", "--out", str(output), "conditional_value", "--budget", "1200", "--profile", "fast")
+        self.assertEqual(brief.returncode, 0, brief.stderr)
+        brief_record = json.loads(brief.stdout)
+        self.assertEqual(brief_record["warnings"]["warning_count"], 1)
+        self.assertFalse(brief_record["warnings"]["absence_inference_allowed"])
+        pack_text = Path(brief_record["pack"]).read_text(encoding="utf-8")
+        self.assertIn("## 完整性警告", pack_text)
+        self.assertIn("absence_inference_allowed=false", pack_text)
+        retrieval = json.loads(Path(brief_record["record"]).read_text(encoding="utf-8"))
+        selected = next(item for item in retrieval["selected_entities"] if item["qualified_name"] == "conditional_value")
+        self.assertEqual((selected["source_completeness"], selected["source_confidence"]), ("incomplete", "low"))
+        self.assertFalse(selected["absence_inference_allowed"])
+
+    def test_cpp_broad_syntax_error_still_blocks_syntax_stage(self) -> None:
+        repo = self.root / "broad-repo"
+        repo.mkdir()
+        shutil.copy2(self.FIXTURES / "broad-unusable.cpp.txt", repo / "broken.cpp")
+        git(repo, "init")
+        git(repo, "config", "user.email", "fixture@example.invalid")
+        git(repo, "config", "user.name", "Fixture")
+        git(repo, "add", ".")
+        git(repo, "commit", "-m", "broad syntax failure")
+        output = self.root / "broad-output"
+        initialized = invoke("init", "--repo", str(repo), "--out", str(output), "--format", "markdown")
+        self.assertEqual(initialized.returncode, 0, initialized.stderr)
+        state = json.loads((output / "state.json").read_text(encoding="utf-8"))
+        chunk_id = state["chunks"][0]["id"]
+        syntax = invoke("build-chunk", "--out", str(output), "--chunk", chunk_id, "--stage", "syntax")
+        self.assertEqual(syntax.returncode, 5)
+        syntax_record = json.loads((output / "chunks" / chunk_id / "syntax.json").read_text(encoding="utf-8"))
+        self.assertEqual(syntax_record["status"], "failed")
+        parse_record = syntax_record["parse_results"]["broken.cpp"]
+        self.assertEqual(parse_record["outcome"], "unusable")
+        self.assertIn("root-node-unusable", parse_record["unusable_reasons"])
 
     def test_scons_fallback_is_auditable_and_compile_database_stays_exact(self) -> None:
         repo = self.root / "scons"

@@ -1,0 +1,2337 @@
+diff --git a/prototypes/ckb-tag-navigation/README.md b/prototypes/ckb-tag-navigation/README.md
+new file mode 100644
+index 0000000..60ecf5b
+--- /dev/null
++++ b/prototypes/ckb-tag-navigation/README.md
+@@ -0,0 +1,36 @@
++# CKB tag 导航隔离原型
++
++该原型把 tag assertion 写入任务自有 SQLite，重放 Agent 的 propose、vote 和 retract，按冻结阈值生成四态审计，再把 `confirmed` tag 投影为独立 JSON。它不导入 `scripts/ckb.py`，不写稳定知识库，也不修改现有 Markdown、Obsidian companion 或 Canvas 原型。
++
++## 命令
++
++```powershell
++$Python = 'C:\Users\19739\.codex\cache\code-knowledge-builder\runtime\win-x64\win-x64-2.1.0\python\python.exe'
++$Cli = 'E:\knowledge_builder\self-workspace\worktrees\tag-navigation-research\prototypes\ckb-tag-navigation\scripts\ckb_tag_navigation.py'
++$Fixture = 'E:\knowledge_builder\self-workspace\worktrees\tag-navigation-research\tests\fixtures\tag-navigation'
++$Out = 'E:\knowledge_builder\self-workspace\worktrees\tag-navigation-research\artifacts\tag-navigation-run'
++
++& $Python -X utf8 $Cli replay --input "$Fixture\assertions.jsonl" --database "$Out\tags.sqlite" --rollback-manifest "$Out\tags.rollback.json" --workspace-root $Out
++& $Python -X utf8 $Cli audit --database "$Out\tags.sqlite" --policy "$Fixture\policy.json" --current-commit 19152b227ccf687e7e4d89337d421c22a4e1a75f --as-of 2026-09-03T00:00:00Z --out "$Out\audit.json" --workspace-root $Out
++& $Python -X utf8 $Cli project --audit "$Out\audit.json" --policy "$Fixture\policy.json" --out "$Out\projection.json" --workspace-root $Out
++& $Python -X utf8 $Cli benchmark --fixture "$Fixture\navigation-benchmark.json" --records "$Fixture\navigation-records.jsonl" --out "$Out\benchmark.json" --workspace-root $Out
++```
++
++SQLite 目标回滚：
++
++```powershell
++& $Python -X utf8 $Cli rollback --manifest "$Out\tags.rollback.json" --workspace-root $Out
++```
++
++回滚先读取并校验 manifest，再要求 manifest、target 和非空 backup 都位于 `--workspace-root`。越界返回 `ROLLBACK_PATH_OUTSIDE_WORKSPACE`；目标字节发生变化时返回 `ROLLBACK_DRIFT`。两种失败都保留当前文件。
++
++`replay` 在 manifest 写入失败时先把 baseline 复制到独立 `.restore.tmp`，核对 hash 后再原子替换数据库。恢复成功才清理 backup 和临时文件；恢复 copy 或 hash 校验失败时返回 `REPLAY_RECOVERY_FAILED`，保留 baseline backup、当前数据库和诊断文件。
++
++## 状态与投影
++
++- `candidate`：已有 proposal 或未满足全部确认门的有效 support；
++- `confirmed`：票数、独立 Agent、独立来源、反对比例、commit 与时效全部通过；
++- `contested`：有效反对比例超过阈值；
++- `deprecated`：曾有 vote，但当前没有可用 support。
++
++人类投影只含 confirmed tag，每页使用固定配额。投影中的 `#导航/...` 只是实验显示值，不会写回人类页面。
+diff --git a/prototypes/ckb-tag-navigation/ckb_tag_navigation/__init__.py b/prototypes/ckb-tag-navigation/ckb_tag_navigation/__init__.py
+new file mode 100644
+index 0000000..7581569
+--- /dev/null
++++ b/prototypes/ckb-tag-navigation/ckb_tag_navigation/__init__.py
+@@ -0,0 +1,6 @@
++"""隔离的 CKB tag 导航实验。"""
++
++from .contracts import TagNavigationError
++from .state_machine import audit_database
++
++__all__ = ["TagNavigationError", "audit_database"]
+diff --git a/prototypes/ckb-tag-navigation/ckb_tag_navigation/benchmark.py b/prototypes/ckb-tag-navigation/ckb_tag_navigation/benchmark.py
+new file mode 100644
+index 0000000..ea6629d
+--- /dev/null
++++ b/prototypes/ckb-tag-navigation/ckb_tag_navigation/benchmark.py
+@@ -0,0 +1,106 @@
++from __future__ import annotations
++
++from collections import defaultdict
++import json
++from pathlib import Path
++from statistics import median
++from typing import Any
++
++from .contracts import TagNavigationError
++
++
++CONDITIONS = ("no_tag", "confirmed_tag")
++
++
++def load_records(path: Path) -> list[dict[str, Any]]:
++    records: list[dict[str, Any]] = []
++    for line_number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
++        if not line.strip():
++            continue
++        try:
++            value = json.loads(line)
++        except json.JSONDecodeError as exc:
++            raise TagNavigationError("INVALID_BENCHMARK_RECORD", f"第 {line_number} 行") from exc
++        records.append(value)
++    return records
++
++
++def recompute(fixture: dict[str, Any], records: list[dict[str, Any]]) -> dict[str, Any]:
++    if not isinstance(fixture, dict) or set(fixture) != {"schema_version", "scope", "page_sets", "tasks"}:
++        raise TagNavigationError("INVALID_BENCHMARK", "fixture 根字段非法")
++    if fixture["schema_version"] != 1 or fixture["scope"] != "isolated-fixture":
++        raise TagNavigationError("INVALID_BENCHMARK", "fixture schema/scope 非法")
++    page_sets = fixture["page_sets"]
++    if not isinstance(page_sets, dict) or set(page_sets) != set(CONDITIONS):
++        raise TagNavigationError("INVALID_BENCHMARK", "page_sets 条件非法")
++    normalized_sets = {condition: set(page_sets[condition]) for condition in CONDITIONS}
++    if any(len(normalized_sets[c]) != len(page_sets[c]) for c in CONDITIONS):
++        raise TagNavigationError("INVALID_BENCHMARK", "page_sets 含重复页面")
++    task_map: dict[str, dict[str, Any]] = {}
++    for task in fixture["tasks"]:
++        if not isinstance(task, dict) or set(task) != {"task_id", "target", "accepted_routes"}:
++            raise TagNavigationError("INVALID_BENCHMARK", "task 字段非法")
++        if task["task_id"] in task_map or set(task["accepted_routes"]) != set(CONDITIONS):
++            raise TagNavigationError("INVALID_BENCHMARK", "task ID 重复或条件非法")
++        task_map[task["task_id"]] = task
++    seen: set[tuple[str, str]] = set()
++    rows: list[dict[str, Any]] = []
++    for record in records:
++        if not isinstance(record, dict) or set(record) != {
++            "schema_version", "task_id", "condition", "visited_pages", "conflicting_tag_count"
++        }:
++            raise TagNavigationError("INVALID_BENCHMARK_RECORD", "record 字段非法")
++        task_id = record["task_id"]
++        condition = record["condition"]
++        key = (task_id, condition)
++        if record["schema_version"] != 1 or task_id not in task_map or condition not in CONDITIONS or key in seen:
++            raise TagNavigationError("INVALID_BENCHMARK_RECORD", f"非法或重复记录 {key}")
++        seen.add(key)
++        visited = record["visited_pages"]
++        if not isinstance(visited, list) or not visited or any(page not in normalized_sets[condition] for page in visited):
++            raise TagNavigationError("INVALID_BENCHMARK_RECORD", f"{key} visited_pages 非法")
++        task = task_map[task_id]
++        if visited[-1] != task["target"]:
++            raise TagNavigationError("INVALID_BENCHMARK_RECORD", f"{key} 未找到目标")
++        route = task["accepted_routes"][condition]
++        if not isinstance(route, list) or not route or route[-1] != task["target"]:
++            raise TagNavigationError("INVALID_BENCHMARK", f"{key} accepted_route 非法")
++        conflicts = record["conflicting_tag_count"]
++        if not isinstance(conflicts, int) or isinstance(conflicts, bool) or conflicts < 0:
++            raise TagNavigationError("INVALID_BENCHMARK_RECORD", f"{key} conflict 非法")
++        rows.append(
++            {
++                "task_id": task_id,
++                "condition": condition,
++                "steps": len(visited) - 1,
++                "misdirected_links": sum(1 for page in visited[:-1] if page not in route),
++                "page_increment": 0,
++                "conflicts": conflicts,
++            }
++        )
++    expected = {(task_id, condition) for task_id in task_map for condition in CONDITIONS}
++    if seen != expected:
++        raise TagNavigationError("INCOMPLETE_BENCHMARK", f"missing={sorted(expected - seen)}")
++    aggregate: dict[str, dict[str, Any]] = {}
++    for condition in CONDITIONS:
++        condition_rows = [row for row in rows if row["condition"] == condition]
++        aggregate[condition] = {
++            "tasks": len(condition_rows),
++            "total_steps": sum(row["steps"] for row in condition_rows),
++            "median_steps": median(row["steps"] for row in condition_rows),
++            "misdirected_links": sum(row["misdirected_links"] for row in condition_rows),
++            "page_count": len(normalized_sets[condition]),
++            "conflicts": sum(row["conflicts"] for row in condition_rows),
++        }
++    page_increment = len(normalized_sets["confirmed_tag"] - normalized_sets["no_tag"])
++    aggregate["confirmed_tag"]["page_increment"] = page_increment
++    aggregate["no_tag"]["page_increment"] = 0
++    rows.sort(key=lambda row: (row["task_id"], row["condition"]))
++    return {
++        "schema_version": 1,
++        "status": "passed",
++        "scope": "isolated-fixture",
++        "effect_claim": "fixture-navigation-signal-only",
++        "aggregate": aggregate,
++        "records": rows,
++    }
+diff --git a/prototypes/ckb-tag-navigation/ckb_tag_navigation/cli.py b/prototypes/ckb-tag-navigation/ckb_tag_navigation/cli.py
+new file mode 100644
+index 0000000..4ff7c4a
+--- /dev/null
++++ b/prototypes/ckb-tag-navigation/ckb_tag_navigation/cli.py
+@@ -0,0 +1,112 @@
++from __future__ import annotations
++
++import argparse
++import json
++from pathlib import Path
++import sqlite3
++import sys
++from typing import Any
++
++from .benchmark import load_records, recompute
++from .contracts import (
++    TagNavigationError,
++    atomic_write_json,
++    canonical_json_bytes,
++    ensure_within,
++    sha256_file,
++    validate_policy,
++)
++from .projection import build_projection
++from .state_machine import audit_database
++from .store import replay_with_rollback, rollback
++
++
++def _json(path: Path) -> dict[str, Any]:
++    value = json.loads(path.read_text(encoding="utf-8"))
++    if not isinstance(value, dict):
++        raise TagNavigationError("INVALID_JSON", f"{path} 根必须是对象")
++    return value
++
++
++def _write_result(path: Path, value: dict[str, Any], workspace: Path) -> dict[str, Any]:
++    output = ensure_within(path, workspace, "out")
++    atomic_write_json(output, value)
++    return {**value, "output": str(output), "output_sha256": sha256_file(output)}
++
++
++def build_parser() -> argparse.ArgumentParser:
++    parser = argparse.ArgumentParser(prog="ckb-tag-navigation")
++    commands = parser.add_subparsers(dest="command", required=True)
++
++    replay = commands.add_parser("replay")
++    replay.add_argument("--input", type=Path, required=True)
++    replay.add_argument("--database", type=Path, required=True)
++    replay.add_argument("--rollback-manifest", type=Path, required=True)
++    replay.add_argument("--workspace-root", type=Path, required=True)
++
++    audit = commands.add_parser("audit")
++    audit.add_argument("--database", type=Path, required=True)
++    audit.add_argument("--policy", type=Path, required=True)
++    audit.add_argument("--current-commit", required=True)
++    audit.add_argument("--as-of", required=True)
++    audit.add_argument("--out", type=Path, required=True)
++    audit.add_argument("--workspace-root", type=Path, required=True)
++
++    project = commands.add_parser("project")
++    project.add_argument("--audit", type=Path, required=True)
++    project.add_argument("--policy", type=Path, required=True)
++    project.add_argument("--out", type=Path, required=True)
++    project.add_argument("--workspace-root", type=Path, required=True)
++
++    benchmark = commands.add_parser("benchmark")
++    benchmark.add_argument("--fixture", type=Path, required=True)
++    benchmark.add_argument("--records", type=Path, required=True)
++    benchmark.add_argument("--out", type=Path, required=True)
++    benchmark.add_argument("--workspace-root", type=Path, required=True)
++
++    rollback_parser = commands.add_parser("rollback")
++    rollback_parser.add_argument("--manifest", type=Path, required=True)
++    rollback_parser.add_argument("--workspace-root", type=Path, required=True)
++    return parser
++
++
++def execute(arguments: argparse.Namespace) -> dict[str, Any]:
++    if arguments.command == "replay":
++        workspace = arguments.workspace_root.resolve()
++        database = ensure_within(arguments.database, workspace, "database")
++        manifest = ensure_within(arguments.rollback_manifest, workspace, "rollback-manifest")
++        return replay_with_rollback(arguments.input.resolve(), database, manifest)
++    if arguments.command == "audit":
++        policy = validate_policy(_json(arguments.policy))
++        result = audit_database(arguments.database.resolve(), policy, arguments.current_commit, arguments.as_of)
++        return _write_result(arguments.out, result, arguments.workspace_root)
++    if arguments.command == "project":
++        policy = validate_policy(_json(arguments.policy))
++        result = build_projection(_json(arguments.audit), policy)
++        return _write_result(arguments.out, result, arguments.workspace_root)
++    if arguments.command == "benchmark":
++        result = recompute(_json(arguments.fixture), load_records(arguments.records))
++        return _write_result(arguments.out, result, arguments.workspace_root)
++    if arguments.command == "rollback":
++        return rollback(arguments.manifest.resolve(), arguments.workspace_root.resolve())
++    raise AssertionError(arguments.command)
++
++
++def main(argv: list[str] | None = None) -> int:
++    try:
++        result = execute(build_parser().parse_args(argv))
++    except (TagNavigationError, OSError, json.JSONDecodeError, sqlite3.Error) as exc:
++        if isinstance(exc, TagNavigationError):
++            reason = exc.reason
++            detail = exc.detail
++        else:
++            reason = "IO_OR_JSON_ERROR"
++            detail = str(exc)
++        sys.stdout.buffer.write(canonical_json_bytes({"schema_version": 1, "status": "failed", "reason": reason, "detail": detail}))
++        return 2
++    sys.stdout.buffer.write(canonical_json_bytes(result))
++    return 0
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+diff --git a/prototypes/ckb-tag-navigation/ckb_tag_navigation/contracts.py b/prototypes/ckb-tag-navigation/ckb_tag_navigation/contracts.py
+new file mode 100644
+index 0000000..d2dede6
+--- /dev/null
++++ b/prototypes/ckb-tag-navigation/ckb_tag_navigation/contracts.py
+@@ -0,0 +1,245 @@
++from __future__ import annotations
++
++from datetime import datetime, timezone
++import hashlib
++import json
++from pathlib import Path, PurePosixPath
++import re
++from typing import Any
++
++
++HEX40 = re.compile(r"^[0-9a-f]{40}$")
++HEX64 = re.compile(r"^[0-9a-f]{64}$")
++IDENTIFIER = re.compile(r"^[a-z0-9][a-z0-9._-]{2,127}$")
++ACTOR_KEY = re.compile(r"^[a-z0-9][a-z0-9._-]{2,63}$")
++SECTION_ID = re.compile(r"^[a-z0-9][a-z0-9._-]{0,79}$")
++ACTOR_CATEGORIES = {
++    "retrieval-agent",
++    "source-review-agent",
++    "human-reviewer",
++    "deterministic-tool",
++}
++SOURCE_KINDS = {"source-range", "reviewed-record", "official-document", "test-result"}
++
++
++class TagNavigationError(ValueError):
++    def __init__(self, reason: str, detail: str) -> None:
++        super().__init__(f"{reason}: {detail}")
++        self.reason = reason
++        self.detail = detail
++
++
++def canonical_json_bytes(value: Any) -> bytes:
++    return (json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n").encode("utf-8")
++
++
++def canonical_json_text(value: Any) -> str:
++    return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
++
++
++def sha256_bytes(data: bytes) -> str:
++    return hashlib.sha256(data).hexdigest()
++
++
++def sha256_file(path: Path) -> str:
++    return sha256_bytes(path.read_bytes())
++
++
++def parse_timestamp(value: Any, field: str) -> datetime:
++    if not isinstance(value, str):
++        raise TagNavigationError("INVALID_TIMESTAMP", f"{field} 必须是带时区的 ISO 8601 字符串")
++    normalized = value[:-1] + "+00:00" if value.endswith("Z") else value
++    try:
++        parsed = datetime.fromisoformat(normalized)
++    except ValueError as exc:
++        raise TagNavigationError("INVALID_TIMESTAMP", f"{field} 不是 ISO 8601 时间") from exc
++    if parsed.tzinfo is None:
++        raise TagNavigationError("INVALID_TIMESTAMP", f"{field} 缺少时区")
++    return parsed.astimezone(timezone.utc)
++
++
++def _exact_keys(value: Any, expected: set[str], field: str) -> dict[str, Any]:
++    if not isinstance(value, dict):
++        raise TagNavigationError("INVALID_SCHEMA", f"{field} 必须是对象")
++    actual = set(value)
++    if actual != expected:
++        missing = sorted(expected - actual)
++        unknown = sorted(actual - expected)
++        raise TagNavigationError("INVALID_SCHEMA", f"{field} missing={missing} unknown={unknown}")
++    return value
++
++
++def validate_identifier(value: Any, field: str, *, actor: bool = False) -> str:
++    pattern = ACTOR_KEY if actor else IDENTIFIER
++    if not isinstance(value, str) or not pattern.fullmatch(value):
++        raise TagNavigationError("INVALID_IDENTIFIER", f"{field} 格式非法")
++    return value
++
++
++def validate_relative_path(value: Any, field: str) -> str:
++    if not isinstance(value, str) or not value or len(value) > 240:
++        raise TagNavigationError("INVALID_PATH", f"{field} 必须是 1..240 字符的相对路径")
++    if "\\" in value or ":" in value or "\x00" in value or value.startswith("/"):
++        raise TagNavigationError("INVALID_PATH", f"{field} 必须使用仓库相对 POSIX 路径")
++    path = PurePosixPath(value)
++    if any(part in {"", ".", ".."} for part in path.parts):
++        raise TagNavigationError("INVALID_PATH", f"{field} 含非法路径段")
++    return str(path)
++
++
++def normalize_tag(value: Any) -> str:
++    if not isinstance(value, str) or not (1 <= len(value) <= 80):
++        raise TagNavigationError("INVALID_TAG", "tag 长度必须为 1..80")
++    if value.startswith("#") or value.startswith("/") or value.endswith("/") or "//" in value:
++        raise TagNavigationError("INVALID_TAG", "tag 不含 #，且层级分隔符不能位于两端或连续出现")
++    if not any(character.isalpha() for character in value):
++        raise TagNavigationError("INVALID_TAG", "tag 至少包含一个字母或汉字")
++    if any(not (character.isalnum() or character in "_-/") for character in value):
++        raise TagNavigationError("INVALID_TAG", "tag 只能包含字母、数字、汉字、_、- 和 /")
++    return value.casefold()
++
++
++def validate_locator(value: Any) -> dict[str, Any]:
++    locator = _exact_keys(value, {"kind", "start_line", "end_line", "section_id"}, "evidence.locator")
++    kind = locator["kind"]
++    if kind not in {"line-range", "section", "whole-file"}:
++        raise TagNavigationError("INVALID_LOCATOR", "locator.kind 非法")
++    start = locator["start_line"]
++    end = locator["end_line"]
++    section = locator["section_id"]
++    if kind == "line-range":
++        if not isinstance(start, int) or isinstance(start, bool) or start < 1:
++            raise TagNavigationError("INVALID_LOCATOR", "line-range.start_line 必须为正整数")
++        if not isinstance(end, int) or isinstance(end, bool) or end < start:
++            raise TagNavigationError("INVALID_LOCATOR", "line-range.end_line 必须不小于 start_line")
++        if section is not None:
++            raise TagNavigationError("INVALID_LOCATOR", "line-range.section_id 必须为 null")
++    elif kind == "section":
++        if start is not None or end is not None or not isinstance(section, str) or not SECTION_ID.fullmatch(section):
++            raise TagNavigationError("INVALID_LOCATOR", "section 只允许规范 section_id")
++    else:
++        if start is not None or end is not None or section is not None:
++            raise TagNavigationError("INVALID_LOCATOR", "whole-file 的定位字段必须为 null")
++    return locator
++
++
++def validate_evidence(value: Any) -> dict[str, Any]:
++    evidence = _exact_keys(
++        value,
++        {"source_id", "source_kind", "path", "locator", "sha256", "commit", "observed_at"},
++        "evidence",
++    )
++    validate_identifier(evidence["source_id"], "evidence.source_id")
++    if evidence["source_kind"] not in SOURCE_KINDS:
++        raise TagNavigationError("INVALID_EVIDENCE", "evidence.source_kind 非法")
++    validate_relative_path(evidence["path"], "evidence.path")
++    validate_locator(evidence["locator"])
++    if not isinstance(evidence["sha256"], str) or not HEX64.fullmatch(evidence["sha256"]):
++        raise TagNavigationError("INVALID_EVIDENCE", "evidence.sha256 非法")
++    if not isinstance(evidence["commit"], str) or not HEX40.fullmatch(evidence["commit"]):
++        raise TagNavigationError("INVALID_EVIDENCE", "evidence.commit 非法")
++    parse_timestamp(evidence["observed_at"], "evidence.observed_at")
++    return evidence
++
++
++def validate_assertion(value: Any) -> dict[str, Any]:
++    assertion = _exact_keys(
++        value,
++        {
++            "schema_version",
++            "assertion_id",
++            "idempotency_key",
++            "action",
++            "tag",
++            "target",
++            "stance",
++            "actor",
++            "evidence",
++            "recorded_at",
++            "retracts",
++        },
++        "assertion",
++    )
++    if assertion["schema_version"] != 1:
++        raise TagNavigationError("INVALID_SCHEMA", "schema_version 必须为 1")
++    validate_identifier(assertion["assertion_id"], "assertion_id")
++    validate_identifier(assertion["idempotency_key"], "idempotency_key")
++    action = assertion["action"]
++    if action not in {"propose", "vote", "retract"}:
++        raise TagNavigationError("INVALID_ACTION", "action 非法")
++    assertion["tag"] = normalize_tag(assertion["tag"])
++    target = _exact_keys(assertion["target"], {"kind", "path"}, "target")
++    if target["kind"] != "page":
++        raise TagNavigationError("INVALID_TARGET", "target.kind 必须为 page")
++    validate_relative_path(target["path"], "target.path")
++    if not target["path"].endswith(".md"):
++        raise TagNavigationError("INVALID_TARGET", "target.path 必须指向 Markdown 页面")
++    actor = _exact_keys(assertion["actor"], {"category", "key"}, "actor")
++    if actor["category"] not in ACTOR_CATEGORIES:
++        raise TagNavigationError("INVALID_ACTOR", "actor.category 非法")
++    validate_identifier(actor["key"], "actor.key", actor=True)
++    parse_timestamp(assertion["recorded_at"], "recorded_at")
++    if action == "vote":
++        if assertion["stance"] not in {"support", "oppose"} or assertion["retracts"] is not None:
++            raise TagNavigationError("INVALID_ACTION_FIELDS", "vote 必须有 stance 且不能有 retracts")
++        validate_evidence(assertion["evidence"])
++    elif action == "propose":
++        if assertion["stance"] is not None or assertion["retracts"] is not None:
++            raise TagNavigationError("INVALID_ACTION_FIELDS", "propose 的 stance/retracts 必须为 null")
++        validate_evidence(assertion["evidence"])
++    else:
++        if assertion["stance"] is not None or assertion["evidence"] is not None:
++            raise TagNavigationError("INVALID_ACTION_FIELDS", "retract 的 stance/evidence 必须为 null")
++        validate_identifier(assertion["retracts"], "retracts")
++    return assertion
++
++
++def validate_policy(value: Any) -> dict[str, Any]:
++    policy = _exact_keys(
++        value,
++        {
++            "schema_version",
++            "min_support_votes",
++            "min_independent_agents",
++            "min_independent_sources",
++            "max_opposition_ratio",
++            "max_evidence_age_days",
++            "max_tags_per_page",
++        },
++        "policy",
++    )
++    if policy["schema_version"] != 1:
++        raise TagNavigationError("INVALID_POLICY", "schema_version 必须为 1")
++    for field in ("min_support_votes", "min_independent_agents", "min_independent_sources"):
++        value = policy[field]
++        if not isinstance(value, int) or isinstance(value, bool) or not 2 <= value <= 20:
++            raise TagNavigationError("INVALID_POLICY", f"{field} 必须为 2..20")
++    ratio = policy["max_opposition_ratio"]
++    if not isinstance(ratio, (int, float)) or isinstance(ratio, bool) or not 0 <= ratio <= 0.49:
++        raise TagNavigationError("INVALID_POLICY", "max_opposition_ratio 必须为 0..0.49")
++    age = policy["max_evidence_age_days"]
++    if not isinstance(age, int) or isinstance(age, bool) or not 1 <= age <= 365:
++        raise TagNavigationError("INVALID_POLICY", "max_evidence_age_days 必须为 1..365")
++    quota = policy["max_tags_per_page"]
++    if not isinstance(quota, int) or isinstance(quota, bool) or not 1 <= quota <= 8:
++        raise TagNavigationError("INVALID_POLICY", "max_tags_per_page 必须为 1..8")
++    return policy
++
++
++def ensure_within(path: Path, root: Path, field: str) -> Path:
++    resolved_root = root.resolve()
++    resolved = path.resolve()
++    try:
++        resolved.relative_to(resolved_root)
++    except ValueError as exc:
++        raise TagNavigationError("OUTPUT_OUTSIDE_WORKSPACE", f"{field} 不在 workspace-root 内") from exc
++    return resolved
++
++
++def atomic_write_json(path: Path, value: Any) -> None:
++    path.parent.mkdir(parents=True, exist_ok=True)
++    temporary = path.with_name(path.name + ".tmp")
++    temporary.write_bytes(canonical_json_bytes(value))
++    json.loads(temporary.read_text(encoding="utf-8"))
++    temporary.replace(path)
++    json.loads(path.read_text(encoding="utf-8"))
+diff --git a/prototypes/ckb-tag-navigation/ckb_tag_navigation/projection.py b/prototypes/ckb-tag-navigation/ckb_tag_navigation/projection.py
+new file mode 100644
+index 0000000..d97c17b
+--- /dev/null
++++ b/prototypes/ckb-tag-navigation/ckb_tag_navigation/projection.py
+@@ -0,0 +1,58 @@
++from __future__ import annotations
++
++from collections import defaultdict
++from typing import Any
++
++from .contracts import TagNavigationError, validate_policy
++
++
++def build_projection(audit: dict[str, Any], policy: dict[str, Any]) -> dict[str, Any]:
++    validate_policy(policy)
++    if not isinstance(audit, dict) or audit.get("schema_version") != 1 or audit.get("status") != "passed":
++        raise TagNavigationError("INVALID_AUDIT", "审计对象未通过")
++    results = audit.get("results")
++    if not isinstance(results, list):
++        raise TagNavigationError("INVALID_AUDIT", "results 必须为数组")
++    by_page: dict[str, list[dict[str, Any]]] = defaultdict(list)
++    excluded_by_state: dict[str, int] = defaultdict(int)
++    for result in results:
++        if not isinstance(result, dict) or result.get("state") not in {"candidate", "confirmed", "contested", "deprecated"}:
++            raise TagNavigationError("INVALID_AUDIT", "结果状态非法")
++        if result["state"] == "confirmed":
++            by_page[result["target"]["path"]].append(result)
++        else:
++            excluded_by_state[result["state"]] += 1
++    entries: list[dict[str, Any]] = []
++    suppressed: list[dict[str, Any]] = []
++    limit = policy["max_tags_per_page"]
++    for page in sorted(by_page):
++        ranked = sorted(
++            by_page[page],
++            key=lambda result: (
++                -result["metrics"]["support_votes"],
++                result["metrics"]["opposition_ratio"],
++                -result["metrics"]["independent_support_sources"],
++                result["tag"],
++            ),
++        )
++        selected = ranked[:limit]
++        entries.append(
++            {
++                "page": page,
++                "tags": [
++                    {"tag": result["tag"], "display": f"#导航/{result['tag']}", "search": f"tag:#导航/{result['tag']}"}
++                    for result in selected
++                ],
++            }
++        )
++        for result in ranked[limit:]:
++            suppressed.append({"page": page, "tag": result["tag"], "reason_code": "PAGE_TAG_QUOTA_EXCEEDED"})
++    return {
++        "schema_version": 1,
++        "status": "passed",
++        "production_integration": "disabled",
++        "page_tag_limit": limit,
++        "entries": entries,
++        "suppressed": suppressed,
++        "excluded_by_state": {state: excluded_by_state.get(state, 0) for state in ("candidate", "contested", "deprecated")},
++    }
+diff --git a/prototypes/ckb-tag-navigation/ckb_tag_navigation/state_machine.py b/prototypes/ckb-tag-navigation/ckb_tag_navigation/state_machine.py
+new file mode 100644
+index 0000000..84ac3f2
+--- /dev/null
++++ b/prototypes/ckb-tag-navigation/ckb_tag_navigation/state_machine.py
+@@ -0,0 +1,169 @@
++from __future__ import annotations
++
++from collections import Counter, defaultdict
++from datetime import datetime
++from pathlib import Path
++import sqlite3
++from typing import Any
++
++from .contracts import HEX40, TagNavigationError, parse_timestamp, validate_policy
++from .store import connect, load_assertions
++
++
++STATE_ORDER = {"candidate": 0, "confirmed": 1, "contested": 2, "deprecated": 3}
++
++
++def _group_key(assertion: dict[str, Any]) -> tuple[str, str]:
++    return assertion["target"]["path"], assertion["tag"]
++
++
++def _replay(assertions: list[dict[str, Any]]) -> tuple[dict[tuple[str, str], list[dict[str, Any]]], set[str]]:
++    by_id: dict[str, dict[str, Any]] = {}
++    retracted: set[str] = set()
++    grouped: dict[tuple[str, str], list[dict[str, Any]]] = defaultdict(list)
++    for assertion in assertions:
++        if assertion["action"] == "retract":
++            target_id = assertion["retracts"]
++            target = by_id.get(target_id)
++            if target is None or target["action"] == "retract":
++                raise TagNavigationError("INVALID_RETRACTION", f"{assertion['assertion_id']} 指向不存在或非法事件")
++            if target_id in retracted:
++                raise TagNavigationError("INVALID_RETRACTION", f"{target_id} 已撤销")
++            if _group_key(target) != _group_key(assertion) or target["actor"]["key"] != assertion["actor"]["key"]:
++                raise TagNavigationError("INVALID_RETRACTION", f"{assertion['assertion_id']} 跨 actor/target/tag")
++            retracted.add(target_id)
++        by_id[assertion["assertion_id"]] = assertion
++        grouped[_group_key(assertion)].append(assertion)
++    return grouped, retracted
++
++
++def _classify(
++    events: list[dict[str, Any]],
++    retracted: set[str],
++    policy: dict[str, Any],
++    current_commit: str,
++    as_of: datetime,
++) -> dict[str, Any]:
++    active_proposals = [event for event in events if event["action"] == "propose" and event["assertion_id"] not in retracted]
++    latest_votes: dict[str, dict[str, Any]] = {}
++    vote_events = [event for event in events if event["action"] == "vote"]
++    for event in vote_events:
++        if event["assertion_id"] not in retracted:
++            latest_votes[event["actor"]["key"]] = event
++    active_votes = list(latest_votes.values())
++    usable: list[dict[str, Any]] = []
++    stale_count = 0
++    drift_count = 0
++    for vote in active_votes:
++        observed = parse_timestamp(vote["evidence"]["observed_at"], "evidence.observed_at")
++        age_seconds = (as_of - observed).total_seconds()
++        if age_seconds < 0:
++            raise TagNavigationError("FUTURE_EVIDENCE", vote["assertion_id"])
++        stale = age_seconds > policy["max_evidence_age_days"] * 86400
++        drift = vote["evidence"]["commit"] != current_commit
++        stale_count += int(stale)
++        drift_count += int(drift)
++        if not stale and not drift:
++            usable.append(vote)
++    support = [vote for vote in usable if vote["stance"] == "support"]
++    oppose = [vote for vote in usable if vote["stance"] == "oppose"]
++    support_agents = {vote["actor"]["key"] for vote in support}
++    support_sources = {vote["evidence"]["source_id"] for vote in support}
++    denominator = len(support) + len(oppose)
++    opposition_ratio = len(oppose) / denominator if denominator else 0.0
++    reasons: list[str] = []
++    if not active_votes:
++        if active_proposals:
++            state = "candidate"
++            reasons.append("PROPOSAL_ONLY")
++        else:
++            state = "deprecated"
++            if vote_events and all(event["assertion_id"] in retracted for event in vote_events):
++                reasons.append("ALL_SUPPORT_RETRACTED")
++            reasons.append("NO_ACTIVE_SUPPORT")
++    elif not support:
++        state = "deprecated"
++        reasons.append("NO_ACTIVE_SUPPORT")
++        if stale_count:
++            reasons.append("STALE_EVIDENCE")
++        if drift_count:
++            reasons.append("COMMIT_DRIFT")
++    elif opposition_ratio > policy["max_opposition_ratio"]:
++        state = "contested"
++        reasons.append("OPPOSITION_RATIO_EXCEEDED")
++        if stale_count:
++            reasons.append("STALE_EVIDENCE")
++        if drift_count:
++            reasons.append("COMMIT_DRIFT")
++    else:
++        if len(support) < policy["min_support_votes"]:
++            reasons.append("SUPPORT_VOTES_BELOW_MINIMUM")
++        if len(support_agents) < policy["min_independent_agents"]:
++            reasons.append("INDEPENDENT_AGENTS_BELOW_MINIMUM")
++        if len(support_sources) < policy["min_independent_sources"]:
++            reasons.append("INDEPENDENT_SOURCES_BELOW_MINIMUM")
++        if stale_count:
++            reasons.append("STALE_EVIDENCE")
++        if drift_count:
++            reasons.append("COMMIT_DRIFT")
++        if reasons:
++            state = "candidate"
++        else:
++            state = "confirmed"
++            reasons.append("CONFIRMED_THRESHOLDS_MET")
++    return {
++        "state": state,
++        "reason_codes": sorted(set(reasons)),
++        "metrics": {
++            "proposal_count": len(active_proposals),
++            "active_vote_count": len(active_votes),
++            "support_votes": len(support),
++            "oppose_votes": len(oppose),
++            "independent_support_agents": len(support_agents),
++            "independent_support_sources": len(support_sources),
++            "opposition_ratio": round(opposition_ratio, 6),
++            "stale_active_votes": stale_count,
++            "drifted_active_votes": drift_count,
++            "retracted_vote_count": sum(1 for event in vote_events if event["assertion_id"] in retracted),
++            "superseded_vote_count": max(0, len([event for event in vote_events if event["assertion_id"] not in retracted]) - len(active_votes)),
++        },
++    }
++
++
++def audit_assertions(
++    assertions: list[dict[str, Any]],
++    policy: dict[str, Any],
++    current_commit: str,
++    as_of_value: str,
++) -> dict[str, Any]:
++    validate_policy(policy)
++    if not isinstance(current_commit, str) or not HEX40.fullmatch(current_commit):
++        raise TagNavigationError("INVALID_COMMIT", "current_commit 必须为 40 位小写十六进制")
++    as_of = parse_timestamp(as_of_value, "as_of")
++    grouped, retracted = _replay(assertions)
++    results: list[dict[str, Any]] = []
++    for (target, tag), events in sorted(grouped.items()):
++        classified = _classify(events, retracted, policy, current_commit, as_of)
++        results.append({"target": {"kind": "page", "path": target}, "tag": tag, **classified})
++    counts = Counter(result["state"] for result in results)
++    return {
++        "schema_version": 1,
++        "status": "passed",
++        "current_commit": current_commit,
++        "as_of": as_of.isoformat().replace("+00:00", "Z"),
++        "policy": dict(policy),
++        "summary": {state: counts.get(state, 0) for state in ("candidate", "confirmed", "contested", "deprecated")},
++        "results": results,
++    }
++
++
++def audit_database(database: Path, policy: dict[str, Any], current_commit: str, as_of_value: str) -> dict[str, Any]:
++    try:
++        connection = connect(database)
++        try:
++            assertions = load_assertions(connection)
++        finally:
++            connection.close()
++    except sqlite3.Error as exc:
++        raise TagNavigationError("INVALID_DATABASE", str(exc)) from exc
++    return audit_assertions(assertions, policy, current_commit, as_of_value)
+diff --git a/prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py b/prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py
+new file mode 100644
+index 0000000..e0583a6
+--- /dev/null
++++ b/prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py
+@@ -0,0 +1,268 @@
++from __future__ import annotations
++
++import json
++from pathlib import Path
++import shutil
++import sqlite3
++from typing import Any, Iterable
++
++from .contracts import (
++    HEX64,
++    TagNavigationError,
++    atomic_write_json,
++    canonical_json_text,
++    ensure_within,
++    sha256_file,
++    validate_assertion,
++)
++
++
++SCHEMA_SQL = """
++CREATE TABLE IF NOT EXISTS metadata (
++    key TEXT PRIMARY KEY,
++    value TEXT NOT NULL
++);
++CREATE TABLE IF NOT EXISTS assertions (
++    assertion_id TEXT PRIMARY KEY,
++    idempotency_key TEXT NOT NULL UNIQUE,
++    recorded_at TEXT NOT NULL,
++    payload_json TEXT NOT NULL
++);
++CREATE INDEX IF NOT EXISTS assertions_replay_order
++ON assertions(recorded_at, assertion_id);
++"""
++
++
++def connect(database: Path) -> sqlite3.Connection:
++    connection = sqlite3.connect(database)
++    connection.row_factory = sqlite3.Row
++    connection.execute("PRAGMA foreign_keys = ON")
++    connection.execute("PRAGMA journal_mode = DELETE")
++    return connection
++
++
++def initialize(connection: sqlite3.Connection) -> None:
++    connection.executescript(SCHEMA_SQL)
++    connection.execute("INSERT OR REPLACE INTO metadata(key, value) VALUES('schema_version', '1')")
++    connection.commit()
++
++
++def read_assertion_jsonl(path: Path) -> list[dict[str, Any]]:
++    assertions: list[dict[str, Any]] = []
++    for line_number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
++        if not line.strip():
++            continue
++        try:
++            value = json.loads(line)
++        except json.JSONDecodeError as exc:
++            raise TagNavigationError("INVALID_JSONL", f"第 {line_number} 行不是 JSON") from exc
++        try:
++            assertions.append(validate_assertion(value))
++        except TagNavigationError as exc:
++            raise TagNavigationError(exc.reason, f"第 {line_number} 行: {exc.detail}") from exc
++    if not assertions:
++        raise TagNavigationError("EMPTY_ASSERTIONS", "assertion JSONL 为空")
++    return assertions
++
++
++def ingest(connection: sqlite3.Connection, assertions: Iterable[dict[str, Any]]) -> dict[str, int]:
++    inserted = 0
++    duplicates = 0
++    connection.execute("BEGIN IMMEDIATE")
++    try:
++        for assertion in assertions:
++            payload = canonical_json_text(assertion)
++            existing = connection.execute(
++                "SELECT assertion_id, payload_json FROM assertions WHERE idempotency_key = ?",
++                (assertion["idempotency_key"],),
++            ).fetchone()
++            if existing is not None:
++                if existing["assertion_id"] == assertion["assertion_id"] and existing["payload_json"] == payload:
++                    duplicates += 1
++                    continue
++                raise TagNavigationError(
++                    "IDEMPOTENCY_CONFLICT",
++                    f"idempotency_key={assertion['idempotency_key']} 已绑定不同 payload",
++                )
++            try:
++                connection.execute(
++                    "INSERT INTO assertions(assertion_id, idempotency_key, recorded_at, payload_json) VALUES(?, ?, ?, ?)",
++                    (
++                        assertion["assertion_id"],
++                        assertion["idempotency_key"],
++                        assertion["recorded_at"],
++                        payload,
++                    ),
++                )
++            except sqlite3.IntegrityError as exc:
++                raise TagNavigationError("ASSERTION_ID_CONFLICT", assertion["assertion_id"]) from exc
++            inserted += 1
++        connection.commit()
++    except Exception:
++        connection.rollback()
++        raise
++    return {"inserted": inserted, "duplicates": duplicates}
++
++
++def load_assertions(connection: sqlite3.Connection) -> list[dict[str, Any]]:
++    rows = connection.execute(
++        "SELECT payload_json FROM assertions ORDER BY recorded_at, assertion_id"
++    ).fetchall()
++    return [validate_assertion(json.loads(row["payload_json"])) for row in rows]
++
++
++def integrity(connection: sqlite3.Connection) -> str:
++    row = connection.execute("PRAGMA integrity_check").fetchone()
++    return str(row[0])
++
++
++def replay_with_rollback(
++    assertion_path: Path,
++    database: Path,
++    rollback_manifest: Path,
++) -> dict[str, Any]:
++    assertions = read_assertion_jsonl(assertion_path)
++    database.parent.mkdir(parents=True, exist_ok=True)
++    rollback_manifest.parent.mkdir(parents=True, exist_ok=True)
++    if rollback_manifest.exists():
++        raise TagNavigationError("TARGET_EXISTS", f"rollback manifest 已存在: {rollback_manifest}")
++    baseline_state = "present" if database.exists() else "absent"
++    baseline_sha256 = sha256_file(database) if database.exists() else None
++    backup_path = database.with_name(database.name + ".baseline") if database.exists() else None
++    manifest_temporary = rollback_manifest.with_name(rollback_manifest.name + ".tmp")
++    restore_temporary = database.with_name(database.name + ".restore.tmp")
++    for owned_temporary in (manifest_temporary, restore_temporary):
++        if owned_temporary.exists():
++            raise TagNavigationError("TARGET_EXISTS", f"恢复临时文件已存在: {owned_temporary}")
++    if backup_path is not None and backup_path.exists():
++        raise TagNavigationError("TARGET_EXISTS", f"baseline 备份已存在: {backup_path}")
++    try:
++        if backup_path is not None:
++            shutil.copy2(database, backup_path)
++        connection = connect(database)
++        try:
++            initialize(connection)
++            counts = ingest(connection, assertions)
++            check = integrity(connection)
++            if check != "ok":
++                raise TagNavigationError("SQLITE_INTEGRITY_FAILED", check)
++        finally:
++            connection.close()
++        generated_sha256 = sha256_file(database)
++        manifest = {
++            "schema_version": 1,
++            "target_path": str(database.resolve()),
++            "baseline_state": baseline_state,
++            "baseline_sha256": baseline_sha256,
++            "backup_path": str(backup_path.resolve()) if backup_path is not None else None,
++            "generated_sha256": generated_sha256,
++        }
++        atomic_write_json(rollback_manifest, manifest)
++    except Exception as original_error:
++        recovery_error: Exception | None = None
++        recovery_confirmed = False
++        try:
++            if baseline_state == "present":
++                if database.exists() and sha256_file(database) == baseline_sha256:
++                    recovery_confirmed = True
++                elif backup_path is not None and backup_path.exists() and sha256_file(backup_path) == baseline_sha256:
++                    shutil.copy2(backup_path, restore_temporary)
++                    if sha256_file(restore_temporary) != baseline_sha256:
++                        raise TagNavigationError("REPLAY_RECOVERY_FAILED", "restore 临时文件 hash 不等于 baseline")
++                    restore_temporary.replace(database)
++                    if sha256_file(database) != baseline_sha256:
++                        raise TagNavigationError("REPLAY_RECOVERY_FAILED", "恢复后数据库 hash 不等于 baseline")
++                    recovery_confirmed = True
++                else:
++                    raise TagNavigationError("REPLAY_RECOVERY_FAILED", "baseline 备份缺失或漂移")
++            else:
++                database.unlink(missing_ok=True)
++                if database.exists():
++                    raise TagNavigationError("REPLAY_RECOVERY_FAILED", "absent baseline 的数据库仍然存在")
++                recovery_confirmed = True
++        except Exception as exc:
++            recovery_error = exc
++        if recovery_confirmed:
++            if backup_path is not None:
++                backup_path.unlink(missing_ok=True)
++            restore_temporary.unlink(missing_ok=True)
++            manifest_temporary.unlink(missing_ok=True)
++            rollback_manifest.unlink(missing_ok=True)
++        if recovery_error is not None:
++            raise TagNavigationError(
++                "REPLAY_RECOVERY_FAILED",
++                (
++                    f"原始错误={original_error}; 恢复错误={recovery_error}; "
++                    f"database={database}; backup={backup_path}; manifest={rollback_manifest}; "
++                    f"manifest_temporary={manifest_temporary}; restore_temporary={restore_temporary}"
++                ),
++            ) from recovery_error
++        raise
++    return {
++        "schema_version": 1,
++        "status": "passed",
++        "database": str(database.resolve()),
++        "database_sha256": generated_sha256,
++        "rollback_manifest": str(rollback_manifest.resolve()),
++        "inserted": counts["inserted"],
++        "duplicates": counts["duplicates"],
++        "integrity_check": check,
++    }
++
++
++def _rollback_path_within(path: Path, workspace_root: Path, field: str) -> Path:
++    try:
++        return ensure_within(path, workspace_root, field)
++    except TagNavigationError as exc:
++        raise TagNavigationError("ROLLBACK_PATH_OUTSIDE_WORKSPACE", f"{field} 不在 workspace-root 内") from exc
++
++
++def rollback(manifest_path: Path, workspace_root: Path) -> dict[str, Any]:
++    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
++    expected = {"schema_version", "target_path", "baseline_state", "baseline_sha256", "backup_path", "generated_sha256"}
++    if not isinstance(manifest, dict) or set(manifest) != expected or manifest.get("schema_version") != 1:
++        raise TagNavigationError("INVALID_ROLLBACK_MANIFEST", str(manifest_path))
++    target_value = manifest["target_path"]
++    backup_value = manifest["backup_path"]
++    baseline_state = manifest["baseline_state"]
++    baseline_sha256 = manifest["baseline_sha256"]
++    generated_sha256 = manifest["generated_sha256"]
++    if not isinstance(target_value, str) or not target_value:
++        raise TagNavigationError("INVALID_ROLLBACK_MANIFEST", "target_path 必须为非空字符串")
++    if backup_value is not None and (not isinstance(backup_value, str) or not backup_value):
++        raise TagNavigationError("INVALID_ROLLBACK_MANIFEST", "backup_path 必须为 null 或非空字符串")
++    if not isinstance(generated_sha256, str) or not HEX64.fullmatch(generated_sha256):
++        raise TagNavigationError("INVALID_ROLLBACK_MANIFEST", "generated_sha256 非法")
++    if baseline_state == "absent":
++        if baseline_sha256 is not None or backup_value is not None:
++            raise TagNavigationError("INVALID_ROLLBACK_MANIFEST", "absent baseline 不得包含 hash 或 backup")
++    elif baseline_state == "present":
++        if not isinstance(baseline_sha256, str) or not HEX64.fullmatch(baseline_sha256) or backup_value is None:
++            raise TagNavigationError("INVALID_ROLLBACK_MANIFEST", "present baseline 缺少合法 hash 或 backup")
++    else:
++        raise TagNavigationError("INVALID_ROLLBACK_MANIFEST", "baseline_state 非法")
++
++    workspace = workspace_root.resolve()
++    _rollback_path_within(manifest_path, workspace, "manifest")
++    target = _rollback_path_within(Path(target_value), workspace, "target_path")
++    backup = _rollback_path_within(Path(backup_value), workspace, "backup_path") if backup_value is not None else None
++    if not target.exists() or sha256_file(target) != manifest["generated_sha256"]:
++        raise TagNavigationError("ROLLBACK_DRIFT", "目标不存在或不再等于 generated_sha256")
++    if baseline_state == "absent":
++        target.unlink()
++        restored = "absent"
++    else:
++        assert backup is not None
++        if not backup.exists() or sha256_file(backup) != manifest["baseline_sha256"]:
++            raise TagNavigationError("ROLLBACK_DRIFT", "baseline 备份缺失或漂移")
++        shutil.copy2(backup, target)
++        if sha256_file(target) != manifest["baseline_sha256"]:
++            raise TagNavigationError("ROLLBACK_VERIFY_FAILED", "恢复后 hash 不等于 baseline")
++        backup.unlink()
++        restored = manifest["baseline_sha256"]
++    return {
++        "schema_version": 1,
++        "status": "passed",
++        "target_path": str(target),
++        "restored": restored,
++    }
+diff --git a/prototypes/ckb-tag-navigation/schemas/navigation-benchmark.schema.json b/prototypes/ckb-tag-navigation/schemas/navigation-benchmark.schema.json
+new file mode 100644
+index 0000000..4b678c3
+--- /dev/null
++++ b/prototypes/ckb-tag-navigation/schemas/navigation-benchmark.schema.json
+@@ -0,0 +1,55 @@
++{
++  "$schema": "https://json-schema.org/draft/2020-12/schema",
++  "$id": "https://ckb.local/schemas/tag-navigation-benchmark.schema.json",
++  "title": "CKB tag navigation benchmark result",
++  "type": "object",
++  "additionalProperties": false,
++  "required": ["schema_version", "status", "scope", "effect_claim", "aggregate", "records"],
++  "properties": {
++    "schema_version": {"const": 1},
++    "status": {"const": "passed"},
++    "scope": {"const": "isolated-fixture"},
++    "effect_claim": {"const": "fixture-navigation-signal-only"},
++    "aggregate": {
++      "type": "object",
++      "additionalProperties": false,
++      "required": ["no_tag", "confirmed_tag"],
++      "properties": {
++        "no_tag": {"$ref": "#/$defs/aggregate"},
++        "confirmed_tag": {"$ref": "#/$defs/aggregate"}
++      }
++    },
++    "records": {
++      "type": "array",
++      "items": {
++        "type": "object",
++        "additionalProperties": false,
++        "required": ["task_id", "condition", "steps", "misdirected_links", "page_increment", "conflicts"],
++        "properties": {
++          "task_id": {"type": "string"},
++          "condition": {"enum": ["no_tag", "confirmed_tag"]},
++          "steps": {"type": "integer", "minimum": 0},
++          "misdirected_links": {"type": "integer", "minimum": 0},
++          "page_increment": {"type": "integer", "minimum": 0},
++          "conflicts": {"type": "integer", "minimum": 0}
++        }
++      }
++    }
++  },
++  "$defs": {
++    "aggregate": {
++      "type": "object",
++      "additionalProperties": false,
++      "required": ["tasks", "total_steps", "median_steps", "misdirected_links", "page_count", "conflicts", "page_increment"],
++      "properties": {
++        "tasks": {"type": "integer", "minimum": 1},
++        "total_steps": {"type": "integer", "minimum": 0},
++        "median_steps": {"type": "number", "minimum": 0},
++        "misdirected_links": {"type": "integer", "minimum": 0},
++        "page_count": {"type": "integer", "minimum": 1},
++        "conflicts": {"type": "integer", "minimum": 0},
++        "page_increment": {"type": "integer", "minimum": 0}
++      }
++    }
++  }
++}
+diff --git a/prototypes/ckb-tag-navigation/schemas/policy.schema.json b/prototypes/ckb-tag-navigation/schemas/policy.schema.json
+new file mode 100644
+index 0000000..afb265a
+--- /dev/null
++++ b/prototypes/ckb-tag-navigation/schemas/policy.schema.json
+@@ -0,0 +1,17 @@
++{
++  "$schema": "https://json-schema.org/draft/2020-12/schema",
++  "$id": "https://ckb.local/schemas/tag-navigation-policy.schema.json",
++  "title": "CKB tag navigation policy",
++  "type": "object",
++  "additionalProperties": false,
++  "required": ["schema_version", "min_support_votes", "min_independent_agents", "min_independent_sources", "max_opposition_ratio", "max_evidence_age_days", "max_tags_per_page"],
++  "properties": {
++    "schema_version": {"const": 1},
++    "min_support_votes": {"type": "integer", "minimum": 2, "maximum": 20},
++    "min_independent_agents": {"type": "integer", "minimum": 2, "maximum": 20},
++    "min_independent_sources": {"type": "integer", "minimum": 2, "maximum": 20},
++    "max_opposition_ratio": {"type": "number", "minimum": 0, "maximum": 0.49},
++    "max_evidence_age_days": {"type": "integer", "minimum": 1, "maximum": 365},
++    "max_tags_per_page": {"type": "integer", "minimum": 1, "maximum": 8}
++  }
++}
+diff --git a/prototypes/ckb-tag-navigation/schemas/tag-assertion.schema.json b/prototypes/ckb-tag-navigation/schemas/tag-assertion.schema.json
+new file mode 100644
+index 0000000..2458952
+--- /dev/null
++++ b/prototypes/ckb-tag-navigation/schemas/tag-assertion.schema.json
+@@ -0,0 +1,71 @@
++{
++  "$schema": "https://json-schema.org/draft/2020-12/schema",
++  "$id": "https://ckb.local/schemas/tag-assertion.schema.json",
++  "title": "CKB machine tag assertion",
++  "type": "object",
++  "additionalProperties": false,
++  "required": ["schema_version", "assertion_id", "idempotency_key", "action", "tag", "target", "stance", "actor", "evidence", "recorded_at", "retracts"],
++  "properties": {
++    "schema_version": {"const": 1},
++    "assertion_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{2,95}$"},
++    "idempotency_key": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{2,127}$"},
++    "action": {"enum": ["propose", "vote", "retract"]},
++    "tag": {"type": "string", "minLength": 1, "maxLength": 80},
++    "target": {"$ref": "#/$defs/target"},
++    "stance": {"type": ["string", "null"], "enum": ["support", "oppose", null]},
++    "actor": {"$ref": "#/$defs/actor"},
++    "evidence": {"anyOf": [{"$ref": "#/$defs/evidence"}, {"type": "null"}]},
++    "recorded_at": {"type": "string", "format": "date-time"},
++    "retracts": {"type": ["string", "null"], "pattern": "^[a-z0-9][a-z0-9._-]{2,95}$"}
++  },
++  "allOf": [
++    {"if": {"properties": {"action": {"const": "propose"}}}, "then": {"properties": {"stance": {"const": null}, "evidence": {"$ref": "#/$defs/evidence"}, "retracts": {"const": null}}}},
++    {"if": {"properties": {"action": {"const": "vote"}}}, "then": {"properties": {"stance": {"enum": ["support", "oppose"]}, "evidence": {"$ref": "#/$defs/evidence"}, "retracts": {"const": null}}}},
++    {"if": {"properties": {"action": {"const": "retract"}}}, "then": {"properties": {"stance": {"const": null}, "evidence": {"const": null}, "retracts": {"type": "string"}}}}
++  ],
++  "$defs": {
++    "target": {
++      "type": "object",
++      "additionalProperties": false,
++      "required": ["kind", "path"],
++      "properties": {
++        "kind": {"const": "page"},
++        "path": {"type": "string", "minLength": 1, "maxLength": 240}
++      }
++    },
++    "actor": {
++      "type": "object",
++      "additionalProperties": false,
++      "required": ["category", "key"],
++      "properties": {
++        "category": {"enum": ["retrieval-agent", "source-review-agent", "human-reviewer", "deterministic-tool"]},
++        "key": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{2,63}$"}
++      }
++    },
++    "locator": {
++      "type": "object",
++      "additionalProperties": false,
++      "required": ["kind", "start_line", "end_line", "section_id"],
++      "properties": {
++        "kind": {"enum": ["line-range", "section", "whole-file"]},
++        "start_line": {"type": ["integer", "null"], "minimum": 1},
++        "end_line": {"type": ["integer", "null"], "minimum": 1},
++        "section_id": {"type": ["string", "null"], "pattern": "^[a-z0-9][a-z0-9._-]{0,79}$"}
++      }
++    },
++    "evidence": {
++      "type": "object",
++      "additionalProperties": false,
++      "required": ["source_id", "source_kind", "path", "locator", "sha256", "commit", "observed_at"],
++      "properties": {
++        "source_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{2,95}$"},
++        "source_kind": {"enum": ["source-range", "reviewed-record", "official-document", "test-result"]},
++        "path": {"type": "string", "minLength": 1, "maxLength": 240},
++        "locator": {"$ref": "#/$defs/locator"},
++        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
++        "commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
++        "observed_at": {"type": "string", "format": "date-time"}
++      }
++    }
++  }
++}
+diff --git a/prototypes/ckb-tag-navigation/schemas/tag-audit.schema.json b/prototypes/ckb-tag-navigation/schemas/tag-audit.schema.json
+new file mode 100644
+index 0000000..9dc33f3
+--- /dev/null
++++ b/prototypes/ckb-tag-navigation/schemas/tag-audit.schema.json
+@@ -0,0 +1,41 @@
++{
++  "$schema": "https://json-schema.org/draft/2020-12/schema",
++  "$id": "https://ckb.local/schemas/tag-audit.schema.json",
++  "title": "CKB tag audit",
++  "type": "object",
++  "additionalProperties": false,
++  "required": ["schema_version", "status", "current_commit", "as_of", "policy", "summary", "results"],
++  "properties": {
++    "schema_version": {"const": 1},
++    "status": {"const": "passed"},
++    "current_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
++    "as_of": {"type": "string", "format": "date-time"},
++    "policy": {"type": "object"},
++    "summary": {
++      "type": "object",
++      "additionalProperties": false,
++      "required": ["candidate", "confirmed", "contested", "deprecated"],
++      "properties": {
++        "candidate": {"type": "integer", "minimum": 0},
++        "confirmed": {"type": "integer", "minimum": 0},
++        "contested": {"type": "integer", "minimum": 0},
++        "deprecated": {"type": "integer", "minimum": 0}
++      }
++    },
++    "results": {
++      "type": "array",
++      "items": {
++        "type": "object",
++        "additionalProperties": false,
++        "required": ["target", "tag", "state", "reason_codes", "metrics"],
++        "properties": {
++          "target": {"type": "object"},
++          "tag": {"type": "string"},
++          "state": {"enum": ["candidate", "confirmed", "contested", "deprecated"]},
++          "reason_codes": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
++          "metrics": {"type": "object"}
++        }
++      }
++    }
++  }
++}
+diff --git a/prototypes/ckb-tag-navigation/schemas/tag-projection.schema.json b/prototypes/ckb-tag-navigation/schemas/tag-projection.schema.json
+new file mode 100644
+index 0000000..05f6e73
+--- /dev/null
++++ b/prototypes/ckb-tag-navigation/schemas/tag-projection.schema.json
+@@ -0,0 +1,40 @@
++{
++  "$schema": "https://json-schema.org/draft/2020-12/schema",
++  "$id": "https://ckb.local/schemas/tag-projection.schema.json",
++  "title": "CKB human tag navigation projection",
++  "type": "object",
++  "additionalProperties": false,
++  "required": ["schema_version", "status", "production_integration", "page_tag_limit", "entries", "suppressed", "excluded_by_state"],
++  "properties": {
++    "schema_version": {"const": 1},
++    "status": {"const": "passed"},
++    "production_integration": {"const": "disabled"},
++    "page_tag_limit": {"type": "integer", "minimum": 1},
++    "entries": {
++      "type": "array",
++      "items": {
++        "type": "object",
++        "additionalProperties": false,
++        "required": ["page", "tags"],
++        "properties": {
++          "page": {"type": "string"},
++          "tags": {
++            "type": "array",
++            "items": {
++              "type": "object",
++              "additionalProperties": false,
++              "required": ["tag", "display", "search"],
++              "properties": {
++                "tag": {"type": "string"},
++                "display": {"type": "string"},
++                "search": {"type": "string"}
++              }
++            }
++          }
++        }
++      }
++    },
++    "suppressed": {"type": "array", "items": {"type": "object"}},
++    "excluded_by_state": {"type": "object"}
++  }
++}
+diff --git a/prototypes/ckb-tag-navigation/scripts/ckb_tag_navigation.py b/prototypes/ckb-tag-navigation/scripts/ckb_tag_navigation.py
+new file mode 100644
+index 0000000..b46cde8
+--- /dev/null
++++ b/prototypes/ckb-tag-navigation/scripts/ckb_tag_navigation.py
+@@ -0,0 +1,14 @@
++from __future__ import annotations
++
++from pathlib import Path
++import sys
++
++
++ROOT = Path(__file__).resolve().parents[1]
++sys.path.insert(0, str(ROOT))
++
++from ckb_tag_navigation.cli import main
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+diff --git a/references/design/tag-navigation-research/official-sources.md b/references/design/tag-navigation-research/official-sources.md
+new file mode 100644
+index 0000000..0eb714e
+--- /dev/null
++++ b/references/design/tag-navigation-research/official-sources.md
+@@ -0,0 +1,32 @@
++# Tag 导航实验官方来源
++
++访问日期统一为 `2026-09-03`。本目录只保存 URL、许可结论和中文释义，不复制外部全文。
++
++## Obsidian
++
++| 来源 | 已核对事实 | 许可与使用边界 |
++|---|---|---|
++| [Tags](https://obsidian.md/help/tags) | tag 可写在正文或 `tags` 属性中；可点击、使用 `tag:` 搜索、在 Tags view 中浏览；`/` 表示层级；tag 不区分大小写且不能含空格。 | Obsidian 保留其文档和应用内容权利；本研究只写中文释义。 |
++| [Properties](https://obsidian.md/help/properties) | Properties 保存 YAML 结构化数据，支持 list、number、checkbox、date、tags 等类型；属性名在同一 note 中唯一；不支持嵌套属性、内建批量编辑和属性内 Markdown 渲染。 | 同上，不复制页面正文。 |
++| [Search](https://obsidian.md/help/plugins/search) | `tag:#name` 只返回真实 tag，忽略代码块中的伪匹配；`[property:value]` 可查询属性；搜索只覆盖 note 与 Canvas 内容。 | 同上，不把搜索结果当机器层完整召回。 |
++| [Canvas](https://obsidian.md/help/plugins/canvas) | Canvas 是 core plugin，使用 `.canvas` 文件；卡片可引用 note、附件和网页，边可带方向、标签和颜色；text card 不进入 backlinks。 | 同上；网页卡片可能触发网络访问，本原型不生成网页卡片。 |
++| [Privacy](https://obsidian.md/privacy) | 桌面与移动端 vault 数据默认保存在本地；Sync、Publish、插件、主题和嵌入网页有各自的数据边界。 | 本原型不调用 Sync、Publish、插件市场或远程嵌入。 |
++| [License overview](https://obsidian.md/license) | Obsidian 可免费用于个人、商业、非营利等用途，用户保留自己的内容；Obsidian 保留其应用、文字、图像和代码内容权利。 | 该结论不等同于文档开放许可；仓库不收录 Obsidian 文档正文。 |
++
++## 开放格式与确定性存储
++
++| 来源 | 已核对事实 | 许可 |
++|---|---|---|
++| [JSON Canvas 1.0](https://github.com/obsidianmd/jsoncanvas/blob/main/spec/1.0.md) | 顶层是 `nodes` 与 `edges`；节点类型为 text、file、link、group；通用节点必须有唯一 ID、位置和尺寸；边引用两端节点 ID。 | MIT。 |
++| [JSON Canvas repository](https://github.com/obsidianmd/jsoncanvas) | JSON Canvas 面向可读、可移植和可扩展的本地文件；仓库与相关资源声明为 MIT。 | MIT。 |
++| [SQLite UPSERT](https://www.sqlite.org/lang_upsert.html) | `ON CONFLICT` 只由 `PRIMARY KEY`、`UNIQUE` 或 unique index 触发，可用于幂等键去重。 | SQLite 代码与文档为 Public Domain。 |
++| [SQLite transactions](https://www.sqlite.org/lang_transaction.html) | SQLite 的读写在事务中发生；显式 `BEGIN` 到 `COMMIT`/`ROLLBACK` 可把一批 assertion 写入作为一个原子单元。 | Public Domain。 |
++| [SQLite copyright](https://www.sqlite.org/copyright.html) | SQLite 官方明确把代码和文档贡献到 Public Domain。 | Public Domain。 |
++| [Git data model](https://git-scm.com/docs/gitdatamodel.html) | commit 对象固定树、父提交、作者、提交者与消息；对象创建后不可变，适合作为证据快照身份。 | Git 项目 GPL-2.0；本原型只调用 Git 输出的 commit ID，不复制其代码。 |
++
++## 对实验设计的约束
++
++1. Obsidian tag 适合做点击、搜索和层级浏览入口，但不是证据数据库；支持票、反对票、幂等键、来源独立性和状态原因保留在 SQLite。
++2. Properties 适合 note 级结构化字段，但 CKB 当前人类页明确禁止 YAML frontmatter；本实验不把审计状态写进稳定页面。
++3. Canvas 适合空间导航，不是 tag 状态存储；现有 Canvas 原型继续独立，兼容测试只证明二者没有修改彼此合同。
++4. 运行期只读取本地 JSONL、SQLite 和 JSON；不访问网络，不保存对话原文、环境变量值、凭据或 source 正文。
+diff --git a/references/design/tag-navigation-research/research-report.md b/references/design/tag-navigation-research/research-report.md
+new file mode 100644
+index 0000000..113925c
+--- /dev/null
++++ b/references/design/tag-navigation-research/research-report.md
+@@ -0,0 +1,58 @@
++# 机器 tag 下沉与人类导航研究结论
++
++## 结论
++
++本实验采用“机器层 assertion，确定性审计，人类层只投影 confirmed tag”的闭环。tag 不直接进入 CKB 稳定页面，也不改变当前每页唯一 `#类型/...` 标签合同。实验投影是独立 JSON，可在以后由管理任务决定是否转为 Obsidian 可点击 tag、Properties 字段或单独导航页。
++
++这一选择保留了两类职责：Agent 负责提交可追溯的 propose、support、oppose 或 retract 事件；脚本负责幂等去重、单 Agent 单票、来源独立性、固定 commit、证据时效、反对比例、状态排序和每页配额。Agent 不能直接把建议写成人类 tag。
++
++## Obsidian 三种入口的适用范围
++
++### Tags
++
++Tags 是本实验的首选人类导航语义。它们可点击、可用 `tag:` 搜索、支持 `/` 层级，并可由 Tags view 汇总。限制是 tag 不区分大小写、不能含空格，而且它只能表达“页面属于某主题”，不能表达支持票、反对票、证据来源、commit 或废弃原因。
++
++### Properties
++
++Properties 能保存 YAML 结构化字段并用 `[property:value]` 搜索，但属性类型在 vault 内按名称统一，不支持嵌套属性，也没有内建批量编辑。CKB 当前人类页还禁止 frontmatter，因此本实验只把 Properties 视为未来可选的展示层，不把它作为机器事实或当前投影格式。
++
++### Canvas
++
++Canvas 能把 note、附件、网页和关系边放入二维空间，并使用 MIT 的 JSON Canvas 1.0。它适合比较空间入口是否减少跳转，但 text card 不进入 backlinks，网页卡片可能访问网络，Canvas 也没有 tag 投票状态合同。因此本实验继续运行已有 Canvas 兼容测试，不把 tag 原型接入 Canvas 生成器。
++
++## 冻结状态机
++
++状态只有 `candidate`、`confirmed`、`contested`、`deprecated`：
++
++- `candidate`：已有 proposal 或当前 support，但票数、独立 Agent、独立来源或其他确认门未全部满足；
++- `confirmed`：当前 commit 上、时效内的 support 至少 2 票，来自至少 2 个 Agent 和 2 个独立来源，反对比例不超过 0.25，且没有活动票发生 commit 漂移或过期；
++- `contested`：当前 commit 且时效内的活动票中，反对票比例大于 0.25；
++- `deprecated`：曾有投票，但当前没有可用 support，原因可以是全部撤销、证据过期或 commit 漂移。
++
++同一 Agent 对同一 `target + tag` 只有按时间和 assertion ID 排序后的最后一张未撤销 vote 生效。相同幂等键与相同 payload 是重复提交；相同幂等键与不同 payload 是冲突并终止事务。proposal 不计 support 票。
++
++## 人类投影
++
++只有 `confirmed` 进入投影。每页最多 3 个 tag，排序依次使用 support 票数降序、反对比例升序、独立来源数降序和规范化 tag 字典序。超出配额的 confirmed tag 留在机器审计结果中，并以 `PAGE_TAG_QUOTA_EXCEEDED` 记录，不增加页面。
++
++投影只输出 `page`、`tag` 和可复制的 `tag:#...` 搜索表达式，不输出 Agent key、机器 assertion ID、证据 hash、commit、SQLite 字段或票明细。
++
++## 隐私与许可边界
++
++assertion schema 没有自由文本、对话、Prompt、环境变量或 secret 字段；证据只保存 source ID、类型、仓库相对路径、结构化 locator、SHA-256、commit 和时间。SQLite、审计、投影与 benchmark 都在本地运行。官方来源只保存 URL、访问日期、许可元数据和中文释义。
++
++Obsidian 应用可免费使用，但其文档和应用内容不是开放内容；本仓库不复制这些正文。JSON Canvas 使用 MIT。SQLite 代码与文档为 Public Domain。Git 项目使用 GPL-2.0，本实验只把 commit ID 当固定快照标识。
++
++## 隔离导航对照的解释边界
++
++固定 fixture 用同一组页面、同一批任务和逐题访问记录比较 `no_tag` 与 `confirmed_tag`。脚本重算找到入口所需步骤、误导链接、页面增量和冲突数。该结果只证明冻结 fixture 中的导航路径变化，不等同于真实用户、真实 Obsidian 版本或稳定知识库效果。
++
++本轮 6 个固定任务的脚本重算结果为：总步骤 `19→7`，中位步骤 `3→1`，误导链接 `5→1`，两组页面数均为 11，页面增量 0，tag 冲突 0。结果文件明确写入 `effect_claim=fixture-navigation-signal-only`，因此它只是一条进入真实 Obsidian 人工对照前的导航信号。
++
++## 进入生产前的最小决策
++
++1. **tag 命名空间**：继续使用独立 `#导航/...`，还是允许它与当前唯一 `#类型/...` 标签并存；
++2. **身份与来源登记**：哪些 Agent key 算独立投票者，哪些 source ID 算独立证据，以及谁维护这两个登记表；
++3. **投影所有权**：投影是生成器受管、用户可编辑，还是只读导出；选择后才能定义刷新与回滚冲突规则。
++
++在这三项决定前，生产接入保持关闭。
+diff --git a/references/design/tag-navigation-research/sources.json b/references/design/tag-navigation-research/sources.json
+new file mode 100644
+index 0000000..014da3c
+--- /dev/null
++++ b/references/design/tag-navigation-research/sources.json
+@@ -0,0 +1,17 @@
++{
++  "schema_version": 1,
++  "accessed_at": "2026-09-03",
++  "sources": [
++    {"id": "obsidian-tags", "url": "https://obsidian.md/help/tags", "publisher": "Obsidian", "kind": "official-documentation", "license": "rights-reserved", "reuse": "metadata-and-chinese-paraphrase-only"},
++    {"id": "obsidian-properties", "url": "https://obsidian.md/help/properties", "publisher": "Obsidian", "kind": "official-documentation", "license": "rights-reserved", "reuse": "metadata-and-chinese-paraphrase-only"},
++    {"id": "obsidian-search", "url": "https://obsidian.md/help/plugins/search", "publisher": "Obsidian", "kind": "official-documentation", "license": "rights-reserved", "reuse": "metadata-and-chinese-paraphrase-only"},
++    {"id": "obsidian-canvas", "url": "https://obsidian.md/help/plugins/canvas", "publisher": "Obsidian", "kind": "official-documentation", "license": "rights-reserved", "reuse": "metadata-and-chinese-paraphrase-only"},
++    {"id": "obsidian-privacy", "url": "https://obsidian.md/privacy", "publisher": "Obsidian", "kind": "official-policy", "license": "rights-reserved", "reuse": "metadata-and-chinese-paraphrase-only"},
++    {"id": "obsidian-license", "url": "https://obsidian.md/license", "publisher": "Obsidian", "kind": "official-policy", "license": "rights-reserved", "reuse": "metadata-and-chinese-paraphrase-only"},
++    {"id": "json-canvas-1.0", "url": "https://github.com/obsidianmd/jsoncanvas/blob/main/spec/1.0.md", "publisher": "Obsidian", "kind": "original-specification", "license": "MIT", "reuse": "contract-reference"},
++    {"id": "sqlite-upsert", "url": "https://www.sqlite.org/lang_upsert.html", "publisher": "SQLite", "kind": "official-documentation", "license": "Public-Domain", "reuse": "contract-reference"},
++    {"id": "sqlite-transactions", "url": "https://www.sqlite.org/lang_transaction.html", "publisher": "SQLite", "kind": "official-documentation", "license": "Public-Domain", "reuse": "contract-reference"},
++    {"id": "sqlite-copyright", "url": "https://www.sqlite.org/copyright.html", "publisher": "SQLite", "kind": "official-license", "license": "Public-Domain", "reuse": "license-evidence"},
++    {"id": "git-data-model", "url": "https://git-scm.com/docs/gitdatamodel.html", "publisher": "Git", "kind": "official-documentation", "license": "GPL-2.0-project", "reuse": "commit-identity-reference"}
++  ]
++}
+diff --git a/references/design/tag-navigation-research/state-machine-contract.md b/references/design/tag-navigation-research/state-machine-contract.md
+new file mode 100644
+index 0000000..e125e72
+--- /dev/null
++++ b/references/design/tag-navigation-research/state-machine-contract.md
+@@ -0,0 +1,54 @@
++# Tag assertion 与状态机合同
++
++## 输入事件
++
++`tag-assertion.schema.json` 是唯一事件合同。根对象禁止额外字段。
++
++- `propose`：必须有证据，`stance=null`，只创建候选，不计票；
++- `vote`：必须有证据，`stance` 为 `support` 或 `oppose`；
++- `retract`：必须指定同一 Agent、同一 target、同一 tag 的既有 assertion，`stance=null` 且 `evidence=null`。
++
++`actor.key` 是不含姓名、邮箱或账户的本地 opaque key。`evidence` 不保存 source 正文，只保存结构化定位与 hash。所有路径必须是 `/` 分隔的仓库相对路径。
++
++## 重放顺序与幂等
++
++1. assertion 先按 `recorded_at`、再按 `assertion_id` 排序；
++2. SQLite 对 `assertion_id` 和 `idempotency_key` 建立 `UNIQUE`；
++3. 相同幂等键且 canonical payload 相同记为 `duplicate`，不新增行；
++4. 相同幂等键但 payload 不同返回 `IDEMPOTENCY_CONFLICT`，整批事务回滚；
++5. retract 只能撤销更早的 assertion；跨 Agent、target 或 tag 的 retract 返回 `INVALID_RETRACTION`。
++
++## 活动票
++
++撤销事件先移除被撤销 assertion。每个 `actor.key + target.path + tag` 只保留最后一张未撤销 vote；更早 vote 标记为 superseded。proposal 永远不计票。
++
++## 固定阈值
++
++阈值来自 `policy.schema.json` 校验后的 JSON：
++
++| 字段 | fixture 值 | 作用 |
++|---|---:|---|
++| `min_support_votes` | 2 | 最少 support 票数 |
++| `min_independent_agents` | 2 | 最少独立 Agent key |
++| `min_independent_sources` | 2 | support 证据的最少独立 source ID |
++| `max_opposition_ratio` | 0.25 | `oppose / (support + oppose)` 上限 |
++| `max_evidence_age_days` | 90 | `as_of - evidence.observed_at` 上限 |
++| `max_tags_per_page` | 3 | 人类投影配额 |
++
++确认还要求所有活动 vote 的 evidence commit 等于审计 `current_commit`，并且所有活动 vote 均在时效内。未来时间、非法 SHA、绝对路径、`..`、未知字段或自由文本均在写库前失败。
++
++## 原因码
++
++- `CONFIRMED_THRESHOLDS_MET`
++- `PROPOSAL_ONLY`
++- `SUPPORT_VOTES_BELOW_MINIMUM`
++- `INDEPENDENT_AGENTS_BELOW_MINIMUM`
++- `INDEPENDENT_SOURCES_BELOW_MINIMUM`
++- `OPPOSITION_RATIO_EXCEEDED`
++- `COMMIT_DRIFT`
++- `STALE_EVIDENCE`
++- `ALL_SUPPORT_RETRACTED`
++- `NO_ACTIVE_SUPPORT`
++- `PAGE_TAG_QUOTA_EXCEEDED`
++
++原因码去重后按固定字典序输出。状态排序固定为 target path、tag。
+diff --git a/tests/fixtures/tag-navigation/assertions.jsonl b/tests/fixtures/tag-navigation/assertions.jsonl
+new file mode 100644
+index 0000000..0cf4e27
+--- /dev/null
++++ b/tests/fixtures/tag-navigation/assertions.jsonl
+@@ -0,0 +1,26 @@
++{"action":"propose","actor":{"category":"retrieval-agent","key":"agent-curator"},"assertion_id":"proposal-nav","evidence":{"commit":"19152b227ccf687e7e4d89337d421c22a4e1a75f","locator":{"end_line":10,"kind":"line-range","section_id":null,"start_line":1},"observed_at":"2026-08-20T00:00:00Z","path":"scripts/ckb_core/navigation.py","sha256":"1111111111111111111111111111111111111111111111111111111111111111","source_id":"source-nav-proposal","source_kind":"source-range"},"idempotency_key":"idem-proposal-nav","recorded_at":"2026-08-20T00:01:00Z","retracts":null,"schema_version":1,"stance":null,"tag":"topic/navigation","target":{"kind":"page","path":"human/pages/navigation.md"}}
++{"action":"vote","actor":{"category":"retrieval-agent","key":"agent-alpha"},"assertion_id":"vote-nav-alpha","evidence":{"commit":"19152b227ccf687e7e4d89337d421c22a4e1a75f","locator":{"end_line":49,"kind":"line-range","section_id":null,"start_line":40},"observed_at":"2026-08-20T00:00:00Z","path":"scripts/ckb_core/navigation.py","sha256":"2222222222222222222222222222222222222222222222222222222222222222","source_id":"source-nav-code","source_kind":"source-range"},"idempotency_key":"idem-vote-nav-alpha","recorded_at":"2026-08-20T00:02:00Z","retracts":null,"schema_version":1,"stance":"support","tag":"topic/navigation","target":{"kind":"page","path":"human/pages/navigation.md"}}
++{"action":"vote","actor":{"category":"retrieval-agent","key":"agent-alpha"},"assertion_id":"vote-nav-alpha","evidence":{"commit":"19152b227ccf687e7e4d89337d421c22a4e1a75f","locator":{"end_line":49,"kind":"line-range","section_id":null,"start_line":40},"observed_at":"2026-08-20T00:00:00Z","path":"scripts/ckb_core/navigation.py","sha256":"2222222222222222222222222222222222222222222222222222222222222222","source_id":"source-nav-code","source_kind":"source-range"},"idempotency_key":"idem-vote-nav-alpha","recorded_at":"2026-08-20T00:02:00Z","retracts":null,"schema_version":1,"stance":"support","tag":"topic/navigation","target":{"kind":"page","path":"human/pages/navigation.md"}}
++{"action":"vote","actor":{"category":"source-review-agent","key":"agent-beta"},"assertion_id":"vote-nav-beta","evidence":{"commit":"19152b227ccf687e7e4d89337d421c22a4e1a75f","locator":{"end_line":79,"kind":"line-range","section_id":null,"start_line":70},"observed_at":"2026-08-20T00:00:00Z","path":"references/human-readable-pages.md","sha256":"3333333333333333333333333333333333333333333333333333333333333333","source_id":"source-nav-record","source_kind":"source-range"},"idempotency_key":"idem-vote-nav-beta","recorded_at":"2026-08-20T00:03:00Z","retracts":null,"schema_version":1,"stance":"support","tag":"topic/navigation","target":{"kind":"page","path":"human/pages/navigation.md"}}
++{"action":"propose","actor":{"category":"retrieval-agent","key":"agent-curator"},"assertion_id":"proposal-retrieval","evidence":{"commit":"19152b227ccf687e7e4d89337d421c22a4e1a75f","locator":{"end_line":10,"kind":"line-range","section_id":null,"start_line":1},"observed_at":"2026-08-20T00:00:00Z","path":"scripts/ckb_core/agent_index.py","sha256":"4444444444444444444444444444444444444444444444444444444444444444","source_id":"source-retrieval-proposal","source_kind":"source-range"},"idempotency_key":"idem-proposal-retrieval","recorded_at":"2026-08-20T00:04:00Z","retracts":null,"schema_version":1,"stance":null,"tag":"topic/retrieval","target":{"kind":"page","path":"human/pages/agent-index.md"}}
++{"action":"vote","actor":{"category":"retrieval-agent","key":"agent-alpha"},"assertion_id":"vote-retrieval-alpha","evidence":{"commit":"19152b227ccf687e7e4d89337d421c22a4e1a75f","locator":{"end_line":10,"kind":"line-range","section_id":null,"start_line":1},"observed_at":"2026-08-20T00:00:00Z","path":"scripts/ckb_core/agent_index.py","sha256":"5555555555555555555555555555555555555555555555555555555555555555","source_id":"source-retrieval-code","source_kind":"source-range"},"idempotency_key":"idem-vote-retrieval-alpha","recorded_at":"2026-08-20T00:05:00Z","retracts":null,"schema_version":1,"stance":"support","tag":"topic/retrieval","target":{"kind":"page","path":"human/pages/agent-index.md"}}
++{"action":"vote","actor":{"category":"source-review-agent","key":"agent-beta"},"assertion_id":"vote-retrieval-beta","evidence":{"commit":"19152b227ccf687e7e4d89337d421c22a4e1a75f","locator":{"end_line":10,"kind":"line-range","section_id":null,"start_line":1},"observed_at":"2026-08-20T00:00:00Z","path":"references/agent-retrieval.md","sha256":"6666666666666666666666666666666666666666666666666666666666666666","source_id":"source-retrieval-record","source_kind":"source-range"},"idempotency_key":"idem-vote-retrieval-beta","recorded_at":"2026-08-20T00:06:00Z","retracts":null,"schema_version":1,"stance":"support","tag":"topic/retrieval","target":{"kind":"page","path":"human/pages/agent-index.md"}}
++{"action":"vote","actor":{"category":"source-review-agent","key":"agent-gamma"},"assertion_id":"vote-retrieval-gamma","evidence":{"commit":"19152b227ccf687e7e4d89337d421c22a4e1a75f","locator":{"end_line":10,"kind":"line-range","section_id":null,"start_line":1},"observed_at":"2026-08-20T00:00:00Z","path":"tests/test_ckb_agent_retrieval.py","sha256":"7777777777777777777777777777777777777777777777777777777777777777","source_id":"source-retrieval-test","source_kind":"source-range"},"idempotency_key":"idem-vote-retrieval-gamma","recorded_at":"2026-08-20T00:07:00Z","retracts":null,"schema_version":1,"stance":"oppose","tag":"topic/retrieval","target":{"kind":"page","path":"human/pages/agent-index.md"}}
++{"action":"vote","actor":{"category":"retrieval-agent","key":"agent-alpha"},"assertion_id":"vote-obsidian-alpha-1","evidence":{"commit":"19152b227ccf687e7e4d89337d421c22a4e1a75f","locator":{"end_line":10,"kind":"line-range","section_id":null,"start_line":1},"observed_at":"2026-08-20T00:00:00Z","path":"scripts/ckb_core/obsidian.py","sha256":"8888888888888888888888888888888888888888888888888888888888888888","source_id":"source-obsidian-code","source_kind":"source-range"},"idempotency_key":"idem-vote-obsidian-alpha-1","recorded_at":"2026-08-20T00:08:00Z","retracts":null,"schema_version":1,"stance":"support","tag":"interface/obsidian","target":{"kind":"page","path":"human/pages/obsidian.md"}}
++{"action":"vote","actor":{"category":"retrieval-agent","key":"agent-alpha"},"assertion_id":"vote-obsidian-alpha-2","evidence":{"commit":"19152b227ccf687e7e4d89337d421c22a4e1a75f","locator":{"end_line":10,"kind":"line-range","section_id":null,"start_line":1},"observed_at":"2026-08-20T00:00:00Z","path":"references/obsidian.md","sha256":"9999999999999999999999999999999999999999999999999999999999999999","source_id":"source-obsidian-doc","source_kind":"source-range"},"idempotency_key":"idem-vote-obsidian-alpha-2","recorded_at":"2026-08-20T01:00:00Z","retracts":null,"schema_version":1,"stance":"support","tag":"interface/obsidian","target":{"kind":"page","path":"human/pages/obsidian.md"}}
++{"action":"vote","actor":{"category":"retrieval-agent","key":"agent-alpha"},"assertion_id":"vote-stale-alpha","evidence":{"commit":"19152b227ccf687e7e4d89337d421c22a4e1a75f","locator":{"end_line":10,"kind":"line-range","section_id":null,"start_line":1},"observed_at":"2025-01-01T00:00:00Z","path":"scripts/ckb_core/navigation.py","sha256":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","source_id":"source-stale-code","source_kind":"source-range"},"idempotency_key":"idem-vote-stale-alpha","recorded_at":"2026-08-20T00:10:00Z","retracts":null,"schema_version":1,"stance":"support","tag":"lifecycle/stale","target":{"kind":"page","path":"human/pages/stale.md"}}
++{"action":"vote","actor":{"category":"retrieval-agent","key":"agent-beta"},"assertion_id":"vote-stale-beta","evidence":{"commit":"19152b227ccf687e7e4d89337d421c22a4e1a75f","locator":{"end_line":10,"kind":"line-range","section_id":null,"start_line":1},"observed_at":"2025-01-02T00:00:00Z","path":"references/human-readable-pages.md","sha256":"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb","source_id":"source-stale-record","source_kind":"source-range"},"idempotency_key":"idem-vote-stale-beta","recorded_at":"2026-08-20T00:11:00Z","retracts":null,"schema_version":1,"stance":"support","tag":"lifecycle/stale","target":{"kind":"page","path":"human/pages/stale.md"}}
++{"action":"vote","actor":{"category":"retrieval-agent","key":"agent-alpha"},"assertion_id":"vote-drift-alpha","evidence":{"commit":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","locator":{"end_line":10,"kind":"line-range","section_id":null,"start_line":1},"observed_at":"2026-08-20T00:00:00Z","path":"scripts/ckb_core/navigation.py","sha256":"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc","source_id":"source-drift-code","source_kind":"source-range"},"idempotency_key":"idem-vote-drift-alpha","recorded_at":"2026-08-20T00:12:00Z","retracts":null,"schema_version":1,"stance":"support","tag":"lifecycle/drift","target":{"kind":"page","path":"human/pages/drift.md"}}
++{"action":"vote","actor":{"category":"retrieval-agent","key":"agent-beta"},"assertion_id":"vote-drift-beta","evidence":{"commit":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","locator":{"end_line":10,"kind":"line-range","section_id":null,"start_line":1},"observed_at":"2026-08-20T00:00:00Z","path":"references/schema.md","sha256":"dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd","source_id":"source-drift-record","source_kind":"source-range"},"idempotency_key":"idem-vote-drift-beta","recorded_at":"2026-08-20T00:13:00Z","retracts":null,"schema_version":1,"stance":"support","tag":"lifecycle/drift","target":{"kind":"page","path":"human/pages/drift.md"}}
++{"action":"vote","actor":{"category":"retrieval-agent","key":"agent-alpha"},"assertion_id":"vote-withdraw-alpha","evidence":{"commit":"19152b227ccf687e7e4d89337d421c22a4e1a75f","locator":{"end_line":10,"kind":"line-range","section_id":null,"start_line":1},"observed_at":"2026-08-20T00:00:00Z","path":"scripts/ckb_core/navigation.py","sha256":"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee","source_id":"source-withdraw-code","source_kind":"source-range"},"idempotency_key":"idem-vote-withdraw-alpha","recorded_at":"2026-08-20T00:14:00Z","retracts":null,"schema_version":1,"stance":"support","tag":"topic/withdrawn","target":{"kind":"page","path":"human/pages/withdrawn.md"}}
++{"action":"vote","actor":{"category":"retrieval-agent","key":"agent-beta"},"assertion_id":"vote-withdraw-beta","evidence":{"commit":"19152b227ccf687e7e4d89337d421c22a4e1a75f","locator":{"end_line":10,"kind":"line-range","section_id":null,"start_line":1},"observed_at":"2026-08-20T00:00:00Z","path":"references/human-readable-pages.md","sha256":"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff","source_id":"source-withdraw-record","source_kind":"source-range"},"idempotency_key":"idem-vote-withdraw-beta","recorded_at":"2026-08-20T00:15:00Z","retracts":null,"schema_version":1,"stance":"support","tag":"topic/withdrawn","target":{"kind":"page","path":"human/pages/withdrawn.md"}}
++{"action":"retract","actor":{"category":"retrieval-agent","key":"agent-alpha"},"assertion_id":"retract-withdraw-alpha","evidence":null,"idempotency_key":"idem-retract-withdraw-alpha","recorded_at":"2026-08-20T00:16:00Z","retracts":"vote-withdraw-alpha","schema_version":1,"stance":null,"tag":"topic/withdrawn","target":{"kind":"page","path":"human/pages/withdrawn.md"}}
++{"action":"retract","actor":{"category":"retrieval-agent","key":"agent-beta"},"assertion_id":"retract-withdraw-beta","evidence":null,"idempotency_key":"idem-retract-withdraw-beta","recorded_at":"2026-08-20T00:17:00Z","retracts":"vote-withdraw-beta","schema_version":1,"stance":null,"tag":"topic/withdrawn","target":{"kind":"page","path":"human/pages/withdrawn.md"}}
++{"action":"vote","actor":{"category":"retrieval-agent","key":"agent-alpha"},"assertion_id":"vote-quota-1-alpha","evidence":{"commit":"19152b227ccf687e7e4d89337d421c22a4e1a75f","locator":{"end_line":10,"kind":"line-range","section_id":null,"start_line":1},"observed_at":"2026-08-20T00:00:00Z","path":"scripts/ckb_core/navigation.py","sha256":"1111111111111111111111111111111111111111111111111111111111111111","source_id":"source-quota-1-code","source_kind":"source-range"},"idempotency_key":"idem-vote-quota-1-alpha","recorded_at":"2026-08-20T00:18:00Z","retracts":null,"schema_version":1,"stance":"support","tag":"topic/alpha","target":{"kind":"page","path":"human/pages/quota.md"}}
++{"action":"vote","actor":{"category":"retrieval-agent","key":"agent-beta"},"assertion_id":"vote-quota-1-beta","evidence":{"commit":"19152b227ccf687e7e4d89337d421c22a4e1a75f","locator":{"end_line":10,"kind":"line-range","section_id":null,"start_line":1},"observed_at":"2026-08-20T00:00:00Z","path":"references/human-readable-pages.md","sha256":"9999999999999999999999999999999999999999999999999999999999999999","source_id":"source-quota-1-record","source_kind":"source-range"},"idempotency_key":"idem-vote-quota-1-beta","recorded_at":"2026-08-20T00:19:00Z","retracts":null,"schema_version":1,"stance":"support","tag":"topic/alpha","target":{"kind":"page","path":"human/pages/quota.md"}}
++{"action":"vote","actor":{"category":"retrieval-agent","key":"agent-alpha"},"assertion_id":"vote-quota-2-alpha","evidence":{"commit":"19152b227ccf687e7e4d89337d421c22a4e1a75f","locator":{"end_line":10,"kind":"line-range","section_id":null,"start_line":1},"observed_at":"2026-08-20T00:00:00Z","path":"scripts/ckb_core/navigation.py","sha256":"2222222222222222222222222222222222222222222222222222222222222222","source_id":"source-quota-2-code","source_kind":"source-range"},"idempotency_key":"idem-vote-quota-2-alpha","recorded_at":"2026-08-20T00:20:00Z","retracts":null,"schema_version":1,"stance":"support","tag":"topic/beta","target":{"kind":"page","path":"human/pages/quota.md"}}
++{"action":"vote","actor":{"category":"retrieval-agent","key":"agent-beta"},"assertion_id":"vote-quota-2-beta","evidence":{"commit":"19152b227ccf687e7e4d89337d421c22a4e1a75f","locator":{"end_line":10,"kind":"line-range","section_id":null,"start_line":1},"observed_at":"2026-08-20T00:00:00Z","path":"references/human-readable-pages.md","sha256":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","source_id":"source-quota-2-record","source_kind":"source-range"},"idempotency_key":"idem-vote-quota-2-beta","recorded_at":"2026-08-20T00:21:00Z","retracts":null,"schema_version":1,"stance":"support","tag":"topic/beta","target":{"kind":"page","path":"human/pages/quota.md"}}
++{"action":"vote","actor":{"category":"retrieval-agent","key":"agent-alpha"},"assertion_id":"vote-quota-3-alpha","evidence":{"commit":"19152b227ccf687e7e4d89337d421c22a4e1a75f","locator":{"end_line":10,"kind":"line-range","section_id":null,"start_line":1},"observed_at":"2026-08-20T00:00:00Z","path":"scripts/ckb_core/navigation.py","sha256":"3333333333333333333333333333333333333333333333333333333333333333","source_id":"source-quota-3-code","source_kind":"source-range"},"idempotency_key":"idem-vote-quota-3-alpha","recorded_at":"2026-08-20T00:22:00Z","retracts":null,"schema_version":1,"stance":"support","tag":"topic/gamma","target":{"kind":"page","path":"human/pages/quota.md"}}
++{"action":"vote","actor":{"category":"retrieval-agent","key":"agent-beta"},"assertion_id":"vote-quota-3-beta","evidence":{"commit":"19152b227ccf687e7e4d89337d421c22a4e1a75f","locator":{"end_line":10,"kind":"line-range","section_id":null,"start_line":1},"observed_at":"2026-08-20T00:00:00Z","path":"references/human-readable-pages.md","sha256":"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb","source_id":"source-quota-3-record","source_kind":"source-range"},"idempotency_key":"idem-vote-quota-3-beta","recorded_at":"2026-08-20T00:23:00Z","retracts":null,"schema_version":1,"stance":"support","tag":"topic/gamma","target":{"kind":"page","path":"human/pages/quota.md"}}
++{"action":"vote","actor":{"category":"retrieval-agent","key":"agent-alpha"},"assertion_id":"vote-quota-4-alpha","evidence":{"commit":"19152b227ccf687e7e4d89337d421c22a4e1a75f","locator":{"end_line":10,"kind":"line-range","section_id":null,"start_line":1},"observed_at":"2026-08-20T00:00:00Z","path":"scripts/ckb_core/navigation.py","sha256":"4444444444444444444444444444444444444444444444444444444444444444","source_id":"source-quota-4-code","source_kind":"source-range"},"idempotency_key":"idem-vote-quota-4-alpha","recorded_at":"2026-08-20T00:24:00Z","retracts":null,"schema_version":1,"stance":"support","tag":"topic/delta","target":{"kind":"page","path":"human/pages/quota.md"}}
++{"action":"vote","actor":{"category":"retrieval-agent","key":"agent-beta"},"assertion_id":"vote-quota-4-beta","evidence":{"commit":"19152b227ccf687e7e4d89337d421c22a4e1a75f","locator":{"end_line":10,"kind":"line-range","section_id":null,"start_line":1},"observed_at":"2026-08-20T00:00:00Z","path":"references/human-readable-pages.md","sha256":"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc","source_id":"source-quota-4-record","source_kind":"source-range"},"idempotency_key":"idem-vote-quota-4-beta","recorded_at":"2026-08-20T00:25:00Z","retracts":null,"schema_version":1,"stance":"support","tag":"topic/delta","target":{"kind":"page","path":"human/pages/quota.md"}}
+diff --git a/tests/fixtures/tag-navigation/navigation-benchmark.json b/tests/fixtures/tag-navigation/navigation-benchmark.json
+new file mode 100644
+index 0000000..bff66d7
+--- /dev/null
++++ b/tests/fixtures/tag-navigation/navigation-benchmark.json
+@@ -0,0 +1,126 @@
++{
++  "schema_version": 1,
++  "scope": "isolated-fixture",
++  "page_sets": {
++    "no_tag": [
++      "INDEX.md",
++      "WIKI.md",
++      "RECORDS.md",
++      "human/pages/navigation.md",
++      "human/pages/agent-index.md",
++      "human/pages/obsidian.md",
++      "human/pages/schema.md",
++      "human/pages/audit.md",
++      "references/design/tag-navigation-research/research-report.md",
++      "human/pages/unrelated-a.md",
++      "human/pages/unrelated-b.md"
++    ],
++    "confirmed_tag": [
++      "INDEX.md",
++      "WIKI.md",
++      "RECORDS.md",
++      "human/pages/navigation.md",
++      "human/pages/agent-index.md",
++      "human/pages/obsidian.md",
++      "human/pages/schema.md",
++      "human/pages/audit.md",
++      "references/design/tag-navigation-research/research-report.md",
++      "human/pages/unrelated-a.md",
++      "human/pages/unrelated-b.md"
++    ]
++  },
++  "tasks": [
++    {
++      "task_id": "T01",
++      "target": "human/pages/navigation.md",
++      "accepted_routes": {
++        "no_tag": [
++          "INDEX.md",
++          "WIKI.md",
++          "human/pages/navigation.md"
++        ],
++        "confirmed_tag": [
++          "INDEX.md",
++          "human/pages/navigation.md"
++        ]
++      }
++    },
++    {
++      "task_id": "T02",
++      "target": "human/pages/agent-index.md",
++      "accepted_routes": {
++        "no_tag": [
++          "INDEX.md",
++          "RECORDS.md",
++          "human/pages/agent-index.md"
++        ],
++        "confirmed_tag": [
++          "INDEX.md",
++          "human/pages/agent-index.md"
++        ]
++      }
++    },
++    {
++      "task_id": "T03",
++      "target": "human/pages/obsidian.md",
++      "accepted_routes": {
++        "no_tag": [
++          "INDEX.md",
++          "WIKI.md",
++          "human/pages/obsidian.md"
++        ],
++        "confirmed_tag": [
++          "INDEX.md",
++          "human/pages/obsidian.md"
++        ]
++      }
++    },
++    {
++      "task_id": "T04",
++      "target": "human/pages/schema.md",
++      "accepted_routes": {
++        "no_tag": [
++          "INDEX.md",
++          "WIKI.md",
++          "human/pages/schema.md"
++        ],
++        "confirmed_tag": [
++          "INDEX.md",
++          "human/pages/schema.md"
++        ]
++      }
++    },
++    {
++      "task_id": "T05",
++      "target": "human/pages/audit.md",
++      "accepted_routes": {
++        "no_tag": [
++          "INDEX.md",
++          "RECORDS.md",
++          "WIKI.md",
++          "human/pages/audit.md"
++        ],
++        "confirmed_tag": [
++          "INDEX.md",
++          "human/pages/audit.md"
++        ]
++      }
++    },
++    {
++      "task_id": "T06",
++      "target": "references/design/tag-navigation-research/research-report.md",
++      "accepted_routes": {
++        "no_tag": [
++          "INDEX.md",
++          "WIKI.md",
++          "RECORDS.md",
++          "references/design/tag-navigation-research/research-report.md"
++        ],
++        "confirmed_tag": [
++          "INDEX.md",
++          "references/design/tag-navigation-research/research-report.md"
++        ]
++      }
++    }
++  ]
++}
+diff --git a/tests/fixtures/tag-navigation/navigation-records.jsonl b/tests/fixtures/tag-navigation/navigation-records.jsonl
+new file mode 100644
+index 0000000..e12e8ed
+--- /dev/null
++++ b/tests/fixtures/tag-navigation/navigation-records.jsonl
+@@ -0,0 +1,12 @@
++{"condition":"no_tag","conflicting_tag_count":0,"schema_version":1,"task_id":"T01","visited_pages":["INDEX.md","WIKI.md","human/pages/unrelated-a.md","human/pages/navigation.md"]}
++{"condition":"confirmed_tag","conflicting_tag_count":0,"schema_version":1,"task_id":"T01","visited_pages":["INDEX.md","human/pages/navigation.md"]}
++{"condition":"no_tag","conflicting_tag_count":0,"schema_version":1,"task_id":"T02","visited_pages":["INDEX.md","RECORDS.md","human/pages/unrelated-b.md","human/pages/agent-index.md"]}
++{"condition":"confirmed_tag","conflicting_tag_count":0,"schema_version":1,"task_id":"T02","visited_pages":["INDEX.md","human/pages/agent-index.md"]}
++{"condition":"no_tag","conflicting_tag_count":0,"schema_version":1,"task_id":"T03","visited_pages":["INDEX.md","WIKI.md","RECORDS.md","human/pages/obsidian.md"]}
++{"condition":"confirmed_tag","conflicting_tag_count":0,"schema_version":1,"task_id":"T03","visited_pages":["INDEX.md","human/pages/obsidian.md"]}
++{"condition":"no_tag","conflicting_tag_count":0,"schema_version":1,"task_id":"T04","visited_pages":["INDEX.md","human/pages/unrelated-a.md","WIKI.md","human/pages/schema.md"]}
++{"condition":"confirmed_tag","conflicting_tag_count":0,"schema_version":1,"task_id":"T04","visited_pages":["INDEX.md","human/pages/schema.md"]}
++{"condition":"no_tag","conflicting_tag_count":0,"schema_version":1,"task_id":"T05","visited_pages":["INDEX.md","RECORDS.md","WIKI.md","human/pages/unrelated-b.md","human/pages/audit.md"]}
++{"condition":"confirmed_tag","conflicting_tag_count":0,"schema_version":1,"task_id":"T05","visited_pages":["INDEX.md","human/pages/unrelated-b.md","human/pages/audit.md"]}
++{"condition":"no_tag","conflicting_tag_count":0,"schema_version":1,"task_id":"T06","visited_pages":["INDEX.md","WIKI.md","RECORDS.md","references/design/tag-navigation-research/research-report.md"]}
++{"condition":"confirmed_tag","conflicting_tag_count":0,"schema_version":1,"task_id":"T06","visited_pages":["INDEX.md","references/design/tag-navigation-research/research-report.md"]}
+diff --git a/tests/fixtures/tag-navigation/policy.json b/tests/fixtures/tag-navigation/policy.json
+new file mode 100644
+index 0000000..61ce3cf
+--- /dev/null
++++ b/tests/fixtures/tag-navigation/policy.json
+@@ -0,0 +1,9 @@
++{
++  "schema_version": 1,
++  "min_support_votes": 2,
++  "min_independent_agents": 2,
++  "min_independent_sources": 2,
++  "max_opposition_ratio": 0.25,
++  "max_evidence_age_days": 90,
++  "max_tags_per_page": 3
++}
+diff --git a/tests/test_ckb_tag_navigation_benchmark.py b/tests/test_ckb_tag_navigation_benchmark.py
+new file mode 100644
+index 0000000..88e316c
+--- /dev/null
++++ b/tests/test_ckb_tag_navigation_benchmark.py
+@@ -0,0 +1,54 @@
++from __future__ import annotations
++
++import copy
++import json
++from pathlib import Path
++import sys
++import unittest
++
++
++REPO = Path(__file__).resolve().parents[1]
++PROTOTYPE = REPO / "prototypes" / "ckb-tag-navigation"
++FIXTURE = REPO / "tests" / "fixtures" / "tag-navigation"
++sys.path.insert(0, str(PROTOTYPE))
++
++from ckb_tag_navigation.benchmark import load_records, recompute
++from ckb_tag_navigation.contracts import TagNavigationError, canonical_json_bytes
++
++
++class TagNavigationBenchmarkTests(unittest.TestCase):
++    def setUp(self) -> None:
++        self.fixture = json.loads((FIXTURE / "navigation-benchmark.json").read_text(encoding="utf-8"))
++        self.records = load_records(FIXTURE / "navigation-records.jsonl")
++
++    def test_fixed_records_recompute_all_required_metrics(self) -> None:
++        report = recompute(self.fixture, self.records)
++        self.assertEqual("fixture-navigation-signal-only", report["effect_claim"])
++        self.assertEqual(
++            {"tasks": 6, "total_steps": 19, "median_steps": 3.0, "misdirected_links": 5, "page_count": 11, "conflicts": 0, "page_increment": 0},
++            report["aggregate"]["no_tag"],
++        )
++        self.assertEqual(
++            {"tasks": 6, "total_steps": 7, "median_steps": 1.0, "misdirected_links": 1, "page_count": 11, "conflicts": 0, "page_increment": 0},
++            report["aggregate"]["confirmed_tag"],
++        )
++
++    def test_record_order_does_not_change_report(self) -> None:
++        forward = recompute(self.fixture, self.records)
++        reverse = recompute(self.fixture, list(reversed(self.records)))
++        self.assertEqual(canonical_json_bytes(forward), canonical_json_bytes(reverse))
++
++    def test_missing_per_task_record_stops_aggregation(self) -> None:
++        with self.assertRaises(TagNavigationError) as raised:
++            recompute(self.fixture, self.records[:-1])
++        self.assertEqual("INCOMPLETE_BENCHMARK", raised.exception.reason)
++
++    def test_page_increment_is_derived_from_page_sets(self) -> None:
++        fixture = copy.deepcopy(self.fixture)
++        fixture["page_sets"]["confirmed_tag"].append("human/pages/new.md")
++        report = recompute(fixture, self.records)
++        self.assertEqual(1, report["aggregate"]["confirmed_tag"]["page_increment"])
++
++
++if __name__ == "__main__":
++    unittest.main()
+diff --git a/tests/test_ckb_tag_navigation_canvas_compatibility.py b/tests/test_ckb_tag_navigation_canvas_compatibility.py
+new file mode 100644
+index 0000000..2af060d
+--- /dev/null
++++ b/tests/test_ckb_tag_navigation_canvas_compatibility.py
+@@ -0,0 +1,49 @@
++from __future__ import annotations
++
++import hashlib
++import json
++from pathlib import Path
++import sys
++import tempfile
++import unittest
++
++
++REPO = Path(__file__).resolve().parents[1]
++TAG_PROTOTYPE = REPO / "prototypes" / "ckb-tag-navigation"
++CANVAS_PROTOTYPE = REPO / "prototypes" / "ckb-canvas-skill"
++TAG_FIXTURE = REPO / "tests" / "fixtures" / "tag-navigation"
++CANVAS_FIXTURE = REPO / "tests" / "fixtures" / "obsidian-canvas-agent-visualization" / "expected"
++sys.path[:0] = [str(TAG_PROTOTYPE), str(CANVAS_PROTOTYPE)]
++
++from ckb_canvas.contracts import validate_instance
++from ckb_tag_navigation.projection import build_projection
++from ckb_tag_navigation.state_machine import audit_database
++from ckb_tag_navigation.store import replay_with_rollback
++
++
++def digest_tree(root: Path) -> dict[str, str]:
++    return {
++        str(path.relative_to(root)): hashlib.sha256(path.read_bytes()).hexdigest()
++        for path in sorted(root.rglob("*"))
++        if path.is_file() and "__pycache__" not in path.parts
++    }
++
++
++class TagNavigationCanvasCompatibilityTests(unittest.TestCase):
++    def test_canvas_contract_remains_valid_and_byte_unchanged(self) -> None:
++        before = digest_tree(CANVAS_PROTOTYPE)
++        canvas = json.loads((CANVAS_FIXTURE / "ckb-navigation.canvas").read_text(encoding="utf-8"))
++        validate_instance("json-canvas-1.0-ckb-subset.schema.json", canvas)
++        with tempfile.TemporaryDirectory(prefix="ckb-tag-canvas-") as temporary:
++            root = Path(temporary)
++            database = root / "tags.sqlite"
++            replay_with_rollback(TAG_FIXTURE / "assertions.jsonl", database, root / "rollback.json")
++            policy = json.loads((TAG_FIXTURE / "policy.json").read_text(encoding="utf-8"))
++            audit = audit_database(database, policy, "19152b227ccf687e7e4d89337d421c22a4e1a75f", "2026-09-03T00:00:00Z")
++            projection = build_projection(audit, policy)
++            self.assertEqual("disabled", projection["production_integration"])
++        self.assertEqual(before, digest_tree(CANVAS_PROTOTYPE))
++
++
++if __name__ == "__main__":
++    unittest.main()
+diff --git a/tests/test_ckb_tag_navigation_contracts.py b/tests/test_ckb_tag_navigation_contracts.py
+new file mode 100644
+index 0000000..04c3ef0
+--- /dev/null
++++ b/tests/test_ckb_tag_navigation_contracts.py
+@@ -0,0 +1,211 @@
++from __future__ import annotations
++
++import copy
++import hashlib
++import json
++from pathlib import Path
++import subprocess
++import sys
++import tempfile
++import unittest
++
++
++REPO = Path(__file__).resolve().parents[1]
++PROTOTYPE = REPO / "prototypes" / "ckb-tag-navigation"
++FIXTURE = REPO / "tests" / "fixtures" / "tag-navigation"
++CLI = PROTOTYPE / "scripts" / "ckb_tag_navigation.py"
++sys.path.insert(0, str(PROTOTYPE))
++
++from ckb_tag_navigation.contracts import TagNavigationError, validate_assertion, validate_policy
++from ckb_tag_navigation.store import replay_with_rollback
++
++
++def assertions() -> list[dict]:
++    return [json.loads(line) for line in (FIXTURE / "assertions.jsonl").read_text(encoding="utf-8").splitlines()]
++
++
++class TagNavigationContractTests(unittest.TestCase):
++    def test_five_schemas_are_strict_json_objects(self) -> None:
++        schema_root = PROTOTYPE / "schemas"
++        schemas = sorted(schema_root.glob("*.schema.json"))
++        self.assertEqual(5, len(schemas))
++        for path in schemas:
++            value = json.loads(path.read_text(encoding="utf-8"))
++            self.assertEqual("object", value["type"])
++            self.assertFalse(value["additionalProperties"], path.name)
++
++    def test_assertion_schema_excludes_conversation_and_secret_fields(self) -> None:
++        sample = assertions()[0]
++        validate_assertion(copy.deepcopy(sample))
++        for field in ("conversation", "prompt", "secret"):
++            invalid = copy.deepcopy(sample)
++            invalid[field] = "forbidden"
++            with self.assertRaises(TagNavigationError) as raised:
++                validate_assertion(invalid)
++            self.assertEqual("INVALID_SCHEMA", raised.exception.reason)
++
++    def test_paths_tags_and_policy_are_bounded(self) -> None:
++        sample = assertions()[0]
++        invalid = copy.deepcopy(sample)
++        invalid["target"]["path"] = "E:\\vault\\page.md"
++        with self.assertRaises(TagNavigationError) as raised:
++            validate_assertion(invalid)
++        self.assertEqual("INVALID_PATH", raised.exception.reason)
++        invalid = copy.deepcopy(sample)
++        invalid["tag"] = "#topic/navigation"
++        with self.assertRaises(TagNavigationError) as raised:
++            validate_assertion(invalid)
++        self.assertEqual("INVALID_TAG", raised.exception.reason)
++        validate_policy(json.loads((FIXTURE / "policy.json").read_text(encoding="utf-8")))
++
++    def test_replay_deduplicates_identical_idempotency_key(self) -> None:
++        with tempfile.TemporaryDirectory(prefix="ckb-tag-contract-") as temporary:
++            root = Path(temporary)
++            result = replay_with_rollback(FIXTURE / "assertions.jsonl", root / "tags.sqlite", root / "rollback.json")
++            self.assertEqual(25, result["inserted"])
++            self.assertEqual(1, result["duplicates"])
++            self.assertEqual("ok", result["integrity_check"])
++
++    def test_idempotency_conflict_rolls_back_entire_new_database(self) -> None:
++        values = assertions()[:2]
++        values[1] = copy.deepcopy(values[1])
++        values[1]["assertion_id"] = "conflicting-assertion"
++        values[1]["tag"] = "topic/other"
++        values[1]["idempotency_key"] = values[0]["idempotency_key"]
++        with tempfile.TemporaryDirectory(prefix="ckb-tag-conflict-") as temporary:
++            root = Path(temporary)
++            source = root / "conflict.jsonl"
++            source.write_text("\n".join(json.dumps(value, ensure_ascii=False) for value in values) + "\n", encoding="utf-8")
++            database = root / "tags.sqlite"
++            with self.assertRaises(TagNavigationError) as raised:
++                replay_with_rollback(source, database, root / "rollback.json")
++            self.assertEqual("IDEMPOTENCY_CONFLICT", raised.exception.reason)
++            self.assertFalse(database.exists())
++
++    def test_cli_rejects_output_outside_workspace(self) -> None:
++        with tempfile.TemporaryDirectory(prefix="ckb-tag-cli-") as temporary:
++            root = Path(temporary)
++            workspace = root / "workspace"
++            outside = root / "outside"
++            workspace.mkdir()
++            outside.mkdir()
++            completed = subprocess.run(
++                [
++                    sys.executable,
++                    str(CLI),
++                    "replay",
++                    "--input",
++                    str(FIXTURE / "assertions.jsonl"),
++                    "--database",
++                    str(outside / "outside.sqlite"),
++                    "--rollback-manifest",
++                    str(workspace / "rollback.json"),
++                    "--workspace-root",
++                    str(workspace),
++                ],
++                capture_output=True,
++                text=True,
++                encoding="utf-8",
++                check=False,
++            )
++            self.assertEqual(2, completed.returncode)
++            self.assertEqual("OUTPUT_OUTSIDE_WORKSPACE", json.loads(completed.stdout)["reason"])
++
++            missing_root = subprocess.run(
++                [sys.executable, str(CLI), "rollback", "--manifest", str(workspace / "rollback.json")],
++                capture_output=True,
++                text=True,
++                encoding="utf-8",
++                check=False,
++            )
++            self.assertEqual(2, missing_root.returncode)
++            self.assertIn("--workspace-root", missing_root.stderr)
++
++            def digest(data: bytes) -> str:
++                return hashlib.sha256(data).hexdigest()
++
++            def run_rollback(manifest: Path) -> subprocess.CompletedProcess[str]:
++                return subprocess.run(
++                    [
++                        sys.executable,
++                        str(CLI),
++                        "rollback",
++                        "--manifest",
++                        str(manifest),
++                        "--workspace-root",
++                        str(workspace),
++                    ],
++                    capture_output=True,
++                    text=True,
++                    encoding="utf-8",
++                    check=False,
++                )
++
++            outside_target = outside / "target.bin"
++            outside_target.write_bytes(b"outside-target")
++            target_bytes = outside_target.read_bytes()
++            target_outside_manifest = workspace / "target-outside.json"
++            target_outside_manifest.write_text(
++                json.dumps(
++                    {
++                        "schema_version": 1,
++                        "target_path": str(outside_target),
++                        "baseline_state": "absent",
++                        "baseline_sha256": None,
++                        "backup_path": None,
++                        "generated_sha256": digest(target_bytes),
++                    }
++                ),
++                encoding="utf-8",
++            )
++            target_result = run_rollback(target_outside_manifest)
++            self.assertEqual(2, target_result.returncode)
++            self.assertEqual("ROLLBACK_PATH_OUTSIDE_WORKSPACE", json.loads(target_result.stdout)["reason"])
++            self.assertEqual(target_bytes, outside_target.read_bytes())
++
++            inside_target = workspace / "target.bin"
++            inside_target.write_bytes(b"inside-target")
++            inside_bytes = inside_target.read_bytes()
++            manifest_outside = outside / "manifest-outside.json"
++            manifest_outside.write_text(
++                json.dumps(
++                    {
++                        "schema_version": 1,
++                        "target_path": str(inside_target),
++                        "baseline_state": "absent",
++                        "baseline_sha256": None,
++                        "backup_path": None,
++                        "generated_sha256": digest(inside_bytes),
++                    }
++                ),
++                encoding="utf-8",
++            )
++            manifest_result = run_rollback(manifest_outside)
++            self.assertEqual(2, manifest_result.returncode)
++            self.assertEqual("ROLLBACK_PATH_OUTSIDE_WORKSPACE", json.loads(manifest_result.stdout)["reason"])
++            self.assertEqual(inside_bytes, inside_target.read_bytes())
++
++            outside_backup = outside / "baseline.bin"
++            outside_backup.write_bytes(b"outside-baseline")
++            backup_outside_manifest = workspace / "backup-outside.json"
++            backup_outside_manifest.write_text(
++                json.dumps(
++                    {
++                        "schema_version": 1,
++                        "target_path": str(inside_target),
++                        "baseline_state": "present",
++                        "baseline_sha256": digest(outside_backup.read_bytes()),
++                        "backup_path": str(outside_backup),
++                        "generated_sha256": digest(inside_bytes),
++                    }
++                ),
++                encoding="utf-8",
++            )
++            backup_result = run_rollback(backup_outside_manifest)
++            self.assertEqual(2, backup_result.returncode)
++            self.assertEqual("ROLLBACK_PATH_OUTSIDE_WORKSPACE", json.loads(backup_result.stdout)["reason"])
++            self.assertEqual(inside_bytes, inside_target.read_bytes())
++
++
++if __name__ == "__main__":
++    unittest.main()
+diff --git a/tests/test_ckb_tag_navigation_projection.py b/tests/test_ckb_tag_navigation_projection.py
+new file mode 100644
+index 0000000..2a4ff28
+--- /dev/null
++++ b/tests/test_ckb_tag_navigation_projection.py
+@@ -0,0 +1,47 @@
++from __future__ import annotations
++
++import json
++from pathlib import Path
++import sys
++import tempfile
++import unittest
++
++
++REPO = Path(__file__).resolve().parents[1]
++PROTOTYPE = REPO / "prototypes" / "ckb-tag-navigation"
++FIXTURE = REPO / "tests" / "fixtures" / "tag-navigation"
++sys.path.insert(0, str(PROTOTYPE))
++
++from ckb_tag_navigation.projection import build_projection
++from ckb_tag_navigation.state_machine import audit_database
++from ckb_tag_navigation.store import replay_with_rollback
++
++
++class TagNavigationProjectionTests(unittest.TestCase):
++    def test_only_confirmed_tags_project_with_per_page_quota(self) -> None:
++        with tempfile.TemporaryDirectory(prefix="ckb-tag-project-") as temporary:
++            root = Path(temporary)
++            database = root / "tags.sqlite"
++            replay_with_rollback(FIXTURE / "assertions.jsonl", database, root / "rollback.json")
++            policy = json.loads((FIXTURE / "policy.json").read_text(encoding="utf-8"))
++            audit = audit_database(database, policy, "19152b227ccf687e7e4d89337d421c22a4e1a75f", "2026-09-03T00:00:00Z")
++            projection = build_projection(audit, policy)
++        self.assertEqual("disabled", projection["production_integration"])
++        self.assertEqual(3, projection["page_tag_limit"])
++        pages = {entry["page"]: entry["tags"] for entry in projection["entries"]}
++        self.assertEqual({"human/pages/navigation.md", "human/pages/quota.md"}, set(pages))
++        self.assertEqual(
++            ["topic/alpha", "topic/beta", "topic/delta"],
++            [item["tag"] for item in pages["human/pages/quota.md"]],
++        )
++        self.assertEqual(
++            [{"page": "human/pages/quota.md", "tag": "topic/gamma", "reason_code": "PAGE_TAG_QUOTA_EXCEEDED"}],
++            projection["suppressed"],
++        )
++        serialized = json.dumps(projection, ensure_ascii=False)
++        for forbidden in ("agent-alpha", "assertion_id", "sha256", COMMIT := "19152b227ccf687e7e4d89337d421c22a4e1a75f"):
++            self.assertNotIn(forbidden, serialized)
++
++
++if __name__ == "__main__":
++    unittest.main()
+diff --git a/tests/test_ckb_tag_navigation_rollback.py b/tests/test_ckb_tag_navigation_rollback.py
+new file mode 100644
+index 0000000..65d8613
+--- /dev/null
++++ b/tests/test_ckb_tag_navigation_rollback.py
+@@ -0,0 +1,168 @@
++from __future__ import annotations
++
++import json
++from pathlib import Path
++import sys
++import tempfile
++import unittest
++from unittest import mock
++
++
++REPO = Path(__file__).resolve().parents[1]
++PROTOTYPE = REPO / "prototypes" / "ckb-tag-navigation"
++FIXTURE = REPO / "tests" / "fixtures" / "tag-navigation"
++sys.path.insert(0, str(PROTOTYPE))
++
++from ckb_tag_navigation.contracts import TagNavigationError, sha256_file
++import ckb_tag_navigation.store as store_module
++from ckb_tag_navigation.store import connect, initialize, replay_with_rollback, rollback
++
++
++class TagNavigationRollbackTests(unittest.TestCase):
++    def test_absent_target_returns_to_absent(self) -> None:
++        with tempfile.TemporaryDirectory(prefix="ckb-tag-rollback-absent-") as temporary:
++            root = Path(temporary)
++            database = root / "tags.sqlite"
++            replay_with_rollback(FIXTURE / "assertions.jsonl", database, root / "rollback.json")
++            result = rollback(root / "rollback.json", root)
++            self.assertEqual("absent", result["restored"])
++            self.assertFalse(database.exists())
++
++            fault_database = root / "fault.sqlite"
++            fault_manifest = root / "fault.rollback.json"
++
++            def fail_manifest_write(path: Path, value: dict) -> None:
++                path.with_name(path.name + ".tmp").write_text("partial", encoding="utf-8")
++                path.write_text("partial", encoding="utf-8")
++                raise OSError("injected manifest write failure")
++
++            with mock.patch.object(store_module, "atomic_write_json", side_effect=fail_manifest_write):
++                with self.assertRaisesRegex(OSError, "injected manifest write failure"):
++                    replay_with_rollback(FIXTURE / "assertions.jsonl", fault_database, fault_manifest)
++            self.assertFalse(fault_database.exists())
++            self.assertFalse(fault_manifest.exists())
++            self.assertFalse(fault_manifest.with_name(fault_manifest.name + ".tmp").exists())
++
++    def test_present_target_returns_to_byte_identical_baseline(self) -> None:
++        with tempfile.TemporaryDirectory(prefix="ckb-tag-rollback-present-") as temporary:
++            root = Path(temporary)
++            database = root / "tags.sqlite"
++            connection = connect(database)
++            initialize(connection)
++            connection.close()
++            baseline = sha256_file(database)
++            replay_with_rollback(FIXTURE / "assertions.jsonl", database, root / "rollback.json")
++            result = rollback(root / "rollback.json", root)
++            self.assertEqual(baseline, result["restored"])
++            self.assertEqual(baseline, sha256_file(database))
++
++            fault_database = root / "fault.sqlite"
++            connection = connect(fault_database)
++            initialize(connection)
++            connection.close()
++            fault_baseline = fault_database.read_bytes()
++            fault_manifest = root / "fault.rollback.json"
++
++            def fail_manifest_write(path: Path, value: dict) -> None:
++                path.with_name(path.name + ".tmp").write_text("partial", encoding="utf-8")
++                path.write_text("partial", encoding="utf-8")
++                raise OSError("injected manifest write failure")
++
++            with mock.patch.object(store_module, "atomic_write_json", side_effect=fail_manifest_write):
++                with self.assertRaisesRegex(OSError, "injected manifest write failure"):
++                    replay_with_rollback(FIXTURE / "assertions.jsonl", fault_database, fault_manifest)
++            self.assertEqual(fault_baseline, fault_database.read_bytes())
++            self.assertFalse(fault_database.with_name(fault_database.name + ".baseline").exists())
++            self.assertFalse(fault_manifest.exists())
++            self.assertFalse(fault_manifest.with_name(fault_manifest.name + ".tmp").exists())
++
++            copy_failure_database = root / "copy-failure.sqlite"
++            connection = connect(copy_failure_database)
++            initialize(connection)
++            connection.close()
++            copy_failure_baseline = copy_failure_database.read_bytes()
++            copy_failure_manifest = root / "copy-failure.rollback.json"
++            copy_failure_state: dict[str, bytes] = {}
++            real_copy2 = store_module.shutil.copy2
++
++            def fail_manifest_before_restore_copy(path: Path, value: dict) -> None:
++                copy_failure_state["database_after_manifest_failure"] = copy_failure_database.read_bytes()
++                path.with_name(path.name + ".tmp").write_text("partial", encoding="utf-8")
++                path.write_text("partial", encoding="utf-8")
++                raise OSError("injected manifest write failure before restore copy")
++
++            def fail_restore_copy(source: Path, target: Path) -> None:
++                if Path(target).name.endswith(".restore.tmp"):
++                    raise OSError("injected restore copy failure")
++                real_copy2(source, target)
++
++            with mock.patch.object(store_module, "atomic_write_json", side_effect=fail_manifest_before_restore_copy):
++                with mock.patch.object(store_module.shutil, "copy2", side_effect=fail_restore_copy):
++                    with self.assertRaises(TagNavigationError) as raised:
++                        replay_with_rollback(
++                            FIXTURE / "assertions.jsonl",
++                            copy_failure_database,
++                            copy_failure_manifest,
++                        )
++            self.assertEqual("REPLAY_RECOVERY_FAILED", raised.exception.reason)
++            self.assertIn("injected restore copy failure", raised.exception.detail)
++            self.assertEqual(copy_failure_state["database_after_manifest_failure"], copy_failure_database.read_bytes())
++            copy_failure_backup = copy_failure_database.with_name(copy_failure_database.name + ".baseline")
++            self.assertTrue(copy_failure_backup.exists())
++            self.assertEqual(copy_failure_baseline, copy_failure_backup.read_bytes())
++            self.assertTrue(copy_failure_manifest.exists())
++            self.assertTrue(copy_failure_manifest.with_name(copy_failure_manifest.name + ".tmp").exists())
++
++            hash_failure_database = root / "hash-failure.sqlite"
++            connection = connect(hash_failure_database)
++            initialize(connection)
++            connection.close()
++            hash_failure_baseline = hash_failure_database.read_bytes()
++            hash_failure_manifest = root / "hash-failure.rollback.json"
++            hash_failure_state: dict[str, bytes] = {}
++            real_sha256_file = store_module.sha256_file
++
++            def fail_manifest_before_restore_hash(path: Path, value: dict) -> None:
++                hash_failure_state["database_after_manifest_failure"] = hash_failure_database.read_bytes()
++                path.with_name(path.name + ".tmp").write_text("partial", encoding="utf-8")
++                path.write_text("partial", encoding="utf-8")
++                raise OSError("injected manifest write failure before restore hash")
++
++            def fail_restore_hash(path: Path) -> str:
++                if Path(path).name.endswith(".restore.tmp"):
++                    return "0" * 64
++                return real_sha256_file(path)
++
++            with mock.patch.object(store_module, "atomic_write_json", side_effect=fail_manifest_before_restore_hash):
++                with mock.patch.object(store_module, "sha256_file", side_effect=fail_restore_hash):
++                    with self.assertRaises(TagNavigationError) as raised:
++                        replay_with_rollback(
++                            FIXTURE / "assertions.jsonl",
++                            hash_failure_database,
++                            hash_failure_manifest,
++                        )
++            self.assertEqual("REPLAY_RECOVERY_FAILED", raised.exception.reason)
++            self.assertIn("restore 临时文件 hash 不等于 baseline", raised.exception.detail)
++            self.assertEqual(hash_failure_state["database_after_manifest_failure"], hash_failure_database.read_bytes())
++            hash_failure_backup = hash_failure_database.with_name(hash_failure_database.name + ".baseline")
++            self.assertTrue(hash_failure_backup.exists())
++            self.assertEqual(hash_failure_baseline, hash_failure_backup.read_bytes())
++            self.assertTrue(hash_failure_manifest.exists())
++            self.assertTrue(hash_failure_manifest.with_name(hash_failure_manifest.name + ".tmp").exists())
++            self.assertTrue(hash_failure_database.with_name(hash_failure_database.name + ".restore.tmp").exists())
++
++    def test_drift_blocks_rollback_and_preserves_current_bytes(self) -> None:
++        with tempfile.TemporaryDirectory(prefix="ckb-tag-rollback-drift-") as temporary:
++            root = Path(temporary)
++            database = root / "tags.sqlite"
++            replay_with_rollback(FIXTURE / "assertions.jsonl", database, root / "rollback.json")
++            database.write_bytes(database.read_bytes() + b"manual-drift")
++            drifted = database.read_bytes()
++            with self.assertRaises(TagNavigationError) as raised:
++                rollback(root / "rollback.json", root)
++            self.assertEqual("ROLLBACK_DRIFT", raised.exception.reason)
++            self.assertEqual(drifted, database.read_bytes())
++
++
++if __name__ == "__main__":
++    unittest.main()
+diff --git a/tests/test_ckb_tag_navigation_state_machine.py b/tests/test_ckb_tag_navigation_state_machine.py
+new file mode 100644
+index 0000000..952e0ce
+--- /dev/null
++++ b/tests/test_ckb_tag_navigation_state_machine.py
+@@ -0,0 +1,68 @@
++from __future__ import annotations
++
++import json
++from pathlib import Path
++import sys
++import tempfile
++import unittest
++
++
++REPO = Path(__file__).resolve().parents[1]
++PROTOTYPE = REPO / "prototypes" / "ckb-tag-navigation"
++FIXTURE = REPO / "tests" / "fixtures" / "tag-navigation"
++sys.path.insert(0, str(PROTOTYPE))
++
++from ckb_tag_navigation.contracts import canonical_json_bytes
++from ckb_tag_navigation.state_machine import audit_database
++from ckb_tag_navigation.store import replay_with_rollback
++
++
++COMMIT = "19152b227ccf687e7e4d89337d421c22a4e1a75f"
++AS_OF = "2026-09-03T00:00:00Z"
++
++
++class TagNavigationStateMachineTests(unittest.TestCase):
++    def setUp(self) -> None:
++        self.temporary = tempfile.TemporaryDirectory(prefix="ckb-tag-state-")
++        self.root = Path(self.temporary.name)
++        self.database = self.root / "tags.sqlite"
++        replay_with_rollback(FIXTURE / "assertions.jsonl", self.database, self.root / "rollback.json")
++        self.policy = json.loads((FIXTURE / "policy.json").read_text(encoding="utf-8"))
++        self.audit = audit_database(self.database, self.policy, COMMIT, AS_OF)
++
++    def tearDown(self) -> None:
++        self.temporary.cleanup()
++
++    def by_tag(self, tag: str) -> dict:
++        return next(result for result in self.audit["results"] if result["tag"] == tag)
++
++    def test_all_four_states_and_counts_are_frozen(self) -> None:
++        self.assertEqual({"candidate": 1, "confirmed": 5, "contested": 1, "deprecated": 3}, self.audit["summary"])
++        self.assertEqual("confirmed", self.by_tag("topic/navigation")["state"])
++        self.assertEqual("candidate", self.by_tag("interface/obsidian")["state"])
++        self.assertEqual("contested", self.by_tag("topic/retrieval")["state"])
++        self.assertEqual("deprecated", self.by_tag("lifecycle/stale")["state"])
++
++    def test_single_agent_revote_counts_once(self) -> None:
++        result = self.by_tag("interface/obsidian")
++        self.assertEqual(1, result["metrics"]["support_votes"])
++        self.assertEqual(1, result["metrics"]["independent_support_agents"])
++        self.assertEqual(1, result["metrics"]["superseded_vote_count"])
++        self.assertIn("INDEPENDENT_AGENTS_BELOW_MINIMUM", result["reason_codes"])
++
++    def test_opposition_ratio_commit_drift_staleness_and_retraction_have_reason_codes(self) -> None:
++        self.assertEqual(0.333333, self.by_tag("topic/retrieval")["metrics"]["opposition_ratio"])
++        self.assertEqual(["OPPOSITION_RATIO_EXCEEDED"], self.by_tag("topic/retrieval")["reason_codes"])
++        self.assertIn("COMMIT_DRIFT", self.by_tag("lifecycle/drift")["reason_codes"])
++        self.assertIn("STALE_EVIDENCE", self.by_tag("lifecycle/stale")["reason_codes"])
++        self.assertIn("ALL_SUPPORT_RETRACTED", self.by_tag("topic/withdrawn")["reason_codes"])
++
++    def test_repeated_audit_bytes_are_identical(self) -> None:
++        second = audit_database(self.database, self.policy, COMMIT, AS_OF)
++        self.assertEqual(canonical_json_bytes(self.audit), canonical_json_bytes(second))
++        keys = [(item["target"]["path"], item["tag"]) for item in self.audit["results"]]
++        self.assertEqual(sorted(keys), keys)
++
++
++if __name__ == "__main__":
++    unittest.main()

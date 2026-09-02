@@ -50,6 +50,15 @@ from ckb_core.automation import (
 )
 from ckb_core.automation_integrations import render_integration
 from ckb_core.gitrepo import DEFAULT_INITIAL_COMMIT_MESSAGE
+from ckb_core.freshness import (
+    COLLABORATION_STATUSES,
+    attach_freshness_to_retrieval,
+    check_fact_freshness,
+    create_migration_plan,
+    discard_overlay,
+    query_collaboration_records,
+    record_collaboration,
+)
 from ckb_core.feedback import (
     audit_feedback,
     create_feedback,
@@ -133,6 +142,8 @@ from ckb_core.page_config import (
 )
 from ckb_core.human_page_authoring import (
     HUMAN_PAGE_AUTHORING_SCHEMA_VERSION,
+    HUMAN_PAGE_TEMPLATE_CONTRACT_VERSION,
+    HUMAN_PAGE_TEMPLATE_SCHEMA_VERSION,
     init_page_author,
     inspect_page_author,
     load_authoring_input,
@@ -176,6 +187,15 @@ from ckb_core.reference_documents import (
     rollback_reference,
     submit_reference_review,
     write_reference_review_template,
+)
+from ckb_core.reference_pdf import (
+    DEFAULT_MAX_PDF_BYTES,
+    DEFAULT_MAX_PDF_PAGES,
+    DEFAULT_NATIVE_MIN_CHARACTERS,
+    DEFAULT_NATIVE_MIN_PRINTABLE_RATIO,
+    DEFAULT_OCR_MAX_INPUT_BYTES,
+    DEFAULT_OCR_MAX_PAGES,
+    DEFAULT_OCR_TIMEOUT_SECONDS,
 )
 from ckb_core.research_gaps import (
     GAP_KINDS,
@@ -344,6 +364,41 @@ def parser() -> argparse.ArgumentParser:
     status_command = sub.add_parser("status")
     status_command.add_argument("--out", type=Path, required=True)
     status_command.add_argument("--json", action="store_true")
+    freshness_command = sub.add_parser("freshness")
+    freshness_sub = freshness_command.add_subparsers(dest="freshness_command", required=True)
+    freshness_status = freshness_sub.add_parser("status")
+    freshness_status.add_argument("--out", type=Path, required=True)
+    freshness_status.add_argument("--repo", type=Path)
+    freshness_status.add_argument("--session-id")
+    freshness_status.add_argument("--trigger", default="explicit-status")
+    freshness_status.add_argument("--force", action="store_true")
+    freshness_plan = freshness_sub.add_parser("plan")
+    freshness_plan.add_argument("--out", type=Path, required=True)
+    freshness_plan.add_argument("--repo", type=Path, required=True)
+    freshness_plan.add_argument("--staging-out", type=Path, required=True)
+    freshness_plan.add_argument("--session-id")
+    freshness_discard = freshness_sub.add_parser("overlay-discard")
+    freshness_discard.add_argument("--out", type=Path, required=True)
+    freshness_discard.add_argument("--overlay-id", required=True)
+    freshness_record = freshness_sub.add_parser("collaboration-record")
+    freshness_record.add_argument("--out", type=Path, required=True)
+    freshness_record.add_argument("--feature", required=True)
+    freshness_record.add_argument("--summary", required=True)
+    freshness_record.add_argument("--status", choices=sorted(COLLABORATION_STATUSES), required=True)
+    freshness_record.add_argument("--branch", required=True)
+    freshness_record.add_argument("--commit", required=True)
+    freshness_record.add_argument("--task", required=True)
+    freshness_record.add_argument("--path", action="append", default=[])
+    freshness_record.add_argument("--supersedes", action="append", default=[])
+    freshness_query = freshness_sub.add_parser("collaboration-query")
+    freshness_query.add_argument("--out", type=Path, required=True)
+    freshness_query.add_argument("--branch")
+    freshness_query.add_argument("--commit")
+    freshness_query.add_argument("--task")
+    freshness_query.add_argument("--status", choices=sorted(COLLABORATION_STATUSES))
+    freshness_query.add_argument("--summary")
+    freshness_query.add_argument("--path", action="append", default=[])
+    freshness_query.add_argument("--limit", type=int, default=100)
     human_refresh_command = sub.add_parser("human-refresh")
     human_refresh_command.add_argument("--out", type=Path, required=True)
     page_author_command = sub.add_parser("page-author")
@@ -351,16 +406,16 @@ def parser() -> argparse.ArgumentParser:
     page_author_init = page_author_sub.add_parser("init")
     page_author_init.add_argument("--page-type", required=True)
     page_author_init.add_argument("--mode", choices=("new", "supplement", "revise"), required=True)
-    page_author_init.add_argument("--contract-version", default="1.0.0")
-    page_author_init.add_argument("--schema-version", type=int, default=1)
+    page_author_init.add_argument("--contract-version", default=HUMAN_PAGE_TEMPLATE_CONTRACT_VERSION)
+    page_author_init.add_argument("--schema-version", type=int, default=HUMAN_PAGE_TEMPLATE_SCHEMA_VERSION)
     page_author_inspect = page_author_sub.add_parser("inspect")
     page_author_inspect.add_argument("--page-type", required=True)
     page_author_inspect.add_argument("--mode", choices=("supplement", "revise"), required=True)
     page_author_inspect.add_argument("--source", type=Path, required=True)
     page_author_inspect.add_argument("--workspace-root", type=Path, required=True)
     page_author_inspect.add_argument("--expected-sha256")
-    page_author_inspect.add_argument("--contract-version", default="1.0.0")
-    page_author_inspect.add_argument("--schema-version", type=int, default=1)
+    page_author_inspect.add_argument("--contract-version", default=HUMAN_PAGE_TEMPLATE_CONTRACT_VERSION)
+    page_author_inspect.add_argument("--schema-version", type=int, default=HUMAN_PAGE_TEMPLATE_SCHEMA_VERSION)
     page_author_render = page_author_sub.add_parser("render")
     page_author_render.add_argument("--input", type=Path, required=True)
     page_author_render.add_argument("--workspace-root", type=Path, default=Path.cwd())
@@ -506,6 +561,17 @@ def parser() -> argparse.ArgumentParser:
     reference_ingest.add_argument("--license", dest="license_name", required=True)
     reference_ingest.add_argument("--author")
     reference_ingest.add_argument("--revision-of")
+    reference_ingest.add_argument("--source-root", type=Path)
+    reference_ingest.add_argument("--pdf-max-bytes", type=int, default=DEFAULT_MAX_PDF_BYTES)
+    reference_ingest.add_argument("--pdf-max-pages", type=int, default=DEFAULT_MAX_PDF_PAGES)
+    reference_ingest.add_argument("--pdf-native-min-characters", type=int, default=DEFAULT_NATIVE_MIN_CHARACTERS)
+    reference_ingest.add_argument("--pdf-native-min-printable-ratio", type=float, default=DEFAULT_NATIVE_MIN_PRINTABLE_RATIO)
+    reference_ingest.add_argument("--pdf-ocr", action="store_true")
+    reference_ingest.add_argument("--pdf-ocr-adapter", type=Path)
+    reference_ingest.add_argument("--pdf-ocr-max-pages", type=int, default=DEFAULT_OCR_MAX_PAGES)
+    reference_ingest.add_argument("--pdf-ocr-timeout-seconds", type=int, default=DEFAULT_OCR_TIMEOUT_SECONDS)
+    reference_ingest.add_argument("--pdf-ocr-max-input-bytes", type=int, default=DEFAULT_OCR_MAX_INPUT_BYTES)
+    reference_ingest.add_argument("--pdf-ocr-cancel-file", type=Path)
     reference_template = reference_sub.add_parser("review-template")
     reference_template.add_argument("--out", type=Path, required=True)
     reference_template.add_argument("--reference", required=True)
@@ -926,6 +992,48 @@ def main() -> int:
         emit(finalize(args.out.resolve()))
     elif args.command == "status":
         emit(status(args.out.resolve()))
+    elif args.command == "freshness":
+        if args.freshness_command == "status":
+            result = check_fact_freshness(
+                args.out,
+                args.repo,
+                session_id=args.session_id,
+                trigger=args.trigger,
+                force=args.force,
+            )
+            emit(result)
+            return 0 if result.get("state") in {"current", "migration-ready"} else 6
+        if args.freshness_command == "plan":
+            emit(create_migration_plan(args.out, args.repo, args.staging_out, session_id=args.session_id))
+        elif args.freshness_command == "overlay-discard":
+            emit(discard_overlay(args.out, args.overlay_id))
+        elif args.freshness_command == "collaboration-record":
+            emit(
+                record_collaboration(
+                    args.out,
+                    feature=args.feature,
+                    summary=args.summary,
+                    status=args.status,
+                    branch=args.branch,
+                    commit=args.commit,
+                    task=args.task,
+                    paths=args.path,
+                    supersedes=args.supersedes,
+                )
+            )
+        else:
+            emit(
+                query_collaboration_records(
+                    args.out,
+                    branch=args.branch,
+                    commit=args.commit,
+                    task=args.task,
+                    status=args.status,
+                    summary=args.summary,
+                    paths=args.path,
+                    limit=args.limit,
+                )
+            )
     elif args.command == "human-refresh":
         result = refresh_human_navigation(args.out.resolve(), staging=args.staging)
         emit(result)
@@ -1067,7 +1175,14 @@ def main() -> int:
         else:
             if fallback_options is not None:
                 raise CkbError("keyword fallback requires machine/knowledge.sqlite")
-            emit(retrieve(output, args.question, args.budget, args.max_pages))
+            legacy = retrieve(output, args.question, args.budget, args.max_pages)
+            emit(
+                attach_freshness_to_retrieval(
+                    output,
+                    legacy,
+                    check_fact_freshness(output, trigger="first-query"),
+                )
+            )
     elif args.command == "brief":
         output = args.out.resolve()
         fallback_options = keyword_fallback_options(args)
@@ -1101,7 +1216,11 @@ def main() -> int:
                 keyword_fallback=fallback_options,
             )
             if (output / "machine/knowledge.sqlite").is_file()
-            else retrieve(output, args.question, args.budget, args.max_pages)
+            else attach_freshness_to_retrieval(
+                output,
+                retrieve(output, args.question, args.budget, args.max_pages),
+                check_fact_freshness(output, trigger="first-query"),
+            )
         )
         emit(compact_agent_brief(output, retrieval_result))
     elif args.command == "keyword-benchmark":
@@ -1190,7 +1309,19 @@ def main() -> int:
         if args.reference_command == "ingest":
             result = ingest_reference(
                 args.out.resolve(), args.source.resolve(), args.title, args.origin, args.license_name,
-                args.author, args.revision_of,
+                author=args.author,
+                revision_of=args.revision_of,
+                source_root=args.source_root.resolve() if args.source_root else None,
+                pdf_max_bytes=args.pdf_max_bytes,
+                pdf_max_pages=args.pdf_max_pages,
+                pdf_native_min_characters=args.pdf_native_min_characters,
+                pdf_native_min_printable_ratio=args.pdf_native_min_printable_ratio,
+                pdf_ocr=args.pdf_ocr,
+                pdf_ocr_adapter=args.pdf_ocr_adapter.resolve() if args.pdf_ocr_adapter else None,
+                pdf_ocr_max_pages=args.pdf_ocr_max_pages,
+                pdf_ocr_timeout_seconds=args.pdf_ocr_timeout_seconds,
+                pdf_ocr_max_input_bytes=args.pdf_ocr_max_input_bytes,
+                pdf_ocr_cancel_file=args.pdf_ocr_cancel_file.resolve() if args.pdf_ocr_cancel_file else None,
             )
             emit(result)
             return 4 if result.get("status") == "pending-agent-review" else 0

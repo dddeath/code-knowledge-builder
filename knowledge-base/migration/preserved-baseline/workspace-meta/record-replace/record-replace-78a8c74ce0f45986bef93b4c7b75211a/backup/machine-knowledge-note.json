@@ -1,0 +1,195 @@
+{
+  "document": [
+    [
+      "note:changes:C++ 解析与 SCons 回退合并审计",
+      "change",
+      "C++ 解析与 SCons 回退合并审计",
+      "#类型/变更",
+      "changes/C++ 解析与 SCons 回退合并审计.md",
+      null,
+      "# C++ 解析与 SCons 回退合并审计\n\n标签：#类型/变更\n\n## 合并结论\n\n`codex/cpp-parser-scons-fallback` 已通过管理 Agent 独立审计，并以保留五个开发提交的普通 merge 合入 integration branch。合并提交为 `ea455e2…`；稳定知识库的固定源码图谱更新仍按八项队列终态统一进入隔离 staging，本记录只保存已确认行为、测试与回滚边界。\n\n## 已确认行为\n\n- 有效 `#ifndef NDEBUG` 区域通过语法门；缺失 `#endif` 的相邻负例保留失败诊断。\n- 块内 `const T &x(expr);` 记录为所属函数下的 declaration，不生成伪函数实体。\n- pinned Tree-sitter 对完整 `template class/struct` 显式实例化的唯一缺失节点形状进入显式 recovery；其他 ERROR/MISSING 仍失败，模板定义保留真实类和函数实体。\n- 无 `compile_commands.json` 时只静态读取 `SConstruct`/`SConscript` 等受支持构建文件：唯一标准进入 fallback flags，缺失或冲突证据使用固定默认值；precision 保持 `bounded-approximate`。\n- 存在 compilation database 时保持 `exact`，SCons 证据不覆盖该路径；provider 记录真实子进程 `exit_status`。\n\n## 独立与合并后验证\n\n管理审计在开发 worktree 重跑 4 项专项、37 项核心、22 项自动化、3 项发行和 10 个真实 Provider 场景，全部通过。合并后在 integration HEAD 再次运行相同的 4 项专项、37 项核心、22 项自动化、3 项发行和 10 个真实 Provider 场景，全部通过；真实场景覆盖 C/C++ exact、bounded、missing-header negative、SCons C++20 证据、Python、JavaScript 和 C#。\n\n## 回滚\n\n开发分支提交和 merge commit均保留。integration 回滚入口为撤销 merge commit `ea455e2…`；开发任务还提供逐 commit 逆序回滚脚本。回滚后需要重跑同一专项、核心、Provider 和发行测试。完整管理证据位于 `E:\\knowledge_builder\\artifacts\\verification\\cpp-parser-scons-fallback\\management-audit.json`。\n\n## 相关知识页\n\n- [[parser]]\n- [[parse_file 与 _language 的协作实现]]\n- [[render_integration 与 _looks_windows 的协作实现]]\n- [[execute 等测试场景]]\n- [[AutomationTest.register 等测试场景]]\n- [[CodeKnowledgeBuilderTests]]\n- [[finalize 与 _replace_output_prefix 的协作实现]]\n- [[doctor_report 与 _version_matches 的协作实现]]\n\n## 源码入口\n\n- [打开源码：scripts/ckb.py 第 164 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:164:1)  `scripts/ckb.py:164-488`\n- [打开源码：scripts/ckb_core/parsers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/parsers.py:1:1)  `scripts/ckb_core/parsers.py:1-446`\n- [打开源码：scripts/ckb_core/automation_integrations.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation_integrations.py:1:1)  `scripts/ckb_core/automation_integrations.py:1-536`\n- [打开源码：tests/provider_integration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/provider_integration.py:1:1)  `tests/provider_integration.py:1-252`\n- [打开源码：tests/test_automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_automation.py:1:1)  `tests/test_automation.py:1-882`\n- [打开源码：tests/test_ckb.py 第 198 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_ckb.py:198:1)  `tests/test_ckb.py:198-2127`\n- [打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3482`\n- [打开源码：scripts/ckb_core/providers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/providers.py:1:1)  `scripts/ckb_core/providers.py:1-611`\n",
+      1291
+    ]
+  ],
+  "sections": [
+    [
+      "note:changes:C++ 解析与 SCons 回退合并审计:0",
+      "note:changes:C++ 解析与 SCons 回退合并审计",
+      0,
+      "C++ 解析与 SCons 回退合并审计",
+      "标签：#类型/变更",
+      8,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:C++ 解析与 SCons 回退合并审计:1",
+      "note:changes:C++ 解析与 SCons 回退合并审计",
+      1,
+      "合并结论",
+      "`codex/cpp-parser-scons-fallback` 已通过管理 Agent 独立审计，并以保留五个开发提交的普通 merge 合入 integration branch。合并提交为 `ea455e2…`；稳定知识库的固定源码图谱更新仍按八项队列终态统一进入隔离 staging，本记录只保存已确认行为、测试与回滚边界。",
+      111,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:C++ 解析与 SCons 回退合并审计:2",
+      "note:changes:C++ 解析与 SCons 回退合并审计",
+      2,
+      "已确认行为",
+      "- 有效 `#ifndef NDEBUG` 区域通过语法门；缺失 `#endif` 的相邻负例保留失败诊断。\n- 块内 `const T &x(expr);` 记录为所属函数下的 declaration，不生成伪函数实体。\n- pinned Tree-sitter 对完整 `template class/struct` 显式实例化的唯一缺失节点形状进入显式 recovery；其他 ERROR/MISSING 仍失败，模板定义保留真实类和函数实体。\n- 无 `compile_commands.json` 时只静态读取 `SConstruct`/`SConscript` 等受支持构建文件：唯一标准进入 fallback flags，缺失或冲突证据使用固定默认值；precision 保持 `bounded-approximate`。\n- 存在 compilation database 时保持 `exact`，SCons 证据不覆盖该路径；provider 记录真实子进程 `exit_status`。",
+      253,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:C++ 解析与 SCons 回退合并审计:3",
+      "note:changes:C++ 解析与 SCons 回退合并审计",
+      3,
+      "独立与合并后验证",
+      "管理审计在开发 worktree 重跑 4 项专项、37 项核心、22 项自动化、3 项发行和 10 个真实 Provider 场景，全部通过。合并后在 integration HEAD 再次运行相同的 4 项专项、37 项核心、22 项自动化、3 项发行和 10 个真实 Provider 场景，全部通过；真实场景覆盖 C/C++ exact、bounded、missing-header negative、SCons C++20 证据、Python、JavaScript 和 C#。",
+      142,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:C++ 解析与 SCons 回退合并审计:4",
+      "note:changes:C++ 解析与 SCons 回退合并审计",
+      4,
+      "回滚",
+      "开发分支提交和 merge commit均保留。integration 回滚入口为撤销 merge commit `ea455e2…`；开发任务还提供逐 commit 逆序回滚脚本。回滚后需要重跑同一专项、核心、Provider 和发行测试。完整管理证据位于 `E:\\knowledge_builder\\artifacts\\verification\\cpp-parser-scons-fallback\\management-audit.json`。",
+      118,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:C++ 解析与 SCons 回退合并审计:5",
+      "note:changes:C++ 解析与 SCons 回退合并审计",
+      5,
+      "相关知识页",
+      "- [[parser]]\n- [[parse_file 与 _language 的协作实现]]\n- [[render_integration 与 _looks_windows 的协作实现]]\n- [[execute 等测试场景]]\n- [[AutomationTest.register 等测试场景]]\n- [[CodeKnowledgeBuilderTests]]\n- [[finalize 与 _replace_output_prefix 的协作实现]]\n- [[doctor_report 与 _version_matches 的协作实现]]",
+      114,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:C++ 解析与 SCons 回退合并审计:6",
+      "note:changes:C++ 解析与 SCons 回退合并审计",
+      6,
+      "源码入口",
+      "- [打开源码：scripts/ckb.py 第 164 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:164:1)  `scripts/ckb.py:164-488`\n- [打开源码：scripts/ckb_core/parsers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/parsers.py:1:1)  `scripts/ckb_core/parsers.py:1-446`\n- [打开源码：scripts/ckb_core/automation_integrations.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation_integrations.py:1:1)  `scripts/ckb_core/automation_integrations.py:1-536`\n- [打开源码：tests/provider_integration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/provider_integration.py:1:1)  `tests/provider_integration.py:1-252`\n- [打开源码：tests/test_automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_automation.py:1:1)  `tests/test_automation.py:1-882`\n- [打开源码：tests/test_ckb.py 第 198 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_ckb.py:198:1)  `tests/test_ckb.py:198-2127`\n- [打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3482`\n- [打开源码：scripts/ckb_core/providers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/providers.py:1:1)  `scripts/ckb_core/providers.py:1-611`",
+      490,
+      null,
+      null,
+      null
+    ]
+  ],
+  "section_sources": [],
+  "links": [
+    [
+      "note:changes:C++ 解析与 SCons 回退合并审计",
+      null,
+      "AutomationTest.register 等测试场景",
+      "wikilink"
+    ],
+    [
+      "note:changes:C++ 解析与 SCons 回退合并审计",
+      null,
+      "CodeKnowledgeBuilderTests",
+      "wikilink"
+    ],
+    [
+      "note:changes:C++ 解析与 SCons 回退合并审计",
+      null,
+      "doctor_report 与 _version_matches 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:changes:C++ 解析与 SCons 回退合并审计",
+      null,
+      "execute 等测试场景",
+      "wikilink"
+    ],
+    [
+      "note:changes:C++ 解析与 SCons 回退合并审计",
+      null,
+      "finalize 与 _replace_output_prefix 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:changes:C++ 解析与 SCons 回退合并审计",
+      null,
+      "parse_file 与 _language 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:changes:C++ 解析与 SCons 回退合并审计",
+      null,
+      "parser",
+      "wikilink"
+    ],
+    [
+      "note:changes:C++ 解析与 SCons 回退合并审计",
+      null,
+      "render_integration 与 _looks_windows 的协作实现",
+      "wikilink"
+    ]
+  ],
+  "fts": [
+    [
+      "note:changes:C++ 解析与 SCons 回退合并审计:0",
+      "note:changes:C++ 解析与 SCons 回退合并审计",
+      "C++ 解析与 SCons 回退合并审计",
+      "标签：#类型/变更",
+      ""
+    ],
+    [
+      "note:changes:C++ 解析与 SCons 回退合并审计:1",
+      "note:changes:C++ 解析与 SCons 回退合并审计",
+      "合并结论",
+      "`codex/cpp-parser-scons-fallback` 已通过管理 Agent 独立审计，并以保留五个开发提交的普通 merge 合入 integration branch。合并提交为 `ea455e2…`；稳定知识库的固定源码图谱更新仍按八项队列终态统一进入隔离 staging，本记录只保存已确认行为、测试与回滚边界。",
+      ""
+    ],
+    [
+      "note:changes:C++ 解析与 SCons 回退合并审计:2",
+      "note:changes:C++ 解析与 SCons 回退合并审计",
+      "已确认行为",
+      "- 有效 `#ifndef NDEBUG` 区域通过语法门；缺失 `#endif` 的相邻负例保留失败诊断。\n- 块内 `const T &x(expr);` 记录为所属函数下的 declaration，不生成伪函数实体。\n- pinned Tree-sitter 对完整 `template class/struct` 显式实例化的唯一缺失节点形状进入显式 recovery；其他 ERROR/MISSING 仍失败，模板定义保留真实类和函数实体。\n- 无 `compile_commands.json` 时只静态读取 `SConstruct`/`SConscript` 等受支持构建文件：唯一标准进入 fallback flags，缺失或冲突证据使用固定默认值；precision 保持 `bounded-approximate`。\n- 存在 compilation database 时保持 `exact`，SCons 证据不覆盖该路径；provider 记录真实子进程 `exit_status`。",
+      ""
+    ],
+    [
+      "note:changes:C++ 解析与 SCons 回退合并审计:3",
+      "note:changes:C++ 解析与 SCons 回退合并审计",
+      "独立与合并后验证",
+      "管理审计在开发 worktree 重跑 4 项专项、37 项核心、22 项自动化、3 项发行和 10 个真实 Provider 场景，全部通过。合并后在 integration HEAD 再次运行相同的 4 项专项、37 项核心、22 项自动化、3 项发行和 10 个真实 Provider 场景，全部通过；真实场景覆盖 C/C++ exact、bounded、missing-header negative、SCons C++20 证据、Python、JavaScript 和 C#。",
+      ""
+    ],
+    [
+      "note:changes:C++ 解析与 SCons 回退合并审计:4",
+      "note:changes:C++ 解析与 SCons 回退合并审计",
+      "回滚",
+      "开发分支提交和 merge commit均保留。integration 回滚入口为撤销 merge commit `ea455e2…`；开发任务还提供逐 commit 逆序回滚脚本。回滚后需要重跑同一专项、核心、Provider 和发行测试。完整管理证据位于 `E:\\knowledge_builder\\artifacts\\verification\\cpp-parser-scons-fallback\\management-audit.json`。",
+      ""
+    ],
+    [
+      "note:changes:C++ 解析与 SCons 回退合并审计:5",
+      "note:changes:C++ 解析与 SCons 回退合并审计",
+      "相关知识页",
+      "- [[parser]]\n- [[parse_file 与 _language 的协作实现]]\n- [[render_integration 与 _looks_windows 的协作实现]]\n- [[execute 等测试场景]]\n- [[AutomationTest.register 等测试场景]]\n- [[CodeKnowledgeBuilderTests]]\n- [[finalize 与 _replace_output_prefix 的协作实现]]\n- [[doctor_report 与 _version_matches 的协作实现]]",
+      ""
+    ],
+    [
+      "note:changes:C++ 解析与 SCons 回退合并审计:6",
+      "note:changes:C++ 解析与 SCons 回退合并审计",
+      "源码入口",
+      "- [打开源码：scripts/ckb.py 第 164 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:164:1)  `scripts/ckb.py:164-488`\n- [打开源码：scripts/ckb_core/parsers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/parsers.py:1:1)  `scripts/ckb_core/parsers.py:1-446`\n- [打开源码：scripts/ckb_core/automation_integrations.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation_integrations.py:1:1)  `scripts/ckb_core/automation_integrations.py:1-536`\n- [打开源码：tests/provider_integration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/provider_integration.py:1:1)  `tests/provider_integration.py:1-252`\n- [打开源码：tests/test_automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_automation.py:1:1)  `tests/test_automation.py:1-882`\n- [打开源码：tests/test_ckb.py 第 198 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_ckb.py:198:1)  `tests/test_ckb.py:198-2127`\n- [打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3482`\n- [打开源码：scripts/ckb_core/providers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/providers.py:1:1)  `scripts/ckb_core/providers.py:1-611`",
+      ""
+    ]
+  ]
+}

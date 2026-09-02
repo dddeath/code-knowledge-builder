@@ -11,7 +11,7 @@ import sqlite3
 from typing import Any
 
 
-TARGET_COMMIT = "94bf2201524342c2c87f9835ad5391a03cb9a7d9"
+TARGET_COMMIT = "c533dd7c53224a637b1438ea72ee25da887fc6de"
 LEARNING_NOTES = {
     "2026-08-29.md": "62059c19c42a0969e116c66d747627c6fae1b9fef3ef412e2c0ed03ced45ceeb",
     "2026-08-30.md": "dc7e8eb4791816b8d7989bb7bb82e97f50d6cbdb2f586f769422baf79ea91e67",
@@ -131,7 +131,7 @@ def main() -> int:
     readability = load(knowledge / "human/readability-audit.json")
     check("readability", readability.get("status") == "passed" and not readability.get("errors"), readability.get("errors"))
     readme_text = (root / "README.md").read_text(encoding="utf-8")
-    experimental = publication.get("experimental_features", {})
+    experimental = publication.get("experiments", {})
     surface = {
         "canvas_skill": source / "prototypes/ckb-canvas-skill/SKILL.md",
         "canvas_cli": source / "prototypes/ckb-canvas-skill/scripts/ckb_canvas.py",
@@ -140,20 +140,52 @@ def main() -> int:
         "record_replace_test": source / "tests/test_record_replace.py",
         "record_replace_note": knowledge / "human/changes/增加受控的工作记录正文替换与回滚.md",
         "canvas_release_note": knowledge / "human/changes/将 Obsidian Canvas 原型纳入实验发布.md",
+        "page_fanout_benchmark": source / "prototypes/ckb-page-fanout-benchmark/ckb_page_fanout/benchmark.py",
+        "page_fanout_result": source / "references/benchmarks/page-fanout/benchmark-result.json",
+        "page_fanout_note": knowledge / "human/experiments/单文档自动页面扩张对照实验.md",
+        "semantic_vector_benchmark": source / "prototypes/ckb-semantic-vector-benchmark/benchmark.py",
+        "semantic_vector_result": source / "prototypes/ckb-semantic-vector-benchmark/results/fixed-v1/report.json",
+        "semantic_vector_note": knowledge / "human/experiments/真实语义向量检索三臂对照实验.md",
     }
     surface_detail = {
         "files": {name: path.is_file() for name, path in surface.items()},
         "canvas_status": experimental.get("obsidian_canvas", {}).get("status"),
-        "record_replace_status": experimental.get("record_body_replace", {}).get("status"),
-        "readme_experimental_heading": "## 实验功能：让 Agent 生成当前问题的 Obsidian Canvas" in readme_text,
+        "page_fanout_status": experimental.get("page_fanout", {}).get("status"),
+        "semantic_vector_status": experimental.get("semantic_vector", {}).get("status"),
+        "readme_human_entry_headings": all(
+            heading in readme_text
+            for heading in (
+                "## 了解本项目知识库结构",
+                "## 让 Agent 安装本项目",
+                "## 让 Agent 解释自己的项目",
+            )
+        ),
     }
     check(
         "experimental-canvas-and-record-replace-surface",
         all(surface_detail["files"].values())
-        and surface_detail["canvas_status"] == "experimental"
-        and surface_detail["record_replace_status"] == "supported"
-        and surface_detail["readme_experimental_heading"],
+        and surface_detail["canvas_status"] == "experimental-awaiting-user-feedback"
+        and surface_detail["page_fanout_status"] == "negative-result"
+        and surface_detail["semantic_vector_status"] == "regression-observed"
+        and surface_detail["readme_human_entry_headings"],
         surface_detail,
+    )
+    fanout = load(surface["page_fanout_result"])
+    semantic = load(surface["semantic_vector_result"])
+    experiment_detail = {
+        "page_fanout_recommendation": fanout.get("recommendation"),
+        "semantic_status": semantic.get("status"),
+        "semantic_failed_checks": [name for name, passed in semantic.get("checks", {}).items() if not passed],
+        "semantic_decision": semantic.get("decision"),
+    }
+    check(
+        "negative-experiment-results",
+        experiment_detail["page_fanout_recommendation"] == "retain-conservative"
+        and experiment_detail["semantic_status"] == "failed"
+        and experiment_detail["semantic_failed_checks"] == ["extra_child_processes_within_limit"]
+        and experiment_detail["semantic_decision"].get("result") == "regression-observed"
+        and experiment_detail["semantic_decision"].get("production_default_changed") is False,
+        experiment_detail,
     )
     records = list((knowledge / "workspace-meta/notes").glob("*.json"))
     references = list((knowledge / "references/manifests").glob("*.json"))

@@ -1,0 +1,68 @@
+{
+  "arms": {
+    "arm_a": "conservative",
+    "arm_b": "fanout"
+  },
+  "baseline_commit": "bd8519583e3a075612036d0874c1d0742000e30c",
+  "cost_formula": {
+    "generated_output_bytes": "sum(file_size) for generated or changed fanout files",
+    "generation_context_bytes": "sum(utf8(term)+utf8(claim_zh)+utf8(source_text)) for all submitted candidates"
+  },
+  "current_compatibility": {
+    "default_page_limits": {
+      "adjacent_file": 1,
+      "adjacent_per_entry": 3,
+      "core_file": 4,
+      "core_per_entry": 4,
+      "ordinary_file": 1
+    },
+    "default_relation_limits": {
+      "aggregate": 10,
+      "boundary": 8,
+      "direct": 20,
+      "test": 8
+    },
+    "human_page_template_contract_version": "3.0.0",
+    "human_page_template_schema_version": 3,
+    "reference_page_limit_per_source": 1
+  },
+  "fanout_policy": {
+    "candidate_source": "frozen-explicit-candidate-manifest",
+    "claim_rule": "claim-zh-must-equal-exact-source-text",
+    "duplicate_normalization": "unicode-nfkc-casefold-alnum-only",
+    "duplicate_topic_similarity_threshold": 0.92,
+    "max_links_per_page": 3,
+    "max_pages_per_document": 3,
+    "max_total_new_pages": 9,
+    "overflow_action": "reject-with-stable-reason",
+    "term_rule": "term-must-occur-in-exact-source-range"
+  },
+  "frozen_at_utc": "2026-09-03T00:00:00Z",
+  "recommendation_thresholds": {
+    "continue_experiment": {
+      "maximum_broken_links": 0,
+      "maximum_duplicate_topics": 0,
+      "maximum_generation_context_bytes": 20000,
+      "maximum_misleading_links": 0,
+      "maximum_orphan_pages": 0,
+      "maximum_page_increment": 9,
+      "minimum_answer_accuracy_delta": 0.0,
+      "minimum_median_navigation_step_reduction": 0.0,
+      "minimum_source_entailment_rate": 1.0
+    },
+    "fallback": "retain-conservative",
+    "production_candidate": {
+      "maximum_broken_links": 0,
+      "maximum_duplicate_topics": 0,
+      "maximum_generation_context_bytes": 12000,
+      "maximum_misleading_links": 0,
+      "maximum_orphan_pages": 0,
+      "maximum_page_increment": 6,
+      "minimum_answer_accuracy_delta": 0.0,
+      "minimum_median_navigation_step_reduction": 1.0,
+      "minimum_source_entailment_rate": 1.0
+    }
+  },
+  "schema_version": 1,
+  "scope": "isolated-page-fanout-benchmark"
+}

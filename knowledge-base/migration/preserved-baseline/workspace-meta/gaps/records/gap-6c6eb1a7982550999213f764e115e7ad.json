@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "gap_id": "gap-6c6eb1a7982550999213f764e115e7ad",
+  "kind": "insufficient-evidence",
+  "status": "open",
+  "summary_zh": "真实 LLM 关键词慢路径尚缺少固定模型、固定费用与延迟上限下相对当前确定性检索的真实调用质量证据；现有提升只来自离线固定回放。",
+  "evidence_paths": [
+    "human/experiments/中文检索三臂效果复测.md"
+  ],
+  "created_at_utc": "2026-09-02T21:03:58Z",
+  "updated_at_utc": "2026-09-02T21:03:58Z",
+  "resolution_zh": null,
+  "resolution_evidence_paths": []
+}

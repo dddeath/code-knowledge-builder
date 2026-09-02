@@ -1,0 +1,135 @@
+{
+  "document": [
+    [
+      "note:sessions:第三开发波次实验派发",
+      "session",
+      "第三开发波次实验派发",
+      "#类型/会话",
+      "sessions/第三开发波次实验派发.md",
+      null,
+      "# 第三开发波次实验派发\n\n标签：#类型/会话\n\n## 本次安排\n\n在 README、人类页面迁移、中文检索复测和机器 Tag 实验完成集成后，第三批启动两个隔离 benchmark：真实语义/向量检索相对当前 SQLite 检索的质量与资源对照，以及单文档自动页面扩散相对当前保守策略的导航收益与页面成本对照。\n\n## 输出目标\n\n向量任务必须区分真实 embedding、不可用引擎和模拟合同，不把回放当作效果；页面扩散任务必须同时报告查找/理解收益、页面增量、孤立与重复、链接和来源真实性。没有收益或外部引擎不可用都作为有效结论保留。\n\n## 工作边界\n\n两个任务从 `bd85195…` 建立独立分支和 worktree，只写实验、fixture、benchmark 与验证材料，不修改生产检索、生产页面生成或稳定知识库。Canvas 仍等待真实试用反馈，不与本批次并行推断结果。\n\n## 相关知识页\n\n- [[run_benchmark]]\n\n## 源码入口\n\n- [打开源码：tests/benchmark_chinese_retrieval.py 第 516 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/benchmark_chinese_retrieval.py:516:1)  `tests/benchmark_chinese_retrieval.py:516-636`\n",
+      411
+    ]
+  ],
+  "sections": [
+    [
+      "note:sessions:第三开发波次实验派发:0",
+      "note:sessions:第三开发波次实验派发",
+      0,
+      "第三开发波次实验派发",
+      "标签：#类型/会话",
+      8,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:sessions:第三开发波次实验派发:1",
+      "note:sessions:第三开发波次实验派发",
+      1,
+      "本次安排",
+      "在 README、人类页面迁移、中文检索复测和机器 Tag 实验完成集成后，第三批启动两个隔离 benchmark：真实语义/向量检索相对当前 SQLite 检索的质量与资源对照，以及单文档自动页面扩散相对当前保守策略的导航收益与页面成本对照。",
+      102,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:sessions:第三开发波次实验派发:2",
+      "note:sessions:第三开发波次实验派发",
+      2,
+      "输出目标",
+      "向量任务必须区分真实 embedding、不可用引擎和模拟合同，不把回放当作效果；页面扩散任务必须同时报告查找/理解收益、页面增量、孤立与重复、链接和来源真实性。没有收益或外部引擎不可用都作为有效结论保留。",
+      96,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:sessions:第三开发波次实验派发:3",
+      "note:sessions:第三开发波次实验派发",
+      3,
+      "工作边界",
+      "两个任务从 `bd85195…` 建立独立分支和 worktree，只写实验、fixture、benchmark 与验证材料，不修改生产检索、生产页面生成或稳定知识库。Canvas 仍等待真实试用反馈，不与本批次并行推断结果。",
+      84,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:sessions:第三开发波次实验派发:4",
+      "note:sessions:第三开发波次实验派发",
+      4,
+      "相关知识页",
+      "- [[run_benchmark]]",
+      7,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:sessions:第三开发波次实验派发:5",
+      "note:sessions:第三开发波次实验派发",
+      5,
+      "源码入口",
+      "- [打开源码：tests/benchmark_chinese_retrieval.py 第 516 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/benchmark_chinese_retrieval.py:516:1)  `tests/benchmark_chinese_retrieval.py:516-636`",
+      72,
+      null,
+      null,
+      null
+    ]
+  ],
+  "section_sources": [],
+  "links": [
+    [
+      "note:sessions:第三开发波次实验派发",
+      null,
+      "run_benchmark",
+      "wikilink"
+    ]
+  ],
+  "fts": [
+    [
+      "note:sessions:第三开发波次实验派发:0",
+      "note:sessions:第三开发波次实验派发",
+      "第三开发波次实验派发",
+      "标签：#类型/会话",
+      ""
+    ],
+    [
+      "note:sessions:第三开发波次实验派发:1",
+      "note:sessions:第三开发波次实验派发",
+      "本次安排",
+      "在 README、人类页面迁移、中文检索复测和机器 Tag 实验完成集成后，第三批启动两个隔离 benchmark：真实语义/向量检索相对当前 SQLite 检索的质量与资源对照，以及单文档自动页面扩散相对当前保守策略的导航收益与页面成本对照。",
+      ""
+    ],
+    [
+      "note:sessions:第三开发波次实验派发:2",
+      "note:sessions:第三开发波次实验派发",
+      "输出目标",
+      "向量任务必须区分真实 embedding、不可用引擎和模拟合同，不把回放当作效果；页面扩散任务必须同时报告查找/理解收益、页面增量、孤立与重复、链接和来源真实性。没有收益或外部引擎不可用都作为有效结论保留。",
+      ""
+    ],
+    [
+      "note:sessions:第三开发波次实验派发:3",
+      "note:sessions:第三开发波次实验派发",
+      "工作边界",
+      "两个任务从 `bd85195…` 建立独立分支和 worktree，只写实验、fixture、benchmark 与验证材料，不修改生产检索、生产页面生成或稳定知识库。Canvas 仍等待真实试用反馈，不与本批次并行推断结果。",
+      ""
+    ],
+    [
+      "note:sessions:第三开发波次实验派发:4",
+      "note:sessions:第三开发波次实验派发",
+      "相关知识页",
+      "- [[run_benchmark]]",
+      ""
+    ],
+    [
+      "note:sessions:第三开发波次实验派发:5",
+      "note:sessions:第三开发波次实验派发",
+      "源码入口",
+      "- [打开源码：tests/benchmark_chinese_retrieval.py 第 516 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/benchmark_chinese_retrieval.py:516:1)  `tests/benchmark_chinese_retrieval.py:516-636`",
+      ""
+    ]
+  ]
+}

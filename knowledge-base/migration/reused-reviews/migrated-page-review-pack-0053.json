@@ -3,33 +3,33 @@
   "pack_id": "migrated-page-review-pack-0053",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T02:38:07Z",
+  "reviewed_at_utc": "2026-09-02T22:46:33Z",
   "reviews": [
     {
-      "entity_id": "file-620d06607ecd50f5a39a330bbed0bf9b",
+      "entity_id": "file-7a06c90969bd543e91f1696e4d76010f",
       "classification": "page",
-      "owner_page_id": "file-620d06607ecd50f5a39a330bbed0bf9b",
-      "source_path": "tests/test_scope_extension.py",
+      "owner_page_id": "file-7a06c90969bd543e91f1696e4d76010f",
+      "source_path": "tests/test_chinese_retrieval_fixture.py",
       "start_line": 1,
-      "end_line": 423,
+      "end_line": 214,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_scope_extension.py` 第 1-423 行的源码摘录，文件、符号与行范围一致。",
-      "meaning_zh": "`tests/test_scope_extension.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
-      "role_zh": "负责以可执行样例验证 `test_scope_extension.py` 覆盖的成功行为、失败边界和回归约束。",
-      "change_when_zh": "当 `tests/test_scope_extension.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
+      "evidence_note": "已核对固定提交 bd8519583e3a 中 `tests/test_chinese_retrieval_fixture.py` 第 1 至 214 行，摘录属于 Git blob 9c2641005549。",
+      "meaning_zh": "文件 `tests/test_chinese_retrieval_fixture.py`负责验证三臂协议、旧词项、相关性标注、排序指标和来源漂移失败门。",
+      "role_zh": "它属于中文检索效果测量的回归保护，说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当三臂合同、标注或效果门变化时，应同步复查本页及其直接测试。"
     },
     {
-      "entity_id": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "entity_id": "ent-b6b02f55c0275f519ff8ee301c614b54",
       "classification": "page",
-      "owner_page_id": "ent-bd0290b222e958c9ab117b3a5028ae28",
-      "source_path": "tests/test_scope_extension.py",
-      "start_line": 63,
-      "end_line": 418,
+      "owner_page_id": "ent-b6b02f55c0275f519ff8ee301c614b54",
+      "source_path": "tests/test_chinese_retrieval_fixture.py",
+      "start_line": 50,
+      "end_line": 209,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_scope_extension.py` 第 63-418 行的源码摘录，文件、符号与行范围一致。",
-      "meaning_zh": "`ScopeExtensionTest` 是 `tests/test_scope_extension.py` 第 63-418 行定义的类，本页绑定该固定源码范围。",
-      "role_zh": "该类作为可执行验证入口，检查标识符 `ScopeExtensionTest` 所指的行为与失败边界。",
-      "change_when_zh": "当被测行为、输入夹具、断言或失败条件变化时，应同步更新 `ScopeExtensionTest` 的说明。"
+      "evidence_note": "已核对固定提交 bd8519583e3a 中 `tests/test_chinese_retrieval_fixture.py` 第 50 至 209 行，摘录属于 Git blob 9c2641005549。",
+      "meaning_zh": "代码单元 `setUp`负责验证三臂协议、旧词项、相关性标注、排序指标和来源漂移失败门。",
+      "role_zh": "它属于中文检索效果测量的回归保护，说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当三臂合同、标注或效果门变化时，应同步复查本页及其直接测试。"
     }
   ]
 }

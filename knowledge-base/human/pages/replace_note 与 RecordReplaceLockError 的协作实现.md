@@ -20,12 +20,12 @@
 - 实现时会用到 [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]]。
 - 实现时会用到 [[_Transport.close]]。
 - 实现时会用到 [[append]]。
+- 实现时会用到 [[audit_work_record_index]]。
 - 实现时会用到 [[audit_work_record_index 与 _contains_chinese 的协作实现]]。
-- 实现时会用到 [[execute]]。
+- 实现时会用到 [[ingest 与 connect 的协作实现]]。
 - 实现时会用到 [[record_note 与 page_tag 的协作实现]]。
 - 主要代码单元是 [[replace_note]]。
 - 实现时会用到 [[retrieve_machine 与 estimated_tokens 的协作实现]]。
-- 实现时会用到 [[rollback]]。
 
 ## 谁会来到这里
 

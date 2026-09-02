@@ -1,0 +1,268 @@
+{
+  "schema_version": 1,
+  "operation_id": "record-replace-109a43c663795cc3938e0c3c39a509e0",
+  "operation": "record-replace",
+  "status": "rolled-back",
+  "output": "E:\\knowledge_builder\\self-workspace\\kb-stg-94bf220",
+  "kind": "change",
+  "title": "既有知识库追加新中心合并审计",
+  "created_at_utc": "2026-09-02T02:44:41Z",
+  "rollback_manifest": "E:\\knowledge_builder\\self-workspace\\kb-stg-94bf220\\workspace-meta\\record-replace\\record-replace-109a43c663795cc3938e0c3c39a509e0\\manifest.json",
+  "rollback_argv": [
+    "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\python\\python.exe",
+    "E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py",
+    "record-rollback",
+    "--out",
+    "E:\\knowledge_builder\\self-workspace\\kb-stg-94bf220",
+    "--manifest",
+    "E:\\knowledge_builder\\self-workspace\\kb-stg-94bf220\\workspace-meta\\record-replace\\record-replace-109a43c663795cc3938e0c3c39a509e0\\manifest.json"
+  ],
+  "rollback_command": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\python\\python.exe' 'E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py' 'record-rollback' '--out' 'E:\\knowledge_builder\\self-workspace\\kb-stg-94bf220' '--manifest' 'E:\\knowledge_builder\\self-workspace\\kb-stg-94bf220\\workspace-meta\\record-replace\\record-replace-109a43c663795cc3938e0c3c39a509e0\\manifest.json'",
+  "roles": [
+    {
+      "name": "human-note",
+      "kind": "file",
+      "path": "human/changes/既有知识库追加新中心合并审计.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "74eaf11633eb534c73e522837270d9ec2e3f7db6a96e0350080d49e575c7fc07",
+        "size": 5646,
+        "backup": "E:\\knowledge_builder\\self-workspace\\kb-stg-94bf220\\workspace-meta\\record-replace\\record-replace-109a43c663795cc3938e0c3c39a509e0\\backup\\files\\human\\changes\\既有知识库追加新中心合并审计.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "8c3e18a038a1e674bf9eaa4500ede50d80c93f317b357efa91d5154ff3713454",
+        "size": 2458,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\kb-stg-94bf220\\workspace-meta\\record-replace\\record-replace-109a43c663795cc3938e0c3c39a509e0\\staging\\files\\human\\changes\\既有知识库追加新中心合并审计.md"
+      }
+    },
+    {
+      "name": "markdown-note",
+      "kind": "file",
+      "path": "markdown/changes/既有知识库追加新中心合并审计.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "74eaf11633eb534c73e522837270d9ec2e3f7db6a96e0350080d49e575c7fc07",
+        "size": 5646,
+        "backup": "E:\\knowledge_builder\\self-workspace\\kb-stg-94bf220\\workspace-meta\\record-replace\\record-replace-109a43c663795cc3938e0c3c39a509e0\\backup\\files\\markdown\\changes\\既有知识库追加新中心合并审计.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "8c3e18a038a1e674bf9eaa4500ede50d80c93f317b357efa91d5154ff3713454",
+        "size": 2458,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\kb-stg-94bf220\\workspace-meta\\record-replace\\record-replace-109a43c663795cc3938e0c3c39a509e0\\staging\\files\\markdown\\changes\\既有知识库追加新中心合并审计.md"
+      }
+    },
+    {
+      "name": "note-metadata",
+      "kind": "file",
+      "path": "workspace-meta/notes/既有知识库追加新中心合并审计.json",
+      "baseline": {
+        "exists": true,
+        "sha256": "5a3127ba9da68f9c7611da9c50600e504ce5045cb1e574088ff9db04567f610b",
+        "size": 2935,
+        "backup": "E:\\knowledge_builder\\self-workspace\\kb-stg-94bf220\\workspace-meta\\record-replace\\record-replace-109a43c663795cc3938e0c3c39a509e0\\backup\\files\\workspace-meta\\notes\\既有知识库追加新中心合并审计.json"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "4f0e8eb015a27da37f69067babef379861f6e0c228f43bf9b383d78e22f2aa0c",
+        "size": 1642,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\kb-stg-94bf220\\workspace-meta\\record-replace\\record-replace-109a43c663795cc3938e0c3c39a509e0\\staging\\files\\workspace-meta\\notes\\既有知识库追加新中心合并审计.json"
+      }
+    },
+    {
+      "name": "human-records",
+      "kind": "file",
+      "path": "human/RECORDS.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "51ebd267211cfd87a881d7abcee8a6049cfb84c3c4bb0ebdf660c8a738093a2a",
+        "size": 18366,
+        "backup": "E:\\knowledge_builder\\self-workspace\\kb-stg-94bf220\\workspace-meta\\record-replace\\record-replace-109a43c663795cc3938e0c3c39a509e0\\backup\\files\\human\\RECORDS.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "79880254f67c8b075e2bd5fda7dd1ae82e0d645f15cbcffba011b066a65fc1e2",
+        "size": 18473,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\kb-stg-94bf220\\workspace-meta\\record-replace\\record-replace-109a43c663795cc3938e0c3c39a509e0\\staging\\files\\human\\RECORDS.md"
+      }
+    },
+    {
+      "name": "markdown-records",
+      "kind": "file",
+      "path": "markdown/RECORDS.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "51ebd267211cfd87a881d7abcee8a6049cfb84c3c4bb0ebdf660c8a738093a2a",
+        "size": 18366,
+        "backup": "E:\\knowledge_builder\\self-workspace\\kb-stg-94bf220\\workspace-meta\\record-replace\\record-replace-109a43c663795cc3938e0c3c39a509e0\\backup\\files\\markdown\\RECORDS.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "79880254f67c8b075e2bd5fda7dd1ae82e0d645f15cbcffba011b066a65fc1e2",
+        "size": 18473,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\kb-stg-94bf220\\workspace-meta\\record-replace\\record-replace-109a43c663795cc3938e0c3c39a509e0\\staging\\files\\markdown\\RECORDS.md"
+      }
+    },
+    {
+      "name": "work-record-index-audit",
+      "kind": "file",
+      "path": "workspace-meta/work-record-index-audit.json",
+      "baseline": {
+        "exists": true,
+        "sha256": "5c90dc8dade3a3ae547729ac99d8e07e78f954d3e6a94315a36cd430b7855f17",
+        "size": 217,
+        "backup": "E:\\knowledge_builder\\self-workspace\\kb-stg-94bf220\\workspace-meta\\record-replace\\record-replace-109a43c663795cc3938e0c3c39a509e0\\backup\\files\\workspace-meta\\work-record-index-audit.json"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "5c90dc8dade3a3ae547729ac99d8e07e78f954d3e6a94315a36cd430b7855f17",
+        "size": 217,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\kb-stg-94bf220\\workspace-meta\\record-replace\\record-replace-109a43c663795cc3938e0c3c39a509e0\\staging\\files\\workspace-meta\\work-record-index-audit.json"
+      }
+    },
+    {
+      "name": "agent-index-note",
+      "kind": "sqlite-logical",
+      "path": "agent-index.sqlite",
+      "selector": "既有知识库追加新中心合并审计",
+      "baseline": {
+        "sha256": "8266bb7c6b132736cc39e28026c833b29ba02d6ffe2a062736325361d6539002",
+        "backup": "E:\\knowledge_builder\\self-workspace\\kb-stg-94bf220\\workspace-meta\\record-replace\\record-replace-109a43c663795cc3938e0c3c39a509e0\\backup\\agent-index-note.json"
+      },
+      "modified": {
+        "sha256": "a0cf080a55abc8b6cce55951004b781776b37f5f56a4676cb5600da47b440d2e",
+        "candidate": "E:\\knowledge_builder\\self-workspace\\kb-stg-94bf220\\workspace-meta\\record-replace\\record-replace-109a43c663795cc3938e0c3c39a509e0\\staging\\agent-index-note.json"
+      }
+    },
+    {
+      "name": "machine-knowledge-note",
+      "kind": "sqlite-logical",
+      "path": "machine/knowledge.sqlite",
+      "selector": "note:changes:既有知识库追加新中心合并审计",
+      "baseline": {
+        "sha256": "34b537f14ce8c5f7542ed1c2f725c8b1fdbe77c45517b99c53fad252d43e042b",
+        "backup": "E:\\knowledge_builder\\self-workspace\\kb-stg-94bf220\\workspace-meta\\record-replace\\record-replace-109a43c663795cc3938e0c3c39a509e0\\backup\\machine-knowledge-note.json"
+      },
+      "modified": {
+        "sha256": "820c4827ea5d9ac19c9a6dd52096d5fb531d78ae9c03684d87f89d26f8c5acf2",
+        "candidate": "E:\\knowledge_builder\\self-workspace\\kb-stg-94bf220\\workspace-meta\\record-replace\\record-replace-109a43c663795cc3938e0c3c39a509e0\\staging\\machine-knowledge-note.json"
+      }
+    }
+  ],
+  "prepared_at_utc": "2026-09-02T02:44:42Z",
+  "record_id": "work-record-9a67ce1171c25052bfa7561d632521ee",
+  "relative_note": "changes/既有知识库追加新中心合并审计.md",
+  "explicit_evidence_replacement": true,
+  "linked_pages": [
+    "audit_migration 与 _entity_key 的协作实现"
+  ],
+  "body_sha256": "e7070e7ff8ec2a618701b984720d668011938d154f9468759e706f76edf0b59e",
+  "candidate_audit": {
+    "status": "passed",
+    "note_errors": [],
+    "work_record_index": {
+      "status": "passed",
+      "record_count": 55,
+      "linked_record_count": 55,
+      "section_counts": {
+        "analysis": 18,
+        "changes": 30,
+        "pitfalls": 0,
+        "experiments": 3,
+        "sessions": 4
+      },
+      "errors": []
+    }
+  },
+  "promotion_order": [
+    "human-note",
+    "markdown-note",
+    "note-metadata",
+    "human-records",
+    "markdown-records",
+    "work-record-index-audit",
+    "agent-index-note",
+    "machine-knowledge-note"
+  ],
+  "completed_at_utc": "2026-09-02T02:44:42Z",
+  "verification": {
+    "status": "passed",
+    "role_errors": [],
+    "note_errors": [],
+    "work_record_index": {
+      "status": "passed",
+      "record_count": 55,
+      "linked_record_count": 55,
+      "section_counts": {
+        "analysis": 18,
+        "changes": 30,
+        "pitfalls": 0,
+        "experiments": 3,
+        "sessions": 4
+      },
+      "errors": []
+    },
+    "agent_index": {
+      "schema_version": 1,
+      "status": "passed",
+      "path": "E:\\knowledge_builder\\self-workspace\\kb-stg-94bf220\\agent-index.sqlite",
+      "integrity": "ok",
+      "counts": {
+        "pages": 196,
+        "symbols": 1686,
+        "edges": 1700,
+        "terms": 21943,
+        "notes": 55
+      },
+      "projection_format": "markdown",
+      "errors": []
+    }
+  },
+  "operation_journal": {
+    "status": "passed",
+    "event_id": "operation-36b0ed80da5a5f2388a302f7a7ac0846",
+    "idempotent": false,
+    "journal": "E:\\knowledge_builder\\self-workspace\\kb-stg-94bf220\\workspace-meta\\operations\\2026-09-02.jsonl"
+  },
+  "rolled_back_at_utc": "2026-09-02T02:44:57Z",
+  "rollback_verification": {
+    "status": "passed",
+    "role_errors": [],
+    "note_errors": [],
+    "work_record_index": {
+      "status": "passed",
+      "record_count": 55,
+      "linked_record_count": 55,
+      "section_counts": {
+        "analysis": 18,
+        "changes": 30,
+        "pitfalls": 0,
+        "experiments": 3,
+        "sessions": 4
+      },
+      "errors": []
+    },
+    "agent_index": {
+      "schema_version": 1,
+      "status": "passed",
+      "path": "E:\\knowledge_builder\\self-workspace\\kb-stg-94bf220\\agent-index.sqlite",
+      "integrity": "ok",
+      "counts": {
+        "pages": 196,
+        "symbols": 1686,
+        "edges": 1700,
+        "terms": 21943,
+        "notes": 55
+      },
+      "projection_format": "markdown",
+      "errors": []
+    }
+  },
+  "rollback_operation_journal": {
+    "status": "passed",
+    "event_id": "operation-d45bb926bb715eb8bd331c40b6755fc9",
+    "idempotent": false,
+    "journal": "E:\\knowledge_builder\\self-workspace\\kb-stg-94bf220\\workspace-meta\\operations\\2026-09-02.jsonl"
+  }
+}

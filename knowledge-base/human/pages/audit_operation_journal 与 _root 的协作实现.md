@@ -18,13 +18,14 @@
 - 实现时会用到 [[CkbError 与 DependencyError 的协作实现]]。
 - 实现时会用到 [[_Transport.close]]。
 - 实现时会用到 [[append]]。
-- 实现时会用到 [[audit_global 与 _replace_output_prefix 的协作实现]]。
 - 主要代码单元是 [[audit_operation_journal]]。
 - 实现时会用到 [[command]]。
+- 实现时会用到 [[finalize]]。
+- 实现时会用到 [[finalize 与 _replace_output_prefix 的协作实现]]。
+- 实现时会用到 [[ingest]]。
 - 实现时会用到 [[refresh]]。
 - 实现时会用到 [[retrieve]]。
 - 实现时会用到 [[retrieve_machine 与 estimated_tokens 的协作实现]]。
-- 实现时会用到 [[rollback]]。
 
 ## 谁会来到这里
 
@@ -33,9 +34,9 @@
 - [[create_batch_plan 与 ProtocolRelease 的协作实现]] 会使用这里提供的行为。
 - [[emit]] 会使用这里提供的行为。
 - [[main（ckb 实现）]] 会使用这里提供的行为。
-- [[render_human_maintenance_prompt 与 ParameterSpec 的协作实现]] 会使用这里提供的行为。
 - [[replace_note]] 会使用这里提供的行为。
 - 可从 [[scripts 职责导览]] 进入本页。
+- [[validate_human_maintenance_invocation 与 ParameterSpec 的协作实现]] 会使用这里提供的行为。
 
 ## 相关测试
 

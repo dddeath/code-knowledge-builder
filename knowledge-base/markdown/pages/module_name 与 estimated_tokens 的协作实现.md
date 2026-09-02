@@ -21,7 +21,6 @@
 
 ## 谁会来到这里
 
-- [[audit_global]] 会使用这里提供的行为。
 - [[audit_migration 与 _entity_key 的协作实现]] 会使用这里提供的行为。
 - [[retrieve]] 会使用这里提供的行为。
 - 可从 [[scripts 职责导览]] 进入本页。
@@ -30,10 +29,10 @@
 
 - [[AgentProtocolBatchApplyTests]]
 - [[AgentProtocolBatchApplyTests 等测试场景]]
-- [[AutomationTest.register 等测试场景]]
 - [[CodeKnowledgeBuilderTests]]
 - [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[HumanPageTemplateValidationTests]]
+- [[KeywordFallbackRetrievalWiringTests]]
+- [[MigrationTest]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 

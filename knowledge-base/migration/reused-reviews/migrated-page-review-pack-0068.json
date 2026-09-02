@@ -1,0 +1,35 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0068",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-02T22:47:05Z",
+  "reviews": [
+    {
+      "entity_id": "ent-70a9be087a2451a5948be910ad310685",
+      "classification": "page",
+      "owner_page_id": "ent-70a9be087a2451a5948be910ad310685",
+      "source_path": "tests/test_record_replace.py",
+      "start_line": 69,
+      "end_line": 372,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `94bf22015243` 中 `tests/test_record_replace.py` 第 69-372 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "meaning_zh": "`RecordReplaceTests` 位于 `tests/test_record_replace.py` 第 69-372 行，本页用固定源码范围说明它如何验证目标行为、失败分类和回归边界。",
+      "role_zh": "`RecordReplaceTests` 负责在工作记录正文替换、候选验证、原子 promotion 和回滚中验证目标行为、失败分类和回归边界。",
+      "change_when_zh": "当 `tests/test_record_replace.py` 中 `RecordReplaceTests` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "file-0c7566bd81d856718da2718811989ce7",
+      "classification": "page",
+      "owner_page_id": "file-0c7566bd81d856718da2718811989ce7",
+      "source_path": "tests/test_reference_pdf.py",
+      "start_line": 1,
+      "end_line": 587,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_reference_pdf.py` 第 1 至 587 行；摘录与 Git blob 0fbf3a9d83ee 一致。",
+      "meaning_zh": "文件 `tests/test_reference_pdf.py`负责验证 PDF 页级提取、中文、代码表格、OCR 待处理状态、审阅和回滚。",
+      "role_zh": "它属于PDF 参考资料完整生命周期的回归保护，当前说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当提取质量、页级证据、OCR 边界、索引或回滚合同变化时，应同步复查本页及其直接关联测试。"
+    }
+  ]
+}

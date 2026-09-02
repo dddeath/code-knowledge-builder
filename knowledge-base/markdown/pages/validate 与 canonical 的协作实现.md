@@ -19,31 +19,18 @@
 
 ## 谁会来到这里
 
-- [[AgentProtocolBatchApplyTests 等测试场景]] 会使用这里提供的行为。
-- [[CkbError 与 DependencyError 的协作实现]] 会使用这里提供的行为。
-- [[_Transport.close 与 _StartGate 的协作实现]] 会使用这里提供的行为。
-- [[audit_references 与 _root 的协作实现]] 会使用这里提供的行为。
-- [[create_batch_plan 与 ProtocolRelease 的协作实现]] 会使用这里提供的行为。
-- [[doctor_report 与 _version_matches 的协作实现]] 会使用这里提供的行为。
-- [[ingest_event 与 default_registry_path 的协作实现]] 会使用这里提供的行为。
-- [[main 与 sha256 的协作实现]] 会使用这里提供的行为。
-- [[propose_template]] 会使用这里提供的行为。
-- [[propose_template 与 _canonical_bytes 的协作实现]] 会使用这里提供的行为。
 - 可从 [[references 职责导览]] 进入本页。
-- [[render_page_author 与 _error 的协作实现]] 会使用这里提供的行为。
-- [[run]] 会使用这里提供的行为。
 - [[source_files]] 会使用这里提供的行为。
-- [[source_files 与 sha256 的协作实现]] 会使用这里提供的行为。
 - [[validate]] 会使用这里提供的行为。
 
 ## 相关测试
 
-- [[AgentProtocolBatchApplyTests]]
-- [[AgentProtocolBatchApplyTests 等测试场景]]
-- [[CanvasBenchmarkContractTests]]
 - [[CanvasContractTests]]
 - [[CanvasContractTests 等测试场景]]
 - [[CanvasDeterminismTests]]
+- [[CanvasGraphTests]]
+- [[CanvasPathTests]]
+- [[CanvasRollbackTests]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 

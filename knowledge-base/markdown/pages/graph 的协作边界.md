@@ -7,9 +7,7 @@
 ## 本次未继续展开的代码
 
 - **SourceSelection**：位于 `prototypes/ckb-canvas-skill/ckb_canvas/graph.py:32-36`。
-- **SelectedGraph**：位于 `prototypes/ckb-canvas-skill/ckb_canvas/graph.py:40-43`。
-- **ValidationFacts**：位于 `prototypes/ckb-canvas-skill/ckb_canvas/graph.py:47-53`。
-- **canonical_json_bytes**：位于 `prototypes/ckb-canvas-skill/ckb_canvas/graph.py:56-68`。
+- **canonical_json_bytes.normalize**：位于 `prototypes/ckb-canvas-skill/ckb_canvas/graph.py:59-66`。
 - **canonical_canvas_bytes**：位于 `prototypes/ckb-canvas-skill/ckb_canvas/graph.py:71-72`。
 - **select_graph**：位于 `prototypes/ckb-canvas-skill/ckb_canvas/graph.py:88-238`。
 - **_stable_id**：位于 `prototypes/ckb-canvas-skill/ckb_canvas/graph.py:241-243`。
@@ -22,18 +20,18 @@
 - 实现时会用到 [[SourceLinkRenderer.uri]]。
 - 实现时会用到 [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]]。
 - 实现时会用到 [[append]]。
-- 实现时会用到 [[contracts 的协作边界]]。
+- 实现时会用到 [[contracts 的协作边界（2ef5688e）]]。
 - 实现时会用到 [[freeze 的协作边界]]。
 - 实现时会用到 [[source_files]]。
 
 ## 谁会来到这里
 
-- [[CanvasBenchmarkContractTests]] 会使用这里提供的行为。
-- [[CanvasDeterminismTests]] 会使用这里提供的行为。
 - [[CanvasGraphTests]] 会使用这里提供的行为。
-- [[benchmark 的协作边界]] 会使用这里提供的行为。
-- [[main（benchmark_obsidian_canvas_navigation 测试）]] 会使用这里提供的行为。
-- [[rollback 与 RenderedBundle 的协作实现]] 会使用这里提供的行为。
-- [[transaction 的协作边界]] 会使用这里提供的行为。
+- [[commands 的协作边界]] 会使用这里提供的行为。
+- [[parser]] 会使用这里提供的行为。
+- [[propose_template 与 _canonical_bytes 的协作实现]] 会使用这里提供的行为。
+- [[run_failure_probe 等测试场景]] 会使用这里提供的行为。
+- [[run_keyword_provider 与 KeywordProviderConfig 的协作实现]] 会使用这里提供的行为。
+- [[search_terms 与 _split_camel 的协作实现]] 会使用这里提供的行为。
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。

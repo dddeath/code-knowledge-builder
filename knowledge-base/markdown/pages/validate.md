@@ -25,7 +25,7 @@
 - [[CanvasTransactionTests]] 会使用这里提供的行为。
 - [[HumanMaintenancePromptRegistryTests]] 会使用这里提供的行为。
 - [[HumanMaintenancePromptRegistryTests 等测试场景]] 会使用这里提供的行为。
-- [[HumanPageAuthoringPackageTests]] 会使用这里提供的行为。
+- [[HumanPageAuthoringValidationFailureTests 等测试场景]] 会使用这里提供的行为。
 - [[TemplateProposalStoreTests]] 会使用这里提供的行为。
 - [[audit_migration 与 _entity_key 的协作实现]] 会使用这里提供的行为。
 - [[ckb_canvas 的协作边界]] 会使用这里提供的行为。
@@ -33,12 +33,11 @@
 - [[main（fake_logseq 测试）]] 会使用这里提供的行为。
 - [[propose_template 与 _canonical_bytes 的协作实现]] 会使用这里提供的行为。
 - [[record_note 与 page_tag 的协作实现]] 会使用这里提供的行为。
-- [[render_human_maintenance_prompt 与 ParameterSpec 的协作实现]] 会使用这里提供的行为。
 - [[render_page_author]] 会使用这里提供的行为。
 - [[render_page_author 与 _error 的协作实现]] 会使用这里提供的行为。
-- [[rollback 与 RenderedBundle 的协作实现]] 会使用这里提供的行为。
 - [[start_scope_extension 与 _error 的协作实现]] 会使用这里提供的行为。
 - [[validate 与 canonical 的协作实现]] 汇总了本页。
+- [[validate_human_maintenance_invocation 与 ParameterSpec 的协作实现]] 会使用这里提供的行为。
 
 ## 相关测试
 

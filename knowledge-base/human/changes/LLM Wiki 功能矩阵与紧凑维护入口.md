@@ -37,7 +37,7 @@ CKB 的非交互 Git、批量 blob 读取、语言服务器和插件构建子进
 ## 相关知识页
 
 - [[package_showcase 与 _parse_sample 的协作实现]]
-- [[audit_global 与 _replace_output_prefix 的协作实现]]
+- [[finalize 与 _replace_output_prefix 的协作实现]]
 - [[CkbError 与 DependencyError 的协作实现]]
 - [[audit_migration 与 _entity_key 的协作实现]]
 - [[MigrationTest 等测试场景]]

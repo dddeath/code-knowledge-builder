@@ -1,0 +1,100 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0067",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-02T22:47:04Z",
+  "reviews": [
+    {
+      "entity_id": "file-4e9532ebc27a5c0990757a3c0e8152e8",
+      "classification": "page",
+      "owner_page_id": "file-4e9532ebc27a5c0990757a3c0e8152e8",
+      "source_path": "tests/test_package_release.py",
+      "start_line": 1,
+      "end_line": 121,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_package_release.py` 第 1 至 121 行；摘录与 Git blob f69eaadade86 一致。",
+      "meaning_zh": "文件 `tests/test_package_release.py`负责验证 Lite、Full 和插件发行边界以及 PDF 运行时依赖清单。",
+      "role_zh": "它属于发行物内容、体积责任和许可证边界的回归保护，当前说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当发行类型、运行时锁、依赖或插件独立版本变化时，应同步复查本页及其直接关联测试。"
+    },
+    {
+      "entity_id": "ent-39360bed4b1c53a780a6a57b48d9365d",
+      "classification": "page",
+      "owner_page_id": "ent-39360bed4b1c53a780a6a57b48d9365d",
+      "source_path": "tests/test_package_release.py",
+      "start_line": 30,
+      "end_line": 116,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_package_release.py` 第 30 至 116 行；摘录与 Git blob f69eaadade86 一致。",
+      "meaning_zh": "代码单元 `test_core_packages_exclude_plugins_and_full_only_adds_runtime`负责验证 Lite、Full 和插件发行边界以及 PDF 运行时依赖清单。",
+      "role_zh": "它属于发行物内容、体积责任和许可证边界的回归保护，当前说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当发行类型、运行时锁、依赖或插件独立版本变化时，应同步复查本页及其直接关联测试。"
+    },
+    {
+      "entity_id": "file-4859397207a5524f9e891dce059cfc25",
+      "classification": "page",
+      "owner_page_id": "file-4859397207a5524f9e891dce059cfc25",
+      "source_path": "tests/test_query_terms.py",
+      "start_line": 1,
+      "end_line": 112,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_query_terms.py` 第 1-112 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`tests/test_query_terms.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
+      "role_zh": "负责以可执行样例验证 `test_query_terms.py` 覆盖的成功行为、失败边界和回归约束。",
+      "change_when_zh": "当 `tests/test_query_terms.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "ent-fa497922c99c5677befa2d3701ce5d20",
+      "classification": "page",
+      "owner_page_id": "ent-fa497922c99c5677befa2d3701ce5d20",
+      "source_path": "tests/test_query_terms.py",
+      "start_line": 25,
+      "end_line": 107,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_query_terms.py` 第 25-107 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`QueryTermsTests` 是 `tests/test_query_terms.py` 第 25-107 行定义的类，本页绑定该固定源码范围。",
+      "role_zh": "该类作为可执行验证入口，检查标识符 `QueryTermsTests` 所指的行为与失败边界。",
+      "change_when_zh": "当被测行为、输入夹具、断言或失败条件变化时，应同步更新 `QueryTermsTests` 的说明。"
+    },
+    {
+      "entity_id": "file-7a2ecf3a4caf5aee84e9db6fc95ab522",
+      "classification": "page",
+      "owner_page_id": "file-7a2ecf3a4caf5aee84e9db6fc95ab522",
+      "source_path": "tests/test_readme_human_entry.py",
+      "start_line": 1,
+      "end_line": 78,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 bd8519583e3a 中 `tests/test_readme_human_entry.py` 第 1 至 78 行，摘录属于 Git blob e95d860e46f9。",
+      "meaning_zh": "文件 `tests/test_readme_human_entry.py`负责验证 README 只保留三个人类入口、稳定 Prompt 和直接结果。",
+      "role_zh": "它属于人类入门导航的回归保护，说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当README 入口、职责拆分或验收说明变化时，应同步复查本页及其直接测试。"
+    },
+    {
+      "entity_id": "ent-14a37d024db559ef96aa2958131ad1d2",
+      "classification": "page",
+      "owner_page_id": "ent-14a37d024db559ef96aa2958131ad1d2",
+      "source_path": "tests/test_readme_human_entry.py",
+      "start_line": 20,
+      "end_line": 73,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 bd8519583e3a 中 `tests/test_readme_human_entry.py` 第 20 至 73 行，摘录属于 Git blob e95d860e46f9。",
+      "meaning_zh": "代码单元 `setUpClass`负责验证 README 只保留三个人类入口、稳定 Prompt 和直接结果。",
+      "role_zh": "它属于人类入门导航的回归保护，说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当README 入口、职责拆分或验收说明变化时，应同步复查本页及其直接测试。"
+    },
+    {
+      "entity_id": "file-fee9a6a220845c7c85b6eafeb0bee83a",
+      "classification": "page",
+      "owner_page_id": "file-fee9a6a220845c7c85b6eafeb0bee83a",
+      "source_path": "tests/test_record_replace.py",
+      "start_line": 1,
+      "end_line": 530,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `94bf22015243` 中 `tests/test_record_replace.py` 第 1-530 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "meaning_zh": "`tests/test_record_replace.py` 页面绑定固定源码第 1-530 行，说明该文件在工作记录正文替换、候选验证、原子 promotion 和回滚中的整体职责。",
+      "role_zh": "该文件负责工作记录正文替换、候选验证、原子 promotion 和回滚，并为相关命令或测试提供可复查实现入口。",
+      "change_when_zh": "当 `tests/test_record_replace.py` 中 `tests/test_record_replace.py` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
+    }
+  ]
+}

@@ -19,9 +19,10 @@
 
 ## 谁会来到这里
 
-- [[audit_global 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 - [[bind_conversation]] 会使用这里提供的行为。
+- [[check_fact_freshness 与 _root 的协作实现]] 会使用这里提供的行为。
 - [[command 等测试场景]] 会使用这里提供的行为。
+- [[finalize 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 - [[preflight 与 git 的协作实现]] 汇总了本页。
 - [[start_scope_extension]] 会使用这里提供的行为。
 - [[start_scope_extension 与 _error 的协作实现]] 会使用这里提供的行为。
@@ -29,10 +30,10 @@
 ## 相关测试
 
 - [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[MigrationTest]]
-- [[MigrationTest 等测试场景]]
+- [[FactFreshnessStateMachineTest]]
+- [[PdfReferenceExtractionTests]]
+- [[PdfReferenceExtractionTests 等测试场景]]
 - [[ScopeExtensionTest]]
-- [[ScopeExtensionTest 等测试场景]]
 - [[append 等测试场景]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。

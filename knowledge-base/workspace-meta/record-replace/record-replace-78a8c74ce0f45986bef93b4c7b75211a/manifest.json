@@ -1,0 +1,228 @@
+{
+  "schema_version": 1,
+  "operation_id": "record-replace-78a8c74ce0f45986bef93b4c7b75211a",
+  "operation": "record-replace",
+  "status": "completed",
+  "output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+  "kind": "change",
+  "title": "C++ 解析与 SCons 回退合并审计",
+  "created_at_utc": "2026-09-02T20:01:20Z",
+  "rollback_manifest": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-78a8c74ce0f45986bef93b4c7b75211a\\manifest.json",
+  "rollback_argv": [
+    "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe",
+    "E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py",
+    "record-rollback",
+    "--out",
+    "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+    "--manifest",
+    "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-78a8c74ce0f45986bef93b4c7b75211a\\manifest.json"
+  ],
+  "rollback_command": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe' 'E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py' 'record-rollback' '--out' 'E:\\knowledge_builder\\self-workspace\\knowledge-base' '--manifest' 'E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-78a8c74ce0f45986bef93b4c7b75211a\\manifest.json'",
+  "roles": [
+    {
+      "name": "human-note",
+      "kind": "file",
+      "path": "human/changes/C++ 解析与 SCons 回退合并审计.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "e160df2a443b0ea6f3bc1beedb505455cbdb5d19170cea4c6e389411064639ad",
+        "size": 3871,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-78a8c74ce0f45986bef93b4c7b75211a\\backup\\files\\human\\changes\\C++ 解析与 SCons 回退合并审计.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "79c67e4c879623a41e450b4280f81bdb3ac7f3881b589bead807280cb7f017d6",
+        "size": 2683,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-78a8c74ce0f45986bef93b4c7b75211a\\staging\\files\\human\\changes\\C++ 解析与 SCons 回退合并审计.md"
+      }
+    },
+    {
+      "name": "markdown-note",
+      "kind": "file",
+      "path": "markdown/changes/C++ 解析与 SCons 回退合并审计.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "e160df2a443b0ea6f3bc1beedb505455cbdb5d19170cea4c6e389411064639ad",
+        "size": 3871,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-78a8c74ce0f45986bef93b4c7b75211a\\backup\\files\\markdown\\changes\\C++ 解析与 SCons 回退合并审计.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "79c67e4c879623a41e450b4280f81bdb3ac7f3881b589bead807280cb7f017d6",
+        "size": 2683,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-78a8c74ce0f45986bef93b4c7b75211a\\staging\\files\\markdown\\changes\\C++ 解析与 SCons 回退合并审计.md"
+      }
+    },
+    {
+      "name": "note-metadata",
+      "kind": "file",
+      "path": "workspace-meta/notes/C++ 解析与 SCons 回退合并审计.json",
+      "baseline": {
+        "exists": true,
+        "sha256": "6ac3982d603d9660b6b55b98893688493b4a060873fbc09eba169abb91e878d0",
+        "size": 2716,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-78a8c74ce0f45986bef93b4c7b75211a\\backup\\files\\workspace-meta\\notes\\C++ 解析与 SCons 回退合并审计.json"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "e94bc86038098b112f6dfde204810dc5ce61601e478d030359c25ec557aa3fcc",
+        "size": 1593,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-78a8c74ce0f45986bef93b4c7b75211a\\staging\\files\\workspace-meta\\notes\\C++ 解析与 SCons 回退合并审计.json"
+      }
+    },
+    {
+      "name": "human-records",
+      "kind": "file",
+      "path": "human/RECORDS.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "00d8ca813767dc817b1f43ab4bcb5d53d190ac8aaec979460cd20506f7e605ea",
+        "size": 20586,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-78a8c74ce0f45986bef93b4c7b75211a\\backup\\files\\human\\RECORDS.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "41abcad9c7353d4a0464b1440fe3ba5481aee524496f34916d58983319769519",
+        "size": 20634,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-78a8c74ce0f45986bef93b4c7b75211a\\staging\\files\\human\\RECORDS.md"
+      }
+    },
+    {
+      "name": "markdown-records",
+      "kind": "file",
+      "path": "markdown/RECORDS.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "00d8ca813767dc817b1f43ab4bcb5d53d190ac8aaec979460cd20506f7e605ea",
+        "size": 20586,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-78a8c74ce0f45986bef93b4c7b75211a\\backup\\files\\markdown\\RECORDS.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "41abcad9c7353d4a0464b1440fe3ba5481aee524496f34916d58983319769519",
+        "size": 20634,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-78a8c74ce0f45986bef93b4c7b75211a\\staging\\files\\markdown\\RECORDS.md"
+      }
+    },
+    {
+      "name": "work-record-index-audit",
+      "kind": "file",
+      "path": "workspace-meta/work-record-index-audit.json",
+      "baseline": {
+        "exists": true,
+        "sha256": "2438ea9363e696f4812c2a2b797bac24fd5675bd95d7ebee3cfc442d3815260a",
+        "size": 217,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-78a8c74ce0f45986bef93b4c7b75211a\\backup\\files\\workspace-meta\\work-record-index-audit.json"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "2438ea9363e696f4812c2a2b797bac24fd5675bd95d7ebee3cfc442d3815260a",
+        "size": 217,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-78a8c74ce0f45986bef93b4c7b75211a\\staging\\files\\workspace-meta\\work-record-index-audit.json"
+      }
+    },
+    {
+      "name": "agent-index-note",
+      "kind": "sqlite-logical",
+      "path": "agent-index.sqlite",
+      "selector": "C++ 解析与 SCons 回退合并审计",
+      "baseline": {
+        "sha256": "f27a42681a7d8306fc6b63d869ce940a26fa316342068dfa3f45810be94f0f6b",
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-78a8c74ce0f45986bef93b4c7b75211a\\backup\\agent-index-note.json"
+      },
+      "modified": {
+        "sha256": "5c80da9819f743f338739ba66f29f0c346ede60f219d446baf65051c60ed4928",
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-78a8c74ce0f45986bef93b4c7b75211a\\staging\\agent-index-note.json"
+      }
+    },
+    {
+      "name": "machine-knowledge-note",
+      "kind": "sqlite-logical",
+      "path": "machine/knowledge.sqlite",
+      "selector": "note:changes:C++ 解析与 SCons 回退合并审计",
+      "baseline": {
+        "sha256": "8664c1dcfa89bc5b0270dfbefca2ff213f35b5c3d084db4f951b14a2926331a6",
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-78a8c74ce0f45986bef93b4c7b75211a\\backup\\machine-knowledge-note.json"
+      },
+      "modified": {
+        "sha256": "28c14b1cc4698672d21e903b2f05bcf81bc95695cdb5dc308faa2c09007417a2",
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-78a8c74ce0f45986bef93b4c7b75211a\\staging\\machine-knowledge-note.json"
+      }
+    }
+  ],
+  "prepared_at_utc": "2026-09-02T20:01:22Z",
+  "record_id": "work-record-794283fb69755328a58c93a698b850ce",
+  "relative_note": "changes/C++ 解析与 SCons 回退合并审计.md",
+  "explicit_evidence_replacement": true,
+  "linked_pages": [
+    "parse_file 与 _language 的协作实现"
+  ],
+  "body_sha256": "c652f87bbea1f28627588576c75a2d7c4f074714b8292ec526fd2b3dc160ab3f",
+  "candidate_audit": {
+    "status": "passed",
+    "note_errors": [],
+    "work_record_index": {
+      "status": "passed",
+      "record_count": 62,
+      "linked_record_count": 62,
+      "section_counts": {
+        "analysis": 18,
+        "changes": 35,
+        "pitfalls": 0,
+        "experiments": 3,
+        "sessions": 6
+      },
+      "errors": []
+    }
+  },
+  "promotion_order": [
+    "human-note",
+    "markdown-note",
+    "note-metadata",
+    "human-records",
+    "markdown-records",
+    "work-record-index-audit",
+    "agent-index-note",
+    "machine-knowledge-note"
+  ],
+  "completed_at_utc": "2026-09-02T20:01:23Z",
+  "verification": {
+    "status": "passed",
+    "role_errors": [],
+    "note_errors": [],
+    "work_record_index": {
+      "status": "passed",
+      "record_count": 62,
+      "linked_record_count": 62,
+      "section_counts": {
+        "analysis": 18,
+        "changes": 35,
+        "pitfalls": 0,
+        "experiments": 3,
+        "sessions": 6
+      },
+      "errors": []
+    },
+    "agent_index": {
+      "schema_version": 1,
+      "status": "passed",
+      "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\agent-index.sqlite",
+      "integrity": "ok",
+      "counts": {
+        "pages": 208,
+        "symbols": 1848,
+        "edges": 1805,
+        "terms": 24666,
+        "notes": 62
+      },
+      "projection_format": "markdown",
+      "errors": []
+    }
+  },
+  "operation_journal": {
+    "status": "passed",
+    "event_id": "operation-3b742f58afe75d0296b72fdbc1891cc1",
+    "idempotent": false,
+    "journal": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\operations\\2026-09-02.jsonl"
+  }
+}

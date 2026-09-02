@@ -3,31 +3,32 @@
     "name": "pyright-langserver.cmd",
     "language": "python",
     "command": [
-      "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\bin\\pyright-langserver.cmd",
+      "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\bin\\pyright-langserver.cmd",
       "--stdio"
     ],
     "initialization_options": {},
-    "server_cwd": "E:\\knowledge_builder\\self-workspace\\kb-stg-94bf220\\.source-snapshot\\worktree",
-    "document_root": "E:\\knowledge_builder\\self-workspace\\kb-stg-94bf220\\.source-snapshot\\worktree",
+    "server_cwd": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\.source-snapshot\\worktree",
+    "document_root": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\.source-snapshot\\worktree",
     "precision": "exact",
     "status": "passed",
     "covered_entity_ids": [
-      "ent-0578fdfac6205249a1f2c8dfd912d3f6",
-      "ent-119ae94c534b54f0bc19ce8f4f517e01",
-      "ent-12627fff141a50f6a6d56afb091d3375",
-      "ent-4dbfca045d6b50008492365f93cf1b2d",
-      "ent-56cd094e0ba8570ab7e79e51bc67b822",
-      "ent-ad46aaa58b0f548b95fe66992b03ce06",
-      "ent-d936728ee91d58aba1f04e5a502aad45",
-      "ent-df88e8df36ba5f94a53b916886aa8ede",
-      "ent-f104c5402a315c92be8fc04e764f7176"
+      "ent-2d8e852c0eca5b30b02efac87a37b846",
+      "ent-4bd22b811b01591190921bf60eb3a999",
+      "ent-4ceab153754856de9e4ab88ec7540cb5",
+      "ent-549832a781c75a9189e3dc6ccb5b3232",
+      "ent-583339b6b6d75f2aadd31a16cd8be862",
+      "ent-5c62104ccd425119a7bbca97e8603523",
+      "ent-61edd6d4f2ab50d6bc71eac13ca4f8d0",
+      "ent-ca143252c60b575ea4f267d6a7dedcea",
+      "ent-e90815f78c015f90bd42428ee2e9e9ee"
     ],
     "document_symbol_counts": {
-      "prototypes/ckb-canvas-skill/ckb_canvas/commands.py": 63
+      "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py": 67
     },
     "diagnostic_count": 0,
     "fatal_diagnostics": [],
     "fatal_stderr": [],
+    "warnings": [],
     "capabilities": {
       "textDocumentSync": 2,
       "definitionProvider": {
@@ -110,11 +111,11 @@
         "id": 1,
         "method": "initialize",
         "params": {
-          "processId": 61624,
-          "rootUri": "file:///E:/knowledge_builder/self-workspace/kb-stg-94bf220/.source-snapshot/worktree",
+          "processId": 68148,
+          "rootUri": "file:///E:/knowledge_builder/self-workspace/knowledge-base/.source-snapshot/worktree",
           "workspaceFolders": [
             {
-              "uri": "file:///E:/knowledge_builder/self-workspace/kb-stg-94bf220/.source-snapshot/worktree",
+              "uri": "file:///E:/knowledge_builder/self-workspace/knowledge-base/.source-snapshot/worktree",
               "name": "worktree"
             }
           ],
@@ -150,7 +151,7 @@
         "method": "window/logMessage",
         "params": {
           "type": 3,
-          "message": "Server root directory: file:///c%3A/Users/19739/.codex/cache/code-knowledge-builder/runtime/win-x64/win-x64-2.0.0/node_modules/pyright/dist"
+          "message": "Server root directory: file:///c%3A/Users/19739/.codex/cache/code-knowledge-builder/runtime/win-x64/win-x64-2.1.0/node_modules/pyright/dist"
         }
       }
     },
@@ -261,7 +262,7 @@
         "params": {
           "items": [
             {
-              "scopeUri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-94bf220/.source-snapshot/worktree",
+              "scopeUri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-c533dd7-r3/.source-snapshot/worktree",
               "section": "python"
             }
           ]
@@ -275,10 +276,10 @@
         "method": "textDocument/didOpen",
         "params": {
           "textDocument": {
-            "uri": "file:///E:/knowledge_builder/self-workspace/kb-stg-94bf220/.source-snapshot/worktree/prototypes/ckb-canvas-skill/ckb_canvas/commands.py",
+            "uri": "file:///E:/knowledge_builder/self-workspace/knowledge-base/.source-snapshot/worktree/prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
             "languageId": "python",
             "version": 1,
-            "text": "\"\"\"generate、validate、rollback 的确定性编排。\"\"\"\n\nfrom __future__ import annotations\n\nfrom dataclasses import dataclass\nimport hashlib\nfrom pathlib import Path\nfrom typing import Any\n\nfrom .contracts import CanvasFailure, CanvasSuccess, validate_instance\nfrom .freeze import FrozenInputs, load_and_freeze_request\nfrom .graph import (\n    SelectedGraph,\n    ValidationFacts,\n    canonical_canvas_bytes,\n    canonical_json_bytes,\n    layout_graph,\n    select_graph,\n    validate_canvas,\n)\nfrom .transaction import (\n    ArtifactBaseline,\n    FaultHook,\n    capture_baseline,\n    cleanup_staged,\n    promote_bundle,\n    rollback_from_manifest,\n    stage_bundle,\n    verify_promoted,\n)\n\n\n@dataclass(frozen=True)\nclass RenderedBundle:\n    selected: SelectedGraph\n    facts: ValidationFacts\n    canvas: dict[str, Any]\n    canvas_bytes: bytes\n    validation: dict[str, Any]\n    validation_bytes: bytes\n    rollback: dict[str, Any]\n    rollback_bytes: bytes\n\n\ndef _sha(data: bytes) -> str:\n    return hashlib.sha256(data).hexdigest()\n\n\ndef _validation_manifest(\n    frozen: FrozenInputs, facts: ValidationFacts, canvas_bytes: bytes\n) -> dict[str, Any]:\n    ckb = frozen.value[\"ckb\"]\n    value = {\n        \"schema_version\": 1,\n        \"status\": \"passed\",\n        \"request_sha256\": frozen.request_sha256,\n        \"snapshot\": {\n            \"commit\": ckb[\"snapshot_commit\"],\n            \"tree\": ckb[\"snapshot_tree\"],\n            \"state_sha256\": ckb[\"state_sha256\"],\n            \"machine_index_sha256\": ckb[\"machine_index_sha256\"],\n            \"human_projection_sha256\": ckb[\"human_projection_sha256\"],\n            \"human_manifest_sha256\": ckb[\"human_manifest_sha256\"],\n            \"local_openers_sha256\": ckb[\"local_openers_sha256\"],\n        },\n        \"inputs\": {\n            \"agent_pack_path\": str(Path(ckb[\"agent_pack_path\"]).resolve()),\n            \"agent_pack_sha256\": ckb[\"agent_pack_sha256\"],\n            \"record_path\": str(Path(ckb[\"record_path\"]).resolve()),\n            \"record_sha256\": ckb[\"record_sha256\"],\n            \"record_schema_version\": 3,\n        },\n        \"canvas\": {\"path\": str(frozen.target_canvas), \"sha256\": _sha(canvas_bytes), \"byte_length\": len(canvas_bytes)},\n        \"node_count\": facts.node_count,\n        \"edge_count\": facts.edge_count,\n        \"role_counts\": facts.role_counts,\n        \"checks\": {\n            \"request_schema\": \"passed\",\n            \"record_compatibility\": \"passed\",\n            \"snapshot_consistency\": \"passed\",\n            \"input_hashes\": \"passed\",\n            \"path_scope\": \"passed\",\n            \"canvas_schema\": \"passed\",\n            \"budget\": \"passed\",\n            \"stable_ids\": \"passed\",\n            \"backlinks\": \"passed\",\n            \"source_ranges\": \"passed\",\n            \"dangling_edges\": 0,\n            \"machine_fields_exposed\": 0,\n            \"canonical_serialization\": \"passed\",\n        },\n        \"backlinks\": list(facts.backlinks),\n    }\n    validate_instance(\"canvas-validation-manifest.schema.json\", value)\n    return value\n\n\ndef _rollback_manifest(\n    frozen: FrozenInputs,\n    baseline: ArtifactBaseline,\n    canvas_bytes: bytes,\n    validation_bytes: bytes,\n) -> dict[str, Any]:\n    actions = []\n    for role in (\"canvas\", \"validation_manifest\", \"rollback_manifest\"):\n        state = baseline.roles[role].state[\"state\"]\n        actions.append(\n            {\"role\": role, \"action\": \"delete\" if state == \"absent\" else \"restore\", \"verify\": \"absent\" if state == \"absent\" else \"sha256\"}\n        )\n    value = {\n        \"schema_version\": 1,\n        \"status\": \"ready\",\n        \"request_sha256\": frozen.request_sha256,\n        \"authorized_staging_root\": str(frozen.staging_root),\n        \"backup_root\": str(frozen.backup_root),\n        \"baseline\": baseline.manifest_states(),\n        \"generated\": {\n            \"canvas\": {\"path\": str(frozen.target_canvas), \"sha256\": _sha(canvas_bytes)},\n            \"validation_manifest\": {\"path\": str(frozen.validation_manifest), \"sha256\": _sha(validation_bytes)},\n        },\n        \"rollback_manifest_path\": str(frozen.rollback_manifest),\n        \"guard\": {\n            \"expected_canvas_sha256\": _sha(canvas_bytes),\n            \"expected_validation_sha256\": _sha(validation_bytes),\n            \"expected_manifest_content_sha256\": \"0\" * 64,\n        },\n        \"actions\": actions,\n    }\n    value[\"guard\"][\"expected_manifest_content_sha256\"] = _sha(canonical_json_bytes(value))\n    validate_instance(\"canvas-rollback-manifest.schema.json\", value)\n    return value\n\n\ndef _render(frozen: FrozenInputs, baseline: ArtifactBaseline) -> RenderedBundle:\n    selected = select_graph(frozen)\n    canvas = layout_graph(selected, frozen)\n    facts = validate_canvas(canvas, frozen, selected)\n    canvas_bytes = canonical_canvas_bytes(canvas)\n    validation = _validation_manifest(frozen, facts, canvas_bytes)\n    validation_bytes = canonical_json_bytes(validation)\n    rollback = _rollback_manifest(frozen, baseline, canvas_bytes, validation_bytes)\n    rollback_bytes = canonical_json_bytes(rollback)\n    return RenderedBundle(\n        selected,\n        facts,\n        canvas,\n        canvas_bytes,\n        validation,\n        validation_bytes,\n        rollback,\n        rollback_bytes,\n    )\n\n\ndef _bundle_bytes(rendered: RenderedBundle) -> dict[str, bytes]:\n    return {\n        \"canvas\": rendered.canvas_bytes,\n        \"validation_manifest\": rendered.validation_bytes,\n        \"rollback_manifest\": rendered.rollback_bytes,\n    }\n\n\ndef generate(request_path: Path | str, *, fault_hook: FaultHook | None = None) -> CanvasSuccess:\n    \"\"\"执行 freeze → graph → baseline → stage → promote → verify。\"\"\"\n\n    try:\n        frozen = load_and_freeze_request(request_path, operation=\"generate\")\n        baseline = capture_baseline(frozen)\n        rendered = _render(frozen, baseline)\n        staged = stage_bundle(frozen, _bundle_bytes(rendered), fault_hook=fault_hook)\n        promoted = promote_bundle(frozen, staged, baseline, fault_hook=fault_hook)\n        verify_promoted(promoted, frozen=frozen, baseline=baseline)\n        after = {\"state\": \"present\", \"sha256\": _sha(rendered.canvas_bytes)}\n        result = {\n            \"schema_version\": 1,\n            \"status\": \"passed\",\n            \"operation\": \"generate\",\n            \"exit_code\": 0,\n            \"request_sha256\": frozen.request_sha256,\n            \"canvas\": {\"path\": str(frozen.target_canvas), \"sha256\": _sha(rendered.canvas_bytes), \"byte_length\": len(rendered.canvas_bytes)},\n            \"validation_manifest\": {\n                \"path\": str(frozen.validation_manifest),\n                \"sha256\": _sha(rendered.validation_bytes),\n                \"byte_length\": len(rendered.validation_bytes),\n            },\n            \"rollback_manifest\": {\n                \"path\": str(frozen.rollback_manifest),\n                \"sha256\": _sha(rendered.rollback_bytes),\n                \"byte_length\": len(rendered.rollback_bytes),\n            },\n            \"node_count\": rendered.facts.node_count,\n            \"edge_count\": rendered.facts.edge_count,\n            \"role_counts\": rendered.facts.role_counts,\n            \"backlinks_checked\": len(rendered.facts.backlinks),\n            \"dangling_edges\": 0,\n            \"machine_fields_exposed\": 0,\n            \"target_state\": {\n                \"path\": str(frozen.target_canvas),\n                \"before\": baseline.roles[\"canvas\"].state,\n                \"after\": after,\n                \"changed\": not (\n                    baseline.roles[\"canvas\"].state.get(\"state\") == \"present\"\n                    and baseline.roles[\"canvas\"].state.get(\"sha256\") == after[\"sha256\"]\n                ),\n            },\n        }\n        return CanvasSuccess(result)\n    except CanvasFailure as exc:\n        exc.operation = \"generate\"\n        raise\n\n\ndef validate_only(request_path: Path | str, *, fault_hook: FaultHook | None = None) -> dict[str, Any]:\n    \"\"\"执行到 staging 重开，清理临时文件且不 promotion。\"\"\"\n\n    try:\n        frozen = load_and_freeze_request(request_path, operation=\"validate\")\n        baseline = capture_baseline(frozen)\n        rendered = _render(frozen, baseline)\n        staged = stage_bundle(frozen, _bundle_bytes(rendered), fault_hook=fault_hook)\n        cleanup_staged(staged)\n        return rendered.validation\n    except CanvasFailure as exc:\n        exc.operation = \"validate\"\n        raise\n\n\ndef rollback(manifest_path: Path | str, expected_sha256: str, *, fault_hook: FaultHook | None = None) -> dict[str, Any]:\n    try:\n        return rollback_from_manifest(manifest_path, expected_sha256, fault_hook=fault_hook)\n    except CanvasFailure as exc:\n        exc.operation = \"rollback\"\n        raise\n"
+            "text": "from __future__ import annotations\n\nimport json\nfrom pathlib import Path\nimport shutil\nimport sqlite3\nfrom typing import Any, Iterable\n\nfrom .contracts import (\n    HEX64,\n    TagNavigationError,\n    atomic_write_json,\n    canonical_json_text,\n    ensure_within,\n    sha256_file,\n    validate_assertion,\n)\n\n\nSCHEMA_SQL = \"\"\"\nCREATE TABLE IF NOT EXISTS metadata (\n    key TEXT PRIMARY KEY,\n    value TEXT NOT NULL\n);\nCREATE TABLE IF NOT EXISTS assertions (\n    assertion_id TEXT PRIMARY KEY,\n    idempotency_key TEXT NOT NULL UNIQUE,\n    recorded_at TEXT NOT NULL,\n    payload_json TEXT NOT NULL\n);\nCREATE INDEX IF NOT EXISTS assertions_replay_order\nON assertions(recorded_at, assertion_id);\n\"\"\"\n\n\ndef connect(database: Path) -> sqlite3.Connection:\n    connection = sqlite3.connect(database)\n    connection.row_factory = sqlite3.Row\n    connection.execute(\"PRAGMA foreign_keys = ON\")\n    connection.execute(\"PRAGMA journal_mode = DELETE\")\n    return connection\n\n\ndef initialize(connection: sqlite3.Connection) -> None:\n    connection.executescript(SCHEMA_SQL)\n    connection.execute(\"INSERT OR REPLACE INTO metadata(key, value) VALUES('schema_version', '1')\")\n    connection.commit()\n\n\ndef read_assertion_jsonl(path: Path) -> list[dict[str, Any]]:\n    assertions: list[dict[str, Any]] = []\n    for line_number, line in enumerate(path.read_text(encoding=\"utf-8\").splitlines(), start=1):\n        if not line.strip():\n            continue\n        try:\n            value = json.loads(line)\n        except json.JSONDecodeError as exc:\n            raise TagNavigationError(\"INVALID_JSONL\", f\"第 {line_number} 行不是 JSON\") from exc\n        try:\n            assertions.append(validate_assertion(value))\n        except TagNavigationError as exc:\n            raise TagNavigationError(exc.reason, f\"第 {line_number} 行: {exc.detail}\") from exc\n    if not assertions:\n        raise TagNavigationError(\"EMPTY_ASSERTIONS\", \"assertion JSONL 为空\")\n    return assertions\n\n\ndef ingest(connection: sqlite3.Connection, assertions: Iterable[dict[str, Any]]) -> dict[str, int]:\n    inserted = 0\n    duplicates = 0\n    connection.execute(\"BEGIN IMMEDIATE\")\n    try:\n        for assertion in assertions:\n            payload = canonical_json_text(assertion)\n            existing = connection.execute(\n                \"SELECT assertion_id, payload_json FROM assertions WHERE idempotency_key = ?\",\n                (assertion[\"idempotency_key\"],),\n            ).fetchone()\n            if existing is not None:\n                if existing[\"assertion_id\"] == assertion[\"assertion_id\"] and existing[\"payload_json\"] == payload:\n                    duplicates += 1\n                    continue\n                raise TagNavigationError(\n                    \"IDEMPOTENCY_CONFLICT\",\n                    f\"idempotency_key={assertion['idempotency_key']} 已绑定不同 payload\",\n                )\n            try:\n                connection.execute(\n                    \"INSERT INTO assertions(assertion_id, idempotency_key, recorded_at, payload_json) VALUES(?, ?, ?, ?)\",\n                    (\n                        assertion[\"assertion_id\"],\n                        assertion[\"idempotency_key\"],\n                        assertion[\"recorded_at\"],\n                        payload,\n                    ),\n                )\n            except sqlite3.IntegrityError as exc:\n                raise TagNavigationError(\"ASSERTION_ID_CONFLICT\", assertion[\"assertion_id\"]) from exc\n            inserted += 1\n        connection.commit()\n    except Exception:\n        connection.rollback()\n        raise\n    return {\"inserted\": inserted, \"duplicates\": duplicates}\n\n\ndef load_assertions(connection: sqlite3.Connection) -> list[dict[str, Any]]:\n    rows = connection.execute(\n        \"SELECT payload_json FROM assertions ORDER BY recorded_at, assertion_id\"\n    ).fetchall()\n    return [validate_assertion(json.loads(row[\"payload_json\"])) for row in rows]\n\n\ndef integrity(connection: sqlite3.Connection) -> str:\n    row = connection.execute(\"PRAGMA integrity_check\").fetchone()\n    return str(row[0])\n\n\ndef replay_with_rollback(\n    assertion_path: Path,\n    database: Path,\n    rollback_manifest: Path,\n) -> dict[str, Any]:\n    assertions = read_assertion_jsonl(assertion_path)\n    database.parent.mkdir(parents=True, exist_ok=True)\n    rollback_manifest.parent.mkdir(parents=True, exist_ok=True)\n    if rollback_manifest.exists():\n        raise TagNavigationError(\"TARGET_EXISTS\", f\"rollback manifest 已存在: {rollback_manifest}\")\n    baseline_state = \"present\" if database.exists() else \"absent\"\n    baseline_sha256 = sha256_file(database) if database.exists() else None\n    backup_path = database.with_name(database.name + \".baseline\") if database.exists() else None\n    manifest_temporary = rollback_manifest.with_name(rollback_manifest.name + \".tmp\")\n    restore_temporary = database.with_name(database.name + \".restore.tmp\")\n    for owned_temporary in (manifest_temporary, restore_temporary):\n        if owned_temporary.exists():\n            raise TagNavigationError(\"TARGET_EXISTS\", f\"恢复临时文件已存在: {owned_temporary}\")\n    if backup_path is not None and backup_path.exists():\n        raise TagNavigationError(\"TARGET_EXISTS\", f\"baseline 备份已存在: {backup_path}\")\n    try:\n        if backup_path is not None:\n            shutil.copy2(database, backup_path)\n        connection = connect(database)\n        try:\n            initialize(connection)\n            counts = ingest(connection, assertions)\n            check = integrity(connection)\n            if check != \"ok\":\n                raise TagNavigationError(\"SQLITE_INTEGRITY_FAILED\", check)\n        finally:\n            connection.close()\n        generated_sha256 = sha256_file(database)\n        manifest = {\n            \"schema_version\": 1,\n            \"target_path\": str(database.resolve()),\n            \"baseline_state\": baseline_state,\n            \"baseline_sha256\": baseline_sha256,\n            \"backup_path\": str(backup_path.resolve()) if backup_path is not None else None,\n            \"generated_sha256\": generated_sha256,\n        }\n        atomic_write_json(rollback_manifest, manifest)\n    except Exception as original_error:\n        recovery_error: Exception | None = None\n        recovery_confirmed = False\n        try:\n            if baseline_state == \"present\":\n                if database.exists() and sha256_file(database) == baseline_sha256:\n                    recovery_confirmed = True\n                elif backup_path is not None and backup_path.exists() and sha256_file(backup_path) == baseline_sha256:\n                    shutil.copy2(backup_path, restore_temporary)\n                    if sha256_file(restore_temporary) != baseline_sha256:\n                        raise TagNavigationError(\"REPLAY_RECOVERY_FAILED\", \"restore 临时文件 hash 不等于 baseline\")\n                    restore_temporary.replace(database)\n                    if sha256_file(database) != baseline_sha256:\n                        raise TagNavigationError(\"REPLAY_RECOVERY_FAILED\", \"恢复后数据库 hash 不等于 baseline\")\n                    recovery_confirmed = True\n                else:\n                    raise TagNavigationError(\"REPLAY_RECOVERY_FAILED\", \"baseline 备份缺失或漂移\")\n            else:\n                database.unlink(missing_ok=True)\n                if database.exists():\n                    raise TagNavigationError(\"REPLAY_RECOVERY_FAILED\", \"absent baseline 的数据库仍然存在\")\n                recovery_confirmed = True\n        except Exception as exc:\n            recovery_error = exc\n        if recovery_confirmed:\n            if backup_path is not None:\n                backup_path.unlink(missing_ok=True)\n            restore_temporary.unlink(missing_ok=True)\n            manifest_temporary.unlink(missing_ok=True)\n            rollback_manifest.unlink(missing_ok=True)\n        if recovery_error is not None:\n            raise TagNavigationError(\n                \"REPLAY_RECOVERY_FAILED\",\n                (\n                    f\"原始错误={original_error}; 恢复错误={recovery_error}; \"\n                    f\"database={database}; backup={backup_path}; manifest={rollback_manifest}; \"\n                    f\"manifest_temporary={manifest_temporary}; restore_temporary={restore_temporary}\"\n                ),\n            ) from recovery_error\n        raise\n    return {\n        \"schema_version\": 1,\n        \"status\": \"passed\",\n        \"database\": str(database.resolve()),\n        \"database_sha256\": generated_sha256,\n        \"rollback_manifest\": str(rollback_manifest.resolve()),\n        \"inserted\": counts[\"inserted\"],\n        \"duplicates\": counts[\"duplicates\"],\n        \"integrity_check\": check,\n    }\n\n\ndef _rollback_path_within(path: Path, workspace_root: Path, field: str) -> Path:\n    try:\n        return ensure_within(path, workspace_root, field)\n    except TagNavigationError as exc:\n        raise TagNavigationError(\"ROLLBACK_PATH_OUTSIDE_WORKSPACE\", f\"{field} 不在 workspace-root 内\") from exc\n\n\ndef rollback(manifest_path: Path, workspace_root: Path) -> dict[str, Any]:\n    manifest = json.loads(manifest_path.read_text(encoding=\"utf-8\"))\n    expected = {\"schema_version\", \"target_path\", \"baseline_state\", \"baseline_sha256\", \"backup_path\", \"generated_sha256\"}\n    if not isinstance(manifest, dict) or set(manifest) != expected or manifest.get(\"schema_version\") != 1:\n        raise TagNavigationError(\"INVALID_ROLLBACK_MANIFEST\", str(manifest_path))\n    target_value = manifest[\"target_path\"]\n    backup_value = manifest[\"backup_path\"]\n    baseline_state = manifest[\"baseline_state\"]\n    baseline_sha256 = manifest[\"baseline_sha256\"]\n    generated_sha256 = manifest[\"generated_sha256\"]\n    if not isinstance(target_value, str) or not target_value:\n        raise TagNavigationError(\"INVALID_ROLLBACK_MANIFEST\", \"target_path 必须为非空字符串\")\n    if backup_value is not None and (not isinstance(backup_value, str) or not backup_value):\n        raise TagNavigationError(\"INVALID_ROLLBACK_MANIFEST\", \"backup_path 必须为 null 或非空字符串\")\n    if not isinstance(generated_sha256, str) or not HEX64.fullmatch(generated_sha256):\n        raise TagNavigationError(\"INVALID_ROLLBACK_MANIFEST\", \"generated_sha256 非法\")\n    if baseline_state == \"absent\":\n        if baseline_sha256 is not None or backup_value is not None:\n            raise TagNavigationError(\"INVALID_ROLLBACK_MANIFEST\", \"absent baseline 不得包含 hash 或 backup\")\n    elif baseline_state == \"present\":\n        if not isinstance(baseline_sha256, str) or not HEX64.fullmatch(baseline_sha256) or backup_value is None:\n            raise TagNavigationError(\"INVALID_ROLLBACK_MANIFEST\", \"present baseline 缺少合法 hash 或 backup\")\n    else:\n        raise TagNavigationError(\"INVALID_ROLLBACK_MANIFEST\", \"baseline_state 非法\")\n\n    workspace = workspace_root.resolve()\n    _rollback_path_within(manifest_path, workspace, \"manifest\")\n    target = _rollback_path_within(Path(target_value), workspace, \"target_path\")\n    backup = _rollback_path_within(Path(backup_value), workspace, \"backup_path\") if backup_value is not None else None\n    if not target.exists() or sha256_file(target) != manifest[\"generated_sha256\"]:\n        raise TagNavigationError(\"ROLLBACK_DRIFT\", \"目标不存在或不再等于 generated_sha256\")\n    if baseline_state == \"absent\":\n        target.unlink()\n        restored = \"absent\"\n    else:\n        assert backup is not None\n        if not backup.exists() or sha256_file(backup) != manifest[\"baseline_sha256\"]:\n            raise TagNavigationError(\"ROLLBACK_DRIFT\", \"baseline 备份缺失或漂移\")\n        shutil.copy2(backup, target)\n        if sha256_file(target) != manifest[\"baseline_sha256\"]:\n            raise TagNavigationError(\"ROLLBACK_VERIFY_FAILED\", \"恢复后 hash 不等于 baseline\")\n        backup.unlink()\n        restored = manifest[\"baseline_sha256\"]\n    return {\n        \"schema_version\": 1,\n        \"status\": \"passed\",\n        \"target_path\": str(target),\n        \"restored\": restored,\n    }\n"
           }
         }
       }
@@ -291,7 +292,7 @@
         "method": "textDocument/documentSymbol",
         "params": {
           "textDocument": {
-            "uri": "file:///E:/knowledge_builder/self-workspace/kb-stg-94bf220/.source-snapshot/worktree/prototypes/ckb-canvas-skill/ckb_canvas/commands.py"
+            "uri": "file:///E:/knowledge_builder/self-workspace/knowledge-base/.source-snapshot/worktree/prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py"
           }
         }
       }
@@ -315,7 +316,7 @@
         "params": {
           "items": [
             {
-              "scopeUri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-94bf220/.source-snapshot/worktree",
+              "scopeUri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-c533dd7-r3/.source-snapshot/worktree",
               "section": "pyright"
             }
           ]
@@ -339,7 +340,7 @@
         "method": "window/logMessage",
         "params": {
           "type": 3,
-          "message": "No include entries specified; assuming e:\\knowledge_builder\\self-workspace\\kb-stg-94bf220\\.source-snapshot\\worktree"
+          "message": "No include entries specified; assuming e:\\knowledge_builder\\self-workspace\\kb-stg-c533dd7-r3\\.source-snapshot\\worktree"
         }
       }
     },
@@ -394,929 +395,100 @@
         "id": 2,
         "result": [
           {
-            "name": "RenderedBundle",
-            "kind": 5,
+            "name": "SCHEMA_SQL",
+            "kind": 14,
             "range": {
               "start": {
-                "line": 32,
+                "line": 19,
                 "character": 0
               },
               "end": {
-                "line": 41,
-                "character": 25
+                "line": 19,
+                "character": 10
               }
             },
             "selectionRange": {
               "start": {
-                "line": 33,
-                "character": 6
+                "line": 19,
+                "character": 0
               },
               "end": {
-                "line": 33,
-                "character": 20
+                "line": 19,
+                "character": 10
               }
             },
-            "children": [
-              {
-                "name": "selected",
-                "kind": 13,
-                "range": {
-                  "start": {
-                    "line": 34,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 34,
-                    "character": 12
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 34,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 34,
-                    "character": 12
-                  }
-                },
-                "children": []
-              },
-              {
-                "name": "facts",
-                "kind": 13,
-                "range": {
-                  "start": {
-                    "line": 35,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 35,
-                    "character": 9
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 35,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 35,
-                    "character": 9
-                  }
-                },
-                "children": []
-              },
-              {
-                "name": "canvas",
-                "kind": 13,
-                "range": {
-                  "start": {
-                    "line": 36,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 36,
-                    "character": 10
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 36,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 36,
-                    "character": 10
-                  }
-                },
-                "children": []
-              },
-              {
-                "name": "canvas_bytes",
-                "kind": 13,
-                "range": {
-                  "start": {
-                    "line": 37,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 37,
-                    "character": 16
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 37,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 37,
-                    "character": 16
-                  }
-                },
-                "children": []
-              },
-              {
-                "name": "validation",
-                "kind": 13,
-                "range": {
-                  "start": {
-                    "line": 38,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 38,
-                    "character": 14
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 38,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 38,
-                    "character": 14
-                  }
-                },
-                "children": []
-              },
-              {
-                "name": "validation_bytes",
-                "kind": 13,
-                "range": {
-                  "start": {
-                    "line": 39,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 39,
-                    "character": 20
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 39,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 39,
-                    "character": 20
-                  }
-                },
-                "children": []
-              },
-              {
-                "name": "rollback",
-                "kind": 13,
-                "range": {
-                  "start": {
-                    "line": 40,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 40,
-                    "character": 12
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 40,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 40,
-                    "character": 12
-                  }
-                },
-                "children": []
-              },
-              {
-                "name": "rollback_bytes",
-                "kind": 13,
-                "range": {
-                  "start": {
-                    "line": 41,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 41,
-                    "character": 18
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 41,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 41,
-                    "character": 18
-                  }
-                },
-                "children": []
-              }
-            ]
+            "children": []
           },
           {
-            "name": "_sha",
+            "name": "connect",
             "kind": 12,
             "range": {
               "start": {
-                "line": 44,
+                "line": 35,
                 "character": 0
               },
               "end": {
-                "line": 45,
-                "character": 43
+                "line": 40,
+                "character": 21
               }
             },
             "selectionRange": {
               "start": {
-                "line": 44,
+                "line": 35,
                 "character": 4
               },
               "end": {
-                "line": 44,
-                "character": 8
-              }
-            },
-            "children": [
-              {
-                "name": "data",
-                "kind": 13,
-                "range": {
-                  "start": {
-                    "line": 44,
-                    "character": 9
-                  },
-                  "end": {
-                    "line": 44,
-                    "character": 20
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 44,
-                    "character": 9
-                  },
-                  "end": {
-                    "line": 44,
-                    "character": 20
-                  }
-                },
-                "children": []
-              }
-            ]
-          },
-          {
-            "name": "_validation_manifest",
-            "kind": 12,
-            "range": {
-              "start": {
-                "line": 48,
-                "character": 0
-              },
-              "end": {
-                "line": 94,
-                "character": 16
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 48,
-                "character": 4
-              },
-              "end": {
-                "line": 48,
-                "character": 24
-              }
-            },
-            "children": [
-              {
-                "name": "frozen",
-                "kind": 13,
-                "range": {
-                  "start": {
-                    "line": 49,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 49,
-                    "character": 24
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 49,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 49,
-                    "character": 24
-                  }
-                },
-                "children": []
-              },
-              {
-                "name": "facts",
-                "kind": 13,
-                "range": {
-                  "start": {
-                    "line": 49,
-                    "character": 26
-                  },
-                  "end": {
-                    "line": 49,
-                    "character": 48
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 49,
-                    "character": 26
-                  },
-                  "end": {
-                    "line": 49,
-                    "character": 48
-                  }
-                },
-                "children": []
-              },
-              {
-                "name": "canvas_bytes",
-                "kind": 13,
-                "range": {
-                  "start": {
-                    "line": 49,
-                    "character": 50
-                  },
-                  "end": {
-                    "line": 49,
-                    "character": 69
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 49,
-                    "character": 50
-                  },
-                  "end": {
-                    "line": 49,
-                    "character": 69
-                  }
-                },
-                "children": []
-              },
-              {
-                "name": "ckb",
-                "kind": 13,
-                "range": {
-                  "start": {
-                    "line": 51,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 51,
-                    "character": 7
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 51,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 51,
-                    "character": 7
-                  }
-                },
-                "children": []
-              },
-              {
-                "name": "value",
-                "kind": 13,
-                "range": {
-                  "start": {
-                    "line": 52,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 52,
-                    "character": 9
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 52,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 52,
-                    "character": 9
-                  }
-                },
-                "children": []
-              }
-            ]
-          },
-          {
-            "name": "_rollback_manifest",
-            "kind": 12,
-            "range": {
-              "start": {
-                "line": 97,
-                "character": 0
-              },
-              "end": {
-                "line": 130,
-                "character": 16
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 97,
-                "character": 4
-              },
-              "end": {
-                "line": 97,
-                "character": 22
-              }
-            },
-            "children": [
-              {
-                "name": "frozen",
-                "kind": 13,
-                "range": {
-                  "start": {
-                    "line": 98,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 98,
-                    "character": 24
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 98,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 98,
-                    "character": 24
-                  }
-                },
-                "children": []
-              },
-              {
-                "name": "baseline",
-                "kind": 13,
-                "range": {
-                  "start": {
-                    "line": 99,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 99,
-                    "character": 30
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 99,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 99,
-                    "character": 30
-                  }
-                },
-                "children": []
-              },
-              {
-                "name": "canvas_bytes",
-                "kind": 13,
-                "range": {
-                  "start": {
-                    "line": 100,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 100,
-                    "character": 23
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 100,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 100,
-                    "character": 23
-                  }
-                },
-                "children": []
-              },
-              {
-                "name": "validation_bytes",
-                "kind": 13,
-                "range": {
-                  "start": {
-                    "line": 101,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 101,
-                    "character": 27
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 101,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 101,
-                    "character": 27
-                  }
-                },
-                "children": []
-              },
-              {
-                "name": "actions",
-                "kind": 13,
-                "range": {
-                  "start": {
-                    "line": 103,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 103,
-                    "character": 11
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 103,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 103,
-                    "character": 11
-                  }
-                },
-                "children": []
-              },
-              {
-                "name": "role",
-                "kind": 13,
-                "range": {
-                  "start": {
-                    "line": 104,
-                    "character": 8
-                  },
-                  "end": {
-                    "line": 104,
-                    "character": 12
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 104,
-                    "character": 8
-                  },
-                  "end": {
-                    "line": 104,
-                    "character": 12
-                  }
-                },
-                "children": []
-              },
-              {
-                "name": "state",
-                "kind": 13,
-                "range": {
-                  "start": {
-                    "line": 105,
-                    "character": 8
-                  },
-                  "end": {
-                    "line": 105,
-                    "character": 13
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 105,
-                    "character": 8
-                  },
-                  "end": {
-                    "line": 105,
-                    "character": 13
-                  }
-                },
-                "children": []
-              },
-              {
-                "name": "value",
-                "kind": 13,
-                "range": {
-                  "start": {
-                    "line": 109,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 109,
-                    "character": 9
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 109,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 109,
-                    "character": 9
-                  }
-                },
-                "children": []
-              }
-            ]
-          },
-          {
-            "name": "_render",
-            "kind": 12,
-            "range": {
-              "start": {
-                "line": 133,
-                "character": 0
-              },
-              "end": {
-                "line": 151,
-                "character": 5
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 133,
-                "character": 4
-              },
-              "end": {
-                "line": 133,
+                "line": 35,
                 "character": 11
               }
             },
             "children": [
               {
-                "name": "frozen",
+                "name": "database",
                 "kind": 13,
                 "range": {
                   "start": {
-                    "line": 133,
+                    "line": 35,
                     "character": 12
                   },
                   "end": {
-                    "line": 133,
-                    "character": 32
+                    "line": 35,
+                    "character": 26
                   }
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 133,
+                    "line": 35,
                     "character": 12
                   },
                   "end": {
-                    "line": 133,
-                    "character": 32
+                    "line": 35,
+                    "character": 26
                   }
                 },
                 "children": []
               },
               {
-                "name": "baseline",
+                "name": "connection",
                 "kind": 13,
                 "range": {
                   "start": {
-                    "line": 133,
-                    "character": 34
-                  },
-                  "end": {
-                    "line": 133,
-                    "character": 60
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 133,
-                    "character": 34
-                  },
-                  "end": {
-                    "line": 133,
-                    "character": 60
-                  }
-                },
-                "children": []
-              },
-              {
-                "name": "selected",
-                "kind": 13,
-                "range": {
-                  "start": {
-                    "line": 134,
+                    "line": 36,
                     "character": 4
                   },
                   "end": {
-                    "line": 134,
-                    "character": 12
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 134,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 134,
-                    "character": 12
-                  }
-                },
-                "children": []
-              },
-              {
-                "name": "canvas",
-                "kind": 13,
-                "range": {
-                  "start": {
-                    "line": 135,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 135,
-                    "character": 10
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 135,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 135,
-                    "character": 10
-                  }
-                },
-                "children": []
-              },
-              {
-                "name": "facts",
-                "kind": 13,
-                "range": {
-                  "start": {
-                    "line": 136,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 136,
-                    "character": 9
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 136,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 136,
-                    "character": 9
-                  }
-                },
-                "children": []
-              },
-              {
-                "name": "canvas_bytes",
-                "kind": 13,
-                "range": {
-                  "start": {
-                    "line": 137,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 137,
-                    "character": 16
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 137,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 137,
-                    "character": 16
-                  }
-                },
-                "children": []
-              },
-              {
-                "name": "validation",
-                "kind": 13,
-                "range": {
-                  "start": {
-                    "line": 138,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 138,
+                    "line": 36,
                     "character": 14
                   }
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 138,
+                    "line": 36,
                     "character": 4
                   },
                   "end": {
-                    "line": 138,
+                    "line": 36,
                     "character": 14
-                  }
-                },
-                "children": []
-              },
-              {
-                "name": "validation_bytes",
-                "kind": 13,
-                "range": {
-                  "start": {
-                    "line": 139,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 139,
-                    "character": 20
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 139,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 139,
-                    "character": 20
-                  }
-                },
-                "children": []
-              },
-              {
-                "name": "rollback",
-                "kind": 13,
-                "range": {
-                  "start": {
-                    "line": 140,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 140,
-                    "character": 12
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 140,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 140,
-                    "character": 12
-                  }
-                },
-                "children": []
-              },
-              {
-                "name": "rollback_bytes",
-                "kind": 13,
-                "range": {
-                  "start": {
-                    "line": 141,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 141,
-                    "character": 18
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 141,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 141,
-                    "character": 18
                   }
                 },
                 "children": []
@@ -1324,301 +496,1080 @@
             ]
           },
           {
-            "name": "_bundle_bytes",
+            "name": "initialize",
             "kind": 12,
             "range": {
               "start": {
-                "line": 154,
+                "line": 43,
                 "character": 0
               },
               "end": {
-                "line": 159,
+                "line": 46,
+                "character": 23
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 43,
+                "character": 4
+              },
+              "end": {
+                "line": 43,
+                "character": 14
+              }
+            },
+            "children": [
+              {
+                "name": "connection",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 43,
+                    "character": 15
+                  },
+                  "end": {
+                    "line": 43,
+                    "character": 45
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 43,
+                    "character": 15
+                  },
+                  "end": {
+                    "line": 43,
+                    "character": 45
+                  }
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "name": "read_assertion_jsonl",
+            "kind": 12,
+            "range": {
+              "start": {
+                "line": 49,
+                "character": 0
+              },
+              "end": {
+                "line": 64,
+                "character": 21
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 49,
+                "character": 4
+              },
+              "end": {
+                "line": 49,
+                "character": 24
+              }
+            },
+            "children": [
+              {
+                "name": "path",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 49,
+                    "character": 25
+                  },
+                  "end": {
+                    "line": 49,
+                    "character": 35
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 49,
+                    "character": 25
+                  },
+                  "end": {
+                    "line": 49,
+                    "character": 35
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "assertions",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 50,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 50,
+                    "character": 14
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 50,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 50,
+                    "character": 14
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "line_number",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 51,
+                    "character": 8
+                  },
+                  "end": {
+                    "line": 51,
+                    "character": 19
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 51,
+                    "character": 8
+                  },
+                  "end": {
+                    "line": 51,
+                    "character": 19
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "line",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 51,
+                    "character": 21
+                  },
+                  "end": {
+                    "line": 51,
+                    "character": 25
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 51,
+                    "character": 21
+                  },
+                  "end": {
+                    "line": 51,
+                    "character": 25
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "value",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 55,
+                    "character": 12
+                  },
+                  "end": {
+                    "line": 55,
+                    "character": 17
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 55,
+                    "character": 12
+                  },
+                  "end": {
+                    "line": 55,
+                    "character": 17
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "exc",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 56,
+                    "character": 39
+                  },
+                  "end": {
+                    "line": 56,
+                    "character": 42
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 56,
+                    "character": 39
+                  },
+                  "end": {
+                    "line": 56,
+                    "character": 42
+                  }
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "name": "ingest",
+            "kind": 12,
+            "range": {
+              "start": {
+                "line": 67,
+                "character": 0
+              },
+              "end": {
+                "line": 103,
+                "character": 59
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 67,
+                "character": 4
+              },
+              "end": {
+                "line": 67,
+                "character": 10
+              }
+            },
+            "children": [
+              {
+                "name": "connection",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 67,
+                    "character": 11
+                  },
+                  "end": {
+                    "line": 67,
+                    "character": 41
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 67,
+                    "character": 11
+                  },
+                  "end": {
+                    "line": 67,
+                    "character": 41
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "assertions",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 67,
+                    "character": 43
+                  },
+                  "end": {
+                    "line": 67,
+                    "character": 79
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 67,
+                    "character": 43
+                  },
+                  "end": {
+                    "line": 67,
+                    "character": 79
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "inserted",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 68,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 68,
+                    "character": 12
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 68,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 68,
+                    "character": 12
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "duplicates",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 69,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 69,
+                    "character": 14
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 69,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 69,
+                    "character": 14
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "assertion",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 72,
+                    "character": 12
+                  },
+                  "end": {
+                    "line": 72,
+                    "character": 21
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 72,
+                    "character": 12
+                  },
+                  "end": {
+                    "line": 72,
+                    "character": 21
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "payload",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 73,
+                    "character": 12
+                  },
+                  "end": {
+                    "line": 73,
+                    "character": 19
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 73,
+                    "character": 12
+                  },
+                  "end": {
+                    "line": 73,
+                    "character": 19
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "existing",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 74,
+                    "character": 12
+                  },
+                  "end": {
+                    "line": 74,
+                    "character": 20
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 74,
+                    "character": 12
+                  },
+                  "end": {
+                    "line": 74,
+                    "character": 20
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "exc",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 96,
+                    "character": 45
+                  },
+                  "end": {
+                    "line": 96,
+                    "character": 48
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 96,
+                    "character": 45
+                  },
+                  "end": {
+                    "line": 96,
+                    "character": 48
+                  }
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "name": "load_assertions",
+            "kind": 12,
+            "range": {
+              "start": {
+                "line": 106,
+                "character": 0
+              },
+              "end": {
+                "line": 110,
+                "character": 80
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 106,
+                "character": 4
+              },
+              "end": {
+                "line": 106,
+                "character": 19
+              }
+            },
+            "children": [
+              {
+                "name": "connection",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 106,
+                    "character": 20
+                  },
+                  "end": {
+                    "line": 106,
+                    "character": 50
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 106,
+                    "character": 20
+                  },
+                  "end": {
+                    "line": 106,
+                    "character": 50
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "rows",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 107,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 107,
+                    "character": 8
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 107,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 107,
+                    "character": 8
+                  }
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "name": "integrity",
+            "kind": 12,
+            "range": {
+              "start": {
+                "line": 113,
+                "character": 0
+              },
+              "end": {
+                "line": 115,
+                "character": 22
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 113,
+                "character": 4
+              },
+              "end": {
+                "line": 113,
+                "character": 13
+              }
+            },
+            "children": [
+              {
+                "name": "connection",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 113,
+                    "character": 14
+                  },
+                  "end": {
+                    "line": 113,
+                    "character": 44
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 113,
+                    "character": 14
+                  },
+                  "end": {
+                    "line": 113,
+                    "character": 44
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "row",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 114,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 114,
+                    "character": 7
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 114,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 114,
+                    "character": 7
+                  }
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "name": "replay_with_rollback",
+            "kind": 12,
+            "range": {
+              "start": {
+                "line": 118,
+                "character": 0
+              },
+              "end": {
+                "line": 209,
                 "character": 5
               }
             },
             "selectionRange": {
               "start": {
-                "line": 154,
+                "line": 118,
                 "character": 4
               },
               "end": {
-                "line": 154,
-                "character": 17
+                "line": 118,
+                "character": 24
               }
             },
             "children": [
               {
-                "name": "rendered",
+                "name": "assertion_path",
                 "kind": 13,
                 "range": {
                   "start": {
-                    "line": 154,
+                    "line": 119,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 119,
+                    "character": 24
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 119,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 119,
+                    "character": 24
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "database",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 120,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 120,
                     "character": 18
-                  },
-                  "end": {
-                    "line": 154,
-                    "character": 42
                   }
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 154,
+                    "line": 120,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 120,
                     "character": 18
-                  },
-                  "end": {
-                    "line": 154,
-                    "character": 42
                   }
                 },
                 "children": []
-              }
-            ]
-          },
-          {
-            "name": "generate",
-            "kind": 12,
-            "range": {
-              "start": {
-                "line": 162,
-                "character": 0
               },
-              "end": {
-                "line": 209,
-                "character": 13
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 162,
-                "character": 4
-              },
-              "end": {
-                "line": 162,
-                "character": 12
-              }
-            },
-            "children": [
               {
-                "name": "request_path",
+                "name": "rollback_manifest",
                 "kind": 13,
                 "range": {
                   "start": {
-                    "line": 162,
-                    "character": 13
+                    "line": 121,
+                    "character": 4
                   },
                   "end": {
-                    "line": 162,
-                    "character": 37
+                    "line": 121,
+                    "character": 27
                   }
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 162,
-                    "character": 13
+                    "line": 121,
+                    "character": 4
                   },
                   "end": {
-                    "line": 162,
-                    "character": 37
+                    "line": 121,
+                    "character": 27
                   }
                 },
                 "children": []
               },
               {
-                "name": "fault_hook",
+                "name": "assertions",
                 "kind": 13,
                 "range": {
                   "start": {
-                    "line": 162,
-                    "character": 42
+                    "line": 123,
+                    "character": 4
                   },
                   "end": {
-                    "line": 162,
-                    "character": 77
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 162,
-                    "character": 42
-                  },
-                  "end": {
-                    "line": 162,
-                    "character": 77
-                  }
-                },
-                "children": []
-              },
-              {
-                "name": "frozen",
-                "kind": 13,
-                "range": {
-                  "start": {
-                    "line": 166,
-                    "character": 8
-                  },
-                  "end": {
-                    "line": 166,
+                    "line": 123,
                     "character": 14
                   }
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 166,
-                    "character": 8
+                    "line": 123,
+                    "character": 4
                   },
                   "end": {
-                    "line": 166,
+                    "line": 123,
                     "character": 14
                   }
                 },
                 "children": []
               },
               {
-                "name": "baseline",
+                "name": "baseline_state",
                 "kind": 13,
                 "range": {
                   "start": {
-                    "line": 167,
+                    "line": 128,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 128,
+                    "character": 18
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 128,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 128,
+                    "character": 18
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "baseline_sha256",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 129,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 129,
+                    "character": 19
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 129,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 129,
+                    "character": 19
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "backup_path",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 130,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 130,
+                    "character": 15
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 130,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 130,
+                    "character": 15
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "manifest_temporary",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 131,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 131,
+                    "character": 22
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 131,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 131,
+                    "character": 22
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "restore_temporary",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 132,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 132,
+                    "character": 21
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 132,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 132,
+                    "character": 21
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "owned_temporary",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 133,
                     "character": 8
                   },
                   "end": {
-                    "line": 167,
+                    "line": 133,
+                    "character": 23
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 133,
+                    "character": 8
+                  },
+                  "end": {
+                    "line": 133,
+                    "character": 23
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "connection",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 141,
+                    "character": 8
+                  },
+                  "end": {
+                    "line": 141,
+                    "character": 18
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 141,
+                    "character": 8
+                  },
+                  "end": {
+                    "line": 141,
+                    "character": 18
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "counts",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 144,
+                    "character": 12
+                  },
+                  "end": {
+                    "line": 144,
+                    "character": 18
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 144,
+                    "character": 12
+                  },
+                  "end": {
+                    "line": 144,
+                    "character": 18
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "check",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 145,
+                    "character": 12
+                  },
+                  "end": {
+                    "line": 145,
+                    "character": 17
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 145,
+                    "character": 12
+                  },
+                  "end": {
+                    "line": 145,
+                    "character": 17
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "generated_sha256",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 150,
+                    "character": 8
+                  },
+                  "end": {
+                    "line": 150,
+                    "character": 24
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 150,
+                    "character": 8
+                  },
+                  "end": {
+                    "line": 150,
+                    "character": 24
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "manifest",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 151,
+                    "character": 8
+                  },
+                  "end": {
+                    "line": 151,
                     "character": 16
                   }
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 167,
+                    "line": 151,
                     "character": 8
                   },
                   "end": {
-                    "line": 167,
+                    "line": 151,
                     "character": 16
                   }
                 },
                 "children": []
               },
               {
-                "name": "rendered",
+                "name": "original_error",
                 "kind": 13,
                 "range": {
                   "start": {
-                    "line": 168,
-                    "character": 8
+                    "line": 160,
+                    "character": 24
                   },
                   "end": {
-                    "line": 168,
-                    "character": 16
+                    "line": 160,
+                    "character": 38
                   }
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 168,
-                    "character": 8
+                    "line": 160,
+                    "character": 24
                   },
                   "end": {
-                    "line": 168,
-                    "character": 16
+                    "line": 160,
+                    "character": 38
                   }
                 },
                 "children": []
               },
               {
-                "name": "staged",
+                "name": "recovery_error",
                 "kind": 13,
                 "range": {
                   "start": {
-                    "line": 169,
+                    "line": 161,
                     "character": 8
                   },
                   "end": {
-                    "line": 169,
-                    "character": 14
+                    "line": 161,
+                    "character": 22
                   }
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 169,
+                    "line": 161,
                     "character": 8
                   },
                   "end": {
-                    "line": 169,
-                    "character": 14
+                    "line": 161,
+                    "character": 22
                   }
                 },
                 "children": []
               },
               {
-                "name": "promoted",
+                "name": "recovery_confirmed",
                 "kind": 13,
                 "range": {
                   "start": {
-                    "line": 170,
+                    "line": 162,
                     "character": 8
                   },
                   "end": {
-                    "line": 170,
-                    "character": 16
+                    "line": 162,
+                    "character": 26
                   }
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 170,
+                    "line": 162,
                     "character": 8
                   },
                   "end": {
-                    "line": 170,
-                    "character": 16
-                  }
-                },
-                "children": []
-              },
-              {
-                "name": "after",
-                "kind": 13,
-                "range": {
-                  "start": {
-                    "line": 172,
-                    "character": 8
-                  },
-                  "end": {
-                    "line": 172,
-                    "character": 13
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 172,
-                    "character": 8
-                  },
-                  "end": {
-                    "line": 172,
-                    "character": 13
-                  }
-                },
-                "children": []
-              },
-              {
-                "name": "result",
-                "kind": 13,
-                "range": {
-                  "start": {
-                    "line": 173,
-                    "character": 8
-                  },
-                  "end": {
-                    "line": 173,
-                    "character": 14
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 173,
-                    "character": 8
-                  },
-                  "end": {
-                    "line": 173,
-                    "character": 14
+                    "line": 162,
+                    "character": 26
                   }
                 },
                 "children": []
@@ -1628,21 +1579,21 @@
                 "kind": 13,
                 "range": {
                   "start": {
-                    "line": 207,
+                    "line": 182,
                     "character": 28
                   },
                   "end": {
-                    "line": 207,
+                    "line": 182,
                     "character": 31
                   }
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 207,
+                    "line": 182,
                     "character": 28
                   },
                   "end": {
-                    "line": 207,
+                    "line": 182,
                     "character": 31
                   }
                 },
@@ -1651,7 +1602,7 @@
             ]
           },
           {
-            "name": "validate_only",
+            "name": "_rollback_path_within",
             "kind": 12,
             "range": {
               "start": {
@@ -1659,8 +1610,8 @@
                 "character": 0
               },
               "end": {
-                "line": 224,
-                "character": 13
+                "line": 216,
+                "character": 108
               }
             },
             "selectionRange": {
@@ -1670,156 +1621,81 @@
               },
               "end": {
                 "line": 212,
-                "character": 17
+                "character": 25
               }
             },
             "children": [
               {
-                "name": "request_path",
+                "name": "path",
                 "kind": 13,
                 "range": {
                   "start": {
                     "line": 212,
-                    "character": 18
+                    "character": 26
                   },
                   "end": {
                     "line": 212,
-                    "character": 42
+                    "character": 36
                   }
                 },
                 "selectionRange": {
                   "start": {
                     "line": 212,
-                    "character": 18
+                    "character": 26
                   },
                   "end": {
                     "line": 212,
-                    "character": 42
+                    "character": 36
                   }
                 },
                 "children": []
               },
               {
-                "name": "fault_hook",
+                "name": "workspace_root",
                 "kind": 13,
                 "range": {
                   "start": {
                     "line": 212,
-                    "character": 47
+                    "character": 38
                   },
                   "end": {
                     "line": 212,
-                    "character": 82
+                    "character": 58
                   }
                 },
                 "selectionRange": {
                   "start": {
                     "line": 212,
-                    "character": 47
+                    "character": 38
                   },
                   "end": {
                     "line": 212,
-                    "character": 82
+                    "character": 58
                   }
                 },
                 "children": []
               },
               {
-                "name": "frozen",
+                "name": "field",
                 "kind": 13,
                 "range": {
                   "start": {
-                    "line": 216,
-                    "character": 8
+                    "line": 212,
+                    "character": 60
                   },
                   "end": {
-                    "line": 216,
-                    "character": 14
+                    "line": 212,
+                    "character": 70
                   }
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 216,
-                    "character": 8
+                    "line": 212,
+                    "character": 60
                   },
                   "end": {
-                    "line": 216,
-                    "character": 14
-                  }
-                },
-                "children": []
-              },
-              {
-                "name": "baseline",
-                "kind": 13,
-                "range": {
-                  "start": {
-                    "line": 217,
-                    "character": 8
-                  },
-                  "end": {
-                    "line": 217,
-                    "character": 16
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 217,
-                    "character": 8
-                  },
-                  "end": {
-                    "line": 217,
-                    "character": 16
-                  }
-                },
-                "children": []
-              },
-              {
-                "name": "rendered",
-                "kind": 13,
-                "range": {
-                  "start": {
-                    "line": 218,
-                    "character": 8
-                  },
-                  "end": {
-                    "line": 218,
-                    "character": 16
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 218,
-                    "character": 8
-                  },
-                  "end": {
-                    "line": 218,
-                    "character": 16
-                  }
-                },
-                "children": []
-              },
-              {
-                "name": "staged",
-                "kind": 13,
-                "range": {
-                  "start": {
-                    "line": 219,
-                    "character": 8
-                  },
-                  "end": {
-                    "line": 219,
-                    "character": 14
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 219,
-                    "character": 8
-                  },
-                  "end": {
-                    "line": 219,
-                    "character": 14
+                    "line": 212,
+                    "character": 70
                   }
                 },
                 "children": []
@@ -1829,22 +1705,22 @@
                 "kind": 13,
                 "range": {
                   "start": {
-                    "line": 222,
-                    "character": 28
+                    "line": 215,
+                    "character": 33
                   },
                   "end": {
-                    "line": 222,
-                    "character": 31
+                    "line": 215,
+                    "character": 36
                   }
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 222,
-                    "character": 28
+                    "line": 215,
+                    "character": 33
                   },
                   "end": {
-                    "line": 222,
-                    "character": 31
+                    "line": 215,
+                    "character": 36
                   }
                 },
                 "children": []
@@ -1856,21 +1732,21 @@
             "kind": 12,
             "range": {
               "start": {
-                "line": 227,
+                "line": 219,
                 "character": 0
               },
               "end": {
-                "line": 232,
-                "character": 13
+                "line": 267,
+                "character": 5
               }
             },
             "selectionRange": {
               "start": {
-                "line": 227,
+                "line": 219,
                 "character": 4
               },
               "end": {
-                "line": 227,
+                "line": 219,
                 "character": 12
               }
             },
@@ -1880,97 +1756,322 @@
                 "kind": 13,
                 "range": {
                   "start": {
-                    "line": 227,
+                    "line": 219,
                     "character": 13
                   },
                   "end": {
-                    "line": 227,
-                    "character": 38
+                    "line": 219,
+                    "character": 32
                   }
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 227,
+                    "line": 219,
                     "character": 13
                   },
                   "end": {
-                    "line": 227,
-                    "character": 38
+                    "line": 219,
+                    "character": 32
                   }
                 },
                 "children": []
               },
               {
-                "name": "expected_sha256",
+                "name": "workspace_root",
                 "kind": 13,
                 "range": {
                   "start": {
-                    "line": 227,
-                    "character": 40
+                    "line": 219,
+                    "character": 34
                   },
                   "end": {
-                    "line": 227,
-                    "character": 60
+                    "line": 219,
+                    "character": 54
                   }
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 227,
-                    "character": 40
+                    "line": 219,
+                    "character": 34
                   },
                   "end": {
-                    "line": 227,
-                    "character": 60
+                    "line": 219,
+                    "character": 54
                   }
                 },
                 "children": []
               },
               {
-                "name": "fault_hook",
+                "name": "manifest",
                 "kind": 13,
                 "range": {
                   "start": {
-                    "line": 227,
-                    "character": 65
+                    "line": 220,
+                    "character": 4
                   },
                   "end": {
-                    "line": 227,
-                    "character": 100
+                    "line": 220,
+                    "character": 12
                   }
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 227,
-                    "character": 65
+                    "line": 220,
+                    "character": 4
                   },
                   "end": {
-                    "line": 227,
-                    "character": 100
+                    "line": 220,
+                    "character": 12
                   }
                 },
                 "children": []
               },
               {
-                "name": "exc",
+                "name": "expected",
                 "kind": 13,
                 "range": {
                   "start": {
-                    "line": 230,
-                    "character": 28
+                    "line": 221,
+                    "character": 4
                   },
                   "end": {
-                    "line": 230,
-                    "character": 31
+                    "line": 221,
+                    "character": 12
                   }
                 },
                 "selectionRange": {
                   "start": {
-                    "line": 230,
-                    "character": 28
+                    "line": 221,
+                    "character": 4
                   },
                   "end": {
-                    "line": 230,
-                    "character": 31
+                    "line": 221,
+                    "character": 12
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "target_value",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 224,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 224,
+                    "character": 16
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 224,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 224,
+                    "character": 16
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "backup_value",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 225,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 225,
+                    "character": 16
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 225,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 225,
+                    "character": 16
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "baseline_state",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 226,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 226,
+                    "character": 18
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 226,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 226,
+                    "character": 18
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "baseline_sha256",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 227,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 227,
+                    "character": 19
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 227,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 227,
+                    "character": 19
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "generated_sha256",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 228,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 228,
+                    "character": 20
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 228,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 228,
+                    "character": 20
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "workspace",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 244,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 244,
+                    "character": 13
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 244,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 244,
+                    "character": 13
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "target",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 246,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 246,
+                    "character": 10
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 246,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 246,
+                    "character": 10
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "backup",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 247,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 247,
+                    "character": 10
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 247,
+                    "character": 4
+                  },
+                  "end": {
+                    "line": 247,
+                    "character": 10
+                  }
+                },
+                "children": []
+              },
+              {
+                "name": "restored",
+                "kind": 13,
+                "range": {
+                  "start": {
+                    "line": 252,
+                    "character": 8
+                  },
+                  "end": {
+                    "line": 252,
+                    "character": 16
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 252,
+                    "character": 8
+                  },
+                  "end": {
+                    "line": 252,
+                    "character": 16
                   }
                 },
                 "children": []
@@ -1981,30 +2082,13 @@
       }
     },
     {
-      "direction": "out",
-      "message": {
-        "jsonrpc": "2.0",
-        "id": 3,
-        "method": "textDocument/definition",
-        "params": {
-          "textDocument": {
-            "uri": "file:///E:/knowledge_builder/self-workspace/kb-stg-94bf220/.source-snapshot/worktree/prototypes/ckb-canvas-skill/ckb_canvas/commands.py"
-          },
-          "position": {
-            "line": 227,
-            "character": 4
-          }
-        }
-      }
-    },
-    {
       "direction": "in",
       "message": {
         "jsonrpc": "2.0",
         "method": "window/logMessage",
         "params": {
           "type": 3,
-          "message": "Found 676 source files"
+          "message": "Found 710 source files"
         }
       }
     },
@@ -2014,9 +2098,26 @@
         "jsonrpc": "2.0",
         "method": "textDocument/publishDiagnostics",
         "params": {
-          "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-94bf220/.source-snapshot/worktree/prototypes/ckb-canvas-skill/ckb_canvas/commands.py",
+          "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-c533dd7-r3/.source-snapshot/worktree/prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
           "version": 1,
           "diagnostics": []
+        }
+      }
+    },
+    {
+      "direction": "out",
+      "message": {
+        "jsonrpc": "2.0",
+        "id": 3,
+        "method": "textDocument/definition",
+        "params": {
+          "textDocument": {
+            "uri": "file:///E:/knowledge_builder/self-workspace/knowledge-base/.source-snapshot/worktree/prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py"
+          },
+          "position": {
+            "line": 67,
+            "character": 4
+          }
         }
       }
     },
@@ -2027,15 +2128,15 @@
         "id": 3,
         "result": [
           {
-            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-94bf220/.source-snapshot/worktree/prototypes/ckb-canvas-skill/ckb_canvas/commands.py",
+            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-c533dd7-r3/.source-snapshot/worktree/prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
             "range": {
               "start": {
-                "line": 227,
+                "line": 67,
                 "character": 4
               },
               "end": {
-                "line": 227,
-                "character": 12
+                "line": 67,
+                "character": 10
               }
             }
           }
@@ -2050,10 +2151,10 @@
         "method": "textDocument/references",
         "params": {
           "textDocument": {
-            "uri": "file:///E:/knowledge_builder/self-workspace/kb-stg-94bf220/.source-snapshot/worktree/prototypes/ckb-canvas-skill/ckb_canvas/commands.py"
+            "uri": "file:///E:/knowledge_builder/self-workspace/knowledge-base/.source-snapshot/worktree/prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py"
           },
           "position": {
-            "line": 227,
+            "line": 67,
             "character": 4
           },
           "context": {
@@ -2069,28 +2170,15 @@
         "id": 4,
         "result": [
           {
-            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-94bf220/.source-snapshot/worktree/prototypes/ckb-canvas-skill/scripts/ckb_canvas.py",
+            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-c533dd7-r3/.source-snapshot/worktree/prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
             "range": {
               "start": {
-                "line": 17,
-                "character": 42
+                "line": 144,
+                "character": 21
               },
               "end": {
-                "line": 17,
-                "character": 50
-              }
-            }
-          },
-          {
-            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-94bf220/.source-snapshot/worktree/prototypes/ckb-canvas-skill/scripts/ckb_canvas.py",
-            "range": {
-              "start": {
-                "line": 62,
-                "character": 20
-              },
-              "end": {
-                "line": 62,
-                "character": 28
+                "line": 144,
+                "character": 27
               }
             }
           }

@@ -21,6 +21,7 @@ from urllib.parse import unquote, urlparse
 import uuid
 
 from .common import CkbError, json_load, json_write, run, safe_title, stable_id, utc_now
+from .freshness import check_fact_freshness, classify_git_trigger
 from .session_stdio import activate_session_stdio, close_session
 
 
@@ -524,6 +525,11 @@ def normalize_event(harness: str, raw: dict[str, Any]) -> dict[str, Any]:
         and int(harness_pid_value) > 0
         else None
     )
+    git_trigger = (
+        classify_git_trigger(tool_input)
+        if canonical == "tool.result" and event_status.casefold() not in {"error", "failed", "failure"}
+        else None
+    )
     return {
         "schema_version": AUTOMATION_SCHEMA_VERSION,
         "harness": harness,
@@ -540,6 +546,7 @@ def normalize_event(harness: str, raw: dict[str, Any]) -> dict[str, Any]:
         "tool_input": tool_input,
         "tool_output": tool_output,
         "tool_status": event_status,
+        "git_trigger": git_trigger,
         "skill_name": _skill_name(raw, tool_name, tool_input),
         "changed_paths": _extract_paths(raw),
         "source": raw.get("source") or raw.get("reason") or raw.get("trigger"),
@@ -952,6 +959,12 @@ def activate_skill_session(
     output = Path(registration["knowledge_output"]).resolve()
     repo = Path(registration["repo_root"]).resolve()
     activation = _record_skill_activation(output, repo, harness, resolved_session, source)
+    freshness = check_fact_freshness(
+        output,
+        repo,
+        session_id=resolved_session,
+        trigger="skill-start",
+    )
     lifecycle = activate_session_stdio(
         harness=harness,
         session_id=resolved_session,
@@ -963,6 +976,7 @@ def activate_skill_session(
         "schema_version": AUTOMATION_SCHEMA_VERSION,
         **activation,
         "registration_match": {"kind": match_kind, "root": matched_root},
+        "fact_freshness": freshness,
         "session_stdio": lifecycle,
     }
 
@@ -1367,10 +1381,13 @@ def retry_failed_automation(output: Path, limit: int = 500) -> dict[str, Any]:
     return {"schema_version": AUTOMATION_SCHEMA_VERSION, "status": result["status"], "retried": moved, "drain": result}
 
 
-def _hook_context(output: Path) -> str:
+def _hook_context(output: Path, freshness: dict[str, Any] | None = None) -> str:
     status = automation_status(output)
+    fact_state = (freshness or status.get("fact_freshness") or {}).get("state", "unavailable")
+    fact_action = (freshness or status.get("fact_freshness") or {}).get("next_action", {}).get("action", "retry-freshness-check")
     return (
         "当前会话已明确应用 code-knowledge-builder Skill，CKB 自动同步已激活：本轮事件会先进入脱敏、幂等的机器层队列。"
+        f"源码事实新鲜度为 {fact_state}，下一入口为 {fact_action}。"
         f"当前待 Agent 审阅记录 {status['pending_reviews']} 条，失败事件 {status['failed_spool']} 条。"
         "分析和修改结论需使用简体中文核对来源后，再晋升到人类知识库。"
     )
@@ -1456,6 +1473,20 @@ def ingest_event(
             "knowledge_output": str(output),
             "hook_output": {},
         }
+    freshness = None
+    freshness_trigger = None
+    if normalized.get("git_trigger"):
+        freshness_trigger = f"git:{normalized['git_trigger']}"
+    elif activation_source:
+        freshness_trigger = "skill-start"
+    if freshness_trigger:
+        freshness = check_fact_freshness(
+            output,
+            repo,
+            session_id=normalized["session_id"],
+            trigger=freshness_trigger,
+            force=bool(normalized.get("git_trigger")),
+        )
     lifecycle = None
     if activation_source:
         lifecycle = activate_session_stdio(
@@ -1498,9 +1529,11 @@ def ingest_event(
         "spool": str(spool),
         "redaction_count": redacted["redaction_count"],
         "redaction_types": redacted["redaction_types"],
+        "git_trigger": normalized.get("git_trigger"),
+        "fact_freshness": freshness,
         "drain": drained,
         "session_stdio": lifecycle,
-        "hook_output": _hook_output(harness, normalized["event_name"], _hook_context(output)),
+        "hook_output": _hook_output(harness, normalized["event_name"], _hook_context(output, freshness)),
     }
 
 
@@ -1523,6 +1556,11 @@ def automation_status(output: Path) -> dict[str, Any]:
         integrity = connection.execute("PRAGMA integrity_check").fetchone()[0]
     finally:
         connection.close()
+    freshness_path = output / "workspace-meta/freshness/state.json"
+    try:
+        freshness = json_load(freshness_path) if freshness_path.is_file() else None
+    except Exception:
+        freshness = {"state": "unavailable", "error": {"type": "InvalidFreshnessState"}}
     return {
         "schema_version": AUTOMATION_SCHEMA_VERSION,
         "status": "ready" if integrity == "ok" else "failed",
@@ -1531,6 +1569,7 @@ def automation_status(output: Path) -> dict[str, Any]:
         "pending_spool": len(_spool_events(root / "spool/pending")),
         "failed_spool": len(_spool_events(root / "spool/failed")),
         "sqlite_integrity": integrity,
+        "fact_freshness": freshness,
     }
 
 

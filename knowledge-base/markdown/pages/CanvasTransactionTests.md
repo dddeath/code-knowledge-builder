@@ -16,9 +16,9 @@
 
 - 实现时会用到 [[build_case]]。
 - 实现时会用到 [[build_case 等测试场景]]。
-- 实现时会用到 [[contracts 的协作边界]]。
+- 实现时会用到 [[commands 的协作边界]]。
+- 实现时会用到 [[contracts 的协作边界（2ef5688e）]]。
 - 实现时会用到 [[freeze 的协作边界]]。
-- 实现时会用到 [[rollback 与 RenderedBundle 的协作实现]]。
 - 实现时会用到 [[transaction 的协作边界]]。
 - 实现时会用到 [[validate]]。
 
@@ -26,6 +26,7 @@
 
 - [[CanvasContractTests]] 关联到这里的验证场景。
 - [[CanvasTransactionTests 等测试场景]] 汇总了本页。
+- [[check_fact_freshness 与 _root 的协作实现]] 关联到这里的验证场景。
 
 ## 内部细节
 

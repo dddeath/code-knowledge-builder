@@ -6,9 +6,24 @@
   "reviewed_at_utc": null,
   "reviews": [
     {
-      "entity_id": "file-5c9d67f4649c5cde977f08b53d1fa732",
+      "entity_id": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "classification": "boundary",
+      "owner_page_id": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "source_path": "prototypes/ckb-canvas-skill/ckb_canvas/commands.py",
+      "start_line": 213,
+      "end_line": 225,
+      "source_blob": "31c13b717a56030b81925743282ac8a2d3eeedc9",
+      "source_excerpt": "def validate_only(request_path: Path | str, *, fault_hook: FaultHook | None = None) -> dict[str, Any]:\n    \"\"\"执行到 staging 重开，清理临时文件且不 promotion。\"\"\"\n\n    try:\n        frozen = load_and_freeze_request(request_path, operation=\"validate\")\n        baseline = capture_baseline(frozen)\n        rendered = _render(frozen, baseline)\n        staged = stage_bundle(frozen, _bundle_bytes(rendered), fault_hook=fault_hook)\n        cleanup_staged(staged)\n        return rendered.validation\n    except CanvasFailure as exc:\n        exc.operation = \"validate\"\n        raise",
+      "status": "draft",
+      "evidence_note": "",
+      "meaning_zh": "",
+      "role_zh": "",
+      "change_when_zh": ""
+    },
+    {
+      "entity_id": "file-5c6111cf8aac5e1898ba803b83e30d53",
       "classification": "page",
-      "owner_page_id": "file-5c9d67f4649c5cde977f08b53d1fa732",
+      "owner_page_id": "file-5c6111cf8aac5e1898ba803b83e30d53",
       "source_path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
       "start_line": 1,
       "end_line": 181,
@@ -21,9 +36,9 @@
       "change_when_zh": ""
     },
     {
-      "entity_id": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "entity_id": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "classification": "page",
-      "owner_page_id": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "owner_page_id": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "source_path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
       "start_line": 31,
       "end_line": 69,

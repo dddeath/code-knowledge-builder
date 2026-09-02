@@ -1,15 +1,15 @@
 {
   "schema_version": 1,
   "status": "ready",
-  "updated_at_utc": "2026-09-01T17:56:00Z",
+  "updated_at_utc": "2026-09-02T21:04:23Z",
   "counts": {
-    "total": 5,
-    "open": 5,
+    "total": 7,
+    "open": 6,
     "deferred": 0,
-    "resolved": 0
+    "resolved": 1
   },
   "counts_by_kind": {
-    "insufficient-evidence": 5,
+    "insufficient-evidence": 7,
     "conflicting-sources": 0,
     "deferred-feedback": 0
   },
@@ -21,6 +21,22 @@
       "summary_zh": "QMD 向量检索尚缺少在同一中文代码知识库、固定问题集和资源上限下相对 SQLite 基线的质量与成本证据。",
       "evidence_count": 1,
       "updated_at_utc": "2026-08-31T01:18:11Z"
+    },
+    {
+      "gap_id": "gap-6c6eb1a7982550999213f764e115e7ad",
+      "kind": "insufficient-evidence",
+      "status": "open",
+      "summary_zh": "真实 LLM 关键词慢路径尚缺少固定模型、固定费用与延迟上限下相对当前确定性检索的真实调用质量证据；现有提升只来自离线固定回放。",
+      "evidence_count": 1,
+      "updated_at_utc": "2026-09-02T21:03:58Z"
+    },
+    {
+      "gap_id": "gap-8c436abb192752cb90c955c0158d611e",
+      "kind": "insufficient-evidence",
+      "status": "open",
+      "summary_zh": "机器 Tag 导航尚缺少真实 Obsidian 环境中的人类对照、独立 Agent 与来源登记规则、tag 命名空间和投影所有权证据；当前收益只属于隔离 fixture。",
+      "evidence_count": 1,
+      "updated_at_utc": "2026-09-02T21:04:23Z"
     },
     {
       "gap_id": "gap-9dc58ab149375bfd98332149a3ba6cb3",
@@ -49,10 +65,10 @@
     {
       "gap_id": "gap-e1a88b6c3b0e57cca58e6bc38daa47b8",
       "kind": "insufficient-evidence",
-      "status": "open",
+      "status": "resolved",
       "summary_zh": "现有 `record` 更新已有 change 页面时只提供追加语义，会保留已经被人类否定的旧正文并增加“后续补充”。五个 change 页面需要使用受控替换语义才能按已确认模板重写，同时保持记录元数据、镜像、索引、操作日志和回滚合同。当前任务已恢复干净基线并暂时关闭，等待决定是否新增正式替换能力。",
       "evidence_count": 1,
-      "updated_at_utc": "2026-09-01T17:56:00Z"
+      "updated_at_utc": "2026-09-02T02:46:02Z"
     }
   ]
 }

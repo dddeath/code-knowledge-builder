@@ -1,0 +1,41 @@
+{
+  "accepted_candidates": [],
+  "arm_id": "arm_a",
+  "generated_output_bytes": 0,
+  "generation_context_bytes": 0,
+  "new_page_count": 0,
+  "page_count": 5,
+  "page_limit_per_source": 1,
+  "pages": [
+    {
+      "kind": "index",
+      "path": "INDEX.md",
+      "title": "隔离知识入口"
+    },
+    {
+      "kind": "references-index",
+      "path": "REFERENCES.md",
+      "title": "参考资料导览"
+    },
+    {
+      "kind": "reference",
+      "path": "references/engineering-guide.md",
+      "title": "工程交付指南"
+    },
+    {
+      "kind": "reference",
+      "path": "references/research-note.md",
+      "title": "评测研究笔记"
+    },
+    {
+      "kind": "reference",
+      "path": "references/operations-runbook.md",
+      "title": "知识库运行手册"
+    }
+  ],
+  "rejected_candidates": [],
+  "schema_version": 1,
+  "scope": "isolated-page-fanout-benchmark",
+  "source_count": 3,
+  "start_page": "INDEX.md"
+}

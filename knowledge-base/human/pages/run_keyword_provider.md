@@ -23,16 +23,16 @@
 
 - [[KeywordFallbackRetrievalWiringTests]] 会使用这里提供的行为。
 - [[KeywordFallbackRetrievalWiringTests 等测试场景]] 会使用这里提供的行为。
-- [[retrieve_machine]] 会使用这里提供的行为。
+- [[retrieve_machine 与 estimated_tokens 的协作实现]] 会使用这里提供的行为。
 - [[run_keyword_provider 与 KeywordProviderConfig 的协作实现]] 汇总了本页。
 
 ## 相关测试
 
 - [[AutomationTest.register 等测试场景]]
+- [[ChineseRetrievalEffectRetestFixtureTests]]
 - [[CodeKnowledgeBuilderTests]]
-- [[HumanPageTemplateValidationTests]]
 - [[KeywordFallbackRetrievalWiringTests]]
 - [[KeywordFallbackRetrievalWiringTests 等测试场景]]
-- [[append 等测试场景]]
+- [[MigrationTest]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。

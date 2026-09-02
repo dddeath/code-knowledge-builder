@@ -1,0 +1,196 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-appendix-review-pack-0055",
+  "kind": "appendix-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-02T22:47:23Z",
+  "reviews": [
+    {
+      "entity_id": "ent-addd1fb0c1965dafb1c0b9cfe314613a",
+      "classification": "appendix",
+      "owner_page_id": "file-0c7566bd81d856718da2718811989ce7",
+      "source_path": "tests/test_reference_pdf.py",
+      "start_line": 334,
+      "end_line": 582,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_reference_pdf.py` 第 334 至 582 行；摘录与 Git blob 0fbf3a9d83ee 一致。",
+      "description_zh": "该测试验证“pdf ingest review audit index…”场景，保护PDF 参考资料回归验证的预期结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-8ca1e3e0943556dab77acd76a651ef2f",
+      "classification": "appendix",
+      "owner_page_id": "file-66ce8fbb6f3d59e68b29a4628549c987",
+      "source_path": "tests/test_scope_extension.py",
+      "start_line": 31,
+      "end_line": 35,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_scope_extension.py` 第 31-35 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`git` 是第 31-35 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-61dffdf2e1315d58afeaaf66f72cf26b",
+      "classification": "appendix",
+      "owner_page_id": "file-66ce8fbb6f3d59e68b29a4628549c987",
+      "source_path": "tests/test_scope_extension.py",
+      "start_line": 38,
+      "end_line": 60,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_scope_extension.py` 第 38-60 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`review_all` 是第 38-60 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-3654268a02b7528c8800e6132a86f514",
+      "classification": "appendix",
+      "owner_page_id": "ent-dd54c60674715c5ab134c9ffecd1e9e2",
+      "source_path": "tests/test_scope_extension.py",
+      "start_line": 64,
+      "end_line": 91,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_scope_extension.py` 第 64-91 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`ScopeExtensionTest.setUp` 是第 64-91 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-3f4f5e62bd395cd8b291977d75826ec9",
+      "classification": "appendix",
+      "owner_page_id": "ent-dd54c60674715c5ab134c9ffecd1e9e2",
+      "source_path": "tests/test_scope_extension.py",
+      "start_line": 93,
+      "end_line": 192,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_scope_extension.py` 第 93-192 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`ScopeExtensionTest.ad...` 是第 93-192 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-6f37c87bea9957c998782a48983ab202",
+      "classification": "appendix",
+      "owner_page_id": "ent-dd54c60674715c5ab134c9ffecd1e9e2",
+      "source_path": "tests/test_scope_extension.py",
+      "start_line": 194,
+      "end_line": 199,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_scope_extension.py` 第 194-199 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`ScopeExtensionTest.te...` 是第 194-199 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-f58a6b42e3c95bc2a193b11d86460cba",
+      "classification": "appendix",
+      "owner_page_id": "ent-dd54c60674715c5ab134c9ffecd1e9e2",
+      "source_path": "tests/test_scope_extension.py",
+      "start_line": 201,
+      "end_line": 255,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_scope_extension.py` 第 201-255 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`ScopeExtensionTest.te...` 是第 201-255 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-7d9bc3429d7a55eeb3e175aab523303c",
+      "classification": "appendix",
+      "owner_page_id": "ent-dd54c60674715c5ab134c9ffecd1e9e2",
+      "source_path": "tests/test_scope_extension.py",
+      "start_line": 257,
+      "end_line": 268,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_scope_extension.py` 第 257-268 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`ScopeExtensionTest.te...` 是第 257-268 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-568b9c28f67a57c8974747d6eadd7a2d",
+      "classification": "appendix",
+      "owner_page_id": "ent-dd54c60674715c5ab134c9ffecd1e9e2",
+      "source_path": "tests/test_scope_extension.py",
+      "start_line": 270,
+      "end_line": 294,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_scope_extension.py` 第 270-294 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`ScopeExtensionTest.te...` 是第 270-294 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-1bb2c0b1ff0853658a48fb04e1725efb",
+      "classification": "appendix",
+      "owner_page_id": "ent-dd54c60674715c5ab134c9ffecd1e9e2",
+      "source_path": "tests/test_scope_extension.py",
+      "start_line": 296,
+      "end_line": 316,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_scope_extension.py` 第 296-316 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`ScopeExtensionTest.te...` 是第 296-316 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-e752f9748a355677a873bbaaaa3f890b",
+      "classification": "appendix",
+      "owner_page_id": "ent-dd54c60674715c5ab134c9ffecd1e9e2",
+      "source_path": "tests/test_scope_extension.py",
+      "start_line": 318,
+      "end_line": 418,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_scope_extension.py` 第 318-418 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`ScopeExtensionTest.te...` 是第 318-418 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-a79d7f7b4b94511c9dee26dc7d8be605",
+      "classification": "appendix",
+      "owner_page_id": "file-3e41ef8954455eeb9bc029b4496b9d87",
+      "source_path": "tests/test_session_stdio.py",
+      "start_line": 38,
+      "end_line": 74,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 38-74 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`make_output` 是第 38-74 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-d1737e9af3dd564fbad4e181c37f5f87",
+      "classification": "appendix",
+      "owner_page_id": "ent-5845959c007c518aa047c846fc9bc9e7",
+      "source_path": "tests/test_session_stdio.py",
+      "start_line": 78,
+      "end_line": 93,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 78-93 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`SessionStdioLifecycle...` 是第 78-93 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-ff3f5425b709539580e9638519a7916c",
+      "classification": "appendix",
+      "owner_page_id": "ent-5845959c007c518aa047c846fc9bc9e7",
+      "source_path": "tests/test_session_stdio.py",
+      "start_line": 95,
+      "end_line": 107,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 95-107 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`SessionStdioLifecycle...` 是第 95-107 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-8daba3212f2652e38521df3ba66a4ab4",
+      "classification": "appendix",
+      "owner_page_id": "ent-5845959c007c518aa047c846fc9bc9e7",
+      "source_path": "tests/test_session_stdio.py",
+      "start_line": 109,
+      "end_line": 116,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 109-116 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`SessionStdioLifecycle...` 是第 109-116 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-555a00c7cdda5e54a376d91c03e87950",
+      "classification": "appendix",
+      "owner_page_id": "ent-5845959c007c518aa047c846fc9bc9e7",
+      "source_path": "tests/test_session_stdio.py",
+      "start_line": 118,
+      "end_line": 129,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 118-129 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`SessionStdioLifecycle...` 是第 118-129 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-eeaef1c1cbe054329b397bf4be3a422e",
+      "classification": "appendix",
+      "owner_page_id": "ent-5845959c007c518aa047c846fc9bc9e7",
+      "source_path": "tests/test_session_stdio.py",
+      "start_line": 131,
+      "end_line": 184,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 131-184 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`SessionStdioLifecycle...` 是第 131-184 行的函数，供所属页面定位实现。"
+    }
+  ]
+}

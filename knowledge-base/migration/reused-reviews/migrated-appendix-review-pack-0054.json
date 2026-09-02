@@ -1,0 +1,185 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-appendix-review-pack-0054",
+  "kind": "appendix-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-02T22:47:22Z",
+  "reviews": [
+    {
+      "entity_id": "ent-343d09984eab5c09833c66445a75c363",
+      "classification": "appendix",
+      "owner_page_id": "file-fee9a6a220845c7c85b6eafeb0bee83a",
+      "source_path": "tests/test_record_replace.py",
+      "start_line": 375,
+      "end_line": 525,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `94bf22015243` 中 `tests/test_record_replace.py` 第 375-525 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`RecordReplaceLockTests` 在 `test_record_replace.py` 中用于验证目标行为、失败分类和回归边界。"
+    },
+    {
+      "entity_id": "ent-1a0d57b27854509ba60676e7f781d491",
+      "classification": "appendix",
+      "owner_page_id": "file-fee9a6a220845c7c85b6eafeb0bee83a",
+      "source_path": "tests/test_record_replace.py",
+      "start_line": 376,
+      "end_line": 380,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `94bf22015243` 中 `tests/test_record_replace.py` 第 376-380 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`_wait_for` 在 `test_record_replace.py` 中用于验证目标行为、失败分类和回归边界。"
+    },
+    {
+      "entity_id": "ent-73deed4c01ea57349326ea5dbead84d9",
+      "classification": "appendix",
+      "owner_page_id": "file-fee9a6a220845c7c85b6eafeb0bee83a",
+      "source_path": "tests/test_record_replace.py",
+      "start_line": 382,
+      "end_line": 525,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `94bf22015243` 中 `tests/test_record_replace.py` 第 382-525 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`test_cross_process_owner_liveness_r…` 用于完成局部输入校验、转换或状态更新。"
+    },
+    {
+      "entity_id": "ent-dc6731eede905bd2b90533ae77f565fe",
+      "classification": "appendix",
+      "owner_page_id": "file-0c7566bd81d856718da2718811989ce7",
+      "source_path": "tests/test_reference_pdf.py",
+      "start_line": 21,
+      "end_line": 22,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_reference_pdf.py` 第 21 至 22 行；摘录与 Git blob 0fbf3a9d83ee 一致。",
+      "description_zh": "`_commands` 完成PDF 参考资料回归验证中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-2ff703a6bc105d128e88be4c56bc8762",
+      "classification": "appendix",
+      "owner_page_id": "ent-b79180f16321549b9db8b1d733b5650f",
+      "source_path": "tests/test_reference_pdf.py",
+      "start_line": 26,
+      "end_line": 28,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_reference_pdf.py` 第 26 至 28 行；摘录与 Git blob 0fbf3a9d83ee 一致。",
+      "description_zh": "`setUp` 完成PDF 参考资料回归验证中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-86107fca536a532d8eb9efca7a1b97db",
+      "classification": "appendix",
+      "owner_page_id": "ent-b79180f16321549b9db8b1d733b5650f",
+      "source_path": "tests/test_reference_pdf.py",
+      "start_line": 30,
+      "end_line": 31,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_reference_pdf.py` 第 30 至 31 行；摘录与 Git blob 0fbf3a9d83ee 一致。",
+      "description_zh": "`tearDown` 完成PDF 参考资料回归验证中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-03b7d558009a5f99904d02d20ffbf79f",
+      "classification": "appendix",
+      "owner_page_id": "ent-b79180f16321549b9db8b1d733b5650f",
+      "source_path": "tests/test_reference_pdf.py",
+      "start_line": 33,
+      "end_line": 82,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_reference_pdf.py` 第 33 至 82 行；摘录与 Git blob 0fbf3a9d83ee 一致。",
+      "description_zh": "该测试验证“native layout preserves page …”场景，保护PDF 参考资料回归验证的预期结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-3b5b9dd6066c51c59a7c643e47b5d9a3",
+      "classification": "appendix",
+      "owner_page_id": "ent-b79180f16321549b9db8b1d733b5650f",
+      "source_path": "tests/test_reference_pdf.py",
+      "start_line": 84,
+      "end_line": 135,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_reference_pdf.py` 第 84 至 135 行；摘录与 Git blob 0fbf3a9d83ee 一致。",
+      "description_zh": "该测试验证“page audit detects manifest p…”场景，保护PDF 参考资料回归验证的预期结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-ab0e4df8538550b19934328c0b313cbb",
+      "classification": "appendix",
+      "owner_page_id": "ent-b79180f16321549b9db8b1d733b5650f",
+      "source_path": "tests/test_reference_pdf.py",
+      "start_line": 137,
+      "end_line": 146,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_reference_pdf.py` 第 137 至 146 行；摘录与 Git blob 0fbf3a9d83ee 一致。",
+      "description_zh": "该测试验证“native chinese page round tri…”场景，保护PDF 参考资料回归验证的预期结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-7e3704d9273b597d93c614dd640a5dfd",
+      "classification": "appendix",
+      "owner_page_id": "ent-b79180f16321549b9db8b1d733b5650f",
+      "source_path": "tests/test_reference_pdf.py",
+      "start_line": 148,
+      "end_line": 270,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_reference_pdf.py` 第 148 至 270 行；摘录与 Git blob 0fbf3a9d83ee 一致。",
+      "description_zh": "该测试验证“scanned mixed and bounded ocr…”场景，保护PDF 参考资料回归验证的预期结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-3a98cc438d6a5bbc920b422ac8cd72aa",
+      "classification": "appendix",
+      "owner_page_id": "ent-b79180f16321549b9db8b1d733b5650f",
+      "source_path": "tests/test_reference_pdf.py",
+      "start_line": 272,
+      "end_line": 305,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_reference_pdf.py` 第 272 至 305 行；摘录与 Git blob 0fbf3a9d83ee 一致。",
+      "description_zh": "该测试验证“corrupt encrypted size page a…”场景，保护PDF 参考资料回归验证的预期结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-8da992ff6c8c57ec9106b647725ef5c1",
+      "classification": "appendix",
+      "owner_page_id": "ent-b79180f16321549b9db8b1d733b5650f",
+      "source_path": "tests/test_reference_pdf.py",
+      "start_line": 307,
+      "end_line": 311,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_reference_pdf.py` 第 307 至 311 行；摘录与 Git blob 0fbf3a9d83ee 一致。",
+      "description_zh": "该测试验证“web adapter boundary is froze…”场景，保护PDF 参考资料回归验证的预期结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-0d9a14b3ecb35bd0a5a7aea6aa551046",
+      "classification": "appendix",
+      "owner_page_id": "file-0c7566bd81d856718da2718811989ce7",
+      "source_path": "tests/test_reference_pdf.py",
+      "start_line": 314,
+      "end_line": 582,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_reference_pdf.py` 第 314 至 582 行；摘录与 Git blob 0fbf3a9d83ee 一致。",
+      "description_zh": "`setUp` 完成PDF 参考资料回归验证中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-4c330e51326a57b68c0471167cf0c7fe",
+      "classification": "appendix",
+      "owner_page_id": "file-0c7566bd81d856718da2718811989ce7",
+      "source_path": "tests/test_reference_pdf.py",
+      "start_line": 315,
+      "end_line": 318,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_reference_pdf.py` 第 315 至 318 行；摘录与 Git blob 0fbf3a9d83ee 一致。",
+      "description_zh": "`setUp` 完成PDF 参考资料回归验证中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-d68701393cbd57f99d6b137d712fc204",
+      "classification": "appendix",
+      "owner_page_id": "file-0c7566bd81d856718da2718811989ce7",
+      "source_path": "tests/test_reference_pdf.py",
+      "start_line": 320,
+      "end_line": 321,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_reference_pdf.py` 第 320 至 321 行；摘录与 Git blob 0fbf3a9d83ee 一致。",
+      "description_zh": "`tearDown` 完成PDF 参考资料回归验证中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-938f774f0a455f7eaa53392bf994ea26",
+      "classification": "appendix",
+      "owner_page_id": "file-0c7566bd81d856718da2718811989ce7",
+      "source_path": "tests/test_reference_pdf.py",
+      "start_line": 323,
+      "end_line": 332,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_reference_pdf.py` 第 323 至 332 行；摘录与 Git blob 0fbf3a9d83ee 一致。",
+      "description_zh": "`_completed_output` 完成PDF 参考资料回归验证中的一个明确步骤。"
+    }
+  ]
+}

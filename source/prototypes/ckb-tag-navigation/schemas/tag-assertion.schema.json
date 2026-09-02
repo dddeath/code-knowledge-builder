@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ckb.local/schemas/tag-assertion.schema.json",
+  "title": "CKB machine tag assertion",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "assertion_id", "idempotency_key", "action", "tag", "target", "stance", "actor", "evidence", "recorded_at", "retracts"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "assertion_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{2,95}$"},
+    "idempotency_key": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{2,127}$"},
+    "action": {"enum": ["propose", "vote", "retract"]},
+    "tag": {"type": "string", "minLength": 1, "maxLength": 80},
+    "target": {"$ref": "#/$defs/target"},
+    "stance": {"type": ["string", "null"], "enum": ["support", "oppose", null]},
+    "actor": {"$ref": "#/$defs/actor"},
+    "evidence": {"anyOf": [{"$ref": "#/$defs/evidence"}, {"type": "null"}]},
+    "recorded_at": {"type": "string", "format": "date-time"},
+    "retracts": {"type": ["string", "null"], "pattern": "^[a-z0-9][a-z0-9._-]{2,95}$"}
+  },
+  "allOf": [
+    {"if": {"properties": {"action": {"const": "propose"}}}, "then": {"properties": {"stance": {"const": null}, "evidence": {"$ref": "#/$defs/evidence"}, "retracts": {"const": null}}}},
+    {"if": {"properties": {"action": {"const": "vote"}}}, "then": {"properties": {"stance": {"enum": ["support", "oppose"]}, "evidence": {"$ref": "#/$defs/evidence"}, "retracts": {"const": null}}}},
+    {"if": {"properties": {"action": {"const": "retract"}}}, "then": {"properties": {"stance": {"const": null}, "evidence": {"const": null}, "retracts": {"type": "string"}}}}
+  ],
+  "$defs": {
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "path"],
+      "properties": {
+        "kind": {"const": "page"},
+        "path": {"type": "string", "minLength": 1, "maxLength": 240}
+      }
+    },
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["category", "key"],
+      "properties": {
+        "category": {"enum": ["retrieval-agent", "source-review-agent", "human-reviewer", "deterministic-tool"]},
+        "key": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{2,63}$"}
+      }
+    },
+    "locator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "start_line", "end_line", "section_id"],
+      "properties": {
+        "kind": {"enum": ["line-range", "section", "whole-file"]},
+        "start_line": {"type": ["integer", "null"], "minimum": 1},
+        "end_line": {"type": ["integer", "null"], "minimum": 1},
+        "section_id": {"type": ["string", "null"], "pattern": "^[a-z0-9][a-z0-9._-]{0,79}$"}
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "source_kind", "path", "locator", "sha256", "commit", "observed_at"],
+      "properties": {
+        "source_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{2,95}$"},
+        "source_kind": {"enum": ["source-range", "reviewed-record", "official-document", "test-result"]},
+        "path": {"type": "string", "minLength": 1, "maxLength": 240},
+        "locator": {"$ref": "#/$defs/locator"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "observed_at": {"type": "string", "format": "date-time"}
+      }
+    }
+  }
+}

@@ -18,12 +18,12 @@
 
 ## 谁会来到这里
 
-- [[execute 等测试场景]] 会使用这里提供的行为。
+- [[main（provider_integration 测试）]] 会使用这里提供的行为。
 - 可从 [[tests 职责导览]] 进入本页。
 
 ## 相关测试
 
-- [[execute 等测试场景]]
+- [[main（provider_integration 测试）]]
 
 ## 内部细节
 

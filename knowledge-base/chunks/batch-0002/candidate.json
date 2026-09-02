@@ -3,23 +3,23 @@
   "chunk_id": "batch-0002",
   "repository": {
     "root": "E:\\knowledge_builder\\self-workspace\\source",
-    "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
-    "tree": "6da95dc3ac8991b5abb12b816bcc5e577f53c997",
+    "commit": "c533dd7c53224a637b1438ea72ee25da887fc6de",
+    "tree": "7eee86dbd7ba25504ec65986c02c2582091e8116",
     "git_bootstrap": {
       "requested": false,
       "performed": false,
       "repository_created": false,
       "initial_commit_created": false,
       "root": "E:\\knowledge_builder\\self-workspace\\source",
-      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
-      "commit_count": 113,
+      "commit": "c533dd7c53224a637b1438ea72ee25da887fc6de",
+      "commit_count": 174,
       "commit_message": null,
       "author": null
     }
   },
   "files": [
     {
-      "id": "file-5c9d67f4649c5cde977f08b53d1fa732",
+      "id": "file-5c6111cf8aac5e1898ba803b83e30d53",
       "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
       "language": "python",
       "blob": "d0373ddfac014a0e4fa2962576e424431ed219b3",
@@ -29,14 +29,14 @@
   ],
   "entities": [
     {
-      "id": "file-5c9d67f4649c5cde977f08b53d1fa732",
+      "id": "file-5c6111cf8aac5e1898ba803b83e30d53",
       "kind": "file",
       "name": "validate_design.py",
       "qualified_name": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
       "language": "python",
       "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
       "blob": "d0373ddfac014a0e4fa2962576e424431ed219b3",
-      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "commit": "c533dd7c53224a637b1438ea72ee25da887fc6de",
       "range": {
         "start_byte": 0,
         "end_byte": 10895,
@@ -48,8 +48,9 @@
       "classification_evidence": [
         "file-always-page"
       ],
+      "syntax_warning_ids": [],
       "classification": "page",
-      "owner_page_id": "file-5c9d67f4649c5cde977f08b53d1fa732",
+      "owner_page_id": "file-5c6111cf8aac5e1898ba803b83e30d53",
       "navigation_evidence": [
         "fixed-order-default"
       ],
@@ -62,14 +63,14 @@
       "review_status": "agent-reviewed"
     },
     {
-      "id": "ent-556d1a16ce285dc6a80a542350b2acf2",
+      "id": "ent-e7d9a5c754765e4197b2cbef6b1b25f4",
       "kind": "function",
       "name": "canonical",
       "qualified_name": "canonical",
       "language": "python",
       "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
       "blob": "d0373ddfac014a0e4fa2962576e424431ed219b3",
-      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "commit": "c533dd7c53224a637b1438ea72ee25da887fc6de",
       "range": {
         "start_byte": 249,
         "end_byte": 383,
@@ -78,7 +79,7 @@
         "name_line": 12,
         "name_column_utf8": 4
       },
-      "parent_id": "file-5c9d67f4649c5cde977f08b53d1fa732",
+      "parent_id": "file-5c6111cf8aac5e1898ba803b83e30d53",
       "candidate_classification": "appendix",
       "classification_evidence": [
         "public-or-exported",
@@ -88,8 +89,9 @@
       "hard_exclusion": "single-return-or-call",
       "is_public_or_exported": true,
       "is_partial": false,
+      "syntax_warning_ids": [],
       "classification": "appendix",
-      "owner_page_id": "file-5c9d67f4649c5cde977f08b53d1fa732",
+      "owner_page_id": "file-5c6111cf8aac5e1898ba803b83e30d53",
       "navigation_evidence": [
         "public-or-exported",
         "hard-exclusion:single-return-or-call"
@@ -101,14 +103,14 @@
       "review_status": "agent-reviewed"
     },
     {
-      "id": "ent-ad8147391ce85d7185d8725576fbce4a",
+      "id": "ent-22115054ce9e5c00af66b6797ffeeae6",
       "kind": "function",
       "name": "digest",
       "qualified_name": "digest",
       "language": "python",
       "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
       "blob": "d0373ddfac014a0e4fa2962576e424431ed219b3",
-      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "commit": "c533dd7c53224a637b1438ea72ee25da887fc6de",
       "range": {
         "start_byte": 386,
         "end_byte": 447,
@@ -117,7 +119,7 @@
         "name_line": 16,
         "name_column_utf8": 4
       },
-      "parent_id": "file-5c9d67f4649c5cde977f08b53d1fa732",
+      "parent_id": "file-5c6111cf8aac5e1898ba803b83e30d53",
       "candidate_classification": "appendix",
       "classification_evidence": [
         "public-or-exported",
@@ -127,10 +129,10 @@
       "hard_exclusion": "single-return-or-call",
       "is_public_or_exported": true,
       "is_partial": false,
+      "syntax_warning_ids": [],
       "classification": "appendix",
-      "owner_page_id": "file-5c9d67f4649c5cde977f08b53d1fa732",
+      "owner_page_id": "file-5c6111cf8aac5e1898ba803b83e30d53",
       "navigation_evidence": [
-        "cross-file-reference",
         "public-or-exported",
         "hard-exclusion:single-return-or-call"
       ],
@@ -141,14 +143,14 @@
       "review_status": "agent-reviewed"
     },
     {
-      "id": "ent-6a09c09a9c065f6dbc7b48695d20c334",
+      "id": "ent-85148630f6625350a47b24a368bc6fc2",
       "kind": "function",
       "name": "is_type",
       "qualified_name": "is_type",
       "language": "python",
       "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
       "blob": "d0373ddfac014a0e4fa2962576e424431ed219b3",
-      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "commit": "c533dd7c53224a637b1438ea72ee25da887fc6de",
       "range": {
         "start_byte": 450,
         "end_byte": 943,
@@ -157,7 +159,7 @@
         "name_line": 20,
         "name_column_utf8": 4
       },
-      "parent_id": "file-5c9d67f4649c5cde977f08b53d1fa732",
+      "parent_id": "file-5c6111cf8aac5e1898ba803b83e30d53",
       "candidate_classification": "appendix",
       "classification_evidence": [
         "public-or-exported"
@@ -166,8 +168,9 @@
       "hard_exclusion": null,
       "is_public_or_exported": true,
       "is_partial": false,
+      "syntax_warning_ids": [],
       "classification": "appendix",
-      "owner_page_id": "file-5c9d67f4649c5cde977f08b53d1fa732",
+      "owner_page_id": "file-5c6111cf8aac5e1898ba803b83e30d53",
       "navigation_evidence": [
         "public-or-exported"
       ],
@@ -178,14 +181,14 @@
       "review_status": "agent-reviewed"
     },
     {
-      "id": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "id": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "kind": "function",
       "name": "validate",
       "qualified_name": "validate",
       "language": "python",
       "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
       "blob": "d0373ddfac014a0e4fa2962576e424431ed219b3",
-      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "commit": "c533dd7c53224a637b1438ea72ee25da887fc6de",
       "range": {
         "start_byte": 946,
         "end_byte": 3499,
@@ -194,7 +197,7 @@
         "name_line": 31,
         "name_column_utf8": 4
       },
-      "parent_id": "file-5c9d67f4649c5cde977f08b53d1fa732",
+      "parent_id": "file-5c6111cf8aac5e1898ba803b83e30d53",
       "candidate_classification": "page",
       "classification_evidence": [
         "public-or-exported"
@@ -203,8 +206,9 @@
       "hard_exclusion": null,
       "is_public_or_exported": true,
       "is_partial": false,
+      "syntax_warning_ids": [],
       "classification": "page",
-      "owner_page_id": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "owner_page_id": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "navigation_evidence": [
         "entry-direct-relation",
         "cross-file-reference",
@@ -219,14 +223,14 @@
       "review_status": "agent-reviewed"
     },
     {
-      "id": "ent-4aea220c858f59e587588a7e5354784b",
+      "id": "ent-7a21da1ea29059868af7c154a2a0f365",
       "kind": "function",
       "name": "load",
       "qualified_name": "load",
       "language": "python",
       "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
       "blob": "d0373ddfac014a0e4fa2962576e424431ed219b3",
-      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "commit": "c533dd7c53224a637b1438ea72ee25da887fc6de",
       "range": {
         "start_byte": 3502,
         "end_byte": 3569,
@@ -235,7 +239,7 @@
         "name_line": 72,
         "name_column_utf8": 4
       },
-      "parent_id": "file-5c9d67f4649c5cde977f08b53d1fa732",
+      "parent_id": "file-5c6111cf8aac5e1898ba803b83e30d53",
       "candidate_classification": "appendix",
       "classification_evidence": [
         "public-or-exported",
@@ -245,10 +249,10 @@
       "hard_exclusion": "single-return-or-call",
       "is_public_or_exported": true,
       "is_partial": false,
+      "syntax_warning_ids": [],
       "classification": "appendix",
-      "owner_page_id": "file-5c9d67f4649c5cde977f08b53d1fa732",
+      "owner_page_id": "file-5c6111cf8aac5e1898ba803b83e30d53",
       "navigation_evidence": [
-        "cross-file-reference",
         "public-or-exported",
         "hard-exclusion:single-return-or-call"
       ],
@@ -259,14 +263,14 @@
       "review_status": "agent-reviewed"
     },
     {
-      "id": "ent-d63394060f3252279b800f7fa9e81e52",
+      "id": "ent-55d70dc326005eda8939b4137f9a4b36",
       "kind": "function",
       "name": "assert_valid",
       "qualified_name": "assert_valid",
       "language": "python",
       "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
       "blob": "d0373ddfac014a0e4fa2962576e424431ed219b3",
-      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "commit": "c533dd7c53224a637b1438ea72ee25da887fc6de",
       "range": {
         "start_byte": 3571,
         "end_byte": 3753,
@@ -275,7 +279,7 @@
         "name_line": 74,
         "name_column_utf8": 4
       },
-      "parent_id": "file-5c9d67f4649c5cde977f08b53d1fa732",
+      "parent_id": "file-5c6111cf8aac5e1898ba803b83e30d53",
       "candidate_classification": "appendix",
       "classification_evidence": [
         "public-or-exported"
@@ -284,8 +288,9 @@
       "hard_exclusion": null,
       "is_public_or_exported": true,
       "is_partial": false,
+      "syntax_warning_ids": [],
       "classification": "appendix",
-      "owner_page_id": "file-5c9d67f4649c5cde977f08b53d1fa732",
+      "owner_page_id": "file-5c6111cf8aac5e1898ba803b83e30d53",
       "navigation_evidence": [
         "public-or-exported"
       ],
@@ -296,14 +301,14 @@
       "review_status": "agent-reviewed"
     },
     {
-      "id": "ent-0546963d4c5f55c5844e6588f7dd9830",
+      "id": "ent-c393f32d139d5ab39c981755ce140e48",
       "kind": "function",
       "name": "slug",
       "qualified_name": "slug",
       "language": "python",
       "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
       "blob": "d0373ddfac014a0e4fa2962576e424431ed219b3",
-      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "commit": "c533dd7c53224a637b1438ea72ee25da887fc6de",
       "range": {
         "start_byte": 3756,
         "end_byte": 3914,
@@ -312,7 +317,7 @@
         "name_line": 79,
         "name_column_utf8": 4
       },
-      "parent_id": "file-5c9d67f4649c5cde977f08b53d1fa732",
+      "parent_id": "file-5c6111cf8aac5e1898ba803b83e30d53",
       "candidate_classification": "appendix",
       "classification_evidence": [
         "public-or-exported"
@@ -321,8 +326,9 @@
       "hard_exclusion": null,
       "is_public_or_exported": true,
       "is_partial": false,
+      "syntax_warning_ids": [],
       "classification": "appendix",
-      "owner_page_id": "file-5c9d67f4649c5cde977f08b53d1fa732",
+      "owner_page_id": "file-5c6111cf8aac5e1898ba803b83e30d53",
       "navigation_evidence": [
         "public-or-exported"
       ],
@@ -333,14 +339,14 @@
       "review_status": "agent-reviewed"
     },
     {
-      "id": "ent-2e1602bda4e95d0c99e1d6528e52f7b5",
+      "id": "ent-d201cd6d597c5d76903beae5f777b42f",
       "kind": "function",
       "name": "walk",
       "qualified_name": "walk",
       "language": "python",
       "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
       "blob": "d0373ddfac014a0e4fa2962576e424431ed219b3",
-      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "commit": "c533dd7c53224a637b1438ea72ee25da887fc6de",
       "range": {
         "start_byte": 4408,
         "end_byte": 4661,
@@ -349,7 +355,7 @@
         "name_line": 95,
         "name_column_utf8": 8
       },
-      "parent_id": "file-5c9d67f4649c5cde977f08b53d1fa732",
+      "parent_id": "file-5c6111cf8aac5e1898ba803b83e30d53",
       "candidate_classification": "appendix",
       "classification_evidence": [
         "public-or-exported"
@@ -358,8 +364,9 @@
       "hard_exclusion": null,
       "is_public_or_exported": true,
       "is_partial": false,
+      "syntax_warning_ids": [],
       "classification": "appendix",
-      "owner_page_id": "file-5c9d67f4649c5cde977f08b53d1fa732",
+      "owner_page_id": "file-5c6111cf8aac5e1898ba803b83e30d53",
       "navigation_evidence": [
         "cross-file-reference",
         "public-or-exported"
@@ -371,14 +378,14 @@
       "review_status": "agent-reviewed"
     },
     {
-      "id": "ent-0378b59a0e3153b8a8a6591623a23d82",
+      "id": "ent-df0756acfae45b8f9cbaf8f93ab95df0",
       "kind": "function",
       "name": "add",
       "qualified_name": "add",
       "language": "python",
       "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
       "blob": "d0373ddfac014a0e4fa2962576e424431ed219b3",
-      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "commit": "c533dd7c53224a637b1438ea72ee25da887fc6de",
       "range": {
         "start_byte": 5877,
         "end_byte": 6023,
@@ -387,7 +394,7 @@
         "name_line": 120,
         "name_column_utf8": 4
       },
-      "parent_id": "file-5c9d67f4649c5cde977f08b53d1fa732",
+      "parent_id": "file-5c6111cf8aac5e1898ba803b83e30d53",
       "candidate_classification": "appendix",
       "classification_evidence": [
         "public-or-exported"
@@ -396,8 +403,9 @@
       "hard_exclusion": null,
       "is_public_or_exported": true,
       "is_partial": false,
+      "syntax_warning_ids": [],
       "classification": "appendix",
-      "owner_page_id": "file-5c9d67f4649c5cde977f08b53d1fa732",
+      "owner_page_id": "file-5c6111cf8aac5e1898ba803b83e30d53",
       "navigation_evidence": [
         "cross-file-reference",
         "public-or-exported"
@@ -407,26 +415,152 @@
       "description_zh": "`add` 用于完成局部输入校验、转换或状态更新。",
       "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `references/design/obsidian-canvas-agent-visualization/verification/validate_design.py` 第 120-123 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
       "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "kind": "boundary",
+      "name": "validate_only",
+      "qualified_name": "validate_only",
+      "language": "python",
+      "path": "prototypes/ckb-canvas-skill/ckb_canvas/commands.py",
+      "blob": "31c13b717a56030b81925743282ac8a2d3eeedc9",
+      "commit": "c533dd7c53224a637b1438ea72ee25da887fc6de",
+      "range": {
+        "start_byte": 7717,
+        "end_byte": 8304,
+        "start_line": 213,
+        "end_line": 225,
+        "name_line": 213,
+        "name_column_utf8": 4
+      },
+      "parent_id": "file-f5027ce993a25e4988b2acb89f161617",
+      "candidate_classification": "boundary",
+      "classification_evidence": [
+        "one-hop-outside-selected-scope"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "syntax_warning_ids": [],
+      "kind_original": "function",
+      "classification": "boundary",
+      "owner_page_id": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "navigation_evidence": [
+        "cross-file-reference",
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0002",
+      "parse_batch_id": "batch-0002",
+      "meaning_zh": "代码单元 `validate_only`负责生成、验证和回滚隔离的 Obsidian Canvas 实验输出。",
+      "role_zh": "它属于Canvas 实验的事务命令层，说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当Canvas 生成、验证或回滚合同变化时，应同步复查本页及其直接测试。",
+      "evidence_note": "已核对固定提交 bd8519583e3a 中 `prototypes/ckb-canvas-skill/ckb_canvas/commands.py` 第 213 至 225 行，摘录属于 Git blob 31c13b717a56。",
+      "review_status": "agent-reviewed"
     }
   ],
   "links": [
     {
-      "id": "link-a5d7fc4019f056b08e484f4deb198a12",
+      "id": "link-2ecc3a2e10d656698bdebfd3cce66ab3",
       "type": "references",
-      "source": "ent-d936728ee91d58aba1f04e5a502aad45",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "target": "ent-50062a938a4b546ca20769c3fc1ec0b5",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
-        "name": "validate",
+        "name": "CanvasFailure",
         "source_path": "prototypes/ckb-canvas-skill/ckb_canvas/commands.py"
       },
       "cross_chunk": true
     },
     {
-      "id": "link-b26b5a65e0de5a4e97768caed3ef76b4",
+      "id": "link-7b0a5270b5495410a7968dd5cad6fef1",
       "type": "references",
-      "source": "ent-c2aabbe86fc455e5b951b2864f187ab6",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "target": "ent-f7fdcab39d48553c8a83f2af613b40b0",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "_bundle_bytes",
+        "source_path": "prototypes/ckb-canvas-skill/ckb_canvas/commands.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-b84ecd6aac0a583f83b03965ec4e2a5f",
+      "type": "references",
+      "source": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "target": "ent-28f191c504805f13a47d40874af6c843",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "_render",
+        "source_path": "prototypes/ckb-canvas-skill/ckb_canvas/commands.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-7b47ec6ed2d2509192b6bada7071a70b",
+      "type": "references",
+      "source": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "target": "ent-f4d5e554b9c4517aa3fa24ea6e4fe941",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "capture_baseline",
+        "source_path": "prototypes/ckb-canvas-skill/ckb_canvas/commands.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-98bbf7d5bb80506eb0e70730dce186ec",
+      "type": "references",
+      "source": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "target": "ent-dfc91b3e301254f29ea6e45c52dd4fc1",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "load_and_freeze_request",
+        "source_path": "prototypes/ckb-canvas-skill/ckb_canvas/commands.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-956683fee6eb5ec5a67134e62431b84b",
+      "type": "references",
+      "source": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "target": "ent-7e4e0d1ce0435f3d800e6b59f6e26dea",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "stage_bundle",
+        "source_path": "prototypes/ckb-canvas-skill/ckb_canvas/commands.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-f14ff56cf88159d69aea68741a40121e",
+      "type": "references",
+      "source": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "validate",
+        "source_path": "prototypes/ckb-canvas-skill/ckb_canvas/commands.py"
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-03fac95e4db950aeae7f276504014363",
+      "type": "references",
+      "source": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "target": "ent-38831c07994e57999e64f91c08c97ef1",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "validation",
+        "source_path": "prototypes/ckb-canvas-skill/ckb_canvas/commands.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-3ab22117f53e5b3b9538fb22eed788c7",
+      "type": "references",
+      "source": "ent-c25dfde9d5235290b079dba8b2ff0d34",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -435,22 +569,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-3588c0be2eab5de6b8e109410c39b8c2",
+      "id": "link-e577f5bbe480505dbcd14b10fdb2e33b",
       "type": "references",
-      "source": "ent-b9f28fbe304d5a8498939422bafab4ec",
-      "target": "ent-ad8147391ce85d7185d8725576fbce4a",
-      "provider": "tree-sitter-lexical-candidate",
-      "evidence": {
-        "name": "digest",
-        "source_path": "prototypes/ckb-canvas-skill/ckb_canvas/transaction.py"
-      },
-      "cross_chunk": true
-    },
-    {
-      "id": "link-f95a46bd1d3a51de8d20dc26f7c0fd2d",
-      "type": "references",
-      "source": "ent-f8ac536a5b9d5e4cb1c623de0453f274",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-21ff73f5a31a5b44997a9f9ca65a5597",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -459,10 +581,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-6c2293b564b556108bb2ffeb991eaf19",
+      "id": "link-71198853c49450889685d78cd0d93277",
       "type": "references",
-      "source": "ent-b59a915ce6585cc4a7cb494c0fedb7cb",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-acfc628612ed51579b789930b71fb78c",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -471,10 +593,22 @@
       "cross_chunk": true
     },
     {
-      "id": "link-77bb228fc6ae5d90897ab5d311f8591c",
+      "id": "link-a675917fab1c55e0af89d7f1689d0ce5",
       "type": "references",
-      "source": "ent-a3f5a4f419825475bd3ea017a1214d93",
-      "target": "ent-425ab917df07585c84c1fb4857119548",
+      "source": "ent-acfc628612ed51579b789930b71fb78c",
+      "target": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "validate_only",
+        "source_path": "prototypes/ckb-canvas-skill/scripts/ckb_canvas.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-82f034e1af6b5285abc89d21f62424aa",
+      "type": "references",
+      "source": "ent-0fd95f62059d525ebbe10b20eaec36a3",
+      "target": "ent-92c86477586e593ebdb3bd1756a8d595",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "append",
@@ -483,10 +617,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-06d1916cfaef58508ff0723e3d06a832",
+      "id": "link-2745e2d61ac25354b75e7cdd048fdb2d",
       "type": "references",
-      "source": "ent-a3f5a4f419825475bd3ea017a1214d93",
-      "target": "ent-6a09c09a9c065f6dbc7b48695d20c334",
+      "source": "ent-0fd95f62059d525ebbe10b20eaec36a3",
+      "target": "ent-85148630f6625350a47b24a368bc6fc2",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "is_type",
@@ -495,10 +629,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-857a9e2c73315570930007df903bed83",
+      "id": "link-ab2117d58f495f1bbc6197b8d2ca41be",
       "type": "references",
-      "source": "ent-a3f5a4f419825475bd3ea017a1214d93",
-      "target": "ent-5ab65dd14fd957f1b728bdf0af2f7e85",
+      "source": "ent-0fd95f62059d525ebbe10b20eaec36a3",
+      "target": "ent-106ee076b03054fb8b5fbc00af6972e0",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "variants",
@@ -507,22 +641,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-3ddf6f472174550daa2a6ae7723fd96a",
+      "id": "link-6be48acb0d88588db499a609bf737a35",
       "type": "references",
-      "source": "ent-d63394060f3252279b800f7fa9e81e52",
-      "target": "ent-4aea220c858f59e587588a7e5354784b",
-      "provider": "tree-sitter-lexical-candidate",
-      "evidence": {
-        "name": "load",
-        "source_path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py"
-      },
-      "cross_chunk": false
-    },
-    {
-      "id": "link-dcd324ffb5b55785ac05d3883d844d12",
-      "type": "references",
-      "source": "ent-d63394060f3252279b800f7fa9e81e52",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-55d70dc326005eda8939b4137f9a4b36",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -531,10 +653,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-0289a563e9095c59b88d6483af4e8272",
+      "id": "link-f32cda3240a758ea92f6ac3f8171658a",
       "type": "references",
-      "source": "ent-0378b59a0e3153b8a8a6591623a23d82",
-      "target": "ent-425ab917df07585c84c1fb4857119548",
+      "source": "ent-df0756acfae45b8f9cbaf8f93ab95df0",
+      "target": "ent-92c86477586e593ebdb3bd1756a8d595",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "append",
@@ -543,34 +665,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-8519c464dba85a2c8ee694d6a2d788bb",
+      "id": "link-adbb969a58ee5af780590eb280be9b14",
       "type": "references",
-      "source": "ent-eebcb0c393ca5e9da11204236711410e",
-      "target": "ent-ad8147391ce85d7185d8725576fbce4a",
-      "provider": "tree-sitter-lexical-candidate",
-      "evidence": {
-        "name": "digest",
-        "source_path": "scripts/build_runtime_payload.py"
-      },
-      "cross_chunk": true
-    },
-    {
-      "id": "link-22b870261aba51f1ae41bff8c75b9f28",
-      "type": "references",
-      "source": "ent-3d196d5f245058bb9ef3c5b82a97d601",
-      "target": "ent-ad8147391ce85d7185d8725576fbce4a",
-      "provider": "tree-sitter-lexical-candidate",
-      "evidence": {
-        "name": "digest",
-        "source_path": "scripts/ckb.py"
-      },
-      "cross_chunk": true
-    },
-    {
-      "id": "link-c3a5e5a526a45e67beb4f215c34560cc",
-      "type": "references",
-      "source": "ent-3d196d5f245058bb9ef3c5b82a97d601",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-4215f65eea875d9e8cef51f75f9bcbbb",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -579,10 +677,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-d75f51424df95150a570b9e31bffc01c",
+      "id": "link-aede7d1bef3a50fe994a879a6b1ef424",
       "type": "references",
-      "source": "ent-6ac5a189e9dd505eb14c202d336fe855",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-39996230086f57a08f5d0c058ebf89ee",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -591,94 +689,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-a1d3e00ed84e52069706011d1559e197",
+      "id": "link-6ea877b9ef3256e6a367e336ad0ed613",
       "type": "references",
-      "source": "ent-19d4681f72b65dee80ffe5165497b078",
-      "target": "ent-ad8147391ce85d7185d8725576fbce4a",
-      "provider": "tree-sitter-lexical-candidate",
-      "evidence": {
-        "name": "digest",
-        "source_path": "scripts/ckb_core/agent_protocol_batch.py"
-      },
-      "cross_chunk": true
-    },
-    {
-      "id": "link-7e6ef063e4555234ba34a5a72d83e7b5",
-      "type": "references",
-      "source": "ent-8003c2d468a55a0da7de89ecfdb544ca",
-      "target": "ent-ad8147391ce85d7185d8725576fbce4a",
-      "provider": "tree-sitter-lexical-candidate",
-      "evidence": {
-        "name": "digest",
-        "source_path": "scripts/ckb_core/agent_protocol_batch.py"
-      },
-      "cross_chunk": true
-    },
-    {
-      "id": "link-5c6aa835d449537eb069279b0409b911",
-      "type": "references",
-      "source": "ent-260c6dbe27dc5eb18918c3753187813c",
-      "target": "ent-ad8147391ce85d7185d8725576fbce4a",
-      "provider": "tree-sitter-lexical-candidate",
-      "evidence": {
-        "name": "digest",
-        "source_path": "scripts/ckb_core/agent_protocol_batch.py"
-      },
-      "cross_chunk": true
-    },
-    {
-      "id": "link-1548050c603250069aee7bfbde64af5a",
-      "type": "references",
-      "source": "ent-f95e541c2e1f53b3ab16b1281eff7ec7",
-      "target": "ent-ad8147391ce85d7185d8725576fbce4a",
-      "provider": "tree-sitter-lexical-candidate",
-      "evidence": {
-        "name": "digest",
-        "source_path": "scripts/ckb_core/agent_protocol_batch.py"
-      },
-      "cross_chunk": true
-    },
-    {
-      "id": "link-f72360b94ac658719f5ffef2099a5ac2",
-      "type": "references",
-      "source": "ent-59f7e992c7f950e192a3fd6f0d01de3a",
-      "target": "ent-ad8147391ce85d7185d8725576fbce4a",
-      "provider": "tree-sitter-lexical-candidate",
-      "evidence": {
-        "name": "digest",
-        "source_path": "scripts/ckb_core/agent_protocol_batch.py"
-      },
-      "cross_chunk": true
-    },
-    {
-      "id": "link-169d21d97f265195b830cfd1a8ccca9d",
-      "type": "references",
-      "source": "ent-e65616480a3752aa9d8e43d3ec8af264",
-      "target": "ent-ad8147391ce85d7185d8725576fbce4a",
-      "provider": "tree-sitter-lexical-candidate",
-      "evidence": {
-        "name": "digest",
-        "source_path": "scripts/ckb_core/automation.py"
-      },
-      "cross_chunk": true
-    },
-    {
-      "id": "link-6728e25a8a5653b4b828d071a35240b9",
-      "type": "references",
-      "source": "ent-3a2931f0215c53e5bc23b84a2322eab0",
-      "target": "ent-ad8147391ce85d7185d8725576fbce4a",
-      "provider": "tree-sitter-lexical-candidate",
-      "evidence": {
-        "name": "digest",
-        "source_path": "scripts/ckb_core/common.py"
-      },
-      "cross_chunk": true
-    },
-    {
-      "id": "link-ad1cf734746f587188762683fb0bd7de",
-      "type": "references",
-      "source": "ent-3ce51cfd11685246a47203f011b286cc",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-94b5fd8ccd075f8aac67909e5ad83486",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -687,22 +701,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-9ff7572e95d059beb449789cdfa7a5aa",
+      "id": "link-18e7289153ef56379f04d9dd336dbe65",
       "type": "references",
-      "source": "ent-a4d88266070353b0821d9c4a85b8f20b",
-      "target": "ent-ad8147391ce85d7185d8725576fbce4a",
-      "provider": "tree-sitter-lexical-candidate",
-      "evidence": {
-        "name": "digest",
-        "source_path": "scripts/ckb_core/human_page_authoring.py"
-      },
-      "cross_chunk": true
-    },
-    {
-      "id": "link-9fcde8e4c60951c1b74ee328e3357aef",
-      "type": "references",
-      "source": "ent-a4d88266070353b0821d9c4a85b8f20b",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-f2a266ad59915737a936dddb6764fd00",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -711,10 +713,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-a4760ecd4c6b5c4da2710fea4fcfc0d8",
+      "id": "link-762769132e185577ba845cb323e75650",
       "type": "references",
-      "source": "ent-49957c639e445103b303409df86205c7",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-c6ef1b05ef0755c19ceee4e66c2ba21f",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -723,10 +725,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-d6101cbcb4485e41b3a4fe9aff22cb52",
+      "id": "link-2f7f43d8de855dd1b4da270072bdb062",
       "type": "references",
-      "source": "ent-2cd9b76993e65bfa8304567814ad704c",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-f194bfcbe02259ff943dc29202298d56",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -735,10 +737,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-f783fdca757b5c2eb2f2f66d8ec717ed",
+      "id": "link-256e5dbbd9b55fefbd01f5f38e2152bf",
       "type": "references",
-      "source": "ent-f7114eb25ab8549b83d11be0fe4b4288",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-1c8f88e6e8815ad2a69fc721cf407b29",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -747,10 +749,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-a8123b4c9d3b534ba89200a4bb64639e",
+      "id": "link-ccb3b23e9e945b6ca7e568ca0caec125",
       "type": "references",
-      "source": "ent-08dc38190cf35ca0aa1e254d5e52eff2",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-4c2c206ef65e5c06afa32d55e5a2ec78",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -759,106 +761,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-5a4b5f09dd7b5499a53e466c622cccc7",
+      "id": "link-63b3f48859b85d8ea646be3cc6c94b38",
       "type": "references",
-      "source": "ent-275b3e5e3912558ba4231f111e9043a4",
-      "target": "ent-ad8147391ce85d7185d8725576fbce4a",
-      "provider": "tree-sitter-lexical-candidate",
-      "evidence": {
-        "name": "digest",
-        "source_path": "scripts/ckb_core/human_page_template_proposals.py"
-      },
-      "cross_chunk": true
-    },
-    {
-      "id": "link-0cf3c8b32c725c73b4e815e5fa5dabed",
-      "type": "references",
-      "source": "ent-c805108bcc14512a8df6676cc41b5b94",
-      "target": "ent-ad8147391ce85d7185d8725576fbce4a",
-      "provider": "tree-sitter-lexical-candidate",
-      "evidence": {
-        "name": "digest",
-        "source_path": "scripts/ckb_core/human_page_template_proposals.py"
-      },
-      "cross_chunk": true
-    },
-    {
-      "id": "link-c90221f3909c56d880199a38b4de1af8",
-      "type": "references",
-      "source": "ent-1c02cf7560a750c0b942bc71679c4e80",
-      "target": "ent-ad8147391ce85d7185d8725576fbce4a",
-      "provider": "tree-sitter-lexical-candidate",
-      "evidence": {
-        "name": "digest",
-        "source_path": "scripts/ckb_core/human_page_template_proposals.py"
-      },
-      "cross_chunk": true
-    },
-    {
-      "id": "link-3b3cf520321757188e9a46312f0890d6",
-      "type": "references",
-      "source": "ent-c0622063155d529d83e03ad3bd9d9a68",
-      "target": "ent-ad8147391ce85d7185d8725576fbce4a",
-      "provider": "tree-sitter-lexical-candidate",
-      "evidence": {
-        "name": "digest",
-        "source_path": "scripts/ckb_core/human_page_template_proposals.py"
-      },
-      "cross_chunk": true
-    },
-    {
-      "id": "link-f0c2950c5f3f5604a8bbe58f237e3560",
-      "type": "references",
-      "source": "ent-9b4786d3587e5884a2aad73d6fbde818",
-      "target": "ent-ad8147391ce85d7185d8725576fbce4a",
-      "provider": "tree-sitter-lexical-candidate",
-      "evidence": {
-        "name": "digest",
-        "source_path": "scripts/ckb_core/human_page_template_proposals.py"
-      },
-      "cross_chunk": true
-    },
-    {
-      "id": "link-983820bf175c5c4a956ab3b3e94e91e7",
-      "type": "references",
-      "source": "ent-e5f53bf02cee53128cce6d6afc4d06a0",
-      "target": "ent-ad8147391ce85d7185d8725576fbce4a",
-      "provider": "tree-sitter-lexical-candidate",
-      "evidence": {
-        "name": "digest",
-        "source_path": "scripts/ckb_core/human_page_template_proposals.py"
-      },
-      "cross_chunk": true
-    },
-    {
-      "id": "link-41846463f9f457a1a2bb64f57a4bdeac",
-      "type": "references",
-      "source": "ent-3b88fa4bab4e5f79bb67672dcd2cc17f",
-      "target": "ent-ad8147391ce85d7185d8725576fbce4a",
-      "provider": "tree-sitter-lexical-candidate",
-      "evidence": {
-        "name": "digest",
-        "source_path": "scripts/ckb_core/human_page_template_proposals.py"
-      },
-      "cross_chunk": true
-    },
-    {
-      "id": "link-cb736368137b599fb24a500f32663775",
-      "type": "references",
-      "source": "ent-901088a693d257299ddb590c87c1637a",
-      "target": "ent-ad8147391ce85d7185d8725576fbce4a",
-      "provider": "tree-sitter-lexical-candidate",
-      "evidence": {
-        "name": "digest",
-        "source_path": "scripts/ckb_core/human_page_template_proposals.py"
-      },
-      "cross_chunk": true
-    },
-    {
-      "id": "link-2e2bd94f789d516d983b4feb27e3ab2d",
-      "type": "references",
-      "source": "ent-77f9a2d4b3145df08db1b1d926d41904",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-3bd452059d335432b4db9200534bd9ee",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -867,46 +773,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-26604af921455725b2fc4cb282b8bac0",
+      "id": "link-abd5104d8d185058a568a7aad0ee7524",
       "type": "references",
-      "source": "ent-a60e43eb07635b96bbd80864e2d4cd4f",
-      "target": "ent-ad8147391ce85d7185d8725576fbce4a",
-      "provider": "tree-sitter-lexical-candidate",
-      "evidence": {
-        "name": "digest",
-        "source_path": "scripts/ckb_core/knowledge_batch_migration.py"
-      },
-      "cross_chunk": true
-    },
-    {
-      "id": "link-b3592555071c5401ada64816948f945c",
-      "type": "references",
-      "source": "ent-907deb340d675e1fbca280e57ace755d",
-      "target": "ent-ad8147391ce85d7185d8725576fbce4a",
-      "provider": "tree-sitter-lexical-candidate",
-      "evidence": {
-        "name": "digest",
-        "source_path": "scripts/ckb_core/knowledge_batch_migration.py"
-      },
-      "cross_chunk": true
-    },
-    {
-      "id": "link-5b966bc257bf53ce89520a27631aaf00",
-      "type": "references",
-      "source": "ent-080e0d71bec75bcb95c912d236adfee9",
-      "target": "ent-ad8147391ce85d7185d8725576fbce4a",
-      "provider": "tree-sitter-lexical-candidate",
-      "evidence": {
-        "name": "digest",
-        "source_path": "scripts/ckb_core/knowledge_batch_migration.py"
-      },
-      "cross_chunk": true
-    },
-    {
-      "id": "link-c680230ead7555529c073bed772215ae",
-      "type": "references",
-      "source": "ent-0adb7c63aab658068ffe16531e93f307",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-a25c5dc873825077b3bb5348c2deac64",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -915,10 +785,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-86a907f782e15eb39dce692e972dcb69",
+      "id": "link-0b161105320351c19872e4d2ff6e7403",
       "type": "references",
-      "source": "ent-f2c827d6939257459e22499212363614",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-09132547bc935b03860867e8d3b1a9fa",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -927,34 +797,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-b430b5d95fd556228e1b62706e9f9c67",
+      "id": "link-36be6413435d57e9ac4791a7a7a2a426",
       "type": "references",
-      "source": "ent-30f0a12fa0d452f4a68107124a1d5740",
-      "target": "ent-4aea220c858f59e587588a7e5354784b",
-      "provider": "tree-sitter-lexical-candidate",
-      "evidence": {
-        "name": "load",
-        "source_path": "scripts/ckb_core/providers.py"
-      },
-      "cross_chunk": true
-    },
-    {
-      "id": "link-3a03d024ee59537bb8ff85aaac73ed47",
-      "type": "references",
-      "source": "ent-edf624e359c2595ea4dd19ee8b853613",
-      "target": "ent-ad8147391ce85d7185d8725576fbce4a",
-      "provider": "tree-sitter-lexical-candidate",
-      "evidence": {
-        "name": "digest",
-        "source_path": "scripts/ckb_core/reference_documents.py"
-      },
-      "cross_chunk": true
-    },
-    {
-      "id": "link-c46329a6034956098146d835add42ea2",
-      "type": "references",
-      "source": "ent-fff6f7177ff35baa9674b993d63b90b6",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-d657013ac94653ffa22e25e82595f595",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -963,22 +809,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-46a84433f63e5bd4a6e13ac64fcfccea",
+      "id": "link-9cfd1546237d5347ab261d05a79b2e32",
       "type": "references",
-      "source": "ent-ca4d2a058e9e5cb281ad1cc388b3b22c",
-      "target": "ent-ad8147391ce85d7185d8725576fbce4a",
-      "provider": "tree-sitter-lexical-candidate",
-      "evidence": {
-        "name": "digest",
-        "source_path": "scripts/ckb_core/session_stdio.py"
-      },
-      "cross_chunk": true
-    },
-    {
-      "id": "link-d12c152ce6e95afa865338ba92004655",
-      "type": "references",
-      "source": "ent-989014a0671c50119a3c2bd03b90fa1c",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-4667524849e65c54bcd082d758a9e438",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -987,22 +821,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-bb649872a8ee5498adf8a06efe4b454a",
+      "id": "link-3206495ba3a85013bf19d22677b72842",
       "type": "references",
-      "source": "ent-cd2350fb95bd53f1940fe712a14cf089",
-      "target": "ent-ad8147391ce85d7185d8725576fbce4a",
-      "provider": "tree-sitter-lexical-candidate",
-      "evidence": {
-        "name": "digest",
-        "source_path": "scripts/package_release.py"
-      },
-      "cross_chunk": true
-    },
-    {
-      "id": "link-b148855247c1598294ca506b8ac22f22",
-      "type": "references",
-      "source": "ent-e34e7710f5995a2288c597c258ffe90b",
-      "target": "ent-2e1602bda4e95d0c99e1d6528e52f7b5",
+      "source": "ent-d8537dc5d06b55e8843e1023eca33f47",
+      "target": "ent-d201cd6d597c5d76903beae5f777b42f",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "walk",
@@ -1011,22 +833,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-161bcd93bddc50528568b9d6d64da0b1",
+      "id": "link-59bc3c3303315e47b70b05a73415074d",
       "type": "references",
-      "source": "ent-68ddafb9ef775045b9a0fb8a7ca7bb9e",
-      "target": "ent-ad8147391ce85d7185d8725576fbce4a",
-      "provider": "tree-sitter-lexical-candidate",
-      "evidence": {
-        "name": "digest",
-        "source_path": "tests/e2e_agent_protocol_batch.py"
-      },
-      "cross_chunk": true
-    },
-    {
-      "id": "link-af45d1fbe2f4567fa1ffec16767504e5",
-      "type": "references",
-      "source": "ent-b50468493fa65b33a87562ff1a2f50fc",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-9d3f6c4d3d1555ecbe2bc2f85929a7ef",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -1035,46 +845,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-9b99ffbf07c85921a475db49717127e2",
+      "id": "link-34f84ec70e895434805de9b5cb80062a",
       "type": "references",
-      "source": "ent-73544d2f1dc05e99a2fbf11b51001a01",
-      "target": "ent-ad8147391ce85d7185d8725576fbce4a",
-      "provider": "tree-sitter-lexical-candidate",
-      "evidence": {
-        "name": "digest",
-        "source_path": "tests/test_agent_protocol_batch.py"
-      },
-      "cross_chunk": true
-    },
-    {
-      "id": "link-bb49a08eedca592d885b351b84ce9594",
-      "type": "references",
-      "source": "ent-62a7133a44d45ee1bfe559ef480ac503",
-      "target": "ent-ad8147391ce85d7185d8725576fbce4a",
-      "provider": "tree-sitter-lexical-candidate",
-      "evidence": {
-        "name": "digest",
-        "source_path": "tests/test_agent_protocol_batch.py"
-      },
-      "cross_chunk": true
-    },
-    {
-      "id": "link-7b754b8c95505d5f993323103dfa0f20",
-      "type": "references",
-      "source": "ent-dcd11c67e3f453d0a27c08c3147f8c1b",
-      "target": "ent-ad8147391ce85d7185d8725576fbce4a",
-      "provider": "tree-sitter-lexical-candidate",
-      "evidence": {
-        "name": "digest",
-        "source_path": "tests/test_agent_protocol_batch.py"
-      },
-      "cross_chunk": true
-    },
-    {
-      "id": "link-8b94c8338c695c2daea2f3c9b5e47c30",
-      "type": "references",
-      "source": "ent-31d2b76dd5c35696a980335552fa734b",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-0289d68e396f5ee58549f2e43a3ca385",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -1083,10 +857,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-3e73d79069c350dda5dc26ed1c870a50",
+      "id": "link-068f7e4c3cdf5745841725ef06bbb677",
       "type": "references",
-      "source": "ent-2364091b86ac50b8a55f530c857d2fcb",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-c0cc0523d4b353dfa07a5c6d40450dd1",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -1095,10 +869,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-a025c07833bc5c89ae864d197933caf4",
+      "id": "link-d2d8ed3ebffa583495c9d0d4c4c9372f",
       "type": "references",
-      "source": "ent-4c88b61a0a195977a1d2a9854dd67039",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-d751a9af62c351f4aadd231ff21853e8",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -1107,10 +881,22 @@
       "cross_chunk": true
     },
     {
-      "id": "link-1d0b035afb3c598eb4c098181a888f71",
+      "id": "link-7963c4c357765a12a8a86e6da906e2b2",
       "type": "references",
-      "source": "ent-97fddd5dc0c55ea698b385a7d1a98418",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-d751a9af62c351f4aadd231ff21853e8",
+      "target": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "validate_only",
+        "source_path": "tests/test_ckb_canvas_contracts.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-dc23ce389f185b459b97acf7980cefb0",
+      "type": "references",
+      "source": "ent-c7db426678925c8abdbbf522f1623fa3",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -1119,10 +905,82 @@
       "cross_chunk": true
     },
     {
-      "id": "link-cdfa3d57c17c5c3e9cd712ecccf70e9e",
+      "id": "link-cbe875bc3ae15d1d89b8aed56a618492",
       "type": "references",
-      "source": "ent-05db65d424ca5ce0a00d27a67afa4bbc",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-14ba5bcc9e555d10a3f9bad2a209e5e2",
+      "target": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "validate_only",
+        "source_path": "tests/test_ckb_canvas_contracts.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-3b2e7424a2df5d3a8c3893eb8f1b773c",
+      "type": "references",
+      "source": "ent-44a6421c99aa54e0b63e870327a9b825",
+      "target": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "validate_only",
+        "source_path": "tests/test_ckb_canvas_contracts.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-e1209c985e29533cb465b5639baa305e",
+      "type": "references",
+      "source": "ent-2e45c56cae2d5ed1b39ef356c37823c0",
+      "target": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "validate_only",
+        "source_path": "tests/test_ckb_canvas_contracts.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-a89934392f4c56f895eb92abf8f17978",
+      "type": "references",
+      "source": "ent-b2aab383dd5251e3998427a4efd1c907",
+      "target": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "validate_only",
+        "source_path": "tests/test_ckb_canvas_graph.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-33de4152a9575934821d10548da581d1",
+      "type": "references",
+      "source": "ent-6dfdd6a05f625f959926a9ad1199d9ef",
+      "target": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "validate_only",
+        "source_path": "tests/test_ckb_canvas_graph.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-b2f7e6dc60615fd3ae5e47b403206e22",
+      "type": "references",
+      "source": "ent-226453d010925fc486d213faea3bba55",
+      "target": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "validate_only",
+        "source_path": "tests/test_ckb_canvas_graph.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-e16a0ae3530a56288b113f3d086fda8a",
+      "type": "references",
+      "source": "ent-0270ecf84f735f249b6d5b709753c6e6",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -1131,10 +989,34 @@
       "cross_chunk": true
     },
     {
-      "id": "link-21d00da33e1457fab6ec38067e6946fe",
+      "id": "link-13855b4f82fa59c29c6b392d4f6bbcf5",
       "type": "references",
-      "source": "ent-d1b216b166765495a8216cd0d3550b8c",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-0270ecf84f735f249b6d5b709753c6e6",
+      "target": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "validate_only",
+        "source_path": "tests/test_ckb_canvas_paths.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-0dc1463f28be5ddea671953d0be59cf1",
+      "type": "references",
+      "source": "ent-d4c04d1ce89158cba46e3597ac778bcb",
+      "target": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "validate_only",
+        "source_path": "tests/test_ckb_canvas_paths.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-31fd23316480514f8d5206feee4a8774",
+      "type": "references",
+      "source": "ent-f3700ca4bf5759ddb8179301f73848ea",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -1143,10 +1025,34 @@
       "cross_chunk": true
     },
     {
-      "id": "link-4fefee160617557d96949c4a40cbc39b",
+      "id": "link-3e31228ab1dc5013bf5752a8bd20130c",
       "type": "references",
-      "source": "ent-71f0bf88565c5231a7899e2c3b7ff8f8",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-e79c775e81b7540b947f7b2f7c915c17",
+      "target": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "validate_only",
+        "source_path": "tests/test_ckb_canvas_paths.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-f52ab258ee5056d3b05bd4e8a1e180e1",
+      "type": "references",
+      "source": "ent-414072d34434577583f7759eb5242e3a",
+      "target": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "validate_only",
+        "source_path": "tests/test_ckb_canvas_paths.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-7a63cf19c3d455fcb498927a3d7c6264",
+      "type": "references",
+      "source": "ent-239691d8462f5a8bb5994bfe24eae6c6",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -1155,10 +1061,22 @@
       "cross_chunk": true
     },
     {
-      "id": "link-c43d18adbb2f5eb6a716004b89424585",
+      "id": "link-0e7cad16d542592ba3469f4547dbb0ae",
       "type": "references",
-      "source": "ent-e2c1cca84e3c585f9167cf839539e6c0",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-239691d8462f5a8bb5994bfe24eae6c6",
+      "target": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "validate_only",
+        "source_path": "tests/test_ckb_canvas_transaction.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-922796fe26cf54c58bf9300aaf73a137",
+      "type": "references",
+      "source": "ent-0507b23887b8519aa7cfca81ea310296",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -1167,10 +1085,22 @@
       "cross_chunk": true
     },
     {
-      "id": "link-cc6e7e2f1fcc5aabaf7ffd63832a77fa",
+      "id": "link-156c54fa066157199b1fe91bf742ad09",
       "type": "references",
-      "source": "ent-56a899fdc8c25fa4af1b6a95a04f1f62",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-0507b23887b8519aa7cfca81ea310296",
+      "target": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "validate_only",
+        "source_path": "tests/test_ckb_canvas_transaction.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-2c4204639e995535b9c656628a48ddcd",
+      "type": "references",
+      "source": "ent-0b1b207ad45950648471211659e9755b",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -1179,10 +1109,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-b8edf987dbbe58a99cd9c145a7d9cfc1",
+      "id": "link-33e863b3d1e551a086cf7b57319cf1f2",
       "type": "references",
-      "source": "ent-5bb0df8362a258c99b6942a9c318fb80",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-befb7a007e175d898444fd7a514cdea6",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -1191,10 +1121,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-d79df9e8aea25c16a071eab3310c96af",
+      "id": "link-0ca9110acb1158608e431aee5f9069b7",
       "type": "references",
-      "source": "ent-3ca880961b405aa7b2ea9c66edd55abe",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-5054f91165655d06b355e93163121375",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -1203,10 +1133,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-609fca611ea25b1aa7404857d20fd33d",
+      "id": "link-adca84e9938c5ad686ce78b20fb4793e",
       "type": "references",
-      "source": "ent-42bb4689ffd5598ca4535ed82f4fbb7a",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-dd1834b6400b5cabb18fac25d97f5e3f",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -1215,10 +1145,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-516e2e8a8c5859928d959324b42815c1",
+      "id": "link-3ee409bc5a2b58d7b954a319032b5294",
       "type": "references",
-      "source": "ent-2bc8a258c9995cb1920f55db99628932",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-8671a78d77de5cc2a7f5d91184e25d11",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -1227,10 +1157,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-74b7e8b3315c5065bffac33600ee38a5",
+      "id": "link-613d90366294500fb320126e5d97de45",
       "type": "references",
-      "source": "ent-6e93afc1d32b52bca7d262c9dae81688",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-9731699be7645b0985b0a61c5485fec8",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -1239,10 +1169,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-a8c59990e977522486d1ce6abf03f806",
+      "id": "link-8fc96f669c065631bb7a5a1f5270b86c",
       "type": "references",
-      "source": "ent-14dce9abaf27557092560df8ca0cc9f3",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-f44fd110c21754db9ac99c5bb97ef671",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -1251,10 +1181,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-c6e1fb0286305d99a773dd8ae1e393f6",
+      "id": "link-72f58538f8a35fde8a0cfdbc6c90d0f1",
       "type": "references",
-      "source": "ent-ec6949ade9bf57ab84924eefd5444d4c",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-a254b091bf2d54918c478152312dd45c",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -1263,10 +1193,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-04678d14411653aa9f15ab91529f8dc0",
+      "id": "link-602384640ecb5dd18a856b6d9d740f91",
       "type": "contains",
-      "source": "file-5c9d67f4649c5cde977f08b53d1fa732",
-      "target": "ent-556d1a16ce285dc6a80a542350b2acf2",
+      "source": "file-5c6111cf8aac5e1898ba803b83e30d53",
+      "target": "ent-e7d9a5c754765e4197b2cbef6b1b25f4",
       "provider": "tree-sitter",
       "evidence": {
         "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
@@ -1282,10 +1212,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-be3f601e11875e62b31e3c864fea9f08",
+      "id": "link-33bb8d1347fd52a5b7c3e8d8dd9e08b1",
       "type": "contains",
-      "source": "file-5c9d67f4649c5cde977f08b53d1fa732",
-      "target": "ent-ad8147391ce85d7185d8725576fbce4a",
+      "source": "file-5c6111cf8aac5e1898ba803b83e30d53",
+      "target": "ent-22115054ce9e5c00af66b6797ffeeae6",
       "provider": "tree-sitter",
       "evidence": {
         "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
@@ -1301,10 +1231,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-8a47f6df4cca554a83324ae88990fea0",
+      "id": "link-e284302a1f8f500e9ee5db02ff8f65e1",
       "type": "contains",
-      "source": "file-5c9d67f4649c5cde977f08b53d1fa732",
-      "target": "ent-6a09c09a9c065f6dbc7b48695d20c334",
+      "source": "file-5c6111cf8aac5e1898ba803b83e30d53",
+      "target": "ent-85148630f6625350a47b24a368bc6fc2",
       "provider": "tree-sitter",
       "evidence": {
         "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
@@ -1320,10 +1250,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-004f8da792e9585bb10a5710a3d738dc",
+      "id": "link-52c499c0fde054c3a52e2231d160614b",
       "type": "contains",
-      "source": "file-5c9d67f4649c5cde977f08b53d1fa732",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "file-5c6111cf8aac5e1898ba803b83e30d53",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter",
       "evidence": {
         "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
@@ -1339,10 +1269,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-13e8018015f55a44b48ccd2d696e57e0",
+      "id": "link-d23cc54f2de850f09426a62dc44d03d5",
       "type": "contains",
-      "source": "file-5c9d67f4649c5cde977f08b53d1fa732",
-      "target": "ent-4aea220c858f59e587588a7e5354784b",
+      "source": "file-5c6111cf8aac5e1898ba803b83e30d53",
+      "target": "ent-7a21da1ea29059868af7c154a2a0f365",
       "provider": "tree-sitter",
       "evidence": {
         "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
@@ -1358,10 +1288,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-81a661f1c33151baa69fd08b2d389728",
+      "id": "link-f2b6306376245c4a8b9f38214b7e46e3",
       "type": "contains",
-      "source": "file-5c9d67f4649c5cde977f08b53d1fa732",
-      "target": "ent-d63394060f3252279b800f7fa9e81e52",
+      "source": "file-5c6111cf8aac5e1898ba803b83e30d53",
+      "target": "ent-55d70dc326005eda8939b4137f9a4b36",
       "provider": "tree-sitter",
       "evidence": {
         "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
@@ -1377,10 +1307,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-2e98dc86d7a6589daa9f24e311f050e9",
+      "id": "link-a8670b15302f5fada4559bc5df633d6e",
       "type": "contains",
-      "source": "file-5c9d67f4649c5cde977f08b53d1fa732",
-      "target": "ent-0546963d4c5f55c5844e6588f7dd9830",
+      "source": "file-5c6111cf8aac5e1898ba803b83e30d53",
+      "target": "ent-c393f32d139d5ab39c981755ce140e48",
       "provider": "tree-sitter",
       "evidence": {
         "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
@@ -1396,10 +1326,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-87ef6bd1173d5aeeb490b0c63f0016f0",
+      "id": "link-8e03ec7095c05cc6b40cd20aa50b05c4",
       "type": "contains",
-      "source": "file-5c9d67f4649c5cde977f08b53d1fa732",
-      "target": "ent-2e1602bda4e95d0c99e1d6528e52f7b5",
+      "source": "file-5c6111cf8aac5e1898ba803b83e30d53",
+      "target": "ent-d201cd6d597c5d76903beae5f777b42f",
       "provider": "tree-sitter",
       "evidence": {
         "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
@@ -1415,10 +1345,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-695d2b42dd3054b8bc8f7b7104790508",
+      "id": "link-9499152413355f7d84e6a60dab5e8f19",
       "type": "contains",
-      "source": "file-5c9d67f4649c5cde977f08b53d1fa732",
-      "target": "ent-0378b59a0e3153b8a8a6591623a23d82",
+      "source": "file-5c6111cf8aac5e1898ba803b83e30d53",
+      "target": "ent-df0756acfae45b8f9cbaf8f93ab95df0",
       "provider": "tree-sitter",
       "evidence": {
         "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
@@ -1434,10 +1364,36 @@
       "cross_chunk": false
     },
     {
-      "id": "link-b26b5a65e0de5a4e97768caed3ef76b4",
+      "id": "link-f14ff56cf88159d69aea68741a40121e",
       "type": "references",
-      "source": "ent-c2aabbe86fc455e5b951b2864f187ab6",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "validate",
+        "source_path": "prototypes/ckb-canvas-skill/ckb_canvas/commands.py"
+      },
+      "cross_chunk": true,
+      "boundary": true
+    },
+    {
+      "id": "link-03fac95e4db950aeae7f276504014363",
+      "type": "references",
+      "source": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "target": "ent-38831c07994e57999e64f91c08c97ef1",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "validation",
+        "source_path": "prototypes/ckb-canvas-skill/ckb_canvas/commands.py"
+      },
+      "cross_chunk": true,
+      "boundary": true
+    },
+    {
+      "id": "link-3ab22117f53e5b3b9538fb22eed788c7",
+      "type": "references",
+      "source": "ent-c25dfde9d5235290b079dba8b2ff0d34",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -1447,23 +1403,10 @@
       "boundary": true
     },
     {
-      "id": "link-3588c0be2eab5de6b8e109410c39b8c2",
+      "id": "link-e577f5bbe480505dbcd14b10fdb2e33b",
       "type": "references",
-      "source": "ent-b9f28fbe304d5a8498939422bafab4ec",
-      "target": "ent-ad8147391ce85d7185d8725576fbce4a",
-      "provider": "tree-sitter-lexical-candidate",
-      "evidence": {
-        "name": "digest",
-        "source_path": "prototypes/ckb-canvas-skill/ckb_canvas/transaction.py"
-      },
-      "cross_chunk": true,
-      "boundary": true
-    },
-    {
-      "id": "link-f95a46bd1d3a51de8d20dc26f7c0fd2d",
-      "type": "references",
-      "source": "ent-f8ac536a5b9d5e4cb1c623de0453f274",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-21ff73f5a31a5b44997a9f9ca65a5597",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -1473,14 +1416,183 @@
       "boundary": true
     },
     {
-      "id": "link-6c2293b564b556108bb2ffeb991eaf19",
+      "id": "link-71198853c49450889685d78cd0d93277",
       "type": "references",
-      "source": "ent-b59a915ce6585cc4a7cb494c0fedb7cb",
-      "target": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source": "ent-acfc628612ed51579b789930b71fb78c",
+      "target": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
         "source_path": "prototypes/ckb-canvas-skill/scripts/ckb_canvas.py"
+      },
+      "cross_chunk": true,
+      "boundary": true
+    },
+    {
+      "id": "link-7963c4c357765a12a8a86e6da906e2b2",
+      "type": "references",
+      "source": "ent-d751a9af62c351f4aadd231ff21853e8",
+      "target": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "validate_only",
+        "source_path": "tests/test_ckb_canvas_contracts.py"
+      },
+      "cross_chunk": true,
+      "boundary": true
+    },
+    {
+      "id": "link-cbe875bc3ae15d1d89b8aed56a618492",
+      "type": "references",
+      "source": "ent-14ba5bcc9e555d10a3f9bad2a209e5e2",
+      "target": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "validate_only",
+        "source_path": "tests/test_ckb_canvas_contracts.py"
+      },
+      "cross_chunk": true,
+      "boundary": true
+    },
+    {
+      "id": "link-3b2e7424a2df5d3a8c3893eb8f1b773c",
+      "type": "references",
+      "source": "ent-44a6421c99aa54e0b63e870327a9b825",
+      "target": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "validate_only",
+        "source_path": "tests/test_ckb_canvas_contracts.py"
+      },
+      "cross_chunk": true,
+      "boundary": true
+    },
+    {
+      "id": "link-e1209c985e29533cb465b5639baa305e",
+      "type": "references",
+      "source": "ent-2e45c56cae2d5ed1b39ef356c37823c0",
+      "target": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "validate_only",
+        "source_path": "tests/test_ckb_canvas_contracts.py"
+      },
+      "cross_chunk": true,
+      "boundary": true
+    },
+    {
+      "id": "link-a89934392f4c56f895eb92abf8f17978",
+      "type": "references",
+      "source": "ent-b2aab383dd5251e3998427a4efd1c907",
+      "target": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "validate_only",
+        "source_path": "tests/test_ckb_canvas_graph.py"
+      },
+      "cross_chunk": true,
+      "boundary": true
+    },
+    {
+      "id": "link-33de4152a9575934821d10548da581d1",
+      "type": "references",
+      "source": "ent-6dfdd6a05f625f959926a9ad1199d9ef",
+      "target": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "validate_only",
+        "source_path": "tests/test_ckb_canvas_graph.py"
+      },
+      "cross_chunk": true,
+      "boundary": true
+    },
+    {
+      "id": "link-b2f7e6dc60615fd3ae5e47b403206e22",
+      "type": "references",
+      "source": "ent-226453d010925fc486d213faea3bba55",
+      "target": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "validate_only",
+        "source_path": "tests/test_ckb_canvas_graph.py"
+      },
+      "cross_chunk": true,
+      "boundary": true
+    },
+    {
+      "id": "link-13855b4f82fa59c29c6b392d4f6bbcf5",
+      "type": "references",
+      "source": "ent-0270ecf84f735f249b6d5b709753c6e6",
+      "target": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "validate_only",
+        "source_path": "tests/test_ckb_canvas_paths.py"
+      },
+      "cross_chunk": true,
+      "boundary": true
+    },
+    {
+      "id": "link-0dc1463f28be5ddea671953d0be59cf1",
+      "type": "references",
+      "source": "ent-d4c04d1ce89158cba46e3597ac778bcb",
+      "target": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "validate_only",
+        "source_path": "tests/test_ckb_canvas_paths.py"
+      },
+      "cross_chunk": true,
+      "boundary": true
+    },
+    {
+      "id": "link-3e31228ab1dc5013bf5752a8bd20130c",
+      "type": "references",
+      "source": "ent-e79c775e81b7540b947f7b2f7c915c17",
+      "target": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "validate_only",
+        "source_path": "tests/test_ckb_canvas_paths.py"
+      },
+      "cross_chunk": true,
+      "boundary": true
+    },
+    {
+      "id": "link-f52ab258ee5056d3b05bd4e8a1e180e1",
+      "type": "references",
+      "source": "ent-414072d34434577583f7759eb5242e3a",
+      "target": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "validate_only",
+        "source_path": "tests/test_ckb_canvas_paths.py"
+      },
+      "cross_chunk": true,
+      "boundary": true
+    },
+    {
+      "id": "link-0e7cad16d542592ba3469f4547dbb0ae",
+      "type": "references",
+      "source": "ent-239691d8462f5a8bb5994bfe24eae6c6",
+      "target": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "validate_only",
+        "source_path": "tests/test_ckb_canvas_transaction.py"
+      },
+      "cross_chunk": true,
+      "boundary": true
+    },
+    {
+      "id": "link-156c54fa066157199b1fe91bf742ad09",
+      "type": "references",
+      "source": "ent-0507b23887b8519aa7cfca81ea310296",
+      "target": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "validate_only",
+        "source_path": "tests/test_ckb_canvas_transaction.py"
       },
       "cross_chunk": true,
       "boundary": true
@@ -1491,24 +1603,24 @@
       "name": "pyright-langserver.cmd",
       "language": "python",
       "command": [
-        "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\bin\\pyright-langserver.cmd",
+        "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\bin\\pyright-langserver.cmd",
         "--stdio"
       ],
       "initialization_options": {},
-      "server_cwd": "E:\\knowledge_builder\\self-workspace\\kb-stg-94bf220\\.source-snapshot\\worktree",
-      "document_root": "E:\\knowledge_builder\\self-workspace\\kb-stg-94bf220\\.source-snapshot\\worktree",
+      "server_cwd": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\.source-snapshot\\worktree",
+      "document_root": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\.source-snapshot\\worktree",
       "precision": "exact",
       "status": "passed",
       "covered_entity_ids": [
-        "ent-0378b59a0e3153b8a8a6591623a23d82",
-        "ent-0546963d4c5f55c5844e6588f7dd9830",
-        "ent-2e1602bda4e95d0c99e1d6528e52f7b5",
-        "ent-4aea220c858f59e587588a7e5354784b",
-        "ent-556d1a16ce285dc6a80a542350b2acf2",
-        "ent-6a09c09a9c065f6dbc7b48695d20c334",
-        "ent-a3f5a4f419825475bd3ea017a1214d93",
-        "ent-ad8147391ce85d7185d8725576fbce4a",
-        "ent-d63394060f3252279b800f7fa9e81e52"
+        "ent-0fd95f62059d525ebbe10b20eaec36a3",
+        "ent-22115054ce9e5c00af66b6797ffeeae6",
+        "ent-55d70dc326005eda8939b4137f9a4b36",
+        "ent-7a21da1ea29059868af7c154a2a0f365",
+        "ent-85148630f6625350a47b24a368bc6fc2",
+        "ent-c393f32d139d5ab39c981755ce140e48",
+        "ent-d201cd6d597c5d76903beae5f777b42f",
+        "ent-df0756acfae45b8f9cbaf8f93ab95df0",
+        "ent-e7d9a5c754765e4197b2cbef6b1b25f4"
       ],
       "document_symbol_counts": {
         "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py": 79
@@ -1516,6 +1628,7 @@
       "diagnostic_count": 0,
       "fatal_diagnostics": [],
       "fatal_stderr": [],
+      "warnings": [],
       "capabilities": {
         "textDocumentSync": 2,
         "definitionProvider": {
@@ -1589,5 +1702,6 @@
       "exit_status": 0
     }
   ],
-  "built_at_utc": "2026-09-02T02:35:49Z"
+  "syntax_warnings": [],
+  "built_at_utc": "2026-09-02T22:44:18Z"
 }

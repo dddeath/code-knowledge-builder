@@ -3,72 +3,20 @@
   "pack_id": "migrated-page-review-pack-0029",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T02:37:13Z",
+  "reviewed_at_utc": "2026-09-02T22:45:44Z",
   "reviews": [
     {
-      "entity_id": "ent-e900bc9877c45e198c9fdff3ee112236",
+      "entity_id": "file-48b168cdcbce59c7a2b008c2cfc98484",
       "classification": "page",
-      "owner_page_id": "ent-e900bc9877c45e198c9fdff3ee112236",
-      "source_path": "scripts/ckb_core/providers.py",
-      "start_line": 76,
-      "end_line": 240,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/providers.py` 第 76-240 行的源码摘录，文件、符号与行范围一致。",
-      "meaning_zh": "`doctor_report` 是 `scripts/ckb_core/providers.py` 第 76-240 行定义的函数，本页绑定该固定源码范围。",
-      "role_zh": "负责语义提供器调用、结果校验和固定实体证据绑定。",
-      "change_when_zh": "当 `doctor_report` 的输入、输出、状态转换或失败返回变化时，应更新本页并重跑对应测试。"
-    },
-    {
-      "entity_id": "file-257c42f4b86955fea8a9ad8d696706bd",
-      "classification": "page",
-      "owner_page_id": "file-257c42f4b86955fea8a9ad8d696706bd",
-      "source_path": "scripts/ckb_core/query_terms.py",
+      "owner_page_id": "file-48b168cdcbce59c7a2b008c2cfc98484",
+      "source_path": "scripts/ckb_core/management_agent.py",
       "start_line": 1,
-      "end_line": 106,
+      "end_line": 1400,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/query_terms.py` 第 1-106 行的源码摘录，文件、符号与行范围一致。",
-      "meaning_zh": "`scripts/ckb_core/query_terms.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
-      "role_zh": "负责从自然语言构造确定性中文及标识符检索词项。",
-      "change_when_zh": "当 `scripts/ckb_core/query_terms.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
-    },
-    {
-      "entity_id": "ent-347a6c8eee785791a797b87827aae42f",
-      "classification": "page",
-      "owner_page_id": "ent-347a6c8eee785791a797b87827aae42f",
-      "source_path": "scripts/ckb_core/query_terms.py",
-      "start_line": 65,
-      "end_line": 69,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/query_terms.py` 第 65-69 行的源码摘录，文件、符号与行范围一致。",
-      "meaning_zh": "`search_terms` 是 `scripts/ckb_core/query_terms.py` 第 65-69 行定义的函数，本页绑定该固定源码范围。",
-      "role_zh": "负责从自然语言构造确定性中文及标识符检索词项。",
-      "change_when_zh": "当 `search_terms` 的输入、输出、状态转换或失败返回变化时，应更新本页并重跑对应测试。"
-    },
-    {
-      "entity_id": "file-eb864840f0c45ae798801c0527d2bd0a",
-      "classification": "page",
-      "owner_page_id": "file-eb864840f0c45ae798801c0527d2bd0a",
-      "source_path": "scripts/ckb_core/reference_documents.py",
-      "start_line": 1,
-      "end_line": 604,
-      "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/reference_documents.py` 第 1 至 604 行，核对 `scripts/ckb_core/reference_documents.py` 的签名、分支和数据流后写出本条简体中文说明。",
-      "meaning_zh": "`scripts/ckb_core/reference_documents.py` 是 `scripts/ckb_core/reference_documents.py` 中负责汇总并提供审阅文本资料的归档、逐项核对、投影、索引与回滚的文件入口。",
-      "role_zh": "它按源码所示的参数、条件分支和数据结构完成汇总并提供审阅文本资料的归档、逐项核对、投影、索引与回滚，并把确定结果交给调用方或后续审计、索引、投影阶段。",
-      "change_when_zh": "当审阅文本资料的归档、逐项核对、投影、索引与回滚的输入格式、状态规则、错误处理或输出契约变化时，需要修改该代码单元并复核对应测试。"
-    },
-    {
-      "entity_id": "ent-92b448a57a7b5280a5380e1faf29133f",
-      "classification": "page",
-      "owner_page_id": "ent-92b448a57a7b5280a5380e1faf29133f",
-      "source_path": "scripts/ckb_core/reference_documents.py",
-      "start_line": 470,
-      "end_line": 558,
-      "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/reference_documents.py` 第 470 至 558 行，核对 `audit_references` 的签名、分支和数据流后写出本条简体中文说明。",
-      "meaning_zh": "`audit_references` 是 `scripts/ckb_core/reference_documents.py` 中负责核对资料原文、许可证、逐项引用、中文主张、镜像和机器索引的函数。",
-      "role_zh": "它按源码所示的参数、条件分支和数据结构完成核对资料原文、许可证、逐项引用、中文主张、镜像和机器索引，并把确定结果交给调用方或后续审计、索引、投影阶段。",
-      "change_when_zh": "当审阅文本资料的归档、逐项核对、投影、索引与回滚的输入格式、状态规则、错误处理或输出契约变化时，需要修改该代码单元并复核对应测试。"
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/management_agent.py` 第 1 至 1400 行；摘录与 Git blob 0b47588092be 一致。",
+      "meaning_zh": "文件 `scripts/ckb_core/management_agent.py`负责把任意 Harness 对话绑定到源码仓库和知识库，并管理独立开发任务的创建与复查。",
+      "role_zh": "它属于跨 Harness 复现管理 Agent 行为的持久化控制面，当前说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当绑定身份、隐私字段、仓库预检、任务交接或复查门变化时，应同步复查本页及其直接关联测试。"
     }
   ]
 }

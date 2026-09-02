@@ -15,28 +15,25 @@
 ## 相关代码
 
 - 实现时会用到 [[CkbError]]。
-- 实现时会用到 [[CkbError 与 DependencyError 的协作实现]]。
 - 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
-- 实现时会用到 [[audit_global 与 _replace_output_prefix 的协作实现]]。
+- 实现时会用到 [[ScopeExtensionTest]]。
+- 实现时会用到 [[append]]。
 - 实现时会用到 [[create_knowledge_batch_plan]]。
 - 实现时会用到 [[create_knowledge_batch_plan 与 KnowledgeRelease 的协作实现]]。
+- 实现时会用到 [[finalize]]。
 - 主要代码单元是 [[refresh]]。
-- 实现时会用到 [[rollback]]。
 - 实现时会用到 [[start_scope_extension 与 _error 的协作实现]]。
 
 ## 谁会来到这里
 
 - [[ScopeExtensionTest]] 关联到这里的验证场景。
 - [[audit_gap_register]] 关联到这里的验证场景。
-- [[audit_obsidian]] 关联到这里的验证场景。
-- [[audit_obsidian 与 prepare_vault 的协作实现]] 关联到这里的验证场景。
 - [[audit_operation_journal]] 关联到这里的验证场景。
 - [[create_batch_plan 与 ProtocolRelease 的协作实现]] 关联到这里的验证场景。
 - [[create_knowledge_batch_plan]] 关联到这里的验证场景。
 - [[create_knowledge_batch_plan 与 KnowledgeRelease 的协作实现]] 关联到这里的验证场景。
 - [[maintenance_check]] 关联到这里的验证场景。
 - [[maintenance_check 与 capability_matrix 的协作实现]] 关联到这里的验证场景。
-- [[module_name]] 关联到这里的验证场景。
 - [[resolve_checkout_git_dir]] 关联到这里的验证场景。
 - [[resolve_checkout_git_dir 等测试场景]] 关联到这里的验证场景。
 - [[start_scope_extension]] 关联到这里的验证场景。

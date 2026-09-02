@@ -42,8 +42,8 @@ Git blob 与 detached worktree 构成稳定基线；活动修改进入 overlay�
 
 ## 相关知识页
 
-- [[audit_global 与 _replace_output_prefix 的协作实现]]
-- [[audit_global 与 _replace_output_prefix 的协作实现]]
+- [[finalize 与 _replace_output_prefix 的协作实现]]
+- [[finalize 与 _replace_output_prefix 的协作实现]]
 
 ## 源码入口
 

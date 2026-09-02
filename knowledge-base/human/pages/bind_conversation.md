@@ -2,15 +2,15 @@
 
 标签：#类型/代码
 
-> `bind_conversation` 位于 `scripts/ckb_core/management_agent.py` 第 453-568 行，本页用固定源码范围说明它如何完成管理对话绑定、任务派发和审阅上下文中的局部职责。 `bind_conversation` 负责在管理对话绑定、任务派发和审阅上下文中完成管理对话绑定、任务派发和审阅上下文中的局部职责。
+> 代码单元 `bind_conversation`负责把任意 Harness 对话绑定到源码仓库和知识库，并管理独立开发任务的创建与复查。 它属于跨 Harness 复现管理 Agent 行为的持久化控制面，当前说明只覆盖所列固定源码范围。
 
 ## 什么时候需要修改
 
-当 `scripts/ckb_core/management_agent.py` 中 `bind_conversation` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。
+当绑定身份、隐私字段、仓库预检、任务交接或复查门变化时，应同步复查本页及其直接关联测试。
 
 ## 在代码中的位置
 
-[打开源码：scripts/ckb_core/management_agent.py 第 453 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/management_agent.py:453:1)  `scripts/ckb_core/management_agent.py:453-568`
+[打开源码：scripts/ckb_core/management_agent.py 第 454 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/management_agent.py:454:1)  `scripts/ckb_core/management_agent.py:454-569`
 
 ## 相关代码
 
@@ -30,10 +30,10 @@
 ## 相关测试
 
 - [[CodeKnowledgeBuilderTests 等测试场景]]
+- [[PdfReferenceExtractionTests]]
+- [[PdfReferenceExtractionTests 等测试场景]]
 - [[append 等测试场景]]
-- [[build_manual_index 等测试场景]]
 - [[command 等测试场景]]
-- [[execute 等测试场景]]
 - [[main（benchmark_obsidian_canvas_navigation 测试）]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。

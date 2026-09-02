@@ -6,26 +6,22 @@
   "file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human\\changes\\C++ 解析与 SCons 回退合并审计.md",
   "compatibility_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown\\changes\\C++ 解析与 SCons 回退合并审计.md",
   "linked_pages": [
-    "parser",
-    "parse_file 与 _language 的协作实现",
-    "render_integration 与 _looks_windows 的协作实现",
-    "execute 等测试场景",
-    "AutomationTest.register 等测试场景",
-    "CodeKnowledgeBuilderTests",
-    "audit_global 与 _replace_output_prefix 的协作实现",
-    "doctor_report 与 _version_matches 的协作实现"
+    "parse_file 与 _language 的协作实现"
   ],
   "source_links": [
-    "[打开源码：scripts/ckb.py 第 164 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:164:1)  `scripts/ckb.py:164-488`",
-    "[打开源码：scripts/ckb_core/parsers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/parsers.py:1:1)  `scripts/ckb_core/parsers.py:1-446`",
-    "[打开源码：scripts/ckb_core/automation_integrations.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation_integrations.py:1:1)  `scripts/ckb_core/automation_integrations.py:1-536`",
-    "[打开源码：tests/provider_integration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/provider_integration.py:1:1)  `tests/provider_integration.py:1-252`",
-    "[打开源码：tests/test_automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_automation.py:1:1)  `tests/test_automation.py:1-882`",
-    "[打开源码：tests/test_ckb.py 第 198 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_ckb.py:198:1)  `tests/test_ckb.py:198-2127`",
-    "[打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3482`",
-    "[打开源码：scripts/ckb_core/providers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/providers.py:1:1)  `scripts/ckb_core/providers.py:1-611`"
+    "[打开源码：scripts/ckb_core/parsers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/parsers.py:1:1)  `scripts/ckb_core/parsers.py:1-719`"
   ],
-  "query_record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260831-191403-760099-01.json",
-  "updated_at_utc": "2026-08-31T19:30:52Z",
-  "obsidian_uri": "obsidian://open?path=E%3A%5Cknowledge_builder%5Cself-workspace%5Cknowledge-base%5Cmarkdown%5Cchanges%5CC%2B%2B%20%E8%A7%A3%E6%9E%90%E4%B8%8E%20SCons%20%E5%9B%9E%E9%80%80%E5%90%88%E5%B9%B6%E5%AE%A1%E8%AE%A1.md"
+  "query_record": null,
+  "updated_at_utc": "2026-09-02T20:01:21Z",
+  "obsidian_uri": "obsidian://open?path=E%3A%5Cknowledge_builder%5Cself-workspace%5Cknowledge-base%5Cmarkdown%5Cchanges%5CC%2B%2B%20%E8%A7%A3%E6%9E%90%E4%B8%8E%20SCons%20%E5%9B%9E%E9%80%80%E5%90%88%E5%B9%B6%E5%AE%A1%E8%AE%A1.md",
+  "record_id": "work-record-794283fb69755328a58c93a698b850ce",
+  "created_at_utc": "2026-08-31T19:30:52Z",
+  "body_sha256": "c652f87bbea1f28627588576c75a2d7c4f074714b8292ec526fd2b3dc160ab3f",
+  "replacement": {
+    "operation_id": "record-replace-78a8c74ce0f45986bef93b4c7b75211a",
+    "replaced_at_utc": "2026-09-02T20:01:21Z",
+    "previous_page_sha256": "e160df2a443b0ea6f3bc1beedb505455cbdb5d19170cea4c6e389411064639ad",
+    "previous_body_sha256": "e160df2a443b0ea6f3bc1beedb505455cbdb5d19170cea4c6e389411064639ad",
+    "body_sha256": "c652f87bbea1f28627588576c75a2d7c4f074714b8292ec526fd2b3dc160ab3f"
+  }
 }

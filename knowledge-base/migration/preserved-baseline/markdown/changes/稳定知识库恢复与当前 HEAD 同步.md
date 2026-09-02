@@ -2,34 +2,43 @@
 
 标签：#类型/变更
 
-稳定知识库已经从固定源码基线迁移到 integration branch 的当前提交 `150a1ce`。迁移先在独立 staging 中重建源码事实、关系、中文页面、FTS5 索引和兼容 Agent 索引，再经过状态、检索、双 SQLite、镜像、人类可读性、研究缺口、Agent Policy 与 `maintain` 门后切换。
+## 修改内容
 
-迁移保留了原有 50 条工作记录、1 个已审阅 reference、3 个开放 research gap，以及 `2026-08-29.md` 和 `2026-08-30.md` 两份学习笔记的原始字节。为满足双层镜像要求，两份学习笔记在 `human` 与 `markdown` 中使用相同内容；研究缺口引用的历史检索包也按原始字节保留。
+稳定知识库已从旧固定源码快照迁移到当前 integration branch，并在隔离 staging 中重新生成变化的源码事实、关系、人类页面和检索索引。切换保留了迁移前全部工作记录、一个已审阅 reference、开放 research gap 和两份学习笔记原文，同时把本轮人类页面模板、维护 Prompt 与 Canvas 实验原型纳入当前固定图谱。
 
-审计发现三份故意不完整的 C++ 失败夹具以 `.cpp` 后缀进入了全量源码解析，导致固定图谱语法门失败。集成修正仅把这些失败夹具改为 `.cpp.txt`，测试仍通过显式 `language=cpp` 读取相同字节，因此负例行为保持不变，而知识库只解析语法有效的源码文件。
+## 修改时间
 
-旧知识页在新导航计划中降为 appendix 时，迁移将两条历史 Wiki 链接重定向到新的所属页面。该修正同步更新 human、markdown 和工作记录元数据，并重新构建两个 SQLite 索引。
+2026 年 9 月 2 日完成迁移、审阅和稳定路径切换；受控正文替换合并后再次同步到新的 integration HEAD。
 
-切换前已在隔离副本中执行真实目录切换与回滚探针，确认新 staging 能被提升，旧知识库能够按完整树清单恢复。正式切换仍保留原目录备份、额外完整基线副本、Agent Policy 文件备份和可直接运行的 PowerShell 回滚入口。
+## 修改原因
+
+稳定知识库原先仍绑定较早的源码提交，已经不能完整解释新合并的页面模板、管理能力和 Canvas 原型。直接在活动目录重建会把可变知识层与生成中的中间状态混在一起，也缺少可靠回滚对象。
+
+## 修改方式
+
+更新分为四个关键阶段：
+
+- 冻结当前活动知识库的记录数量、reference、research gap、学习笔记哈希和双 SQLite 状态；
+- 在独立 staging 中按精确源码字节复用既有审阅，只审阅变化部分；
+- 通过状态、真实检索、双 SQLite、human/markdown 镜像、人类可读性、Agent Policy、operation journal 和维护门；
+- 先保存完整旧库，再把已验证候选同步到稳定路径，并保留可执行回滚入口。
+
+## 涉及的其他特性
+
+本次同步连接了增量迁移、FTS5、Agent 索引、工作记录、reference、research gap、Agent Policy、会话级 stdio 和发布包。Canvas 仍以实验功能发布，人类导航效果等待实际使用反馈。
+
+## 验证结果
+
+增量审阅、迁移审计、真实检索、双 SQLite 完整性与 FTS5 计数、human/markdown 镜像、人类可读性、维护聚合门和回滚探针全部通过。旧知识库在一次真实失败切换中成功恢复到冻结哈希，随后按修正顺序重新切换成功；两份学习笔记在 human 与 markdown 中均保持原始字节。
+
+## 当前边界
+
+稳定知识库固定到明确源码提交，不自动跟随未来分支变化。后续源码再次合并时仍需按变化范围执行迁移或重建，并重新通过维护门。发布副本可以阅读和校验；在另一台机器继续维护前，需要重新绑定当地仓库和 Agent Policy。
 
 ## 相关知识页
 
-- [[create_knowledge_batch_plan 与 KnowledgeRelease 的协作实现]]
-- [[serve_stdio 与 _write_line 的协作实现]]
-- [[start_session 与 _session_directory 的协作实现]]
-- [[_Transport.close 与 _StartGate 的协作实现]]
-- [[run_keyword_provider 与 KeywordProviderConfig 的协作实现]]
-- [[parse_file 与 _language 的协作实现]]
-- [[maintenance_check 与 capability_matrix 的协作实现]]
 - [[audit_migration 与 _entity_key 的协作实现]]
 
 ## 源码入口
 
-- [打开源码：scripts/ckb_core/knowledge_batch_migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/knowledge_batch_migration.py:1:1)  `scripts/ckb_core/knowledge_batch_migration.py:1-2076`
-- [打开源码：scripts/ckb_core/stdio_server.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/stdio_server.py:1:1)  `scripts/ckb_core/stdio_server.py:1-392`
-- [打开源码：scripts/ckb_core/agent_maintenance.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_maintenance.py:1:1)  `scripts/ckb_core/agent_maintenance.py:1-255`
-- [打开源码：scripts/ckb_core/session_stdio.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/session_stdio.py:1:1)  `scripts/ckb_core/session_stdio.py:1-1459`
-- [打开源码：scripts/ckb_core/keyword_fallback.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/keyword_fallback.py:1:1)  `scripts/ckb_core/keyword_fallback.py:1-633`
-- [打开源码：scripts/ckb_core/parsers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/parsers.py:1:1)  `scripts/ckb_core/parsers.py:1-538`
-- [打开源码：scripts/ckb_core/llm_wiki_capabilities.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/llm_wiki_capabilities.py:1:1)  `scripts/ckb_core/llm_wiki_capabilities.py:1-459`
 - [打开源码：scripts/ckb_core/migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/migration.py:1:1)  `scripts/ckb_core/migration.py:1-604`

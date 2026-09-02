@@ -3,20 +3,59 @@
   "pack_id": "migrated-page-review-pack-0007",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T02:36:29Z",
+  "reviewed_at_utc": "2026-09-02T22:44:57Z",
   "reviews": [
     {
-      "entity_id": "file-5f0b60c87d945ceb9b344a71ed49a5d8",
+      "entity_id": "file-f6b91cd9488f5867858b7b5cad44391f",
       "classification": "page",
-      "owner_page_id": "file-5f0b60c87d945ceb9b344a71ed49a5d8",
-      "source_path": "scripts/ckb_core/automation.py",
+      "owner_page_id": "file-f6b91cd9488f5867858b7b5cad44391f",
+      "source_path": "scripts/ckb_core/agent_index.py",
       "start_line": 1,
-      "end_line": 1744,
+      "end_line": 555,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/automation.py` 第 1-1744 行的源码摘录，文件、符号与行范围一致。",
-      "meaning_zh": "`scripts/ckb_core/automation.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
-      "role_zh": "负责跨 Harness 自动化事件、会话状态、任务队列和 SQLite 状态的确定性处理。",
-      "change_when_zh": "当 `scripts/ckb_core/automation.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/agent_index.py` 第 1-555 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`scripts/ckb_core/agent_index.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
+      "role_zh": "负责构建兼容 Agent 索引，并按预算执行确定性检索与结果排序。",
+      "change_when_zh": "当 `scripts/ckb_core/agent_index.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "ent-4f43b46b99d65742b3b2453fada7f389",
+      "classification": "page",
+      "owner_page_id": "ent-4f43b46b99d65742b3b2453fada7f389",
+      "source_path": "scripts/ckb_core/agent_index.py",
+      "start_line": 426,
+      "end_line": 554,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/agent_index.py` 第 426-554 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`retrieve` 是 `scripts/ckb_core/agent_index.py` 第 426-554 行定义的函数，本页绑定该固定源码范围。",
+      "role_zh": "负责构建兼容 Agent 索引，并按预算执行确定性检索与结果排序。",
+      "change_when_zh": "当 `retrieve` 的输入、输出、状态转换或失败返回变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "file-74fabe1658225e9f88d90968fed30ef5",
+      "classification": "page",
+      "owner_page_id": "file-74fabe1658225e9f88d90968fed30ef5",
+      "source_path": "scripts/ckb_core/agent_maintenance.py",
+      "start_line": 1,
+      "end_line": 255,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 源码中 scripts/ckb_core/agent_maintenance.py 第 1 至 255 行，核对名称、签名和局部实现后写出本条中文说明。",
+      "meaning_zh": "该文件集中实现Agent 任务会话、构建中笔记排队、修改总结和生命周期状态。",
+      "role_zh": "它是 Code Knowledge Builder 中承载Agent 任务会话、构建中笔记排队、修改总结和生命周期状态的源码边界，并连接相邻模块或测试。",
+      "change_when_zh": "当Agent 任务会话、构建中笔记排队、修改总结和生命周期状态的输入、输出、状态门或验证契约发生变化时，需要同步修改该文件并运行对应测试。"
+    },
+    {
+      "entity_id": "ent-123fab746a4b5ae2847f9d78fa2f3be6",
+      "classification": "page",
+      "owner_page_id": "ent-123fab746a4b5ae2847f9d78fa2f3be6",
+      "source_path": "scripts/ckb_core/agent_maintenance.py",
+      "start_line": 70,
+      "end_line": 142,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 源码中 scripts/ckb_core/agent_maintenance.py 第 70 至 142 行，核对名称、签名和局部实现后写出本条中文说明。",
+      "meaning_zh": "`start_session` 是源码中负责管理 Agent 会话、构建中记录和修改总结落页的命名代码单元。",
+      "role_zh": "它在所属模块内执行管理 Agent 会话、构建中记录和修改总结落页，并把确定结果交给调用方、审计门或投影阶段。",
+      "change_when_zh": "当管理 Agent 会话、构建中记录和修改总结落页所依赖的输入格式、排序规则、状态转换或输出契约变化时，需要修改该代码单元。"
     }
   ]
 }

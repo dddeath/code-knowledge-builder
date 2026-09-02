@@ -134,6 +134,15 @@ def clangd_case(
         initialization = provider.get("initialization_options", {})
         if mode == "exact":
             passed = passed and "compilationDatabasePath" in initialization and "fallbackFlags" not in initialization
+            passed = passed and not provider.get("warnings")
+        if mode == "bounded-approximate":
+            precision_warnings = provider.get("warnings", [])
+            passed = passed and any(
+                item.get("kind") == "compile-commands-unavailable"
+                and item.get("precision") == "bounded-approximate"
+                and item.get("absence_inference_allowed") is False
+                for item in precision_warnings
+            )
         if expected_fallback_standard is not None:
             fallback_evidence = initialization.get("fallbackEvidence", {})
             matches = fallback_evidence.get("matches", [])
@@ -142,6 +151,11 @@ def clangd_case(
                 and fallback_evidence.get("selected") == expected_fallback_standard
                 and fallback_evidence.get("resolution") == "build-config-unique"
                 and {item.get("path") for item in matches} == {"SConstruct", "src/SConscript"}
+                and any(
+                    set(item.get("build_evidence", {}).get("paths", [])) == {"SConstruct", "src/SConscript"}
+                    for item in provider.get("warnings", [])
+                    if item.get("kind") == "compile-commands-unavailable"
+                )
             )
     return {
         "status": "passed" if passed else "failed",

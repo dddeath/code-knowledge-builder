@@ -386,9 +386,28 @@ def compact_agent_brief(output: Path, retrieval: dict[str, Any]) -> dict[str, An
         "record": retrieval.get("record"),
         "open_feedback": int(retrieval.get("open_feedback", 0)),
         "feedback_documents": feedback_documents,
+        "warnings": retrieval.get(
+            "warnings",
+            {
+                "status": "complete",
+                "warning_count": 0,
+                "examples": [],
+                "omitted_warning_count": 0,
+                "absence_inference_allowed": True,
+                "message_zh": None,
+            },
+        ),
         "reading_entries": entries,
         "grep_fallback_required": bool(retrieval.get("grep_fallback_required")),
-        "next": "open-pack" if retrieval.get("pack") else "inspect-retrieval-error",
+        "fact_freshness": retrieval.get("fact_freshness"),
+        "current_source_grounded": bool(retrieval.get("current_source_grounded")),
+        "next": (
+            "open-pack"
+            if retrieval.get("pack") and (retrieval.get("fact_freshness") or {}).get("state") == "current"
+            else "open-pack-and-follow-freshness-action"
+            if retrieval.get("pack")
+            else "inspect-retrieval-error"
+        ),
         "omitted_from_context": [
             "terms",
             "anchors",

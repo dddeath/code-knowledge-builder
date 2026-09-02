@@ -3,20 +3,33 @@
   "pack_id": "migrated-page-review-pack-0013",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T02:36:35Z",
+  "reviewed_at_utc": "2026-09-02T22:45:05Z",
   "reviews": [
     {
-      "entity_id": "ent-f7114eb25ab8549b83d11be0fe4b4288",
+      "entity_id": "file-8fab89e8e7935358870bedc68e6f47df",
       "classification": "page",
-      "owner_page_id": "ent-f7114eb25ab8549b83d11be0fe4b4288",
-      "source_path": "scripts/ckb_core/human_page_authoring.py",
-      "start_line": 705,
-      "end_line": 937,
+      "owner_page_id": "file-8fab89e8e7935358870bedc68e6f47df",
+      "source_path": "scripts/ckb_core/feedback.py",
+      "start_line": 1,
+      "end_line": 595,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `scripts/ckb_core/human_page_authoring.py` 第 705-937 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
-      "meaning_zh": "`render_page_author` 位于 `scripts/ckb_core/human_page_authoring.py` 第 705-937 行，本页用固定源码范围说明它如何生成稳定排序的结构化表示或人类输出。",
-      "role_zh": "`render_page_author` 负责在页面候选的初始化、检查、渲染、验证和隔离打包中生成稳定排序的结构化表示或人类输出。",
-      "change_when_zh": "当 `scripts/ckb_core/human_page_authoring.py` 中 `render_page_author` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 1 至 595 行，核对 `scripts/ckb_core/feedback.py` 的签名、分支和数据流后写出本条简体中文说明。",
+      "meaning_zh": "`scripts/ckb_core/feedback.py` 是 `scripts/ckb_core/feedback.py` 中负责汇总并提供定位式人工反馈的创建、重定位、审计与归档的文件入口。",
+      "role_zh": "它按源码所示的参数、条件分支和数据结构完成汇总并提供定位式人工反馈的创建、重定位、审计与归档，并把确定结果交给调用方或后续审计、索引、投影阶段。",
+      "change_when_zh": "当定位式人工反馈的创建、重定位、审计与归档的输入格式、状态规则、错误处理或输出契约变化时，需要修改该代码单元并复核对应测试。"
+    },
+    {
+      "entity_id": "ent-6b89f35a93db51aa92e92fa323c1bd5d",
+      "classification": "page",
+      "owner_page_id": "ent-6b89f35a93db51aa92e92fa323c1bd5d",
+      "source_path": "scripts/ckb_core/feedback.py",
+      "start_line": 437,
+      "end_line": 545,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 437 至 545 行，核对 `audit_feedback` 的签名、分支和数据流后写出本条简体中文说明。",
+      "meaning_zh": "`audit_feedback` 是 `scripts/ckb_core/feedback.py` 中负责检查反馈锚点、状态、镜像、归档与落实记录的一致性的函数。",
+      "role_zh": "它按源码所示的参数、条件分支和数据结构完成检查反馈锚点、状态、镜像、归档与落实记录的一致性，并把确定结果交给调用方或后续审计、索引、投影阶段。",
+      "change_when_zh": "当定位式人工反馈的创建、重定位、审计与归档的输入格式、状态规则、错误处理或输出契约变化时，需要修改该代码单元并复核对应测试。"
     }
   ]
 }

@@ -3,20 +3,20 @@
   "pack_id": "migrated-page-review-pack-0011",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T02:36:33Z",
+  "reviewed_at_utc": "2026-09-02T22:45:02Z",
   "reviews": [
     {
-      "entity_id": "file-025194721d6a53c6889366de71959682",
+      "entity_id": "file-c5ac43718b135a17a52b3f3837e07ad2",
       "classification": "page",
-      "owner_page_id": "file-025194721d6a53c6889366de71959682",
-      "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
+      "owner_page_id": "file-c5ac43718b135a17a52b3f3837e07ad2",
+      "source_path": "scripts/ckb_core/automation.py",
       "start_line": 1,
-      "end_line": 1992,
+      "end_line": 1783,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `scripts/ckb_core/human_maintenance_prompts.py` 第 1-1992 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
-      "meaning_zh": "`scripts/ckb_core/human_maintenance_prompts.py` 页面绑定固定源码第 1-1992 行，说明该文件在稳定维护 Prompt 的 action 映射、渲染和交付审计中的整体职责。",
-      "role_zh": "该文件负责稳定维护 Prompt 的 action 映射、渲染和交付审计，并为相关命令或测试提供可复查实现入口。",
-      "change_when_zh": "当 `scripts/ckb_core/human_maintenance_prompts.py` 中 `scripts/ckb_core/human_maintenance_prompts.py` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 1 至 1783 行；摘录与 Git blob 44ab87d410ff 一致。",
+      "meaning_zh": "文件 `scripts/ckb_core/automation.py`负责接收多 Harness 事件，维持会话级 Skill 激活状态，并把待审阅事实写入机器层。",
+      "role_zh": "它属于自动采集与受控人类投影之间的会话生命周期边界，当前说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当事件格式、会话身份、激活规则、并发锁或审阅流程变化时，应同步复查本页及其直接关联测试。"
     }
   ]
 }

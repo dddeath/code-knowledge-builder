@@ -23,12 +23,13 @@ from .human_page_templates import (
     HumanPageTemplateContract,
     SectionContract,
     get_human_page_template,
+    human_page_section_document,
     human_page_template_registry_sha256,
     validate_human_page,
 )
 
 
-HUMAN_PAGE_AUTHORING_SCHEMA_VERSION = 1
+HUMAN_PAGE_AUTHORING_SCHEMA_VERSION = 3
 HUMAN_PAGE_AUTHORING_MODES = ("new", "supplement", "revise")
 
 
@@ -101,12 +102,13 @@ def _contract_result(
         return None, _failed(
             operation,
             "contract-version-incompatible",
-            "人类页面模板合同版本不兼容。",
+            "人类页面模板合同版本不兼容；旧 1.0.0 输入必须显式按 V3 章节重写。",
             actual={"schema_version": schema_version, "contract_version": contract_version},
             expected={
                 "schema_version": HUMAN_PAGE_TEMPLATE_SCHEMA_VERSION,
                 "contract_version": HUMAN_PAGE_TEMPLATE_CONTRACT_VERSION,
             },
+            migration={"from": "1.0.0", "to": HUMAN_PAGE_TEMPLATE_CONTRACT_VERSION, "mode": "explicit-rewrite"},
         )
     try:
         return get_human_page_template(str(page_type or "")), None
@@ -118,8 +120,15 @@ def _field_slot(field: str, field_type: str, purpose: str) -> dict[str, str]:
     return {"field": field, "type": field_type, "purpose": purpose}
 
 
-def _section_slot(section: SectionContract) -> dict[str, str]:
-    value = {"body": ""}
+def _section_slot(section: SectionContract) -> dict[str, Any]:
+    value: dict[str, Any] = {
+        "human_summary": "",
+        "key_entities": [],
+        "links": [],
+        "metrics": [],
+        "source_refs": [],
+        "machine_evidence_refs": [],
+    }
     if section.heading_pattern:
         value["heading"] = ""
     return value
@@ -151,29 +160,13 @@ def init_page_author(
         "page_type": contract.page_type,
         "mode": mode,
         "evidence": {field: "" for field in contract.evidence_requirements.required_fields},
-        "validation_context": {"key_entities": [], "links": [], "current_facts": []},
+        "validation_context": {"sections": {}, "current_facts": []},
         "applicability_boundary": contract.applicability_boundary,
     }
     fields = [
         _field_slot(f"evidence.{field}", "non-empty", "满足页面合同的来源或验证字段。")
         for field in contract.evidence_requirements.required_fields
     ]
-    if contract.key_entity_budget.minimum:
-        fields.append(
-            _field_slot(
-                "validation_context.key_entities",
-                f"array[{contract.key_entity_budget.minimum}..{contract.key_entity_budget.maximum}]",
-                contract.key_entity_budget.counting_rule,
-            )
-        )
-    if contract.source_link_budget.minimum:
-        fields.append(
-            _field_slot(
-                "validation_context.links",
-                f"array[{contract.source_link_budget.minimum}..{contract.source_link_budget.maximum}]",
-                contract.source_link_budget.counting_rule,
-            )
-        )
 
     if mode == "new":
         skeleton["title"] = ""
@@ -183,9 +176,9 @@ def init_page_author(
         fields.insert(0, _field_slot("title", "non-empty-string", "页面唯一一级标题。"))
         fields[1:1] = [
             _field_slot(
-                f"sections.{section.section_id}.body",
-                "non-empty-markdown",
-                section.purpose,
+                f"sections.{section.section_id}.human_summary",
+                "non-empty-human-markdown",
+                "只填写人类可见摘要；完整命令、日志、哈希、SQLite、manifest、maintain 和回滚探针写入 machine_evidence_refs。",
             )
             for section in contract.required_sections
         ]
@@ -212,8 +205,8 @@ def init_page_author(
             _field_slot("source_sha256", "sha256", "防止 inspect 后目标内容漂移。"),
             _field_slot(
                 "revisions",
-                "array[{section_id,current,replacement,source}]",
-                "逐项说明要替换的当前段落、替换正文和来源。",
+                "array[{section_id,current,human_summary,source_refs,machine_evidence_refs,key_entities,links,metrics}]",
+                "逐项说明要替换的当前段落、人类摘要、来源与不投影的 L4 机器证据引用。",
             ),
         ]
 
@@ -225,6 +218,10 @@ def init_page_author(
         "page_type": contract.page_type,
         "registry_sha256": human_page_template_registry_sha256(),
         "schema_version": HUMAN_PAGE_AUTHORING_SCHEMA_VERSION,
+        "section_constraints": {
+            section.section_id: human_page_section_document(section)
+            for section in contract.required_sections + contract.optional_sections
+        },
         "skeleton": skeleton,
         "status": "ready",
     }
@@ -354,7 +351,7 @@ def inspect_page_author(
         conflicts.append({"field": "title", "reason": "title-heading-count", "count": len(h1)})
     for required in contract.required_sections:
         matches = [section for section in sections if _matches(required, section)]
-        field = f"sections.{required.section_id}.body"
+        field = f"sections.{required.section_id}.human_summary"
         if len(matches) == 1 and str(matches[0]["body"]).strip():
             satisfied.append(field)
         else:
@@ -421,10 +418,19 @@ def _normalize_section_input(
     operation: str,
     section: SectionContract,
     value: Any,
-) -> tuple[dict[str, str] | None, dict[str, Any] | None]:
+) -> tuple[dict[str, Any] | None, dict[str, Any] | None]:
     if not isinstance(value, Mapping):
         return None, _failed(operation, "field-type-invalid", "章节输入必须是对象。", field=f"sections.{section.section_id}")
-    allowed = {"body", "heading"} if section.heading_pattern else {"body"}
+    allowed = {
+        "human_summary",
+        "key_entities",
+        "links",
+        "metrics",
+        "source_refs",
+        "machine_evidence_refs",
+    }
+    if section.heading_pattern:
+        allowed.add("heading")
     unknown = sorted(set(value) - allowed)
     if unknown:
         return None, _failed(
@@ -433,7 +439,7 @@ def _normalize_section_input(
             "章节输入包含未知字段。",
             fields=[f"sections.{section.section_id}.{name}" for name in unknown],
         )
-    body = str(value.get("body") or "").strip()
+    human_summary = str(value.get("human_summary") or "").strip()
     heading = str(value.get("heading") or section.heading).strip()
     if section.heading_pattern and heading and re.fullmatch(section.heading_pattern, heading) is None:
         return None, _failed(
@@ -443,11 +449,76 @@ def _normalize_section_input(
             field=f"sections.{section.section_id}.heading",
             pattern=section.heading_pattern,
         )
-    return {"body": body, "heading": heading}, None
+    lists: dict[str, list[Any]] = {}
+    for field in ("key_entities", "links", "metrics", "source_refs", "machine_evidence_refs"):
+        item = value.get(field, [])
+        if not isinstance(item, list):
+            return None, _failed(
+                operation,
+                "field-type-invalid",
+                "章节的实体、指标、链接和证据引用字段必须是数组。",
+                field=f"sections.{section.section_id}.{field}",
+            )
+        lists[field] = list(item)
+    return {"human_summary": human_summary, "heading": heading, **lists}, None
 
 
-def _render_section(section: SectionContract, value: Mapping[str, str]) -> str:
-    return f"{'#' * section.level} {value['heading']}\n\n{value['body']}"
+def _render_section(section: SectionContract, value: Mapping[str, Any]) -> str:
+    return f"{'#' * section.level} {value['heading']}\n\n{value['human_summary']}"
+
+
+def _section_validation_context(value: Mapping[str, Any]) -> dict[str, Any]:
+    return {
+        field: list(value.get(field, []))
+        for field in ("key_entities", "links", "metrics", "source_refs", "machine_evidence_refs")
+    }
+
+
+def _canonical_reference(value: Mapping[str, Any]) -> dict[str, str]:
+    result = {
+        "kind": str(value.get("kind") or "").strip(),
+        "purpose": str(value.get("purpose") or "").strip(),
+        "target": str(value.get("target") or "").strip(),
+    }
+    digest = str(value.get("sha256") or "").strip().casefold()
+    if digest:
+        result["sha256"] = digest
+    return result
+
+
+def _section_evidence_document(
+    contract: HumanPageTemplateContract,
+    context: Mapping[str, Any],
+) -> dict[str, Any]:
+    sections_value = context.get("sections", {})
+    assert isinstance(sections_value, Mapping)
+    sections: list[dict[str, Any]] = []
+    for section in contract.required_sections + contract.optional_sections:
+        value = sections_value.get(section.section_id)
+        if not isinstance(value, Mapping):
+            continue
+        source_refs = sorted(
+            (_canonical_reference(item) for item in value.get("source_refs", []) if isinstance(item, Mapping)),
+            key=lambda item: (item["target"], item["kind"], item["purpose"], item.get("sha256", "")),
+        )
+        machine_refs = sorted(
+            (
+                _canonical_reference(item)
+                for item in value.get("machine_evidence_refs", [])
+                if isinstance(item, Mapping)
+            ),
+            key=lambda item: (item["target"], item["kind"], item["purpose"], item.get("sha256", "")),
+        )
+        sections.append(
+            {
+                "disclosure_level": section.disclosure_level,
+                "heading": section.heading,
+                "machine_evidence_refs": machine_refs,
+                "section_id": section.section_id,
+                "source_refs": source_refs,
+            }
+        )
+    return {"schema_version": 1, "sections": sections}
 
 
 def _base_missing_fields(payload: Mapping[str, Any], contract: HumanPageTemplateContract) -> list[str]:
@@ -462,11 +533,6 @@ def _base_missing_fields(payload: Mapping[str, Any], contract: HumanPageTemplate
     context = payload.get("validation_context")
     if not isinstance(context, Mapping):
         missing.append("validation_context")
-    else:
-        if contract.key_entity_budget.minimum and not _non_empty(context.get("key_entities")):
-            missing.append("validation_context.key_entities")
-        if contract.source_link_budget.minimum and not _non_empty(context.get("links")):
-            missing.append("validation_context.links")
     return missing
 
 
@@ -504,7 +570,7 @@ def _load_source_for_render(
     return source, markdown, None
 
 
-_CONTEXT_FIELDS = {"key_entities", "links", "current_facts"}
+_CONTEXT_FIELDS = {"sections", "current_facts"}
 _VALIDATE_FIELDS = {
     "schema_version",
     "contract_version",
@@ -520,10 +586,26 @@ _STRUCTURE_REASONS = {
     "required-section-missing",
     "duplicate-heading",
     "process-meta-copy",
+    "section-empty",
+    "empty-section-must-be-omitted",
 }
-_BUDGET_REASONS = {"key-entity-budget", "source-link-budget"}
-_LINK_REASONS = {"link-purpose-missing"}
+_BUDGET_REASONS = {
+    "key-entity-budget",
+    "source-link-budget",
+    "section-key-entity-budget",
+    "section-length-budget",
+    "section-link-budget",
+}
+_LINK_REASONS = {
+    "link-purpose-missing",
+    "link-context-missing",
+    "link-context-unused",
+    "link-target-conflict",
+    "link-target-duplicate",
+    "section-link-target-type",
+}
 _CURRENT_FACT_REASONS = {"current-fact-unverified"}
+_DISCLOSURE_REASONS = {"l4-evidence-leak", "l4-machine-evidence-rendered"}
 
 
 def _validate_nested_input(
@@ -552,25 +634,60 @@ def _validate_nested_input(
             "validation_context 包含未知字段。",
             fields=[f"validation_context.{field}" for field in unknown_context],
         )
-    entries = (
-        ("links", {"target", "purpose", "kind"}),
-        ("current_facts", {"claim", "source", "observed_at"}),
-    )
-    for field, allowed in entries:
-        value = context.get(field, [])
-        if not isinstance(value, list):
-            continue
-        for index, item in enumerate(value):
+    current_facts = context.get("current_facts", [])
+    if isinstance(current_facts, list):
+        for index, item in enumerate(current_facts):
             if not isinstance(item, Mapping):
                 continue
-            unknown = sorted(set(item) - allowed)
+            unknown = sorted(set(item) - {"claim", "source", "observed_at", "section_id"})
             if unknown:
                 return _failed(
                     operation,
                     "unknown-field",
-                    f"validation_context.{field} 条目包含未知字段。",
-                    fields=[f"validation_context.{field}[{index}].{name}" for name in unknown],
+                    "validation_context.current_facts 条目包含未知字段。",
+                    fields=[f"validation_context.current_facts[{index}].{name}" for name in unknown],
                 )
+    sections = context.get("sections", {})
+    if isinstance(sections, Mapping):
+        section_ids = set(_section_by_id(contract))
+        unknown_sections = sorted(set(sections) - section_ids)
+        if unknown_sections:
+            return _failed(
+                operation,
+                "unknown-field",
+                "validation_context.sections 包含当前页面类型未定义的章节。",
+                fields=[f"validation_context.sections.{field}" for field in unknown_sections],
+            )
+        allowed_section = {"key_entities", "links", "metrics", "source_refs", "machine_evidence_refs"}
+        for section_id, value in sections.items():
+            if not isinstance(value, Mapping):
+                continue
+            unknown = sorted(set(value) - allowed_section)
+            if unknown:
+                return _failed(
+                    operation,
+                    "unknown-field",
+                    "validation_context 章节条目包含未知字段。",
+                    fields=[f"validation_context.sections.{section_id}.{name}" for name in unknown],
+                )
+            for field in ("links", "source_refs", "machine_evidence_refs"):
+                entries = value.get(field, [])
+                if not isinstance(entries, list):
+                    continue
+                for index, item in enumerate(entries):
+                    if not isinstance(item, Mapping):
+                        continue
+                    unknown_ref = sorted(set(item) - {"target", "purpose", "kind", "sha256"})
+                    if unknown_ref:
+                        return _failed(
+                            operation,
+                            "unknown-field",
+                            "章节链接或证据引用包含未知字段。",
+                            fields=[
+                                f"validation_context.sections.{section_id}.{field}[{index}].{name}"
+                                for name in unknown_ref
+                            ],
+                        )
     return None
 
 
@@ -629,6 +746,7 @@ def _candidate_validation(
             "source_link_count": base.get("metrics", {}).get("source_link_count"),
         },
         "links": {"status": status_for(_LINK_REASONS)},
+        "disclosure": {"status": status_for(_DISCLOSURE_REASONS)},
         "current_fact_evidence": {
             "status": status_for(_CURRENT_FACT_REASONS),
             "verified_count": base.get("metrics", {}).get("verified_current_fact_count"),
@@ -642,7 +760,7 @@ def _candidate_validation(
             "value": contract.applicability_boundary,
         },
     }
-    unclassified = reasons - _STRUCTURE_REASONS - _BUDGET_REASONS - _LINK_REASONS - _CURRENT_FACT_REASONS - {
+    unclassified = reasons - _STRUCTURE_REASONS - _BUDGET_REASONS - _LINK_REASONS - _CURRENT_FACT_REASONS - _DISCLOSURE_REASONS - {
         "applicability-boundary-drift"
     }
     if unclassified:
@@ -741,6 +859,7 @@ def render_page_author(payload: Mapping[str, Any], *, workspace_root: str | Path
     markdown = ""
     source: Path | None = None
     source_sha256: str | None = None
+    authored_section_contexts: dict[str, dict[str, Any]] = {}
 
     if mode == "new":
         title = str(payload.get("title") or "").strip()
@@ -758,11 +877,11 @@ def render_page_author(payload: Mapping[str, Any], *, workspace_root: str | Path
                 "sections 包含当前页面类型未定义的字段。",
                 fields=[f"sections.{field}" for field in unknown_sections],
             )
-        normalized: dict[str, dict[str, str]] = {}
+        normalized: dict[str, dict[str, Any]] = {}
         for section in contract.required_sections:
             value = sections_value.get(section.section_id)
             if value is None:
-                missing.append(f"sections.{section.section_id}.body")
+                missing.append(f"sections.{section.section_id}.human_summary")
                 if section.heading_pattern:
                     missing.append(f"sections.{section.section_id}.heading")
                 continue
@@ -770,11 +889,12 @@ def render_page_author(payload: Mapping[str, Any], *, workspace_root: str | Path
             if failure:
                 return failure
             assert item is not None
-            if not item["body"]:
-                missing.append(f"sections.{section.section_id}.body")
+            if not item["human_summary"]:
+                missing.append(f"sections.{section.section_id}.human_summary")
             if section.heading_pattern and not item["heading"]:
                 missing.append(f"sections.{section.section_id}.heading")
             normalized[section.section_id] = item
+            authored_section_contexts[section.section_id] = _section_validation_context(item)
         for section in contract.optional_sections:
             if section.section_id not in sections_value:
                 continue
@@ -782,9 +902,10 @@ def render_page_author(payload: Mapping[str, Any], *, workspace_root: str | Path
             if failure:
                 return failure
             assert item is not None
-            if not item["body"]:
-                missing.append(f"sections.{section.section_id}.body")
+            if not item["human_summary"]:
+                missing.append(f"sections.{section.section_id}.human_summary")
             normalized[section.section_id] = item
+            authored_section_contexts[section.section_id] = _section_validation_context(item)
         if missing:
             return _missing("render", contract.page_type, mode, missing)
         rendered_sections = [
@@ -833,9 +954,10 @@ def render_page_author(payload: Mapping[str, Any], *, workspace_root: str | Path
             if failure:
                 return failure
             assert item is not None
-            if not item["body"]:
-                missing.append(f"sections.{section_id}.body")
+            if not item["human_summary"]:
+                missing.append(f"sections.{section_id}.human_summary")
             additions.append(_render_section(section, item))
+            authored_section_contexts[str(section_id)] = _section_validation_context(item)
         if missing:
             return _missing("render", contract.page_type, mode, missing)
         markdown = existing.rstrip() + "\n\n" + "\n\n".join(additions) + "\n"
@@ -849,7 +971,7 @@ def render_page_author(payload: Mapping[str, Any], *, workspace_root: str | Path
         if not isinstance(revisions, list) or not revisions:
             missing.append("revisions")
             revisions = []
-        normalized_revisions: list[dict[str, str]] = []
+        normalized_revisions: list[dict[str, Any]] = []
         for index, revision in enumerate(revisions):
             if not isinstance(revision, Mapping):
                 return _failed(
@@ -858,7 +980,17 @@ def render_page_author(payload: Mapping[str, Any], *, workspace_root: str | Path
                     "revisions 条目必须是对象。",
                     field=f"revisions[{index}]",
                 )
-            unknown = sorted(set(revision) - {"section_id", "current", "replacement", "source"})
+            allowed_revision = {
+                "section_id",
+                "current",
+                "human_summary",
+                "key_entities",
+                "links",
+                "metrics",
+                "source_refs",
+                "machine_evidence_refs",
+            }
+            unknown = sorted(set(revision) - allowed_revision)
             if unknown:
                 return _failed(
                     "render",
@@ -866,10 +998,25 @@ def render_page_author(payload: Mapping[str, Any], *, workspace_root: str | Path
                     "revisions 条目包含未知字段。",
                     fields=[f"revisions[{index}].{field}" for field in unknown],
                 )
-            item = {name: str(revision.get(name) or "").strip() for name in ("section_id", "current", "replacement", "source")}
-            for name, value in item.items():
-                if not value:
+            item: dict[str, Any] = {
+                name: str(revision.get(name) or "").strip()
+                for name in ("section_id", "current", "human_summary")
+            }
+            for name in ("section_id", "current", "human_summary"):
+                if not item[name]:
                     missing.append(f"revisions[{index}].{name}")
+            for name in ("key_entities", "links", "metrics", "source_refs", "machine_evidence_refs"):
+                value = revision.get(name, [])
+                if not isinstance(value, list):
+                    return _failed(
+                        "render",
+                        "field-type-invalid",
+                        "revision 的实体、链接、来源和证据引用必须是数组。",
+                        field=f"revisions[{index}].{name}",
+                    )
+                item[name] = list(value)
+            if not item["source_refs"]:
+                missing.append(f"revisions[{index}].source_refs")
             if item["section_id"] and item["section_id"] not in section_contracts:
                 return _failed(
                     "render",
@@ -900,17 +1047,24 @@ def render_page_author(payload: Mapping[str, Any], *, workspace_root: str | Path
                     "修订目标段落在页面中出现多次。",
                     field=f"revisions[{index}].current",
                 )
-            markdown = markdown.replace(revision["current"], revision["replacement"], 1)
+            markdown = markdown.replace(revision["current"], revision["human_summary"], 1)
+            authored_section_contexts[revision["section_id"]] = _section_validation_context(revision)
         if not markdown.endswith("\n"):
             markdown += "\n"
 
     context = payload.get("validation_context")
     assert isinstance(context, Mapping)
+    merged_context = {
+        "current_facts": list(context.get("current_facts", [])) if isinstance(context.get("current_facts", []), list) else context.get("current_facts"),
+        "sections": dict(context.get("sections", {})) if isinstance(context.get("sections", {}), Mapping) else context.get("sections"),
+    }
+    if isinstance(merged_context["sections"], dict):
+        merged_context["sections"].update(authored_section_contexts)
     validation = _candidate_validation(
         contract,
         markdown,
         evidence=payload.get("evidence"),
-        context=context,
+        context=merged_context,
         declared_boundary=payload.get("applicability_boundary"),
     )
     if validation["status"] != "passed":
@@ -923,6 +1077,10 @@ def render_page_author(payload: Mapping[str, Any], *, workspace_root: str | Path
             "status": "failed",
             "validation": validation,
         }
+    section_evidence = _section_evidence_document(contract, merged_context)
+    section_evidence_bytes = (
+        json.dumps(section_evidence, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n"
+    ).encode("utf-8")
     return {
         "contract_version": HUMAN_PAGE_TEMPLATE_CONTRACT_VERSION,
         "markdown": markdown,
@@ -931,6 +1089,8 @@ def render_page_author(payload: Mapping[str, Any], *, workspace_root: str | Path
         "operation": "render",
         "page_type": contract.page_type,
         "schema_version": HUMAN_PAGE_AUTHORING_SCHEMA_VERSION,
+        "section_evidence": section_evidence,
+        "section_evidence_sha256": hashlib.sha256(section_evidence_bytes).hexdigest(),
         "source": {"path": str(source), "sha256": source_sha256} if source else None,
         "status": "ready",
         "validation": validation,
@@ -939,6 +1099,7 @@ def render_page_author(payload: Mapping[str, Any], *, workspace_root: str | Path
 
 _RECORD_TYPES = {"analysis", "change", "pitfall", "experiment", "session"}
 _NAVIGATION_TYPES = {"INDEX", "WIKI", "RECORDS", "REFERENCES"}
+_REFERENCE_URI_RE = re.compile(r"^[A-Za-z][A-Za-z0-9+.-]*:")
 
 
 def _package_route(page_type: str) -> dict[str, Any]:
@@ -1053,6 +1214,113 @@ def _staging_target(
     return target, None
 
 
+def _portable_section_evidence(
+    section_evidence: Mapping[str, Any],
+    workspace_root: str | Path,
+) -> tuple[dict[str, Any] | None, list[tuple[Path, str, str]], dict[str, Any] | None]:
+    root = Path(workspace_root).resolve()
+    packaged_sections: list[dict[str, Any]] = []
+    copy_plan: list[tuple[Path, str, str]] = []
+    for section in section_evidence.get("sections", []):
+        if not isinstance(section, Mapping):
+            continue
+        section_id = str(section.get("section_id") or "")
+        packaged_section = {
+            "disclosure_level": str(section.get("disclosure_level") or ""),
+            "heading": str(section.get("heading") or ""),
+            "machine_evidence_refs": [],
+            "section_id": section_id,
+            "source_refs": [],
+        }
+        for field in ("source_refs", "machine_evidence_refs"):
+            values = section.get(field, [])
+            if not isinstance(values, list):
+                continue
+            for index, item in enumerate(values):
+                if not isinstance(item, Mapping):
+                    continue
+                target = str(item.get("target") or "").strip()
+                is_windows_drive = bool(re.match(r"^[A-Za-z]:[\\/]", target))
+                if _REFERENCE_URI_RE.match(target) and not is_windows_drive:
+                    packaged_section[field].append({**dict(item), "target_basis": "uri"})
+                    continue
+                candidate = Path(target)
+                if not candidate.is_absolute():
+                    candidate = root / candidate
+                candidate = candidate.resolve()
+                if candidate != root and root not in candidate.parents:
+                    return None, [], _failed(
+                        "package",
+                        "reference-target-outside-workspace",
+                        "章节来源或机器证据路径越过 workspace_root。",
+                        field=f"section_evidence.{section_id}.{field}[{index}]",
+                        target=target,
+                    )
+                if not candidate.is_file():
+                    return None, [], _failed(
+                        "package",
+                        "reference-target-not-found",
+                        "章节来源或机器证据路径不是可读取文件。",
+                        field=f"section_evidence.{section_id}.{field}[{index}]",
+                        target=target,
+                    )
+                expected = str(item.get("sha256") or "").strip().casefold()
+                if not _SHA256_RE.fullmatch(expected):
+                    return None, [], _failed(
+                        "package",
+                        "reference-target-sha256-missing",
+                        "文件型来源或机器证据引用必须提供小写 SHA-256。",
+                        field=f"section_evidence.{section_id}.{field}[{index}].sha256",
+                        target=target,
+                    )
+                actual = hashlib.sha256(candidate.read_bytes()).hexdigest()
+                if actual != expected:
+                    return None, [], _failed(
+                        "package",
+                        "reference-target-drift",
+                        "章节来源或机器证据文件与声明 SHA-256 不一致。",
+                        field=f"section_evidence.{section_id}.{field}[{index}]",
+                        target=target,
+                        expected_sha256=expected,
+                        actual_sha256=actual,
+                    )
+                portable_target = Path("evidence") / expected / candidate.name
+                portable_value = {
+                    **dict(item),
+                    "original_target": target,
+                    "package_owned": True,
+                    "target": portable_target.as_posix(),
+                    "target_basis": "manifest-parent",
+                }
+                packaged_section[field].append(portable_value)
+                copy_plan.append((candidate, portable_target.as_posix(), expected))
+        for field in ("source_refs", "machine_evidence_refs"):
+            packaged_section[field] = sorted(
+                packaged_section[field],
+                key=lambda item: (
+                    str(item.get("target") or ""),
+                    str(item.get("kind") or ""),
+                    str(item.get("purpose") or ""),
+                    str(item.get("sha256") or ""),
+                ),
+            )
+        packaged_sections.append(packaged_section)
+    portable = {
+        "schema_version": 2,
+        "target_resolution": {
+            "file_target_basis": "manifest-parent",
+            "package_owned_directory": "evidence",
+            "uri_target_basis": "uri",
+        },
+        "sections": packaged_sections,
+    }
+    unique_plan = {
+        (target, digest): (source, target, digest)
+        for source, target, digest in copy_plan
+    }
+    return portable, [unique_plan[key] for key in sorted(unique_plan)], None
+
+
 def package_page_author(
     payload: Mapping[str, Any],
     staging_dir: str | Path,
@@ -1066,6 +1334,15 @@ def package_page_author(
         result = dict(rendered)
         result["operation"] = "package"
         return result
+    section_evidence = rendered.get("section_evidence", {})
+    if not isinstance(section_evidence, Mapping):
+        return _failed("package", "section-evidence-invalid", "render 未返回规范化章节证据引用。")
+    packaged_section_evidence, copy_plan, failure = _portable_section_evidence(
+        section_evidence, workspace_root
+    )
+    if failure:
+        return failure
+    assert packaged_section_evidence is not None
     target, failure = _staging_target(staging_dir, workspace_root)
     if failure:
         return failure
@@ -1073,6 +1350,17 @@ def package_page_author(
     markdown = str(rendered["markdown"])
     markdown_sha256 = str(rendered["markdown_sha256"])
     route = _package_route(str(rendered["page_type"]))
+    section_evidence_bytes = (
+        json.dumps(
+            packaged_section_evidence,
+            ensure_ascii=False,
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+        + "\n"
+    ).encode("utf-8")
+    section_evidence_sha256 = hashlib.sha256(section_evidence_bytes).hexdigest()
+    evidence_paths = sorted(target_value for _source, target_value, _digest in copy_plan)
     manifest = {
         "body": {"path": "body.md", "sha256": markdown_sha256},
         "contract_version": HUMAN_PAGE_TEMPLATE_CONTRACT_VERSION,
@@ -1082,6 +1370,9 @@ def package_page_author(
         "page_type": rendered["page_type"],
         "registry_sha256": human_page_template_registry_sha256(),
         "schema_version": HUMAN_PAGE_AUTHORING_SCHEMA_VERSION,
+        "package_owned_paths": ["body.md", *evidence_paths, "manifest.json"],
+        "section_evidence": packaged_section_evidence,
+        "section_evidence_sha256": section_evidence_sha256,
         "source": rendered.get("source"),
         "status": "staged",
         "validation": rendered["validation"],
@@ -1099,6 +1390,12 @@ def package_page_author(
     try:
         temporary.mkdir(parents=True)
         (temporary / "body.md").write_bytes(body_bytes)
+        for source_path, relative_target, expected_sha256 in copy_plan:
+            evidence_target = temporary / relative_target
+            evidence_target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(source_path, evidence_target)
+            if hashlib.sha256(evidence_target.read_bytes()).hexdigest() != expected_sha256:
+                raise OSError(f"staged evidence hash verification failed: {relative_target}")
         (temporary / "manifest.json").write_bytes(manifest_bytes)
         if hashlib.sha256((temporary / "body.md").read_bytes()).hexdigest() != markdown_sha256:
             raise OSError("staged body hash verification failed")
@@ -1112,9 +1409,19 @@ def package_page_author(
     reopened_manifest = json.loads((target / "manifest.json").read_text(encoding="utf-8"))
     if reopened_manifest != manifest:
         return _failed("package", "staging-reopen-failed", "staging manifest 重开后内容不一致。")
+    for _source_path, relative_target, expected_sha256 in copy_plan:
+        reopened_evidence = target / relative_target
+        if not reopened_evidence.is_file() or hashlib.sha256(reopened_evidence.read_bytes()).hexdigest() != expected_sha256:
+            return _failed(
+                "package",
+                "staging-evidence-reopen-failed",
+                "staging 机器证据副本重开后缺失或哈希不一致。",
+                target=relative_target,
+            )
     return {
         "artifacts": {
             "body": str(target / "body.md"),
+            "evidence": [str(target / value) for value in evidence_paths],
             "manifest": str(target / "manifest.json"),
         },
         "body_sha256": markdown_sha256,
@@ -1125,6 +1432,7 @@ def package_page_author(
         "operation": "package",
         "page_type": rendered["page_type"],
         "schema_version": HUMAN_PAGE_AUTHORING_SCHEMA_VERSION,
+        "section_evidence_sha256": section_evidence_sha256,
         "status": "ready",
     }
 

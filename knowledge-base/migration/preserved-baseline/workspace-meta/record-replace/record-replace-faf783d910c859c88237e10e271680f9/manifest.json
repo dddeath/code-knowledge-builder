@@ -1,0 +1,229 @@
+{
+  "schema_version": 1,
+  "operation_id": "record-replace-faf783d910c859c88237e10e271680f9",
+  "operation": "record-replace",
+  "status": "completed",
+  "output": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7",
+  "kind": "session",
+  "title": "第三开发波次实验派发",
+  "created_at_utc": "2026-09-02T22:41:39Z",
+  "rollback_manifest": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-faf783d910c859c88237e10e271680f9\\manifest.json",
+  "rollback_argv": [
+    "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe",
+    "E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py",
+    "record-rollback",
+    "--out",
+    "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7",
+    "--manifest",
+    "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-faf783d910c859c88237e10e271680f9\\manifest.json"
+  ],
+  "rollback_command": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe' 'E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py' 'record-rollback' '--out' 'E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7' '--manifest' 'E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-faf783d910c859c88237e10e271680f9\\manifest.json'",
+  "roles": [
+    {
+      "name": "human-note",
+      "kind": "file",
+      "path": "human/sessions/第三开发波次实验派发.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "f82f5e8c019237b6ca218ca5ac34f43cfb4abccd220602ee8e660f5cb51672f6",
+        "size": 1233,
+        "backup": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-faf783d910c859c88237e10e271680f9\\backup\\files\\human\\sessions\\第三开发波次实验派发.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "a5c00c20e790e0742ff6997817dc2aadc9f69af08e260baa9e9fc0290d31371f",
+        "size": 1483,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-faf783d910c859c88237e10e271680f9\\staging\\files\\human\\sessions\\第三开发波次实验派发.md"
+      }
+    },
+    {
+      "name": "markdown-note",
+      "kind": "file",
+      "path": "markdown/sessions/第三开发波次实验派发.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "f82f5e8c019237b6ca218ca5ac34f43cfb4abccd220602ee8e660f5cb51672f6",
+        "size": 1233,
+        "backup": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-faf783d910c859c88237e10e271680f9\\backup\\files\\markdown\\sessions\\第三开发波次实验派发.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "a5c00c20e790e0742ff6997817dc2aadc9f69af08e260baa9e9fc0290d31371f",
+        "size": 1483,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-faf783d910c859c88237e10e271680f9\\staging\\files\\markdown\\sessions\\第三开发波次实验派发.md"
+      }
+    },
+    {
+      "name": "note-metadata",
+      "kind": "file",
+      "path": "workspace-meta/notes/第三开发波次实验派发.json",
+      "baseline": {
+        "exists": true,
+        "sha256": "28f5eca31a072452f06ac84de114f1ace03b8ed7d265c0d77b7feff6ba159f36",
+        "size": 1147,
+        "backup": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-faf783d910c859c88237e10e271680f9\\backup\\files\\workspace-meta\\notes\\第三开发波次实验派发.json"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "feb27add315b87527dc6a733bf2b5a879fccf494186fbc4eaf055c72fe3d0c8e",
+        "size": 1826,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-faf783d910c859c88237e10e271680f9\\staging\\files\\workspace-meta\\notes\\第三开发波次实验派发.json"
+      }
+    },
+    {
+      "name": "human-records",
+      "kind": "file",
+      "path": "human/RECORDS.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "e1da88000c5384a3faea81145b3cd28e7c19cbc8ef581f39570da24685b543fb",
+        "size": 22175,
+        "backup": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-faf783d910c859c88237e10e271680f9\\backup\\files\\human\\RECORDS.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "e1da88000c5384a3faea81145b3cd28e7c19cbc8ef581f39570da24685b543fb",
+        "size": 22175,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-faf783d910c859c88237e10e271680f9\\staging\\files\\human\\RECORDS.md"
+      }
+    },
+    {
+      "name": "markdown-records",
+      "kind": "file",
+      "path": "markdown/RECORDS.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "e1da88000c5384a3faea81145b3cd28e7c19cbc8ef581f39570da24685b543fb",
+        "size": 22175,
+        "backup": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-faf783d910c859c88237e10e271680f9\\backup\\files\\markdown\\RECORDS.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "e1da88000c5384a3faea81145b3cd28e7c19cbc8ef581f39570da24685b543fb",
+        "size": 22175,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-faf783d910c859c88237e10e271680f9\\staging\\files\\markdown\\RECORDS.md"
+      }
+    },
+    {
+      "name": "work-record-index-audit",
+      "kind": "file",
+      "path": "workspace-meta/work-record-index-audit.json",
+      "baseline": {
+        "exists": true,
+        "sha256": "f8dde16a946f56982ea414ec890180e8d1276d3bfb1bed560c2a662073dfbe11",
+        "size": 217,
+        "backup": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-faf783d910c859c88237e10e271680f9\\backup\\files\\workspace-meta\\work-record-index-audit.json"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "f8dde16a946f56982ea414ec890180e8d1276d3bfb1bed560c2a662073dfbe11",
+        "size": 217,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-faf783d910c859c88237e10e271680f9\\staging\\files\\workspace-meta\\work-record-index-audit.json"
+      }
+    },
+    {
+      "name": "agent-index-note",
+      "kind": "sqlite-logical",
+      "path": "agent-index.sqlite",
+      "selector": "第三开发波次实验派发",
+      "baseline": {
+        "sha256": "b62b2df8f9447425f331b9de180894adc216ec475104fd5add2ca8d324a16f6e",
+        "backup": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-faf783d910c859c88237e10e271680f9\\backup\\agent-index-note.json"
+      },
+      "modified": {
+        "sha256": "92a5adabb2fbee099f1c5f60a8ee6248184f72a39ea6ec435e67b537d0415e05",
+        "candidate": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-faf783d910c859c88237e10e271680f9\\staging\\agent-index-note.json"
+      }
+    },
+    {
+      "name": "machine-knowledge-note",
+      "kind": "sqlite-logical",
+      "path": "machine/knowledge.sqlite",
+      "selector": "note:sessions:第三开发波次实验派发",
+      "baseline": {
+        "sha256": "de57f1da1414267077f49b37e660009c4282945b32b5b2de67c14c7ac401113c",
+        "backup": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-faf783d910c859c88237e10e271680f9\\backup\\machine-knowledge-note.json"
+      },
+      "modified": {
+        "sha256": "11fcb61ee11dc9d3f76daa9e732f2172137f9464ebf9ca7e1caebce7f0e6c70b",
+        "candidate": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-faf783d910c859c88237e10e271680f9\\staging\\machine-knowledge-note.json"
+      }
+    }
+  ],
+  "prepared_at_utc": "2026-09-02T22:41:40Z",
+  "record_id": "work-record-85ddd8cfe5c35948bf5b84c357559fb4",
+  "relative_note": "sessions/第三开发波次实验派发.md",
+  "explicit_evidence_replacement": true,
+  "linked_pages": [
+    "retrieve_machine",
+    "sync_human_layer"
+  ],
+  "body_sha256": "7c3c098b07ef4d03126aafb9240983fdebad7011a775360a4fe8d0edd08c9b6a",
+  "candidate_audit": {
+    "status": "passed",
+    "note_errors": [],
+    "work_record_index": {
+      "status": "passed",
+      "record_count": 66,
+      "linked_record_count": 66,
+      "section_counts": {
+        "analysis": 18,
+        "changes": 36,
+        "pitfalls": 0,
+        "experiments": 5,
+        "sessions": 7
+      },
+      "errors": []
+    }
+  },
+  "promotion_order": [
+    "human-note",
+    "markdown-note",
+    "note-metadata",
+    "human-records",
+    "markdown-records",
+    "work-record-index-audit",
+    "agent-index-note",
+    "machine-knowledge-note"
+  ],
+  "completed_at_utc": "2026-09-02T22:41:42Z",
+  "verification": {
+    "status": "passed",
+    "role_errors": [],
+    "note_errors": [],
+    "work_record_index": {
+      "status": "passed",
+      "record_count": 66,
+      "linked_record_count": 66,
+      "section_counts": {
+        "analysis": 18,
+        "changes": 36,
+        "pitfalls": 0,
+        "experiments": 5,
+        "sessions": 7
+      },
+      "errors": []
+    },
+    "agent_index": {
+      "schema_version": 1,
+      "status": "passed",
+      "path": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\agent-index.sqlite",
+      "integrity": "ok",
+      "counts": {
+        "pages": 230,
+        "symbols": 1937,
+        "edges": 1876,
+        "terms": 26813,
+        "notes": 66
+      },
+      "projection_format": "markdown",
+      "errors": []
+    }
+  },
+  "operation_journal": {
+    "status": "passed",
+    "event_id": "operation-53b64df03ef5579e80802e9d6965be02",
+    "idempotent": false,
+    "journal": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\operations\\2026-09-02.jsonl"
+  }
+}

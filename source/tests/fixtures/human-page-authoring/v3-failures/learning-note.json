@@ -1,0 +1,117 @@
+{
+  "fixture_schema_version": 1,
+  "page_type": "learning-note",
+  "cases": {
+    "missing_section": {
+      "expected_reason": "required-section-missing",
+      "payload": {
+        "schema_version": 3,
+        "contract_version": "3.0.0",
+        "page_type": "learning-note",
+        "markdown": "# V3 失败样例\n\n## 学习问题\n\n内容清楚说明读者需要的结果与边界。\n\n## 解释摘要\n\n内容清楚说明读者需要的结果与边界。\n\n## 应用方式\n\n内容清楚说明读者需要的结果与边界。\n",
+        "evidence": {
+          "question": "fixture-evidence",
+          "source_page": "fixture-evidence",
+          "retrieval_pack": "fixture-evidence",
+          "audit_status": "fixture-evidence",
+          "explanation": "fixture-evidence"
+        },
+        "validation_context": {
+          "sections": {},
+          "current_facts": []
+        },
+        "applicability_boundary": "learning-note 是 L2 学习摘要，不替代 analysis、reference 或完整源码职责页。"
+      }
+    },
+    "over_budget": {
+      "expected_reason": "section-key-entity-budget",
+      "payload": {
+        "schema_version": 3,
+        "contract_version": "3.0.0",
+        "page_type": "learning-note",
+        "markdown": "# V3 失败样例\n\n## 学习问题\n\n内容清楚说明读者需要的结果与边界。\n\n## 解释摘要\n\n内容清楚说明读者需要的结果与边界。\n\n## 应用方式\n\n内容清楚说明读者需要的结果与边界。\n\n## 关联内容\n\n内容清楚说明读者需要的结果与边界。\n",
+        "evidence": {
+          "question": "fixture-evidence",
+          "source_page": "fixture-evidence",
+          "retrieval_pack": "fixture-evidence",
+          "audit_status": "fixture-evidence",
+          "explanation": "fixture-evidence"
+        },
+        "validation_context": {
+          "sections": {
+            "question": {
+              "key_entities": [
+                "ENTITY_0",
+                "ENTITY_1",
+                "ENTITY_2",
+                "ENTITY_3"
+              ],
+              "links": [],
+              "metrics": [],
+              "source_refs": [],
+              "machine_evidence_refs": []
+            }
+          },
+          "current_facts": []
+        },
+        "applicability_boundary": "learning-note 是 L2 学习摘要，不替代 analysis、reference 或完整源码职责页。"
+      }
+    },
+    "wrong_disclosure": {
+      "expected_reason": "l4-evidence-leak",
+      "payload": {
+        "schema_version": 3,
+        "contract_version": "3.0.0",
+        "page_type": "learning-note",
+        "markdown": "# V3 失败样例\n\n## 学习问题\n\n专项测试 268/268 通过。\n\n## 解释摘要\n\n内容清楚说明读者需要的结果与边界。\n\n## 应用方式\n\n内容清楚说明读者需要的结果与边界。\n\n## 关联内容\n\n内容清楚说明读者需要的结果与边界。\n",
+        "evidence": {
+          "question": "fixture-evidence",
+          "source_page": "fixture-evidence",
+          "retrieval_pack": "fixture-evidence",
+          "audit_status": "fixture-evidence",
+          "explanation": "fixture-evidence"
+        },
+        "validation_context": {
+          "sections": {},
+          "current_facts": []
+        },
+        "applicability_boundary": "learning-note 是 L2 学习摘要，不替代 analysis、reference 或完整源码职责页。"
+      }
+    },
+    "purposeless_link": {
+      "expected_reason": "link-purpose-missing",
+      "payload": {
+        "schema_version": 3,
+        "contract_version": "3.0.0",
+        "page_type": "learning-note",
+        "markdown": "# V3 失败样例\n\n## 学习问题\n\n内容清楚说明读者需要的结果与边界。\n\n[这里](guide.md)\n\n## 解释摘要\n\n内容清楚说明读者需要的结果与边界。\n\n## 应用方式\n\n内容清楚说明读者需要的结果与边界。\n\n## 关联内容\n\n内容清楚说明读者需要的结果与边界。\n",
+        "evidence": {
+          "question": "fixture-evidence",
+          "source_page": "fixture-evidence",
+          "retrieval_pack": "fixture-evidence",
+          "audit_status": "fixture-evidence",
+          "explanation": "fixture-evidence"
+        },
+        "validation_context": {
+          "sections": {
+            "question": {
+              "key_entities": [],
+              "links": [
+                {
+                  "target": "guide.md",
+                  "purpose": "",
+                  "kind": "internal"
+                }
+              ],
+              "metrics": [],
+              "source_refs": [],
+              "machine_evidence_refs": []
+            }
+          },
+          "current_facts": []
+        },
+        "applicability_boundary": "learning-note 是 L2 学习摘要，不替代 analysis、reference 或完整源码职责页。"
+      }
+    }
+  }
+}

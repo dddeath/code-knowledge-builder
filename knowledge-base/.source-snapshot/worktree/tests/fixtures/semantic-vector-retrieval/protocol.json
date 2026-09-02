@@ -1,0 +1,270 @@
+{
+  "schema_version": 1,
+  "status": "frozen",
+  "frozen_before_effect_run": true,
+  "frozen_at_utc": "2026-09-02T21:13:53.773644+00:00",
+  "benchmark": "ckb-semantic-vector-retrieval-fixed-v1",
+  "corpus": {
+    "bound_repository_commit": "bd8519583e3a075612036d0874c1d0742000e30c",
+    "source_output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+    "copy_mode": "sqlite-backup-read-only-source",
+    "machine_sqlite_sha256": "4945dbd7e1ed78f26bfd0de94674c1e402153a6e957d84fe71ee9a48185038ce",
+    "machine_sqlite_bytes": 61304832,
+    "agent_index_sqlite_sha256": "b45a4c6f38814a7fb8a5d4f06c060da33f88b49efae46d35b29bec394a18aab9",
+    "agent_index_sqlite_bytes": 9682944,
+    "entity_rows_with_source_path": 1937,
+    "files": 106
+  },
+  "questions_source": {
+    "path": "tests/fixtures/chinese-retrieval-effects/protocol.json",
+    "sha256": "529d20785b949288003753bb0914fd520d89d25fb953da61ec292b72654fdcc8",
+    "selection": "questions[*].id/question/relevance copied byte-for-value before effect run"
+  },
+  "document_contract": {
+    "unit": "one machine/knowledge.sqlite entities row per vector",
+    "selection_sql": "SELECT entity_id, kind, name, qualified_name, source_path, module, meaning_zh, role_zh, change_when_zh, description_zh FROM entities WHERE source_path <> '' ORDER BY entity_id",
+    "fields_in_order": [
+      "kind",
+      "name",
+      "qualified_name",
+      "source_path",
+      "module",
+      "meaning_zh",
+      "role_zh",
+      "change_when_zh",
+      "description_zh"
+    ],
+    "render": "field-name colon space stripped-value; omit empty fields; join with newline",
+    "document_order": "entity_id ascending",
+    "result_deduplication": "score descending then entity_id ascending; retain first entity for each normalized source_path",
+    "visible_context_estimate": "ceil(sum UTF-8-visible hit text Unicode code points / 4)"
+  },
+  "model": {
+    "engine": "fastembed",
+    "engine_version": "0.8.0",
+    "engine_license": "Apache-2.0",
+    "registered_name": "BAAI/bge-small-zh-v1.5",
+    "artifact_repository": "Qdrant/bge-small-zh-v1.5",
+    "artifact_revision": "46fbe35fd4374a00fee7de77dfddaeb6dd6a2c59",
+    "model_license": "MIT",
+    "dimension": 512,
+    "max_input_tokens": 512,
+    "dtype": "float32",
+    "normalization": "L2 by FastEmbed",
+    "query_instruction": "为这个句子生成表示以用于检索相关文章：",
+    "passage_instruction": null,
+    "provider": "CPUExecutionProvider",
+    "threads": 1,
+    "batch_size": 64,
+    "parallel": null,
+    "network_during_measurement": false,
+    "artifact_manifest_required": true
+  },
+  "index": {
+    "algorithm": "exact dense matrix cosine via normalized float32 dot product",
+    "files": [
+      "vectors.npy",
+      "documents.json",
+      "index-manifest.json"
+    ],
+    "approximate_neighbors": false,
+    "random_seed": 0,
+    "top_k": 8,
+    "vector_candidate_depth": 8,
+    "incremental_probe": "re-embed and replace q01 relevant entity in a copied index, verify unchanged ranking and restore original bytes"
+  },
+  "arms": [
+    {
+      "id": "sqlite-current",
+      "strategy": "production retrieve_machine fast on copied machine SQLite",
+      "provider": "disabled"
+    },
+    {
+      "id": "semantic-vector",
+      "strategy": "FastEmbed query vector plus exact cosine over frozen entity vectors",
+      "provider": "local-onnx-cpu"
+    },
+    {
+      "id": "hybrid-rrf",
+      "strategy": "reciprocal-rank fusion of sqlite-current top 8 and semantic-vector top 8",
+      "rrf_k": 60
+    }
+  ],
+  "execution": {
+    "query_order": "fixed",
+    "arm_order": "rotated-by-question-index",
+    "budget_tokens": 2400,
+    "max_results": 8,
+    "profile": "fast",
+    "cold_runs": 1,
+    "hot_runs": 5,
+    "cold_definition": "new worker process per arm and question; latency includes interpreter, imports, index/database/model load, and first query",
+    "hot_definition": "five immediately repeated queries in the same worker; no persisted query-answer cache",
+    "ordering_stability": "all six rankings per arm/question must have one signature"
+  },
+  "resource_limits": {
+    "index_build_seconds_max": 600.0,
+    "peak_rss_bytes_max": 4294967296,
+    "index_bytes_max": 134217728,
+    "runtime_and_model_bytes_max": 1610612736,
+    "extra_child_processes_max": 1,
+    "network_calls_during_measurement_max": 0
+  },
+  "metrics": [
+    "recall_at_8",
+    "mrr_at_8",
+    "ndcg_at_8",
+    "first_pack_estimated_tokens",
+    "cold_latency_ms_p50",
+    "cold_latency_ms_p95",
+    "hot_latency_ms_p50",
+    "hot_latency_ms_p95",
+    "first_index_seconds",
+    "incremental_index_seconds",
+    "index_bytes",
+    "runtime_and_model_bytes",
+    "peak_rss_bytes",
+    "worker_process_starts",
+    "peak_extra_child_processes"
+  ],
+  "quality_rule": {
+    "production_experiment": "worth-entering-production-experiment only if semantic-vector or hybrid improves at least one of Recall@8, MRR@8, nDCG@8 without regressing another, all integrity/determinism/resource gates pass, and the arm uses a verified real model",
+    "no_gain": "not-demonstrated",
+    "regression": "regression-observed",
+    "unavailable": "engine-unavailable or model-unavailable; no effect claim"
+  },
+  "questions": [
+    {
+      "id": "q01",
+      "question": "调整 retrieve_machine 的 FTS5 权重和 fast 两跳图传播",
+      "relevance": [
+        {
+          "source_path": "scripts/ckb_core/machine_knowledge.py",
+          "symbol": "retrieve_machine",
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "q02",
+      "question": "修复未明确应用 code-knowledge-builder Skill 时仍记录 Hook 事件",
+      "relevance": [
+        {
+          "source_path": "scripts/ckb_core/automation.py",
+          "symbol": "ingest_event",
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "q03",
+      "question": "修改 Claude 与 OpenCode 的跨 Harness Hook 配置生成模板",
+      "relevance": [
+        {
+          "source_path": "scripts/ckb_core/automation_integrations.py",
+          "symbol": "render_integration",
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "q04",
+      "question": "修改增量迁移时 exact blob 复用集合的审计规则",
+      "relevance": [
+        {
+          "source_path": "scripts/ckb_core/migration.py",
+          "symbol": "audit_migration",
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "q05",
+      "question": "修改兼容 Agent 页面索引的构建与 FTS 查询",
+      "relevance": [
+        {
+          "source_path": "scripts/ckb_core/agent_index.py",
+          "symbol": "build_agent_index",
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "q06",
+      "question": "修改机器知识同步到中文人类 Obsidian 页面投影",
+      "relevance": [
+        {
+          "source_path": "scripts/ckb_core/knowledge_layers.py",
+          "symbol": "sync_human_layer",
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "q07",
+      "question": "调整 Graphify 社区聚类与查询子图输出",
+      "relevance": [
+        {
+          "source_path": "scripts/ckb_core/graphify_core.py",
+          "symbol": "query_graph",
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "q08",
+      "question": "修改知识页点击源码时的 VS Code URI 和行号",
+      "relevance": [
+        {
+          "source_path": "scripts/ckb_core/source_links.py",
+          "symbol": "ensure_local_openers",
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "q09",
+      "question": "调整页面配置中的每文件关键页上限和上下文预算",
+      "relevance": [
+        {
+          "source_path": "scripts/ckb_core/page_config.py",
+          "symbol": "load_page_config",
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "question": "修改 full 私有运行时部署和 remove 回滚流程",
+      "relevance": [
+        {
+          "source_path": "scripts/ckb_core/runtime.py",
+          "symbol": "deploy",
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "q11",
+      "question": "修改 C++ 与 Python 展示样例的 Wiki 打包输出",
+      "relevance": [
+        {
+          "source_path": "scripts/ckb_core/showcase.py",
+          "symbol": "package_showcase",
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "q12",
+      "question": "修改 Tree-sitter 解析文件和命名实体清单",
+      "relevance": [
+        {
+          "source_path": "scripts/ckb_core/parsers.py",
+          "symbol": "parse_file",
+          "grade": 3
+        }
+      ]
+    }
+  ]
+}

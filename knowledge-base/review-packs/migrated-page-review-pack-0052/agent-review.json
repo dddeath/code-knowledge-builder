@@ -3,20 +3,33 @@
   "pack_id": "migrated-page-review-pack-0052",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T02:37:49Z",
+  "reviewed_at_utc": "2026-09-02T22:46:32Z",
   "reviews": [
     {
-      "entity_id": "ent-6ce07a4fbfc95fffb82138ed1fe1d998",
+      "entity_id": "file-760f79efa3af5a9097d8269861c1cf33",
       "classification": "page",
-      "owner_page_id": "ent-6ce07a4fbfc95fffb82138ed1fe1d998",
-      "source_path": "tests/test_query_terms.py",
-      "start_line": 25,
-      "end_line": 107,
+      "owner_page_id": "file-760f79efa3af5a9097d8269861c1cf33",
+      "source_path": "tests/test_automation.py",
+      "start_line": 1,
+      "end_line": 956,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_query_terms.py` 第 25-107 行的源码摘录，文件、符号与行范围一致。",
-      "meaning_zh": "`QueryTermsTests` 是 `tests/test_query_terms.py` 第 25-107 行定义的类，本页绑定该固定源码范围。",
-      "role_zh": "该类作为可执行验证入口，检查标识符 `QueryTermsTests` 所指的行为与失败边界。",
-      "change_when_zh": "当被测行为、输入夹具、断言或失败条件变化时，应同步更新 `QueryTermsTests` 的说明。"
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_automation.py` 第 1 至 956 行；摘录与 Git blob 322785c2cc68 一致。",
+      "meaning_zh": "文件 `tests/test_automation.py`负责验证多 Harness 事件归一化、会话激活、并发采集和受控投影。",
+      "role_zh": "它属于会话自动化生命周期的回归保护，当前说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当自动化事件、会话状态、并发行为或人类投影规则变化时，应同步复查本页及其直接关联测试。"
+    },
+    {
+      "entity_id": "ent-100e715b381959308c51ecd3b6d5e55d",
+      "classification": "page",
+      "owner_page_id": "ent-100e715b381959308c51ecd3b6d5e55d",
+      "source_path": "tests/test_automation.py",
+      "start_line": 79,
+      "end_line": 81,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_automation.py` 第 79 至 81 行；摘录与 Git blob 322785c2cc68 一致。",
+      "meaning_zh": "代码单元 `register`负责验证多 Harness 事件归一化、会话激活、并发采集和受控投影。",
+      "role_zh": "它属于会话自动化生命周期的回归保护，当前说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当自动化事件、会话状态、并发行为或人类投影规则变化时，应同步复查本页及其直接关联测试。"
     }
   ]
 }

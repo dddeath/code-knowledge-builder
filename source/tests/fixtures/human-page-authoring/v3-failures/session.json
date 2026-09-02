@@ -1,0 +1,171 @@
+{
+  "fixture_schema_version": 1,
+  "page_type": "session",
+  "cases": {
+    "missing_section": {
+      "expected_reason": "required-section-missing",
+      "payload": {
+        "schema_version": 3,
+        "contract_version": "3.0.0",
+        "page_type": "session",
+        "markdown": "# V3 失败样例\n\n## 任务目标\n\n内容清楚说明读者需要的结果与边界。\n\n## 执行范围\n\n内容清楚说明读者需要的结果与边界。\n\n## 关键决策与方案变化\n\n内容清楚说明读者需要的结果与边界。\n\n## 当前结果\n\n内容清楚说明读者需要的结果与边界。\n\n## 可用成果\n\n内容清楚说明读者需要的结果与边界。\n\n## 未决事项\n\n内容清楚说明读者需要的结果与边界。\n\n## 后续行动\n\n内容清楚说明读者需要的结果与边界。\n",
+        "evidence": {
+          "goal": "fixture-evidence",
+          "scope": "fixture-evidence",
+          "decisions": "fixture-evidence",
+          "completed_results": "fixture-evidence",
+          "remaining_work": "fixture-evidence"
+        },
+        "validation_context": {
+          "sections": {
+            "deep-reading": {
+              "key_entities": [],
+              "links": [
+                {
+                  "target": "INDEX.md#让-Agent-精确定位",
+                  "purpose": "继续定位相关源码与记录",
+                  "kind": "internal"
+                }
+              ],
+              "metrics": [],
+              "source_refs": [],
+              "machine_evidence_refs": []
+            }
+          },
+          "current_facts": []
+        },
+        "applicability_boundary": "session 是 L2 任务恢复记录，不替代 change、analysis 或原始运行日志。"
+      }
+    },
+    "over_budget": {
+      "expected_reason": "section-key-entity-budget",
+      "payload": {
+        "schema_version": 3,
+        "contract_version": "3.0.0",
+        "page_type": "session",
+        "markdown": "# V3 失败样例\n\n## 任务目标\n\n内容清楚说明读者需要的结果与边界。\n\n## 执行范围\n\n内容清楚说明读者需要的结果与边界。\n\n## 关键决策与方案变化\n\n内容清楚说明读者需要的结果与边界。\n\n## 当前结果\n\n内容清楚说明读者需要的结果与边界。\n\n## 可用成果\n\n内容清楚说明读者需要的结果与边界。\n\n## 未决事项\n\n内容清楚说明读者需要的结果与边界。\n\n## 后续行动\n\n内容清楚说明读者需要的结果与边界。\n\n## 深入阅读\n\n[让 Agent 按本页问题继续定位](INDEX.md#让-Agent-精确定位)。\n",
+        "evidence": {
+          "goal": "fixture-evidence",
+          "scope": "fixture-evidence",
+          "decisions": "fixture-evidence",
+          "completed_results": "fixture-evidence",
+          "remaining_work": "fixture-evidence"
+        },
+        "validation_context": {
+          "sections": {
+            "deep-reading": {
+              "key_entities": [],
+              "links": [
+                {
+                  "target": "INDEX.md#让-Agent-精确定位",
+                  "purpose": "继续定位相关源码与记录",
+                  "kind": "internal"
+                }
+              ],
+              "metrics": [],
+              "source_refs": [],
+              "machine_evidence_refs": []
+            },
+            "goal": {
+              "key_entities": [
+                "ENTITY_0",
+                "ENTITY_1",
+                "ENTITY_2",
+                "ENTITY_3"
+              ],
+              "links": [],
+              "metrics": [],
+              "source_refs": [],
+              "machine_evidence_refs": []
+            }
+          },
+          "current_facts": []
+        },
+        "applicability_boundary": "session 是 L2 任务恢复记录，不替代 change、analysis 或原始运行日志。"
+      }
+    },
+    "wrong_disclosure": {
+      "expected_reason": "l4-evidence-leak",
+      "payload": {
+        "schema_version": 3,
+        "contract_version": "3.0.0",
+        "page_type": "session",
+        "markdown": "# V3 失败样例\n\n## 任务目标\n\n专项测试 268/268 通过。\n\n## 执行范围\n\n内容清楚说明读者需要的结果与边界。\n\n## 关键决策与方案变化\n\n内容清楚说明读者需要的结果与边界。\n\n## 当前结果\n\n内容清楚说明读者需要的结果与边界。\n\n## 可用成果\n\n内容清楚说明读者需要的结果与边界。\n\n## 未决事项\n\n内容清楚说明读者需要的结果与边界。\n\n## 后续行动\n\n内容清楚说明读者需要的结果与边界。\n\n## 深入阅读\n\n[让 Agent 按本页问题继续定位](INDEX.md#让-Agent-精确定位)。\n",
+        "evidence": {
+          "goal": "fixture-evidence",
+          "scope": "fixture-evidence",
+          "decisions": "fixture-evidence",
+          "completed_results": "fixture-evidence",
+          "remaining_work": "fixture-evidence"
+        },
+        "validation_context": {
+          "sections": {
+            "deep-reading": {
+              "key_entities": [],
+              "links": [
+                {
+                  "target": "INDEX.md#让-Agent-精确定位",
+                  "purpose": "继续定位相关源码与记录",
+                  "kind": "internal"
+                }
+              ],
+              "metrics": [],
+              "source_refs": [],
+              "machine_evidence_refs": []
+            }
+          },
+          "current_facts": []
+        },
+        "applicability_boundary": "session 是 L2 任务恢复记录，不替代 change、analysis 或原始运行日志。"
+      }
+    },
+    "purposeless_link": {
+      "expected_reason": "link-purpose-missing",
+      "payload": {
+        "schema_version": 3,
+        "contract_version": "3.0.0",
+        "page_type": "session",
+        "markdown": "# V3 失败样例\n\n## 任务目标\n\n内容清楚说明读者需要的结果与边界。\n\n[这里](guide.md)\n\n## 执行范围\n\n内容清楚说明读者需要的结果与边界。\n\n## 关键决策与方案变化\n\n内容清楚说明读者需要的结果与边界。\n\n## 当前结果\n\n内容清楚说明读者需要的结果与边界。\n\n## 可用成果\n\n内容清楚说明读者需要的结果与边界。\n\n## 未决事项\n\n内容清楚说明读者需要的结果与边界。\n\n## 后续行动\n\n内容清楚说明读者需要的结果与边界。\n\n## 深入阅读\n\n[让 Agent 按本页问题继续定位](INDEX.md#让-Agent-精确定位)。\n",
+        "evidence": {
+          "goal": "fixture-evidence",
+          "scope": "fixture-evidence",
+          "decisions": "fixture-evidence",
+          "completed_results": "fixture-evidence",
+          "remaining_work": "fixture-evidence"
+        },
+        "validation_context": {
+          "sections": {
+            "deep-reading": {
+              "key_entities": [],
+              "links": [
+                {
+                  "target": "INDEX.md#让-Agent-精确定位",
+                  "purpose": "继续定位相关源码与记录",
+                  "kind": "internal"
+                }
+              ],
+              "metrics": [],
+              "source_refs": [],
+              "machine_evidence_refs": []
+            },
+            "goal": {
+              "key_entities": [],
+              "links": [
+                {
+                  "target": "guide.md",
+                  "purpose": "",
+                  "kind": "internal"
+                }
+              ],
+              "metrics": [],
+              "source_refs": [],
+              "machine_evidence_refs": []
+            }
+          },
+          "current_facts": []
+        },
+        "applicability_boundary": "session 是 L2 任务恢复记录，不替代 change、analysis 或原始运行日志。"
+      }
+    }
+  }
+}

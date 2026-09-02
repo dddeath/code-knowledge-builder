@@ -17,9 +17,10 @@
 - 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
 - 实现时会用到 [[append]]。
 - 实现时会用到 [[audit_agent_protocol 与 _default_python 的协作实现]]。
-- 实现时会用到 [[audit_global 与 _replace_output_prefix 的协作实现]]。
 - 实现时会用到 [[command]]。
 - 实现时会用到 [[create_batch_plan 与 ProtocolRelease 的协作实现]]。
+- 实现时会用到 [[finalize]]。
+- 实现时会用到 [[finalize 与 _replace_output_prefix 的协作实现]]。
 - 实现时会用到 [[parser]]。
 - 主要代码单元是 [[run]]。
 

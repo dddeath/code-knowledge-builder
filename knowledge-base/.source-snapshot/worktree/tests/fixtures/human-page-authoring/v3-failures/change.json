@@ -1,0 +1,207 @@
+{
+  "fixture_schema_version": 1,
+  "page_type": "change",
+  "cases": {
+    "missing_section": {
+      "expected_reason": "required-section-missing",
+      "payload": {
+        "schema_version": 3,
+        "contract_version": "3.0.0",
+        "page_type": "change",
+        "markdown": "# V3 失败样例\n\n## 修改内容\n\n内容清楚说明读者需要的结果与边界。\n\n## 修改时间\n\n内容清楚说明读者需要的结果与边界。\n\n## 修改原因\n\n内容清楚说明读者需要的结果与边界。\n\n## 实现概述\n\n内容清楚说明读者需要的结果与边界。\n\n## 关联特性\n\n内容清楚说明读者需要的结果与边界。\n\n## 当前结果\n\n内容清楚说明读者需要的结果与边界。\n\n## 适用边界\n\n内容清楚说明读者需要的结果与边界。\n",
+        "evidence": {
+          "change_time": "fixture-evidence",
+          "baseline_or_version": "fixture-evidence",
+          "verification_summary": "fixture-evidence",
+          "applicability_boundary": "fixture-evidence",
+          "source_ranges": "fixture-evidence"
+        },
+        "validation_context": {
+          "sections": {
+            "deep-reading": {
+              "key_entities": [],
+              "links": [
+                {
+                  "target": "INDEX.md#让-Agent-精确定位",
+                  "purpose": "继续定位相关源码与记录",
+                  "kind": "internal"
+                }
+              ],
+              "metrics": [],
+              "source_refs": [],
+              "machine_evidence_refs": []
+            },
+            "implementation": {
+              "key_entities": [
+                "human_page_authoring"
+              ],
+              "links": [],
+              "metrics": [],
+              "source_refs": [],
+              "machine_evidence_refs": []
+            }
+          },
+          "current_facts": []
+        },
+        "applicability_boundary": "change 是 L2 已成立变化说明，不承载提案、开发日志或 L4 验证记录。"
+      }
+    },
+    "over_budget": {
+      "expected_reason": "section-key-entity-budget",
+      "payload": {
+        "schema_version": 3,
+        "contract_version": "3.0.0",
+        "page_type": "change",
+        "markdown": "# V3 失败样例\n\n## 修改内容\n\n内容清楚说明读者需要的结果与边界。\n\n## 修改时间\n\n内容清楚说明读者需要的结果与边界。\n\n## 修改原因\n\n内容清楚说明读者需要的结果与边界。\n\n## 实现概述\n\n内容清楚说明读者需要的结果与边界。\n\n## 关联特性\n\n内容清楚说明读者需要的结果与边界。\n\n## 当前结果\n\n内容清楚说明读者需要的结果与边界。\n\n## 适用边界\n\n内容清楚说明读者需要的结果与边界。\n\n## 深入阅读\n\n[让 Agent 按本页问题继续定位](INDEX.md#让-Agent-精确定位)。\n",
+        "evidence": {
+          "change_time": "fixture-evidence",
+          "baseline_or_version": "fixture-evidence",
+          "verification_summary": "fixture-evidence",
+          "applicability_boundary": "fixture-evidence",
+          "source_ranges": "fixture-evidence"
+        },
+        "validation_context": {
+          "sections": {
+            "deep-reading": {
+              "key_entities": [],
+              "links": [
+                {
+                  "target": "INDEX.md#让-Agent-精确定位",
+                  "purpose": "继续定位相关源码与记录",
+                  "kind": "internal"
+                }
+              ],
+              "metrics": [],
+              "source_refs": [],
+              "machine_evidence_refs": []
+            },
+            "implementation": {
+              "key_entities": [
+                "human_page_authoring"
+              ],
+              "links": [],
+              "metrics": [],
+              "source_refs": [],
+              "machine_evidence_refs": []
+            },
+            "what": {
+              "key_entities": [
+                "ENTITY_0",
+                "ENTITY_1",
+                "ENTITY_2",
+                "ENTITY_3"
+              ],
+              "links": [],
+              "metrics": [],
+              "source_refs": [],
+              "machine_evidence_refs": []
+            }
+          },
+          "current_facts": []
+        },
+        "applicability_boundary": "change 是 L2 已成立变化说明，不承载提案、开发日志或 L4 验证记录。"
+      }
+    },
+    "wrong_disclosure": {
+      "expected_reason": "l4-evidence-leak",
+      "payload": {
+        "schema_version": 3,
+        "contract_version": "3.0.0",
+        "page_type": "change",
+        "markdown": "# V3 失败样例\n\n## 修改内容\n\n专项测试 268/268 通过。\n\n## 修改时间\n\n内容清楚说明读者需要的结果与边界。\n\n## 修改原因\n\n内容清楚说明读者需要的结果与边界。\n\n## 实现概述\n\n内容清楚说明读者需要的结果与边界。\n\n## 关联特性\n\n内容清楚说明读者需要的结果与边界。\n\n## 当前结果\n\n内容清楚说明读者需要的结果与边界。\n\n## 适用边界\n\n内容清楚说明读者需要的结果与边界。\n\n## 深入阅读\n\n[让 Agent 按本页问题继续定位](INDEX.md#让-Agent-精确定位)。\n",
+        "evidence": {
+          "change_time": "fixture-evidence",
+          "baseline_or_version": "fixture-evidence",
+          "verification_summary": "fixture-evidence",
+          "applicability_boundary": "fixture-evidence",
+          "source_ranges": "fixture-evidence"
+        },
+        "validation_context": {
+          "sections": {
+            "deep-reading": {
+              "key_entities": [],
+              "links": [
+                {
+                  "target": "INDEX.md#让-Agent-精确定位",
+                  "purpose": "继续定位相关源码与记录",
+                  "kind": "internal"
+                }
+              ],
+              "metrics": [],
+              "source_refs": [],
+              "machine_evidence_refs": []
+            },
+            "implementation": {
+              "key_entities": [
+                "human_page_authoring"
+              ],
+              "links": [],
+              "metrics": [],
+              "source_refs": [],
+              "machine_evidence_refs": []
+            }
+          },
+          "current_facts": []
+        },
+        "applicability_boundary": "change 是 L2 已成立变化说明，不承载提案、开发日志或 L4 验证记录。"
+      }
+    },
+    "purposeless_link": {
+      "expected_reason": "link-purpose-missing",
+      "payload": {
+        "schema_version": 3,
+        "contract_version": "3.0.0",
+        "page_type": "change",
+        "markdown": "# V3 失败样例\n\n## 修改内容\n\n内容清楚说明读者需要的结果与边界。\n\n[这里](guide.md)\n\n## 修改时间\n\n内容清楚说明读者需要的结果与边界。\n\n## 修改原因\n\n内容清楚说明读者需要的结果与边界。\n\n## 实现概述\n\n内容清楚说明读者需要的结果与边界。\n\n## 关联特性\n\n内容清楚说明读者需要的结果与边界。\n\n## 当前结果\n\n内容清楚说明读者需要的结果与边界。\n\n## 适用边界\n\n内容清楚说明读者需要的结果与边界。\n\n## 深入阅读\n\n[让 Agent 按本页问题继续定位](INDEX.md#让-Agent-精确定位)。\n",
+        "evidence": {
+          "change_time": "fixture-evidence",
+          "baseline_or_version": "fixture-evidence",
+          "verification_summary": "fixture-evidence",
+          "applicability_boundary": "fixture-evidence",
+          "source_ranges": "fixture-evidence"
+        },
+        "validation_context": {
+          "sections": {
+            "deep-reading": {
+              "key_entities": [],
+              "links": [
+                {
+                  "target": "INDEX.md#让-Agent-精确定位",
+                  "purpose": "继续定位相关源码与记录",
+                  "kind": "internal"
+                }
+              ],
+              "metrics": [],
+              "source_refs": [],
+              "machine_evidence_refs": []
+            },
+            "implementation": {
+              "key_entities": [
+                "human_page_authoring"
+              ],
+              "links": [],
+              "metrics": [],
+              "source_refs": [],
+              "machine_evidence_refs": []
+            },
+            "what": {
+              "key_entities": [],
+              "links": [
+                {
+                  "target": "guide.md",
+                  "purpose": "",
+                  "kind": "internal"
+                }
+              ],
+              "metrics": [],
+              "source_refs": [],
+              "machine_evidence_refs": []
+            }
+          },
+          "current_facts": []
+        },
+        "applicability_boundary": "change 是 L2 已成立变化说明，不承载提案、开发日志或 L4 验证记录。"
+      }
+    }
+  }
+}

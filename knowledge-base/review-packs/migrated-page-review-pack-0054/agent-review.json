@@ -3,33 +3,20 @@
   "pack_id": "migrated-page-review-pack-0054",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T02:38:09Z",
+  "reviewed_at_utc": "2026-09-02T22:46:35Z",
   "reviews": [
     {
-      "entity_id": "file-6abf8ca65dc8561eac5ae1281b9f5ed9",
+      "entity_id": "file-fd26838a6d5859f1b4a2e5a034a56166",
       "classification": "page",
-      "owner_page_id": "file-6abf8ca65dc8561eac5ae1281b9f5ed9",
-      "source_path": "tests/test_session_stdio.py",
+      "owner_page_id": "file-fd26838a6d5859f1b4a2e5a034a56166",
+      "source_path": "tests/test_ckb.py",
       "start_line": 1,
-      "end_line": 541,
+      "end_line": 2467,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 1-541 行的源码摘录，文件、符号与行范围一致。",
-      "meaning_zh": "`tests/test_session_stdio.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
-      "role_zh": "负责以可执行样例验证 `test_session_stdio.py` 覆盖的成功行为、失败边界和回归约束。",
-      "change_when_zh": "当 `tests/test_session_stdio.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
-    },
-    {
-      "entity_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
-      "classification": "page",
-      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
-      "source_path": "tests/test_session_stdio.py",
-      "start_line": 77,
-      "end_line": 536,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 77-536 行的源码摘录，文件、符号与行范围一致。",
-      "meaning_zh": "`SessionStdioLifecycle...` 是 `tests/test_session_stdio.py` 第 77-536 行定义的类，本页绑定该固定源码范围。",
-      "role_zh": "该类作为可执行验证入口，检查标识符 `SessionStdioLifecycleTests` 所指的行为与失败边界。",
-      "change_when_zh": "当被测行为、输入夹具、断言或失败条件变化时，应同步更新 `SessionStdioLifecycleTests` 的说明。"
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_ckb.py` 第 1 至 2467 行；摘录与 Git blob ee9f78028022 一致。",
+      "meaning_zh": "文件 `tests/test_ckb.py`负责验证 CKB 核心构建、检索、投影、参考资料、运行时和 C++ 语法边界。",
+      "role_zh": "它属于项目主要公开合同的综合回归保护，当前说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当任何核心命令、生成协议、运行时边界或跨模块行为变化时，应同步复查本页及其直接关联测试。"
     }
   ]
 }

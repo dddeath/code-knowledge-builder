@@ -1,0 +1,48 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0058",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-02T22:46:40Z",
+  "reviews": [
+    {
+      "entity_id": "ent-06745393a02956b9850092986e023753",
+      "classification": "page",
+      "owner_page_id": "ent-06745393a02956b9850092986e023753",
+      "source_path": "tests/test_ckb_tag_navigation_rollback.py",
+      "start_line": 21,
+      "end_line": 164,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 bd8519583e3a 中 `tests/test_ckb_tag_navigation_rollback.py` 第 21 至 164 行，摘录属于 Git blob 65d86136c880。",
+      "meaning_zh": "代码单元 `test_absent_target_returns_to_absent`负责验证 tag 数据库回滚、漂移保护和恢复失败证据保留。",
+      "role_zh": "它属于tag 实验可恢复性的回归保护，说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当备份、manifest、原子替换或恢复错误变化时，应同步复查本页及其直接测试。"
+    },
+    {
+      "entity_id": "file-192ba6d0c7c55769929ea6f4d4594e89",
+      "classification": "page",
+      "owner_page_id": "file-192ba6d0c7c55769929ea6f4d4594e89",
+      "source_path": "tests/test_ckb_tag_navigation_state_machine.py",
+      "start_line": 1,
+      "end_line": 69,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 bd8519583e3a 中 `tests/test_ckb_tag_navigation_state_machine.py` 第 1 至 69 行，摘录属于 Git blob 952e0ce5fc3c。",
+      "meaning_zh": "文件 `tests/test_ckb_tag_navigation_state_machine.py`负责验证 candidate、confirmed、contested 和 deprecated 四态及原因码。",
+      "role_zh": "它属于tag 审计状态机的回归保护，说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当投票、撤销、时效或提交漂移规则变化时，应同步复查本页及其直接测试。"
+    },
+    {
+      "entity_id": "ent-4faedfc724175e54a2bb087fed7bffb6",
+      "classification": "page",
+      "owner_page_id": "ent-4faedfc724175e54a2bb087fed7bffb6",
+      "source_path": "tests/test_ckb_tag_navigation_state_machine.py",
+      "start_line": 24,
+      "end_line": 64,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 bd8519583e3a 中 `tests/test_ckb_tag_navigation_state_machine.py` 第 24 至 64 行，摘录属于 Git blob 952e0ce5fc3c。",
+      "meaning_zh": "代码单元 `setUp`负责验证 candidate、confirmed、contested 和 deprecated 四态及原因码。",
+      "role_zh": "它属于tag 审计状态机的回归保护，说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当投票、撤销、时效或提交漂移规则变化时，应同步复查本页及其直接测试。"
+    }
+  ]
+}

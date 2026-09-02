@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ckb.local/schemas/tag-navigation-benchmark.schema.json",
+  "title": "CKB tag navigation benchmark result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "scope", "effect_claim", "aggregate", "records"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "status": {"const": "passed"},
+    "scope": {"const": "isolated-fixture"},
+    "effect_claim": {"const": "fixture-navigation-signal-only"},
+    "aggregate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["no_tag", "confirmed_tag"],
+      "properties": {
+        "no_tag": {"$ref": "#/$defs/aggregate"},
+        "confirmed_tag": {"$ref": "#/$defs/aggregate"}
+      }
+    },
+    "records": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["task_id", "condition", "steps", "misdirected_links", "page_increment", "conflicts"],
+        "properties": {
+          "task_id": {"type": "string"},
+          "condition": {"enum": ["no_tag", "confirmed_tag"]},
+          "steps": {"type": "integer", "minimum": 0},
+          "misdirected_links": {"type": "integer", "minimum": 0},
+          "page_increment": {"type": "integer", "minimum": 0},
+          "conflicts": {"type": "integer", "minimum": 0}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "aggregate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tasks", "total_steps", "median_steps", "misdirected_links", "page_count", "conflicts", "page_increment"],
+      "properties": {
+        "tasks": {"type": "integer", "minimum": 1},
+        "total_steps": {"type": "integer", "minimum": 0},
+        "median_steps": {"type": "number", "minimum": 0},
+        "misdirected_links": {"type": "integer", "minimum": 0},
+        "page_count": {"type": "integer", "minimum": 1},
+        "conflicts": {"type": "integer", "minimum": 0},
+        "page_increment": {"type": "integer", "minimum": 0}
+      }
+    }
+  }
+}

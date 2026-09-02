@@ -1,0 +1,121 @@
+{
+  "fixture_schema_version": 1,
+  "page_type": "feedback",
+  "cases": {
+    "missing_section": {
+      "expected_reason": "required-section-missing",
+      "payload": {
+        "schema_version": 3,
+        "contract_version": "3.0.0",
+        "page_type": "feedback",
+        "markdown": "# V3 失败样例\n\n## 反馈内容\n\n内容清楚说明读者需要的结果与边界。\n\n## 影响范围\n\n内容清楚说明读者需要的结果与边界。\n\n## 当前状态\n\n内容清楚说明读者需要的结果与边界。\n",
+        "evidence": {
+          "target": "fixture-evidence",
+          "target_lines": "fixture-evidence",
+          "anchor_text": "fixture-evidence",
+          "status": "fixture-evidence",
+          "severity": "fixture-evidence",
+          "source": "fixture-evidence"
+        },
+        "validation_context": {
+          "sections": {},
+          "current_facts": []
+        },
+        "applicability_boundary": "feedback 是 L2 单一页面范围的反馈记录，不作为源码事实或 change 成果。"
+      }
+    },
+    "over_budget": {
+      "expected_reason": "section-key-entity-budget",
+      "payload": {
+        "schema_version": 3,
+        "contract_version": "3.0.0",
+        "page_type": "feedback",
+        "markdown": "# V3 失败样例\n\n## 反馈内容\n\n内容清楚说明读者需要的结果与边界。\n\n## 影响范围\n\n内容清楚说明读者需要的结果与边界。\n\n## 当前状态\n\n内容清楚说明读者需要的结果与边界。\n\n## 后续行动\n\n内容清楚说明读者需要的结果与边界。\n",
+        "evidence": {
+          "target": "fixture-evidence",
+          "target_lines": "fixture-evidence",
+          "anchor_text": "fixture-evidence",
+          "status": "fixture-evidence",
+          "severity": "fixture-evidence",
+          "source": "fixture-evidence"
+        },
+        "validation_context": {
+          "sections": {
+            "comment": {
+              "key_entities": [
+                "ENTITY_0",
+                "ENTITY_1",
+                "ENTITY_2",
+                "ENTITY_3"
+              ],
+              "links": [],
+              "metrics": [],
+              "source_refs": [],
+              "machine_evidence_refs": []
+            }
+          },
+          "current_facts": []
+        },
+        "applicability_boundary": "feedback 是 L2 单一页面范围的反馈记录，不作为源码事实或 change 成果。"
+      }
+    },
+    "wrong_disclosure": {
+      "expected_reason": "l4-evidence-leak",
+      "payload": {
+        "schema_version": 3,
+        "contract_version": "3.0.0",
+        "page_type": "feedback",
+        "markdown": "# V3 失败样例\n\n## 反馈内容\n\n专项测试 268/268 通过。\n\n## 影响范围\n\n内容清楚说明读者需要的结果与边界。\n\n## 当前状态\n\n内容清楚说明读者需要的结果与边界。\n\n## 后续行动\n\n内容清楚说明读者需要的结果与边界。\n",
+        "evidence": {
+          "target": "fixture-evidence",
+          "target_lines": "fixture-evidence",
+          "anchor_text": "fixture-evidence",
+          "status": "fixture-evidence",
+          "severity": "fixture-evidence",
+          "source": "fixture-evidence"
+        },
+        "validation_context": {
+          "sections": {},
+          "current_facts": []
+        },
+        "applicability_boundary": "feedback 是 L2 单一页面范围的反馈记录，不作为源码事实或 change 成果。"
+      }
+    },
+    "purposeless_link": {
+      "expected_reason": "link-purpose-missing",
+      "payload": {
+        "schema_version": 3,
+        "contract_version": "3.0.0",
+        "page_type": "feedback",
+        "markdown": "# V3 失败样例\n\n## 反馈内容\n\n内容清楚说明读者需要的结果与边界。\n\n[这里](guide.md)\n\n## 影响范围\n\n内容清楚说明读者需要的结果与边界。\n\n## 当前状态\n\n内容清楚说明读者需要的结果与边界。\n\n## 后续行动\n\n内容清楚说明读者需要的结果与边界。\n",
+        "evidence": {
+          "target": "fixture-evidence",
+          "target_lines": "fixture-evidence",
+          "anchor_text": "fixture-evidence",
+          "status": "fixture-evidence",
+          "severity": "fixture-evidence",
+          "source": "fixture-evidence"
+        },
+        "validation_context": {
+          "sections": {
+            "comment": {
+              "key_entities": [],
+              "links": [
+                {
+                  "target": "guide.md",
+                  "purpose": "",
+                  "kind": "internal"
+                }
+              ],
+              "metrics": [],
+              "source_refs": [],
+              "machine_evidence_refs": []
+            }
+          },
+          "current_facts": []
+        },
+        "applicability_boundary": "feedback 是 L2 单一页面范围的反馈记录，不作为源码事实或 change 成果。"
+      }
+    }
+  }
+}

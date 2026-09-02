@@ -18,7 +18,7 @@
 - 实现时会用到 [[SourceLinkRenderer.uri]]。
 - 实现时会用到 [[_Transport.close]]。
 - 实现时会用到 [[append]]。
-- 实现时会用到 [[execute]]。
+- 实现时会用到 [[ingest 与 connect 的协作实现]]。
 - 实现时会用到 [[module_name 与 estimated_tokens 的协作实现]]。
 - 实现时会用到 [[retrieve 与 _tokens 的协作实现]]。
 - 实现时会用到 [[search_terms]]。
@@ -33,7 +33,6 @@
 - [[build 的协作边界]] 会使用这里提供的行为。
 - [[create_batch_plan 与 ProtocolRelease 的协作实现]] 会使用这里提供的行为。
 - [[deploy 的协作边界]] 会使用这里提供的行为。
-- [[parser]] 会使用这里提供的行为。
 - [[retrieve 与 _tokens 的协作实现]] 汇总了本页。
 - [[serve_stdio]] 会使用这里提供的行为。
 - [[start_session]] 会使用这里提供的行为。
@@ -45,6 +44,6 @@
 - [[AutomationTest.register 等测试场景]]
 - [[CodeKnowledgeBuilderTests]]
 - [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[HumanPageTemplateValidationTests]]
+- [[KeywordFallbackRetrievalWiringTests]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。

@@ -3,20 +3,20 @@
   "pack_id": "migrated-page-review-pack-0020",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T02:36:43Z",
+  "reviewed_at_utc": "2026-09-02T22:45:13Z",
   "reviews": [
     {
-      "entity_id": "file-b3850879feff5f0493dd407f02c6a401",
+      "entity_id": "file-23ab4e22c770538fbed7b95a6d62c35c",
       "classification": "page",
-      "owner_page_id": "file-b3850879feff5f0493dd407f02c6a401",
-      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "owner_page_id": "file-23ab4e22c770538fbed7b95a6d62c35c",
+      "source_path": "scripts/ckb_core/human_page_template_proposals.py",
       "start_line": 1,
-      "end_line": 1852,
+      "end_line": 1452,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/machine_knowledge.py` 第 1-1852 行的源码摘录，文件、符号与行范围一致。",
-      "meaning_zh": "`scripts/ckb_core/machine_knowledge.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
-      "role_zh": "负责机器知识 SQLite 的构建、FTS5 检索、实体邻接和源码定位。",
-      "change_when_zh": "当 `scripts/ckb_core/machine_knowledge.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
+      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_template_proposals.py` 第 1-1452 行，并核对 Git blob `61d447296464`、分类与所有者。",
+      "meaning_zh": "`scripts/ckb_core/human_page_template_proposals.py` 页面绑定固定源码第 1-1452 行，说明该文件如何承担人类页面模板提议、人工审阅、版本化状态和回滚。",
+      "role_zh": "该文件负责人类页面模板提议、人工审阅、版本化状态和回滚，并为相关命令、页面生成或测试提供源码入口。",
+      "change_when_zh": "当 `scripts/ckb_core/human_page_template_proposals.py` 的公开输入、生成结果、状态边界或与其他模块的协作关系变化时，应更新本页。"
     }
   ]
 }

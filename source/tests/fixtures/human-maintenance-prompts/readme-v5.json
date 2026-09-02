@@ -1,0 +1,51 @@
+{
+  "schema_version": 3,
+  "contract_version": "3.0.0",
+  "purpose": "README 首屏只保留三项任务，后续任务卡分别显示直接结果与可复制 Agent Prompt。",
+  "first_screen_tasks": [
+    {
+      "task": "了解本项目知识库结构",
+      "direct_result": "得到人类入口、机器入口和各自负责内容的说明。"
+    },
+    {
+      "task": "让 Agent 安装本项目",
+      "direct_result": "得到可使用的项目、Skill、运行环境、最小可用性结果和卸载入口。"
+    },
+    {
+      "task": "让 Agent 解释自己的项目",
+      "direct_result": "得到目标仓库的人类入口、问题结论、来源和待核验边界。"
+    }
+  ],
+  "headings": [
+    "先选择你要完成的任务",
+    "了解本项目知识库结构",
+    "让 Agent 安装本项目",
+    "让 Agent 解释自己的项目",
+    "安装后继续指挥 Agent"
+  ],
+  "task_cards": {
+    "structure": {
+      "direct_result": "得到人类入口、机器入口、项目记录入口和 Agent 精确定位入口。",
+      "copy_to_agent": "请说明这个 Code Knowledge Builder 输出中人类入口与机器入口分别负责什么，并告诉我从哪个页面开始阅读。"
+    },
+    "install": {
+      "direct_result": "得到可使用的项目、Skill、运行环境、最小可用性结果和卸载入口。",
+      "copy_to_agent": "请安装 Code Knowledge Builder 项目及其 code-knowledge-builder Skill。项目来源=<项目地址>，发布版本=<版本或分支>。请由 Agent 完成安装与最小可用性核对，只返回项目位置、是否可用、适用边界和卸载入口。本次只安装项目，不为业务仓库建立知识库。"
+    },
+    "explain": {
+      "direct_result": "得到目标仓库的知识库位置、人类入口、问题结论、来源和待核验边界。",
+      "copy_to_agent": "请使用已经安装的 code-knowledge-builder 为 repository=<目标 Git 仓库> 建立或接管知识库，并回答 question=<项目问题>。请返回知识库位置、人类入口、问题结论、支持结论的来源、适用边界和仍需核验的内容。本次从已安装的 Skill 开始，不重复安装项目。"
+    },
+    "continue": {
+      "direct_result": "得到一次指定阅读、定位、修改或核验任务的结果、来源和边界。",
+      "copy_to_agent": "请继续使用这个项目知识库完成 task=<阅读、定位、修改或核验任务>。先读取与任务相关的紧凑知识，再按需要窄读源码；返回任务结果、关键来源、适用边界和下一步。完整验证明细仅在我明确要求时读取。"
+    }
+  },
+  "forbidden_in_readme": [
+    "人类命令行教程",
+    "完整测试数量或逐门清单",
+    "原始日志、完整哈希、SQLite 或 manifest 明细",
+    "maintain 子项与回滚探针",
+    "内部实现实体清单"
+  ]
+}

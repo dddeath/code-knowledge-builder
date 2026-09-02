@@ -5,8 +5,8 @@
   "output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
   "vault": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human",
   "runtime": {
-    "python": "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\python\\python.exe",
-    "ckb": "C:\\Users\\19739\\.codex\\skills\\code-knowledge-builder\\scripts\\ckb.py"
+    "python": "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe",
+    "ckb": "E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py"
   },
   "stdio": {
     "protocol": "ckb-stdio-retrieval",
@@ -18,8 +18,8 @@
       "shutdown"
     ],
     "command": [
-      "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\python\\python.exe",
-      "C:\\Users\\19739\\.codex\\skills\\code-knowledge-builder\\scripts\\ckb.py",
+      "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe",
+      "E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py",
       "serve",
       "--out",
       "E:\\knowledge_builder\\self-workspace\\knowledge-base",

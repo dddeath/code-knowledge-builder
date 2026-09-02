@@ -19,6 +19,7 @@
 - 实现时会用到 [[append]]。
 - 实现时会用到 [[ckb_canvas 的协作边界]]。
 - 实现时会用到 [[command]]。
+- 实现时会用到 [[graph 的协作边界]]。
 - 主要代码单元是 [[run_keyword_provider]]。
 
 ## 谁会来到这里
@@ -29,6 +30,9 @@
 - [[keyword_provider_config 与 parser 的协作实现]] 会使用这里提供的行为。
 - [[maintenance_check]] 会使用这里提供的行为。
 - [[retrieve_machine]] 会使用这里提供的行为。
+- [[retrieve_machine 与 estimated_tokens 的协作实现]] 会使用这里提供的行为。
+- [[run_failure_probe]] 会使用这里提供的行为。
+- [[run_failure_probe 等测试场景]] 会使用这里提供的行为。
 - [[run_keyword_benchmark]] 会使用这里提供的行为。
 - [[run_keyword_benchmark 与 _text_list 的协作实现]] 会使用这里提供的行为。
 - [[run_keyword_provider]] 会使用这里提供的行为。

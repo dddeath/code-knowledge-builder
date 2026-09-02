@@ -22,16 +22,16 @@
 
 ## 谁会来到这里
 
-- [[audit_global 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 - [[audit_obsidian 与 prepare_vault 的协作实现]] 汇总了本页。
+- [[finalize 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 
 ## 相关测试
 
 - [[CodeKnowledgeBuilderTests]]
+- [[CodeKnowledgeBuilderTests 等测试场景]]
 - [[MigrationTest]]
+- [[PageFanoutBenchmarkTests]]
+- [[PdfReferenceExtractionTests 等测试场景]]
 - [[RecordReplaceTests]]
-- [[ScopeExtensionTest]]
-- [[command 等测试场景]]
-- [[refresh 等测试场景]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。

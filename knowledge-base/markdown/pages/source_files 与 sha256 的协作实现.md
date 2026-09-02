@@ -18,11 +18,15 @@
 - 实现时会用到 [[append]]。
 - 实现时会用到 [[parser]]。
 - 主要代码单元是 [[source_files]]。
-- 实现时会用到 [[validate 与 canonical 的协作实现]]。
 
 ## 谁会来到这里
 
+- [[PackageReleaseTests]] 会使用这里提供的行为。
 - 可从 [[scripts 职责导览]] 进入本页。
+
+## 相关测试
+
+- [[PackageReleaseTests]]
 
 ## 内部细节
 

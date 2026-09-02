@@ -19,7 +19,7 @@
 - 实现时会用到 [[_Transport.close]]。
 - 实现时会用到 [[_Transport.close 与 _StartGate 的协作实现]]。
 - 实现时会用到 [[append]]。
-- 实现时会用到 [[contracts 的协作边界]]。
+- 实现时会用到 [[contracts 的协作边界（2ef5688e）]]。
 - 实现时会用到 [[doctor_report 与 _version_matches 的协作实现]]。
 - 实现时会用到 [[ingest_event]]。
 - 实现时会用到 [[ingest_event 与 default_registry_path 的协作实现]]。
@@ -27,7 +27,6 @@
 ## 谁会来到这里
 
 - [[SessionStdioLifecycleTests 等测试场景]] 汇总了本页。
-- [[_Transport.close 与 _StartGate 的协作实现]] 关联到这里的验证场景。
 - [[ingest_event]] 关联到这里的验证场景。
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。

@@ -19,37 +19,20 @@
 - 实现时会用到 [[_Transport.close]]。
 - 实现时会用到 [[append]]。
 - 实现时会用到 [[audit_gap_register 与 _root 的协作实现]]。
-- 实现时会用到 [[audit_global 与 _replace_output_prefix 的协作实现]]。
+- 实现时会用到 [[ingest 与 connect 的协作实现]]。
 - 实现时会用到 [[start_scope_extension]]。
 - 实现时会用到 [[start_scope_extension 与 _error 的协作实现]]。
 
 ## 谁会来到这里
 
-- [[AutomationTest.register]] 关联到这里的验证场景。
 - [[ScopeExtensionTest 等测试场景]] 汇总了本页。
-- [[append 等测试场景]] 关联到这里的验证场景。
-- [[audit_feedback]] 关联到这里的验证场景。
 - [[audit_gap_register]] 关联到这里的验证场景。
-- [[audit_gap_register 与 _root 的协作实现]] 关联到这里的验证场景。
-- [[audit_obsidian]] 关联到这里的验证场景。
-- [[audit_obsidian 与 prepare_vault 的协作实现]] 关联到这里的验证场景。
 - [[audit_operation_journal]] 关联到这里的验证场景。
 - [[audit_operation_journal 与 _root 的协作实现]] 关联到这里的验证场景。
-- [[audit_output_contract]] 关联到这里的验证场景。
-- [[audit_output_contract 与 _default_ckb 的协作实现]] 关联到这里的验证场景。
-- [[audit_references 与 _root 的协作实现]] 关联到这里的验证场景。
-- [[keyword_provider_config 与 parser 的协作实现]] 关联到这里的验证场景。
-- [[load_page_config]] 关联到这里的验证场景。
 - [[maintenance_check]] 关联到这里的验证场景。
 - [[maintenance_check 与 capability_matrix 的协作实现]] 关联到这里的验证场景。
-- [[module_name]] 关联到这里的验证场景。
-- [[parse_file]] 关联到这里的验证场景。
-- [[parse_file 与 _language 的协作实现]] 关联到这里的验证场景。
-- [[parser]] 关联到这里的验证场景。
 - [[preflight]] 关联到这里的验证场景。
-- [[record_note]] 关联到这里的验证场景。
-- [[refresh]] 关联到这里的验证场景。
-- [[sample 等测试场景]] 关联到这里的验证场景。
+- [[refresh 等测试场景]] 会使用这里提供的行为。
 - [[start_scope_extension]] 关联到这里的验证场景。
 
 ## 相关测试

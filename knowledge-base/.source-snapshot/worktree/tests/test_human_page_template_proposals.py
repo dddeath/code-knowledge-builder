@@ -15,6 +15,7 @@ sys.path.insert(0, str(SKILL_ROOT / "scripts"))
 
 from ckb_core.common import CkbError
 from ckb_core.human_page_template_proposals import (
+    TEMPLATE_PROPOSAL_SCHEMA_VERSION,
     audit_template_proposal,
     list_templates,
     normalize_template_proposal,
@@ -25,7 +26,7 @@ from ckb_core.human_page_template_proposals import (
     validate_template_proposal,
     write_template_proposal_skeleton,
 )
-from ckb_core.human_page_templates import human_page_template_registry_sha256
+from ckb_core.human_page_templates import human_page_template_registry_document, human_page_template_registry_sha256
 
 
 FIXTURES = SKILL_ROOT / "tests/fixtures/human-page-template-proposals"
@@ -57,6 +58,9 @@ class TemplateProposalStoreTests(unittest.TestCase):
         self.assertEqual("written", result["status"])
         skeleton = json.loads(target.read_text(encoding="utf-8"))
         self.assertEqual("local-guide", skeleton["template_name"])
+        self.assertEqual(3, TEMPLATE_PROPOSAL_SCHEMA_VERSION)
+        self.assertEqual(3, skeleton["schema_version"])
+        self.assertEqual("3.0.0", skeleton["target"]["contract_version"])
         self.assertEqual(human_page_template_registry_sha256(), skeleton["target"]["registry_sha256"])
         for field in (
             "reader_task", "fields", "sections", "budgets", "links", "evidence", "examples",
@@ -64,6 +68,24 @@ class TemplateProposalStoreTests(unittest.TestCase):
         ):
             self.assertIn(field, skeleton)
         self.assertFalse((self.output / "workspace-meta/human-page-template-proposals").exists())
+
+    def test_proposal_sections_use_the_same_v3_constraint_field_names_as_builtins(self) -> None:
+        normalized = normalize_template_proposal(_fixture())
+        builtin = human_page_template_registry_document()["page_types"][0]["required_sections"][0]
+        required = {
+            "required_content",
+            "allowed_content",
+            "forbidden_content",
+            "length_budget",
+            "key_entity_budget",
+            "link_budget",
+            "source_requirements",
+            "freshness_rule",
+            "disclosure_level",
+            "empty_behavior",
+        }
+        self.assertTrue(required.issubset(builtin))
+        self.assertTrue(required.issubset(normalized["sections"][0]))
 
     def test_validate_is_offline_read_only_and_rejects_unknown_old_or_incomplete_documents(self) -> None:
         valid_path = self._write(_fixture())

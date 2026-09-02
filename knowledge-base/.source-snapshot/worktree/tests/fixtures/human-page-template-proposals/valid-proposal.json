@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 3,
   "template_name": "decision-log",
   "version": "1.0.0",
   "proposer": {
@@ -7,10 +7,10 @@
     "id": "fixture-agent"
   },
   "target": {
-    "contract_version": "1.0.0",
+    "contract_version": "3.0.0",
     "registry_id": "ckb-human-page-template-contracts",
-    "registry_sha256": "52e3896dd6fb17bbb32cd5a1d8f897122db263e8a8b871b2f9615a84196185f2",
-    "schema_version": 1
+    "registry_sha256": "8edcdebdae5d458b2628a8de1c351ef23e111f503482986084c2c942d728fca0",
+    "schema_version": 3
   },
   "reader_task": "让读者快速确认一项决策、依据、影响和后续验证入口。",
   "fields": [
@@ -37,6 +37,50 @@
       "purpose": "首屏呈现已经确认的决定。",
       "field_ids": [
         "decision"
+      ],
+      "allowed_content": [
+        "当前结论、事实摘要和少量描述性链接。"
+      ],
+      "disclosure_level": "L2",
+      "empty_behavior": "error",
+      "forbidden_content": [
+        "完整命令、测试总数、逐门清单、日志、完整哈希、SQLite、manifest、maintain 和回滚探针。"
+      ],
+      "freshness_rule": "当前、已支持和已测试表述必须绑定机器证据与观察时间。",
+      "key_entity_budget": {
+        "minimum": 0,
+        "maximum": 3,
+        "scope": "section",
+        "counting_rule": "统计本章节直接点名的关键实体。",
+        "overflow_action": "把实现明细移到职责页或机器记录。"
+      },
+      "length_budget": {
+        "minimum_characters": 1,
+        "maximum_characters": 600,
+        "maximum_paragraphs": 3,
+        "maximum_list_items": 6,
+        "maximum_metrics": 2,
+        "counting_rule": "统计 human_summary 的字符、段落、列表项和显式指标。",
+        "overflow_action": "保留结论和边界，把完整证据移到机器记录。"
+      },
+      "link_budget": {
+        "minimum": 0,
+        "maximum": 4,
+        "target_types": [
+          "internal",
+          "source",
+          "experiment",
+          "reference",
+          "work-record"
+        ],
+        "counting_rule": "统计带阅读目的的描述性链接。",
+        "overflow_action": "只保留直接支持结论的链接。"
+      },
+      "required_content": [
+        "首屏呈现已经确认的决定。"
+      ],
+      "source_requirements": [
+        "时效性事实绑定来源；L4 字面证据只保留引用。"
       ]
     },
     {
@@ -46,6 +90,50 @@
       "purpose": "给出事实与验证入口。",
       "field_ids": [
         "evidence"
+      ],
+      "allowed_content": [
+        "当前结论、事实摘要和少量描述性链接。"
+      ],
+      "disclosure_level": "L2",
+      "empty_behavior": "error",
+      "forbidden_content": [
+        "完整命令、测试总数、逐门清单、日志、完整哈希、SQLite、manifest、maintain 和回滚探针。"
+      ],
+      "freshness_rule": "当前、已支持和已测试表述必须绑定机器证据与观察时间。",
+      "key_entity_budget": {
+        "minimum": 0,
+        "maximum": 3,
+        "scope": "section",
+        "counting_rule": "统计本章节直接点名的关键实体。",
+        "overflow_action": "把实现明细移到职责页或机器记录。"
+      },
+      "length_budget": {
+        "minimum_characters": 1,
+        "maximum_characters": 600,
+        "maximum_paragraphs": 3,
+        "maximum_list_items": 6,
+        "maximum_metrics": 2,
+        "counting_rule": "统计 human_summary 的字符、段落、列表项和显式指标。",
+        "overflow_action": "保留结论和边界，把完整证据移到机器记录。"
+      },
+      "link_budget": {
+        "minimum": 1,
+        "maximum": 4,
+        "target_types": [
+          "internal",
+          "source",
+          "experiment",
+          "reference",
+          "work-record"
+        ],
+        "counting_rule": "统计带阅读目的的描述性链接。",
+        "overflow_action": "只保留直接支持结论的链接。"
+      },
+      "required_content": [
+        "给出事实与验证入口。"
+      ],
+      "source_requirements": [
+        "时效性事实绑定来源；L4 字面证据只保留引用。"
       ]
     }
   ],

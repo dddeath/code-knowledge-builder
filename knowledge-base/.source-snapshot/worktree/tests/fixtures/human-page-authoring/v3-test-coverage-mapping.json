@@ -1,0 +1,224 @@
+{
+  "schema_version": 1,
+  "baseline_commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+  "baseline_discovered_tests": 268,
+  "pre_fix_discovered_tests": 266,
+  "minimum_expected_after_fix": 268,
+  "restored_original_tests": [
+    "test_human_page_authoring.HumanPageAuthoringValidationFailureTests.test_entity_budget_and_current_fact_evidence_fail_in_named_checks",
+    "test_human_page_authoring.HumanPageAuthoringValidationFailureTests.test_inspect_reports_conflicts_and_managed_page_never_allows_direct_edit"
+  ],
+  "removed_method_count": 29,
+  "coverage_mapping": [
+    {
+      "baseline_test": "test_human_page_templates.HumanPageTemplateRegistryTests.test_registry_has_one_versioned_contract_for_every_human_page_type",
+      "coverage_status": "equivalent-v3-coverage",
+      "v3_tests": [
+        "test_human_page_templates.HumanPageTemplateRegistryTests.test_registry_has_one_v3_contract_for_every_human_page_type"
+      ]
+    },
+    {
+      "baseline_test": "test_human_page_templates.HumanPageTemplateRegistryTests.test_change_contract_matches_the_accepted_section_contract_without_body_literals",
+      "coverage_status": "equivalent-v3-coverage",
+      "v3_tests": [
+        "test_human_page_templates.HumanPageTemplateRegistryTests.test_confirmed_v3_headings_are_exact"
+      ]
+    },
+    {
+      "baseline_test": "test_human_page_templates.HumanPageTemplateRegistryTests.test_readme_contract_keeps_the_three_accepted_reader_tasks",
+      "coverage_status": "equivalent-v3-coverage",
+      "v3_tests": [
+        "test_human_page_templates.HumanPageTemplateRegistryTests.test_confirmed_v3_headings_are_exact",
+        "test_human_page_authoring.HumanPageAuthoringRenderTests.test_readme_renders_human_tasks_without_command_tutorial"
+      ]
+    },
+    {
+      "baseline_test": "test_human_page_templates.HumanPageTemplateRegistryTests.test_unknown_query_and_incompatible_query_fail_with_chinese_diagnostics",
+      "coverage_status": "equivalent-v3-coverage",
+      "v3_tests": [
+        "test_human_page_templates.HumanPageTemplateRegistryTests.test_old_1_0_0_is_rejected_with_explicit_migration_rule",
+        "test_human_page_templates.HumanPageTemplateRegistryTests.test_unknown_query_and_validator_type_fail_with_machine_readable_reasons"
+      ]
+    },
+    {
+      "baseline_test": "test_human_page_templates.HumanPageTemplateValidationTests.test_every_page_type_accepts_one_minimal_contract_document",
+      "coverage_status": "equivalent-v3-coverage",
+      "v3_tests": [
+        "test_human_page_templates.HumanPageTemplateValidationTests.test_every_page_type_accepts_one_minimal_v3_document"
+      ]
+    },
+    {
+      "baseline_test": "test_human_page_templates.HumanPageTemplateValidationTests.test_learning_note_budgets_are_applied_per_repeated_entry",
+      "coverage_status": "superseded-by-v3-contract",
+      "v3_tests": [
+        "test_human_page_templates.HumanPageTemplateRegistryTests.test_confirmed_v3_headings_are_exact",
+        "test_human_page_authoring.HumanPageAuthoringValidationFailureTests.test_eight_record_types_have_reopenable_four_case_failure_fixtures"
+      ]
+    },
+    {
+      "baseline_test": "test_human_page_templates.HumanPageTemplateValidationTests.test_missing_required_section_fails_deterministically",
+      "coverage_status": "equivalent-v3-coverage",
+      "v3_tests": [
+        "test_human_page_authoring.HumanPageAuthoringValidationFailureTests.test_eight_record_types_have_reopenable_four_case_failure_fixtures"
+      ]
+    },
+    {
+      "baseline_test": "test_human_page_templates.HumanPageTemplateValidationTests.test_duplicate_heading_fails_deterministically",
+      "coverage_status": "equivalent-v3-coverage",
+      "v3_tests": [
+        "test_human_page_templates.HumanPageTemplateValidationTests.test_duplicate_heading_process_meta_and_purposeless_link_fail"
+      ]
+    },
+    {
+      "baseline_test": "test_human_page_templates.HumanPageTemplateValidationTests.test_key_entity_budget_uses_explicit_context_and_fails_at_eight",
+      "coverage_status": "equivalent-v3-coverage",
+      "v3_tests": [
+        "test_human_page_templates.HumanPageTemplateValidationTests.test_section_budget_is_scoped_to_the_named_section",
+        "test_human_page_authoring.HumanPageAuthoringValidationFailureTests.test_entity_budget_and_current_fact_evidence_fail_in_named_checks"
+      ]
+    },
+    {
+      "baseline_test": "test_human_page_templates.HumanPageTemplateValidationTests.test_unverified_current_fact_fails_and_exact_evidence_passes",
+      "coverage_status": "equivalent-v3-coverage",
+      "v3_tests": [
+        "test_human_page_templates.HumanPageTemplateValidationTests.test_unverified_current_fact_requires_exact_source_and_time"
+      ]
+    },
+    {
+      "baseline_test": "test_human_page_templates.HumanPageTemplateValidationTests.test_process_meta_copy_and_purposeless_link_fail",
+      "coverage_status": "equivalent-v3-coverage",
+      "v3_tests": [
+        "test_human_page_templates.HumanPageTemplateValidationTests.test_duplicate_heading_process_meta_and_purposeless_link_fail",
+        "test_human_page_templates.HumanPageTemplateValidationTests.test_visible_links_require_exact_registration_and_reject_unused_or_conflicting_targets"
+      ]
+    },
+    {
+      "baseline_test": "test_human_page_templates.HumanPageTemplateValidationTests.test_unknown_type_and_incompatible_version_return_machine_failures",
+      "coverage_status": "equivalent-v3-coverage",
+      "v3_tests": [
+        "test_human_page_templates.HumanPageTemplateRegistryTests.test_old_1_0_0_is_rejected_with_explicit_migration_rule",
+        "test_human_page_templates.HumanPageTemplateRegistryTests.test_unknown_query_and_validator_type_fail_with_machine_readable_reasons"
+      ]
+    },
+    {
+      "baseline_test": "test_human_page_authoring.HumanPageAuthoringInitTests.test_all_fourteen_types_return_minimal_skeletons_for_three_modes",
+      "coverage_status": "equivalent-v3-coverage",
+      "v3_tests": [
+        "test_human_page_authoring.HumanPageAuthoringInitTests.test_all_fourteen_types_return_v3_skeletons_and_section_constraints"
+      ]
+    },
+    {
+      "baseline_test": "test_human_page_authoring.HumanPageAuthoringInitTests.test_change_and_readme_keep_user_accepted_headings",
+      "coverage_status": "equivalent-v3-coverage",
+      "v3_tests": [
+        "test_human_page_authoring.HumanPageAuthoringInitTests.test_change_and_readme_keep_confirmed_v3_headings"
+      ]
+    },
+    {
+      "baseline_test": "test_human_page_authoring.HumanPageAuthoringRenderTests.test_new_change_renders_and_immediately_validates",
+      "coverage_status": "equivalent-v3-coverage",
+      "v3_tests": [
+        "test_human_page_authoring.HumanPageAuthoringRenderTests.test_new_change_renders_only_human_summary_and_validates"
+      ]
+    },
+    {
+      "baseline_test": "test_human_page_authoring.HumanPageAuthoringRenderTests.test_readme_renders_with_accepted_title_and_sections",
+      "coverage_status": "equivalent-v3-coverage",
+      "v3_tests": [
+        "test_human_page_authoring.HumanPageAuthoringRenderTests.test_readme_renders_human_tasks_without_command_tutorial"
+      ]
+    },
+    {
+      "baseline_test": "test_human_page_authoring.HumanPageAuthoringRenderTests.test_missing_fields_returns_only_the_field_list_without_partial_markdown",
+      "coverage_status": "equivalent-v3-coverage",
+      "v3_tests": [
+        "test_human_page_authoring.HumanPageAuthoringRenderTests.test_missing_fields_returns_human_summary_path_without_partial_markdown"
+      ]
+    },
+    {
+      "baseline_test": "test_human_page_authoring.HumanPageAuthoringRenderTests.test_supplement_reuses_title_and_adds_only_missing_section",
+      "coverage_status": "equivalent-v3-coverage",
+      "v3_tests": [
+        "test_human_page_authoring.HumanPageAuthoringRenderTests.test_supplement_uses_existing_context_and_adds_only_missing_section"
+      ]
+    },
+    {
+      "baseline_test": "test_human_page_authoring.HumanPageAuthoringRenderTests.test_revise_requires_exact_current_paragraph_and_source",
+      "coverage_status": "equivalent-v3-coverage",
+      "v3_tests": [
+        "test_human_page_authoring.HumanPageAuthoringRenderTests.test_revise_separates_human_summary_from_machine_evidence_refs"
+      ]
+    },
+    {
+      "baseline_test": "test_human_page_authoring.HumanPageAuthoringRenderTests.test_cli_stdout_is_one_json_document",
+      "coverage_status": "equivalent-v3-coverage",
+      "v3_tests": [
+        "test_human_page_authoring.HumanPageAuthoringRenderTests.test_cli_defaults_to_v3_and_emits_one_json_document"
+      ]
+    },
+    {
+      "baseline_test": "test_human_page_authoring.HumanPageAuthoringValidationFailureTests.test_validate_returns_all_six_contract_checks",
+      "coverage_status": "equivalent-v3-coverage",
+      "v3_tests": [
+        "test_human_page_authoring.HumanPageAuthoringValidationFailureTests.test_validate_returns_named_structure_budget_link_disclosure_and_evidence_checks"
+      ]
+    },
+    {
+      "baseline_test": "test_human_page_authoring.HumanPageAuthoringValidationFailureTests.test_unknown_field_type_and_version_fail_stably",
+      "coverage_status": "equivalent-v3-coverage",
+      "v3_tests": [
+        "test_human_page_authoring.HumanPageAuthoringValidationFailureTests.test_unknown_field_old_version_and_purposeless_link_fail_stably"
+      ]
+    },
+    {
+      "baseline_test": "test_human_page_authoring.HumanPageAuthoringValidationFailureTests.test_purposeless_link_fails_link_check",
+      "coverage_status": "equivalent-v3-coverage",
+      "v3_tests": [
+        "test_human_page_authoring.HumanPageAuthoringValidationFailureTests.test_unknown_field_old_version_and_purposeless_link_fail_stably",
+        "test_human_page_templates.HumanPageTemplateValidationTests.test_visible_links_require_exact_registration_and_reject_unused_or_conflicting_targets"
+      ]
+    },
+    {
+      "baseline_test": "test_human_page_authoring.HumanPageAuthoringValidationFailureTests.test_duplicate_title_path_escape_and_target_drift_are_distinct_failures",
+      "coverage_status": "equivalent-v3-coverage",
+      "v3_tests": [
+        "test_human_page_authoring.HumanPageAuthoringValidationFailureTests.test_duplicate_title_path_escape_target_drift_and_existing_section_are_distinct"
+      ]
+    },
+    {
+      "baseline_test": "test_human_page_authoring.HumanPageAuthoringValidationFailureTests.test_supplement_rejects_a_section_already_present",
+      "coverage_status": "equivalent-v3-coverage",
+      "v3_tests": [
+        "test_human_page_authoring.HumanPageAuthoringValidationFailureTests.test_duplicate_title_path_escape_target_drift_and_existing_section_are_distinct"
+      ]
+    },
+    {
+      "baseline_test": "test_human_page_authoring.HumanPageAuthoringPackageTests.test_all_fourteen_page_types_have_one_expected_route",
+      "coverage_status": "equivalent-v3-coverage",
+      "v3_tests": [
+        "test_human_page_authoring.HumanPageAuthoringPackageTests.test_all_fourteen_page_types_keep_one_existing_route"
+      ]
+    },
+    {
+      "baseline_test": "test_human_page_authoring.HumanPageAuthoringPackageTests.test_package_writes_only_reopenable_manifest_and_body_with_hashes",
+      "coverage_status": "equivalent-v3-coverage",
+      "v3_tests": [
+        "test_human_page_authoring.HumanPageAuthoringPackageTests.test_package_writes_reopenable_body_and_manifest_and_is_reversible"
+      ]
+    },
+    {
+      "baseline_test": "test_human_page_authoring.HumanPageAuthoringPackageTests.test_package_rejects_managed_projection_and_existing_staging_paths",
+      "coverage_status": "equivalent-v3-coverage",
+      "v3_tests": [
+        "test_human_page_authoring.HumanPageAuthoringPackageTests.test_package_rejects_managed_and_existing_paths_and_cli_failure_uses_exit_two"
+      ]
+    },
+    {
+      "baseline_test": "test_human_page_authoring.HumanPageAuthoringPackageTests.test_cli_failure_is_one_json_document_with_exit_two",
+      "coverage_status": "equivalent-v3-coverage",
+      "v3_tests": [
+        "test_human_page_authoring.HumanPageAuthoringPackageTests.test_package_rejects_managed_and_existing_paths_and_cli_failure_uses_exit_two"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "observed_at_utc": "2026-09-02T21:33:52.521203+00:00",
+  "probe": "sqlite-current/q01 auxiliary process-origin probe",
+  "exit_status": 0,
+  "stdout_rows": 6,
+  "peak_extra_child_processes": 3,
+  "unique_children": [
+    {
+      "name": "conhost.exe",
+      "cmdline": [
+        "\\??\\C:\\WINDOWS\\system32\\conhost.exe",
+        "0x4"
+      ]
+    },
+    {
+      "name": "conhost.exe",
+      "cmdline": [
+        "\\??\\C:\\WINDOWS\\system32\\conhost.exe",
+        "0xffffffff",
+        "-ForceV1"
+      ]
+    },
+    {
+      "name": "git.exe",
+      "cmdline": [
+        "git",
+        "-C",
+        "E:\\knowledge_builder\\self-workspace\\source",
+        "rev-parse",
+        "--show-toplevel"
+      ]
+    },
+    {
+      "name": "git.exe",
+      "cmdline": [
+        "git",
+        "-C",
+        "E:\\knowledge_builder\\self-workspace\\source",
+        "rev-parse",
+        "--verify",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "git.exe",
+      "cmdline": [
+        "git",
+        "-C",
+        "E:\\knowledge_builder\\self-workspace\\source",
+        "rev-parse",
+        "HEAD^{tree}"
+      ]
+    },
+    {
+      "name": "git.exe",
+      "cmdline": [
+        "git",
+        "-C",
+        "E:\\knowledge_builder\\self-workspace\\source",
+        "status",
+        "--porcelain=v1",
+        "-z",
+        "--untracked-files=all"
+      ]
+    },
+    {
+      "name": "git.exe",
+      "cmdline": [
+        "git",
+        "-C",
+        "E:\\knowledge_builder\\self-workspace\\source",
+        "symbolic-ref",
+        "--quiet",
+        "--short",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "git.exe",
+      "cmdline": [
+        "git.exe",
+        "-C",
+        "E:\\knowledge_builder\\self-workspace\\source",
+        "rev-parse",
+        "--show-toplevel"
+      ]
+    },
+    {
+      "name": "git.exe",
+      "cmdline": [
+        "git.exe",
+        "-C",
+        "E:\\knowledge_builder\\self-workspace\\source",
+        "rev-parse",
+        "--verify",
+        "HEAD"
+      ]
+    },
+    {
+      "name": "git.exe",
+      "cmdline": [
+        "git.exe",
+        "-C",
+        "E:\\knowledge_builder\\self-workspace\\source",
+        "rev-parse",
+        "HEAD^{tree}"
+      ]
+    },
+    {
+      "name": "git.exe",
+      "cmdline": [
+        "git.exe",
+        "-C",
+        "E:\\knowledge_builder\\self-workspace\\source",
+        "status",
+        "--porcelain=v1",
+        "-z",
+        "--untracked-files=all"
+      ]
+    },
+    {
+      "name": "git.exe",
+      "cmdline": [
+        "git.exe",
+        "-C",
+        "E:\\knowledge_builder\\self-workspace\\source",
+        "symbolic-ref",
+        "--quiet",
+        "--short",
+        "HEAD"
+      ]
+    }
+  ],
+  "stderr": "",
+  "interpretation_zh": "观测到的额外进程来自 CKB 固定事实新鲜度 Git 命令及其 Windows console host；FastEmbed 语义向量臂在正式运行中的峰值额外子进程为 0。"
+}

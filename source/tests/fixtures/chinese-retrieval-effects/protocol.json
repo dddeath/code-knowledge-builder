@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "status": "frozen",
+  "frozen_before_run": true,
+  "benchmark": "ckb-chinese-retrieval-effect-three-arm-v1",
+  "corpus": {
+    "repository_commit": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
+    "graph_sha256": "7815a59ab8a71905e91762fd3477d8e29d40cb79dd157775a399d076b71d9262",
+    "machine_schema_version": "3",
+    "copy_mode": "sqlite-backup-and-human-mirror"
+  },
+  "arms": [
+    {
+      "id": "legacy-deterministic",
+      "strategy": "497f2ca-parent-mechanical-cjk-bigram-trigram",
+      "provider": "disabled"
+    },
+    {
+      "id": "current-deterministic",
+      "strategy": "current-ranked-query-terms",
+      "provider": "disabled"
+    },
+    {
+      "id": "llm-replay-fallback",
+      "strategy": "current-ranked-query-terms-plus-explicit-force-fallback",
+      "provider": "fixed-replay-not-real-model"
+    }
+  ],
+  "query_order": "fixed",
+  "arm_order": "rotated-by-question-index",
+  "budget_tokens": 2400,
+  "max_results": 8,
+  "profile": "fast",
+  "cold_runs": 1,
+  "hot_runs": 5,
+  "cache_contract": {
+    "cold": "clear-process-static-cache-and-question-provider-cache-before-run",
+    "hot": "reuse-process-static-cache-and-validated-provider-cache-from-cold-run",
+    "source_corpus": "read-only",
+    "benchmark_corpus": "isolated-copy"
+  },
+  "provider": {
+    "adapter": "tests/fixtures/keyword_provider.py",
+    "mode": "chinese-retrieval-replay",
+    "responses": "tests/fixtures/chinese-retrieval-effects/replay-responses.json",
+    "timeout_seconds": 5.0,
+    "retries": 0,
+    "usage_scope": "fixed-replay-metadata-not-real-provider-billing"
+  },
+  "real_provider_without_explicit_command": "provider-unavailable",
+  "resource_limits": {
+    "questions": 12,
+    "max_selected_entities": 8,
+    "max_provider_keywords": 16,
+    "max_provider_anchors": 12,
+    "max_provider_rewrites": 4,
+    "report_contains_raw_question": true,
+    "provider_secret_capture": false
+  },
+  "metrics": [
+    "recall_at_8",
+    "mrr_at_8",
+    "ndcg_at_8",
+    "first_pack_estimated_tokens",
+    "latency_ms_p50",
+    "latency_ms_p95",
+    "provider_process_starts"
+  ],
+  "quality_interpretation": {
+    "current_vs_legacy": "仅在同一逐题标注上报告实测差值；平均质量差值不大于零时为 not-demonstrated。",
+    "replay_vs_current": "固定回放只验证慢路径上界与可重复适配器，不代表真实模型效果。",
+    "real_provider": "没有显式可调用命令时记录 provider-unavailable，不借用回放结果。"
+  },
+  "questions": [
+    {
+      "id": "q01",
+      "question": "调整 retrieve_machine 的 FTS5 权重和 fast 两跳图传播",
+      "relevance": [{"source_path": "scripts/ckb_core/machine_knowledge.py", "symbol": "retrieve_machine", "grade": 3}]
+    },
+    {
+      "id": "q02",
+      "question": "修复未明确应用 code-knowledge-builder Skill 时仍记录 Hook 事件",
+      "relevance": [{"source_path": "scripts/ckb_core/automation.py", "symbol": "ingest_event", "grade": 3}]
+    },
+    {
+      "id": "q03",
+      "question": "修改 Claude 与 OpenCode 的跨 Harness Hook 配置生成模板",
+      "relevance": [{"source_path": "scripts/ckb_core/automation_integrations.py", "symbol": "render_integration", "grade": 3}]
+    },
+    {
+      "id": "q04",
+      "question": "修改增量迁移时 exact blob 复用集合的审计规则",
+      "relevance": [{"source_path": "scripts/ckb_core/migration.py", "symbol": "audit_migration", "grade": 3}]
+    },
+    {
+      "id": "q05",
+      "question": "修改兼容 Agent 页面索引的构建与 FTS 查询",
+      "relevance": [{"source_path": "scripts/ckb_core/agent_index.py", "symbol": "build_agent_index", "grade": 3}]
+    },
+    {
+      "id": "q06",
+      "question": "修改机器知识同步到中文人类 Obsidian 页面投影",
+      "relevance": [{"source_path": "scripts/ckb_core/knowledge_layers.py", "symbol": "sync_human_layer", "grade": 3}]
+    },
+    {
+      "id": "q07",
+      "question": "调整 Graphify 社区聚类与查询子图输出",
+      "relevance": [{"source_path": "scripts/ckb_core/graphify_core.py", "symbol": "query_graph", "grade": 3}]
+    },
+    {
+      "id": "q08",
+      "question": "修改知识页点击源码时的 VS Code URI 和行号",
+      "relevance": [{"source_path": "scripts/ckb_core/source_links.py", "symbol": "ensure_local_openers", "grade": 3}]
+    },
+    {
+      "id": "q09",
+      "question": "调整页面配置中的每文件关键页上限和上下文预算",
+      "relevance": [{"source_path": "scripts/ckb_core/page_config.py", "symbol": "load_page_config", "grade": 3}]
+    },
+    {
+      "id": "q10",
+      "question": "修改 full 私有运行时部署和 remove 回滚流程",
+      "relevance": [{"source_path": "scripts/ckb_core/runtime.py", "symbol": "deploy", "grade": 3}]
+    },
+    {
+      "id": "q11",
+      "question": "修改 C++ 与 Python 展示样例的 Wiki 打包输出",
+      "relevance": [{"source_path": "scripts/ckb_core/showcase.py", "symbol": "package_showcase", "grade": 3}]
+    },
+    {
+      "id": "q12",
+      "question": "修改 Tree-sitter 解析文件和命名实体清单",
+      "relevance": [{"source_path": "scripts/ckb_core/parsers.py", "symbol": "parse_file", "grade": 3}]
+    }
+  ]
+}

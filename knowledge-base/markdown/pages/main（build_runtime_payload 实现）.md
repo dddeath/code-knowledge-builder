@@ -2,15 +2,15 @@
 
 标签：#类型/代码
 
-> `main` 是 `scripts/build_runtime_payload.py` 第 101-112 行定义的函数，本页绑定该固定源码范围。 负责生成可复现的 Windows 运行时载荷，并核对归档成员、清单与校验结果。
+> 代码单元 `main`负责构建并核验 Windows 完整运行时归档，包括 PDF 解析依赖、许可证和可重复载荷清单。 它属于完整发行包的运行时边界与可回滚部署依据，当前说明只覆盖所列固定源码范围。
 
 ## 什么时候需要修改
 
-当 `main` 的输入、输出、状态转换或失败返回变化时，应更新本页并重跑对应测试。
+当运行时依赖、归档成员、锁版本或完整性规则变化时，应同步复查本页及其直接关联测试。
 
 ## 在代码中的位置
 
-[打开源码：scripts/build_runtime_payload.py 第 101 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/build_runtime_payload.py:101:1)  `scripts/build_runtime_payload.py:101-112`
+[打开源码：scripts/build_runtime_payload.py 第 142 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/build_runtime_payload.py:142:1)  `scripts/build_runtime_payload.py:142-153`
 
 ## 相关代码
 

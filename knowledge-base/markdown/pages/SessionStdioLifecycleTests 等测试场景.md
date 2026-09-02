@@ -16,6 +16,7 @@
 
 - 主要代码单元是 [[SessionStdioLifecycleTests]]。
 - 实现时会用到 [[_Transport.close]]。
+- 实现时会用到 [[ingest 与 connect 的协作实现]]。
 
 ## 谁会来到这里
 

@@ -1,0 +1,250 @@
+{
+  "schema_version": 1,
+  "evidence_class": "fixed-replay-not-real-model",
+  "provider": "fixture",
+  "model": "chinese-retrieval-replay",
+  "version": "1",
+  "usage_scope": "fixed-replay-metadata-not-real-provider-billing",
+  "responses": [
+    {
+      "case_id": "q01",
+      "input_hash": "0075f4762db6877fa4daf9ca60e310ea4b8e5dbb8bbbed632412993f979f3c89",
+      "keywords": [
+        "machine retrieval",
+        "FTS5 two hop graph"
+      ],
+      "anchors": [
+        "retrieve_machine"
+      ],
+      "rewrites": [
+        "机器知识快速检索的 FTS5 权重与两跳图传播"
+      ],
+      "usage": {
+        "input_tokens": 48,
+        "output_tokens": 24,
+        "total_tokens": 72,
+        "cost_usd": 0.0
+      }
+    },
+    {
+      "case_id": "q02",
+      "input_hash": "c4b8b17938e3c70f6cc9225d154e744ee5dec443d4227740d17b99342c22f6da",
+      "keywords": [
+        "automation event",
+        "skill activation gate"
+      ],
+      "anchors": [
+        "ingest_event"
+      ],
+      "rewrites": [
+        "未应用 Skill 时自动化 Hook 事件的忽略入口"
+      ],
+      "usage": {
+        "input_tokens": 49,
+        "output_tokens": 23,
+        "total_tokens": 72,
+        "cost_usd": 0.0
+      }
+    },
+    {
+      "case_id": "q03",
+      "input_hash": "bd62d45e9b0d8734016f8f8d75df16aef0d390ae81806c255e06962c5142b5e1",
+      "keywords": [
+        "automation integrations",
+        "Harness Hook template"
+      ],
+      "anchors": [
+        "render_integration"
+      ],
+      "rewrites": [
+        "Claude 与 OpenCode 的跨 Harness 集成模板生成"
+      ],
+      "usage": {
+        "input_tokens": 50,
+        "output_tokens": 24,
+        "total_tokens": 74,
+        "cost_usd": 0.0
+      }
+    },
+    {
+      "case_id": "q04",
+      "input_hash": "35f6552ae85ffaa6a17be6dfa097ccdc5b9131866151bf7efe9eae8cfa2901c1",
+      "keywords": [
+        "incremental migration",
+        "exact blob reuse audit"
+      ],
+      "anchors": [
+        "audit_migration"
+      ],
+      "rewrites": [
+        "增量迁移 exact blob 复用集合审计"
+      ],
+      "usage": {
+        "input_tokens": 47,
+        "output_tokens": 22,
+        "total_tokens": 69,
+        "cost_usd": 0.0
+      }
+    },
+    {
+      "case_id": "q05",
+      "input_hash": "0bc13f751e07c36ea484ea149d35926b8adbef62d76bc5813c1c1632236f2ca7",
+      "keywords": [
+        "Agent page index",
+        "FTS query"
+      ],
+      "anchors": [
+        "build_agent_index"
+      ],
+      "rewrites": [
+        "兼容 Agent 页面索引构建与全文查询"
+      ],
+      "usage": {
+        "input_tokens": 45,
+        "output_tokens": 21,
+        "total_tokens": 66,
+        "cost_usd": 0.0
+      }
+    },
+    {
+      "case_id": "q06",
+      "input_hash": "41dda619282463c2c1e6fb5c44861db7612f8054bde36b68e966d5a26c543db6",
+      "keywords": [
+        "human projection",
+        "Obsidian pages"
+      ],
+      "anchors": [
+        "sync_human_layer"
+      ],
+      "rewrites": [
+        "机器知识向中文人类页面的投影同步"
+      ],
+      "usage": {
+        "input_tokens": 46,
+        "output_tokens": 22,
+        "total_tokens": 68,
+        "cost_usd": 0.0
+      }
+    },
+    {
+      "case_id": "q07",
+      "input_hash": "2b742bc866d813a00a3ae96fcde3160fe8fdccfcbcecbcc43d6596905aec1b88",
+      "keywords": [
+        "Graphify community",
+        "query subgraph"
+      ],
+      "anchors": [
+        "query_graph"
+      ],
+      "rewrites": [
+        "Graphify 社区聚类与查询子图输出"
+      ],
+      "usage": {
+        "input_tokens": 43,
+        "output_tokens": 20,
+        "total_tokens": 63,
+        "cost_usd": 0.0
+      }
+    },
+    {
+      "case_id": "q08",
+      "input_hash": "3201a3843e76dc0257c51222710afb37c1c5ce6d9d717b20aa46879ee8c4d471",
+      "keywords": [
+        "source links",
+        "VS Code URI line"
+      ],
+      "anchors": [
+        "ensure_local_openers"
+      ],
+      "rewrites": [
+        "知识页源码链接的 VS Code URI 与行号"
+      ],
+      "usage": {
+        "input_tokens": 44,
+        "output_tokens": 21,
+        "total_tokens": 65,
+        "cost_usd": 0.0
+      }
+    },
+    {
+      "case_id": "q09",
+      "input_hash": "01b8d533a517d83473f5c2f10c431282e9a4091b8965162e49b08b2a3c832d3b",
+      "keywords": [
+        "page configuration",
+        "context budget"
+      ],
+      "anchors": [
+        "load_page_config"
+      ],
+      "rewrites": [
+        "页面配置的每文件关键页上限与上下文预算"
+      ],
+      "usage": {
+        "input_tokens": 45,
+        "output_tokens": 22,
+        "total_tokens": 67,
+        "cost_usd": 0.0
+      }
+    },
+    {
+      "case_id": "q10",
+      "input_hash": "14b02e5220c09beaceeeb24dd763016a7f6c0b8808a5d9d9ae1b01ae8935fc77",
+      "keywords": [
+        "private runtime",
+        "deploy remove rollback"
+      ],
+      "anchors": [
+        "deploy"
+      ],
+      "rewrites": [
+        "full 私有运行时的部署,删除与回滚"
+      ],
+      "usage": {
+        "input_tokens": 43,
+        "output_tokens": 21,
+        "total_tokens": 64,
+        "cost_usd": 0.0
+      }
+    },
+    {
+      "case_id": "q11",
+      "input_hash": "a38602673513a8b0053f271cb5ae9da197975670bfa9c5c0b18d4f219bc17354",
+      "keywords": [
+        "showcase package",
+        "C++ Python Wiki"
+      ],
+      "anchors": [
+        "package_showcase"
+      ],
+      "rewrites": [
+        "C++ 与 Python 展示样例的 Wiki 打包"
+      ],
+      "usage": {
+        "input_tokens": 45,
+        "output_tokens": 20,
+        "total_tokens": 65,
+        "cost_usd": 0.0
+      }
+    },
+    {
+      "case_id": "q12",
+      "input_hash": "d1d07947cdc7a2bbccaba739c8610e073f3f1cdd85236eda161136494839fd7b",
+      "keywords": [
+        "Tree-sitter parser",
+        "named entity inventory"
+      ],
+      "anchors": [
+        "parse_file"
+      ],
+      "rewrites": [
+        "Tree-sitter 文件解析与命名实体清单"
+      ],
+      "usage": {
+        "input_tokens": 44,
+        "output_tokens": 21,
+        "total_tokens": 65,
+        "cost_usd": 0.0
+      }
+    }
+  ]
+}

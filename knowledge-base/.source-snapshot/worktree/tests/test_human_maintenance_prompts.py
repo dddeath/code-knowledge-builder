@@ -177,6 +177,11 @@ class HumanMaintenancePromptRegistryTests(unittest.TestCase):
         self.assertTrue(required_review_inputs.issubset(set(by_id["template-audit"].input_parameters)))
         self.assertTrue(required_review_inputs.issubset(set(by_id["template-rollback"].input_parameters)))
         self.assertFalse([step for step in contract.execution_steps if step.mapping == "pending-capability"])
+        parameters = {value.name: value for value in contract.parameters}
+        self.assertEqual("3.0.0", parameters["contract_version"].default)
+        self.assertEqual(3, parameters["schema_version"].default)
+        self.assertIn("machine_evidence_refs", contract.purpose_zh)
+        self.assertIn("disclosure_result", contract.acceptance_summary_fields)
 
 
 class HumanMaintenancePromptValidationTests(unittest.TestCase):
@@ -256,6 +261,19 @@ class HumanMaintenancePromptValidationTests(unittest.TestCase):
             "template", ["staging=C:/work/human/changes/page", *[item for item in parameters if not item.startswith("staging=")]]
         )
         self.assertIn("managed-target-forbidden", [error["reason"] for error in managed["errors"]])
+
+    def test_page_init_rejects_old_contract_instead_of_silently_using_v3_headings(self) -> None:
+        result = validate_human_maintenance_invocation(
+            "template",
+            [
+                "operation=page-init",
+                "page_type=change",
+                "page_mode=new",
+                "contract_version=1.0.0",
+                "schema_version=1",
+            ],
+        )
+        self.assertIn("page-author-v3-required", [error["reason"] for error in result["errors"]])
 
 
 class HumanMaintenancePromptRenderTests(unittest.TestCase):
@@ -337,6 +355,43 @@ class HumanMaintenancePromptFixtureTests(unittest.TestCase):
         self.assertIn("本次从已经安装的 Skill 开始", explain)
         self.assertNotIn("项目来源：", explain)
         self.assertNotIn("下载指定发布分支", explain)
+
+    def test_readme_v5_fixture_contains_only_agent_direction_and_direct_human_results(self) -> None:
+        fixture = _fixture("readme-v5.json")
+        self.assertEqual(3, fixture["schema_version"])
+        self.assertEqual("3.0.0", fixture["contract_version"])
+        self.assertEqual(
+            [
+                "先选择你要完成的任务",
+                "了解本项目知识库结构",
+                "让 Agent 安装本项目",
+                "让 Agent 解释自己的项目",
+                "安装后继续指挥 Agent",
+            ],
+            fixture["headings"],
+        )
+        self.assertEqual(3, len(fixture["first_screen_tasks"]))
+        self.assertEqual(
+            ["了解本项目知识库结构", "让 Agent 安装本项目", "让 Agent 解释自己的项目"],
+            [value["task"] for value in fixture["first_screen_tasks"]],
+        )
+        cards = fixture["task_cards"]
+        self.assertEqual({"structure", "install", "explain", "continue"}, set(cards))
+        for value in cards.values():
+            self.assertTrue(value["direct_result"])
+            self.assertTrue(value["copy_to_agent"])
+        install = cards["install"]["copy_to_agent"]
+        explain = cards["explain"]["copy_to_agent"]
+        continuation = cards["continue"]["copy_to_agent"]
+        self.assertIn("只返回项目位置", install)
+        self.assertIn("不为业务仓库建立知识库", install)
+        self.assertIn("建立或接管知识库", explain)
+        self.assertIn("不重复安装项目", explain)
+        self.assertIn("完整验证明细仅在我明确要求时读取", continuation)
+        combined = "\n".join(value["copy_to_agent"] for value in cards.values())
+        self.assertNotIn("ckb.py", combined)
+        self.assertNotIn("python.exe", combined)
+        self.assertNotRegex(combined, r"\b\d+\s*/\s*\d+\b")
 
 
 class HumanMaintenanceDeliveryAuditTests(unittest.TestCase):

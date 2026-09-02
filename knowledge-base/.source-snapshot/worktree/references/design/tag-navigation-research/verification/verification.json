@@ -1,0 +1,360 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "baseline_commit": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
+  "verified_source_head": "bf670857d546a30dfcb29a3abd8ad68084b8c66f",
+  "generated_at_utc": "2026-09-02T20:22:44.494245Z",
+  "inputs": {
+    "assertions.jsonl": {
+      "path": "/mnt/e/knowledge_builder/self-workspace/worktrees/tag-navigation-research/tests/fixtures/tag-navigation/assertions.jsonl",
+      "sha256": "6e153ba4b7251e32bebdbb3b969c7231d5e137f6c4fe11e94ef3fac8f208372e",
+      "bytes": 17246
+    },
+    "policy.json": {
+      "path": "/mnt/e/knowledge_builder/self-workspace/worktrees/tag-navigation-research/tests/fixtures/tag-navigation/policy.json",
+      "sha256": "f40197a85b9e367f074c2b57255760f1207ebd8cf34843e2f6c6d888469244b7",
+      "bytes": 204
+    },
+    "navigation-benchmark.json": {
+      "path": "/mnt/e/knowledge_builder/self-workspace/worktrees/tag-navigation-research/tests/fixtures/tag-navigation/navigation-benchmark.json",
+      "sha256": "faf82cce49833b120edcce9432908baa1d9655f3eeb0da477daa8f19f2972cad",
+      "bytes": 2952
+    },
+    "navigation-records.jsonl": {
+      "path": "/mnt/e/knowledge_builder/self-workspace/worktrees/tag-navigation-research/tests/fixtures/tag-navigation/navigation-records.jsonl",
+      "sha256": "2a1bede1f7aa83e60b706bba9850a441f7eedf5f27d514a983e69123808d34c0",
+      "bytes": 2031
+    }
+  },
+  "changed_paths": [
+    "prototypes/ckb-tag-navigation/README.md",
+    "prototypes/ckb-tag-navigation/ckb_tag_navigation/__init__.py",
+    "prototypes/ckb-tag-navigation/ckb_tag_navigation/benchmark.py",
+    "prototypes/ckb-tag-navigation/ckb_tag_navigation/cli.py",
+    "prototypes/ckb-tag-navigation/ckb_tag_navigation/contracts.py",
+    "prototypes/ckb-tag-navigation/ckb_tag_navigation/projection.py",
+    "prototypes/ckb-tag-navigation/ckb_tag_navigation/state_machine.py",
+    "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
+    "prototypes/ckb-tag-navigation/schemas/navigation-benchmark.schema.json",
+    "prototypes/ckb-tag-navigation/schemas/policy.schema.json",
+    "prototypes/ckb-tag-navigation/schemas/tag-assertion.schema.json",
+    "prototypes/ckb-tag-navigation/schemas/tag-audit.schema.json",
+    "prototypes/ckb-tag-navigation/schemas/tag-projection.schema.json",
+    "prototypes/ckb-tag-navigation/scripts/ckb_tag_navigation.py",
+    "references/design/tag-navigation-research/official-sources.md",
+    "references/design/tag-navigation-research/research-report.md",
+    "references/design/tag-navigation-research/sources.json",
+    "references/design/tag-navigation-research/state-machine-contract.md",
+    "references/design/tag-navigation-research/verification/audit.json",
+    "references/design/tag-navigation-research/verification/benchmark.json",
+    "references/design/tag-navigation-research/verification/implementation.patch",
+    "references/design/tag-navigation-research/verification/projection.json",
+    "references/design/tag-navigation-research/verification/rollback_experiment.ps1",
+    "references/design/tag-navigation-research/verification/tags.rollback.json",
+    "references/design/tag-navigation-research/verification/verification.json",
+    "tests/fixtures/tag-navigation/assertions.jsonl",
+    "tests/fixtures/tag-navigation/navigation-benchmark.json",
+    "tests/fixtures/tag-navigation/navigation-records.jsonl",
+    "tests/fixtures/tag-navigation/policy.json",
+    "tests/test_ckb_tag_navigation_benchmark.py",
+    "tests/test_ckb_tag_navigation_canvas_compatibility.py",
+    "tests/test_ckb_tag_navigation_contracts.py",
+    "tests/test_ckb_tag_navigation_projection.py",
+    "tests/test_ckb_tag_navigation_rollback.py",
+    "tests/test_ckb_tag_navigation_state_machine.py"
+  ],
+  "forbidden_paths_changed": [],
+  "artifacts": {
+    "implementation_patch": {
+      "path": "/mnt/e/knowledge_builder/self-workspace/worktrees/tag-navigation-research/references/design/tag-navigation-research/verification/implementation.patch",
+      "sha256": "80c41ec3aaedf1e0952f676a2cefe8c87b47f05088f687a802d7db17c16cfa23",
+      "bytes": 129244
+    },
+    "audit": {
+      "path": "/mnt/e/knowledge_builder/self-workspace/worktrees/tag-navigation-research/references/design/tag-navigation-research/verification/audit.json",
+      "sha256": "3373dbff78a56ae3fc7f9b0c962f74d51466a78f02b9125b149abe0f5bbeefe9"
+    },
+    "projection": {
+      "path": "/mnt/e/knowledge_builder/self-workspace/worktrees/tag-navigation-research/references/design/tag-navigation-research/verification/projection.json",
+      "sha256": "0275533a97c54552c25106dadf563272220ef8a6b15d88a87a7ea34cf36bfdb7"
+    },
+    "benchmark": {
+      "path": "/mnt/e/knowledge_builder/self-workspace/worktrees/tag-navigation-research/references/design/tag-navigation-research/verification/benchmark.json",
+      "sha256": "6cdd48615893d109b8c71a58333b4206fd935cd56bf2cd3d4ed6ecfa8d874a74"
+    },
+    "rollback_manifest": {
+      "path": "/mnt/e/knowledge_builder/self-workspace/worktrees/tag-navigation-research/references/design/tag-navigation-research/verification/tags.rollback.json",
+      "sha256": "01d53390d803058e382956fb0576a09fa97e6514171ac25b5f3eeaa3e1d94f77"
+    }
+  },
+  "confirmed_results": {
+    "replay": {
+      "inserted": 25,
+      "duplicates": 1,
+      "integrity_check": "ok"
+    },
+    "state_summary": {
+      "candidate": 1,
+      "confirmed": 5,
+      "contested": 1,
+      "deprecated": 3
+    },
+    "projected_pages": 2,
+    "suppressed_by_quota": 1,
+    "production_integration": "disabled",
+    "navigation_aggregate": {
+      "confirmed_tag": {
+        "conflicts": 0,
+        "median_steps": 1.0,
+        "misdirected_links": 1,
+        "page_count": 11,
+        "page_increment": 0,
+        "tasks": 6,
+        "total_steps": 7
+      },
+      "no_tag": {
+        "conflicts": 0,
+        "median_steps": 3.0,
+        "misdirected_links": 5,
+        "page_count": 11,
+        "page_increment": 0,
+        "tasks": 6,
+        "total_steps": 19
+      }
+    },
+    "rollback_restored": "absent",
+    "tag_tests": 19,
+    "canvas_tests": 35,
+    "rollback_workspace_boundary": {
+      "workspace_root_required": true,
+      "validated_before_mutation": [
+        "manifest",
+        "target_path",
+        "nonempty_backup_path"
+      ],
+      "outside_reason": "ROLLBACK_PATH_OUTSIDE_WORKSPACE",
+      "outside_target_bytes_preserved": true
+    },
+    "manifest_write_failure_recovery": {
+      "absent_target_restored": "absent",
+      "present_target_restored": "byte-identical-baseline",
+      "cleanup_after_confirmed_recovery": [
+        "backup",
+        "manifest",
+        "manifest_temporary",
+        "restore_temporary"
+      ]
+    },
+    "recovery_failure_preservation": {
+      "reason": "REPLAY_RECOVERY_FAILED",
+      "restore_copy_failure": {
+        "database_unchanged_after_manifest_failure": true,
+        "baseline_backup_preserved_byte_identical": true,
+        "diagnostic_manifest_preserved": true
+      },
+      "restore_hash_failure": {
+        "database_unchanged_after_manifest_failure": true,
+        "baseline_backup_preserved_byte_identical": true,
+        "diagnostic_manifest_and_restore_temporary_preserved": true
+      }
+    }
+  },
+  "commands": [
+    {
+      "id": "baseline_cli_absent",
+      "argv": [
+        "/mnt/c/Program Files/Git/cmd/git.exe",
+        "cat-file",
+        "-e",
+        "19152b227ccf687e7e4d89337d421c22a4e1a75f:prototypes/ckb-tag-navigation/scripts/ckb_tag_navigation.py"
+      ],
+      "exit_status": 128,
+      "literal_stdout": "",
+      "literal_stderr": "fatal: path 'prototypes/ckb-tag-navigation/scripts/ckb_tag_navigation.py' exists on disk, but not in '19152b227ccf687e7e4d89337d421c22a4e1a75f'\n"
+    },
+    {
+      "id": "verified_source_head",
+      "argv": [
+        "/mnt/c/Program Files/Git/cmd/git.exe",
+        "rev-parse",
+        "HEAD"
+      ],
+      "exit_status": 0,
+      "literal_stdout": "bf670857d546a30dfcb29a3abd8ad68084b8c66f\n",
+      "literal_stderr": ""
+    },
+    {
+      "id": "replay",
+      "argv": [
+        "/mnt/c/Users/19739/.codex/cache/code-knowledge-builder/runtime/win-x64/win-x64-2.1.0/python/python.exe",
+        "-X",
+        "utf8",
+        "E:\\knowledge_builder\\self-workspace\\worktrees\\tag-navigation-research\\prototypes\\ckb-tag-navigation\\scripts\\ckb_tag_navigation.py",
+        "replay",
+        "--input",
+        "E:\\knowledge_builder\\self-workspace\\worktrees\\tag-navigation-research\\tests\\fixtures\\tag-navigation\\assertions.jsonl",
+        "--database",
+        "E:\\knowledge_builder\\self-workspace\\worktrees\\tag-navigation-research\\artifacts\\tag-navigation-verification-run\\tags.sqlite",
+        "--rollback-manifest",
+        "E:\\knowledge_builder\\self-workspace\\worktrees\\tag-navigation-research\\artifacts\\tag-navigation-verification-run\\tags.rollback.json",
+        "--workspace-root",
+        "E:\\knowledge_builder\\self-workspace\\worktrees\\tag-navigation-research\\artifacts\\tag-navigation-verification-run"
+      ],
+      "exit_status": 0,
+      "literal_stdout": "{\"database\":\"E:\\\\knowledge_builder\\\\self-workspace\\\\worktrees\\\\tag-navigation-research\\\\artifacts\\\\tag-navigation-verification-run\\\\tags.sqlite\",\"database_sha256\":\"8902208635f0e94716eec04aca2cec81e02aa5dc55764e8c12d8091aff1c93f8\",\"duplicates\":1,\"inserted\":25,\"integrity_check\":\"ok\",\"rollback_manifest\":\"E:\\\\knowledge_builder\\\\self-workspace\\\\worktrees\\\\tag-navigation-research\\\\artifacts\\\\tag-navigation-verification-run\\\\tags.rollback.json\",\"schema_version\":1,\"status\":\"passed\"}\n",
+      "literal_stderr": ""
+    },
+    {
+      "id": "audit",
+      "argv": [
+        "/mnt/c/Users/19739/.codex/cache/code-knowledge-builder/runtime/win-x64/win-x64-2.1.0/python/python.exe",
+        "-X",
+        "utf8",
+        "E:\\knowledge_builder\\self-workspace\\worktrees\\tag-navigation-research\\prototypes\\ckb-tag-navigation\\scripts\\ckb_tag_navigation.py",
+        "audit",
+        "--database",
+        "E:\\knowledge_builder\\self-workspace\\worktrees\\tag-navigation-research\\artifacts\\tag-navigation-verification-run\\tags.sqlite",
+        "--policy",
+        "E:\\knowledge_builder\\self-workspace\\worktrees\\tag-navigation-research\\tests\\fixtures\\tag-navigation\\policy.json",
+        "--current-commit",
+        "19152b227ccf687e7e4d89337d421c22a4e1a75f",
+        "--as-of",
+        "2026-09-03T00:00:00Z",
+        "--out",
+        "E:\\knowledge_builder\\self-workspace\\worktrees\\tag-navigation-research\\artifacts\\tag-navigation-verification-run\\audit.json",
+        "--workspace-root",
+        "E:\\knowledge_builder\\self-workspace\\worktrees\\tag-navigation-research\\artifacts\\tag-navigation-verification-run"
+      ],
+      "exit_status": 0,
+      "literal_stdout": "{\"as_of\":\"2026-09-03T00:00:00Z\",\"current_commit\":\"19152b227ccf687e7e4d89337d421c22a4e1a75f\",\"output\":\"E:\\\\knowledge_builder\\\\self-workspace\\\\worktrees\\\\tag-navigation-research\\\\artifacts\\\\tag-navigation-verification-run\\\\audit.json\",\"output_sha256\":\"3373dbff78a56ae3fc7f9b0c962f74d51466a78f02b9125b149abe0f5bbeefe9\",\"policy\":{\"max_evidence_age_days\":90,\"max_opposition_ratio\":0.25,\"max_tags_per_page\":3,\"min_independent_agents\":2,\"min_independent_sources\":2,\"min_support_votes\":2,\"schema_version\":1},\"results\":[{\"metrics\":{\"active_vote_count\":3,\"drifted_active_votes\":0,\"independent_support_agents\":2,\"independent_support_sources\":2,\"oppose_votes\":1,\"opposition_ratio\":0.333333,\"proposal_count\":1,\"retracted_vote_count\":0,\"stale_active_votes\":0,\"superseded_vote_count\":0,\"support_votes\":2},\"reason_codes\":[\"OPPOSITION_RATIO_EXCEEDED\"],\"state\":\"contested\",\"tag\":\"topic/retrieval\",\"target\":{\"kind\":\"page\",\"path\":\"human/pages/agent-index.md\"}},{\"metrics\":{\"active_vote_count\":2,\"drifted_active_votes\":2,\"independent_support_agents\":0,\"independent_support_sources\":0,\"oppose_votes\":0,\"opposition_ratio\":0.0,\"proposal_count\":0,\"retracted_vote_count\":0,\"stale_active_votes\":0,\"superseded_vote_count\":0,\"support_votes\":0},\"reason_codes\":[\"COMMIT_DRIFT\",\"NO_ACTIVE_SUPPORT\"],\"state\":\"deprecated\",\"tag\":\"lifecycle/drift\",\"target\":{\"kind\":\"page\",\"path\":\"human/pages/drift.md\"}},{\"metrics\":{\"active_vote_count\":2,\"drifted_active_votes\":0,\"independent_support_agents\":2,\"independent_support_sources\":2,\"oppose_votes\":0,\"opposition_ratio\":0.0,\"proposal_count\":1,\"retracted_vote_count\":0,\"stale_active_votes\":0,\"superseded_vote_count\":0,\"support_votes\":2},\"reason_codes\":[\"CONFIRMED_THRESHOLDS_MET\"],\"state\":\"confirmed\",\"tag\":\"topic/navigation\",\"target\":{\"kind\":\"page\",\"path\":\"human/pages/navigation.md\"}},{\"metrics\":{\"active_vote_count\":1,\"drifted_active_votes\":0,\"independent_support_agents\":1,\"independent_support_sources\":1,\"oppose_votes\":0,\"opposition_ratio\":0.0,\"proposal_count\":0,\"retracted_vote_count\":0,\"stale_active_votes\":0,\"superseded_vote_count\":1,\"support_votes\":1},\"reason_codes\":[\"INDEPENDENT_AGENTS_BELOW_MINIMUM\",\"INDEPENDENT_SOURCES_BELOW_MINIMUM\",\"SUPPORT_VOTES_BELOW_MINIMUM\"],\"state\":\"candidate\",\"tag\":\"interface/obsidian\",\"target\":{\"kind\":\"page\",\"path\":\"human/pages/obsidian.md\"}},{\"metrics\":{\"active_vote_count\":2,\"drifted_active_votes\":0,\"independent_support_agents\":2,\"independent_support_sources\":2,\"oppose_votes\":0,\"opposition_ratio\":0.0,\"proposal_count\":0,\"retracted_vote_count\":0,\"stale_active_votes\":0,\"superseded_vote_count\":0,\"support_votes\":2},\"reason_codes\":[\"CONFIRMED_THRESHOLDS_MET\"],\"state\":\"confirmed\",\"tag\":\"topic/alpha\",\"target\":{\"kind\":\"page\",\"path\":\"human/pages/quota.md\"}},{\"metrics\":{\"active_vote_count\":2,\"drifted_active_votes\":0,\"independent_support_agents\":2,\"independent_support_sources\":2,\"oppose_votes\":0,\"opposition_ratio\":0.0,\"proposal_count\":0,\"retracted_vote_count\":0,\"stale_active_votes\":0,\"superseded_vote_count\":0,\"support_votes\":2},\"reason_codes\":[\"CONFIRMED_THRESHOLDS_MET\"],\"state\":\"confirmed\",\"tag\":\"topic/beta\",\"target\":{\"kind\":\"page\",\"path\":\"human/pages/quota.md\"}},{\"metrics\":{\"active_vote_count\":2,\"drifted_active_votes\":0,\"independent_support_agents\":2,\"independent_support_sources\":2,\"oppose_votes\":0,\"opposition_ratio\":0.0,\"proposal_count\":0,\"retracted_vote_count\":0,\"stale_active_votes\":0,\"superseded_vote_count\":0,\"support_votes\":2},\"reason_codes\":[\"CONFIRMED_THRESHOLDS_MET\"],\"state\":\"confirmed\",\"tag\":\"topic/delta\",\"target\":{\"kind\":\"page\",\"path\":\"human/pages/quota.md\"}},{\"metrics\":{\"active_vote_count\":2,\"drifted_active_votes\":0,\"independent_support_agents\":2,\"independent_support_sources\":2,\"oppose_votes\":0,\"opposition_ratio\":0.0,\"proposal_count\":0,\"retracted_vote_count\":0,\"stale_active_votes\":0,\"superseded_vote_count\":0,\"support_votes\":2},\"reason_codes\":[\"CONFIRMED_THRESHOLDS_MET\"],\"state\":\"confirmed\",\"tag\":\"topic/gamma\",\"target\":{\"kind\":\"page\",\"path\":\"human/pages/quota.md\"}},{\"metrics\":{\"active_vote_count\":2,\"drifted_active_votes\":0,\"independent_support_agents\":0,\"independent_support_sources\":0,\"oppose_votes\":0,\"opposition_ratio\":0.0,\"proposal_count\":0,\"retracted_vote_count\":0,\"stale_active_votes\":2,\"superseded_vote_count\":0,\"support_votes\":0},\"reason_codes\":[\"NO_ACTIVE_SUPPORT\",\"STALE_EVIDENCE\"],\"state\":\"deprecated\",\"tag\":\"lifecycle/stale\",\"target\":{\"kind\":\"page\",\"path\":\"human/pages/stale.md\"}},{\"metrics\":{\"active_vote_count\":0,\"drifted_active_votes\":0,\"independent_support_agents\":0,\"independent_support_sources\":0,\"oppose_votes\":0,\"opposition_ratio\":0.0,\"proposal_count\":0,\"retracted_vote_count\":2,\"stale_active_votes\":0,\"superseded_vote_count\":0,\"support_votes\":0},\"reason_codes\":[\"ALL_SUPPORT_RETRACTED\",\"NO_ACTIVE_SUPPORT\"],\"state\":\"deprecated\",\"tag\":\"topic/withdrawn\",\"target\":{\"kind\":\"page\",\"path\":\"human/pages/withdrawn.md\"}}],\"schema_version\":1,\"status\":\"passed\",\"summary\":{\"candidate\":1,\"confirmed\":5,\"contested\":1,\"deprecated\":3}}\n",
+      "literal_stderr": ""
+    },
+    {
+      "id": "project",
+      "argv": [
+        "/mnt/c/Users/19739/.codex/cache/code-knowledge-builder/runtime/win-x64/win-x64-2.1.0/python/python.exe",
+        "-X",
+        "utf8",
+        "E:\\knowledge_builder\\self-workspace\\worktrees\\tag-navigation-research\\prototypes\\ckb-tag-navigation\\scripts\\ckb_tag_navigation.py",
+        "project",
+        "--audit",
+        "E:\\knowledge_builder\\self-workspace\\worktrees\\tag-navigation-research\\artifacts\\tag-navigation-verification-run\\audit.json",
+        "--policy",
+        "E:\\knowledge_builder\\self-workspace\\worktrees\\tag-navigation-research\\tests\\fixtures\\tag-navigation\\policy.json",
+        "--out",
+        "E:\\knowledge_builder\\self-workspace\\worktrees\\tag-navigation-research\\artifacts\\tag-navigation-verification-run\\projection.json",
+        "--workspace-root",
+        "E:\\knowledge_builder\\self-workspace\\worktrees\\tag-navigation-research\\artifacts\\tag-navigation-verification-run"
+      ],
+      "exit_status": 0,
+      "literal_stdout": "{\"entries\":[{\"page\":\"human/pages/navigation.md\",\"tags\":[{\"display\":\"#导航/topic/navigation\",\"search\":\"tag:#导航/topic/navigation\",\"tag\":\"topic/navigation\"}]},{\"page\":\"human/pages/quota.md\",\"tags\":[{\"display\":\"#导航/topic/alpha\",\"search\":\"tag:#导航/topic/alpha\",\"tag\":\"topic/alpha\"},{\"display\":\"#导航/topic/beta\",\"search\":\"tag:#导航/topic/beta\",\"tag\":\"topic/beta\"},{\"display\":\"#导航/topic/delta\",\"search\":\"tag:#导航/topic/delta\",\"tag\":\"topic/delta\"}]}],\"excluded_by_state\":{\"candidate\":1,\"contested\":1,\"deprecated\":3},\"output\":\"E:\\\\knowledge_builder\\\\self-workspace\\\\worktrees\\\\tag-navigation-research\\\\artifacts\\\\tag-navigation-verification-run\\\\projection.json\",\"output_sha256\":\"0275533a97c54552c25106dadf563272220ef8a6b15d88a87a7ea34cf36bfdb7\",\"page_tag_limit\":3,\"production_integration\":\"disabled\",\"schema_version\":1,\"status\":\"passed\",\"suppressed\":[{\"page\":\"human/pages/quota.md\",\"reason_code\":\"PAGE_TAG_QUOTA_EXCEEDED\",\"tag\":\"topic/gamma\"}]}\n",
+      "literal_stderr": ""
+    },
+    {
+      "id": "benchmark",
+      "argv": [
+        "/mnt/c/Users/19739/.codex/cache/code-knowledge-builder/runtime/win-x64/win-x64-2.1.0/python/python.exe",
+        "-X",
+        "utf8",
+        "E:\\knowledge_builder\\self-workspace\\worktrees\\tag-navigation-research\\prototypes\\ckb-tag-navigation\\scripts\\ckb_tag_navigation.py",
+        "benchmark",
+        "--fixture",
+        "E:\\knowledge_builder\\self-workspace\\worktrees\\tag-navigation-research\\tests\\fixtures\\tag-navigation\\navigation-benchmark.json",
+        "--records",
+        "E:\\knowledge_builder\\self-workspace\\worktrees\\tag-navigation-research\\tests\\fixtures\\tag-navigation\\navigation-records.jsonl",
+        "--out",
+        "E:\\knowledge_builder\\self-workspace\\worktrees\\tag-navigation-research\\artifacts\\tag-navigation-verification-run\\benchmark.json",
+        "--workspace-root",
+        "E:\\knowledge_builder\\self-workspace\\worktrees\\tag-navigation-research\\artifacts\\tag-navigation-verification-run"
+      ],
+      "exit_status": 0,
+      "literal_stdout": "{\"aggregate\":{\"confirmed_tag\":{\"conflicts\":0,\"median_steps\":1.0,\"misdirected_links\":1,\"page_count\":11,\"page_increment\":0,\"tasks\":6,\"total_steps\":7},\"no_tag\":{\"conflicts\":0,\"median_steps\":3.0,\"misdirected_links\":5,\"page_count\":11,\"page_increment\":0,\"tasks\":6,\"total_steps\":19}},\"effect_claim\":\"fixture-navigation-signal-only\",\"output\":\"E:\\\\knowledge_builder\\\\self-workspace\\\\worktrees\\\\tag-navigation-research\\\\artifacts\\\\tag-navigation-verification-run\\\\benchmark.json\",\"output_sha256\":\"6cdd48615893d109b8c71a58333b4206fd935cd56bf2cd3d4ed6ecfa8d874a74\",\"records\":[{\"condition\":\"confirmed_tag\",\"conflicts\":0,\"misdirected_links\":0,\"page_increment\":0,\"steps\":1,\"task_id\":\"T01\"},{\"condition\":\"no_tag\",\"conflicts\":0,\"misdirected_links\":1,\"page_increment\":0,\"steps\":3,\"task_id\":\"T01\"},{\"condition\":\"confirmed_tag\",\"conflicts\":0,\"misdirected_links\":0,\"page_increment\":0,\"steps\":1,\"task_id\":\"T02\"},{\"condition\":\"no_tag\",\"conflicts\":0,\"misdirected_links\":1,\"page_increment\":0,\"steps\":3,\"task_id\":\"T02\"},{\"condition\":\"confirmed_tag\",\"conflicts\":0,\"misdirected_links\":0,\"page_increment\":0,\"steps\":1,\"task_id\":\"T03\"},{\"condition\":\"no_tag\",\"conflicts\":0,\"misdirected_links\":1,\"page_increment\":0,\"steps\":3,\"task_id\":\"T03\"},{\"condition\":\"confirmed_tag\",\"conflicts\":0,\"misdirected_links\":0,\"page_increment\":0,\"steps\":1,\"task_id\":\"T04\"},{\"condition\":\"no_tag\",\"conflicts\":0,\"misdirected_links\":1,\"page_increment\":0,\"steps\":3,\"task_id\":\"T04\"},{\"condition\":\"confirmed_tag\",\"conflicts\":0,\"misdirected_links\":1,\"page_increment\":0,\"steps\":2,\"task_id\":\"T05\"},{\"condition\":\"no_tag\",\"conflicts\":0,\"misdirected_links\":1,\"page_increment\":0,\"steps\":4,\"task_id\":\"T05\"},{\"condition\":\"confirmed_tag\",\"conflicts\":0,\"misdirected_links\":0,\"page_increment\":0,\"steps\":1,\"task_id\":\"T06\"},{\"condition\":\"no_tag\",\"conflicts\":0,\"misdirected_links\":0,\"page_increment\":0,\"steps\":3,\"task_id\":\"T06\"}],\"schema_version\":1,\"scope\":\"isolated-fixture\",\"status\":\"passed\"}\n",
+      "literal_stderr": ""
+    },
+    {
+      "id": "tag_tests",
+      "argv": [
+        "/mnt/c/Users/19739/.codex/cache/code-knowledge-builder/runtime/win-x64/win-x64-2.1.0/python/python.exe",
+        "-X",
+        "utf8",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_ckb_tag_navigation_*.py",
+        "-v"
+      ],
+      "exit_status": 0,
+      "literal_stdout": "",
+      "literal_stderr": "test_fixed_records_recompute_all_required_metrics (test_ckb_tag_navigation_benchmark.TagNavigationBenchmarkTests.test_fixed_records_recompute_all_required_metrics) ... ok\ntest_missing_per_task_record_stops_aggregation (test_ckb_tag_navigation_benchmark.TagNavigationBenchmarkTests.test_missing_per_task_record_stops_aggregation) ... ok\ntest_page_increment_is_derived_from_page_sets (test_ckb_tag_navigation_benchmark.TagNavigationBenchmarkTests.test_page_increment_is_derived_from_page_sets) ... ok\ntest_record_order_does_not_change_report (test_ckb_tag_navigation_benchmark.TagNavigationBenchmarkTests.test_record_order_does_not_change_report) ... ok\ntest_canvas_contract_remains_valid_and_byte_unchanged (test_ckb_tag_navigation_canvas_compatibility.TagNavigationCanvasCompatibilityTests.test_canvas_contract_remains_valid_and_byte_unchanged) ... ok\ntest_assertion_schema_excludes_conversation_and_secret_fields (test_ckb_tag_navigation_contracts.TagNavigationContractTests.test_assertion_schema_excludes_conversation_and_secret_fields) ... ok\ntest_cli_rejects_output_outside_workspace (test_ckb_tag_navigation_contracts.TagNavigationContractTests.test_cli_rejects_output_outside_workspace) ... ok\ntest_five_schemas_are_strict_json_objects (test_ckb_tag_navigation_contracts.TagNavigationContractTests.test_five_schemas_are_strict_json_objects) ... ok\ntest_idempotency_conflict_rolls_back_entire_new_database (test_ckb_tag_navigation_contracts.TagNavigationContractTests.test_idempotency_conflict_rolls_back_entire_new_database) ... ok\ntest_paths_tags_and_policy_are_bounded (test_ckb_tag_navigation_contracts.TagNavigationContractTests.test_paths_tags_and_policy_are_bounded) ... ok\ntest_replay_deduplicates_identical_idempotency_key (test_ckb_tag_navigation_contracts.TagNavigationContractTests.test_replay_deduplicates_identical_idempotency_key) ... ok\ntest_only_confirmed_tags_project_with_per_page_quota (test_ckb_tag_navigation_projection.TagNavigationProjectionTests.test_only_confirmed_tags_project_with_per_page_quota) ... ok\ntest_absent_target_returns_to_absent (test_ckb_tag_navigation_rollback.TagNavigationRollbackTests.test_absent_target_returns_to_absent) ... ok\ntest_drift_blocks_rollback_and_preserves_current_bytes (test_ckb_tag_navigation_rollback.TagNavigationRollbackTests.test_drift_blocks_rollback_and_preserves_current_bytes) ... ok\ntest_present_target_returns_to_byte_identical_baseline (test_ckb_tag_navigation_rollback.TagNavigationRollbackTests.test_present_target_returns_to_byte_identical_baseline) ... ok\ntest_all_four_states_and_counts_are_frozen (test_ckb_tag_navigation_state_machine.TagNavigationStateMachineTests.test_all_four_states_and_counts_are_frozen) ... ok\ntest_opposition_ratio_commit_drift_staleness_and_retraction_have_reason_codes (test_ckb_tag_navigation_state_machine.TagNavigationStateMachineTests.test_opposition_ratio_commit_drift_staleness_and_retraction_have_reason_codes) ... ok\ntest_repeated_audit_bytes_are_identical (test_ckb_tag_navigation_state_machine.TagNavigationStateMachineTests.test_repeated_audit_bytes_are_identical) ... ok\ntest_single_agent_revote_counts_once (test_ckb_tag_navigation_state_machine.TagNavigationStateMachineTests.test_single_agent_revote_counts_once) ... ok\n\n----------------------------------------------------------------------\nRan 19 tests in 1.353s\n\nOK\n"
+    },
+    {
+      "id": "canvas_compatibility_tests",
+      "argv": [
+        "/mnt/c/Users/19739/.codex/cache/code-knowledge-builder/runtime/win-x64/win-x64-2.1.0/python/python.exe",
+        "-X",
+        "utf8",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_ckb_canvas_*.py",
+        "-v"
+      ],
+      "exit_status": 0,
+      "literal_stdout": "",
+      "literal_stderr": "test_benchmark_cli_stdout_is_one_schema_object (test_ckb_canvas_benchmark_contract.CanvasBenchmarkContractTests.test_benchmark_cli_stdout_is_one_schema_object) ... ok\ntest_design_session_and_summary_examples_are_schema_valid_only (test_ckb_canvas_benchmark_contract.CanvasBenchmarkContractTests.test_design_session_and_summary_examples_are_schema_valid_only) ... ok\ntest_frozen_run_has_12_tasks_four_assignments_and_equal_evidence (test_ckb_canvas_benchmark_contract.CanvasBenchmarkContractTests.test_frozen_run_has_12_tasks_four_assignments_and_equal_evidence) ... ok\ntest_judge_owns_page_source_and_range_verdict (test_ckb_canvas_benchmark_contract.CanvasBenchmarkContractTests.test_judge_owns_page_source_and_range_verdict) ... ok\ntest_runner_rejects_evidence_drift (test_ckb_canvas_benchmark_contract.CanvasBenchmarkContractTests.test_runner_rejects_evidence_drift) ... ok\ntest_summary_passes_only_with_four_independent_sessions_and_all_seven_gates (test_ckb_canvas_benchmark_contract.CanvasBenchmarkContractTests.test_summary_passes_only_with_four_independent_sessions_and_all_seven_gates) ... ok\ntest_unfilled_obsidian_version_stops_session (test_ckb_canvas_benchmark_contract.CanvasBenchmarkContractTests.test_unfilled_obsidian_version_stops_session) ... ok\ntest_acceptance_runtime_request_is_valid (test_ckb_canvas_contracts.CanvasContractTests.test_acceptance_runtime_request_is_valid) ... ok\ntest_all_nine_schemas_parse_and_match_design (test_ckb_canvas_contracts.CanvasContractTests.test_all_nine_schemas_parse_and_match_design) ... ok\ntest_design_success_and_failure_fixtures_validate (test_ckb_canvas_contracts.CanvasContractTests.test_design_success_and_failure_fixtures_validate) ... ok\ntest_each_request_object_layer_rejects_unknown_field_with_exit_2 (test_ckb_canvas_contracts.CanvasContractTests.test_each_request_object_layer_rejects_unknown_field_with_exit_2) ... ok\ntest_pack_record_crosslink_is_exact (test_ckb_canvas_contracts.CanvasContractTests.test_pack_record_crosslink_is_exact) ... ok\ntest_record_1_keyword_variant_and_unknown_candidate_rejected (test_ckb_canvas_contracts.CanvasContractTests.test_record_1_keyword_variant_and_unknown_candidate_rejected) ... ok\ntest_ten_generations_have_one_canvas_and_two_single_manifest_hashes (test_ckb_canvas_determinism.CanvasDeterminismTests.test_ten_generations_have_one_canvas_and_two_single_manifest_hashes) ... ok\ntest_collision_hook_never_adds_random_salt (test_ckb_canvas_graph.CanvasGraphTests.test_collision_hook_never_adds_random_salt) ... ok\ntest_dangling_edge_duplicate_id_and_machine_field_are_distinct_failures (test_ckb_canvas_graph.CanvasGraphTests.test_dangling_edge_duplicate_id_and_machine_field_are_distinct_failures) ... ok\ntest_duplicate_page_and_source_keep_first_record_ordinal (test_ckb_canvas_graph.CanvasGraphTests.test_duplicate_page_and_source_keep_first_record_ordinal) ... ok\ntest_invalid_source_range_is_rejected (test_ckb_canvas_graph.CanvasGraphTests.test_invalid_source_range_is_rejected) ... ok\ntest_maximal_selection_has_12_nodes_stable_order_and_fixed_coordinates (test_ckb_canvas_graph.CanvasGraphTests.test_maximal_selection_has_12_nodes_stable_order_and_fixed_coordinates) ... ok\ntest_required_page_budget_is_not_silently_dropped (test_ckb_canvas_graph.CanvasGraphTests.test_required_page_budget_is_not_silently_dropped) ... ok\ntest_250_to_259_character_target_is_complete_or_stable_io_failure (test_ckb_canvas_paths.CanvasPathTests.test_250_to_259_character_target_is_complete_or_stable_io_failure) ... ok\ntest_chinese_paths_generate_and_reopen (test_ckb_canvas_paths.CanvasPathTests.test_chinese_paths_generate_and_reopen) ... ok\ntest_corrupt_request_and_record_emit_one_failure_object_without_traceback (test_ckb_canvas_paths.CanvasPathTests.test_corrupt_request_and_record_emit_one_failure_object_without_traceback) ... ok\ntest_inside_link_is_allowed_and_outside_link_is_rejected (test_ckb_canvas_paths.CanvasPathTests.test_inside_link_is_allowed_and_outside_link_is_rejected) ... ok\ntest_missing_target_and_existing_target_are_guarded (test_ckb_canvas_paths.CanvasPathTests.test_missing_target_and_existing_target_are_guarded) ... ok\ntest_snapshot_and_evidence_drift_have_distinct_reasons (test_ckb_canvas_paths.CanvasPathTests.test_snapshot_and_evidence_drift_have_distinct_reasons) ... ok\ntest_absent_rollback_removes_all_three_generated_roles (test_ckb_canvas_rollback.CanvasRollbackTests.test_absent_rollback_removes_all_three_generated_roles) ... ok\ntest_present_rollback_restores_three_roles_byte_identical (test_ckb_canvas_rollback.CanvasRollbackTests.test_present_rollback_restores_three_roles_byte_identical) ... ok\ntest_rollback_drift_preserves_current_bytes_and_backup (test_ckb_canvas_rollback.CanvasRollbackTests.test_rollback_drift_preserves_current_bytes_and_backup) ... ok\ntest_wrong_manifest_hash_changes_nothing (test_ckb_canvas_rollback.CanvasRollbackTests.test_wrong_manifest_hash_changes_nothing) ... ok\ntest_absent_generate_promotes_three_canonical_complete_roles (test_ckb_canvas_transaction.CanvasTransactionTests.test_absent_generate_promotes_three_canonical_complete_roles) ... ok\ntest_promotion_detects_concurrent_canvas_and_preserves_external_bytes (test_ckb_canvas_transaction.CanvasTransactionTests.test_promotion_detects_concurrent_canvas_and_preserves_external_bytes) ... ok\ntest_staged_canvas_corruption_is_rejected_before_target_changes (test_ckb_canvas_transaction.CanvasTransactionTests.test_staged_canvas_corruption_is_rejected_before_target_changes) ... ok\ntest_validate_stages_and_reopens_without_promotion (test_ckb_canvas_transaction.CanvasTransactionTests.test_validate_stages_and_reopens_without_promotion) ... ok\ntest_write_fsync_and_promotion_faults_leave_complete_baseline (test_ckb_canvas_transaction.CanvasTransactionTests.test_write_fsync_and_promotion_faults_leave_complete_baseline) ... ok\n\n----------------------------------------------------------------------\nRan 35 tests in 6.821s\n\nOK\n"
+    },
+    {
+      "id": "diff_check",
+      "argv": [
+        "/mnt/c/Program Files/Git/cmd/git.exe",
+        "diff",
+        "--check",
+        "19152b227ccf687e7e4d89337d421c22a4e1a75f..bf670857d546a30dfcb29a3abd8ad68084b8c66f"
+      ],
+      "exit_status": 0,
+      "literal_stdout": "",
+      "literal_stderr": ""
+    },
+    {
+      "id": "forbidden_path_check",
+      "argv": [
+        "/mnt/c/Program Files/Git/cmd/git.exe",
+        "diff",
+        "--name-only",
+        "19152b227ccf687e7e4d89337d421c22a4e1a75f..bf670857d546a30dfcb29a3abd8ad68084b8c66f",
+        "--",
+        "scripts/ckb.py",
+        "scripts/ckb_core",
+        "README.md",
+        "plugins"
+      ],
+      "exit_status": 0,
+      "literal_stdout": "",
+      "literal_stderr": ""
+    },
+    {
+      "id": "rollback_generated_database",
+      "argv": [
+        "/mnt/c/Users/19739/.codex/cache/code-knowledge-builder/runtime/win-x64/win-x64-2.1.0/python/python.exe",
+        "-X",
+        "utf8",
+        "E:\\knowledge_builder\\self-workspace\\worktrees\\tag-navigation-research\\prototypes\\ckb-tag-navigation\\scripts\\ckb_tag_navigation.py",
+        "rollback",
+        "--manifest",
+        "E:\\knowledge_builder\\self-workspace\\worktrees\\tag-navigation-research\\artifacts\\tag-navigation-verification-run\\tags.rollback.json",
+        "--workspace-root",
+        "E:\\knowledge_builder\\self-workspace\\worktrees\\tag-navigation-research\\artifacts\\tag-navigation-verification-run"
+      ],
+      "exit_status": 0,
+      "literal_stdout": "{\"restored\":\"absent\",\"schema_version\":1,\"status\":\"passed\",\"target_path\":\"E:\\\\knowledge_builder\\\\self-workspace\\\\worktrees\\\\tag-navigation-research\\\\artifacts\\\\tag-navigation-verification-run\\\\tags.sqlite\"}\n",
+      "literal_stderr": ""
+    }
+  ],
+  "failures": []
+}

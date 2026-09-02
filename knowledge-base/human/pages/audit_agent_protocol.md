@@ -24,8 +24,6 @@
 
 - [[AgentProtocolBatchApplyTests]] 会使用这里提供的行为。
 - [[audit_agent_protocol 与 _default_python 的协作实现]] 汇总了本页。
-- [[audit_global]] 会使用这里提供的行为。
-- [[audit_global 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 - [[create_batch_plan 与 ProtocolRelease 的协作实现]] 会使用这里提供的行为。
 - [[create_knowledge_batch_plan 与 KnowledgeRelease 的协作实现]] 会使用这里提供的行为。
 - [[maintenance_check]] 会使用这里提供的行为。
@@ -37,8 +35,8 @@
 - [[AgentProtocolBatchApplyTests]]
 - [[CodeKnowledgeBuilderTests]]
 - [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[HumanPageTemplateValidationTests]]
 - [[KeywordFallbackRetrievalWiringTests]]
 - [[MigrationTest]]
+- [[PageFanoutBenchmarkTests]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。

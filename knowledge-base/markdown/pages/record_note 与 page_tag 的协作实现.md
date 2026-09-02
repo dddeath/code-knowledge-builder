@@ -26,7 +26,7 @@
 ## 谁会来到这里
 
 - [[audit_agent_protocol 与 _default_python 的协作实现]] 会使用这里提供的行为。
-- [[audit_global 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
+- [[finalize 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 - [[ingest_event 与 default_registry_path 的协作实现]] 会使用这里提供的行为。
 - [[record_note]] 会使用这里提供的行为。
 - [[replace_note 与 RecordReplaceLockError 的协作实现]] 会使用这里提供的行为。
@@ -40,8 +40,8 @@
 - [[AutomationTest.register 等测试场景]]
 - [[CodeKnowledgeBuilderTests]]
 - [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[HumanPageTemplateValidationTests]]
 - [[KeywordFallbackRetrievalWiringTests]]
+- [[MigrationTest]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 

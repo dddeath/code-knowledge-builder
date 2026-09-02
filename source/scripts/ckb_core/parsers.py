@@ -4,7 +4,7 @@ import re
 from pathlib import Path
 from typing import Any, Iterator
 
-from .common import DependencyError, stable_id
+from .common import CkbError, DependencyError, stable_id
 
 
 DECLARATION_TYPES = {
@@ -60,6 +60,15 @@ DECLARATION_TYPES = {
 }
 
 NAME_FIELDS = ("name", "declarator", "type")
+
+
+# C/C++ can retain useful syntax facts around a bounded recovery region.  These
+# limits are deliberately deterministic so a parser warning never depends on an
+# Agent judgment.  A root-level ERROR is always unusable; otherwise a file may
+# degrade only while every threshold remains at or below the fixed limit.
+LOCAL_SYNTAX_MAX_DIAGNOSTICS = 16
+LOCAL_SYNTAX_MAX_LINE_RATIO = 0.5
+LOCAL_SYNTAX_MAX_BYTE_RATIO = 0.5
 
 
 def _language(language: str):
@@ -245,28 +254,130 @@ def _parse_diagnostics(language: str, root: Any, source: bytes) -> tuple[list[di
         if recovery is not None:
             recoveries.append(recovery)
             continue
-        start_line, _ = _byte_position(source, node.start_byte)
-        end_line, _ = _byte_position(source, node.end_byte)
+        start_line, start_column = _byte_position(source, node.start_byte)
+        end_line, end_column = _byte_position(source, node.end_byte)
         unresolved.append(
             {
                 "node_type": node.type,
+                "category": "missing" if node.is_missing else "error",
                 "is_error": bool(node.is_error),
                 "is_missing": bool(node.is_missing),
+                "start_byte": node.start_byte,
+                "end_byte": node.end_byte,
                 "start_line": start_line,
                 "end_line": end_line,
+                "start_column_utf8": start_column,
+                "end_column_utf8": end_column,
             }
         )
     if root.has_error and not error_nodes:
         unresolved.append(
             {
                 "node_type": root.type,
+                "category": "root-error",
                 "is_error": True,
                 "is_missing": False,
+                "start_byte": 0,
+                "end_byte": len(source),
                 "start_line": 1,
                 "end_line": max(1, source.count(b"\n") + 1),
+                "start_column_utf8": 0,
+                "end_column_utf8": 0,
             }
         )
     return recoveries, unresolved
+
+
+def _union_size(ranges: list[tuple[int, int]]) -> int:
+    ordered = sorted((start, max(start, end)) for start, end in ranges)
+    if not ordered:
+        return 0
+    total = 0
+    current_start, current_end = ordered[0]
+    for start, end in ordered[1:]:
+        if start <= current_end:
+            current_end = max(current_end, end)
+            continue
+        total += current_end - current_start
+        current_start, current_end = start, end
+    return total + current_end - current_start
+
+
+def _diagnostic_contract(language: str, root_type: str, source: bytes, diagnostics: list[dict[str, Any]]) -> dict[str, Any]:
+    """Classify unresolved parser diagnostics as complete, local, or unusable."""
+    total_lines = max(1, source.count(b"\n") + 1)
+    total_bytes = len(source)
+    affected_lines = _union_size(
+        [(int(item["start_line"]) - 1, int(item["end_line"])) for item in diagnostics]
+    )
+    affected_bytes = _union_size(
+        [(int(item.get("start_byte", 0)), int(item.get("end_byte", 0))) for item in diagnostics]
+    )
+    coverage = {
+        "diagnostic_count": len(diagnostics),
+        "affected_lines": affected_lines,
+        "total_lines": total_lines,
+        "line_ratio": round(affected_lines / total_lines, 6),
+        "affected_bytes": affected_bytes,
+        "total_bytes": total_bytes,
+        "byte_ratio": round(affected_bytes / max(1, total_bytes), 6),
+    }
+    reasons: list[str] = []
+    if diagnostics and language not in {"c", "cpp"}:
+        reasons.append("language-does-not-allow-local-syntax-degradation")
+    if diagnostics and (root_type == "ERROR" or any(item.get("category") == "root-error" for item in diagnostics)):
+        reasons.append("root-node-unusable")
+    if len(diagnostics) > LOCAL_SYNTAX_MAX_DIAGNOSTICS:
+        reasons.append("diagnostic-count-exceeds-local-limit")
+    if coverage["line_ratio"] > LOCAL_SYNTAX_MAX_LINE_RATIO:
+        reasons.append("line-coverage-exceeds-local-limit")
+    if coverage["byte_ratio"] > LOCAL_SYNTAX_MAX_BYTE_RATIO:
+        reasons.append("byte-coverage-exceeds-local-limit")
+    outcome = "complete" if not diagnostics else ("unusable" if reasons else "partial")
+    return {
+        "outcome": outcome,
+        "blocking": outcome == "unusable",
+        "coverage": coverage,
+        "unusable_reasons": reasons,
+        "thresholds": {
+            "max_diagnostic_count": LOCAL_SYNTAX_MAX_DIAGNOSTICS,
+            "max_line_ratio": LOCAL_SYNTAX_MAX_LINE_RATIO,
+            "max_byte_ratio": LOCAL_SYNTAX_MAX_BYTE_RATIO,
+        },
+    }
+
+
+def _diagnostic_overlaps(entity: dict[str, Any], diagnostic: dict[str, Any]) -> bool:
+    entity_start = int(entity["range"]["start_byte"])
+    entity_end = int(entity["range"]["end_byte"])
+    start = int(diagnostic.get("start_byte", 0))
+    end = int(diagnostic.get("end_byte", start))
+    if start == end:
+        return entity_start <= start <= entity_end
+    return entity_start < end and start < entity_end
+
+
+def syntax_warning_id(
+    repository: dict[str, Any],
+    file_entry: dict[str, Any],
+    diagnostics: list[dict[str, Any]],
+) -> str:
+    """Build the commit-sensitive ID shared by fresh and exact-blob parses."""
+    return stable_id(
+        "syntax-warning",
+        repository["commit"],
+        file_entry["blob"],
+        file_entry["path"],
+        *(
+            value
+            for diagnostic in diagnostics
+            for value in (
+                diagnostic.get("category"),
+                diagnostic.get("start_byte"),
+                diagnostic.get("end_byte"),
+            )
+        ),
+    )
 
 
 def parse_file(repository: dict[str, Any], file_entry: dict[str, Any], source: bytes) -> dict[str, Any]:
@@ -280,8 +391,11 @@ def parse_file(repository: dict[str, Any], file_entry: dict[str, Any], source: b
     language = _language(file_entry["language"])
     parser = Parser(language)
     tree = parser.parse(source)
-    root = tree.root_node
+    root = getattr(tree, "root_node", None)
+    if root is None or not getattr(root, "type", None):
+        raise CkbError(f"Tree-sitter parse root is unavailable: {file_entry['path']}")
     recoveries, parse_diagnostics = _parse_diagnostics(file_entry["language"], root, source)
+    diagnostic_contract = _diagnostic_contract(file_entry["language"], root.type, source, parse_diagnostics)
     source_text = source.decode("utf-8", errors="replace")
     file_entity = {
         "id": file_entry["id"],
@@ -416,15 +530,82 @@ def parse_file(repository: dict[str, Any], file_entry: dict[str, Any], source: b
         ranges.append((start_byte, end_byte, qualified, entity_id))
         if node_type == "file_scoped_namespace_declaration":
             file_scoped_namespace = (qualified, entity_id, end_byte)
+    warnings: list[dict[str, Any]] = []
+    if diagnostic_contract["outcome"] == "partial":
+        warning_id = syntax_warning_id(repository, file_entry, parse_diagnostics)
+        start_byte = min(int(item.get("start_byte", 0)) for item in parse_diagnostics)
+        end_byte = max(int(item.get("end_byte", 0)) for item in parse_diagnostics)
+        start_line = min(int(item["start_line"]) for item in parse_diagnostics)
+        end_line = max(int(item["end_line"]) for item in parse_diagnostics)
+        affected = [
+            entity["id"]
+            for entity in entities
+            if entity["kind"] == "file" or any(_diagnostic_overlaps(entity, item) for item in parse_diagnostics)
+        ]
+        warning = {
+            "id": warning_id,
+            "kind": "tree-sitter-local-syntax",
+            "file": file_entry["path"],
+            "range": {
+                "start_byte": start_byte,
+                "end_byte": end_byte,
+                "start_line": start_line,
+                "end_line": end_line,
+            },
+            "diagnostic_categories": sorted({str(item["category"]) for item in parse_diagnostics}),
+            "diagnostic_count": len(parse_diagnostics),
+            "coverage": diagnostic_contract["coverage"],
+            "affected_entity_ids": affected,
+            "source_completeness": "incomplete",
+            "source_confidence": "low",
+            "absence_inference_allowed": False,
+        }
+        warnings.append(warning)
+        affected_set = set(affected)
+        for entity in entities:
+            if entity["id"] in affected_set:
+                entity.update(
+                    {
+                        "source_completeness": "incomplete",
+                        "source_confidence": "low",
+                        "syntax_warning_ids": [warning_id],
+                        "absence_inference_allowed": False,
+                    }
+                )
+            else:
+                entity.update(
+                    {
+                        "source_completeness": "complete",
+                        "source_confidence": "high",
+                        "syntax_warning_ids": [],
+                        "absence_inference_allowed": True,
+                    }
+                )
+    else:
+        for entity in entities:
+            entity.update(
+                {
+                    "source_completeness": "complete" if diagnostic_contract["outcome"] == "complete" else "unusable",
+                    "source_confidence": "high" if diagnostic_contract["outcome"] == "complete" else "unusable",
+                    "syntax_warning_ids": [],
+                    "absence_inference_allowed": diagnostic_contract["outcome"] == "complete",
+                }
+            )
     return {
         "file": file_entry,
         "parse": {
-            "status": "failed" if parse_diagnostics else "passed",
+            "status": "failed" if diagnostic_contract["blocking"] else "passed",
+            "outcome": diagnostic_contract["outcome"],
             "root_type": root.type,
             "has_error": bool(parse_diagnostics),
             "raw_has_error": bool(root.has_error),
             "recoveries": recoveries,
             "diagnostics": parse_diagnostics,
+            "warnings": warnings,
+            "coverage": diagnostic_contract["coverage"],
+            "unusable_reasons": diagnostic_contract["unusable_reasons"],
+            "thresholds": diagnostic_contract["thresholds"],
+            "absence_inference_allowed": not bool(parse_diagnostics),
         },
         "entities": entities,
     }

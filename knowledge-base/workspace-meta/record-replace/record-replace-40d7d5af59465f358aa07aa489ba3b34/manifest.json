@@ -1,0 +1,228 @@
+{
+  "schema_version": 1,
+  "operation_id": "record-replace-40d7d5af59465f358aa07aa489ba3b34",
+  "operation": "record-replace",
+  "status": "completed",
+  "output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+  "kind": "change",
+  "title": "对话绑定管理 Agent 合并审计",
+  "created_at_utc": "2026-09-02T20:01:24Z",
+  "rollback_manifest": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-40d7d5af59465f358aa07aa489ba3b34\\manifest.json",
+  "rollback_argv": [
+    "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe",
+    "E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py",
+    "record-rollback",
+    "--out",
+    "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+    "--manifest",
+    "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-40d7d5af59465f358aa07aa489ba3b34\\manifest.json"
+  ],
+  "rollback_command": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe' 'E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py' 'record-rollback' '--out' 'E:\\knowledge_builder\\self-workspace\\knowledge-base' '--manifest' 'E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-40d7d5af59465f358aa07aa489ba3b34\\manifest.json'",
+  "roles": [
+    {
+      "name": "human-note",
+      "kind": "file",
+      "path": "human/changes/对话绑定管理 Agent 合并审计.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "d6349f1daca0c2f9ef9cf52c7fa082d97284cd445f014c8f86de2f2f9d0b0728",
+        "size": 4382,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-40d7d5af59465f358aa07aa489ba3b34\\backup\\files\\human\\changes\\对话绑定管理 Agent 合并审计.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "5d40f91e950500abc5ab995025fb516c984636643d4c544f6cd70aeaf43f228c",
+        "size": 2719,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-40d7d5af59465f358aa07aa489ba3b34\\staging\\files\\human\\changes\\对话绑定管理 Agent 合并审计.md"
+      }
+    },
+    {
+      "name": "markdown-note",
+      "kind": "file",
+      "path": "markdown/changes/对话绑定管理 Agent 合并审计.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "d6349f1daca0c2f9ef9cf52c7fa082d97284cd445f014c8f86de2f2f9d0b0728",
+        "size": 4382,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-40d7d5af59465f358aa07aa489ba3b34\\backup\\files\\markdown\\changes\\对话绑定管理 Agent 合并审计.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "5d40f91e950500abc5ab995025fb516c984636643d4c544f6cd70aeaf43f228c",
+        "size": 2719,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-40d7d5af59465f358aa07aa489ba3b34\\staging\\files\\markdown\\changes\\对话绑定管理 Agent 合并审计.md"
+      }
+    },
+    {
+      "name": "note-metadata",
+      "kind": "file",
+      "path": "workspace-meta/notes/对话绑定管理 Agent 合并审计.json",
+      "baseline": {
+        "exists": true,
+        "sha256": "074a91fcbba7b4cfa077719cab5fe9561d43cc35b5b69ac55c358f02e95184c1",
+        "size": 3483,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-40d7d5af59465f358aa07aa489ba3b34\\backup\\files\\workspace-meta\\notes\\对话绑定管理 Agent 合并审计.json"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "1245c034e73e8a93474c7dfaa896b6c2b7929f59ce5b8056676356448b964625",
+        "size": 1613,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-40d7d5af59465f358aa07aa489ba3b34\\staging\\files\\workspace-meta\\notes\\对话绑定管理 Agent 合并审计.json"
+      }
+    },
+    {
+      "name": "human-records",
+      "kind": "file",
+      "path": "human/RECORDS.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "41abcad9c7353d4a0464b1440fe3ba5481aee524496f34916d58983319769519",
+        "size": 20634,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-40d7d5af59465f358aa07aa489ba3b34\\backup\\files\\human\\RECORDS.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "7512dedb55094b367be21cb2d0fa1656b8782d52fdff6484581ac3f2ab6b792f",
+        "size": 20792,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-40d7d5af59465f358aa07aa489ba3b34\\staging\\files\\human\\RECORDS.md"
+      }
+    },
+    {
+      "name": "markdown-records",
+      "kind": "file",
+      "path": "markdown/RECORDS.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "41abcad9c7353d4a0464b1440fe3ba5481aee524496f34916d58983319769519",
+        "size": 20634,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-40d7d5af59465f358aa07aa489ba3b34\\backup\\files\\markdown\\RECORDS.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "7512dedb55094b367be21cb2d0fa1656b8782d52fdff6484581ac3f2ab6b792f",
+        "size": 20792,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-40d7d5af59465f358aa07aa489ba3b34\\staging\\files\\markdown\\RECORDS.md"
+      }
+    },
+    {
+      "name": "work-record-index-audit",
+      "kind": "file",
+      "path": "workspace-meta/work-record-index-audit.json",
+      "baseline": {
+        "exists": true,
+        "sha256": "2438ea9363e696f4812c2a2b797bac24fd5675bd95d7ebee3cfc442d3815260a",
+        "size": 217,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-40d7d5af59465f358aa07aa489ba3b34\\backup\\files\\workspace-meta\\work-record-index-audit.json"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "2438ea9363e696f4812c2a2b797bac24fd5675bd95d7ebee3cfc442d3815260a",
+        "size": 217,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-40d7d5af59465f358aa07aa489ba3b34\\staging\\files\\workspace-meta\\work-record-index-audit.json"
+      }
+    },
+    {
+      "name": "agent-index-note",
+      "kind": "sqlite-logical",
+      "path": "agent-index.sqlite",
+      "selector": "对话绑定管理 Agent 合并审计",
+      "baseline": {
+        "sha256": "f3e7c5167acf73460e9af821b6118c4b3a8b656a83895110a4bd8e3a89989702",
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-40d7d5af59465f358aa07aa489ba3b34\\backup\\agent-index-note.json"
+      },
+      "modified": {
+        "sha256": "dbcee8b25a6c25e7b919a1cdcf4d42534a3e805aaf7f541b4d887ddee90fd6de",
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-40d7d5af59465f358aa07aa489ba3b34\\staging\\agent-index-note.json"
+      }
+    },
+    {
+      "name": "machine-knowledge-note",
+      "kind": "sqlite-logical",
+      "path": "machine/knowledge.sqlite",
+      "selector": "note:changes:对话绑定管理 Agent 合并审计",
+      "baseline": {
+        "sha256": "e2941d3f37f2568f6c6c343fbd15cceeaff04012a34e6512936ea2dfb397771d",
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-40d7d5af59465f358aa07aa489ba3b34\\backup\\machine-knowledge-note.json"
+      },
+      "modified": {
+        "sha256": "1771a0cf20026e38d348b81ad5bee698e2816cfb5424b6942f406d3e24ae5bcd",
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-40d7d5af59465f358aa07aa489ba3b34\\staging\\machine-knowledge-note.json"
+      }
+    }
+  ],
+  "prepared_at_utc": "2026-09-02T20:01:25Z",
+  "record_id": "work-record-2c434bd66d9a55c3ab7d9e1167622fc3",
+  "relative_note": "changes/对话绑定管理 Agent 合并审计.md",
+  "explicit_evidence_replacement": true,
+  "linked_pages": [
+    "ingest_event 与 default_registry_path 的协作实现"
+  ],
+  "body_sha256": "c9d6d9ea8208d6715c9755ec560b8cb9ea96c1eefd0bc2910c248704d0bb1b7a",
+  "candidate_audit": {
+    "status": "passed",
+    "note_errors": [],
+    "work_record_index": {
+      "status": "passed",
+      "record_count": 62,
+      "linked_record_count": 62,
+      "section_counts": {
+        "analysis": 18,
+        "changes": 35,
+        "pitfalls": 0,
+        "experiments": 3,
+        "sessions": 6
+      },
+      "errors": []
+    }
+  },
+  "promotion_order": [
+    "human-note",
+    "markdown-note",
+    "note-metadata",
+    "human-records",
+    "markdown-records",
+    "work-record-index-audit",
+    "agent-index-note",
+    "machine-knowledge-note"
+  ],
+  "completed_at_utc": "2026-09-02T20:01:26Z",
+  "verification": {
+    "status": "passed",
+    "role_errors": [],
+    "note_errors": [],
+    "work_record_index": {
+      "status": "passed",
+      "record_count": 62,
+      "linked_record_count": 62,
+      "section_counts": {
+        "analysis": 18,
+        "changes": 35,
+        "pitfalls": 0,
+        "experiments": 3,
+        "sessions": 6
+      },
+      "errors": []
+    },
+    "agent_index": {
+      "schema_version": 1,
+      "status": "passed",
+      "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\agent-index.sqlite",
+      "integrity": "ok",
+      "counts": {
+        "pages": 208,
+        "symbols": 1848,
+        "edges": 1805,
+        "terms": 24666,
+        "notes": 62
+      },
+      "projection_format": "markdown",
+      "errors": []
+    }
+  },
+  "operation_journal": {
+    "status": "passed",
+    "event_id": "operation-8da256baf3cb50168eb33031599906ee",
+    "idempotent": false,
+    "journal": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\operations\\2026-09-02.jsonl"
+  }
+}

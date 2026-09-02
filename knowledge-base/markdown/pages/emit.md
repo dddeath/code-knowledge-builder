@@ -2,15 +2,15 @@
 
 标签：#类型/代码
 
-> `emit` 位于 `scripts/ckb.py` 第 859-862 行，本页用固定源码范围说明它如何生成稳定排序的结构化表示或人类输出。 `emit` 负责在CKB 主命令解析、分发和退出状态中生成稳定排序的结构化表示或人类输出。
+> 代码单元 `emit`负责解析 CKB 命令行输入并把请求分派到检索、迁移、参考资料和管理能力。 它属于所有 Harness 调用 CKB 的统一公开入口，当前说明只覆盖所列固定源码范围。
 
 ## 什么时候需要修改
 
-当 `scripts/ckb.py` 中 `emit` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。
+当公开命令、参数合同、退出状态或子系统入口变化时，应同步复查本页及其直接关联测试。
 
 ## 在代码中的位置
 
-[打开源码：scripts/ckb.py 第 859 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:859:1)  `scripts/ckb.py:859-862`
+[打开源码：scripts/ckb.py 第 925 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:925:1)  `scripts/ckb.py:925-928`
 
 ## 相关代码
 

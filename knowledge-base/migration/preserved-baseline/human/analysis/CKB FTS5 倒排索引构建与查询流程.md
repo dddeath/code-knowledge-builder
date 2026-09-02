@@ -54,12 +54,12 @@ CKB 把固定 Git 快照中的代码实体、中文审阅字段、人类知识�
 ## 相关知识页
 
 - [[retrieve_machine 与 estimated_tokens 的协作实现]]
-- [[audit_global 与 _replace_output_prefix 的协作实现]]
+- [[finalize 与 _replace_output_prefix 的协作实现]]
 - [[sync_human_layer 与 _source_manifest 的协作实现]]
 - [[maintenance_check 与 capability_matrix 的协作实现]]
 - [[render_integration 与 _looks_windows 的协作实现]]
 - [[register_obsidian_plugin 与 default_obsidian_plugin_registry 的协作实现]]
-- [[audit_references 与 _root 的协作实现]]
+- [[ingest_reference 与 _root 的协作实现]]
 - [[audit_agent_protocol 与 _default_python 的协作实现]]
 
 ## 源码入口

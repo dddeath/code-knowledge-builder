@@ -785,7 +785,7 @@ sensory保持session scope；可共享的semi/bank使用显式workspace记录、
 - [[deploy 的协作边界]]
 - [[build 的协作边界]]
 - [[ingest_event 与 default_registry_path 的协作实现]]
-- [[audit_global 与 _replace_output_prefix 的协作实现]]
+- [[finalize 与 _replace_output_prefix 的协作实现]]
 - [[load_page_config 与 _merge_known 的协作实现]]
 
 ## 源码入口

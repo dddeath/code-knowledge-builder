@@ -1,52 +1,63 @@
-"""Frozen deterministic Chinese retrieval benchmark.
+"""Three-arm Chinese retrieval effect benchmark on one fixed CKB corpus.
 
-The runner copies an existing completed CKB corpus before measuring it.  It
-never mutates the source corpus and writes every generated pack and result below
-the caller-provided output directory.
+The benchmark copies the completed corpus before execution.  The legacy arm
+binds the exact tokenizer from the parent of commit 497f2ca only for the call;
+the current arm uses the checked-out defaults; and the replay arm explicitly
+forces the bounded keyword fallback with a deterministic command fixture.
 """
 
 from __future__ import annotations
 
 import argparse
-from collections import defaultdict
+from contextlib import contextmanager
+import datetime as dt
 import gc
 import hashlib
 import json
 import math
+import os
 from pathlib import Path
+import platform
 import re
 import shutil
 import sqlite3
 import statistics
 import sys
 import time
-from typing import Any
+from typing import Any, Iterator
+import unicodedata
 
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(REPOSITORY_ROOT / "scripts"))
 
-from ckb_core.agent_index import retrieve as legacy_retrieve  # noqa: E402
 from ckb_core import machine_knowledge as machine  # noqa: E402
+from ckb_core.keyword_fallback import (  # noqa: E402
+    KeywordFallbackOptions,
+    KeywordProviderConfig,
+    keyword_cache_path,
+)
 
 
-NON_KNOWLEDGE_ADAPTERS = {
-    "AGENTS.md",
-    "CLAUDE.md",
-    "GEMINI.md",
-    ".github/copilot-instructions.md",
-    ".cursor/rules/code-knowledge-builder.mdc",
-}
+SCHEMA_VERSION = 1
+ARM_IDS = ("legacy-deterministic", "current-deterministic", "llm-replay-fallback")
+REPLAY_PROVIDER = "fixture"
+REPLAY_MODEL = "chinese-retrieval-replay"
+REPLAY_VERSION = "1"
 
 
 def json_load(path: Path) -> dict[str, Any]:
-    return json.loads(path.read_text(encoding="utf-8-sig"))
+    value = json.loads(path.read_text(encoding="utf-8-sig"))
+    if not isinstance(value, dict):
+        raise ValueError(f"JSON object required: {path}")
+    return value
 
 
 def json_write(path: Path, value: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    with path.open("w", encoding="utf-8", newline="\n") as stream:
+        stream.write(json.dumps(value, ensure_ascii=False, indent=2) + "\n")
 
 
 def sha256(path: Path) -> str:
@@ -65,7 +76,88 @@ def percentile(values: list[float], probability: float) -> float:
     return ordered[lower] + (ordered[upper] - ordered[lower]) * (rank - lower)
 
 
+def _split_camel(value: str) -> list[str]:
+    return [
+        part
+        for part in re.sub(r"([a-z0-9])([A-Z])", r"\1 \2", value).replace("::", " ").split()
+        if part
+    ]
+
+
+def legacy_search_terms(text: str, limit: int = 64) -> list[str]:
+    """Exact pre-497f2ca mechanical CJK bigram/trigram query terms."""
+
+    normalized = unicodedata.normalize("NFKC", text)
+    terms: set[str] = set()
+    for run in re.findall(r"[A-Za-z0-9_.$:/\\#+-]+", normalized):
+        lowered = run.casefold().strip("._$:/\\#+-")
+        if len(lowered) >= 2:
+            terms.add(lowered)
+        for part in re.split(r"[._$:/\\#+-]+", run):
+            if len(part) >= 2:
+                terms.add(part.casefold())
+            for camel in _split_camel(part):
+                if len(camel) >= 2:
+                    terms.add(camel.casefold())
+    for run in re.findall(r"[\u3400-\u9fff]+", normalized):
+        if run:
+            terms.add(run)
+        for index in range(max(0, len(run) - 1)):
+            terms.add(run[index : index + 2])
+        for index in range(max(0, len(run) - 2)):
+            terms.add(run[index : index + 3])
+    return sorted(terms, key=lambda value: (-len(value), value))[:limit]
+
+
+def legacy_build_fts_query(text: str, limit: int = 16) -> str | None:
+    values = [term for term in legacy_search_terms(text) if len(term) >= 3][:limit]
+    if not values:
+        return None
+    return " OR ".join('"' + value.replace('"', '""') + '"' for value in values)
+
+
+@contextmanager
+def legacy_term_binding() -> Iterator[None]:
+    previous_search = machine.search_terms
+    previous_builder = machine.build_fts_query
+    machine.search_terms = legacy_search_terms
+    machine.build_fts_query = legacy_build_fts_query
+    try:
+        yield
+    finally:
+        machine.search_terms = previous_search
+        machine.build_fts_query = previous_builder
+
+
+@contextmanager
+def fixture_environment(mode: str, marker: Path) -> Iterator[None]:
+    names = {
+        "CKB_FAKE_KEYWORD_PROVIDER_MODE": mode,
+        "CKB_FAKE_KEYWORD_PROVIDER_MARKER": str(marker.resolve()),
+        "CKB_FAKE_KEYWORD_PROVIDER_NAME": REPLAY_PROVIDER,
+        "CKB_FAKE_KEYWORD_PROVIDER_MODEL": REPLAY_MODEL,
+        "CKB_FAKE_KEYWORD_PROVIDER_VERSION": REPLAY_VERSION,
+    }
+    previous = {name: os.environ.get(name) for name in names}
+    os.environ.update(names)
+    try:
+        yield
+    finally:
+        for name, value in previous.items():
+            if value is None:
+                os.environ.pop(name, None)
+            else:
+                os.environ[name] = value
+
+
+def marker_count(path: Path) -> int:
+    if not path.is_file():
+        return 0
+    return len(path.read_text(encoding="utf-8").splitlines())
+
+
 def _sqlite_backup(source: Path, target: Path) -> None:
+    target.parent.mkdir(parents=True, exist_ok=True)
     with sqlite3.connect(f"file:{source.as_posix()}?mode=ro", uri=True) as left:
         with sqlite3.connect(target) as right:
             left.backup(right)
@@ -74,14 +166,15 @@ def _sqlite_backup(source: Path, target: Path) -> None:
 def copy_corpus(source: Path, target: Path) -> dict[str, Any]:
     if target.exists():
         shutil.rmtree(target)
-    (target / "machine").mkdir(parents=True)
-    _sqlite_backup(source / "machine/knowledge.sqlite", target / "machine/knowledge.sqlite")
-    _sqlite_backup(source / "agent-index.sqlite", target / "agent-index.sqlite")
+    target.mkdir(parents=True)
+    source_machine = source / "machine/knowledge.sqlite"
+    source_legacy = source / "agent-index.sqlite"
+    _sqlite_backup(source_machine, target / "machine/knowledge.sqlite")
+    _sqlite_backup(source_legacy, target / "agent-index.sqlite")
     for name in ("state.json", "local-openers.json"):
-        shutil.copy2(source / name, target / name)
+        if (source / name).is_file():
+            shutil.copy2(source / name, target / name)
     shutil.copytree(source / "human", target / "human")
-    # Compatibility rows may point at markdown paths.  A byte-identical human
-    # mirror keeps that declared benchmark boundary isolated.
     shutil.copytree(source / "human", target / "markdown")
     integrity: dict[str, str] = {}
     for name, path in (
@@ -90,478 +183,468 @@ def copy_corpus(source: Path, target: Path) -> dict[str, Any]:
     ):
         with sqlite3.connect(f"file:{path.as_posix()}?mode=ro", uri=True) as connection:
             integrity[name] = str(connection.execute("PRAGMA integrity_check").fetchone()[0])
+    with sqlite3.connect(
+        f"file:{(target / 'machine/knowledge.sqlite').as_posix()}?mode=ro", uri=True
+    ) as connection:
+        meta = dict(connection.execute("SELECT key,value FROM meta").fetchall())
     return {
-        "machine_sqlite_bytes": (target / "machine/knowledge.sqlite").stat().st_size,
-        "machine_sqlite_sha256": sha256(target / "machine/knowledge.sqlite"),
-        "legacy_sqlite_bytes": (target / "agent-index.sqlite").stat().st_size,
-        "legacy_sqlite_sha256": sha256(target / "agent-index.sqlite"),
+        "source": str(source.resolve()),
+        "repository_commit": meta.get("repository_commit"),
+        "source_machine_sha256_before": sha256(source_machine),
+        "copied_machine_sha256": sha256(target / "machine/knowledge.sqlite"),
+        "source_legacy_sha256_before": sha256(source_legacy),
+        "copied_legacy_sha256": sha256(target / "agent-index.sqlite"),
         "integrity": integrity,
     }
 
 
-def _title_and_links(text: str, path: Path) -> tuple[str, list[str]]:
-    title = path.stem
-    for line in text.splitlines():
-        if line.startswith("# "):
-            title = line[2:].strip()
-            break
-    return title, re.findall(r"\[\[([^\]|#]+)", text)
+def validate_protocol(protocol: dict[str, Any], source_corpus: Path) -> None:
+    if protocol.get("schema_version") != SCHEMA_VERSION:
+        raise ValueError("protocol schema version mismatch")
+    if protocol.get("status") != "frozen" or protocol.get("frozen_before_run") is not True:
+        raise ValueError("protocol must be frozen before execution")
+    if tuple(arm.get("id") for arm in protocol.get("arms", [])) != ARM_IDS:
+        raise ValueError("protocol must contain the three fixed arms in canonical order")
+    if protocol.get("cold_runs") != 1 or protocol.get("hot_runs") != 5:
+        raise ValueError("protocol requires one cold run and five hot runs")
+    if protocol.get("max_results") != 8 or protocol.get("profile") != "fast":
+        raise ValueError("protocol requires fast profile and max_results=8")
+    questions = protocol.get("questions")
+    if not isinstance(questions, list) or len(questions) != 12:
+        raise ValueError("protocol requires exactly twelve questions")
+    if len({item.get("id") for item in questions}) != len(questions):
+        raise ValueError("question ids must be unique")
+    for item in questions:
+        labels = item.get("relevance")
+        if not isinstance(labels, list) or not labels:
+            raise ValueError(f"question {item.get('id')} requires relevance labels")
+        for label in labels:
+            if not isinstance(label.get("source_path"), str) or label.get("grade") not in {1, 2, 3}:
+                raise ValueError(f"question {item.get('id')} has an invalid relevance label")
+    expected = protocol["corpus"]
+    with sqlite3.connect(
+        f"file:{(source_corpus / 'machine/knowledge.sqlite').as_posix()}?mode=ro", uri=True
+    ) as connection:
+        meta = dict(connection.execute("SELECT key,value FROM meta").fetchall())
+    if meta.get("repository_commit") != expected["repository_commit"]:
+        raise ValueError("source corpus repository commit differs from the frozen protocol")
+    if meta.get("graph_sha256") != expected["graph_sha256"]:
+        raise ValueError("source corpus graph digest differs from the frozen protocol")
+    if meta.get("schema_version") != expected["machine_schema_version"]:
+        raise ValueError("source corpus machine schema differs from the frozen protocol")
 
 
-def build_manual_index(corpus: Path) -> tuple[list[dict[str, Any]], dict[str, int]]:
-    root = corpus / "human"
-    projection = json_load(root / "projection.json")
-    with sqlite3.connect(f"file:{(corpus / 'machine/knowledge.sqlite').as_posix()}?mode=ro", uri=True) as connection:
-        entity_paths = {
-            str(entity_id): str(source_path)
-            for entity_id, source_path in connection.execute("SELECT entity_id,source_path FROM entities")
-        }
-    paths_by_page: dict[str, set[str]] = defaultdict(set)
-    for entity_id, owner in projection["entity_owner_pages"].items():
-        if entity_id in entity_paths:
-            paths_by_page[owner].add(entity_paths[entity_id])
-    for page in projection["pages"]:
-        if page["id"] in entity_paths:
-            paths_by_page[page["id"]].add(entity_paths[page["id"]])
-    page_id_by_file = {Path(page["file"]).as_posix(): page["id"] for page in projection["pages"]}
+def replay_config(protocol: dict[str, Any]) -> KeywordProviderConfig:
+    provider = protocol["provider"]
+    return KeywordProviderConfig(
+        command=(sys.executable, str(REPOSITORY_ROOT / provider["adapter"])),
+        provider=REPLAY_PROVIDER,
+        model=REPLAY_MODEL,
+        version=REPLAY_VERSION,
+        timeout_seconds=float(provider["timeout_seconds"]),
+        retries=int(provider["retries"]),
+    )
+
+
+def unique_ranked_documents(result: dict[str, Any]) -> list[dict[str, Any]]:
     documents: list[dict[str, Any]] = []
-    title_to_index: dict[str, int] = {}
-    for path in sorted(root.rglob("*.md")):
-        relative = path.relative_to(root).as_posix()
-        if relative in NON_KNOWLEDGE_ADAPTERS:
+    seen: set[str] = set()
+    for entity in result.get("selected_entities") or []:
+        source_path = str(entity.get("source_path") or "").replace("\\", "/")
+        if not source_path or source_path.casefold() in seen:
             continue
-        raw = path.read_bytes()
-        text = raw.decode("utf-8", errors="replace")
-        title, links = _title_and_links(text, path)
-        source_paths = set(paths_by_page.get(page_id_by_file.get(relative, ""), set()))
-        source_paths.update(
-            re.findall(
-                r"`((?:scripts|tests)/[^`\s:]+\.(?:py|js|c|h|cpp|hpp|cs))(?::\d+(?:-\d+)?)?`",
-                text,
-            )
-        )
+        seen.add(source_path.casefold())
         documents.append(
             {
-                "path": path,
-                "relative": relative,
-                "bytes": len(raw),
-                "title": title,
-                "links": links,
-                "source_paths": sorted(source_paths),
+                "rank": len(documents) + 1,
+                "source_path": source_path,
+                "entity_id": entity.get("entity_id"),
+                "qualified_name": entity.get("qualified_name"),
+                "score": entity.get("score"),
             }
         )
-        title_to_index[title] = len(documents) - 1
-    return documents, title_to_index
+    return documents
 
 
-def manual_scan(
-    corpus: Path,
-    question: str,
-    documents: list[dict[str, Any]],
-    title_to_index: dict[str, int],
-    max_results: int,
-) -> dict[str, Any]:
-    terms = [term for term in machine.search_terms(question) if len(term) >= 2]
-    contents: dict[int, str] = {}
-    scored: list[tuple[float, str, int]] = []
-    for index, document in enumerate(documents):
-        value = document["path"].read_text(encoding="utf-8", errors="replace")
-        contents[index] = value
-        haystack = (document["title"] + "\n" + value).casefold()
-        score = 0.0
-        for term in terms:
-            count = haystack.count(term.casefold())
-            if count:
-                score += min(count, 8) * (2.0 + min(len(term), 12) / 4.0)
-        if question.casefold() in haystack:
-            score += 120.0
-        if score > 0:
-            scored.append((score, document["relative"], index))
-    scored.sort(key=lambda item: (-item[0], item[1]))
-    selected: list[int] = []
-    seen: set[int] = set()
-    for _score, _relative, index in scored[:3]:
-        selected.append(index)
-        seen.add(index)
-    for index in list(selected):
-        for title in documents[index]["links"]:
-            neighbor = title_to_index.get(title)
-            if neighbor is not None and neighbor not in seen and len(selected) < max_results:
-                selected.append(neighbor)
-                seen.add(neighbor)
-    for _score, _relative, index in scored:
-        if len(selected) >= max_results:
-            break
-        if index not in seen:
-            selected.append(index)
-            seen.add(index)
-    index_text = (corpus / "human/INDEX.md").read_text(encoding="utf-8")
-    context = index_text + "\n" + "\n".join(contents[index] for index in selected)
-    return {
-        "status": "passed" if selected else "needs-source-read",
-        "selected": [documents[index]["relative"] for index in selected],
-        "source_paths": sorted({path for index in selected for path in documents[index]["source_paths"]}),
-        "symbols": [],
-        "agent_visible_tokens": machine.estimated_tokens(context),
-        "selected_count": len(selected),
-        "retrieval_stats": {},
-    }
-
-
-def normalize(method: str, result: dict[str, Any]) -> dict[str, Any]:
-    if method == "machine-fast":
-        selected = result.get("selected_entities", [])
-        return {
-            "status": result["status"],
-            "selected": [entity["qualified_name"] for entity in selected],
-            "source_paths": sorted({entity["source_path"] for entity in selected}),
-            "symbols": [entity["name"] for entity in selected] + [entity["qualified_name"] for entity in selected],
-            "agent_visible_tokens": result.get("estimated_tokens", 0),
-            "selected_count": len(selected),
-            "retrieval_stats": result.get("retrieval_stats", {}),
-            "terms": result.get("terms", []),
-            "selected_candidates": [
+def quality_for_ranking(documents: list[dict[str, Any]], relevance: list[dict[str, Any]], k: int = 8) -> dict[str, Any]:
+    grades = {item["source_path"].replace("\\", "/").casefold(): int(item["grade"]) for item in relevance}
+    ranked = documents[:k]
+    hits = [
+        {
+            "source_path": item["source_path"],
+            "rank": item["rank"],
+            "grade": grades[item["source_path"].casefold()],
+        }
+        for item in ranked
+        if item["source_path"].casefold() in grades
+    ]
+    recalled = {item["source_path"].casefold() for item in hits}
+    recall = len(recalled) / len(grades)
+    reciprocal_rank = 1.0 / hits[0]["rank"] if hits else 0.0
+    dcg = sum((2 ** item["grade"] - 1) / math.log2(item["rank"] + 1) for item in hits)
+    ideal = sorted(grades.values(), reverse=True)[:k]
+    idcg = sum((2**grade - 1) / math.log2(index + 2) for index, grade in enumerate(ideal))
+    missing = []
+    status_by_path = {item["source_path"].casefold() for item in ranked}
+    for label in relevance:
+        normalized = label["source_path"].replace("\\", "/")
+        if normalized.casefold() not in recalled:
+            missing.append(
                 {
-                    "entity_id": entity["entity_id"],
-                    "qualified_name": entity["qualified_name"],
-                    "source_path": entity["source_path"],
-                    "score": entity["score"],
-                    "score_breakdown": entity["score_breakdown"],
+                    "source_path": normalized,
+                    "grade": label["grade"],
+                    "reason": "outside-top-8" if normalized.casefold() in status_by_path else "not-selected",
                 }
-                for entity in selected
-            ],
-        }
-    if method == "legacy-page-sqlite":
-        selected = result.get("selected_pages", [])
-        return {
-            "status": result["status"],
-            "selected": [page["title"] for page in selected],
-            "source_paths": sorted({page["source_path"] for page in selected if page.get("source_path")}),
-            "symbols": [page["title"] for page in selected],
-            "agent_visible_tokens": result.get("estimated_tokens", 0),
-            "selected_count": len(selected),
-            "retrieval_stats": {},
-        }
-    return result
-
-
-def invoke(
-    method: str,
-    corpus: Path,
-    question: str,
-    documents: list[dict[str, Any]],
-    title_to_index: dict[str, int],
-    budget: int,
-    max_results: int,
-) -> dict[str, Any]:
-    if method == "manual-wide-scan":
-        return manual_scan(corpus, question, documents, title_to_index, max_results)
-    if method == "legacy-page-sqlite":
-        return normalize(method, legacy_retrieve(corpus, question, budget, max_results))
-    return normalize(method, machine.retrieve_machine(corpus, question, budget, max_results, "fast"))
-
-
-def result_signature(result: dict[str, Any]) -> str:
-    value = {
-        "status": result["status"],
-        "selected": result["selected"],
-        "source_paths": result["source_paths"],
-        "selected_candidates": result.get("selected_candidates", []),
+            )
+    return {
+        "recall_at_8": round(recall, 9),
+        "mrr_at_8": round(reciprocal_rank, 9),
+        "ndcg_at_8": round(dcg / idcg if idcg else 0.0, 9),
+        "relevant_hits": hits,
+        "missing": missing,
     }
-    return hashlib.sha256(json.dumps(value, ensure_ascii=False, sort_keys=True).encode("utf-8")).hexdigest()
 
 
-def validate_protocol(protocol: dict[str, Any]) -> None:
-    if protocol.get("status") != "frozen" or protocol.get("frozen_before_run") is not True:
-        raise ValueError("protocol must be frozen before the benchmark")
-    if len(protocol.get("queries", [])) != 12:
-        raise ValueError("frozen benchmark must contain exactly twelve queries")
-    if protocol.get("warmups") != 1 or protocol.get("repetitions") != 9:
-        raise ValueError("frozen benchmark requires one warmup and nine repetitions")
-    if protocol.get("budget_tokens") != 2400 or protocol.get("max_results") != 8:
-        raise ValueError("frozen benchmark requires budget=2400 and max_results=8")
+def result_signature(result: dict[str, Any], documents: list[dict[str, Any]]) -> str:
+    value = {
+        "status": result.get("status"),
+        "terms": result.get("terms") or [],
+        "anchors": result.get("anchors") or [],
+        "documents": [
+            (item["source_path"], item.get("entity_id"), item.get("qualified_name"), item.get("score"))
+            for item in documents
+        ],
+    }
+    encoded = json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+
+
+def invoke_arm(
+    arm: str,
+    corpus: Path,
+    question: dict[str, Any],
+    protocol: dict[str, Any],
+    config: KeywordProviderConfig,
+) -> dict[str, Any]:
+    arguments = (
+        corpus,
+        question["question"],
+        int(protocol["budget_tokens"]),
+        int(protocol["max_results"]),
+        protocol["profile"],
+    )
+    if arm == "legacy-deterministic":
+        with legacy_term_binding():
+            return machine.retrieve_machine(*arguments)
+    if arm == "current-deterministic":
+        return machine.retrieve_machine(*arguments)
+    return machine.retrieve_machine(
+        *arguments,
+        keyword_fallback=KeywordFallbackOptions(config=config, force=True, use_cache=True),
+    )
+
+
+def run_row(
+    arm: str,
+    cache_state: str,
+    run_index: int,
+    corpus: Path,
+    question: dict[str, Any],
+    protocol: dict[str, Any],
+    config: KeywordProviderConfig,
+    marker: Path,
+) -> dict[str, Any]:
+    before = marker_count(marker)
+    gc.collect()
+    started = time.perf_counter_ns()
+    result = invoke_arm(arm, corpus, question, protocol, config)
+    elapsed_ms = round((time.perf_counter_ns() - started) / 1_000_000, 6)
+    after = marker_count(marker)
+    documents = unique_ranked_documents(result)
+    quality = quality_for_ranking(documents, question["relevance"])
+    fallback = result.get("keyword_fallback") or {}
+    provider = fallback.get("provider") or {}
+    return {
+        "question_id": question["id"],
+        "question": question["question"],
+        "arm": arm,
+        "cache_state": cache_state,
+        "run_index": run_index,
+        "latency_ms": elapsed_ms,
+        "status": result.get("status"),
+        "terms": result.get("terms") or [],
+        "anchors": result.get("anchors") or [],
+        "selected_documents": documents,
+        "quality": quality,
+        "first_pack_estimated_tokens": result.get("estimated_tokens", 0),
+        "provider_process_starts": after - before,
+        "provider": {
+            key: provider.get(key)
+            for key in (
+                "status",
+                "failure_type",
+                "provider",
+                "model",
+                "version",
+                "attempts",
+                "latency_ms",
+                "cache_hit",
+                "usage",
+                "cached_usage",
+            )
+            if provider.get(key) is not None
+        },
+        "fallback": {
+            "status": fallback.get("status"),
+            "trigger": fallback.get("trigger"),
+            "original_terms": (fallback.get("original") or {}).get("terms") or [],
+            "validated_extensions": fallback.get("validated_extensions") or {},
+        }
+        if fallback
+        else None,
+        "result_signature": result_signature(result, documents),
+    }
+
+
+def aggregate_arm(protocol: dict[str, Any], rows: list[dict[str, Any]], arm: str) -> dict[str, Any]:
+    arm_rows = [row for row in rows if row["arm"] == arm]
+    per_question: dict[str, Any] = {}
+    for question in protocol["questions"]:
+        question_rows = [row for row in arm_rows if row["question_id"] == question["id"]]
+        cold = next(row for row in question_rows if row["cache_state"] == "cold")
+        per_question[question["id"]] = {
+            "question": question["question"],
+            "actual_terms": cold["terms"],
+            "actual_anchors": cold["anchors"],
+            "selected_documents": cold["selected_documents"],
+            "relevant_hits": cold["quality"]["relevant_hits"],
+            "missing": cold["quality"]["missing"],
+            "recall_at_8": cold["quality"]["recall_at_8"],
+            "mrr_at_8": cold["quality"]["mrr_at_8"],
+            "ndcg_at_8": cold["quality"]["ndcg_at_8"],
+            "first_pack_estimated_tokens": cold["first_pack_estimated_tokens"],
+            "deterministic_across_cold_and_hot": len({row["result_signature"] for row in question_rows}) == 1,
+            "provider_process_starts": sum(row["provider_process_starts"] for row in question_rows),
+            "cold_provider_cache_hit": cold["provider"].get("cache_hit"),
+            "hot_provider_cache_hits": [
+                row["provider"].get("cache_hit")
+                for row in question_rows
+                if row["cache_state"] == "hot"
+            ],
+            "fallback": cold["fallback"],
+        }
+    latencies = [row["latency_ms"] for row in arm_rows]
+    cold_latencies = [row["latency_ms"] for row in arm_rows if row["cache_state"] == "cold"]
+    hot_latencies = [row["latency_ms"] for row in arm_rows if row["cache_state"] == "hot"]
+    return {
+        "questions": len(per_question),
+        "runs": len(arm_rows),
+        "recall_at_8": round(statistics.mean(item["recall_at_8"] for item in per_question.values()), 9),
+        "mrr_at_8": round(statistics.mean(item["mrr_at_8"] for item in per_question.values()), 9),
+        "ndcg_at_8": round(statistics.mean(item["ndcg_at_8"] for item in per_question.values()), 9),
+        "first_pack_estimated_tokens": statistics.median(
+            item["first_pack_estimated_tokens"] for item in per_question.values()
+        ),
+        "latency_ms_p50": round(percentile(latencies, 0.50), 6),
+        "latency_ms_p95": round(percentile(latencies, 0.95), 6),
+        "cold_latency_ms_p50": round(percentile(cold_latencies, 0.50), 6),
+        "cold_latency_ms_p95": round(percentile(cold_latencies, 0.95), 6),
+        "hot_latency_ms_p50": round(percentile(hot_latencies, 0.50), 6),
+        "hot_latency_ms_p95": round(percentile(hot_latencies, 0.95), 6),
+        "provider_process_starts": sum(row["provider_process_starts"] for row in arm_rows),
+        "deterministic_question_rate": round(
+            statistics.mean(item["deterministic_across_cold_and_hot"] for item in per_question.values()), 9
+        ),
+        "per_question": per_question,
+    }
+
+
+def comparison(left: dict[str, Any], right: dict[str, Any], evidence_class: str) -> dict[str, Any]:
+    deltas = {
+        name: round(right[name] - left[name], 9)
+        for name in ("recall_at_8", "mrr_at_8", "ndcg_at_8")
+    }
+    if all(value >= 0 for value in deltas.values()) and any(value > 0 for value in deltas.values()):
+        claim = "measured-gain"
+    elif all(value == 0 for value in deltas.values()):
+        claim = "not-demonstrated"
+    else:
+        claim = "regression-observed"
+    return {"evidence_class": evidence_class, "quality_delta": deltas, "quality_claim": claim}
+
+
+def run_failure_probe(
+    corpus: Path,
+    protocol: dict[str, Any],
+    config: KeywordProviderConfig,
+    marker: Path,
+) -> dict[str, Any]:
+    question = protocol["questions"][0]
+    machine._RETRIEVAL_STATIC_CACHE.clear()
+    baseline = invoke_arm("current-deterministic", corpus, question, protocol, config)
+    baseline_documents = unique_ranked_documents(baseline)
+    before = marker_count(marker)
+    with fixture_environment("rate-limit", marker):
+        failed = machine.retrieve_machine(
+            corpus,
+            question["question"],
+            int(protocol["budget_tokens"]),
+            int(protocol["max_results"]),
+            protocol["profile"],
+            keyword_fallback=KeywordFallbackOptions(config=config, force=True, use_cache=False),
+        )
+    after = marker_count(marker)
+    failed_documents = unique_ranked_documents(failed)
+    fallback = failed.get("keyword_fallback") or {}
+    provider = fallback.get("provider") or {}
+    checks = {
+        "original_status_preserved": failed.get("status") == baseline.get("status"),
+        "original_ranking_preserved": result_signature(failed, failed_documents)
+        == result_signature(baseline, baseline_documents),
+        "structured_fallback_status": fallback.get("status") == "fallback",
+        "structured_failure_type": provider.get("failure_type") == "rate-limit",
+        "one_provider_process_start": after - before == 1,
+    }
+    return {
+        "status": "passed" if all(checks.values()) else "failed",
+        "checks": checks,
+        "provider_process_starts": after - before,
+        "failure_type": provider.get("failure_type"),
+    }
 
 
 def run_benchmark(protocol_path: Path, source_corpus: Path, output: Path) -> dict[str, Any]:
+    protocol_path = protocol_path.resolve()
+    source_corpus = source_corpus.resolve()
+    output = output.resolve()
     protocol = json_load(protocol_path)
-    validate_protocol(protocol)
+    validate_protocol(protocol, source_corpus)
     output.mkdir(parents=True, exist_ok=True)
     corpus = output / "corpus"
     corpus_info = copy_corpus(source_corpus, corpus)
-    documents, title_to_index = build_manual_index(corpus)
-    corpus_info.update(
-        {
-            "human_markdown_files": len(documents),
-            "human_markdown_bytes": sum(document["bytes"] for document in documents),
-        }
-    )
-    methods = [method["id"] for method in protocol["methods"]]
+    if corpus_info["repository_commit"] != protocol["corpus"]["repository_commit"]:
+        raise ValueError("copied corpus repository commit differs from the frozen protocol")
+    config = replay_config(protocol)
+    marker = output / "provider-starts.log"
+    marker.unlink(missing_ok=True)
     rows: list[dict[str, Any]] = []
-    cache_diagnostics: list[dict[str, Any]] = []
-    for query_index, query in enumerate(protocol["queries"]):
-        order = methods[query_index % len(methods) :] + methods[: query_index % len(methods)]
-        for method in order:
-            for _ in range(protocol["warmups"]):
-                invoke(
-                    method,
-                    corpus,
-                    query["question"],
-                    documents,
-                    title_to_index,
-                    protocol["budget_tokens"],
-                    protocol["max_results"],
-                )
-        for repetition in range(protocol["repetitions"]):
-            for method in order:
-                gc.collect()
-                start = time.perf_counter_ns()
-                result = invoke(
-                    method,
-                    corpus,
-                    query["question"],
-                    documents,
-                    title_to_index,
-                    protocol["budget_tokens"],
-                    protocol["max_results"],
-                )
-                elapsed_ms = (time.perf_counter_ns() - start) / 1_000_000
-                fts_query = machine._fts_query(query["question"]) if method == "machine-fast" else None
-                terms = result.get("terms", [])
-                rows.append(
-                    {
-                        "query_id": query["id"],
-                        "question": query["question"],
-                        "expected_path": query["expected_path"],
-                        "expected_symbol": query["expected_symbol"],
-                        "method": method,
-                        "repetition": repetition + 1,
-                        "latency_ms": elapsed_ms,
-                        "target_source_recalled": query["expected_path"] in result["source_paths"],
-                        "target_symbol_recalled": any(
-                            query["expected_symbol"].casefold() in symbol.casefold() for symbol in result["symbols"]
-                        ),
-                        "signature": result_signature(result),
-                        "term_count": len(terms) if method == "machine-fast" else None,
-                        "fts_term_count": len(fts_query.split(" OR ")) if fts_query else 0 if method == "machine-fast" else None,
-                        "fts_match_utf8_bytes": len((fts_query or "").encode("utf-8")) if method == "machine-fast" else None,
-                        **result,
-                    }
-                )
-
-        machine._RETRIEVAL_STATIC_CACHE.clear()
-        cache_samples = []
-        for cache_state in ("cold", "hot"):
-            gc.collect()
-            start = time.perf_counter_ns()
-            result = invoke(
-                "machine-fast",
-                corpus,
-                query["question"],
-                documents,
-                title_to_index,
-                protocol["budget_tokens"],
-                protocol["max_results"],
-            )
-            cache_samples.append(
-                {
-                    "cache_state": cache_state,
-                    "latency_ms": (time.perf_counter_ns() - start) / 1_000_000,
-                    "static_cache_hit": result["retrieval_stats"]["static_cache_hit"],
-                }
-            )
-        cache_diagnostics.append({"query_id": query["id"], "samples": cache_samples})
-
+    with fixture_environment("chinese-retrieval-replay", marker):
+        for question_index, question in enumerate(protocol["questions"]):
+            arm_order = list(ARM_IDS[question_index % len(ARM_IDS) :] + ARM_IDS[: question_index % len(ARM_IDS)])
+            for arm in arm_order:
+                machine._RETRIEVAL_STATIC_CACHE.clear()
+                if arm == "llm-replay-fallback":
+                    keyword_cache_path(corpus, question["question"], config).unlink(missing_ok=True)
+                rows.append(run_row(arm, "cold", 1, corpus, question, protocol, config, marker))
+                for run_index in range(1, int(protocol["hot_runs"]) + 1):
+                    rows.append(run_row(arm, "hot", run_index, corpus, question, protocol, config, marker))
+    summaries = {arm: aggregate_arm(protocol, rows, arm) for arm in ARM_IDS}
+    failure_probe = run_failure_probe(corpus, protocol, config, marker)
+    source_machine_after = sha256(source_corpus / "machine/knowledge.sqlite")
+    source_legacy_after = sha256(source_corpus / "agent-index.sqlite")
+    copied_machine_after = sha256(corpus / "machine/knowledge.sqlite")
+    copied_legacy_after = sha256(corpus / "agent-index.sqlite")
+    source_corpus_unchanged = (
+        source_machine_after == corpus_info["source_machine_sha256_before"]
+        and source_legacy_after == corpus_info["source_legacy_sha256_before"]
+    )
+    expected_rows = len(protocol["questions"]) * len(ARM_IDS) * (
+        int(protocol["cold_runs"]) + int(protocol["hot_runs"])
+    )
+    checks = {
+        "row_count_exact": len(rows) == expected_rows,
+        "copied_sqlite_integrity": corpus_info["integrity"] == {"machine": "ok", "legacy": "ok"},
+        "benchmark_index_unchanged": (
+            copied_machine_after == corpus_info["copied_machine_sha256"]
+            and copied_legacy_after == corpus_info["copied_legacy_sha256"]
+        ),
+        "source_corpus_unchanged": source_corpus_unchanged,
+        "default_arms_started_no_provider": (
+            summaries["legacy-deterministic"]["provider_process_starts"] == 0
+            and summaries["current-deterministic"]["provider_process_starts"] == 0
+        ),
+        "replay_cold_started_once_per_question": (
+            summaries["llm-replay-fallback"]["provider_process_starts"] == len(protocol["questions"])
+        ),
+        "replay_hot_used_cache": all(
+            item["cold_provider_cache_hit"] is False
+            and item["hot_provider_cache_hits"] == [True] * int(protocol["hot_runs"])
+            for item in summaries["llm-replay-fallback"]["per_question"].values()
+        ),
+        "all_rankings_deterministic": all(
+            summary["deterministic_question_rate"] == 1.0 for summary in summaries.values()
+        ),
+        "failure_falls_back_to_original": failure_probe["status"] == "passed",
+    }
     raw = {
-        "schema_version": 1,
-        "protocol": str(protocol_path.resolve()),
+        "schema_version": SCHEMA_VERSION,
+        "benchmark": protocol["benchmark"],
+        "protocol": str(protocol_path),
         "protocol_sha256": sha256(protocol_path),
-        "source_corpus": str(source_corpus.resolve()),
-        "corpus": corpus_info,
-        "cache_diagnostics": cache_diagnostics,
+        "corpus": {
+            **corpus_info,
+            "source_machine_sha256_after": source_machine_after,
+            "source_legacy_sha256_after": source_legacy_after,
+            "source_drift_during_run": not source_corpus_unchanged,
+            "copied_machine_sha256_after": copied_machine_after,
+            "copied_legacy_sha256_after": copied_legacy_after,
+        },
         "rows": rows,
     }
-    json_write(output / "raw-results.json", raw)
-    summary = summarize(protocol, raw)
-    json_write(output / "summary.json", summary)
-    return summary
-
-
-def summarize(protocol: dict[str, Any], raw: dict[str, Any]) -> dict[str, Any]:
-    methods = [method["id"] for method in protocol["methods"]]
-    summaries: dict[str, Any] = {}
-    for method in methods:
-        rows = [row for row in raw["rows"] if row["method"] == method]
-        per_query: dict[str, Any] = {}
-        for query in protocol["queries"]:
-            query_rows = [row for row in rows if row["query_id"] == query["id"]]
-            per_query[query["id"]] = {
-                "question": query["question"],
-                "expected_path": query["expected_path"],
-                "latency_ms_median": statistics.median(row["latency_ms"] for row in query_rows),
-                "target_source_recalled": all(row["target_source_recalled"] for row in query_rows),
-                "target_symbol_recalled": (
-                    None if method == "manual-wide-scan" else all(row["target_symbol_recalled"] for row in query_rows)
-                ),
-                "agent_visible_tokens": statistics.median(row["agent_visible_tokens"] for row in query_rows),
-                "selected_count": statistics.median(row["selected_count"] for row in query_rows),
-                "fallback": any(row["status"] != "passed" for row in query_rows),
-                "deterministic": len({row["signature"] for row in query_rows}) == 1,
-                "result_signature": query_rows[0]["signature"],
-                "source_paths": query_rows[0]["source_paths"],
-                "selected": query_rows[0]["selected"],
-                "term_count": query_rows[0]["term_count"] if method == "machine-fast" else None,
-                "fts_term_count": query_rows[0]["fts_term_count"] if method == "machine-fast" else None,
-                "fts_match_utf8_bytes": query_rows[0]["fts_match_utf8_bytes"] if method == "machine-fast" else None,
-                "materialized_candidates": (
-                    query_rows[0]["retrieval_stats"].get("materialized_candidates") if method == "machine-fast" else None
-                ),
-            }
-        latencies = [row["latency_ms"] for row in rows]
-        summaries[method] = {
-            "latency_ms_median": statistics.median(latencies),
-            "latency_ms_p95": percentile(latencies, 0.95),
-            "target_source_recall_at_8": sum(item["target_source_recalled"] for item in per_query.values()) / len(per_query),
-            "target_symbol_recall": (
-                None
-                if method == "manual-wide-scan"
-                else sum(item["target_symbol_recalled"] for item in per_query.values()) / len(per_query)
-            ),
-            "fallback_rate": sum(item["fallback"] for item in per_query.values()) / len(per_query),
-            "determinism_rate": sum(item["deterministic"] for item in per_query.values()) / len(per_query),
-            "agent_visible_tokens_median": statistics.median(item["agent_visible_tokens"] for item in per_query.values()),
-            "selected_documents_median": statistics.median(item["selected_count"] for item in per_query.values()),
-            "queries": per_query,
-        }
-        if method == "machine-fast":
-            summaries[method]["term_count_median"] = statistics.median(item["term_count"] for item in per_query.values())
-            summaries[method]["fts_term_count_median"] = statistics.median(
-                item["fts_term_count"] for item in per_query.values()
-            )
-            summaries[method]["fts_match_utf8_bytes_median"] = statistics.median(
-                item["fts_match_utf8_bytes"] for item in per_query.values()
-            )
-            summaries[method]["materialized_candidates_median"] = statistics.median(
-                item["materialized_candidates"] for item in per_query.values()
-            )
-
-    machine_summary = summaries["machine-fast"]
-    manual_summary = summaries["manual-wide-scan"]
-    gates = protocol["acceptance_gates"]
-    computed = {
-        "machine_target_source_recall_at_8": machine_summary["target_source_recall_at_8"],
-        "machine_recall_not_below_manual": (
-            machine_summary["target_source_recall_at_8"] >= manual_summary["target_source_recall_at_8"]
-        ),
-        "machine_fallback_rate": machine_summary["fallback_rate"],
-        "machine_determinism_rate": machine_summary["determinism_rate"],
-        "machine_visible_context_reduction_vs_manual": (
-            1 - machine_summary["agent_visible_tokens_median"] / manual_summary["agent_visible_tokens_median"]
-        ),
-        "machine_engine_latency_p95_ms": machine_summary["latency_ms_p95"],
-        "machine_latency_speedup_vs_manual": manual_summary["latency_ms_median"] / machine_summary["latency_ms_median"],
-    }
-    checks = {
-        "recall_min": computed["machine_target_source_recall_at_8"] >= gates["machine_target_source_recall_at_8_min"],
-        "recall_not_below_manual": computed["machine_recall_not_below_manual"],
-        "fallback": computed["machine_fallback_rate"] <= gates["machine_fallback_rate_max"],
-        "determinism": computed["machine_determinism_rate"] >= gates["machine_determinism_rate_min"],
-        "visible_context": (
-            computed["machine_visible_context_reduction_vs_manual"]
-            >= gates["machine_visible_context_reduction_vs_manual_min"]
-        ),
-        "absolute_p95_latency": (
-            computed["machine_engine_latency_p95_ms"] <= gates["machine_engine_latency_p95_ms_max"]
-        ),
-        "latency_speedup": (
-            computed["machine_latency_speedup_vs_manual"] >= gates["machine_latency_speedup_vs_manual_min"]
-        ),
-    }
-    cold = [sample for item in raw["cache_diagnostics"] for sample in item["samples"] if sample["cache_state"] == "cold"]
-    hot = [sample for item in raw["cache_diagnostics"] for sample in item["samples"] if sample["cache_state"] == "hot"]
-    return {
-        "schema_version": 1,
-        "status": "passed" if all(checks.values()) else "mixed",
-        "protocol_status": "frozen-before-run",
+    report = {
+        "schema_version": SCHEMA_VERSION,
+        "status": "passed" if all(checks.values()) else "failed",
+        "benchmark": protocol["benchmark"],
         "protocol_sha256": raw["protocol_sha256"],
         "corpus": raw["corpus"],
-        "summary": summaries,
-        "cache_diagnostics": {
-            "cold_latency_ms_median": statistics.median(sample["latency_ms"] for sample in cold),
-            "cold_latency_ms_p95": percentile([sample["latency_ms"] for sample in cold], 0.95),
-            "hot_latency_ms_median": statistics.median(sample["latency_ms"] for sample in hot),
-            "hot_latency_ms_p95": percentile([sample["latency_ms"] for sample in hot], 0.95),
-            "cold_cache_flags_exact": all(sample["static_cache_hit"] is False for sample in cold),
-            "hot_cache_flags_exact": all(sample["static_cache_hit"] is True for sample in hot),
-        },
-        "computed": computed,
-        "gate_checks": checks,
-        "all_gates_passed": all(checks.values()),
-    }
-
-
-def verify_runs(left_path: Path, right_path: Path, output: Path) -> dict[str, Any]:
-    left = json_load(left_path)
-    right = json_load(right_path)
-    left_machine = left["summary"]["machine-fast"]
-    right_machine = right["summary"]["machine-fast"]
-    left_signatures = {
-        query_id: query["result_signature"] for query_id, query in left_machine["queries"].items()
-    }
-    right_signatures = {
-        query_id: query["result_signature"] for query_id, query in right_machine["queries"].items()
-    }
-    checks = {
-        "protocol_equal": left["protocol_sha256"] == right["protocol_sha256"],
-        "corpus_equal": (
-            left["corpus"]["machine_sqlite_sha256"] == right["corpus"]["machine_sqlite_sha256"]
-            and left["corpus"]["legacy_sqlite_sha256"] == right["corpus"]["legacy_sqlite_sha256"]
-        ),
-        "both_all_seven_gates_passed": left["all_gates_passed"] and right["all_gates_passed"],
-        "cross_process_result_signatures_equal": left_signatures == right_signatures,
-        "cross_process_quality_and_context_equal": (
-            left_machine["target_source_recall_at_8"] == right_machine["target_source_recall_at_8"]
-            and left_machine["fallback_rate"] == right_machine["fallback_rate"]
-            and left_machine["determinism_rate"] == right_machine["determinism_rate"]
-            and left_machine["agent_visible_tokens_median"] == right_machine["agent_visible_tokens_median"]
-        ),
-        "cold_hot_flags_exact": (
-            left["cache_diagnostics"]["cold_cache_flags_exact"]
-            and left["cache_diagnostics"]["hot_cache_flags_exact"]
-            and right["cache_diagnostics"]["cold_cache_flags_exact"]
-            and right["cache_diagnostics"]["hot_cache_flags_exact"]
-        ),
-    }
-    result = {
-        "schema_version": 1,
-        "status": "passed" if all(checks.values()) else "failed",
         "checks": checks,
-        "left": str(left_path.resolve()),
-        "right": str(right_path.resolve()),
-        "left_summary_sha256": sha256(left_path),
-        "right_summary_sha256": sha256(right_path),
+        "arms": summaries,
+        "comparisons": {
+            "current_vs_legacy": comparison(
+                summaries["legacy-deterministic"],
+                summaries["current-deterministic"],
+                "same-index-deterministic",
+            ),
+            "replay_vs_current": comparison(
+                summaries["current-deterministic"],
+                summaries["llm-replay-fallback"],
+                "fixed-replay-not-real-model",
+            ),
+        },
+        "failure_probe": failure_probe,
+        "real_provider": {
+            "status": protocol["real_provider_without_explicit_command"],
+            "actual_calls": 0,
+            "reason_zh": "本任务未配置可调用的真实 LLM Provider 命令或凭据；固定回放结果不作为真实模型效果。",
+        },
+        "environment": {
+            "measured_at_utc": dt.datetime.now(dt.timezone.utc).isoformat(),
+            "platform": platform.platform(),
+            "python": sys.version,
+            "python_executable": sys.executable,
+            "source_corpus": str(source_corpus),
+            "output": str(output),
+        },
+        "artifacts": {
+            "raw_results": str(output / "raw-results.json"),
+            "report": str(output / "report.json"),
+            "provider_start_log": str(marker),
+        },
     }
-    json_write(output, result)
-    return result
+    json_write(output / "raw-results.json", raw)
+    json_write(output / "report.json", report)
+    return report
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    commands = parser.add_subparsers(dest="command", required=True)
-    run = commands.add_parser("run")
-    run.add_argument("--protocol", type=Path, required=True)
-    run.add_argument("--source-corpus", type=Path, required=True)
-    run.add_argument("--output", type=Path, required=True)
-    verify = commands.add_parser("verify")
-    verify.add_argument("--left", type=Path, required=True)
-    verify.add_argument("--right", type=Path, required=True)
-    verify.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--protocol", type=Path, required=True)
+    parser.add_argument("--source-corpus", type=Path, required=True)
+    parser.add_argument("--output", type=Path, required=True)
     arguments = parser.parse_args()
-    if arguments.command == "run":
-        result = run_benchmark(arguments.protocol, arguments.source_corpus, arguments.output)
-    else:
-        result = verify_runs(arguments.left, arguments.right, arguments.output)
-    print(json.dumps(result, ensure_ascii=False, indent=2))
-    return 0 if result["status"] == "passed" else 1
+    report = run_benchmark(arguments.protocol, arguments.source_corpus, arguments.output)
+    print(json.dumps(report, ensure_ascii=False, indent=2))
+    return 0 if report["status"] == "passed" else 1
 
 
 if __name__ == "__main__":

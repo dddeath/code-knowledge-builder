@@ -18,17 +18,15 @@
 - 实现时会用到 [[command]]。
 - 实现时会用到 [[doctor_report 与 _version_matches 的协作实现]]。
 - 实现时会用到 [[emit]]。
-- 实现时会用到 [[execute]]。
 - 主要代码单元是 [[render_integration]]。
 
 ## 谁会来到这里
 
-- [[AutomationTest.register 等测试场景]] 会使用这里提供的行为。
 - [[SourceLinkRenderer.uri]] 会使用这里提供的行为。
 - [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]] 会使用这里提供的行为。
 - [[audit_migration 与 _entity_key 的协作实现]] 会使用这里提供的行为。
-- [[audit_references 与 _root 的协作实现]] 会使用这里提供的行为。
 - [[doctor_report 与 _version_matches 的协作实现]] 会使用这里提供的行为。
+- [[ingest_reference 与 _root 的协作实现]] 会使用这里提供的行为。
 - [[render_integration]] 会使用这里提供的行为。
 - [[retrieve_machine 与 estimated_tokens 的协作实现]] 会使用这里提供的行为。
 - 可从 [[scripts 职责导览]] 进入本页。

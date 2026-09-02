@@ -3,20 +3,46 @@
   "pack_id": "migrated-page-review-pack-0005",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T02:36:27Z",
+  "reviewed_at_utc": "2026-09-02T22:44:54Z",
   "reviews": [
     {
-      "entity_id": "file-dfae208be05150f29390fc78b8d60269",
+      "entity_id": "ent-36070c0dd8e85c05905cc7f4561bcd5f",
       "classification": "page",
-      "owner_page_id": "file-dfae208be05150f29390fc78b8d60269",
-      "source_path": "scripts/ckb_core/agent_protocol_batch.py",
-      "start_line": 1,
-      "end_line": 1714,
+      "owner_page_id": "ent-36070c0dd8e85c05905cc7f4561bcd5f",
+      "source_path": "scripts/ckb.py",
+      "start_line": 290,
+      "end_line": 310,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/agent_protocol_batch.py` 第 1-1714 行的源码摘录，文件、符号与行范围一致。",
-      "meaning_zh": "`scripts/ckb_core/agent_protocol_batch.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
-      "role_zh": "负责批量升级 Agent Protocol，包括计划、锁、备份、审计、切换和回滚。",
-      "change_when_zh": "当 `scripts/ckb_core/agent_protocol_batch.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb.py` 第 290 至 310 行；摘录与 Git blob c26b11f23637 一致。",
+      "meaning_zh": "代码单元 `keyword_provider_config`负责解析 CKB 命令行输入并把请求分派到检索、迁移、参考资料和管理能力。",
+      "role_zh": "它属于所有 Harness 调用 CKB 的统一公开入口，当前说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当公开命令、参数合同、退出状态或子系统入口变化时，应同步复查本页及其直接关联测试。"
+    },
+    {
+      "entity_id": "ent-4215f65eea875d9e8cef51f75f9bcbbb",
+      "classification": "page",
+      "owner_page_id": "ent-4215f65eea875d9e8cef51f75f9bcbbb",
+      "source_path": "scripts/ckb.py",
+      "start_line": 323,
+      "end_line": 919,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb.py` 第 323 至 919 行；摘录与 Git blob c26b11f23637 一致。",
+      "meaning_zh": "代码单元 `parser`负责解析 CKB 命令行输入并把请求分派到检索、迁移、参考资料和管理能力。",
+      "role_zh": "它属于所有 Harness 调用 CKB 的统一公开入口，当前说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当公开命令、参数合同、退出状态或子系统入口变化时，应同步复查本页及其直接关联测试。"
+    },
+    {
+      "entity_id": "ent-3017c5baa67a50f6a68a34c2f1342682",
+      "classification": "page",
+      "owner_page_id": "ent-3017c5baa67a50f6a68a34c2f1342682",
+      "source_path": "scripts/ckb.py",
+      "start_line": 925,
+      "end_line": 928,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb.py` 第 925 至 928 行；摘录与 Git blob c26b11f23637 一致。",
+      "meaning_zh": "代码单元 `emit`负责解析 CKB 命令行输入并把请求分派到检索、迁移、参考资料和管理能力。",
+      "role_zh": "它属于所有 Harness 调用 CKB 的统一公开入口，当前说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当公开命令、参数合同、退出状态或子系统入口变化时，应同步复查本页及其直接关联测试。"
     }
   ]
 }

@@ -3,20 +3,20 @@
   "pack_id": "migrated-page-review-pack-0041",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T02:37:36Z",
+  "reviewed_at_utc": "2026-09-02T22:45:59Z",
   "reviews": [
     {
-      "entity_id": "ent-e4646c6551da54dc87aecbd4c055b579",
+      "entity_id": "ent-a916d9b871e752e2b29151df8124948d",
       "classification": "page",
-      "owner_page_id": "ent-e4646c6551da54dc87aecbd4c055b579",
-      "source_path": "tests/test_agent_protocol_batch.py",
-      "start_line": 272,
-      "end_line": 685,
+      "owner_page_id": "ent-a916d9b871e752e2b29151df8124948d",
+      "source_path": "scripts/ckb_core/scope_extension.py",
+      "start_line": 261,
+      "end_line": 451,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_agent_protocol_batch.py` 第 272-685 行的源码摘录，文件、符号与行范围一致。",
-      "meaning_zh": "`AgentProtocolBatchApp...` 是 `tests/test_agent_protocol_batch.py` 第 272-685 行定义的类，本页绑定该固定源码范围。",
-      "role_zh": "该类作为可执行验证入口，检查标识符 `AgentProtocolBatchApplyTests` 所指的行为与失败边界。",
-      "change_when_zh": "当被测行为、输入夹具、断言或失败条件变化时，应同步更新 `AgentProtocolBatchApplyTests` 的说明。"
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/scope_extension.py` 第 261-451 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`start_scope_extension` 是 `scripts/ckb_core/scope_extension.py` 第 261-451 行定义的函数，本页绑定该固定源码范围。",
+      "role_zh": "负责实现 `scope_extension.py` 中由固定源码定义的命令或知识库处理步骤。",
+      "change_when_zh": "当 `start_scope_extension` 的输入、输出、状态转换或失败返回变化时，应更新本页并重跑对应测试。"
     }
   ]
 }

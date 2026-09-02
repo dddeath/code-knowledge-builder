@@ -1,47 +1,32 @@
 {
   "schema_version": 1,
-  "status": "published-experimental-canvas-and-record-replace-remote-verified",
+  "status": "locally-verified-ready-to-push",
   "repository": "https://github.com/dddeath/code-knowledge-builder",
-  "target_branch": "codex/release-5.4.0-stable-knowledge",
-  "remote_base": "917c79094a9ff31f39900a28776a38077159638b",
-  "remote_default_branch": "main",
-  "integration_commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
-  "integration_tree": "6da95dc3ac8991b5abb12b816bcc5e577f53c997",
-  "history_contract": "release branch preserves prior public history and adds a verified exact-tree snapshot of the current integration branch; development commits remain preserved on the local integration branch",
+  "target_branch": "codex/development-knowledge-builder",
+  "publication_base": "e864d84c361e1d871ca43f535f8ff85cb1eaa117",
+  "integration_commit": "c533dd7c53224a637b1438ea72ee25da887fc6de",
+  "integration_tree": "7eee86dbd7ba25504ec65986c02c2582091e8116",
+  "history_contract": "发展分支保留既有公开发布历史，并以单独提交更新到已审阅的集成源码与完整稳定知识库；集成分支的开发提交继续保留在本地集成历史中。",
   "knowledge_state": {
     "status": "complete",
     "version": "5.4.0",
     "schema_version": 4,
-    "repository": {
-      "root": "E:\\knowledge_builder\\self-workspace\\source",
-      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
-      "tree": "6da95dc3ac8991b5abb12b816bcc5e577f53c997",
-      "git_bootstrap": {
-        "requested": false,
-        "performed": false,
-        "repository_created": false,
-        "initial_commit_created": false,
-        "root": "E:\\knowledge_builder\\self-workspace\\source",
-        "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
-        "commit_count": 113,
-        "commit_message": null,
-        "author": null
-      }
-    },
-    "records": 57,
+    "repository_commit": "c533dd7c53224a637b1438ea72ee25da887fc6de",
+    "records": 68,
     "references": 1,
-    "research_gaps": 5,
+    "research_gaps": 7,
     "research_gap_status": {
-      "open": 4,
-      "resolved": 1
+      "open": 5,
+      "deferred": 0,
+      "resolved": 2
     },
     "learning_notes": 2
   },
   "manifests": {
     "source": "delivery/source-files.json",
-    "source_sha256": "fe830821160fbf793258e63ef17ebe47bc83f2a38e9c90122892f0a498f8047f",
+    "source_sha256": "59052da09f152e75bc4b7dfb662756f9990bc7c7e48f4be30893cebc117629e8",
     "knowledge": "delivery/knowledge-files.json",
-    "knowledge_sha256": "bf8de09dcf25d04b7d5354ea65482480987f06fd2470623ec5e601a071372249"
+    "knowledge_sha256": "8f56345dab8f98afa7ba7c1f6218d523bc1d7af6b8a26207f1591af4e0af26fb"
   },
   "lfs_patterns": [
     "*.zip",
@@ -49,142 +34,95 @@
   ],
   "lfs_files": [
     {
-      "path": "source/assets/runtime/win-x64/payload.zip",
-      "size": 621187725,
-      "sha256": "264bdf247d4b4f667800a7f532fe0404930ad7a0c3f5743460bef38f68fce8ce"
+      "path": "delivery/code-knowledge-builder-lite-5.4.0.zip",
+      "size": 3085240,
+      "sha256": "51cbc5fc0b307ff574cb55f6ade1df00c0d837a6f721444162db97a74980099b"
     },
     {
       "path": "knowledge-base/.source-snapshot/worktree/assets/runtime/win-x64/payload.zip",
-      "size": 621187725,
-      "sha256": "264bdf247d4b4f667800a7f532fe0404930ad7a0c3f5743460bef38f68fce8ce"
+      "size": 622653009,
+      "sha256": "f3400234850aa767fbe4e53c11dafdf14eeb7f0d9597f77653b7748c17b8cd63"
     },
     {
       "path": "knowledge-base/agent-index.sqlite",
-      "size": 8601600,
-      "sha256": "1f363a5b647ec79d384072023b1ae0ad780a18216957adb86057510dd5a288af"
+      "size": 9977856,
+      "sha256": "8590f5d2acf419cf53636c3aa5d53841fefe9f39484537dc520cc38853476dc4"
     },
     {
       "path": "knowledge-base/machine/automation.sqlite",
       "size": 208896,
-      "sha256": "e9dbc93e09193806f6572a22c0cb95844410a576672209c4309f7742084b28fd"
+      "sha256": "67d64bca3c4d8b807d0b777a0414533db8f9c8a444606a8039f5767551292c2e"
     },
     {
       "path": "knowledge-base/machine/knowledge.sqlite",
-      "size": 52514816,
-      "sha256": "2587a4d9604451d14138e947aab83888ae87b2e31f00bd73bb59e9a47290b705"
+      "size": 64356352,
+      "sha256": "d331e313d5971fe24dd4d66e3f4d291fa054807d8b12dc84f8b84231c6a29620"
     },
     {
       "path": "knowledge-base/migration/preserved-baseline/machine/automation.sqlite",
       "size": 208896,
-      "sha256": "e9dbc93e09193806f6572a22c0cb95844410a576672209c4309f7742084b28fd"
+      "sha256": "67d64bca3c4d8b807d0b777a0414533db8f9c8a444606a8039f5767551292c2e"
     },
     {
-      "path": "delivery/code-knowledge-builder-lite-5.4.0.zip",
-      "size": 3085240,
-      "sha256": "51cbc5fc0b307ff574cb55f6ade1df00c0d837a6f721444162db97a74980099b"
+      "path": "source/assets/runtime/win-x64/payload.zip",
+      "size": 622653009,
+      "sha256": "f3400234850aa767fbe4e53c11dafdf14eeb7f0d9597f77653b7748c17b8cd63"
     }
   ],
   "include": [
-    "source exact tracked tree",
-    "complete stable knowledge output without nested Git administration",
-    "bounded verification and rollback delivery"
+    "当前集成提交的精确 tracked 源码树",
+    "完整稳定知识库，不含嵌套 Git 管理文件和活动进程临时状态",
+    "本次发布的验证、回滚与来源清单"
   ],
   "exclude": [
-    "other worktrees",
-    "migration/publish staging outside release tree",
-    "caches and downloads outside tracked source",
-    "active locks and process state",
-    "SQLite WAL/SHM",
-    "nested .git administration",
-    "credentials"
+    "开发 worktree 与废弃 staging",
+    "模型缓存和虚拟环境",
+    "活动锁、SQLite WAL/SHM/journal 和临时文件",
+    "凭据与嵌套 .git 管理文件"
   ],
-  "local_verification": {
-    "status": "passed",
-    "path": "delivery/local-publication-verification-experimental.json",
-    "sha256": "4d324130e6b6721a4bfca076cb60f7911f3e82c6281ab3dfeadbccea9aed2f53",
-    "checks": 14
+  "experiments": {
+    "page_fanout": {
+      "status": "negative-result",
+      "decision": "retain-conservative",
+      "production_default_changed": false
+    },
+    "semantic_vector": {
+      "status": "regression-observed",
+      "decision": "do-not-promote",
+      "production_default_changed": false
+    },
+    "obsidian_canvas": {
+      "status": "experimental-awaiting-user-feedback"
+    }
   },
-  "remote_clone_verification": {
-    "status": "passed",
-    "commit": "e18884bea3a259864b90b24652b071f458eab476",
-    "path": "delivery/remote-clone-verification-experimental.json",
-    "sha256": "bb74b6adf9201dd84a7812c2a86e883ebb9c8bd07df0d9a58608a9a4056b3f54",
-    "checks": 14,
-    "lfs_fsck": "passed",
-    "short_root_required_on_windows": true
+  "final_knowledge_trace": {
+    "status": "included",
+    "record_count": 68,
+    "records": [
+      "knowledge-base/human/experiments/单文档自动页面扩张对照实验.md",
+      "knowledge-base/human/experiments/真实语义向量检索三臂对照实验.md"
+    ],
+    "maintain": "passed"
   },
   "credential_scan": {
     "status": "passed",
     "path": "delivery/credential-scan.json",
-    "sha256": "8d4aed217446339eebb8ae55df63fb895d31c12b4b788146499ecb98c3ac9c79",
-    "scanned_text_files": 3323,
+    "scanned_text_files": 4225,
     "findings": 0,
-    "allowlisted_test_fixtures": 6
+    "sha256": "258eb5ad19a593968583fd865f2a4fd4f027d24c309f1707e96600f97d5bda9e"
   },
-  "original_integration_commit": "150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3",
-  "published_integration_history_head": "ca38aeba11c01d84bce68e3ffa5a8b0cded6745d",
-  "history_sanitization": {
+  "local_verification": {
     "status": "passed",
-    "reason": "GitHub rejects reachable non-LFS blobs above 100 MiB",
-    "only_changed_path": "assets/runtime/win-x64/payload.zip",
-    "replacement": "Git LFS pointer to the same SHA-256 and size",
-    "commit_count": 77,
-    "commit_metadata_sequence_equal": true,
-    "reachable_blobs_over_50_mib": 0,
-    "evidence": "delivery/sanitized-history-verification.json",
-    "evidence_sha256": "cfd25828ffbdcc71a262d412aff8d1daffea2b8bfeab82d503f0c9d9c6fd8fcd",
-    "initial_rejection": "delivery/initial-push-rejection.txt"
+    "path": "delivery/local-development-verification.json",
+    "sha256": "8f3c29244a10f0e165893ffaafe0067dd3328d6e1710e4c075c11d3eea807135",
+    "checks": 15
   },
-  "final_knowledge_trace": {
-    "status": "included",
-    "record_count": 57,
-    "records": [
-      "knowledge-base/human/changes/增加受控的工作记录正文替换与回滚.md",
-      "knowledge-base/human/changes/将 Obsidian Canvas 原型纳入实验发布.md"
-    ],
-    "maintain": "passed"
+  "remote_clone_verification": {
+    "status": "pending"
   },
-  "readability_repair": {
-    "status": "passed",
-    "pages_replaced": 5,
-    "mirror": "passed",
-    "double_sqlite": "passed",
-    "retrieval": "passed",
-    "maintain": "passed",
-    "rollback_probe": "passed"
-  },
-  "current_integration_commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
-  "experimental_features": {
-    "obsidian_canvas": {
-      "status": "experimental",
-      "path": "source/prototypes/ckb-canvas-skill",
-      "guide": "delivery/canvas-experimental-guide.md",
-      "boundary": "deterministic isolated generation and rollback are verified; human navigation benefit awaits user feedback"
-    },
-    "record_body_replace": {
-      "status": "supported",
-      "cli": [
-        "record --replace",
-        "record-rollback --manifest"
-      ],
-      "record": "knowledge-base/human/changes/增加受控的工作记录正文替换与回滚.md"
-    }
-  },
-  "release_update": {
-    "status": "published-and-remote-verified",
-    "source_sync": {
-      "files": 869,
-      "copied": 0,
-      "unchanged": 869,
-      "removed": 0
-    },
-    "knowledge_sync": {
-      "files": 2405,
-      "copied": 0,
-      "unchanged": 2405,
-      "removed": 0
-    },
-    "postmerge_tests": "268/268 passed",
-    "knowledge_checks": "16/16 passed"
+  "rollback": {
+    "baseline": "e864d84c361e1d871ca43f535f8ff85cb1eaa117",
+    "script": "delivery/rollback-development-publication.ps1",
+    "stable_knowledge_backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base-backup-bd85195-wave3-20260903"
   }
 }

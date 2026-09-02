@@ -2,15 +2,15 @@
 
 标签：#类型/代码
 
-> `tests/test_package_release.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。 负责以可执行样例验证 `test_package_release.py` 覆盖的成功行为、失败边界和回归约束。
+> 文件 `tests/test_package_release.py`负责验证 Lite、Full 和插件发行边界以及 PDF 运行时依赖清单。 它属于发行物内容、体积责任和许可证边界的回归保护，当前说明只覆盖所列固定源码范围。
 
 ## 什么时候需要修改
 
-当 `tests/test_package_release.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。
+当发行类型、运行时锁、依赖或插件独立版本变化时，应同步复查本页及其直接关联测试。
 
 ## 在代码中的位置
 
-[打开源码：tests/test_package_release.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_package_release.py:1:1)  `tests/test_package_release.py:1-77`
+[打开源码：tests/test_package_release.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_package_release.py:1:1)  `tests/test_package_release.py:1-121`
 
 ## 相关代码
 

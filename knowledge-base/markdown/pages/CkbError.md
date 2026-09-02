@@ -14,15 +14,18 @@
 
 ## 相关代码
 
-- 实现时会用到 [[contracts 的协作边界]]。
+- 实现时会用到 [[contracts 的协作边界（2ef5688e）]]。
 
 ## 谁会来到这里
 
 - [[AgentProtocolBatchApplyTests 等测试场景]] 会使用这里提供的行为。
 - [[CkbError 与 DependencyError 的协作实现]] 汇总了本页。
+- [[CodeKnowledgeBuilderTests 等测试场景]] 会使用这里提供的行为。
+- [[FactFreshnessStateMachineTest]] 会使用这里提供的行为。
 - [[HumanMaintenancePromptRegistryTests 等测试场景]] 会使用这里提供的行为。
-- [[HumanPageTemplateValidationTests 等测试场景]] 会使用这里提供的行为。
+- [[HumanPageTemplateRegistryTests]] 会使用这里提供的行为。
 - [[KeywordFallbackRetrievalWiringTests 等测试场景]] 会使用这里提供的行为。
+- [[PdfReferenceExtractionTests]] 会使用这里提供的行为。
 - [[RecordReplaceTests]] 会使用这里提供的行为。
 - [[ScopeExtensionTest]] 会使用这里提供的行为。
 - [[SessionStdioLifecycleTests]] 会使用这里提供的行为。
@@ -34,27 +37,29 @@
 - [[audit_feedback]] 会使用这里提供的行为。
 - [[audit_feedback 与 _contains_chinese 的协作实现]] 会使用这里提供的行为。
 - [[audit_gap_register 与 _root 的协作实现]] 会使用这里提供的行为。
-- [[audit_global]] 会使用这里提供的行为。
-- [[audit_global 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 - [[audit_migration]] 会使用这里提供的行为。
 - [[audit_migration 与 _entity_key 的协作实现]] 会使用这里提供的行为。
 - [[audit_obsidian]] 会使用这里提供的行为。
 - [[audit_operation_journal 与 _root 的协作实现]] 会使用这里提供的行为。
-- [[audit_references]] 会使用这里提供的行为。
-- [[audit_references 与 _root 的协作实现]] 会使用这里提供的行为。
 - [[audit_work_record_index 与 _contains_chinese 的协作实现]] 会使用这里提供的行为。
 - [[bind_conversation]] 会使用这里提供的行为。
 - [[bind_conversation 与 default_management_registry_path 的协作实现]] 会使用这里提供的行为。
+- [[check_fact_freshness 与 _root 的协作实现]] 会使用这里提供的行为。
 - [[create_batch_plan]] 会使用这里提供的行为。
 - [[create_batch_plan 与 ProtocolRelease 的协作实现]] 会使用这里提供的行为。
 - [[create_knowledge_batch_plan]] 会使用这里提供的行为。
 - [[create_knowledge_batch_plan 与 KnowledgeRelease 的协作实现]] 会使用这里提供的行为。
 - [[deployment_plan 与 skill_root 的协作实现]] 会使用这里提供的行为。
 - [[doctor_report 与 _version_matches 的协作实现]] 会使用这里提供的行为。
+- [[extract_pdf]] 会使用这里提供的行为。
+- [[extract_pdf 与 PdfExtractionError 的协作实现]] 会使用这里提供的行为。
+- [[finalize 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 - [[get_human_page_template]] 会使用这里提供的行为。
 - [[get_human_page_template 与 SectionContract 的协作实现]] 会使用这里提供的行为。
 - [[ingest_event]] 会使用这里提供的行为。
 - [[ingest_event 与 default_registry_path 的协作实现]] 会使用这里提供的行为。
+- [[ingest_reference]] 会使用这里提供的行为。
+- [[ingest_reference 与 _root 的协作实现]] 会使用这里提供的行为。
 - [[keyword_provider_config]] 会使用这里提供的行为。
 - [[keyword_provider_config 与 parser 的协作实现]] 会使用这里提供的行为。
 - [[load_page_config]] 会使用这里提供的行为。
@@ -64,6 +69,7 @@
 - [[main（ckb 实现）]] 会使用这里提供的行为。
 - [[package_showcase]] 会使用这里提供的行为。
 - [[package_showcase 与 _parse_sample 的协作实现]] 会使用这里提供的行为。
+- [[parse_file]] 会使用这里提供的行为。
 - [[preflight 与 git 的协作实现]] 会使用这里提供的行为。
 - [[propose_template]] 会使用这里提供的行为。
 - [[propose_template 与 _canonical_bytes 的协作实现]] 会使用这里提供的行为。
@@ -73,8 +79,6 @@
 - [[record_note 与 page_tag 的协作实现]] 会使用这里提供的行为。
 - [[refresh 等测试场景]] 会使用这里提供的行为。
 - [[register_obsidian_plugin 与 default_obsidian_plugin_registry 的协作实现]] 会使用这里提供的行为。
-- [[render_human_maintenance_prompt]] 会使用这里提供的行为。
-- [[render_human_maintenance_prompt 与 ParameterSpec 的协作实现]] 会使用这里提供的行为。
 - [[render_integration]] 会使用这里提供的行为。
 - [[render_page_author 与 _error 的协作实现]] 会使用这里提供的行为。
 - [[replace_note]] 会使用这里提供的行为。
@@ -93,6 +97,7 @@
 - [[start_session 与 _session_directory 的协作实现]] 会使用这里提供的行为。
 - [[sync_human_layer]] 会使用这里提供的行为。
 - [[sync_human_layer 与 _source_manifest 的协作实现]] 会使用这里提供的行为。
+- [[validate_human_maintenance_invocation 与 ParameterSpec 的协作实现]] 会使用这里提供的行为。
 
 ## 相关测试
 

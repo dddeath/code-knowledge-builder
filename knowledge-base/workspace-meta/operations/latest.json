@@ -1,30 +1,30 @@
 {
   "schema_version": 1,
   "status": "passed",
-  "updated_at_utc": "2026-09-02T02:48:55Z",
+  "updated_at_utc": "2026-09-02T22:58:32Z",
   "retention_days": 30,
   "max_records_per_shard": 2000,
   "max_shard_bytes": 1048576,
-  "records": 194,
+  "records": 271,
   "counts_by_operation": {
-    "compile": 22,
-    "query": 122,
-    "record": 38,
-    "audit": 7,
-    "maintenance": 5
+    "compile": 23,
+    "query": 172,
+    "record": 60,
+    "audit": 10,
+    "maintenance": 6
   },
   "counts_by_status": {
-    "agent-reviewed": 23,
+    "agent-reviewed": 34,
     "complete": 6,
     "completed": 3,
-    "failed": 3,
-    "not-found": 4,
-    "open": 6,
-    "passed": 131,
+    "failed": 5,
+    "not-found": 5,
+    "open": 8,
+    "passed": 182,
     "pending-agent-review": 5,
-    "ready": 2,
+    "ready": 3,
     "ready-to-finalize": 3,
-    "replaced": 6,
+    "replaced": 15,
     "resolved": 1,
     "rolled-back": 1
   },
@@ -44,223 +44,248 @@
     {
       "date": "2026-09-02",
       "path": "2026-09-02.jsonl",
-      "records": 23,
-      "bytes": 6142
+      "records": 100,
+      "bytes": 29596
     }
   ],
   "latest": [
     {
       "schema_version": 1,
-      "event_id": "operation-00cbef9f82925764ad8cf3cdb118c4eb",
-      "recorded_at_utc": "2026-09-02T02:38:13Z",
-      "operation": "compile",
-      "command": "migrate:start",
-      "result_status": "pending-agent-review",
-      "evidence_paths": []
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-85e8ea11874159b0a2521c4cab1577ac",
-      "recorded_at_utc": "2026-09-02T02:42:59Z",
-      "operation": "compile",
-      "command": "review-pack",
-      "result_status": "passed",
-      "evidence_paths": []
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-fed3032603b65bb89e8e4c60761299c7",
-      "recorded_at_utc": "2026-09-02T02:43:35Z",
-      "operation": "compile",
-      "command": "migrate:status",
-      "result_status": "ready-to-finalize",
-      "evidence_paths": []
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-87aff5db28fc5b71bbc8f036d7f8fcda",
-      "recorded_at_utc": "2026-09-02T02:43:36Z",
-      "operation": "compile",
-      "command": "merge",
-      "result_status": "completed",
-      "evidence_paths": []
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-cfc725d1618255d98efdbe92dbf3b8d8",
-      "recorded_at_utc": "2026-09-02T02:43:38Z",
-      "operation": "compile",
-      "command": "migrate:audit",
-      "result_status": "passed",
-      "evidence_paths": []
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-80aa4d9c8a7058e1a7ce2b81747b294e",
-      "recorded_at_utc": "2026-09-02T02:44:08Z",
-      "operation": "compile",
-      "command": "finalize",
-      "result_status": "complete",
-      "evidence_paths": []
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-d935b8e461e1501bb5d9c34a0bcfe49a",
-      "recorded_at_utc": "2026-09-02T02:44:34Z",
+      "event_id": "operation-3dc2dc11f75f595a9936a5c321fdaff6",
+      "recorded_at_utc": "2026-09-02T21:03:27Z",
       "operation": "record",
-      "command": "record:replace",
-      "result_status": "replaced",
-      "evidence_paths": [
-        "workspace-meta/record-replace/record-replace-b0781622bbdf5560abac81bf2fd8a8df/manifest.json"
-      ]
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-48d74f9beb3f5e5b9a6ec99f2c9c4ea6",
-      "recorded_at_utc": "2026-09-02T02:44:36Z",
-      "operation": "record",
-      "command": "record:replace",
-      "result_status": "replaced",
-      "evidence_paths": [
-        "workspace-meta/record-replace/record-replace-5ee176f293845f6ea64167b7f67f2a2d/manifest.json"
-      ]
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-a00abe326d755b549367c521a64738ea",
-      "recorded_at_utc": "2026-09-02T02:44:38Z",
-      "operation": "record",
-      "command": "record:replace",
-      "result_status": "replaced",
-      "evidence_paths": [
-        "workspace-meta/record-replace/record-replace-d4cc2c517ae75173bea56ae5fc206d1b/manifest.json"
-      ]
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-01f61e6e42a957d8a6604d6d02fde868",
-      "recorded_at_utc": "2026-09-02T02:44:40Z",
-      "operation": "record",
-      "command": "record:replace",
-      "result_status": "replaced",
-      "evidence_paths": [
-        "workspace-meta/record-replace/record-replace-5f884ece705a5167905046121f663f73/manifest.json"
-      ]
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-36b0ed80da5a5f2388a302f7a7ac0846",
-      "recorded_at_utc": "2026-09-02T02:44:42Z",
-      "operation": "record",
-      "command": "record:replace",
-      "result_status": "replaced",
-      "evidence_paths": [
-        "workspace-meta/record-replace/record-replace-109a43c663795cc3938e0c3c39a509e0/manifest.json"
-      ]
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-d45bb926bb715eb8bd331c40b6755fc9",
-      "recorded_at_utc": "2026-09-02T02:44:57Z",
-      "operation": "record",
-      "command": "record:rollback",
-      "result_status": "rolled-back",
-      "evidence_paths": [
-        "workspace-meta/record-replace/record-replace-109a43c663795cc3938e0c3c39a509e0/manifest.json"
-      ]
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-97e79390489d550f906442bc444cc09b",
-      "recorded_at_utc": "2026-09-02T02:44:59Z",
-      "operation": "record",
-      "command": "record:replace",
-      "result_status": "replaced",
-      "evidence_paths": [
-        "workspace-meta/record-replace/record-replace-fc7870ba458256468627df0d8d8329c3/manifest.json"
-      ]
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-b304b1689b5259e0b3341ff38b70c741",
-      "recorded_at_utc": "2026-09-02T02:45:34Z",
-      "operation": "record",
-      "command": "record:change",
+      "command": "record:experiment",
       "result_status": "agent-reviewed",
       "evidence_paths": [
-        "human/changes/增加受控的工作记录正文替换与回滚.md",
-        "markdown/changes/增加受控的工作记录正文替换与回滚.md"
+        "human/experiments/中文检索三臂效果复测.md",
+        "markdown/experiments/中文检索三臂效果复测.md"
       ]
     },
     {
       "schema_version": 1,
-      "event_id": "operation-2d2a66f41100523b90f4650037657eb8",
-      "recorded_at_utc": "2026-09-02T02:45:38Z",
+      "event_id": "operation-f88fbfd88ba05a7b95b19980681c9b65",
+      "recorded_at_utc": "2026-09-02T21:03:32Z",
       "operation": "record",
-      "command": "record:change",
+      "command": "record:experiment",
       "result_status": "agent-reviewed",
       "evidence_paths": [
-        "human/changes/将 Obsidian Canvas 原型纳入实验发布.md",
-        "markdown/changes/将 Obsidian Canvas 原型纳入实验发布.md"
+        "human/experiments/机器 Tag 导航隔离实验.md",
+        "markdown/experiments/机器 Tag 导航隔离实验.md"
       ]
     },
     {
       "schema_version": 1,
-      "event_id": "operation-bf63aa5732a85a588d3e11f9ad6fda9c",
-      "recorded_at_utc": "2026-09-02T02:46:19Z",
+      "event_id": "operation-02fd33602b3555b6a20f66baabb096f3",
+      "recorded_at_utc": "2026-09-02T21:04:23Z",
+      "operation": "record",
+      "command": "gaps:create",
+      "result_status": "open",
+      "evidence_paths": [
+        "workspace-meta/gaps/records/gap-6c6eb1a7982550999213f764e115e7ad.json"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-7fd0240cada65cc5b33deeec8cce7037",
+      "recorded_at_utc": "2026-09-02T21:04:29Z",
+      "operation": "record",
+      "command": "gaps:create",
+      "result_status": "open",
+      "evidence_paths": [
+        "workspace-meta/gaps/records/gap-8c436abb192752cb90c955c0158d611e.json"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-bd0f0c81facd5049bf456073ca251211",
+      "recorded_at_utc": "2026-09-02T21:05:09Z",
+      "operation": "query",
+      "command": "brief",
+      "result_status": "passed",
+      "evidence_paths": [
+        "machine/agent-packs/pack-20260902-210508-528520-01.json",
+        "machine/agent-packs/pack-20260902-210508-528520-01.md"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-f893b116e3775a79a299c9c96f613505",
+      "recorded_at_utc": "2026-09-02T21:06:39Z",
+      "operation": "query",
+      "command": "brief",
+      "result_status": "passed",
+      "evidence_paths": [
+        "machine/agent-packs/pack-20260902-210639-532261-01.json",
+        "machine/agent-packs/pack-20260902-210639-532261-01.md"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-28ffe498eef7506891d0cfdc63568573",
+      "recorded_at_utc": "2026-09-02T21:10:24Z",
+      "operation": "record",
+      "command": "record:session",
+      "result_status": "agent-reviewed",
+      "evidence_paths": [
+        "human/sessions/第三开发波次实验派发.md",
+        "markdown/sessions/第三开发波次实验派发.md"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-bf0019d55dbe519eaa774f2e0a52ee37",
+      "recorded_at_utc": "2026-09-02T21:10:27Z",
+      "operation": "query",
+      "command": "brief",
+      "result_status": "passed",
+      "evidence_paths": [
+        "machine/agent-packs/pack-20260902-211026-799049-01.json",
+        "machine/agent-packs/pack-20260902-211026-799049-01.md"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-33ce993c86ec5d5da333b9f202ee9edf",
+      "recorded_at_utc": "2026-09-02T21:10:54Z",
+      "operation": "query",
+      "command": "brief",
+      "result_status": "passed",
+      "evidence_paths": [
+        "machine/agent-packs/pack-20260902-211053-991386-01.json",
+        "machine/agent-packs/pack-20260902-211053-991386-01.md"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-542f6aba43eb595abe7474e33378d2e9",
+      "recorded_at_utc": "2026-09-02T21:11:28Z",
+      "operation": "query",
+      "command": "brief",
+      "result_status": "passed",
+      "evidence_paths": [
+        "machine/agent-packs/pack-20260902-211128-460697-01.json",
+        "machine/agent-packs/pack-20260902-211128-460697-01.md"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-d65adc909ccc5e92bc9d9006d4461ff3",
+      "recorded_at_utc": "2026-09-02T21:11:43Z",
+      "operation": "query",
+      "command": "brief",
+      "result_status": "passed",
+      "evidence_paths": [
+        "machine/agent-packs/pack-20260902-211143-277493-01.json",
+        "machine/agent-packs/pack-20260902-211143-277493-01.md"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-70d35dc69f105b34b35ef2e251554a53",
+      "recorded_at_utc": "2026-09-02T21:43:57Z",
+      "operation": "query",
+      "command": "brief",
+      "result_status": "passed",
+      "evidence_paths": [
+        "machine/agent-packs/pack-20260902-214357-419240-01.json",
+        "machine/agent-packs/pack-20260902-214357-419240-01.md"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-75139f34e6e85e1f816da88ed125a265",
+      "recorded_at_utc": "2026-09-02T21:51:51Z",
+      "operation": "query",
+      "command": "brief",
+      "result_status": "passed",
+      "evidence_paths": [
+        "machine/agent-packs/pack-20260902-215150-480109-01.json",
+        "machine/agent-packs/pack-20260902-215150-480109-01.md"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-41db1ae9890a59cab82468b92315df48",
+      "recorded_at_utc": "2026-09-02T22:41:39Z",
+      "operation": "record",
+      "command": "record:replace",
+      "result_status": "replaced",
+      "evidence_paths": [
+        "workspace-meta/record-replace/record-replace-916b89bdcc195a3f836b5a0424ff9f58/manifest.json"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-53b64df03ef5579e80802e9d6965be02",
+      "recorded_at_utc": "2026-09-02T22:41:42Z",
+      "operation": "record",
+      "command": "record:replace",
+      "result_status": "replaced",
+      "evidence_paths": [
+        "workspace-meta/record-replace/record-replace-faf783d910c859c88237e10e271680f9/manifest.json"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-0cf746a359905475a19742652e0d89c0",
+      "recorded_at_utc": "2026-09-02T22:50:19Z",
+      "operation": "record",
+      "command": "record:experiment",
+      "result_status": "agent-reviewed",
+      "evidence_paths": [
+        "human/experiments/单文档自动页面扩张对照实验.md",
+        "markdown/experiments/单文档自动页面扩张对照实验.md"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-065300c843ff556a8a84ce360d3d4c6c",
+      "recorded_at_utc": "2026-09-02T22:50:25Z",
+      "operation": "record",
+      "command": "record:experiment",
+      "result_status": "agent-reviewed",
+      "evidence_paths": [
+        "human/experiments/真实语义向量检索三臂对照实验.md",
+        "markdown/experiments/真实语义向量检索三臂对照实验.md"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-a75c1ed2f6cd59ecada2eb58b3886716",
+      "recorded_at_utc": "2026-09-02T22:51:31Z",
       "operation": "audit",
-      "command": "gaps:audit",
+      "command": "reference:audit",
       "result_status": "passed",
       "evidence_paths": []
     },
     {
       "schema_version": 1,
-      "event_id": "operation-4c96ca3ada3d5ee5a9af52726b85088b",
-      "recorded_at_utc": "2026-09-02T02:46:31Z",
-      "operation": "maintenance",
-      "command": "maintain",
-      "result_status": "passed",
-      "evidence_paths": [
-        "workspace-meta/maintenance/latest.json"
-      ]
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-c4cde0bb127850c7912a09c5d2d283c2",
-      "recorded_at_utc": "2026-09-02T02:46:43Z",
-      "operation": "query",
-      "command": "status",
-      "result_status": "complete",
-      "evidence_paths": []
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-88023508397058adb873d2f052dbf440",
-      "recorded_at_utc": "2026-09-02T02:46:43Z",
+      "event_id": "operation-68f4889287835b98b46393beaeea3891",
+      "recorded_at_utc": "2026-09-02T22:51:48Z",
       "operation": "query",
       "command": "brief",
       "result_status": "passed",
       "evidence_paths": [
-        "machine/agent-packs/pack-20260902-024643-751228-01.json",
-        "machine/agent-packs/pack-20260902-024643-751228-01.md"
+        "machine/agent-packs/pack-20260902-225148-363978-01.json",
+        "machine/agent-packs/pack-20260902-225148-363978-01.md"
       ]
     },
     {
       "schema_version": 1,
-      "event_id": "operation-07f36cec35f95fe2a01d9ae9865df16b",
-      "recorded_at_utc": "2026-09-02T02:48:55Z",
+      "event_id": "operation-af97d7f1d2955cf6b7c325d303de05ea",
+      "recorded_at_utc": "2026-09-02T22:58:28Z",
       "operation": "query",
       "command": "brief",
       "result_status": "passed",
       "evidence_paths": [
-        "machine/agent-packs/pack-20260902-024855-800423-01.json",
-        "machine/agent-packs/pack-20260902-024855-800423-01.md"
+        "machine/agent-packs/pack-20260902-225827-415575-01.json",
+        "machine/agent-packs/pack-20260902-225827-415575-01.md"
       ]
     }
   ],
   "bounded_drops": {
     "size_or_count": 0,
     "retention": 0,
-    "deduplicated": 417
+    "deduplicated": 584
   }
 }

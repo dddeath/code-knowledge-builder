@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from ckb_core.common import CkbError
+from ckb_core.freshness import query_collaboration_records
 from ckb_core.management_agent import (
     MANAGEMENT_CAPABILITIES,
     _audit_event,
@@ -295,6 +296,8 @@ class ManagementBindingLifecycleTest(unittest.TestCase):
         drift = binding_status("conversation-fixture", "generic", self.registry)
         self.assertEqual(drift["status"], "blocked")
         self.assertIn("integration-head-drift", drift["blockers"])
+        self.assertIn("knowledge-facts-stale-committed", drift["blockers"])
+        self.assertEqual(drift["fact_freshness"]["state"], "stale-committed")
         (self.repo / "app.py").write_text("def value():\n    return 3\n", encoding="utf-8")
         dirty = binding_status("conversation-fixture", "generic", self.registry)
         self.assertIn("integration-worktree-dirty", dirty["blockers"])
@@ -380,6 +383,7 @@ class ManagementBindingLifecycleTest(unittest.TestCase):
             )
         task = created["task"]
         self.assertEqual(created["status"], "created")
+        self.assertEqual(created["collaboration"]["status"], "planned")
         self.assertTrue(worktree.is_dir())
         self.assertEqual(git(worktree, "rev-parse", "HEAD"), task["base_commit"])
         self.assertEqual(git(worktree, "branch", "--show-current"), "codex/feature-task")
@@ -400,6 +404,7 @@ class ManagementBindingLifecycleTest(unittest.TestCase):
         with ThreadPoolExecutor(max_workers=6) as executor:
             reviews = list(executor.map(lambda _index: review_management_task(task["dispatch_id"], self.registry), range(6)))
         self.assertTrue(all(item["status"] == "passed" for item in reviews))
+        self.assertTrue(all(item["collaboration"]["status"] == "implemented" for item in reviews))
         self.assertEqual(sum(not item["idempotent"] for item in reviews), 1)
         reviewed = reviews[0]
         self.assertEqual(reviewed["verification"]["results"][0]["exit_status"], 0)
@@ -407,6 +412,10 @@ class ManagementBindingLifecycleTest(unittest.TestCase):
         after = management_task_status(task["dispatch_id"], self.registry)
         self.assertEqual(after["status"], "merge-ready")
         self.assertFalse(after["merge_performed"])
+        statuses = {item["status"] for item in after["collaboration"]["records"]}
+        self.assertEqual(statuses, {"planned", "implemented"})
+        queried = query_collaboration_records(self.output, task="feature-task")
+        self.assertEqual({item["status"] for item in queried["records"]}, {"planned", "implemented"})
         self.assertEqual(audit_manager_registry(self.registry)["status"], "passed")
         (worktree / "feature.py").write_text("FEATURE = False\n", encoding="utf-8")
         stale = management_task_status(task["dispatch_id"], self.registry)

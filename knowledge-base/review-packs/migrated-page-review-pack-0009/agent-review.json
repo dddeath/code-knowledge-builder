@@ -3,59 +3,20 @@
   "pack_id": "migrated-page-review-pack-0009",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T02:36:31Z",
+  "reviewed_at_utc": "2026-09-02T22:45:00Z",
   "reviews": [
     {
-      "entity_id": "file-0df430405ded5f40933b111834abb39a",
+      "entity_id": "file-3167febfd9395d1e9217b7f2b6ed20d2",
       "classification": "page",
-      "owner_page_id": "file-0df430405ded5f40933b111834abb39a",
-      "source_path": "scripts/ckb_core/feedback.py",
+      "owner_page_id": "file-3167febfd9395d1e9217b7f2b6ed20d2",
+      "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 1,
-      "end_line": 595,
+      "end_line": 1714,
       "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 1 至 595 行，核对 `scripts/ckb_core/feedback.py` 的签名、分支和数据流后写出本条简体中文说明。",
-      "meaning_zh": "`scripts/ckb_core/feedback.py` 是 `scripts/ckb_core/feedback.py` 中负责汇总并提供定位式人工反馈的创建、重定位、审计与归档的文件入口。",
-      "role_zh": "它按源码所示的参数、条件分支和数据结构完成汇总并提供定位式人工反馈的创建、重定位、审计与归档，并把确定结果交给调用方或后续审计、索引、投影阶段。",
-      "change_when_zh": "当定位式人工反馈的创建、重定位、审计与归档的输入格式、状态规则、错误处理或输出契约变化时，需要修改该代码单元并复核对应测试。"
-    },
-    {
-      "entity_id": "ent-30cbb59df506553e9113be896e808b0c",
-      "classification": "page",
-      "owner_page_id": "ent-30cbb59df506553e9113be896e808b0c",
-      "source_path": "scripts/ckb_core/feedback.py",
-      "start_line": 437,
-      "end_line": 545,
-      "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 437 至 545 行，核对 `audit_feedback` 的签名、分支和数据流后写出本条简体中文说明。",
-      "meaning_zh": "`audit_feedback` 是 `scripts/ckb_core/feedback.py` 中负责检查反馈锚点、状态、镜像、归档与落实记录的一致性的函数。",
-      "role_zh": "它按源码所示的参数、条件分支和数据结构完成检查反馈锚点、状态、镜像、归档与落实记录的一致性，并把确定结果交给调用方或后续审计、索引、投影阶段。",
-      "change_when_zh": "当定位式人工反馈的创建、重定位、审计与归档的输入格式、状态规则、错误处理或输出契约变化时，需要修改该代码单元并复核对应测试。"
-    },
-    {
-      "entity_id": "file-af3dc057f14d5db89edbb090c4698d91",
-      "classification": "page",
-      "owner_page_id": "file-af3dc057f14d5db89edbb090c4698d91",
-      "source_path": "scripts/ckb_core/gitrepo.py",
-      "start_line": 1,
-      "end_line": 419,
-      "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/gitrepo.py` 第 1 至 419 行，核对 `scripts/ckb_core/gitrepo.py` 的签名、分支和数据流后写出本条简体中文说明。",
-      "meaning_zh": "`scripts/ckb_core/gitrepo.py` 是 `scripts/ckb_core/gitrepo.py` 中负责汇总并提供固定 Git 提交、blob、工作树与源码快照读取的文件入口。",
-      "role_zh": "它按源码所示的参数、条件分支和数据结构完成汇总并提供固定 Git 提交、blob、工作树与源码快照读取，并把确定结果交给调用方或后续审计、索引、投影阶段。",
-      "change_when_zh": "当固定 Git 提交、blob、工作树与源码快照读取的输入格式、状态规则、错误处理或输出契约变化时，需要修改该代码单元并复核对应测试。"
-    },
-    {
-      "entity_id": "ent-d2538411aaaa566d8147394a264d6b92",
-      "classification": "page",
-      "owner_page_id": "ent-d2538411aaaa566d8147394a264d6b92",
-      "source_path": "scripts/ckb_core/gitrepo.py",
-      "start_line": 194,
-      "end_line": 217,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/gitrepo.py` 第 194-217 行的源码摘录，文件、符号与行范围一致。",
-      "meaning_zh": "`preflight` 是 `scripts/ckb_core/gitrepo.py` 第 194-217 行定义的函数，本页绑定该固定源码范围。",
-      "role_zh": "负责验证固定 Git 快照，并读取提交、树、文件模式和对象内容。",
-      "change_when_zh": "当 `preflight` 的输入、输出、状态转换或失败返回变化时，应更新本页并重跑对应测试。"
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/agent_protocol_batch.py` 第 1-1714 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`scripts/ckb_core/agent_protocol_batch.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
+      "role_zh": "负责批量升级 Agent Protocol，包括计划、锁、备份、审计、切换和回滚。",
+      "change_when_zh": "当 `scripts/ckb_core/agent_protocol_batch.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
     }
   ]
 }

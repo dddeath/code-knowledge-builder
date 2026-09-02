@@ -14,20 +14,20 @@
 
 ## 谁会来到这里
 
-- [[build_manual_index 等测试场景]] 会使用这里提供的行为。
+- [[assertions 等测试场景]] 会使用这里提供的行为。
+- [[check_fact_freshness 与 _root 的协作实现]] 会使用这里提供的行为。
 - [[package_showcase]] 会使用这里提供的行为。
 - [[package_showcase 与 _parse_sample 的协作实现]] 会使用这里提供的行为。
-- [[parser]] 会使用这里提供的行为。
 - 可从 [[tests 职责导览]] 进入本页。
 
 ## 相关测试
 
 - [[CodeKnowledgeBuilderTests]]
 - [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[MigrationTest]]
-- [[ScopeExtensionTest]]
-- [[build_manual_index 等测试场景]]
-- [[command 等测试场景]]
+- [[FactFreshnessStateMachineTest]]
+- [[FactFreshnessStateMachineTest 等测试场景]]
+- [[PdfReferenceExtractionTests]]
+- [[PdfReferenceExtractionTests 等测试场景]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 

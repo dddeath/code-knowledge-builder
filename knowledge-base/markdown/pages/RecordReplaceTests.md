@@ -18,34 +18,23 @@
 - 实现时会用到 [[CodeKnowledgeBuilderTests 等测试场景]]。
 - 实现时会用到 [[RecordReplaceTests 等测试场景]]。
 - 实现时会用到 [[append]]。
-- 实现时会用到 [[audit_global 与 _replace_output_prefix 的协作实现]]。
 - 实现时会用到 [[build_case 等测试场景]]。
+- 实现时会用到 [[finalize]]。
+- 实现时会用到 [[finalize 与 _replace_output_prefix 的协作实现]]。
 - 实现时会用到 [[replace_note]]。
-- 实现时会用到 [[rollback]]。
 
 ## 谁会来到这里
 
 - [[CodeKnowledgeBuilderTests 等测试场景]] 关联到这里的验证场景。
 - [[RecordReplaceTests 等测试场景]] 汇总了本页。
-- [[audit_feedback]] 关联到这里的验证场景。
-- [[audit_gap_register 与 _root 的协作实现]] 关联到这里的验证场景。
-- [[audit_migration 与 _entity_key 的协作实现]] 关联到这里的验证场景。
 - [[audit_obsidian]] 关联到这里的验证场景。
 - [[audit_obsidian 与 prepare_vault 的协作实现]] 关联到这里的验证场景。
 - [[audit_operation_journal 与 _root 的协作实现]] 关联到这里的验证场景。
-- [[audit_output_contract]] 关联到这里的验证场景。
-- [[audit_output_contract 与 _default_ckb 的协作实现]] 关联到这里的验证场景。
-- [[audit_references]] 关联到这里的验证场景。
-- [[audit_references 与 _root 的协作实现]] 关联到这里的验证场景。
-- [[audit_work_record_index]] 关联到这里的验证场景。
-- [[audit_work_record_index 与 _contains_chinese 的协作实现]] 关联到这里的验证场景。
 - [[create_batch_plan 与 ProtocolRelease 的协作实现]] 关联到这里的验证场景。
 - [[module_name]] 关联到这里的验证场景。
-- [[query_graph 与 _networkx_modules 的协作实现]] 关联到这里的验证场景。
 - [[record_note]] 关联到这里的验证场景。
 - [[replace_note]] 关联到这里的验证场景。
 - [[replace_note 与 RecordReplaceLockError 的协作实现]] 关联到这里的验证场景。
-- [[sync_human_layer]] 关联到这里的验证场景。
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 

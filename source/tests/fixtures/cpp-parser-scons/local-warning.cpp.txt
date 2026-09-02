@@ -1,0 +1,10 @@
+int before(int value) { return value + 1; }
+
+int conditional_value(int value) {
+  if (value > 0 {
+    return value;
+  }
+  return 0;
+}
+
+int after(int value) { return value - 1; }

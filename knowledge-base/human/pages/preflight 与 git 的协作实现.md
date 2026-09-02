@@ -16,18 +16,17 @@
 
 - 实现时会用到 [[CkbError]]。
 - 实现时会用到 [[CkbError 与 DependencyError 的协作实现]]。
+- 实现时会用到 [[FactFreshnessStateMachineTest]]。
 - 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
 - 实现时会用到 [[append]]。
-- 实现时会用到 [[audit_global 与 _replace_output_prefix 的协作实现]]。
 - 实现时会用到 [[command]]。
 - 实现时会用到 [[parser]]。
 - 主要代码单元是 [[preflight]]。
 
 ## 谁会来到这里
 
-- [[audit_global]] 会使用这里提供的行为。
-- [[audit_global 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 - [[audit_migration 与 _entity_key 的协作实现]] 会使用这里提供的行为。
+- [[finalize 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 - [[preflight]] 会使用这里提供的行为。
 - 可从 [[scripts 职责导览]] 进入本页。
 
@@ -35,7 +34,7 @@
 
 - [[CodeKnowledgeBuilderTests]]
 - [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[HumanPageTemplateValidationTests]]
+- [[FactFreshnessStateMachineTest]]
 - [[KeywordFallbackRetrievalWiringTests]]
 - [[MigrationTest]]
 - [[MigrationTest 等测试场景]]

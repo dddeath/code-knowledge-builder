@@ -3,20 +3,20 @@
   "pack_id": "migrated-page-review-pack-0027",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T02:37:10Z",
+  "reviewed_at_utc": "2026-09-02T22:45:22Z",
   "reviews": [
     {
-      "entity_id": "file-87b5fb9e14cf5d8c9c87a3e800594afe",
+      "entity_id": "ent-7f9887b43446595e96da81689f04e412",
       "classification": "page",
-      "owner_page_id": "file-87b5fb9e14cf5d8c9c87a3e800594afe",
-      "source_path": "scripts/ckb_core/pipeline.py",
-      "start_line": 1,
-      "end_line": 3482,
+      "owner_page_id": "ent-7f9887b43446595e96da81689f04e412",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 1827,
+      "end_line": 1849,
       "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/pipeline.py` 第 1 至 3482 行，核对 `scripts/ckb_core/pipeline.py` 的签名、分支和数据流后写出本条简体中文说明。",
-      "meaning_zh": "`scripts/ckb_core/pipeline.py` 是 `scripts/ckb_core/pipeline.py` 中负责汇总并提供固定快照构建、审阅、合并、最终审计和完成状态机的文件入口。",
-      "role_zh": "它按源码所示的参数、条件分支和数据结构完成汇总并提供固定快照构建、审阅、合并、最终审计和完成状态机，并把确定结果交给调用方或后续审计、索引、投影阶段。",
-      "change_when_zh": "当固定快照构建、审阅、合并、最终审计和完成状态机的输入格式、状态规则、错误处理或输出契约变化时，需要修改该代码单元并复核对应测试。"
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/machine_knowledge.py` 第 1827 至 1849 行；摘录与 Git blob 5f8b9b704513 一致。",
+      "meaning_zh": "代码单元 `retrieve_machine`负责构建双 SQLite 检索层，并组合 FTS5、图关系、工作记录和源码新鲜度生成检索包。",
+      "role_zh": "它属于Agent 先检索后窄读源码的核心机器入口，当前说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当索引结构、词项、排序、预算、警告传播或检索输出合同变化时，应同步复查本页及其直接关联测试。"
     }
   ]
 }

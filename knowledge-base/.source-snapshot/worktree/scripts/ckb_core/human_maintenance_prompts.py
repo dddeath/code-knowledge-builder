@@ -980,7 +980,7 @@ _ACTIONS: tuple[ActionContract, ...] = (
     ),
     ActionContract(
         action="template",
-        purpose_zh="使用现有 template proposal 状态机管理合同扩展，并使用 page-author 对人类页面执行类型化 init/inspect/render/validate/package；package 只写隔离 staging。",
+        purpose_zh="使用现有 template proposal 状态机管理 V3 章节合同扩展，并使用 page-author 分离 human_summary 与 machine_evidence_refs，执行 init/inspect/render/validate/package；package 只写隔离 staging。",
         parameters=(
             _OUT,
             _p(
@@ -1017,8 +1017,8 @@ _ACTIONS: tuple[ActionContract, ...] = (
             _p("workspace_root", "path", "page-author 输入、来源和 staging 的固定工作区根。", default="<path:WORKSPACE_ROOT>"),
             _p("source_sha256", "sha256", "page-inspect 的可选来源 SHA-256。", default="<sha256:none>"),
             _p("staging", "path", "page-package 使用的新 staging 目录；不得进入受管投影。", default="<path:staging/page-author-package>"),
-            _p("contract_version", "semver", "page-author 使用的人类页面合同版本。", default="1.0.0"),
-            _p("schema_version", "integer", "page-author 使用的人类页面 schema 版本。", default=1),
+            _p("contract_version", "semver", "page-author 使用的人类页面合同版本；V3 固定为 3.0.0。", default="3.0.0"),
+            _p("schema_version", "integer", "page-author 使用的人类页面 schema 版本；V3 固定为 3。", default=3),
             _p("scope", "enum", "只读 builtin registry 与 output-local proposal store 边界。", default="output-local-template-store", choices=("output-local-template-store",)),
             _PYTHON,
             _CKB,
@@ -1114,7 +1114,7 @@ _ACTIONS: tuple[ActionContract, ...] = (
             ),
             _s(
                 "page-author-init",
-                "读取冻结页面合同并返回指定 page_type/mode 的最小类型化字段，不写文件。",
+                "读取冻结 V3 页面合同，返回指定 page_type/mode 的最小类型化字段和每节必填、允许、禁止、预算、来源、时效、披露、空值约束，不写文件。",
                 "existing-command",
                 "& {python} {ckb} page-author init --page-type {page_type} --mode {page_mode} --contract-version {contract_version} --schema-version {schema_version_raw}",
                 required_for_audit=True,
@@ -1136,7 +1136,7 @@ _ACTIONS: tuple[ActionContract, ...] = (
             ),
             _s(
                 "page-author-render",
-                "从类型化 JSON 渲染候选 Markdown，并立即运行页面合同验证；不写受管投影。",
+                "从类型化 JSON 只渲染各节 human_summary，machine_evidence_refs 保持在结构化输入中；随后立即运行页面合同验证，不写受管投影。",
                 "existing-command",
                 "& {python} {ckb} page-author render --input {authoring_input} --workspace-root {workspace_root}",
                 required_for_audit=True,
@@ -1147,7 +1147,7 @@ _ACTIONS: tuple[ActionContract, ...] = (
             ),
             _s(
                 "page-author-validate",
-                "确定性验证候选 Markdown 的结构、预算、链接、当前事实、来源和适用边界。",
+                "确定性验证候选 Markdown 的结构、章节预算、链接、当前事实、来源、L1-L3 披露和适用边界，并拒绝 L4 证据泄漏。",
                 "existing-command",
                 "& {python} {ckb} page-author validate --input {authoring_input}",
                 required_for_audit=True,
@@ -1158,7 +1158,7 @@ _ACTIONS: tuple[ActionContract, ...] = (
             ),
             _s(
                 "page-author-package",
-                "只把已验证 body.md 和 manifest.json 写入新的 staging 目录，并返回正式 next_entry；不得直接写 human/markdown/SQLite。",
+                "只把已验证 body.md、machine-only manifest.json 和文件型 evidence 副本写入新的 staging 目录；manifest 将文件 target 规范化为 manifest-parent 相对路径，URI target 保持原值，再返回正式 next_entry。",
                 "existing-command",
                 "& {python} {ckb} page-author package --input {authoring_input} --workspace-root {workspace_root} --staging {staging}",
                 required_for_audit=True,
@@ -1175,7 +1175,8 @@ _ACTIONS: tuple[ActionContract, ...] = (
             "rollback 前 proposal 不是 active approved extension、version/content hash 漂移或 reviewer_kind 不是 human 时停止。",
             "page-inspect 使用 mode=new 时拒绝；new 直接从 page-init 开始。",
             "page-package 缺少 human_confirmation=page-package，或 staging 位于 human/markdown/machine/SQLite、已存在或超出 workspace_root 时拒绝。",
-            "page-package 只返回 body/manifest 哈希和正式 next_entry；不得在本 operation 中继续写 human/markdown/SQLite。",
+            "page-package 只返回 body、manifest、package-owned evidence、section_evidence 哈希和正式 next_entry；整包移动后每个文件 target 仍必须可从 manifest.parent 重开并核验。",
+            "contract_version=1.0.0 或 schema_version=1 的旧输入必须显式按 V3 章节重写，不得静默套用新标题。",
         ),
         human_confirmation_points=(
             "operation=audit 时人类逐项核对 proposal/version/content_hash，填写 reviewer、conclusion，并设置 human_confirmation=template-audit。",
@@ -1198,13 +1199,17 @@ _ACTIONS: tuple[ActionContract, ...] = (
             "page_type",
             "page_mode",
             "candidate_sha256",
+            "section_contract_result",
+            "disclosure_result",
+            "machine_evidence_separation",
+            "section_evidence_sha256",
             "staging_path",
             "next_entry",
             "direct_projection_write",
         ),
         rollback=RollbackContract(
             "conditional",
-            "audit approve 后使用现有 template rollback；page-package 只拥有新 staging 目录，其回滚依赖删除 package-owned body.md/manifest.json；其他 operation 不需要回滚。",
+            "audit approve 后使用现有 template rollback；page-package 只拥有新 staging 目录及其中的 body.md、manifest.json 和 evidence 副本，回滚删除该目录而不删除 workspace_root 原文件；其他 operation 不需要回滚。",
             "& {python} {ckb} template rollback --out {knowledge_base} --proposal {proposal_id} --reviewer-kind {reviewer_kind} --reviewer-id {reviewer_id} --reason {conclusion} --expected-content-hash {content_hash}",
         ),
         dependencies=(),
@@ -1473,6 +1478,19 @@ def validate_human_maintenance_invocation(action: str, items: Sequence[str]) -> 
                 errors.append(_error("invalid-template-content-hash", "template content_hash 必须是小写 SHA-256。", parameter="content_hash"))
         if operation == "page-inspect" and normalized.get("page_mode") == "new":
             errors.append(_error("invalid-page-author-mode", "page-inspect 只接受 supplement 或 revise。", parameter="page_mode"))
+        if operation in {"page-init", "page-inspect"} and (
+            normalized.get("contract_version") != "3.0.0" or normalized.get("schema_version") != 3
+        ):
+            errors.append(
+                _error(
+                    "page-author-v3-required",
+                    "page-author 必须使用 contract_version=3.0.0 与 schema_version=3；旧输入需要显式重写。",
+                    actual={
+                        "contract_version": normalized.get("contract_version"),
+                        "schema_version": normalized.get("schema_version"),
+                    },
+                )
+            )
         if operation == "page-package":
             for name in ("authoring_input", "workspace_root", "staging"):
                 if _is_placeholder(normalized.get(name)):

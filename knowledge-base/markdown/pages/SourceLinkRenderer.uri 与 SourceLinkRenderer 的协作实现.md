@@ -23,7 +23,7 @@
 ## 谁会来到这里
 
 - [[SourceLinkRenderer.uri]] 会使用这里提供的行为。
-- [[audit_global 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
+- [[finalize 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 - [[freeze 的协作边界]] 会使用这里提供的行为。
 - [[graph 的协作边界]] 会使用这里提供的行为。
 - [[record_note]] 会使用这里提供的行为。

@@ -15,7 +15,6 @@
 ## 相关代码
 
 - 主要代码单元是 [[build_case]]。
-- 实现时会用到 [[rollback]]。
 
 ## 谁会来到这里
 
@@ -26,33 +25,43 @@
 - [[CanvasPathTests]] 会使用这里提供的行为。
 - [[CanvasRollbackTests]] 会使用这里提供的行为。
 - [[CanvasTransactionTests]] 会使用这里提供的行为。
-- [[CodeKnowledgeBuilderTests 等测试场景]] 会使用这里提供的行为。
-- [[HumanPageAuthoringPackageTests 等测试场景]] 会使用这里提供的行为。
+- [[FactFreshnessStateMachineTest]] 会使用这里提供的行为。
+- [[FactFreshnessStateMachineTest 等测试场景]] 会使用这里提供的行为。
+- [[HumanPageAuthoringValidationFailureTests]] 会使用这里提供的行为。
+- [[HumanPageAuthoringValidationFailureTests 等测试场景]] 会使用这里提供的行为。
 - [[KeywordFallbackRetrievalWiringTests]] 会使用这里提供的行为。
 - [[KeywordFallbackRetrievalWiringTests 等测试场景]] 会使用这里提供的行为。
 - [[MigrationTest]] 会使用这里提供的行为。
 - [[PackageReleaseTests]] 会使用这里提供的行为。
+- [[PageFanoutBenchmarkTests]] 会使用这里提供的行为。
+- [[PageFanoutGeneratorTests]] 会使用这里提供的行为。
+- [[PdfReferenceExtractionTests]] 会使用这里提供的行为。
+- [[PdfReferenceExtractionTests 等测试场景]] 会使用这里提供的行为。
 - [[RecordReplaceTests]] 会使用这里提供的行为。
+- [[TagNavigationStateMachineTests]] 会使用这里提供的行为。
 - [[TemplateProposalStoreTests]] 会使用这里提供的行为。
 - [[_Transport.close 与 _StartGate 的协作实现]] 会使用这里提供的行为。
 - [[append 等测试场景]] 会使用这里提供的行为。
-- [[audit_global]] 会使用这里提供的行为。
-- [[benchmark 的协作边界]] 会使用这里提供的行为。
+- [[benchmark 的协作边界（cbc71645）]] 会使用这里提供的行为。
 - [[build_case]] 会使用这里提供的行为。
+- [[cli 的协作边界（51995ea5）]] 会使用这里提供的行为。
+- [[cli 的协作边界（prototypes）]] 会使用这里提供的行为。
 - [[command 等测试场景]] 会使用这里提供的行为。
+- [[commands 的协作边界]] 会使用这里提供的行为。
 - [[create_batch_plan]] 会使用这里提供的行为。
 - [[create_knowledge_batch_plan]] 会使用这里提供的行为。
+- [[extract_pdf 与 PdfExtractionError 的协作实现]] 会使用这里提供的行为。
 - [[freeze 的协作边界]] 会使用这里提供的行为。
+- [[generator 的协作边界]] 会使用这里提供的行为。
 - [[get_human_page_template 与 SectionContract 的协作实现]] 会使用这里提供的行为。
+- [[ingest 与 connect 的协作实现]] 会使用这里提供的行为。
 - [[parser]] 会使用这里提供的行为。
-- [[render_human_maintenance_prompt]] 会使用这里提供的行为。
-- [[render_human_maintenance_prompt 与 ParameterSpec 的协作实现]] 会使用这里提供的行为。
 - [[render_page_author]] 会使用这里提供的行为。
 - [[render_page_author 与 _error 的协作实现]] 会使用这里提供的行为。
 - [[replace_note]] 会使用这里提供的行为。
-- [[rollback 与 RenderedBundle 的协作实现]] 会使用这里提供的行为。
 - 可从 [[tests 职责导览]] 进入本页。
 - [[transaction 的协作边界]] 会使用这里提供的行为。
+- [[validate_human_maintenance_invocation 与 ParameterSpec 的协作实现]] 会使用这里提供的行为。
 
 ## 相关测试
 

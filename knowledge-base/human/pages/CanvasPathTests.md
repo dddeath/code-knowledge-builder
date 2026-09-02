@@ -16,19 +16,25 @@
 
 - 实现时会用到 [[build_case]]。
 - 实现时会用到 [[build_case 等测试场景]]。
-- 实现时会用到 [[contracts 的协作边界]]。
-- 实现时会用到 [[rollback 与 RenderedBundle 的协作实现]]。
+- 实现时会用到 [[commands 的协作边界]]。
+- 实现时会用到 [[contracts 的协作边界（2ef5688e）]]。
 - 实现时会用到 [[validate]]。
 
 ## 谁会来到这里
 
 - [[CanvasContractTests]] 关联到这里的验证场景。
 - [[CanvasPathTests 等测试场景]] 汇总了本页。
+- [[FactFreshnessStateMachineTest]] 关联到这里的验证场景。
 - [[build_case]] 关联到这里的验证场景。
+- [[check_fact_freshness]] 关联到这里的验证场景。
+- [[commands 的协作边界]] 关联到这里的验证场景。
 - [[freeze 的协作边界]] 关联到这里的验证场景。
+- [[graph 的协作边界]] 关联到这里的验证场景。
 - [[run_keyword_provider 与 KeywordProviderConfig 的协作实现]] 关联到这里的验证场景。
 - [[source_files]] 关联到这里的验证场景。
+- [[transaction 的协作边界]] 关联到这里的验证场景。
 - [[validate]] 关联到这里的验证场景。
+- [[validate 与 canonical 的协作实现]] 关联到这里的验证场景。
 
 ## 内部细节
 

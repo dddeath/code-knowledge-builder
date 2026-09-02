@@ -15,5 +15,6 @@ The lite distribution vendors the pure-Python NetworkX 3.5 package and Graphify'
 - Logseq default file-graph `config.edn`: an unmodified template from commit `fab27740975dcda1e93dbca718d1f620eda543c7`, included under the same GNU Affero General Public License version 3 terms and source provenance.
 - Graphify community detector: unmodified `graphify/cluster.py` from Graphify `0.9.48`, commit `b2cd36267456c166788c95be6e68574064a92a42`; Apache License 2.0. The upstream `LICENSE`, `LICENSE-MIT`, and `NOTICE` are retained beside the source.
 - NetworkX 3.5: unmodified pure-Python wheel content, BSD-3-Clause. Wheel metadata and license files are retained beside the package.
+- pypdf 6.16.2: unmodified pure-Python wheel content, BSD-3-Clause. The Full Windows x64 runtime retains the exact wheel, installed metadata, and license; OCR engines are not bundled.
 
 The full package preserves the license and notice files supplied by every component under `assets/runtime/win-x64/licenses/`.

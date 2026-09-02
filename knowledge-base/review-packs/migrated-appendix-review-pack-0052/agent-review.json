@@ -1,0 +1,262 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-appendix-review-pack-0052",
+  "kind": "appendix-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-02T22:47:19Z",
+  "reviews": [
+    {
+      "entity_id": "ent-21bab030d0a65c5893bdfa8fa8d47bb2",
+      "classification": "appendix",
+      "owner_page_id": "file-04dfb0535dfe5349806887d746bb579f",
+      "source_path": "tests/test_management_agent.py",
+      "start_line": 129,
+      "end_line": 479,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_management_agent.py` 第 129 至 479 行；摘录与 Git blob 022b7a447d3a 一致。",
+      "description_zh": "`setUp` 完成管理 Agent 回归验证中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-7eaad3dc8c905a6e8f8d0831f045af89",
+      "classification": "appendix",
+      "owner_page_id": "file-04dfb0535dfe5349806887d746bb579f",
+      "source_path": "tests/test_management_agent.py",
+      "start_line": 130,
+      "end_line": 156,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_management_agent.py` 第 130 至 156 行；摘录与 Git blob 022b7a447d3a 一致。",
+      "description_zh": "`setUp` 完成管理 Agent 回归验证中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-b237cc4c8459540ab8ed1a1cec1ab87b",
+      "classification": "appendix",
+      "owner_page_id": "file-04dfb0535dfe5349806887d746bb579f",
+      "source_path": "tests/test_management_agent.py",
+      "start_line": 158,
+      "end_line": 159,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_management_agent.py` 第 158 至 159 行；摘录与 Git blob 022b7a447d3a 一致。",
+      "description_zh": "`tearDown` 完成管理 Agent 回归验证中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-14f3700d62385672ae57dd080dcbe687",
+      "classification": "appendix",
+      "owner_page_id": "file-04dfb0535dfe5349806887d746bb579f",
+      "source_path": "tests/test_management_agent.py",
+      "start_line": 161,
+      "end_line": 171,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_management_agent.py` 第 161 至 171 行；摘录与 Git blob 022b7a447d3a 一致。",
+      "description_zh": "`payload` 完成管理 Agent 回归验证中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-05e9c69fa0065fef96921a9b77debf8c",
+      "classification": "appendix",
+      "owner_page_id": "file-04dfb0535dfe5349806887d746bb579f",
+      "source_path": "tests/test_management_agent.py",
+      "start_line": 173,
+      "end_line": 195,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_management_agent.py` 第 173 至 195 行；摘录与 Git blob 022b7a447d3a 一致。",
+      "description_zh": "该测试验证“bind is idempotent status is …”场景，保护管理 Agent 回归验证的预期结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-a5290c0581435c3fa1b03692f90b61e5",
+      "classification": "appendix",
+      "owner_page_id": "file-04dfb0535dfe5349806887d746bb579f",
+      "source_path": "tests/test_management_agent.py",
+      "start_line": 197,
+      "end_line": 218,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_management_agent.py` 第 197 至 218 行；摘录与 Git blob 022b7a447d3a 一致。",
+      "description_zh": "该测试验证“conflicting project for same …”场景，保护管理 Agent 回归验证的预期结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-70a978ec1d945353b20fed6491eada56",
+      "classification": "appendix",
+      "owner_page_id": "file-04dfb0535dfe5349806887d746bb579f",
+      "source_path": "tests/test_management_agent.py",
+      "start_line": 220,
+      "end_line": 230,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_management_agent.py` 第 220 至 230 行；摘录与 Git blob 022b7a447d3a 一致。",
+      "description_zh": "该测试验证“missing repo output branch an…”场景，保护管理 Agent 回归验证的预期结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-88fc2f7ae4d35adb8f624599af1e4cf6",
+      "classification": "appendix",
+      "owner_page_id": "file-04dfb0535dfe5349806887d746bb579f",
+      "source_path": "tests/test_management_agent.py",
+      "start_line": 232,
+      "end_line": 249,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_management_agent.py` 第 232 至 249 行；摘录与 Git blob 022b7a447d3a 一致。",
+      "description_zh": "该测试验证“non git unborn and missing st…”场景，保护管理 Agent 回归验证的预期结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-1ab18b681af35f16be7962ebda0b85d1",
+      "classification": "appendix",
+      "owner_page_id": "file-04dfb0535dfe5349806887d746bb579f",
+      "source_path": "tests/test_management_agent.py",
+      "start_line": 251,
+      "end_line": 259,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_management_agent.py` 第 251 至 259 行；摘录与 Git blob 022b7a447d3a 一致。",
+      "description_zh": "该测试验证“missing conversation status a…”场景，保护管理 Agent 回归验证的预期结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-f5a1187a156856cb88b14f377a3b6ac4",
+      "classification": "appendix",
+      "owner_page_id": "file-04dfb0535dfe5349806887d746bb579f",
+      "source_path": "tests/test_management_agent.py",
+      "start_line": 261,
+      "end_line": 289,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_management_agent.py` 第 261 至 289 行；摘录与 Git blob 022b7a447d3a 一致。",
+      "description_zh": "该测试验证“same workspace routes distinc…”场景，保护管理 Agent 回归验证的预期结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-1269c24d19c55045883926e1ca3e70f2",
+      "classification": "appendix",
+      "owner_page_id": "file-04dfb0535dfe5349806887d746bb579f",
+      "source_path": "tests/test_management_agent.py",
+      "start_line": 291,
+      "end_line": 303,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_management_agent.py` 第 291 至 303 行；摘录与 Git blob 022b7a447d3a 一致。",
+      "description_zh": "该测试验证“status detects head drift and…”场景，保护管理 Agent 回归验证的预期结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-92f5e1c223235d28a83ba7c46dea64d6",
+      "classification": "appendix",
+      "owner_page_id": "file-04dfb0535dfe5349806887d746bb579f",
+      "source_path": "tests/test_management_agent.py",
+      "start_line": 305,
+      "end_line": 323,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_management_agent.py` 第 305 至 323 行；摘录与 Git blob 022b7a447d3a 一致。",
+      "description_zh": "该测试验证“concurrent repeated bind and …”场景，保护管理 Agent 回归验证的预期结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-81dbd33ba74f520dbe6c5fc83180733c",
+      "classification": "appendix",
+      "owner_page_id": "file-04dfb0535dfe5349806887d746bb579f",
+      "source_path": "tests/test_management_agent.py",
+      "start_line": 306,
+      "end_line": 307,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_management_agent.py` 第 306 至 307 行；摘录与 Git blob 022b7a447d3a 一致。",
+      "description_zh": "`bind` 登记并持久化管理 Agent 回归验证所需的数据或状态。"
+    },
+    {
+      "entity_id": "ent-d114758dc9a8552a9b47ad9cbea42d68",
+      "classification": "appendix",
+      "owner_page_id": "file-04dfb0535dfe5349806887d746bb579f",
+      "source_path": "tests/test_management_agent.py",
+      "start_line": 316,
+      "end_line": 317,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_management_agent.py` 第 316 至 317 行；摘录与 Git blob 022b7a447d3a 一致。",
+      "description_zh": "`unbind` 受控释放或回滚管理 Agent 回归验证所需的数据或状态。"
+    },
+    {
+      "entity_id": "ent-fbd09131074b53578dfa155617c11b52",
+      "classification": "appendix",
+      "owner_page_id": "file-04dfb0535dfe5349806887d746bb579f",
+      "source_path": "tests/test_management_agent.py",
+      "start_line": 325,
+      "end_line": 355,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_management_agent.py` 第 325 至 355 行；摘录与 Git blob 022b7a447d3a 一致。",
+      "description_zh": "该测试验证“context rechecks feedback sql…”场景，保护管理 Agent 回归验证的预期结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-e7a2345c0aad501d96c038da367690c2",
+      "classification": "appendix",
+      "owner_page_id": "file-04dfb0535dfe5349806887d746bb579f",
+      "source_path": "tests/test_management_agent.py",
+      "start_line": 357,
+      "end_line": 364,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_management_agent.py` 第 357 至 364 行；摘录与 Git blob 022b7a447d3a 一致。",
+      "description_zh": "`ready_context` 读取并判定管理 Agent 回归验证所需的数据或状态。"
+    },
+    {
+      "entity_id": "ent-dfd14f4dcdab56ccbb03cf2a1cca9a8f",
+      "classification": "appendix",
+      "owner_page_id": "file-04dfb0535dfe5349806887d746bb579f",
+      "source_path": "tests/test_management_agent.py",
+      "start_line": 366,
+      "end_line": 422,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_management_agent.py` 第 366 至 422 行；摘录与 Git blob 022b7a447d3a 一致。",
+      "description_zh": "该测试验证“task dispatch creates indepen…”场景，保护管理 Agent 回归验证的预期结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-bbe848514fbf5819b515c43ba0017e74",
+      "classification": "appendix",
+      "owner_page_id": "file-04dfb0535dfe5349806887d746bb579f",
+      "source_path": "tests/test_management_agent.py",
+      "start_line": 424,
+      "end_line": 457,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_management_agent.py` 第 424 至 457 行；摘录与 Git blob 022b7a447d3a 一致。",
+      "description_zh": "该测试验证“task dispatch is idempotent a…”场景，保护管理 Agent 回归验证的预期结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-e9d7743b87d95a44bda91b40c4f6b4ff",
+      "classification": "appendix",
+      "owner_page_id": "file-04dfb0535dfe5349806887d746bb579f",
+      "source_path": "tests/test_management_agent.py",
+      "start_line": 459,
+      "end_line": 479,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_management_agent.py` 第 459 至 479 行；摘录与 Git blob 022b7a447d3a 一致。",
+      "description_zh": "该测试验证“task review records literal f…”场景，保护管理 Agent 回归验证的预期结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-7b98f3738c515e44a55e29dc105ba87e",
+      "classification": "appendix",
+      "owner_page_id": "file-51054f0aa94a566195db090515bfde59",
+      "source_path": "tests/test_migration.py",
+      "start_line": 21,
+      "end_line": 30,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_migration.py` 第 21 至 30 行；摘录与 Git blob 50ccee44e703 一致。",
+      "description_zh": "`git` 完成固定快照迁移回归验证中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-76f4d9a657fd544889092744bfe42f7b",
+      "classification": "appendix",
+      "owner_page_id": "file-51054f0aa94a566195db090515bfde59",
+      "source_path": "tests/test_migration.py",
+      "start_line": 33,
+      "end_line": 55,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_migration.py` 第 33 至 55 行；摘录与 Git blob 50ccee44e703 一致。",
+      "description_zh": "`review_all` 完成固定快照迁移回归验证中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-c5fa78fa1c1155ebaece4d7e6589feb2",
+      "classification": "appendix",
+      "owner_page_id": "ent-2526f216650e53cabfa44f49aa9d2779",
+      "source_path": "tests/test_migration.py",
+      "start_line": 59,
+      "end_line": 77,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_migration.py` 第 59 至 77 行；摘录与 Git blob 50ccee44e703 一致。",
+      "description_zh": "`setUp` 完成固定快照迁移回归验证中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-a02a4b53f1a95f3b8d5c82cba7d949bd",
+      "classification": "appendix",
+      "owner_page_id": "ent-2526f216650e53cabfa44f49aa9d2779",
+      "source_path": "tests/test_migration.py",
+      "start_line": 79,
+      "end_line": 84,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_migration.py` 第 79 至 84 行；摘录与 Git blob 50ccee44e703 一致。",
+      "description_zh": "`tearDown` 完成固定快照迁移回归验证中的一个明确步骤。"
+    }
+  ]
+}

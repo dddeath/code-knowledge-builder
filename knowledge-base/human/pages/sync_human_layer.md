@@ -23,16 +23,15 @@
 
 ## 谁会来到这里
 
-- [[audit_global]] 会使用这里提供的行为。
 - [[sync_human_layer 与 _source_manifest 的协作实现]] 汇总了本页。
 
 ## 相关测试
 
 - [[CodeKnowledgeBuilderTests]]
 - [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[HumanPageTemplateValidationTests]]
 - [[KeywordFallbackRetrievalWiringTests]]
 - [[MigrationTest]]
-- [[RecordReplaceTests]]
+- [[PageFanoutBenchmarkTests]]
+- [[PdfReferenceExtractionTests]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。

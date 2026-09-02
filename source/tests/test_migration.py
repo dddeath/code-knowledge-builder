@@ -14,6 +14,7 @@ SKILL_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SKILL_ROOT / "scripts"))
 
 from ckb_core.migration import audit_migration, migrate_output, migration_status
+from ckb_core.machine_knowledge import retrieve_machine
 from ckb_core.pipeline import build_chunk, finalize, initialize, review_pack
 
 
@@ -187,6 +188,61 @@ class MigrationTest(unittest.TestCase):
         self.assertNotEqual(old_app_title, new_app_title)
         self.assertIn(f"[[{new_app_title}]]", migrated_note)
         self.assertNotIn(f"[[{old_app_title}]]", migrated_note)
+
+    def test_exact_blob_local_syntax_warning_reuse_rekeys_every_reference(self) -> None:
+        warning_source = (
+            "int before(int value) { return value + 1; }\n\n"
+            "int conditional_value(int value) {\n"
+            "  if (value > 0 {\n"
+            "    return value;\n"
+            "  }\n"
+            "  return 0;\n"
+            "}\n\n"
+            "int after(int value) { return value - 1; }\n"
+        )
+        (self.repo / "warning.cpp").write_text(warning_source, encoding="utf-8", newline="\n")
+        git(self.repo, "add", ".")
+        git(self.repo, "commit", "-m", "add local syntax warning fixture")
+        initialize(self.repo, self.old, "markdown", [], [], 1, "both", [])
+        review_all(self.old)
+        finalize(self.old)
+        old_catalog = json.loads((self.old / "catalog.json").read_text(encoding="utf-8"))
+        old_file = next(item for item in old_catalog["files"] if item["file"]["path"] == "warning.cpp")
+        old_warning = old_file["parse"]["warnings"][0]
+        old_entity_ids = {item["id"] for item in old_file["entities"]}
+        self.assertTrue(set(old_warning["affected_entity_ids"]) <= old_entity_ids)
+
+        (self.repo / "app.py").write_text(
+            "from helper import double\n\ndef calculate_v2(value):\n    return double(value) + 1\n",
+            encoding="utf-8",
+            newline="\n",
+        )
+        git(self.repo, "add", ".")
+        git(self.repo, "commit", "-m", "advance commit without changing warning blob")
+        result = migrate_output(self.old, self.repo, self.new)
+        self.assertEqual(result["status"], "pending-agent-review")
+        new_catalog = json.loads((self.new / "catalog.json").read_text(encoding="utf-8"))
+        new_file = next(item for item in new_catalog["files"] if item["file"]["path"] == "warning.cpp")
+        self.assertEqual(new_file["migration_reuse"]["rekeyed_syntax_warning_count"], 1)
+        new_warning = new_file["parse"]["warnings"][0]
+        new_entity_ids = {item["id"] for item in new_file["entities"]}
+        self.assertNotEqual(new_warning["id"], old_warning["id"])
+        self.assertTrue(set(new_warning["affected_entity_ids"]) <= new_entity_ids)
+        self.assertFalse(set(new_warning["affected_entity_ids"]) & old_entity_ids)
+        affected = next(item for item in new_file["entities"] if item["qualified_name"] == "conditional_value")
+        self.assertEqual(affected["syntax_warning_ids"], [new_warning["id"]])
+        self.assertEqual((affected["source_completeness"], affected["source_confidence"]), ("incomplete", "low"))
+        self.assertFalse(affected["absence_inference_allowed"])
+
+        review_all(self.new)
+        finalized = finalize(self.new)
+        self.assertEqual(finalized["status"], "complete")
+        retrieval = retrieve_machine(self.new, "conditional_value", 1200, 8, "fast")
+        selected = next(item for item in retrieval["selected_entities"] if item["qualified_name"] == "conditional_value")
+        self.assertEqual((selected["source_completeness"], selected["source_confidence"]), ("incomplete", "low"))
+        self.assertFalse(selected["absence_inference_allowed"])
+        indexed_warning = retrieval["warnings"]["examples"][0]
+        self.assertEqual(indexed_warning["affected_entity_count"], len(new_warning["affected_entity_ids"]))
 
 
 if __name__ == "__main__":

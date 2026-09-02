@@ -7,22 +7,22 @@
     "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\knowledge.sqlite",
     "integrity": "ok",
     "counts": {
-      "files": 92,
-      "entities": 1686,
-      "source_ranges": 1686,
-      "relations": 6901,
-      "reviews": 1686,
-      "documents": 1749,
-      "sections": 6171,
-      "human_projection": 1686,
+      "files": 109,
+      "entities": 2029,
+      "source_ranges": 2029,
+      "relations": 7895,
+      "reviews": 2029,
+      "documents": 2105,
+      "sections": 7466,
+      "human_projection": 2029,
       "workspace_changes": 0,
       "reference_sources": 1,
-      "research_gaps": 5
+      "research_gaps": 7
     },
     "fts_counts": {
-      "entity_fts": 1686,
-      "section_fts": 6171,
-      "source_fts": 92
+      "entity_fts": 2029,
+      "section_fts": 7466,
+      "source_fts": 109
     },
     "language_contract": "所有说明使用简体中文，允许英文专有名词和代码标识符",
     "retrieval": "sqlite-exact-fts5-sections-deterministic-weighted-graph",
@@ -34,6 +34,39 @@
     "root": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\facts",
     "errors": []
   },
+  "syntax_warnings": {
+    "status": "complete",
+    "warning_count": 0,
+    "file_count": 0,
+    "affected_entity_count": 0,
+    "absence_inference_allowed": true,
+    "message_zh": null,
+    "examples": [],
+    "omitted_warning_count": 0,
+    "record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\syntax-warnings.json"
+  },
+  "semantic_warnings": {
+    "status": "warning",
+    "warning_count": 1,
+    "warnings": [
+      {
+        "kind": "compile-commands-unavailable",
+        "language": "cpp",
+        "file": "compile_commands.json",
+        "precision": "bounded-approximate",
+        "build_evidence": {
+          "resolution": "build-config-unique",
+          "selected": "c++20",
+          "paths": [
+            "tests/fixtures/cpp-parser-scons/scons-project/SConstruct",
+            "tests/fixtures/cpp-parser-scons/scons-project/src/SConscript"
+          ]
+        },
+        "absence_inference_allowed": false
+      }
+    ],
+    "omitted_warning_count": 0
+  },
   "global_audit": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\audit\\global.json",
-  "completed_at_utc": "2026-09-02T02:48:52Z"
+  "completed_at_utc": "2026-09-02T22:56:57Z"
 }

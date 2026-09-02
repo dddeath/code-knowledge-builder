@@ -1,0 +1,228 @@
+{
+  "schema_version": 1,
+  "operation_id": "record-replace-916b89bdcc195a3f836b5a0424ff9f58",
+  "operation": "record-replace",
+  "status": "completed",
+  "output": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7",
+  "kind": "experiment",
+  "title": "中文检索三臂效果复测",
+  "created_at_utc": "2026-09-02T22:41:36Z",
+  "rollback_manifest": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-916b89bdcc195a3f836b5a0424ff9f58\\manifest.json",
+  "rollback_argv": [
+    "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe",
+    "E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py",
+    "record-rollback",
+    "--out",
+    "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7",
+    "--manifest",
+    "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-916b89bdcc195a3f836b5a0424ff9f58\\manifest.json"
+  ],
+  "rollback_command": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe' 'E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py' 'record-rollback' '--out' 'E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7' '--manifest' 'E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-916b89bdcc195a3f836b5a0424ff9f58\\manifest.json'",
+  "roles": [
+    {
+      "name": "human-note",
+      "kind": "file",
+      "path": "human/experiments/中文检索三臂效果复测.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "6083da27b1f97031bc5372005464bc033b83cc73def4a4088ca42c3a2a726f2a",
+        "size": 2306,
+        "backup": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-916b89bdcc195a3f836b5a0424ff9f58\\backup\\files\\human\\experiments\\中文检索三臂效果复测.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "0a2827ae1980e9613a00a418500ce75bc52735a423db8ed4c993ecbfa013c5c9",
+        "size": 2316,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-916b89bdcc195a3f836b5a0424ff9f58\\staging\\files\\human\\experiments\\中文检索三臂效果复测.md"
+      }
+    },
+    {
+      "name": "markdown-note",
+      "kind": "file",
+      "path": "markdown/experiments/中文检索三臂效果复测.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "6083da27b1f97031bc5372005464bc033b83cc73def4a4088ca42c3a2a726f2a",
+        "size": 2306,
+        "backup": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-916b89bdcc195a3f836b5a0424ff9f58\\backup\\files\\markdown\\experiments\\中文检索三臂效果复测.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "0a2827ae1980e9613a00a418500ce75bc52735a423db8ed4c993ecbfa013c5c9",
+        "size": 2316,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-916b89bdcc195a3f836b5a0424ff9f58\\staging\\files\\markdown\\experiments\\中文检索三臂效果复测.md"
+      }
+    },
+    {
+      "name": "note-metadata",
+      "kind": "file",
+      "path": "workspace-meta/notes/中文检索三臂效果复测.json",
+      "baseline": {
+        "exists": true,
+        "sha256": "6c89e72884ad80563cb322ac0b2626b534a4fb217dccf87dcb5c12c75d5329b3",
+        "size": 1159,
+        "backup": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-916b89bdcc195a3f836b5a0424ff9f58\\backup\\files\\workspace-meta\\notes\\中文检索三臂效果复测.json"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "4ce1bff5038e071c76aa1980e7b00b9d69a929a0aceafd99e3822623277e0cbf",
+        "size": 1592,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-916b89bdcc195a3f836b5a0424ff9f58\\staging\\files\\workspace-meta\\notes\\中文检索三臂效果复测.json"
+      }
+    },
+    {
+      "name": "human-records",
+      "kind": "file",
+      "path": "human/RECORDS.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "e1da88000c5384a3faea81145b3cd28e7c19cbc8ef581f39570da24685b543fb",
+        "size": 22175,
+        "backup": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-916b89bdcc195a3f836b5a0424ff9f58\\backup\\files\\human\\RECORDS.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "e1da88000c5384a3faea81145b3cd28e7c19cbc8ef581f39570da24685b543fb",
+        "size": 22175,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-916b89bdcc195a3f836b5a0424ff9f58\\staging\\files\\human\\RECORDS.md"
+      }
+    },
+    {
+      "name": "markdown-records",
+      "kind": "file",
+      "path": "markdown/RECORDS.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "e1da88000c5384a3faea81145b3cd28e7c19cbc8ef581f39570da24685b543fb",
+        "size": 22175,
+        "backup": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-916b89bdcc195a3f836b5a0424ff9f58\\backup\\files\\markdown\\RECORDS.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "e1da88000c5384a3faea81145b3cd28e7c19cbc8ef581f39570da24685b543fb",
+        "size": 22175,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-916b89bdcc195a3f836b5a0424ff9f58\\staging\\files\\markdown\\RECORDS.md"
+      }
+    },
+    {
+      "name": "work-record-index-audit",
+      "kind": "file",
+      "path": "workspace-meta/work-record-index-audit.json",
+      "baseline": {
+        "exists": true,
+        "sha256": "f8dde16a946f56982ea414ec890180e8d1276d3bfb1bed560c2a662073dfbe11",
+        "size": 217,
+        "backup": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-916b89bdcc195a3f836b5a0424ff9f58\\backup\\files\\workspace-meta\\work-record-index-audit.json"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "f8dde16a946f56982ea414ec890180e8d1276d3bfb1bed560c2a662073dfbe11",
+        "size": 217,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-916b89bdcc195a3f836b5a0424ff9f58\\staging\\files\\workspace-meta\\work-record-index-audit.json"
+      }
+    },
+    {
+      "name": "agent-index-note",
+      "kind": "sqlite-logical",
+      "path": "agent-index.sqlite",
+      "selector": "中文检索三臂效果复测",
+      "baseline": {
+        "sha256": "5335ccbffb75bb79fdff8b46e6589ca8894a1cba089f8d80c8b234dbfe496bcc",
+        "backup": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-916b89bdcc195a3f836b5a0424ff9f58\\backup\\agent-index-note.json"
+      },
+      "modified": {
+        "sha256": "67c0e8b7bc9d2fcdb974071afcbb1528aed11d9fb59258aab43a4c2865b47197",
+        "candidate": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-916b89bdcc195a3f836b5a0424ff9f58\\staging\\agent-index-note.json"
+      }
+    },
+    {
+      "name": "machine-knowledge-note",
+      "kind": "sqlite-logical",
+      "path": "machine/knowledge.sqlite",
+      "selector": "note:experiments:中文检索三臂效果复测",
+      "baseline": {
+        "sha256": "fab62bd3bbb868110ab5bf6cbd62299882b40e68ce47c8a8f423ca9bb012464b",
+        "backup": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-916b89bdcc195a3f836b5a0424ff9f58\\backup\\machine-knowledge-note.json"
+      },
+      "modified": {
+        "sha256": "8eecfea0a4a0264c2077a9afc8d06060ad114303fd3077a786309c64a1d33dc5",
+        "candidate": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\record-replace\\record-replace-916b89bdcc195a3f836b5a0424ff9f58\\staging\\machine-knowledge-note.json"
+      }
+    }
+  ],
+  "prepared_at_utc": "2026-09-02T22:41:37Z",
+  "record_id": "work-record-e68a17e99f14534e8e089b25eb3cab32",
+  "relative_note": "experiments/中文检索三臂效果复测.md",
+  "explicit_evidence_replacement": true,
+  "linked_pages": [
+    "retrieve_machine"
+  ],
+  "body_sha256": "8f4075ae1b8c8691eeb32c7878de22d360c556ad04825f4f6a79369964bb9a2f",
+  "candidate_audit": {
+    "status": "passed",
+    "note_errors": [],
+    "work_record_index": {
+      "status": "passed",
+      "record_count": 66,
+      "linked_record_count": 66,
+      "section_counts": {
+        "analysis": 18,
+        "changes": 36,
+        "pitfalls": 0,
+        "experiments": 5,
+        "sessions": 7
+      },
+      "errors": []
+    }
+  },
+  "promotion_order": [
+    "human-note",
+    "markdown-note",
+    "note-metadata",
+    "human-records",
+    "markdown-records",
+    "work-record-index-audit",
+    "agent-index-note",
+    "machine-knowledge-note"
+  ],
+  "completed_at_utc": "2026-09-02T22:41:39Z",
+  "verification": {
+    "status": "passed",
+    "role_errors": [],
+    "note_errors": [],
+    "work_record_index": {
+      "status": "passed",
+      "record_count": 66,
+      "linked_record_count": 66,
+      "section_counts": {
+        "analysis": 18,
+        "changes": 36,
+        "pitfalls": 0,
+        "experiments": 5,
+        "sessions": 7
+      },
+      "errors": []
+    },
+    "agent_index": {
+      "schema_version": 1,
+      "status": "passed",
+      "path": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\agent-index.sqlite",
+      "integrity": "ok",
+      "counts": {
+        "pages": 230,
+        "symbols": 1937,
+        "edges": 1876,
+        "terms": 26813,
+        "notes": 66
+      },
+      "projection_format": "markdown",
+      "errors": []
+    }
+  },
+  "operation_journal": {
+    "status": "passed",
+    "event_id": "operation-41db1ae9890a59cab82468b92315df48",
+    "idempotent": false,
+    "journal": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\operations\\2026-09-02.jsonl"
+  }
+}

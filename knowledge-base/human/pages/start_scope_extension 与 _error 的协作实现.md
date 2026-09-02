@@ -19,12 +19,11 @@
 - 实现时会用到 [[SourceLinkRenderer.uri]]。
 - 实现时会用到 [[_Transport.close]]。
 - 实现时会用到 [[append]]。
-- 实现时会用到 [[audit_global 与 _replace_output_prefix 的协作实现]]。
 - 实现时会用到 [[audit_migration 与 _entity_key 的协作实现]]。
-- 实现时会用到 [[execute]]。
+- 实现时会用到 [[finalize]]。
+- 实现时会用到 [[ingest 与 connect 的协作实现]]。
 - 实现时会用到 [[maintenance_check]]。
 - 实现时会用到 [[preflight]]。
-- 实现时会用到 [[rollback]]。
 - 主要代码单元是 [[start_scope_extension]]。
 - 实现时会用到 [[validate]]。
 
@@ -48,10 +47,10 @@
 
 - [[AgentProtocolBatchApplyTests]]
 - [[AgentProtocolBatchApplyTests 等测试场景]]
-- [[AutomationTest.register 等测试场景]]
 - [[CodeKnowledgeBuilderTests]]
 - [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[HumanPageAuthoringPackageTests]]
+- [[HumanPageAuthoringValidationFailureTests 等测试场景]]
+- [[KeywordFallbackRetrievalWiringTests]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 

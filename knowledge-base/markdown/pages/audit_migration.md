@@ -20,25 +20,25 @@
 - 实现时会用到 [[_Transport.close]]。
 - 实现时会用到 [[append]]。
 - 实现时会用到 [[audit_migration 与 _entity_key 的协作实现]]。
-- 实现时会用到 [[execute]]。
+- 实现时会用到 [[ingest 与 connect 的协作实现]]。
 
 ## 谁会来到这里
 
 - [[MigrationTest]] 会使用这里提供的行为。
-- [[audit_global]] 会使用这里提供的行为。
-- [[audit_global 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 - [[audit_migration 与 _entity_key 的协作实现]] 汇总了本页。
 - [[create_knowledge_batch_plan 与 KnowledgeRelease 的协作实现]] 会使用这里提供的行为。
+- [[finalize]] 会使用这里提供的行为。
+- [[finalize 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 - [[main（ckb 实现）]] 会使用这里提供的行为。
 
 ## 相关测试
 
-- [[AutomationTest.register 等测试场景]]
 - [[CodeKnowledgeBuilderTests]]
 - [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[HumanPageTemplateValidationTests]]
 - [[KeywordFallbackRetrievalWiringTests]]
-- [[KeywordFallbackRetrievalWiringTests 等测试场景]]
+- [[MigrationTest]]
+- [[MigrationTest 等测试场景]]
+- [[PdfReferenceExtractionTests]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 

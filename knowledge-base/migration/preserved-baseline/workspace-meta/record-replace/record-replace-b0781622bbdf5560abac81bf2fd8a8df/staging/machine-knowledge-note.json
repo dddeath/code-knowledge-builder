@@ -1,0 +1,207 @@
+{
+  "document": [
+    [
+      "note:changes:稳定知识库恢复与当前 HEAD 同步",
+      "change",
+      "稳定知识库恢复与当前 HEAD 同步",
+      "#类型/变更",
+      "changes/稳定知识库恢复与当前 HEAD 同步.md",
+      null,
+      "# 稳定知识库恢复与当前 HEAD 同步\n\n标签：#类型/变更\n\n## 修改内容\n\n稳定知识库已从旧固定源码快照迁移到当前 integration branch，并在隔离 staging 中重新生成变化的源码事实、关系、人类页面和检索索引。切换保留了迁移前全部工作记录、一个已审阅 reference、开放 research gap 和两份学习笔记原文，同时把本轮人类页面模板、维护 Prompt 与 Canvas 实验原型纳入当前固定图谱。\n\n## 修改时间\n\n2026 年 9 月 2 日完成迁移、审阅和稳定路径切换；受控正文替换合并后再次同步到新的 integration HEAD。\n\n## 修改原因\n\n稳定知识库原先仍绑定较早的源码提交，已经不能完整解释新合并的页面模板、管理能力和 Canvas 原型。直接在活动目录重建会把可变知识层与生成中的中间状态混在一起，也缺少可靠回滚对象。\n\n## 修改方式\n\n更新分为四个关键阶段：\n\n- 冻结当前活动知识库的记录数量、reference、research gap、学习笔记哈希和双 SQLite 状态；\n- 在独立 staging 中按精确源码字节复用既有审阅，只审阅变化部分；\n- 通过状态、真实检索、双 SQLite、human/markdown 镜像、人类可读性、Agent Policy、operation journal 和维护门；\n- 先保存完整旧库，再把已验证候选同步到稳定路径，并保留可执行回滚入口。\n\n## 涉及的其他特性\n\n本次同步连接了增量迁移、FTS5、Agent 索引、工作记录、reference、research gap、Agent Policy、会话级 stdio 和发布包。Canvas 仍以实验功能发布，人类导航效果等待实际使用反馈。\n\n## 验证结果\n\n增量审阅、迁移审计、真实检索、双 SQLite 完整性与 FTS5 计数、human/markdown 镜像、人类可读性、维护聚合门和回滚探针全部通过。旧知识库在一次真实失败切换中成功恢复到冻结哈希，随后按修正顺序重新切换成功；两份学习笔记在 human 与 markdown 中均保持原始字节。\n\n## 当前边界\n\n稳定知识库固定到明确源码提交，不自动跟随未来分支变化。后续源码再次合并时仍需按变化范围执行迁移或重建，并重新通过维护门。发布副本可以阅读和校验；在另一台机器继续维护前，需要重新绑定当地仓库和 Agent Policy。\n\n## 相关知识页\n\n- [[audit_migration 与 _entity_key 的协作实现]]\n\n## 源码入口\n\n- [打开源码：scripts/ckb_core/migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/migration.py:1:1)  `scripts/ckb_core/migration.py:1-604`\n",
+      882
+    ]
+  ],
+  "sections": [
+    [
+      "note:changes:稳定知识库恢复与当前 HEAD 同步:0",
+      "note:changes:稳定知识库恢复与当前 HEAD 同步",
+      0,
+      "稳定知识库恢复与当前 HEAD 同步",
+      "标签：#类型/变更",
+      8,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:稳定知识库恢复与当前 HEAD 同步:1",
+      "note:changes:稳定知识库恢复与当前 HEAD 同步",
+      1,
+      "修改内容",
+      "稳定知识库已从旧固定源码快照迁移到当前 integration branch，并在隔离 staging 中重新生成变化的源码事实、关系、人类页面和检索索引。切换保留了迁移前全部工作记录、一个已审阅 reference、开放 research gap 和两份学习笔记原文，同时把本轮人类页面模板、维护 Prompt 与 Canvas 实验原型纳入当前固定图谱。",
+      134,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:稳定知识库恢复与当前 HEAD 同步:2",
+      "note:changes:稳定知识库恢复与当前 HEAD 同步",
+      2,
+      "修改时间",
+      "2026 年 9 月 2 日完成迁移、审阅和稳定路径切换；受控正文替换合并后再次同步到新的 integration HEAD。",
+      45,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:稳定知识库恢复与当前 HEAD 同步:3",
+      "note:changes:稳定知识库恢复与当前 HEAD 同步",
+      3,
+      "修改原因",
+      "稳定知识库原先仍绑定较早的源码提交，已经不能完整解释新合并的页面模板、管理能力和 Canvas 原型。直接在活动目录重建会把可变知识层与生成中的中间状态混在一起，也缺少可靠回滚对象。",
+      86,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:稳定知识库恢复与当前 HEAD 同步:4",
+      "note:changes:稳定知识库恢复与当前 HEAD 同步",
+      4,
+      "修改方式",
+      "更新分为四个关键阶段：\n\n- 冻结当前活动知识库的记录数量、reference、research gap、学习笔记哈希和双 SQLite 状态；\n- 在独立 staging 中按精确源码字节复用既有审阅，只审阅变化部分；\n- 通过状态、真实检索、双 SQLite、human/markdown 镜像、人类可读性、Agent Policy、operation journal 和维护门；\n- 先保存完整旧库，再把已验证候选同步到稳定路径，并保留可执行回滚入口。",
+      161,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:稳定知识库恢复与当前 HEAD 同步:5",
+      "note:changes:稳定知识库恢复与当前 HEAD 同步",
+      5,
+      "涉及的其他特性",
+      "本次同步连接了增量迁移、FTS5、Agent 索引、工作记录、reference、research gap、Agent Policy、会话级 stdio 和发布包。Canvas 仍以实验功能发布，人类导航效果等待实际使用反馈。",
+      75,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:稳定知识库恢复与当前 HEAD 同步:6",
+      "note:changes:稳定知识库恢复与当前 HEAD 同步",
+      6,
+      "验证结果",
+      "增量审阅、迁移审计、真实检索、双 SQLite 完整性与 FTS5 计数、human/markdown 镜像、人类可读性、维护聚合门和回滚探针全部通过。旧知识库在一次真实失败切换中成功恢复到冻结哈希，随后按修正顺序重新切换成功；两份学习笔记在 human 与 markdown 中均保持原始字节。",
+      118,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:稳定知识库恢复与当前 HEAD 同步:7",
+      "note:changes:稳定知识库恢复与当前 HEAD 同步",
+      7,
+      "当前边界",
+      "稳定知识库固定到明确源码提交，不自动跟随未来分支变化。后续源码再次合并时仍需按变化范围执行迁移或重建，并重新通过维护门。发布副本可以阅读和校验；在另一台机器继续维护前，需要重新绑定当地仓库和 Agent Policy。",
+      101,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:稳定知识库恢复与当前 HEAD 同步:8",
+      "note:changes:稳定知识库恢复与当前 HEAD 同步",
+      8,
+      "相关知识页",
+      "- [[audit_migration 与 _entity_key 的协作实现]]",
+      18,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:稳定知识库恢复与当前 HEAD 同步:9",
+      "note:changes:稳定知识库恢复与当前 HEAD 同步",
+      9,
+      "源码入口",
+      "- [打开源码：scripts/ckb_core/migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/migration.py:1:1)  `scripts/ckb_core/migration.py:1-604`",
+      63,
+      null,
+      null,
+      null
+    ]
+  ],
+  "section_sources": [],
+  "links": [
+    [
+      "note:changes:稳定知识库恢复与当前 HEAD 同步",
+      null,
+      "audit_migration 与 _entity_key 的协作实现",
+      "wikilink"
+    ]
+  ],
+  "fts": [
+    [
+      "note:changes:稳定知识库恢复与当前 HEAD 同步:0",
+      "note:changes:稳定知识库恢复与当前 HEAD 同步",
+      "稳定知识库恢复与当前 HEAD 同步",
+      "标签：#类型/变更",
+      ""
+    ],
+    [
+      "note:changes:稳定知识库恢复与当前 HEAD 同步:1",
+      "note:changes:稳定知识库恢复与当前 HEAD 同步",
+      "修改内容",
+      "稳定知识库已从旧固定源码快照迁移到当前 integration branch，并在隔离 staging 中重新生成变化的源码事实、关系、人类页面和检索索引。切换保留了迁移前全部工作记录、一个已审阅 reference、开放 research gap 和两份学习笔记原文，同时把本轮人类页面模板、维护 Prompt 与 Canvas 实验原型纳入当前固定图谱。",
+      ""
+    ],
+    [
+      "note:changes:稳定知识库恢复与当前 HEAD 同步:2",
+      "note:changes:稳定知识库恢复与当前 HEAD 同步",
+      "修改时间",
+      "2026 年 9 月 2 日完成迁移、审阅和稳定路径切换；受控正文替换合并后再次同步到新的 integration HEAD。",
+      ""
+    ],
+    [
+      "note:changes:稳定知识库恢复与当前 HEAD 同步:3",
+      "note:changes:稳定知识库恢复与当前 HEAD 同步",
+      "修改原因",
+      "稳定知识库原先仍绑定较早的源码提交，已经不能完整解释新合并的页面模板、管理能力和 Canvas 原型。直接在活动目录重建会把可变知识层与生成中的中间状态混在一起，也缺少可靠回滚对象。",
+      ""
+    ],
+    [
+      "note:changes:稳定知识库恢复与当前 HEAD 同步:4",
+      "note:changes:稳定知识库恢复与当前 HEAD 同步",
+      "修改方式",
+      "更新分为四个关键阶段：\n\n- 冻结当前活动知识库的记录数量、reference、research gap、学习笔记哈希和双 SQLite 状态；\n- 在独立 staging 中按精确源码字节复用既有审阅，只审阅变化部分；\n- 通过状态、真实检索、双 SQLite、human/markdown 镜像、人类可读性、Agent Policy、operation journal 和维护门；\n- 先保存完整旧库，再把已验证候选同步到稳定路径，并保留可执行回滚入口。",
+      ""
+    ],
+    [
+      "note:changes:稳定知识库恢复与当前 HEAD 同步:5",
+      "note:changes:稳定知识库恢复与当前 HEAD 同步",
+      "涉及的其他特性",
+      "本次同步连接了增量迁移、FTS5、Agent 索引、工作记录、reference、research gap、Agent Policy、会话级 stdio 和发布包。Canvas 仍以实验功能发布，人类导航效果等待实际使用反馈。",
+      ""
+    ],
+    [
+      "note:changes:稳定知识库恢复与当前 HEAD 同步:6",
+      "note:changes:稳定知识库恢复与当前 HEAD 同步",
+      "验证结果",
+      "增量审阅、迁移审计、真实检索、双 SQLite 完整性与 FTS5 计数、human/markdown 镜像、人类可读性、维护聚合门和回滚探针全部通过。旧知识库在一次真实失败切换中成功恢复到冻结哈希，随后按修正顺序重新切换成功；两份学习笔记在 human 与 markdown 中均保持原始字节。",
+      ""
+    ],
+    [
+      "note:changes:稳定知识库恢复与当前 HEAD 同步:7",
+      "note:changes:稳定知识库恢复与当前 HEAD 同步",
+      "当前边界",
+      "稳定知识库固定到明确源码提交，不自动跟随未来分支变化。后续源码再次合并时仍需按变化范围执行迁移或重建，并重新通过维护门。发布副本可以阅读和校验；在另一台机器继续维护前，需要重新绑定当地仓库和 Agent Policy。",
+      ""
+    ],
+    [
+      "note:changes:稳定知识库恢复与当前 HEAD 同步:8",
+      "note:changes:稳定知识库恢复与当前 HEAD 同步",
+      "相关知识页",
+      "- [[audit_migration 与 _entity_key 的协作实现]]",
+      ""
+    ],
+    [
+      "note:changes:稳定知识库恢复与当前 HEAD 同步:9",
+      "note:changes:稳定知识库恢复与当前 HEAD 同步",
+      "源码入口",
+      "- [打开源码：scripts/ckb_core/migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/migration.py:1:1)  `scripts/ckb_core/migration.py:1-604`",
+      ""
+    ]
+  ]
+}

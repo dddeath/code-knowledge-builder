@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ckb.local/schemas/tag-projection.schema.json",
+  "title": "CKB human tag navigation projection",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "production_integration", "page_tag_limit", "entries", "suppressed", "excluded_by_state"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "status": {"const": "passed"},
+    "production_integration": {"const": "disabled"},
+    "page_tag_limit": {"type": "integer", "minimum": 1},
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["page", "tags"],
+        "properties": {
+          "page": {"type": "string"},
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["tag", "display", "search"],
+              "properties": {
+                "tag": {"type": "string"},
+                "display": {"type": "string"},
+                "search": {"type": "string"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "suppressed": {"type": "array", "items": {"type": "object"}},
+    "excluded_by_state": {"type": "object"}
+  }
+}

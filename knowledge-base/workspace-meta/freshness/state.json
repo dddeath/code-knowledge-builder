@@ -1,0 +1,2739 @@
+{
+  "schema_version": 1,
+  "state": "current",
+  "stable_state": "current",
+  "observed_at_utc": "2026-09-02T22:58:28Z",
+  "trigger": "first-query",
+  "repository": "E:\\knowledge_builder\\self-workspace\\source",
+  "knowledge_state": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\state.json",
+  "knowledge_state_status": "complete",
+  "bound_commit": "c533dd7c53224a637b1438ea72ee25da887fc6de",
+  "current_head": "c533dd7c53224a637b1438ea72ee25da887fc6de",
+  "current_tree": "7eee86dbd7ba25504ec65986c02c2582091e8116",
+  "branch": "codex/reference-ingest-v1",
+  "worktree_signature": "77306e4c0521b01fba13db762de3ad1a6d2ea071496f0ea4bd1c2578dfc6988f",
+  "dirty": {
+    "count": 0,
+    "paths": [],
+    "truncated": false
+  },
+  "change_summary": {
+    "comparison": "bound-commit-to-current-head",
+    "changed": 0,
+    "changed_paths": [],
+    "counts": {},
+    "truncated": false
+  },
+  "migration": null,
+  "migration_plan": {
+    "schema_version": 1,
+    "plan_id": "freshness-migration-0593c65386e35bd9b682cd3d216c551c",
+    "status": "pending",
+    "stable_output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+    "repository": "E:\\knowledge_builder\\self-workspace\\source",
+    "bound_commit": "bd8519583e3a075612036d0874c1d0742000e30c",
+    "target_commit": "c533dd7c53224a637b1438ea72ee25da887fc6de",
+    "staging_output": "E:\\knowledge_builder\\self-workspace\\kb-stg-c533dd7",
+    "created_at_utc": "2026-09-02T22:22:17Z",
+    "created_by_session": "manager-sync-c533dd7",
+    "command": [
+      "migrate",
+      "start",
+      "--from-out",
+      "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+      "--repo",
+      "E:\\knowledge_builder\\self-workspace\\source",
+      "--out",
+      "E:\\knowledge_builder\\self-workspace\\kb-stg-c533dd7"
+    ],
+    "automatic_cutover": false,
+    "stable_output_overwritten": false
+  },
+  "overlay": null,
+  "cache_hit": false,
+  "forced": false,
+  "lock_recovered": false,
+  "recovered_from_unavailable": false,
+  "stable_facts_current": true,
+  "last_confirmed": {
+    "state": "current",
+    "stable_state": "current",
+    "bound_commit": "c533dd7c53224a637b1438ea72ee25da887fc6de",
+    "current_head": "c533dd7c53224a637b1438ea72ee25da887fc6de",
+    "branch": "codex/reference-ingest-v1",
+    "observed_at_utc": "2026-09-02T22:58:28Z"
+  },
+  "error": null,
+  "writes": {
+    "machine_freshness": true,
+    "stable_facts": false,
+    "human_layer": false
+  },
+  "next_action": {
+    "action": "reuse-stable-facts",
+    "rebuild": false
+  },
+  "session_cache": {
+    "process-60376": {
+      "signature": "77306e4c0521b01fba13db762de3ad1a6d2ea071496f0ea4bd1c2578dfc6988f",
+      "head": "c533dd7c53224a637b1438ea72ee25da887fc6de",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-02T22:58:28Z"
+    },
+    "process-31840": {
+      "signature": "77306e4c0521b01fba13db762de3ad1a6d2ea071496f0ea4bd1c2578dfc6988f",
+      "head": "c533dd7c53224a637b1438ea72ee25da887fc6de",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-02T22:57:02Z"
+    },
+    "process-41596": {
+      "signature": "77306e4c0521b01fba13db762de3ad1a6d2ea071496f0ea4bd1c2578dfc6988f",
+      "head": "c533dd7c53224a637b1438ea72ee25da887fc6de",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-02T22:51:48Z"
+    },
+    "manager-sync-c533dd7": {
+      "signature": "77306e4c0521b01fba13db762de3ad1a6d2ea071496f0ea4bd1c2578dfc6988f",
+      "head": "c533dd7c53224a637b1438ea72ee25da887fc6de",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 67,
+        "changed_paths": [
+          "prototypes/ckb-page-fanout-benchmark/README.md",
+          "prototypes/ckb-page-fanout-benchmark/ckb_page_fanout/__init__.py",
+          "prototypes/ckb-page-fanout-benchmark/ckb_page_fanout/benchmark.py",
+          "prototypes/ckb-page-fanout-benchmark/ckb_page_fanout/cli.py",
+          "prototypes/ckb-page-fanout-benchmark/ckb_page_fanout/contracts.py",
+          "prototypes/ckb-page-fanout-benchmark/ckb_page_fanout/generator.py",
+          "prototypes/ckb-page-fanout-benchmark/ckb_page_fanout/judge.py",
+          "prototypes/ckb-page-fanout-benchmark/scripts/ckb_page_fanout.py",
+          "prototypes/ckb-semantic-vector-benchmark/.gitignore",
+          "prototypes/ckb-semantic-vector-benchmark/README.md",
+          "prototypes/ckb-semantic-vector-benchmark/benchmark.py",
+          "prototypes/ckb-semantic-vector-benchmark/recompute.py",
+          "prototypes/ckb-semantic-vector-benchmark/requirements-lock.txt",
+          "prototypes/ckb-semantic-vector-benchmark/results/fixed-v1/child-process-probe.json",
+          "prototypes/ckb-semantic-vector-benchmark/results/fixed-v1/index-manifest.json",
+          "prototypes/ckb-semantic-vector-benchmark/results/fixed-v1/model-unavailable-probe.json",
+          "prototypes/ckb-semantic-vector-benchmark/results/fixed-v1/provenance.json",
+          "prototypes/ckb-semantic-vector-benchmark/results/fixed-v1/raw-results.json",
+          "prototypes/ckb-semantic-vector-benchmark/results/fixed-v1/recompute-command.ps1.txt",
+          "prototypes/ckb-semantic-vector-benchmark/results/fixed-v1/recomputed.json",
+          "prototypes/ckb-semantic-vector-benchmark/results/fixed-v1/report.json",
+          "prototypes/ckb-semantic-vector-benchmark/results/fixed-v1/run-command.ps1.txt",
+          "prototypes/ckb-semantic-vector-benchmark/results/fixed-v1/sha256sums.json",
+          "prototypes/ckb-semantic-vector-benchmark/results/fixed-v1/summary.md",
+          "references/benchmarks/page-fanout/arm-a-judge.json",
+          "references/benchmarks/page-fanout/arm-b-judge.json",
+          "references/benchmarks/page-fanout/arm-b-rollback.json",
+          "references/benchmarks/page-fanout/arm-b/INDEX.md",
+          "references/benchmarks/page-fanout/arm-b/REFERENCES.md",
+          "references/benchmarks/page-fanout/arm-b/concepts/eng-retry.md",
+          "references/benchmarks/page-fanout/arm-b/concepts/eng-rollback.md",
+          "references/benchmarks/page-fanout/arm-b/concepts/eng-snapshot.md",
+          "references/benchmarks/page-fanout/arm-b/concepts/ops-duplicate.md",
+          "references/benchmarks/page-fanout/arm-b/concepts/ops-orphan.md",
+          "references/benchmarks/page-fanout/arm-b/concepts/ops-quota.md",
+          "references/benchmarks/page-fanout/arm-b/concepts/research-blinding.md",
+          "references/benchmarks/page-fanout/arm-b/concepts/research-entailment.md",
+          "references/benchmarks/page-fanout/arm-b/concepts/research-navigation.md",
+          "references/benchmarks/page-fanout/arm-b/projection.json",
+          "references/benchmarks/page-fanout/arm-b/references/engineering-guide.md",
+          "references/benchmarks/page-fanout/arm-b/references/operations-runbook.md",
+          "references/benchmarks/page-fanout/arm-b/references/research-note.md",
+          "references/benchmarks/page-fanout/benchmark-result.json",
+          "references/benchmarks/page-fanout/generator-result.json",
+          "references/benchmarks/page-fanout/rollback-verification.json",
+          "references/benchmarks/page-fanout/stable-after.json",
+          "references/benchmarks/page-fanout/stable-before.json",
+          "references/benchmarks/page-fanout/summary.md",
+          "references/benchmarks/semantic-vector-retrieval/README.md",
+          "references/benchmarks/semantic-vector-retrieval/source-manifest.json",
+          "tests/fixtures/page-fanout/benchmark-contract.json",
+          "tests/fixtures/page-fanout/conservative/INDEX.md",
+          "tests/fixtures/page-fanout/conservative/REFERENCES.md",
+          "tests/fixtures/page-fanout/conservative/projection.json",
+          "tests/fixtures/page-fanout/conservative/references/engineering-guide.md",
+          "tests/fixtures/page-fanout/conservative/references/operations-runbook.md",
+          "tests/fixtures/page-fanout/conservative/references/research-note.md",
+          "tests/fixtures/page-fanout/corpus.json",
+          "tests/fixtures/page-fanout/documents/engineering-guide.md",
+          "tests/fixtures/page-fanout/documents/operations-runbook.md",
+          "tests/fixtures/page-fanout/documents/research-note.md",
+          "tests/fixtures/page-fanout/judge-contract.json",
+          "tests/fixtures/semantic-vector-retrieval/model-artifact-manifest.json",
+          "tests/fixtures/semantic-vector-retrieval/protocol.json",
+          "tests/test_ckb_page_fanout_benchmark.py",
+          "tests/test_ckb_page_fanout_generator.py",
+          "tests/test_ckb_semantic_vector_benchmark.py"
+        ],
+        "changes": [
+          {
+            "status": "A",
+            "path": "prototypes/ckb-page-fanout-benchmark/README.md"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-page-fanout-benchmark/ckb_page_fanout/__init__.py"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-page-fanout-benchmark/ckb_page_fanout/benchmark.py"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-page-fanout-benchmark/ckb_page_fanout/cli.py"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-page-fanout-benchmark/ckb_page_fanout/contracts.py"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-page-fanout-benchmark/ckb_page_fanout/generator.py"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-page-fanout-benchmark/ckb_page_fanout/judge.py"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-page-fanout-benchmark/scripts/ckb_page_fanout.py"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-semantic-vector-benchmark/.gitignore"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-semantic-vector-benchmark/README.md"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-semantic-vector-benchmark/benchmark.py"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-semantic-vector-benchmark/recompute.py"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-semantic-vector-benchmark/requirements-lock.txt"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-semantic-vector-benchmark/results/fixed-v1/child-process-probe.json"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-semantic-vector-benchmark/results/fixed-v1/index-manifest.json"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-semantic-vector-benchmark/results/fixed-v1/model-unavailable-probe.json"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-semantic-vector-benchmark/results/fixed-v1/provenance.json"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-semantic-vector-benchmark/results/fixed-v1/raw-results.json"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-semantic-vector-benchmark/results/fixed-v1/recompute-command.ps1.txt"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-semantic-vector-benchmark/results/fixed-v1/recomputed.json"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-semantic-vector-benchmark/results/fixed-v1/report.json"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-semantic-vector-benchmark/results/fixed-v1/run-command.ps1.txt"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-semantic-vector-benchmark/results/fixed-v1/sha256sums.json"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-semantic-vector-benchmark/results/fixed-v1/summary.md"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/arm-a-judge.json"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/arm-b-judge.json"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/arm-b-rollback.json"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/arm-b/INDEX.md"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/arm-b/REFERENCES.md"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/arm-b/concepts/eng-retry.md"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/arm-b/concepts/eng-rollback.md"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/arm-b/concepts/eng-snapshot.md"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/arm-b/concepts/ops-duplicate.md"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/arm-b/concepts/ops-orphan.md"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/arm-b/concepts/ops-quota.md"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/arm-b/concepts/research-blinding.md"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/arm-b/concepts/research-entailment.md"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/arm-b/concepts/research-navigation.md"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/arm-b/projection.json"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/arm-b/references/engineering-guide.md"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/arm-b/references/operations-runbook.md"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/arm-b/references/research-note.md"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/benchmark-result.json"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/generator-result.json"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/rollback-verification.json"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/stable-after.json"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/stable-before.json"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/summary.md"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/semantic-vector-retrieval/README.md"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/semantic-vector-retrieval/source-manifest.json"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/page-fanout/benchmark-contract.json"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/page-fanout/conservative/INDEX.md"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/page-fanout/conservative/REFERENCES.md"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/page-fanout/conservative/projection.json"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/page-fanout/conservative/references/engineering-guide.md"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/page-fanout/conservative/references/operations-runbook.md"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/page-fanout/conservative/references/research-note.md"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/page-fanout/corpus.json"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/page-fanout/documents/engineering-guide.md"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/page-fanout/documents/operations-runbook.md"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/page-fanout/documents/research-note.md"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/page-fanout/judge-contract.json"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/semantic-vector-retrieval/model-artifact-manifest.json"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/semantic-vector-retrieval/protocol.json"
+          },
+          {
+            "status": "A",
+            "path": "tests/test_ckb_page_fanout_benchmark.py"
+          },
+          {
+            "status": "A",
+            "path": "tests/test_ckb_page_fanout_generator.py"
+          },
+          {
+            "status": "A",
+            "path": "tests/test_ckb_semantic_vector_benchmark.py"
+          }
+        ],
+        "counts": {
+          "A": 67
+        },
+        "truncated": false
+      },
+      "stable_state": "stale-committed",
+      "observed_at_utc": "2026-09-02T22:22:17Z"
+    },
+    "process-22428": {
+      "signature": "db9d1f7dfbd9cc992b1c95e75712f11abe4bc4d15fa16e8433c0dc04e80bf498",
+      "head": "334cae760869d565086553fc47db93d69677d0e1",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 46,
+        "changed_paths": [
+          "prototypes/ckb-page-fanout-benchmark/README.md",
+          "prototypes/ckb-page-fanout-benchmark/ckb_page_fanout/__init__.py",
+          "prototypes/ckb-page-fanout-benchmark/ckb_page_fanout/benchmark.py",
+          "prototypes/ckb-page-fanout-benchmark/ckb_page_fanout/cli.py",
+          "prototypes/ckb-page-fanout-benchmark/ckb_page_fanout/contracts.py",
+          "prototypes/ckb-page-fanout-benchmark/ckb_page_fanout/generator.py",
+          "prototypes/ckb-page-fanout-benchmark/ckb_page_fanout/judge.py",
+          "prototypes/ckb-page-fanout-benchmark/scripts/ckb_page_fanout.py",
+          "references/benchmarks/page-fanout/arm-a-judge.json",
+          "references/benchmarks/page-fanout/arm-b-judge.json",
+          "references/benchmarks/page-fanout/arm-b-rollback.json",
+          "references/benchmarks/page-fanout/arm-b/INDEX.md",
+          "references/benchmarks/page-fanout/arm-b/REFERENCES.md",
+          "references/benchmarks/page-fanout/arm-b/concepts/eng-retry.md",
+          "references/benchmarks/page-fanout/arm-b/concepts/eng-rollback.md",
+          "references/benchmarks/page-fanout/arm-b/concepts/eng-snapshot.md",
+          "references/benchmarks/page-fanout/arm-b/concepts/ops-duplicate.md",
+          "references/benchmarks/page-fanout/arm-b/concepts/ops-orphan.md",
+          "references/benchmarks/page-fanout/arm-b/concepts/ops-quota.md",
+          "references/benchmarks/page-fanout/arm-b/concepts/research-blinding.md",
+          "references/benchmarks/page-fanout/arm-b/concepts/research-entailment.md",
+          "references/benchmarks/page-fanout/arm-b/concepts/research-navigation.md",
+          "references/benchmarks/page-fanout/arm-b/projection.json",
+          "references/benchmarks/page-fanout/arm-b/references/engineering-guide.md",
+          "references/benchmarks/page-fanout/arm-b/references/operations-runbook.md",
+          "references/benchmarks/page-fanout/arm-b/references/research-note.md",
+          "references/benchmarks/page-fanout/benchmark-result.json",
+          "references/benchmarks/page-fanout/generator-result.json",
+          "references/benchmarks/page-fanout/rollback-verification.json",
+          "references/benchmarks/page-fanout/stable-after.json",
+          "references/benchmarks/page-fanout/stable-before.json",
+          "references/benchmarks/page-fanout/summary.md",
+          "tests/fixtures/page-fanout/benchmark-contract.json",
+          "tests/fixtures/page-fanout/conservative/INDEX.md",
+          "tests/fixtures/page-fanout/conservative/REFERENCES.md",
+          "tests/fixtures/page-fanout/conservative/projection.json",
+          "tests/fixtures/page-fanout/conservative/references/engineering-guide.md",
+          "tests/fixtures/page-fanout/conservative/references/operations-runbook.md",
+          "tests/fixtures/page-fanout/conservative/references/research-note.md",
+          "tests/fixtures/page-fanout/corpus.json",
+          "tests/fixtures/page-fanout/documents/engineering-guide.md",
+          "tests/fixtures/page-fanout/documents/operations-runbook.md",
+          "tests/fixtures/page-fanout/documents/research-note.md",
+          "tests/fixtures/page-fanout/judge-contract.json",
+          "tests/test_ckb_page_fanout_benchmark.py",
+          "tests/test_ckb_page_fanout_generator.py"
+        ],
+        "changes": [
+          {
+            "status": "A",
+            "path": "prototypes/ckb-page-fanout-benchmark/README.md"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-page-fanout-benchmark/ckb_page_fanout/__init__.py"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-page-fanout-benchmark/ckb_page_fanout/benchmark.py"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-page-fanout-benchmark/ckb_page_fanout/cli.py"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-page-fanout-benchmark/ckb_page_fanout/contracts.py"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-page-fanout-benchmark/ckb_page_fanout/generator.py"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-page-fanout-benchmark/ckb_page_fanout/judge.py"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-page-fanout-benchmark/scripts/ckb_page_fanout.py"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/arm-a-judge.json"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/arm-b-judge.json"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/arm-b-rollback.json"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/arm-b/INDEX.md"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/arm-b/REFERENCES.md"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/arm-b/concepts/eng-retry.md"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/arm-b/concepts/eng-rollback.md"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/arm-b/concepts/eng-snapshot.md"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/arm-b/concepts/ops-duplicate.md"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/arm-b/concepts/ops-orphan.md"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/arm-b/concepts/ops-quota.md"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/arm-b/concepts/research-blinding.md"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/arm-b/concepts/research-entailment.md"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/arm-b/concepts/research-navigation.md"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/arm-b/projection.json"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/arm-b/references/engineering-guide.md"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/arm-b/references/operations-runbook.md"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/arm-b/references/research-note.md"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/benchmark-result.json"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/generator-result.json"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/rollback-verification.json"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/stable-after.json"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/stable-before.json"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/page-fanout/summary.md"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/page-fanout/benchmark-contract.json"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/page-fanout/conservative/INDEX.md"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/page-fanout/conservative/REFERENCES.md"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/page-fanout/conservative/projection.json"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/page-fanout/conservative/references/engineering-guide.md"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/page-fanout/conservative/references/operations-runbook.md"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/page-fanout/conservative/references/research-note.md"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/page-fanout/corpus.json"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/page-fanout/documents/engineering-guide.md"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/page-fanout/documents/operations-runbook.md"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/page-fanout/documents/research-note.md"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/page-fanout/judge-contract.json"
+          },
+          {
+            "status": "A",
+            "path": "tests/test_ckb_page_fanout_benchmark.py"
+          },
+          {
+            "status": "A",
+            "path": "tests/test_ckb_page_fanout_generator.py"
+          }
+        ],
+        "counts": {
+          "A": 46
+        },
+        "truncated": false
+      },
+      "stable_state": "stale-committed",
+      "observed_at_utc": "2026-09-02T21:51:51Z"
+    },
+    "process-82548": {
+      "signature": "56c68ff4e306909b54066e3564159b40d7163dc520c3ca865843e117a4dc41f3",
+      "head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-02T21:43:57Z"
+    },
+    "process-62552": {
+      "signature": "56c68ff4e306909b54066e3564159b40d7163dc520c3ca865843e117a4dc41f3",
+      "head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-02T21:33:52Z"
+    },
+    "process-66496": {
+      "signature": "56c68ff4e306909b54066e3564159b40d7163dc520c3ca865843e117a4dc41f3",
+      "head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-02T21:32:28Z"
+    },
+    "process-82032": {
+      "signature": "56c68ff4e306909b54066e3564159b40d7163dc520c3ca865843e117a4dc41f3",
+      "head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-02T21:31:50Z"
+    },
+    "process-12344": {
+      "signature": "56c68ff4e306909b54066e3564159b40d7163dc520c3ca865843e117a4dc41f3",
+      "head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-02T21:24:20Z"
+    },
+    "process-82632": {
+      "signature": "56c68ff4e306909b54066e3564159b40d7163dc520c3ca865843e117a4dc41f3",
+      "head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-02T21:24:15Z"
+    },
+    "process-64308": {
+      "signature": "56c68ff4e306909b54066e3564159b40d7163dc520c3ca865843e117a4dc41f3",
+      "head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-02T21:23:57Z"
+    },
+    "process-12312": {
+      "signature": "56c68ff4e306909b54066e3564159b40d7163dc520c3ca865843e117a4dc41f3",
+      "head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-02T21:23:52Z"
+    },
+    "process-22532": {
+      "signature": "56c68ff4e306909b54066e3564159b40d7163dc520c3ca865843e117a4dc41f3",
+      "head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-02T21:11:43Z"
+    },
+    "process-54224": {
+      "signature": "56c68ff4e306909b54066e3564159b40d7163dc520c3ca865843e117a4dc41f3",
+      "head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-02T21:11:28Z"
+    },
+    "process-41108": {
+      "signature": "56c68ff4e306909b54066e3564159b40d7163dc520c3ca865843e117a4dc41f3",
+      "head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-02T21:10:54Z"
+    },
+    "process-28068": {
+      "signature": "56c68ff4e306909b54066e3564159b40d7163dc520c3ca865843e117a4dc41f3",
+      "head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-02T21:10:27Z"
+    },
+    "process-80088": {
+      "signature": "56c68ff4e306909b54066e3564159b40d7163dc520c3ca865843e117a4dc41f3",
+      "head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-02T21:06:39Z"
+    },
+    "process-48244": {
+      "signature": "56c68ff4e306909b54066e3564159b40d7163dc520c3ca865843e117a4dc41f3",
+      "head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-02T21:06:39Z"
+    },
+    "process-62372": {
+      "signature": "56c68ff4e306909b54066e3564159b40d7163dc520c3ca865843e117a4dc41f3",
+      "head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-02T21:05:09Z"
+    },
+    "manager-sync-bd85195": {
+      "signature": "56c68ff4e306909b54066e3564159b40d7163dc520c3ca865843e117a4dc41f3",
+      "head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 52,
+        "changed_paths": [
+          "README.md",
+          "prototypes/ckb-tag-navigation/README.md",
+          "prototypes/ckb-tag-navigation/ckb_tag_navigation/__init__.py",
+          "prototypes/ckb-tag-navigation/ckb_tag_navigation/benchmark.py",
+          "prototypes/ckb-tag-navigation/ckb_tag_navigation/cli.py",
+          "prototypes/ckb-tag-navigation/ckb_tag_navigation/contracts.py",
+          "prototypes/ckb-tag-navigation/ckb_tag_navigation/projection.py",
+          "prototypes/ckb-tag-navigation/ckb_tag_navigation/state_machine.py",
+          "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
+          "prototypes/ckb-tag-navigation/schemas/navigation-benchmark.schema.json",
+          "prototypes/ckb-tag-navigation/schemas/policy.schema.json",
+          "prototypes/ckb-tag-navigation/schemas/tag-assertion.schema.json",
+          "prototypes/ckb-tag-navigation/schemas/tag-audit.schema.json",
+          "prototypes/ckb-tag-navigation/schemas/tag-projection.schema.json",
+          "prototypes/ckb-tag-navigation/scripts/ckb_tag_navigation.py",
+          "references/benchmarks/chinese-retrieval-effect-retest/concurrency-drift-evidence.json",
+          "references/benchmarks/chinese-retrieval-effect-retest/frozen-corpus-manifest.json",
+          "references/benchmarks/chinese-retrieval-effect-retest/provider-starts.log",
+          "references/benchmarks/chinese-retrieval-effect-retest/raw-results.json",
+          "references/benchmarks/chinese-retrieval-effect-retest/recomputed.json",
+          "references/benchmarks/chinese-retrieval-effect-retest/report.json",
+          "references/benchmarks/chinese-retrieval-effect-retest/summary.md",
+          "references/benchmarks/chinese-retrieval-effect-retest/verification.json",
+          "references/design/tag-navigation-research/official-sources.md",
+          "references/design/tag-navigation-research/research-report.md",
+          "references/design/tag-navigation-research/sources.json",
+          "references/design/tag-navigation-research/state-machine-contract.md",
+          "references/design/tag-navigation-research/verification/audit.json",
+          "references/design/tag-navigation-research/verification/benchmark.json",
+          "references/design/tag-navigation-research/verification/implementation.patch",
+          "references/design/tag-navigation-research/verification/projection.json",
+          "references/design/tag-navigation-research/verification/rollback_experiment.ps1",
+          "references/design/tag-navigation-research/verification/tags.rollback.json",
+          "references/design/tag-navigation-research/verification/verification.json",
+          "tests/benchmark_chinese_retrieval.py",
+          "tests/fixtures/chinese-retrieval-effects/protocol.json",
+          "tests/fixtures/chinese-retrieval-effects/recompute.py",
+          "tests/fixtures/chinese-retrieval-effects/replay-responses.json",
+          "tests/fixtures/keyword_provider.py",
+          "tests/fixtures/tag-navigation/assertions.jsonl",
+          "tests/fixtures/tag-navigation/navigation-benchmark.json",
+          "tests/fixtures/tag-navigation/navigation-records.jsonl",
+          "tests/fixtures/tag-navigation/policy.json",
+          "tests/test_chinese_retrieval_fixture.py",
+          "tests/test_ckb_tag_navigation_benchmark.py",
+          "tests/test_ckb_tag_navigation_canvas_compatibility.py",
+          "tests/test_ckb_tag_navigation_contracts.py",
+          "tests/test_ckb_tag_navigation_projection.py",
+          "tests/test_ckb_tag_navigation_rollback.py",
+          "tests/test_ckb_tag_navigation_state_machine.py",
+          "tests/test_keyword_fallback.py",
+          "tests/test_readme_human_entry.py"
+        ],
+        "changes": [
+          {
+            "status": "A",
+            "path": "README.md"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-tag-navigation/README.md"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/__init__.py"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/benchmark.py"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/cli.py"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/contracts.py"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/projection.py"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/state_machine.py"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-tag-navigation/schemas/navigation-benchmark.schema.json"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-tag-navigation/schemas/policy.schema.json"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-tag-navigation/schemas/tag-assertion.schema.json"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-tag-navigation/schemas/tag-audit.schema.json"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-tag-navigation/schemas/tag-projection.schema.json"
+          },
+          {
+            "status": "A",
+            "path": "prototypes/ckb-tag-navigation/scripts/ckb_tag_navigation.py"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/chinese-retrieval-effect-retest/concurrency-drift-evidence.json"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/chinese-retrieval-effect-retest/frozen-corpus-manifest.json"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/chinese-retrieval-effect-retest/provider-starts.log"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/chinese-retrieval-effect-retest/raw-results.json"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/chinese-retrieval-effect-retest/recomputed.json"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/chinese-retrieval-effect-retest/report.json"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/chinese-retrieval-effect-retest/summary.md"
+          },
+          {
+            "status": "A",
+            "path": "references/benchmarks/chinese-retrieval-effect-retest/verification.json"
+          },
+          {
+            "status": "A",
+            "path": "references/design/tag-navigation-research/official-sources.md"
+          },
+          {
+            "status": "A",
+            "path": "references/design/tag-navigation-research/research-report.md"
+          },
+          {
+            "status": "A",
+            "path": "references/design/tag-navigation-research/sources.json"
+          },
+          {
+            "status": "A",
+            "path": "references/design/tag-navigation-research/state-machine-contract.md"
+          },
+          {
+            "status": "A",
+            "path": "references/design/tag-navigation-research/verification/audit.json"
+          },
+          {
+            "status": "A",
+            "path": "references/design/tag-navigation-research/verification/benchmark.json"
+          },
+          {
+            "status": "A",
+            "path": "references/design/tag-navigation-research/verification/implementation.patch"
+          },
+          {
+            "status": "A",
+            "path": "references/design/tag-navigation-research/verification/projection.json"
+          },
+          {
+            "status": "A",
+            "path": "references/design/tag-navigation-research/verification/rollback_experiment.ps1"
+          },
+          {
+            "status": "A",
+            "path": "references/design/tag-navigation-research/verification/tags.rollback.json"
+          },
+          {
+            "status": "A",
+            "path": "references/design/tag-navigation-research/verification/verification.json"
+          },
+          {
+            "status": "M",
+            "path": "tests/benchmark_chinese_retrieval.py"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/chinese-retrieval-effects/protocol.json"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/chinese-retrieval-effects/recompute.py"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/chinese-retrieval-effects/replay-responses.json"
+          },
+          {
+            "status": "M",
+            "path": "tests/fixtures/keyword_provider.py"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/tag-navigation/assertions.jsonl"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/tag-navigation/navigation-benchmark.json"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/tag-navigation/navigation-records.jsonl"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/tag-navigation/policy.json"
+          },
+          {
+            "status": "M",
+            "path": "tests/test_chinese_retrieval_fixture.py"
+          },
+          {
+            "status": "A",
+            "path": "tests/test_ckb_tag_navigation_benchmark.py"
+          },
+          {
+            "status": "A",
+            "path": "tests/test_ckb_tag_navigation_canvas_compatibility.py"
+          },
+          {
+            "status": "A",
+            "path": "tests/test_ckb_tag_navigation_contracts.py"
+          },
+          {
+            "status": "A",
+            "path": "tests/test_ckb_tag_navigation_projection.py"
+          },
+          {
+            "status": "A",
+            "path": "tests/test_ckb_tag_navigation_rollback.py"
+          },
+          {
+            "status": "A",
+            "path": "tests/test_ckb_tag_navigation_state_machine.py"
+          },
+          {
+            "status": "M",
+            "path": "tests/test_keyword_fallback.py"
+          },
+          {
+            "status": "A",
+            "path": "tests/test_readme_human_entry.py"
+          }
+        ],
+        "counts": {
+          "A": 48,
+          "M": 4
+        },
+        "truncated": false
+      },
+      "stable_state": "stale-committed",
+      "observed_at_utc": "2026-09-02T20:54:56Z"
+    },
+    "process-60040": {
+      "signature": "7452dbb2a91fc2d5718794d95b4694f44db7b554d6f5d58a4da2a02b6d4b9b1f",
+      "head": "ae798a9b0962945f926a2bc72ff03c66cea8cef4",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 2,
+        "changed_paths": [
+          "README.md",
+          "tests/test_readme_human_entry.py"
+        ],
+        "changes": [
+          {
+            "status": "A",
+            "path": "README.md"
+          },
+          {
+            "status": "A",
+            "path": "tests/test_readme_human_entry.py"
+          }
+        ],
+        "counts": {
+          "A": 2
+        },
+        "truncated": false
+      },
+      "stable_state": "stale-committed",
+      "observed_at_utc": "2026-09-02T20:18:20Z"
+    },
+    "process-36936": {
+      "signature": "7452dbb2a91fc2d5718794d95b4694f44db7b554d6f5d58a4da2a02b6d4b9b1f",
+      "head": "ae798a9b0962945f926a2bc72ff03c66cea8cef4",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 2,
+        "changed_paths": [
+          "README.md",
+          "tests/test_readme_human_entry.py"
+        ],
+        "changes": [
+          {
+            "status": "A",
+            "path": "README.md"
+          },
+          {
+            "status": "A",
+            "path": "tests/test_readme_human_entry.py"
+          }
+        ],
+        "counts": {
+          "A": 2
+        },
+        "truncated": false
+      },
+      "stable_state": "stale-committed",
+      "observed_at_utc": "2026-09-02T20:11:30Z"
+    },
+    "process-34444": {
+      "signature": "b5ed73aee02ff3571e8b8e0709b5dbd73007aaeef71ba210b2e1d4cb98bd997f",
+      "head": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-02T19:59:48Z"
+    },
+    "process-75156": {
+      "signature": "b5ed73aee02ff3571e8b8e0709b5dbd73007aaeef71ba210b2e1d4cb98bd997f",
+      "head": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-02T19:49:41Z"
+    },
+    "process-27360": {
+      "signature": "b5ed73aee02ff3571e8b8e0709b5dbd73007aaeef71ba210b2e1d4cb98bd997f",
+      "head": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-02T19:49:34Z"
+    },
+    "process-67756": {
+      "signature": "b5ed73aee02ff3571e8b8e0709b5dbd73007aaeef71ba210b2e1d4cb98bd997f",
+      "head": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-02T19:49:12Z"
+    },
+    "process-29336": {
+      "signature": "b5ed73aee02ff3571e8b8e0709b5dbd73007aaeef71ba210b2e1d4cb98bd997f",
+      "head": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-02T19:49:11Z"
+    },
+    "process-58800": {
+      "signature": "b5ed73aee02ff3571e8b8e0709b5dbd73007aaeef71ba210b2e1d4cb98bd997f",
+      "head": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-02T19:49:00Z"
+    },
+    "process-57076": {
+      "signature": "b5ed73aee02ff3571e8b8e0709b5dbd73007aaeef71ba210b2e1d4cb98bd997f",
+      "head": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-02T19:48:51Z"
+    },
+    "process-81016": {
+      "signature": "b5ed73aee02ff3571e8b8e0709b5dbd73007aaeef71ba210b2e1d4cb98bd997f",
+      "head": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-02T19:43:54Z"
+    },
+    "process-29968": {
+      "signature": "b5ed73aee02ff3571e8b8e0709b5dbd73007aaeef71ba210b2e1d4cb98bd997f",
+      "head": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-02T19:43:53Z"
+    },
+    "process-4912": {
+      "signature": "b5ed73aee02ff3571e8b8e0709b5dbd73007aaeef71ba210b2e1d4cb98bd997f",
+      "head": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-02T19:40:58Z"
+    },
+    "manager-sync-19152b2": {
+      "signature": "b5ed73aee02ff3571e8b8e0709b5dbd73007aaeef71ba210b2e1d4cb98bd997f",
+      "head": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 30,
+        "changed_paths": [
+          "THIRD_PARTY_NOTICES.md",
+          "assets/runtime/win-x64/payload.zip",
+          "references/git-fact-freshness.md",
+          "references/reference-ingest.md",
+          "scripts/build_runtime_payload.py",
+          "scripts/ckb.py",
+          "scripts/ckb_core/automation.py",
+          "scripts/ckb_core/freshness.py",
+          "scripts/ckb_core/llm_wiki_capabilities.py",
+          "scripts/ckb_core/machine_knowledge.py",
+          "scripts/ckb_core/management_agent.py",
+          "scripts/ckb_core/parsers.py",
+          "scripts/ckb_core/pipeline.py",
+          "scripts/ckb_core/providers.py",
+          "scripts/ckb_core/reference_documents.py",
+          "scripts/ckb_core/reference_inputs.py",
+          "scripts/ckb_core/reference_pdf.py",
+          "tests/fixtures/cpp-parser-scons/broad-unusable.cpp.txt",
+          "tests/fixtures/cpp-parser-scons/local-warning.cpp.txt",
+          "tests/pdf_fixture_factory.py",
+          "tests/provider_integration.py",
+          "tests/test_automation.py",
+          "tests/test_ckb.py",
+          "tests/test_git_fact_freshness.py",
+          "tests/test_keyword_fallback.py",
+          "tests/test_management_agent.py",
+          "tests/test_migration.py",
+          "tests/test_package_release.py",
+          "tests/test_reference_pdf.py",
+          "toolchain.lock.json"
+        ],
+        "changes": [
+          {
+            "status": "M",
+            "path": "THIRD_PARTY_NOTICES.md"
+          },
+          {
+            "status": "M",
+            "path": "assets/runtime/win-x64/payload.zip"
+          },
+          {
+            "status": "A",
+            "path": "references/git-fact-freshness.md"
+          },
+          {
+            "status": "M",
+            "path": "references/reference-ingest.md"
+          },
+          {
+            "status": "M",
+            "path": "scripts/build_runtime_payload.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb_core/automation.py"
+          },
+          {
+            "status": "A",
+            "path": "scripts/ckb_core/freshness.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb_core/llm_wiki_capabilities.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb_core/machine_knowledge.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb_core/management_agent.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb_core/parsers.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb_core/pipeline.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb_core/providers.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb_core/reference_documents.py"
+          },
+          {
+            "status": "A",
+            "path": "scripts/ckb_core/reference_inputs.py"
+          },
+          {
+            "status": "A",
+            "path": "scripts/ckb_core/reference_pdf.py"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/cpp-parser-scons/broad-unusable.cpp.txt"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/cpp-parser-scons/local-warning.cpp.txt"
+          },
+          {
+            "status": "A",
+            "path": "tests/pdf_fixture_factory.py"
+          },
+          {
+            "status": "M",
+            "path": "tests/provider_integration.py"
+          },
+          {
+            "status": "M",
+            "path": "tests/test_automation.py"
+          },
+          {
+            "status": "M",
+            "path": "tests/test_ckb.py"
+          },
+          {
+            "status": "A",
+            "path": "tests/test_git_fact_freshness.py"
+          },
+          {
+            "status": "M",
+            "path": "tests/test_keyword_fallback.py"
+          },
+          {
+            "status": "M",
+            "path": "tests/test_management_agent.py"
+          },
+          {
+            "status": "M",
+            "path": "tests/test_migration.py"
+          },
+          {
+            "status": "M",
+            "path": "tests/test_package_release.py"
+          },
+          {
+            "status": "A",
+            "path": "tests/test_reference_pdf.py"
+          },
+          {
+            "status": "M",
+            "path": "toolchain.lock.json"
+          }
+        ],
+        "counts": {
+          "A": 9,
+          "M": 21
+        },
+        "truncated": false
+      },
+      "stable_state": "stale-committed",
+      "observed_at_utc": "2026-09-02T19:27:46Z"
+    },
+    "process-36476": {
+      "signature": "b5ed73aee02ff3571e8b8e0709b5dbd73007aaeef71ba210b2e1d4cb98bd997f",
+      "head": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 30,
+        "changed_paths": [
+          "THIRD_PARTY_NOTICES.md",
+          "assets/runtime/win-x64/payload.zip",
+          "references/git-fact-freshness.md",
+          "references/reference-ingest.md",
+          "scripts/build_runtime_payload.py",
+          "scripts/ckb.py",
+          "scripts/ckb_core/automation.py",
+          "scripts/ckb_core/freshness.py",
+          "scripts/ckb_core/llm_wiki_capabilities.py",
+          "scripts/ckb_core/machine_knowledge.py",
+          "scripts/ckb_core/management_agent.py",
+          "scripts/ckb_core/parsers.py",
+          "scripts/ckb_core/pipeline.py",
+          "scripts/ckb_core/providers.py",
+          "scripts/ckb_core/reference_documents.py",
+          "scripts/ckb_core/reference_inputs.py",
+          "scripts/ckb_core/reference_pdf.py",
+          "tests/fixtures/cpp-parser-scons/broad-unusable.cpp.txt",
+          "tests/fixtures/cpp-parser-scons/local-warning.cpp.txt",
+          "tests/pdf_fixture_factory.py",
+          "tests/provider_integration.py",
+          "tests/test_automation.py",
+          "tests/test_ckb.py",
+          "tests/test_git_fact_freshness.py",
+          "tests/test_keyword_fallback.py",
+          "tests/test_management_agent.py",
+          "tests/test_migration.py",
+          "tests/test_package_release.py",
+          "tests/test_reference_pdf.py",
+          "toolchain.lock.json"
+        ],
+        "changes": [
+          {
+            "status": "M",
+            "path": "THIRD_PARTY_NOTICES.md"
+          },
+          {
+            "status": "M",
+            "path": "assets/runtime/win-x64/payload.zip"
+          },
+          {
+            "status": "A",
+            "path": "references/git-fact-freshness.md"
+          },
+          {
+            "status": "M",
+            "path": "references/reference-ingest.md"
+          },
+          {
+            "status": "M",
+            "path": "scripts/build_runtime_payload.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb_core/automation.py"
+          },
+          {
+            "status": "A",
+            "path": "scripts/ckb_core/freshness.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb_core/llm_wiki_capabilities.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb_core/machine_knowledge.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb_core/management_agent.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb_core/parsers.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb_core/pipeline.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb_core/providers.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb_core/reference_documents.py"
+          },
+          {
+            "status": "A",
+            "path": "scripts/ckb_core/reference_inputs.py"
+          },
+          {
+            "status": "A",
+            "path": "scripts/ckb_core/reference_pdf.py"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/cpp-parser-scons/broad-unusable.cpp.txt"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/cpp-parser-scons/local-warning.cpp.txt"
+          },
+          {
+            "status": "A",
+            "path": "tests/pdf_fixture_factory.py"
+          },
+          {
+            "status": "M",
+            "path": "tests/provider_integration.py"
+          },
+          {
+            "status": "M",
+            "path": "tests/test_automation.py"
+          },
+          {
+            "status": "M",
+            "path": "tests/test_ckb.py"
+          },
+          {
+            "status": "A",
+            "path": "tests/test_git_fact_freshness.py"
+          },
+          {
+            "status": "M",
+            "path": "tests/test_keyword_fallback.py"
+          },
+          {
+            "status": "M",
+            "path": "tests/test_management_agent.py"
+          },
+          {
+            "status": "M",
+            "path": "tests/test_migration.py"
+          },
+          {
+            "status": "M",
+            "path": "tests/test_package_release.py"
+          },
+          {
+            "status": "A",
+            "path": "tests/test_reference_pdf.py"
+          },
+          {
+            "status": "M",
+            "path": "toolchain.lock.json"
+          }
+        ],
+        "counts": {
+          "A": 9,
+          "M": 21
+        },
+        "truncated": false
+      },
+      "stable_state": "stale-committed",
+      "observed_at_utc": "2026-09-02T19:07:45Z"
+    },
+    "manager-postmerge-19152b2": {
+      "signature": "b5ed73aee02ff3571e8b8e0709b5dbd73007aaeef71ba210b2e1d4cb98bd997f",
+      "head": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 30,
+        "changed_paths": [
+          "THIRD_PARTY_NOTICES.md",
+          "assets/runtime/win-x64/payload.zip",
+          "references/git-fact-freshness.md",
+          "references/reference-ingest.md",
+          "scripts/build_runtime_payload.py",
+          "scripts/ckb.py",
+          "scripts/ckb_core/automation.py",
+          "scripts/ckb_core/freshness.py",
+          "scripts/ckb_core/llm_wiki_capabilities.py",
+          "scripts/ckb_core/machine_knowledge.py",
+          "scripts/ckb_core/management_agent.py",
+          "scripts/ckb_core/parsers.py",
+          "scripts/ckb_core/pipeline.py",
+          "scripts/ckb_core/providers.py",
+          "scripts/ckb_core/reference_documents.py",
+          "scripts/ckb_core/reference_inputs.py",
+          "scripts/ckb_core/reference_pdf.py",
+          "tests/fixtures/cpp-parser-scons/broad-unusable.cpp.txt",
+          "tests/fixtures/cpp-parser-scons/local-warning.cpp.txt",
+          "tests/pdf_fixture_factory.py",
+          "tests/provider_integration.py",
+          "tests/test_automation.py",
+          "tests/test_ckb.py",
+          "tests/test_git_fact_freshness.py",
+          "tests/test_keyword_fallback.py",
+          "tests/test_management_agent.py",
+          "tests/test_migration.py",
+          "tests/test_package_release.py",
+          "tests/test_reference_pdf.py",
+          "toolchain.lock.json"
+        ],
+        "changes": [
+          {
+            "status": "M",
+            "path": "THIRD_PARTY_NOTICES.md"
+          },
+          {
+            "status": "M",
+            "path": "assets/runtime/win-x64/payload.zip"
+          },
+          {
+            "status": "A",
+            "path": "references/git-fact-freshness.md"
+          },
+          {
+            "status": "M",
+            "path": "references/reference-ingest.md"
+          },
+          {
+            "status": "M",
+            "path": "scripts/build_runtime_payload.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb_core/automation.py"
+          },
+          {
+            "status": "A",
+            "path": "scripts/ckb_core/freshness.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb_core/llm_wiki_capabilities.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb_core/machine_knowledge.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb_core/management_agent.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb_core/parsers.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb_core/pipeline.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb_core/providers.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb_core/reference_documents.py"
+          },
+          {
+            "status": "A",
+            "path": "scripts/ckb_core/reference_inputs.py"
+          },
+          {
+            "status": "A",
+            "path": "scripts/ckb_core/reference_pdf.py"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/cpp-parser-scons/broad-unusable.cpp.txt"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/cpp-parser-scons/local-warning.cpp.txt"
+          },
+          {
+            "status": "A",
+            "path": "tests/pdf_fixture_factory.py"
+          },
+          {
+            "status": "M",
+            "path": "tests/provider_integration.py"
+          },
+          {
+            "status": "M",
+            "path": "tests/test_automation.py"
+          },
+          {
+            "status": "M",
+            "path": "tests/test_ckb.py"
+          },
+          {
+            "status": "A",
+            "path": "tests/test_git_fact_freshness.py"
+          },
+          {
+            "status": "M",
+            "path": "tests/test_keyword_fallback.py"
+          },
+          {
+            "status": "M",
+            "path": "tests/test_management_agent.py"
+          },
+          {
+            "status": "M",
+            "path": "tests/test_migration.py"
+          },
+          {
+            "status": "M",
+            "path": "tests/test_package_release.py"
+          },
+          {
+            "status": "A",
+            "path": "tests/test_reference_pdf.py"
+          },
+          {
+            "status": "M",
+            "path": "toolchain.lock.json"
+          }
+        ],
+        "counts": {
+          "A": 9,
+          "M": 21
+        },
+        "truncated": false
+      },
+      "stable_state": "stale-committed",
+      "observed_at_utc": "2026-09-02T19:07:35Z"
+    }
+  },
+  "recent_events": [
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-7631b05d69125eb4a711423164e39998",
+      "observed_at_utc": "2026-09-02T19:07:35Z",
+      "trigger": "postmerge-probe",
+      "state": "stale-committed",
+      "stable_state": "stale-committed",
+      "current_head": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-c3198f9eb14d58f895c675e251af6d1d",
+      "observed_at_utc": "2026-09-02T19:07:45Z",
+      "trigger": "first-query",
+      "state": "stale-committed",
+      "stable_state": "stale-committed",
+      "current_head": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-15b059a4e45a53f3af4a57fc985a73b6",
+      "observed_at_utc": "2026-09-02T19:27:46Z",
+      "trigger": "migration-plan-preflight",
+      "state": "stale-committed",
+      "stable_state": "stale-committed",
+      "current_head": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-5a85b81db9cf525ea5d765a3adec682a",
+      "observed_at_utc": "2026-09-02T19:40:58Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-feb885cd78fa50a89667e2a3933b919f",
+      "observed_at_utc": "2026-09-02T19:43:53Z",
+      "trigger": "explicit-status",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-bd15956682c35383becc392ff13bea4f",
+      "observed_at_utc": "2026-09-02T19:43:54Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-5558fff6cfea5f56977432a25a56d751",
+      "observed_at_utc": "2026-09-02T19:48:51Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-3be18e615625543ea996a75dc494bd27",
+      "observed_at_utc": "2026-09-02T19:49:00Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-001ea3db26f05afaaef2136f022df147",
+      "observed_at_utc": "2026-09-02T19:49:11Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-2e40d9a921c954298fdecfc53f13d2f5",
+      "observed_at_utc": "2026-09-02T19:49:12Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-6cb963ad62d55792929abef954c097d2",
+      "observed_at_utc": "2026-09-02T19:49:34Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-75e2217e394654fb837c179d1f1a64d4",
+      "observed_at_utc": "2026-09-02T19:49:41Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-8852f42d3ce35829b5baa38b6ba42a59",
+      "observed_at_utc": "2026-09-02T19:59:48Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-acc9a371fe655ff3a10f0624093dd35d",
+      "observed_at_utc": "2026-09-02T20:11:30Z",
+      "trigger": "first-query",
+      "state": "stale-committed",
+      "stable_state": "stale-committed",
+      "current_head": "ae798a9b0962945f926a2bc72ff03c66cea8cef4",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-922d30f79d9753c49151f39953443272",
+      "observed_at_utc": "2026-09-02T20:18:20Z",
+      "trigger": "first-query",
+      "state": "stale-committed",
+      "stable_state": "stale-committed",
+      "current_head": "ae798a9b0962945f926a2bc72ff03c66cea8cef4",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-e47b7d6a9a1a5f75940a2567154d29a5",
+      "observed_at_utc": "2026-09-02T20:54:56Z",
+      "trigger": "migration-plan-preflight",
+      "state": "stale-committed",
+      "stable_state": "stale-committed",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-ad37e7aff17653d39cd8caa421ea2568",
+      "observed_at_utc": "2026-09-02T21:05:09Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-e6d28dd7c268592ab7f87a0d9222856d",
+      "observed_at_utc": "2026-09-02T21:06:39Z",
+      "trigger": "explicit-status",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-157b22d80703523c894b4e21ab5c6f56",
+      "observed_at_utc": "2026-09-02T21:06:39Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-2db2b452021b5e0ca826e981867bc1ee",
+      "observed_at_utc": "2026-09-02T21:10:27Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-b68a2327053a5cedbeb80fe2a4507217",
+      "observed_at_utc": "2026-09-02T21:10:54Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-28862885cb3256b69adf4f4ba1dfa7b6",
+      "observed_at_utc": "2026-09-02T21:11:28Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-cc25ad5ce27c5f55806477573a586758",
+      "observed_at_utc": "2026-09-02T21:11:43Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-0d4ff48e81295d59af47929832017ce1",
+      "observed_at_utc": "2026-09-02T21:23:49Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-0b26be71eaca5c1993359f8339622832",
+      "observed_at_utc": "2026-09-02T21:23:50Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-de64cec5fbdd501aafa828bd7ad80192",
+      "observed_at_utc": "2026-09-02T21:23:50Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-25632627859354a984436324496c9d95",
+      "observed_at_utc": "2026-09-02T21:23:51Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-e15d905cc5ce5cbb8efc9e3f93d48a96",
+      "observed_at_utc": "2026-09-02T21:23:51Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-112cad7c0ad45175b1cb8b0d0f7eb2da",
+      "observed_at_utc": "2026-09-02T21:23:52Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-1ff9806b80b6533aa11a0bffd12eda79",
+      "observed_at_utc": "2026-09-02T21:23:55Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-26472edcbf5f587a98e280a6063564db",
+      "observed_at_utc": "2026-09-02T21:23:55Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-5924b6e5f1695c2492c2b6b2e8a87b47",
+      "observed_at_utc": "2026-09-02T21:23:56Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-9b775698d8d15eeaab543cca9f33e314",
+      "observed_at_utc": "2026-09-02T21:23:56Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-f4afee0dc06e5ad8afb69ecd51223ed4",
+      "observed_at_utc": "2026-09-02T21:23:57Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-c03f495918a8532e97a2c14e01015316",
+      "observed_at_utc": "2026-09-02T21:23:57Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-3097b8c8ebd555e398e2664413dabbfd",
+      "observed_at_utc": "2026-09-02T21:24:12Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-347cd82e386e5cb88f0e48b0ffcb95fd",
+      "observed_at_utc": "2026-09-02T21:24:13Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-56288087c1605227a0f841cd10f9f542",
+      "observed_at_utc": "2026-09-02T21:24:13Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-43801874acb25a72bbc9c4ddab7452a9",
+      "observed_at_utc": "2026-09-02T21:24:14Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-af5c183eea3f54e8b5e7af70a9dec63d",
+      "observed_at_utc": "2026-09-02T21:24:14Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-7f0bee44ea2658549009c76a1cfd97e4",
+      "observed_at_utc": "2026-09-02T21:24:15Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-734862e1fa8d5b19b6c830a6e5513ed1",
+      "observed_at_utc": "2026-09-02T21:24:18Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-842f5ac0b6e45043b519384df8cee157",
+      "observed_at_utc": "2026-09-02T21:24:18Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-8602751f339d5ef9b23e1bb408b40295",
+      "observed_at_utc": "2026-09-02T21:24:19Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-8251f710202f5e03b0ffc55c6d4ca678",
+      "observed_at_utc": "2026-09-02T21:24:19Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-826451ddc6035ce29454fac024e789d3",
+      "observed_at_utc": "2026-09-02T21:24:20Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-c172cbe2a087597db3008880f46eaf3d",
+      "observed_at_utc": "2026-09-02T21:24:20Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-ba46ea5498ae5db2be50cf8057554a05",
+      "observed_at_utc": "2026-09-02T21:31:47Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-41c951bb64cc533abacf3cf09eb3fefc",
+      "observed_at_utc": "2026-09-02T21:31:47Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-2ea65f409a5553ad8a7097ee2e0c5dff",
+      "observed_at_utc": "2026-09-02T21:31:48Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-b4e3404769ca5bb4a792f377a4c70013",
+      "observed_at_utc": "2026-09-02T21:31:48Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-dc375cdf800259f594c741fb574fc5d3",
+      "observed_at_utc": "2026-09-02T21:31:49Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-7585e709f4cc5ec4b11cbe0d179672e6",
+      "observed_at_utc": "2026-09-02T21:31:50Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-ddb4f29a524a59da8c21f5be6535d7be",
+      "observed_at_utc": "2026-09-02T21:32:25Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-26a7801b97825fe7b2c1ec9542b337d9",
+      "observed_at_utc": "2026-09-02T21:32:25Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-c42619f705be517485ae2cd6d4f2287e",
+      "observed_at_utc": "2026-09-02T21:32:26Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-3ca04f881f0e5b3597ebb46d2db5897e",
+      "observed_at_utc": "2026-09-02T21:32:26Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-6479b372554c5ddb8ebfc04ca8fb8a00",
+      "observed_at_utc": "2026-09-02T21:32:27Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-1b0c5d6d28dc59548fd9f8357890684e",
+      "observed_at_utc": "2026-09-02T21:32:28Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-8f897f2eb4a05c92ac3638fb759f529a",
+      "observed_at_utc": "2026-09-02T21:33:49Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-628c550a2b4b5834a8554b3b74df743a",
+      "observed_at_utc": "2026-09-02T21:33:50Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-4272f493db23584f866ffbbfb973ce12",
+      "observed_at_utc": "2026-09-02T21:33:50Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-4b55dad477625876af04dc0dd0b4d9f4",
+      "observed_at_utc": "2026-09-02T21:33:51Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-493530e60bcb5ec3ba0f98748146a792",
+      "observed_at_utc": "2026-09-02T21:33:51Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-30d5ada7770d537587f53936020d2cf2",
+      "observed_at_utc": "2026-09-02T21:33:52Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-271af37811c353f3bb8f72c905c8bd41",
+      "observed_at_utc": "2026-09-02T21:43:57Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bd8519583e3a075612036d0874c1d0742000e30c",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-15f3edac34015cee856c9ea1d671a5f3",
+      "observed_at_utc": "2026-09-02T21:51:51Z",
+      "trigger": "first-query",
+      "state": "stale-committed",
+      "stable_state": "stale-committed",
+      "current_head": "334cae760869d565086553fc47db93d69677d0e1",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-e776853a324b54aa82b727b4a2ae3f2f",
+      "observed_at_utc": "2026-09-02T22:22:17Z",
+      "trigger": "migration-plan-preflight",
+      "state": "stale-committed",
+      "stable_state": "stale-committed",
+      "current_head": "c533dd7c53224a637b1438ea72ee25da887fc6de",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-b88197cd1c555fde8d38ac1d4831bdf1",
+      "observed_at_utc": "2026-09-02T22:51:48Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "c533dd7c53224a637b1438ea72ee25da887fc6de",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-abdce49401585e7e9e137af9659a3105",
+      "observed_at_utc": "2026-09-02T22:57:02Z",
+      "trigger": "explicit-status",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "c533dd7c53224a637b1438ea72ee25da887fc6de",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-9ee9a8689ea35a3a9ae20d4d6e6a304f",
+      "observed_at_utc": "2026-09-02T22:58:28Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "c533dd7c53224a637b1438ea72ee25da887fc6de",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    }
+  ]
+}

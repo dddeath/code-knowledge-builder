@@ -3,20 +3,33 @@
   "pack_id": "migrated-page-review-pack-0014",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T02:36:37Z",
+  "reviewed_at_utc": "2026-09-02T22:45:06Z",
   "reviews": [
     {
-      "entity_id": "file-70e31fa4ef375f9e94789669e83af555",
+      "entity_id": "file-213f6238b8af58a289bf846a9e5010b9",
       "classification": "page",
-      "owner_page_id": "file-70e31fa4ef375f9e94789669e83af555",
-      "source_path": "scripts/ckb_core/human_page_template_proposals.py",
+      "owner_page_id": "file-213f6238b8af58a289bf846a9e5010b9",
+      "source_path": "scripts/ckb_core/freshness.py",
       "start_line": 1,
-      "end_line": 1319,
+      "end_line": 1037,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `scripts/ckb_core/human_page_template_proposals.py` 第 1-1319 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
-      "meaning_zh": "`scripts/ckb_core/human_page_template_proposals.py` 页面绑定固定源码第 1-1319 行，说明该文件在输出局部模板提议、人工审计、事件重放和回滚中的整体职责。",
-      "role_zh": "该文件负责输出局部模板提议、人工审计、事件重放和回滚，并为相关命令或测试提供可复查实现入口。",
-      "change_when_zh": "当 `scripts/ckb_core/human_page_template_proposals.py` 中 `scripts/ckb_core/human_page_template_proposals.py` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 1 至 1037 行；摘录与 Git blob adfaca335688 一致。",
+      "meaning_zh": "文件 `scripts/ckb_core/freshness.py`负责比较知识库固定提交与 Git 当前状态，生成事实新鲜度状态、迁移计划和协作记录。",
+      "role_zh": "它属于阻止 Agent 把过期源码事实当作当前结论的前置保护层，当前说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当Git 事件、状态机、锁释放、迁移完成证据或检索结论保护变化时，应同步复查本页及其直接关联测试。"
+    },
+    {
+      "entity_id": "ent-6bed88365da45cdd9c7869d35ee93510",
+      "classification": "page",
+      "owner_page_id": "ent-6bed88365da45cdd9c7869d35ee93510",
+      "source_path": "scripts/ckb_core/freshness.py",
+      "start_line": 569,
+      "end_line": 685,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 569 至 685 行；摘录与 Git blob adfaca335688 一致。",
+      "meaning_zh": "代码单元 `check_fact_freshness`负责比较知识库固定提交与 Git 当前状态，生成事实新鲜度状态、迁移计划和协作记录。",
+      "role_zh": "它属于阻止 Agent 把过期源码事实当作当前结论的前置保护层，当前说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当Git 事件、状态机、锁释放、迁移完成证据或检索结论保护变化时，应同步复查本页及其直接关联测试。"
     }
   ]
 }

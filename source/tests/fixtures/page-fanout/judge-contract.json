@@ -1,0 +1,293 @@
+{
+  "arm_ids": [
+    "arm_a",
+    "arm_b"
+  ],
+  "schema_version": 1,
+  "scope": "isolated-blinded-page-navigation-judge",
+  "scoring_contract": {
+    "answer_correct": "expected-claim-must-appear-verbatim-on-fixed-target",
+    "duplicate_topic_similarity_threshold": 0.92,
+    "judge_input_excludes": [
+      "strategy-name",
+      "candidate-generation-code",
+      "recommendation-thresholds"
+    ],
+    "misleading_links": "visited-pages-outside-fixed-accepted-route",
+    "navigation_steps": "shortest-internal-link-edge-count-to-fixed-target",
+    "source_entailed": "fixed-source-hash-range-and-source-text-must-match-target-citation"
+  },
+  "start_page": "INDEX.md",
+  "tasks": [
+    {
+      "accepted_route": {
+        "arm_a": [
+          "INDEX.md",
+          "REFERENCES.md",
+          "references/engineering-guide.md"
+        ],
+        "arm_b": [
+          "INDEX.md",
+          "REFERENCES.md",
+          "references/engineering-guide.md",
+          "concepts/eng-snapshot.md"
+        ]
+      },
+      "category": "engineering-guide",
+      "expected_claim_zh": "可验证快照要求在执行变更前记录输入摘要、版本和预期结果。",
+      "expected_source": {
+        "end_line": 4,
+        "path": "documents/engineering-guide.md",
+        "source_sha256": "01edbebdbc904f2a6d28294b4fcb14ed39d15075c98d9074b6649593834a29bb",
+        "source_text": "可验证快照要求在执行变更前记录输入摘要、版本和预期结果。",
+        "start_line": 4
+      },
+      "expected_target": {
+        "arm_a": "references/engineering-guide.md",
+        "arm_b": "concepts/eng-snapshot.md"
+      },
+      "query_zh": "查找“可验证快照”的定义及精确来源。",
+      "task_id": "eng-snapshot"
+    },
+    {
+      "accepted_route": {
+        "arm_a": [
+          "INDEX.md",
+          "REFERENCES.md",
+          "references/engineering-guide.md"
+        ],
+        "arm_b": [
+          "INDEX.md",
+          "REFERENCES.md",
+          "references/engineering-guide.md",
+          "concepts/eng-rollback.md"
+        ]
+      },
+      "category": "engineering-guide",
+      "expected_claim_zh": "守卫式回滚只在目标摘要与交付摘要一致时删除隔离输出。",
+      "expected_source": {
+        "end_line": 7,
+        "path": "documents/engineering-guide.md",
+        "source_sha256": "01edbebdbc904f2a6d28294b4fcb14ed39d15075c98d9074b6649593834a29bb",
+        "source_text": "守卫式回滚只在目标摘要与交付摘要一致时删除隔离输出。",
+        "start_line": 7
+      },
+      "expected_target": {
+        "arm_a": "references/engineering-guide.md",
+        "arm_b": "concepts/eng-rollback.md"
+      },
+      "query_zh": "查找“守卫式回滚”的定义及精确来源。",
+      "task_id": "eng-rollback"
+    },
+    {
+      "accepted_route": {
+        "arm_a": [
+          "INDEX.md",
+          "REFERENCES.md",
+          "references/engineering-guide.md"
+        ],
+        "arm_b": [
+          "INDEX.md",
+          "REFERENCES.md",
+          "references/engineering-guide.md",
+          "concepts/eng-retry.md"
+        ]
+      },
+      "category": "engineering-guide",
+      "expected_claim_zh": "有界重试必须固定最大次数，并在次数耗尽后返回稳定失败原因。",
+      "expected_source": {
+        "end_line": 10,
+        "path": "documents/engineering-guide.md",
+        "source_sha256": "01edbebdbc904f2a6d28294b4fcb14ed39d15075c98d9074b6649593834a29bb",
+        "source_text": "有界重试必须固定最大次数，并在次数耗尽后返回稳定失败原因。",
+        "start_line": 10
+      },
+      "expected_target": {
+        "arm_a": "references/engineering-guide.md",
+        "arm_b": "concepts/eng-retry.md"
+      },
+      "query_zh": "查找“有界重试”的定义及精确来源。",
+      "task_id": "eng-retry"
+    },
+    {
+      "accepted_route": {
+        "arm_a": [
+          "INDEX.md",
+          "REFERENCES.md",
+          "references/research-note.md"
+        ],
+        "arm_b": [
+          "INDEX.md",
+          "REFERENCES.md",
+          "references/research-note.md",
+          "concepts/research-entailment.md"
+        ]
+      },
+      "category": "research-note",
+      "expected_claim_zh": "证据蕴含要求中文主张能够由同一精确来源片段直接支持。",
+      "expected_source": {
+        "end_line": 4,
+        "path": "documents/research-note.md",
+        "source_sha256": "715a8fdefcd08dab90a17b09f432a819f4cf20ed66524a6996170d527c18eb5e",
+        "source_text": "证据蕴含要求中文主张能够由同一精确来源片段直接支持。",
+        "start_line": 4
+      },
+      "expected_target": {
+        "arm_a": "references/research-note.md",
+        "arm_b": "concepts/research-entailment.md"
+      },
+      "query_zh": "查找“证据蕴含”的定义及精确来源。",
+      "task_id": "research-entailment"
+    },
+    {
+      "accepted_route": {
+        "arm_a": [
+          "INDEX.md",
+          "REFERENCES.md",
+          "references/research-note.md"
+        ],
+        "arm_b": [
+          "INDEX.md",
+          "REFERENCES.md",
+          "references/research-note.md",
+          "concepts/research-blinding.md"
+        ]
+      },
+      "category": "research-note",
+      "expected_claim_zh": "盲化判定在聚合前只接收实验臂编号，不接收策略名称。",
+      "expected_source": {
+        "end_line": 7,
+        "path": "documents/research-note.md",
+        "source_sha256": "715a8fdefcd08dab90a17b09f432a819f4cf20ed66524a6996170d527c18eb5e",
+        "source_text": "盲化判定在聚合前只接收实验臂编号，不接收策略名称。",
+        "start_line": 7
+      },
+      "expected_target": {
+        "arm_a": "references/research-note.md",
+        "arm_b": "concepts/research-blinding.md"
+      },
+      "query_zh": "查找“盲化判定”的定义及精确来源。",
+      "task_id": "research-blinding"
+    },
+    {
+      "accepted_route": {
+        "arm_a": [
+          "INDEX.md",
+          "REFERENCES.md",
+          "references/research-note.md"
+        ],
+        "arm_b": [
+          "INDEX.md",
+          "REFERENCES.md",
+          "references/research-note.md",
+          "concepts/research-navigation.md"
+        ]
+      },
+      "category": "research-note",
+      "expected_claim_zh": "导航步数等于从固定入口到目标页的最短内部链接边数。",
+      "expected_source": {
+        "end_line": 10,
+        "path": "documents/research-note.md",
+        "source_sha256": "715a8fdefcd08dab90a17b09f432a819f4cf20ed66524a6996170d527c18eb5e",
+        "source_text": "导航步数等于从固定入口到目标页的最短内部链接边数。",
+        "start_line": 10
+      },
+      "expected_target": {
+        "arm_a": "references/research-note.md",
+        "arm_b": "concepts/research-navigation.md"
+      },
+      "query_zh": "查找“导航步数”的定义及精确来源。",
+      "task_id": "research-navigation"
+    },
+    {
+      "accepted_route": {
+        "arm_a": [
+          "INDEX.md",
+          "REFERENCES.md",
+          "references/operations-runbook.md"
+        ],
+        "arm_b": [
+          "INDEX.md",
+          "REFERENCES.md",
+          "references/operations-runbook.md",
+          "concepts/ops-quota.md"
+        ]
+      },
+      "category": "operations-runbook",
+      "expected_claim_zh": "页面配额同时限制单文档新增页、全局新增页和每页链接数。",
+      "expected_source": {
+        "end_line": 4,
+        "path": "documents/operations-runbook.md",
+        "source_sha256": "d6ad63e00bc90dbfa564f6ac73bb0f446337afe9862959b2c2ec7e245bb95a4a",
+        "source_text": "页面配额同时限制单文档新增页、全局新增页和每页链接数。",
+        "start_line": 4
+      },
+      "expected_target": {
+        "arm_a": "references/operations-runbook.md",
+        "arm_b": "concepts/ops-quota.md"
+      },
+      "query_zh": "查找“页面配额”的定义及精确来源。",
+      "task_id": "ops-quota"
+    },
+    {
+      "accepted_route": {
+        "arm_a": [
+          "INDEX.md",
+          "REFERENCES.md",
+          "references/operations-runbook.md"
+        ],
+        "arm_b": [
+          "INDEX.md",
+          "REFERENCES.md",
+          "references/operations-runbook.md",
+          "concepts/ops-orphan.md"
+        ]
+      },
+      "category": "operations-runbook",
+      "expected_claim_zh": "孤立页是从固定入口沿内部链接不能到达的已生成页面。",
+      "expected_source": {
+        "end_line": 7,
+        "path": "documents/operations-runbook.md",
+        "source_sha256": "d6ad63e00bc90dbfa564f6ac73bb0f446337afe9862959b2c2ec7e245bb95a4a",
+        "source_text": "孤立页是从固定入口沿内部链接不能到达的已生成页面。",
+        "start_line": 7
+      },
+      "expected_target": {
+        "arm_a": "references/operations-runbook.md",
+        "arm_b": "concepts/ops-orphan.md"
+      },
+      "query_zh": "查找“孤立页”的定义及精确来源。",
+      "task_id": "ops-orphan"
+    },
+    {
+      "accepted_route": {
+        "arm_a": [
+          "INDEX.md",
+          "REFERENCES.md",
+          "references/operations-runbook.md"
+        ],
+        "arm_b": [
+          "INDEX.md",
+          "REFERENCES.md",
+          "references/operations-runbook.md",
+          "concepts/ops-duplicate.md"
+        ]
+      },
+      "category": "operations-runbook",
+      "expected_claim_zh": "重复主题按 Unicode 规范化后的标题相似度阈值确定。",
+      "expected_source": {
+        "end_line": 10,
+        "path": "documents/operations-runbook.md",
+        "source_sha256": "d6ad63e00bc90dbfa564f6ac73bb0f446337afe9862959b2c2ec7e245bb95a4a",
+        "source_text": "重复主题按 Unicode 规范化后的标题相似度阈值确定。",
+        "start_line": 10
+      },
+      "expected_target": {
+        "arm_a": "references/operations-runbook.md",
+        "arm_b": "concepts/ops-duplicate.md"
+      },
+      "query_zh": "查找“重复主题”的定义及精确来源。",
+      "task_id": "ops-duplicate"
+    }
+  ]
+}

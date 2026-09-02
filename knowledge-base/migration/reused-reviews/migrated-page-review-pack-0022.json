@@ -3,20 +3,20 @@
   "pack_id": "migrated-page-review-pack-0022",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T02:36:45Z",
+  "reviewed_at_utc": "2026-09-02T22:45:16Z",
   "reviews": [
     {
-      "entity_id": "file-255c4a1f76265e3babde96355180c015",
+      "entity_id": "file-b558ac7774f0580eb964b4494cfe47c3",
       "classification": "page",
-      "owner_page_id": "file-255c4a1f76265e3babde96355180c015",
-      "source_path": "scripts/ckb_core/management_agent.py",
+      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 1,
-      "end_line": 1355,
+      "end_line": 1524,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `scripts/ckb_core/management_agent.py` 第 1-1355 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
-      "meaning_zh": "`scripts/ckb_core/management_agent.py` 页面绑定固定源码第 1-1355 行，说明该文件在管理对话绑定、任务派发和审阅上下文中的整体职责。",
-      "role_zh": "该文件负责管理对话绑定、任务派发和审阅上下文，并为相关命令或测试提供可复查实现入口。",
-      "change_when_zh": "当 `scripts/ckb_core/management_agent.py` 中 `scripts/ckb_core/management_agent.py` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
+      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 1-1524 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
+      "meaning_zh": "`scripts/ckb_core/human_page_templates.py` 页面绑定固定源码第 1-1524 行，说明该文件如何承担14 类人类页面的 V3 章节合同、预算和渐进式披露验证。",
+      "role_zh": "该文件负责14 类人类页面的 V3 章节合同、预算和渐进式披露验证，并为相关命令、页面生成或测试提供源码入口。",
+      "change_when_zh": "当 `scripts/ckb_core/human_page_templates.py` 的公开输入、生成结果、状态边界或与其他模块的协作关系变化时，应更新本页。"
     }
   ]
 }

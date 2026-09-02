@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "status": "passed",
-  "checked_at_utc": "2026-09-02T02:48:54Z",
+  "checked_at_utc": "2026-09-02T22:58:32Z",
   "output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
   "page_writes": 0,
   "checks": {
@@ -53,14 +53,14 @@
       },
       "work_record_index": {
         "status": "passed",
-        "record_count": 57,
-        "linked_record_count": 57,
+        "record_count": 68,
+        "linked_record_count": 68,
         "section_counts": {
           "analysis": 18,
-          "changes": 32,
+          "changes": 36,
           "pitfalls": 0,
-          "experiments": 3,
-          "sessions": 4
+          "experiments": 7,
+          "sessions": 7
         },
         "errors": []
       },
@@ -68,14 +68,14 @@
     },
     "work_record_index": {
       "status": "passed",
-      "record_count": 57,
-      "linked_record_count": 57,
+      "record_count": 68,
+      "linked_record_count": 68,
       "section_counts": {
         "analysis": 18,
-        "changes": 32,
+        "changes": 36,
         "pitfalls": 0,
-        "experiments": 3,
-        "sessions": 4
+        "experiments": 7,
+        "sessions": 7
       },
       "errors": []
     },
@@ -85,11 +85,11 @@
       "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\agent-index.sqlite",
       "integrity": "ok",
       "counts": {
-        "pages": 196,
-        "symbols": 1686,
-        "edges": 1700,
-        "terms": 21943,
-        "notes": 57
+        "pages": 243,
+        "symbols": 2029,
+        "edges": 1902,
+        "terms": 28198,
+        "notes": 68
       },
       "projection_format": "markdown",
       "errors": []
@@ -100,22 +100,22 @@
       "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\knowledge.sqlite",
       "integrity": "ok",
       "counts": {
-        "files": 92,
-        "entities": 1686,
-        "source_ranges": 1686,
-        "relations": 6901,
-        "reviews": 1686,
-        "documents": 1749,
-        "sections": 6171,
-        "human_projection": 1686,
+        "files": 109,
+        "entities": 2029,
+        "source_ranges": 2029,
+        "relations": 7895,
+        "reviews": 2029,
+        "documents": 2105,
+        "sections": 7466,
+        "human_projection": 2029,
         "workspace_changes": 0,
         "reference_sources": 1,
-        "research_gaps": 5
+        "research_gaps": 7
       },
       "fts_counts": {
-        "entity_fts": 1686,
-        "section_fts": 6171,
-        "source_fts": 92
+        "entity_fts": 2029,
+        "section_fts": 7466,
+        "source_fts": 109
       },
       "language_contract": "所有说明使用简体中文，允许英文专有名词和代码标识符",
       "retrieval": "sqlite-exact-fts5-sections-deterministic-weighted-graph",
@@ -157,7 +157,7 @@
     "operations": {
       "schema_version": 1,
       "status": "passed",
-      "records": 193,
+      "records": 271,
       "shards": 3,
       "initialized": true,
       "latest": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\operations\\latest.json",
@@ -168,10 +168,10 @@
       "status": "passed",
       "initialized": true,
       "counts": {
-        "total": 5,
-        "open": 4,
+        "total": 7,
+        "open": 5,
         "deferred": 0,
-        "resolved": 1
+        "resolved": 2
       },
       "index": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\gaps\\index.json",
       "errors": []

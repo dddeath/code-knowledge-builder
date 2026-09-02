@@ -594,6 +594,24 @@ def collect_semantics(
         )
         fatal = [d for d in diagnostics if any(p in str(d.get("message", "")).lower() for p in fatal_patterns)]
         fatal_stderr = [line for line in client.stderr if any(pattern in line.lower() for pattern in fatal_patterns)]
+        warnings: list[dict[str, Any]] = []
+        if language in {"c", "cpp"} and precision == "bounded-approximate":
+            fallback_evidence = initialization.get("fallbackEvidence", {})
+            warnings.append(
+                {
+                    "kind": "compile-commands-unavailable",
+                    "language": language,
+                    "file": "compile_commands.json",
+                    "precision": "bounded-approximate",
+                    "build_evidence": {
+                        "resolution": fallback_evidence.get("resolution"),
+                        "selected": fallback_evidence.get("selected"),
+                        "paths": sorted({str(item.get("path")) for item in fallback_evidence.get("matches", []) if item.get("path")}),
+                    },
+                    "absence_inference_allowed": False,
+                    "message_zh": "未找到 compile_commands.json，语义提供器继续使用有界近似参数；未检出结果不等于源码事实不存在。",
+                }
+            )
         provider = {
             "name": Path(command[0]).name,
             "language": language,
@@ -608,6 +626,7 @@ def collect_semantics(
             "diagnostic_count": len(diagnostics),
             "fatal_diagnostics": fatal,
             "fatal_stderr": fatal_stderr,
+            "warnings": warnings,
             "capabilities": result.get("capabilities", {}) if isinstance(result, dict) else {},
         }
         result_payload = {"provider": provider, "links": semantic_links, "diagnostics": diagnostics, "transcript": client.transcript, "stderr": client.stderr}

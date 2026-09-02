@@ -11,6 +11,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 
 SKILL_ROOT = Path(__file__).resolve().parents[1]
@@ -195,6 +196,60 @@ class AutomationTest(unittest.TestCase):
             self.registry,
         )
         self.assertEqual(recorded["status"], "recorded")
+
+    def test_skill_start_and_successful_git_commit_event_refresh_fact_state(self) -> None:
+        head = subprocess.run(
+            ["git", "-C", str(self.repo), "rev-parse", "HEAD"],
+            text=True,
+            encoding="utf-8",
+            stdout=subprocess.PIPE,
+            check=True,
+        ).stdout.strip()
+        state = json.loads((self.output / "state.json").read_text(encoding="utf-8"))
+        state["repository"]["commit"] = head
+        state["repository"]["tree"] = subprocess.run(
+            ["git", "-C", str(self.repo), "rev-parse", "HEAD^{tree}"],
+            text=True,
+            encoding="utf-8",
+            stdout=subprocess.PIPE,
+            check=True,
+        ).stdout.strip()
+        (self.output / "state.json").write_text(json.dumps(state) + "\n", encoding="utf-8")
+        self.register("generic")
+        with mock.patch("ckb_core.automation.activate_session_stdio", return_value={"state": "ready"}):
+            activated = ingest_event(
+                "generic",
+                {
+                    "canonical_type": "skill.applied",
+                    "event_id": "skill-start",
+                    "session_id": "git-session",
+                    "cwd": str(self.repo),
+                    "skill_name": "code-knowledge-builder",
+                    "ckb_skill_applied": True,
+                },
+                self.registry,
+            )
+        self.assertEqual(activated["fact_freshness"]["state"], "current")
+        (self.repo / "app.py").write_text("def value():\n    return 2\n", encoding="utf-8")
+        git(self.repo, "add", "app.py")
+        git(self.repo, "commit", "-m", "change")
+        committed = ingest_event(
+            "generic",
+            {
+                "canonical_type": "tool.result",
+                "event_id": "git-commit",
+                "session_id": "git-session",
+                "turn_id": "turn-1",
+                "cwd": str(self.repo),
+                "tool_name": "exec_command",
+                "tool_input": {"command": "git commit -m change"},
+                "tool_status": "completed",
+            },
+            self.registry,
+        )
+        self.assertEqual(committed["git_trigger"], "commit")
+        self.assertEqual(committed["fact_freshness"]["state"], "stale-committed")
+        self.assertEqual(automation_status(self.output)["fact_freshness"]["state"], "stale-committed")
 
     def test_redaction_idempotency_change_capture_and_pending_review(self) -> None:
         self.register("codex")
@@ -512,6 +567,17 @@ class AutomationTest(unittest.TestCase):
             },
         )
         self.assertEqual(tool["changed_paths"], ["app.py"])
+        git_tool = normalize_event(
+            "generic",
+            {
+                "canonical_type": "tool.result",
+                "session_id": "generic-1",
+                "cwd": str(self.repo),
+                "tool_name": "exec_command",
+                "tool_input": {"command": "git -C repo switch feature"},
+            },
+        )
+        self.assertEqual(git_tool["git_trigger"], "branch-switch")
         skill = normalize_event(
             "generic",
             {

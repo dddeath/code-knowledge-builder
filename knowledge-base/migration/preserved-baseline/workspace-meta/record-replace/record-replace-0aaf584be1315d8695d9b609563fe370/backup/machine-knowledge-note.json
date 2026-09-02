@@ -1,0 +1,207 @@
+{
+  "document": [
+    [
+      "note:changes:低版本 Agent Protocol 批量升级合并审计",
+      "change",
+      "低版本 Agent Protocol 批量升级合并审计",
+      "#类型/变更",
+      "changes/低版本 Agent Protocol 批量升级合并审计.md",
+      null,
+      "# 低版本 Agent Protocol 批量升级合并审计\n\n标签：#类型/变更\n\n## 修改内容\n\n本次修改增加了多个知识库的 Agent Protocol 批量升级。显式清单可以为每个知识库固定来源协议版本、目标版本、Harness、Python、CKB 和允许写入的工作区；系统提供计划、执行、状态、审计和逐库回滚。\n\n该能力只升级协议管理区、跨 Harness 适配器、output contract 和对应机器状态，不重建源码图谱，也不改写知识页面正文。\n\n## 修改时间\n\n2026 年 9 月 1 日完成源码合并；2026 年 9 月 2 日完成稳定知识库同步与页面重写。\n\n## 修改原因\n\n旧知识库分布在不同 Harness 和工作区时，逐库更新协议容易遗漏文件，也难以证明用户自有内容、BOM、换行和固定图谱没有被改变。初版锁还可能把存活进程持有的旧锁误判为可回收对象。\n\n## 修改方式\n\n实现保留四个关键约束：\n\n- 版本矩阵保存可验证的历史协议输出和允许的升级路径；\n- managed block 只替换唯一的 CKB 管理区，区外字节保持不变；\n- 每个知识库使用独立备份、状态和 owner token，失败时只恢复本项目；\n- 锁同时核对进程、启动身份、host 和 token，活跃持有者不会因时间超过阈值被抢占。\n\n## 涉及的其他特性\n\n该修改与 Agent Policy、output contract、Harness 适配器、完整知识库批量迁移和维护门相连。完整知识图谱迁移仍由知识库迁移接口负责，两种批量能力的职责不重叠。\n\n## 验证结果\n\n专项测试覆盖真实历史协议重构、部分失败、恢复续跑、存活与死亡锁、PID 复用、损坏记录、计划后漂移和子集回滚。双库端到端验证表明协议升级前后固定图谱和两个 SQLite 摘要保持不变，合并后的相关回归测试全部通过。\n\n## 当前边界\n\n批量升级依赖 manifest 中的明确版本和可用 runtime。Windows 的状态与备份根仍应控制路径长度；检测到无法确认所有者或用户在升级后继续修改管理区时，回滚会停止并报告冲突。\n\n## 相关知识页\n\n- [[audit_agent_protocol 与 _default_python 的协作实现]]\n\n## 源码入口\n\n- [打开源码：scripts/ckb_core/agent_protocol.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_protocol.py:1:1)  `scripts/ckb_core/agent_protocol.py:1-507`\n",
+      815
+    ]
+  ],
+  "sections": [
+    [
+      "note:changes:低版本 Agent Protocol 批量升级合并审计:0",
+      "note:changes:低版本 Agent Protocol 批量升级合并审计",
+      0,
+      "低版本 Agent Protocol 批量升级合并审计",
+      "标签：#类型/变更",
+      8,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:低版本 Agent Protocol 批量升级合并审计:1",
+      "note:changes:低版本 Agent Protocol 批量升级合并审计",
+      1,
+      "修改内容",
+      "本次修改增加了多个知识库的 Agent Protocol 批量升级。显式清单可以为每个知识库固定来源协议版本、目标版本、Harness、Python、CKB 和允许写入的工作区；系统提供计划、执行、状态、审计和逐库回滚。\n\n该能力只升级协议管理区、跨 Harness 适配器、output contract 和对应机器状态，不重建源码图谱，也不改写知识页面正文。",
+      141,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:低版本 Agent Protocol 批量升级合并审计:2",
+      "note:changes:低版本 Agent Protocol 批量升级合并审计",
+      2,
+      "修改时间",
+      "2026 年 9 月 1 日完成源码合并；2026 年 9 月 2 日完成稳定知识库同步与页面重写。",
+      36,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:低版本 Agent Protocol 批量升级合并审计:3",
+      "note:changes:低版本 Agent Protocol 批量升级合并审计",
+      3,
+      "修改原因",
+      "旧知识库分布在不同 Harness 和工作区时，逐库更新协议容易遗漏文件，也难以证明用户自有内容、BOM、换行和固定图谱没有被改变。初版锁还可能把存活进程持有的旧锁误判为可回收对象。",
+      83,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:低版本 Agent Protocol 批量升级合并审计:4",
+      "note:changes:低版本 Agent Protocol 批量升级合并审计",
+      4,
+      "修改方式",
+      "实现保留四个关键约束：\n\n- 版本矩阵保存可验证的历史协议输出和允许的升级路径；\n- managed block 只替换唯一的 CKB 管理区，区外字节保持不变；\n- 每个知识库使用独立备份、状态和 owner token，失败时只恢复本项目；\n- 锁同时核对进程、启动身份、host 和 token，活跃持有者不会因时间超过阈值被抢占。",
+      133,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:低版本 Agent Protocol 批量升级合并审计:5",
+      "note:changes:低版本 Agent Protocol 批量升级合并审计",
+      5,
+      "涉及的其他特性",
+      "该修改与 Agent Policy、output contract、Harness 适配器、完整知识库批量迁移和维护门相连。完整知识图谱迁移仍由知识库迁移接口负责，两种批量能力的职责不重叠。",
+      71,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:低版本 Agent Protocol 批量升级合并审计:6",
+      "note:changes:低版本 Agent Protocol 批量升级合并审计",
+      6,
+      "验证结果",
+      "专项测试覆盖真实历史协议重构、部分失败、恢复续跑、存活与死亡锁、PID 复用、损坏记录、计划后漂移和子集回滚。双库端到端验证表明协议升级前后固定图谱和两个 SQLite 摘要保持不变，合并后的相关回归测试全部通过。",
+      99,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:低版本 Agent Protocol 批量升级合并审计:7",
+      "note:changes:低版本 Agent Protocol 批量升级合并审计",
+      7,
+      "当前边界",
+      "批量升级依赖 manifest 中的明确版本和可用 runtime。Windows 的状态与备份根仍应控制路径长度；检测到无法确认所有者或用户在升级后继续修改管理区时，回滚会停止并报告冲突。",
+      78,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:低版本 Agent Protocol 批量升级合并审计:8",
+      "note:changes:低版本 Agent Protocol 批量升级合并审计",
+      8,
+      "相关知识页",
+      "- [[audit_agent_protocol 与 _default_python 的协作实现]]",
+      21,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:低版本 Agent Protocol 批量升级合并审计:9",
+      "note:changes:低版本 Agent Protocol 批量升级合并审计",
+      9,
+      "源码入口",
+      "- [打开源码：scripts/ckb_core/agent_protocol.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_protocol.py:1:1)  `scripts/ckb_core/agent_protocol.py:1-507`",
+      68,
+      null,
+      null,
+      null
+    ]
+  ],
+  "section_sources": [],
+  "links": [
+    [
+      "note:changes:低版本 Agent Protocol 批量升级合并审计",
+      null,
+      "audit_agent_protocol 与 _default_python 的协作实现",
+      "wikilink"
+    ]
+  ],
+  "fts": [
+    [
+      "note:changes:低版本 Agent Protocol 批量升级合并审计:0",
+      "note:changes:低版本 Agent Protocol 批量升级合并审计",
+      "低版本 Agent Protocol 批量升级合并审计",
+      "标签：#类型/变更",
+      ""
+    ],
+    [
+      "note:changes:低版本 Agent Protocol 批量升级合并审计:1",
+      "note:changes:低版本 Agent Protocol 批量升级合并审计",
+      "修改内容",
+      "本次修改增加了多个知识库的 Agent Protocol 批量升级。显式清单可以为每个知识库固定来源协议版本、目标版本、Harness、Python、CKB 和允许写入的工作区；系统提供计划、执行、状态、审计和逐库回滚。\n\n该能力只升级协议管理区、跨 Harness 适配器、output contract 和对应机器状态，不重建源码图谱，也不改写知识页面正文。",
+      ""
+    ],
+    [
+      "note:changes:低版本 Agent Protocol 批量升级合并审计:2",
+      "note:changes:低版本 Agent Protocol 批量升级合并审计",
+      "修改时间",
+      "2026 年 9 月 1 日完成源码合并；2026 年 9 月 2 日完成稳定知识库同步与页面重写。",
+      ""
+    ],
+    [
+      "note:changes:低版本 Agent Protocol 批量升级合并审计:3",
+      "note:changes:低版本 Agent Protocol 批量升级合并审计",
+      "修改原因",
+      "旧知识库分布在不同 Harness 和工作区时，逐库更新协议容易遗漏文件，也难以证明用户自有内容、BOM、换行和固定图谱没有被改变。初版锁还可能把存活进程持有的旧锁误判为可回收对象。",
+      ""
+    ],
+    [
+      "note:changes:低版本 Agent Protocol 批量升级合并审计:4",
+      "note:changes:低版本 Agent Protocol 批量升级合并审计",
+      "修改方式",
+      "实现保留四个关键约束：\n\n- 版本矩阵保存可验证的历史协议输出和允许的升级路径；\n- managed block 只替换唯一的 CKB 管理区，区外字节保持不变；\n- 每个知识库使用独立备份、状态和 owner token，失败时只恢复本项目；\n- 锁同时核对进程、启动身份、host 和 token，活跃持有者不会因时间超过阈值被抢占。",
+      ""
+    ],
+    [
+      "note:changes:低版本 Agent Protocol 批量升级合并审计:5",
+      "note:changes:低版本 Agent Protocol 批量升级合并审计",
+      "涉及的其他特性",
+      "该修改与 Agent Policy、output contract、Harness 适配器、完整知识库批量迁移和维护门相连。完整知识图谱迁移仍由知识库迁移接口负责，两种批量能力的职责不重叠。",
+      ""
+    ],
+    [
+      "note:changes:低版本 Agent Protocol 批量升级合并审计:6",
+      "note:changes:低版本 Agent Protocol 批量升级合并审计",
+      "验证结果",
+      "专项测试覆盖真实历史协议重构、部分失败、恢复续跑、存活与死亡锁、PID 复用、损坏记录、计划后漂移和子集回滚。双库端到端验证表明协议升级前后固定图谱和两个 SQLite 摘要保持不变，合并后的相关回归测试全部通过。",
+      ""
+    ],
+    [
+      "note:changes:低版本 Agent Protocol 批量升级合并审计:7",
+      "note:changes:低版本 Agent Protocol 批量升级合并审计",
+      "当前边界",
+      "批量升级依赖 manifest 中的明确版本和可用 runtime。Windows 的状态与备份根仍应控制路径长度；检测到无法确认所有者或用户在升级后继续修改管理区时，回滚会停止并报告冲突。",
+      ""
+    ],
+    [
+      "note:changes:低版本 Agent Protocol 批量升级合并审计:8",
+      "note:changes:低版本 Agent Protocol 批量升级合并审计",
+      "相关知识页",
+      "- [[audit_agent_protocol 与 _default_python 的协作实现]]",
+      ""
+    ],
+    [
+      "note:changes:低版本 Agent Protocol 批量升级合并审计:9",
+      "note:changes:低版本 Agent Protocol 批量升级合并审计",
+      "源码入口",
+      "- [打开源码：scripts/ckb_core/agent_protocol.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_protocol.py:1:1)  `scripts/ckb_core/agent_protocol.py:1-507`",
+      ""
+    ]
+  ]
+}

@@ -3,12 +3,25 @@
   "pack_id": "migrated-page-review-pack-0002",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T02:36:22Z",
+  "reviewed_at_utc": "2026-09-02T22:44:49Z",
   "reviews": [
     {
-      "entity_id": "file-5c9d67f4649c5cde977f08b53d1fa732",
+      "entity_id": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "classification": "boundary",
+      "owner_page_id": "ent-f4e90779856355d8b9eb123872d71d1c",
+      "source_path": "prototypes/ckb-canvas-skill/ckb_canvas/commands.py",
+      "start_line": 213,
+      "end_line": 225,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 bd8519583e3a 中 `prototypes/ckb-canvas-skill/ckb_canvas/commands.py` 第 213 至 225 行，摘录属于 Git blob 31c13b717a56。",
+      "meaning_zh": "代码单元 `validate_only`负责生成、验证和回滚隔离的 Obsidian Canvas 实验输出。",
+      "role_zh": "它属于Canvas 实验的事务命令层，说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当Canvas 生成、验证或回滚合同变化时，应同步复查本页及其直接测试。"
+    },
+    {
+      "entity_id": "file-5c6111cf8aac5e1898ba803b83e30d53",
       "classification": "page",
-      "owner_page_id": "file-5c9d67f4649c5cde977f08b53d1fa732",
+      "owner_page_id": "file-5c6111cf8aac5e1898ba803b83e30d53",
       "source_path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
       "start_line": 1,
       "end_line": 181,
@@ -19,9 +32,9 @@
       "change_when_zh": "当 `references/design/obsidian-canvas-agent-visualization/verification/validate_design.py` 中 `references/design/obsidian-canvas-agent-visualization/verification/validate_design.py` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
     },
     {
-      "entity_id": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "entity_id": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "classification": "page",
-      "owner_page_id": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "owner_page_id": "ent-0fd95f62059d525ebbe10b20eaec36a3",
       "source_path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
       "start_line": 31,
       "end_line": 69,

@@ -33,7 +33,7 @@
 - [[AgentProtocolBatchApplyTests]]
 - [[AutomationTest.register 等测试场景]]
 - [[CodeKnowledgeBuilderTests]]
-- [[HumanPageTemplateValidationTests]]
+- [[CodeKnowledgeBuilderTests 等测试场景]]
 - [[KeywordFallbackRetrievalWiringTests]]
 - [[KeywordFallbackRetrievalWiringTests 等测试场景]]
 

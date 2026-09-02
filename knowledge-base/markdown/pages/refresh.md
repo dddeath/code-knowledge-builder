@@ -14,12 +14,12 @@
 
 ## 相关代码
 
-- 实现时会用到 [[CkbError 与 DependencyError 的协作实现]]。
 - 实现时会用到 [[start_scope_extension 与 _error 的协作实现]]。
 
 ## 谁会来到这里
 
 - [[audit_operation_journal 与 _root 的协作实现]] 会使用这里提供的行为。
+- [[finalize 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 - [[parser]] 会使用这里提供的行为。
 - [[refresh 等测试场景]] 汇总了本页。
 - [[render_page_author 与 _error 的协作实现]] 会使用这里提供的行为。
@@ -28,9 +28,9 @@
 
 - [[CodeKnowledgeBuilderTests]]
 - [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[HumanPageAuthoringPackageTests]]
-- [[MigrationTest]]
-- [[ScopeExtensionTest]]
-- [[build_manual_index 等测试场景]]
+- [[HumanPageAuthoringValidationFailureTests 等测试场景]]
+- [[PageFanoutBenchmarkTests]]
+- [[PdfReferenceExtractionTests]]
+- [[PdfReferenceExtractionTests 等测试场景]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。

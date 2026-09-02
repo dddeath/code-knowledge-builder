@@ -3,24 +3,24 @@
     "name": "pyright-langserver.cmd",
     "language": "python",
     "command": [
-      "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\bin\\pyright-langserver.cmd",
+      "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\bin\\pyright-langserver.cmd",
       "--stdio"
     ],
     "initialization_options": {},
-    "server_cwd": "E:\\knowledge_builder\\self-workspace\\kb-stg-94bf220\\.source-snapshot\\worktree",
-    "document_root": "E:\\knowledge_builder\\self-workspace\\kb-stg-94bf220\\.source-snapshot\\worktree",
+    "server_cwd": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\.source-snapshot\\worktree",
+    "document_root": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\.source-snapshot\\worktree",
     "precision": "exact",
     "status": "passed",
     "covered_entity_ids": [
-      "ent-0378b59a0e3153b8a8a6591623a23d82",
-      "ent-0546963d4c5f55c5844e6588f7dd9830",
-      "ent-2e1602bda4e95d0c99e1d6528e52f7b5",
-      "ent-4aea220c858f59e587588a7e5354784b",
-      "ent-556d1a16ce285dc6a80a542350b2acf2",
-      "ent-6a09c09a9c065f6dbc7b48695d20c334",
-      "ent-a3f5a4f419825475bd3ea017a1214d93",
-      "ent-ad8147391ce85d7185d8725576fbce4a",
-      "ent-d63394060f3252279b800f7fa9e81e52"
+      "ent-0fd95f62059d525ebbe10b20eaec36a3",
+      "ent-22115054ce9e5c00af66b6797ffeeae6",
+      "ent-55d70dc326005eda8939b4137f9a4b36",
+      "ent-7a21da1ea29059868af7c154a2a0f365",
+      "ent-85148630f6625350a47b24a368bc6fc2",
+      "ent-c393f32d139d5ab39c981755ce140e48",
+      "ent-d201cd6d597c5d76903beae5f777b42f",
+      "ent-df0756acfae45b8f9cbaf8f93ab95df0",
+      "ent-e7d9a5c754765e4197b2cbef6b1b25f4"
     ],
     "document_symbol_counts": {
       "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py": 79
@@ -28,6 +28,7 @@
     "diagnostic_count": 0,
     "fatal_diagnostics": [],
     "fatal_stderr": [],
+    "warnings": [],
     "capabilities": {
       "textDocumentSync": 2,
       "definitionProvider": {
@@ -110,11 +111,11 @@
         "id": 1,
         "method": "initialize",
         "params": {
-          "processId": 61624,
-          "rootUri": "file:///E:/knowledge_builder/self-workspace/kb-stg-94bf220/.source-snapshot/worktree",
+          "processId": 68148,
+          "rootUri": "file:///E:/knowledge_builder/self-workspace/knowledge-base/.source-snapshot/worktree",
           "workspaceFolders": [
             {
-              "uri": "file:///E:/knowledge_builder/self-workspace/kb-stg-94bf220/.source-snapshot/worktree",
+              "uri": "file:///E:/knowledge_builder/self-workspace/knowledge-base/.source-snapshot/worktree",
               "name": "worktree"
             }
           ],
@@ -150,7 +151,7 @@
         "method": "window/logMessage",
         "params": {
           "type": 3,
-          "message": "Server root directory: file:///c%3A/Users/19739/.codex/cache/code-knowledge-builder/runtime/win-x64/win-x64-2.0.0/node_modules/pyright/dist"
+          "message": "Server root directory: file:///c%3A/Users/19739/.codex/cache/code-knowledge-builder/runtime/win-x64/win-x64-2.1.0/node_modules/pyright/dist"
         }
       }
     },
@@ -259,7 +260,7 @@
         "method": "textDocument/didOpen",
         "params": {
           "textDocument": {
-            "uri": "file:///E:/knowledge_builder/self-workspace/kb-stg-94bf220/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
+            "uri": "file:///E:/knowledge_builder/self-workspace/knowledge-base/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
             "languageId": "python",
             "version": 1,
             "text": "#!/usr/bin/env python3\nfrom __future__ import annotations\nimport copy, hashlib, json, re\nfrom pathlib import Path\nfrom urllib.parse import unquote\n\nROOT = Path(__file__).resolve().parents[1]\nSCHEMAS = ROOT / 'schemas'\nFIXTURES = ROOT / 'fixtures'\n\n\ndef canonical(value):\n    return (json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(',', ':')) + '\\n').encode('utf-8')\n\n\ndef digest(data):\n    return hashlib.sha256(data).hexdigest()\n\n\ndef is_type(value, kind):\n    if kind == 'object': return isinstance(value, dict)\n    if kind == 'array': return isinstance(value, list)\n    if kind == 'string': return isinstance(value, str)\n    if kind == 'integer': return isinstance(value, int) and not isinstance(value, bool)\n    if kind == 'number': return isinstance(value, (int, float)) and not isinstance(value, bool)\n    if kind == 'boolean': return isinstance(value, bool)\n    if kind == 'null': return value is None\n    return False\n\n\ndef validate(schema, value, at='$'):\n    errors=[]\n    if 'allOf' in schema:\n        for i, child in enumerate(schema['allOf']): errors += validate(child, value, f'{at}.allOf[{i}]')\n    if 'oneOf' in schema:\n        variants=[validate(child,value,at) for child in schema['oneOf']]\n        if sum(not item for item in variants) != 1: errors.append(f'{at}: oneOf matched {sum(not item for item in variants)} variants')\n        else: return errors\n    if 'if' in schema and not validate(schema['if'], value, at):\n        errors += validate(schema.get('then', {}), value, at)\n    if 'const' in schema and value != schema['const']: errors.append(f'{at}: const mismatch')\n    if 'enum' in schema and value not in schema['enum']: errors.append(f'{at}: enum mismatch')\n    kind=schema.get('type')\n    if kind and not is_type(value,kind): return errors+[f'{at}: expected {kind}, got {type(value).__name__}']\n    if isinstance(value,dict):\n        for name in schema.get('required',[]):\n            if name not in value: errors.append(f'{at}: missing {name}')\n        props=schema.get('properties',{})\n        if schema.get('additionalProperties') is False:\n            for name in value:\n                if name not in props: errors.append(f'{at}: unknown {name}')\n        for name,child in props.items():\n            if name in value: errors += validate(child,value[name],f'{at}.{name}')\n    if isinstance(value,list):\n        if len(value) < schema.get('minItems',0): errors.append(f'{at}: too few items')\n        if 'maxItems' in schema and len(value) > schema['maxItems']: errors.append(f'{at}: too many items')\n        if schema.get('uniqueItems'):\n            sig=[json.dumps(item,ensure_ascii=False,sort_keys=True) for item in value]\n            if len(sig)!=len(set(sig)): errors.append(f'{at}: duplicate items')\n        if 'items' in schema:\n            for i,item in enumerate(value): errors += validate(schema['items'],item,f'{at}[{i}]')\n    if isinstance(value,str):\n        if len(value)<schema.get('minLength',0): errors.append(f'{at}: too short')\n        if 'maxLength' in schema and len(value)>schema['maxLength']: errors.append(f'{at}: too long')\n        if 'pattern' in schema and not re.search(schema['pattern'],value): errors.append(f'{at}: pattern mismatch')\n    if isinstance(value,(int,float)) and not isinstance(value,bool):\n        if 'minimum' in schema and value<schema['minimum']: errors.append(f'{at}: below minimum')\n        if 'maximum' in schema and value>schema['maximum']: errors.append(f'{at}: above maximum')\n    return errors\n\n\ndef load(path): return json.loads(path.read_text(encoding='utf-8'))\n\ndef assert_valid(schema_name, instance_path):\n    errors=validate(load(SCHEMAS/schema_name),load(instance_path))\n    if errors: raise AssertionError(f'{instance_path}: {errors[:8]}')\n\n\ndef slug(text):\n    text=text.strip().lower()\n    text=re.sub(r'[^\\w\\u3400-\\u9fff -]','',text)\n    return re.sub(r'-+','-',re.sub(r'\\s+','-',text)).strip('-')\n\n# Parse all JSON/schema/Canvas.\njson_files=sorted([*ROOT.rglob('*.json'),*ROOT.rglob('*.canvas')])\nfor path in json_files: load(path)\nprint(f'JSON_PARSE=passed files={len(json_files)}')\n\nschema_files=sorted(SCHEMAS.glob('*.json'))\nfor path in schema_files:\n    value=load(path)\n    assert value.get('$schema')=='https://json-schema.org/draft/2020-12/schema'\n    assert value.get('$id','').startswith('https://ckb.local/schemas/')\n    assert '$ref' not in path.read_text(encoding='utf-8')\n    def walk(v):\n        if isinstance(v,dict):\n            if v.get('type')=='object': assert v.get('additionalProperties') is False, path\n            for item in v.values(): walk(item)\n        elif isinstance(v,list):\n            for item in v: walk(item)\n    walk(value)\nprint(f'SCHEMA_SHAPE=passed schemas={len(schema_files)} draft=2020-12 external_refs=0')\n\nmapping=[\n ('canvas-request.schema.json',FIXTURES/'success/canvas-request.json'),\n ('json-canvas-1.0-ckb-subset.schema.json',FIXTURES/'success/ckb-navigation.canvas'),\n ('canvas-success.schema.json',FIXTURES/'success/canvas-success.json'),\n ('canvas-validation-manifest.schema.json',FIXTURES/'success/ckb-navigation.canvas.validation.json'),\n ('canvas-rollback-manifest.schema.json',FIXTURES/'success/ckb-navigation.canvas.rollback.json'),\n ('benchmark-run.schema.json',FIXTURES/'benchmark/benchmark-run.json'),\n ('benchmark-session-result.schema.json',FIXTURES/'benchmark/benchmark-session-result.json'),\n ('benchmark-summary.schema.json',FIXTURES/'benchmark/benchmark-summary.json')]\nfor item in sorted((FIXTURES/'failure-results').glob('*.json')): mapping.append(('canvas-failure.schema.json',item))\nfor schema_name,path in mapping: assert_valid(schema_name,path)\nprint(f'FIXTURE_VALIDATION=passed instances={len(mapping)}')\n\n# Unknown fields at every request object family must fail.\nrequest_schema=load(SCHEMAS/'canvas-request.schema.json'); base=load(FIXTURES/'success/canvas-request.json')\nmutations=[]\ndef add(path):\n    x=copy.deepcopy(base); cur=x\n    for part in path: cur=cur[part]\n    cur['unknown_fixture_field']=1; mutations.append((path,x))\nfor path in [(),('ckb',),('ckb','frozen_evidence'),('ckb','frozen_evidence','human_files',0),('request',),('request','baseline'),('request','baseline','canvas'),('request','required_entries',0),('budget',)]: add(path)\nfor path,value in mutations:\n    if not validate(request_schema,value): raise AssertionError(f'unknown field accepted at {path}')\nprint(f'NEGATIVE_UNKNOWN_FIELDS=passed cases={len(mutations)}')\n\nreasons={'invalid_request','unsupported_record_schema','pack_record_mismatch','input_drift','snapshot_mismatch','source_outside_scope','target_exists','missing_backlink','missing_target','invalid_source_range','budget_exceeded','duplicate_id','dangling_edge','invalid_canvas','promotion_drift','rollback_drift','io_failure'}\nactual={load(path)['reason'] for path in (FIXTURES/'failure-results').glob('*.json')}\nassert actual==reasons\nprint(f'FAILURE_REASON_COVERAGE=passed reasons={len(actual)}')\n\n# Hash and self-hash consistency.\nrequest_bytes=(FIXTURES/'success/canvas-request.json').read_bytes(); canvas_bytes=(FIXTURES/'success/ckb-navigation.canvas').read_bytes(); val_bytes=(FIXTURES/'success/ckb-navigation.canvas.validation.json').read_bytes(); rb_bytes=(FIXTURES/'success/ckb-navigation.canvas.rollback.json').read_bytes()\nsuccess=load(FIXTURES/'success/canvas-success.json'); validation_manifest=load(FIXTURES/'success/ckb-navigation.canvas.validation.json'); rollback=load(FIXTURES/'success/ckb-navigation.canvas.rollback.json')\nassert success['request_sha256']==digest(request_bytes)==validation_manifest['request_sha256']==rollback['request_sha256']\nassert success['canvas']['sha256']==digest(canvas_bytes)==validation_manifest['canvas']['sha256']==rollback['generated']['canvas']['sha256']\nassert success['validation_manifest']['sha256']==digest(val_bytes)==rollback['generated']['validation_manifest']['sha256']\nassert success['rollback_manifest']['sha256']==digest(rb_bytes)\ncopy_rb=copy.deepcopy(rollback); expected=copy_rb['guard']['expected_manifest_content_sha256']; copy_rb['guard']['expected_manifest_content_sha256']='0'*64\nassert digest(canonical(copy_rb))==expected\nprint(f'HASH_CONTRACT=passed request={digest(request_bytes)} canvas={digest(canvas_bytes)} rollback={digest(rb_bytes)}')\n\n# Canonical sample and graph closure/stable IDs.\nfor path in [FIXTURES/'success/canvas-request.json',FIXTURES/'success/ckb-navigation.canvas',FIXTURES/'success/canvas-success.json',FIXTURES/'success/ckb-navigation.canvas.validation.json',FIXTURES/'success/ckb-navigation.canvas.rollback.json']:\n    assert path.read_bytes()==canonical(load(path)), path\ncanvas=load(FIXTURES/'success/ckb-navigation.canvas'); ids={n['id'] for n in canvas['nodes']}; assert len(ids)==len(canvas['nodes'])\nassert all(edge['fromNode'] in ids and edge['toNode'] in ids for edge in canvas['edges'])\nassert len(canvas['nodes'])<=12 and len(canvas['edges'])<=16\nfor node in canvas['nodes']:\n    assert not any(k in node for k in {'entity_id','document_id','score','score_breakdown','terms','retrieval_stats'})\nprint(f'CANVAS_STRUCTURE=passed nodes={len(canvas[\"nodes\"])} edges={len(canvas[\"edges\"])} dangling=0 canonical_files=5')\n\n# Benchmark coverage: each condition sees all 12 tasks across sequences, every assignment has 6 unique tasks.\nrun=load(FIXTURES/'benchmark/benchmark-run.json'); tids=[t['task_id'] for t in run['tasks']]; assert len(tids)==len(set(tids))==12\nfor assignment in run['assignments']: assert len(assignment['task_order'])==len(set(assignment['task_order']))==6\nfor condition in ('markdown','canvas'):\n    covered=set().union(*(set(a['task_order']) for a in run['assignments'] if a['condition']==condition))\n    assert covered==set(tids)\nassert run['conditions']['markdown']['evidence_set_sha256']==run['conditions']['canvas']['evidence_set_sha256']\nprint('BENCHMARK_CONTRACT=passed tasks=12 assignments=4 per_condition_coverage=12 evidence_equal=true')\n\n# Local Markdown links and anchors.\nlinks=0\nfor source in sorted(ROOT.glob('*.md')):\n    text=source.read_text(encoding='utf-8')\n    for target in re.findall(r'\\[[^\\]]+\\]\\(([^)]+)\\)',text):\n        if re.match(r'^[a-z]+://',target): continue\n        links+=1; target=unquote(target); file_part,sep,anchor=target.partition('#'); resolved=(source.parent/file_part).resolve()\n        if not resolved.exists(): raise AssertionError(f'missing link {source}:{target}')\n        if sep:\n            if not resolved.is_file(): raise AssertionError(f'anchor on non-file {source}:{target}')\n            headings=[]\n            for line in resolved.read_text(encoding='utf-8').splitlines():\n                m=re.match(r'^#{1,6}\\s+(.+?)\\s*$',line)\n                if m: headings.append(slug(m.group(1)))\n            if anchor not in headings: raise AssertionError(f'missing anchor {source}:{target}; have={headings[:8]}')\nprint(f'MARKDOWN_LINKS=passed links={links}')\nprint('DESIGN_VALIDATION=passed')\n"
@@ -276,7 +277,7 @@
         "params": {
           "items": [
             {
-              "scopeUri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-94bf220/.source-snapshot/worktree",
+              "scopeUri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-c533dd7-r3/.source-snapshot/worktree",
               "section": "python"
             }
           ]
@@ -291,7 +292,7 @@
         "method": "textDocument/documentSymbol",
         "params": {
           "textDocument": {
-            "uri": "file:///E:/knowledge_builder/self-workspace/kb-stg-94bf220/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py"
+            "uri": "file:///E:/knowledge_builder/self-workspace/knowledge-base/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py"
           }
         }
       }
@@ -315,7 +316,7 @@
         "params": {
           "items": [
             {
-              "scopeUri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-94bf220/.source-snapshot/worktree",
+              "scopeUri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-c533dd7-r3/.source-snapshot/worktree",
               "section": "pyright"
             }
           ]
@@ -339,7 +340,7 @@
         "method": "window/logMessage",
         "params": {
           "type": 3,
-          "message": "No include entries specified; assuming e:\\knowledge_builder\\self-workspace\\kb-stg-94bf220\\.source-snapshot\\worktree"
+          "message": "No include entries specified; assuming e:\\knowledge_builder\\self-workspace\\kb-stg-c533dd7-r3\\.source-snapshot\\worktree"
         }
       }
     },
@@ -2387,7 +2388,7 @@
         "method": "window/logMessage",
         "params": {
           "type": 3,
-          "message": "Found 676 source files"
+          "message": "Found 710 source files"
         }
       }
     },
@@ -2397,7 +2398,7 @@
         "jsonrpc": "2.0",
         "method": "textDocument/publishDiagnostics",
         "params": {
-          "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-94bf220/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
+          "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-c533dd7-r3/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
           "version": 1,
           "diagnostics": []
         }
@@ -2411,7 +2412,7 @@
         "method": "textDocument/definition",
         "params": {
           "textDocument": {
-            "uri": "file:///E:/knowledge_builder/self-workspace/kb-stg-94bf220/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py"
+            "uri": "file:///E:/knowledge_builder/self-workspace/knowledge-base/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py"
           },
           "position": {
             "line": 30,
@@ -2427,7 +2428,7 @@
         "id": 3,
         "result": [
           {
-            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-94bf220/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
+            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-c533dd7-r3/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
             "range": {
               "start": {
                 "line": 30,
@@ -2450,7 +2451,7 @@
         "method": "textDocument/references",
         "params": {
           "textDocument": {
-            "uri": "file:///E:/knowledge_builder/self-workspace/kb-stg-94bf220/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py"
+            "uri": "file:///E:/knowledge_builder/self-workspace/knowledge-base/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py"
           },
           "position": {
             "line": 30,
@@ -2469,7 +2470,7 @@
         "id": 4,
         "result": [
           {
-            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-94bf220/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
+            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-c533dd7-r3/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
             "range": {
               "start": {
                 "line": 33,
@@ -2482,7 +2483,7 @@
             }
           },
           {
-            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-94bf220/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
+            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-c533dd7-r3/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
             "range": {
               "start": {
                 "line": 35,
@@ -2495,7 +2496,7 @@
             }
           },
           {
-            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-94bf220/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
+            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-c533dd7-r3/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
             "range": {
               "start": {
                 "line": 38,
@@ -2508,7 +2509,7 @@
             }
           },
           {
-            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-94bf220/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
+            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-c533dd7-r3/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
             "range": {
               "start": {
                 "line": 39,
@@ -2521,7 +2522,7 @@
             }
           },
           {
-            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-94bf220/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
+            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-c533dd7-r3/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
             "range": {
               "start": {
                 "line": 52,
@@ -2534,7 +2535,7 @@
             }
           },
           {
-            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-94bf220/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
+            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-c533dd7-r3/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
             "range": {
               "start": {
                 "line": 60,
@@ -2547,7 +2548,7 @@
             }
           },
           {
-            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-94bf220/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
+            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-c533dd7-r3/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
             "range": {
               "start": {
                 "line": 74,
@@ -2560,7 +2561,7 @@
             }
           },
           {
-            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-94bf220/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
+            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-c533dd7-r3/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
             "range": {
               "start": {
                 "line": 125,

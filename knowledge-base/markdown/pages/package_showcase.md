@@ -15,7 +15,6 @@
 ## 相关代码
 
 - 实现时会用到 [[CkbError]]。
-- 实现时会用到 [[CkbError 与 DependencyError 的协作实现]]。
 - 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
 - 实现时会用到 [[append]]。
 - 实现时会用到 [[package_showcase 与 _parse_sample 的协作实现]]。

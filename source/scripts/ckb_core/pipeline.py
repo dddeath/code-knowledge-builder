@@ -55,7 +55,7 @@ from .machine_knowledge import (
     build_machine_knowledge,
     contains_chinese_narrative,
 )
-from .parsers import lexical_links, merge_csharp_partials, parse_file
+from .parsers import lexical_links, merge_csharp_partials, parse_file, syntax_warning_id
 from .navigation import (
     HUMAN_CODE_UNIT_KINDS,
     apply_navigation_plan,
@@ -651,6 +651,23 @@ def _rekey_reused_file_parse(
                 entity.get("name"),
             )
         id_map[str(entity["id"])] = new_id
+    parse_record = json.loads(json.dumps(previous["parse"]))
+    warning_id_map: dict[str, str] = {}
+    for warning in parse_record.get("warnings", []):
+        old_warning_id = str(warning.get("id") or "")
+        if not old_warning_id:
+            raise CkbError(f"migration source syntax warning has no ID: {file_entry.get('path')}")
+        new_warning_id = syntax_warning_id(repository, file_entry, parse_record.get("diagnostics", []))
+        warning_id_map[old_warning_id] = new_warning_id
+        warning["id"] = new_warning_id
+        warning["file"] = file_entry["path"]
+        old_affected = [str(value) for value in warning.get("affected_entity_ids", [])]
+        missing_affected = sorted(value for value in old_affected if value not in id_map)
+        if missing_affected:
+            raise CkbError(
+                f"migration source syntax warning references unknown entities: {file_entry.get('path')} {missing_affected}"
+            )
+        warning["affected_entity_ids"] = [id_map[value] for value in old_affected]
     entities: list[dict[str, Any]] = []
     for entity in previous.get("entities", []):
         item = json.loads(json.dumps(entity))
@@ -660,16 +677,75 @@ def _rekey_reused_file_parse(
         item["path"] = file_entry["path"]
         if entity.get("parent_id"):
             item["parent_id"] = id_map[str(entity["parent_id"])]
+        old_warning_ids = [str(value) for value in entity.get("syntax_warning_ids", [])]
+        missing_warning_ids = sorted(value for value in old_warning_ids if value not in warning_id_map)
+        if missing_warning_ids:
+            raise CkbError(
+                f"migration source entity references unknown syntax warnings: {file_entry.get('path')} {missing_warning_ids}"
+            )
+        item["syntax_warning_ids"] = [warning_id_map[value] for value in old_warning_ids]
         entities.append(item)
     return {
         "file": dict(file_entry),
-        "parse": json.loads(json.dumps(previous["parse"])),
+        "parse": parse_record,
         "entities": entities,
         "migration_reuse": {
             "basis": "exact-path-language-blob-and-passed-parse",
             "previous_file_id": old_file.get("id"),
             "rekeyed_entity_count": len(entities),
+            "rekeyed_syntax_warning_count": len(warning_id_map),
         },
+    }
+
+
+def _syntax_warning_summary(warnings: list[dict[str, Any]], record_path: Path) -> dict[str, Any]:
+    ordered = sorted(warnings, key=lambda item: (str(item.get("file")), int(item.get("range", {}).get("start_byte", 0)), str(item.get("id"))))
+    examples = [
+        {
+            "id": item.get("id"),
+            "file": item.get("file"),
+            "range": item.get("range"),
+            "diagnostic_categories": item.get("diagnostic_categories", []),
+            "diagnostic_count": int(item.get("diagnostic_count", 0)),
+            "coverage": item.get("coverage", {}),
+            "affected_entity_count": len(item.get("affected_entity_ids", [])),
+            "source_completeness": item.get("source_completeness"),
+            "source_confidence": item.get("source_confidence"),
+            "absence_inference_allowed": False,
+        }
+        for item in ordered[:8]
+    ]
+    return {
+        "status": "warning" if ordered else "complete",
+        "warning_count": len(ordered),
+        "file_count": len({str(item.get("file")) for item in ordered}),
+        "affected_entity_count": len({str(value) for item in ordered for value in item.get("affected_entity_ids", [])}),
+        "absence_inference_allowed": not bool(ordered),
+        "message_zh": "受影响范围的语法事实不完整且置信度较低，不可据此推断未检出事实在源码中不存在。" if ordered else None,
+        "examples": examples,
+        "omitted_warning_count": max(0, len(ordered) - len(examples)),
+        "record": str(record_path.resolve()),
+    }
+
+
+def _semantic_warning_summary(warnings: list[dict[str, Any]]) -> dict[str, Any]:
+    unique: dict[tuple[str, str, str], dict[str, Any]] = {}
+    for warning in warnings:
+        key = (str(warning.get("kind")), str(warning.get("language")), str(warning.get("file")))
+        unique[key] = {
+            "kind": warning.get("kind"),
+            "language": warning.get("language"),
+            "file": warning.get("file"),
+            "precision": warning.get("precision"),
+            "build_evidence": warning.get("build_evidence", {}),
+            "absence_inference_allowed": bool(warning.get("absence_inference_allowed", False)),
+        }
+    ordered = [unique[key] for key in sorted(unique)]
+    return {
+        "status": "warning" if ordered else "complete",
+        "warning_count": len(ordered),
+        "warnings": ordered[:8],
+        "omitted_warning_count": max(0, len(ordered) - 8),
     }
 
 
@@ -748,7 +824,8 @@ def initialize(
         reusable_by_path = {
             item["file"]["path"]: item
             for item in old_catalog.get("files", [])
-            if item.get("file", {}).get("path") and item.get("parse", {}).get("status") == "passed"
+            if item.get("file", {}).get("path")
+            and item.get("parse", {}).get("status") == "passed"
         }
         reuse_origin = {
             "output": str(reuse_root),
@@ -837,6 +914,23 @@ def initialize(
     all_entities = [selected_entity_by_id.get(entity["id"], entity) for entity in all_entities]
     boundary_entities = [selected_entity_by_id[entity["id"]] for entity in boundary_entities]
     selected_files = [item for item in all_files if item["path"] in selected_paths]
+    syntax_warnings = [
+        warning
+        for result in file_results
+        if result["file"]["path"] in selected_paths
+        for warning in result.get("parse", {}).get("warnings", [])
+    ]
+    syntax_warning_record_path = output / "syntax-warnings.json"
+    syntax_warning_summary = _syntax_warning_summary(syntax_warnings, syntax_warning_record_path)
+    json_write(
+        syntax_warning_record_path,
+        {
+            "schema_version": SCHEMA_VERSION,
+            "status": syntax_warning_summary["status"],
+            "summary": syntax_warning_summary,
+            "warnings": syntax_warnings,
+        },
+    )
     chunks = _chunks(selected_files, selected_entities)
     if not chunks:
         raise CkbError("selected scope has no supported source")
@@ -863,6 +957,7 @@ def initialize(
         "csharp_project_files": csharp_project_files,
         "csharp_workspace": csharp_workspace,
         "page_config": page_config_record,
+        "syntax_warnings": syntax_warning_summary,
         "migration_reuse": {
             "origin": reuse_origin,
             "reused_file_paths": sorted(reused_paths),
@@ -894,6 +989,7 @@ def initialize(
         "selected_entity_ids": sorted(entity["id"] for entity in selected_entities),
         "boundary_entity_ids": sorted(boundary_ids),
         "excluded": exclusions,
+        "syntax_warnings": syntax_warning_summary,
     }
     review_packs = build_review_packs(chunks, selected_entities, page_config)
     _write_review_pack_templates(output, review_packs, selected_entities, sources)
@@ -905,6 +1001,8 @@ def initialize(
         "source_snapshot": source_snapshot,
         "format": format_name,
         "semantic_precision": "bounded-approximate" if csharp_workspace and csharp_workspace.get("precision") == "bounded-approximate" else "exact",
+        "syntax_warnings": syntax_warning_summary,
+        "semantic_warnings": _semantic_warning_summary([]),
         "status": "initialized",
         "parse_batches": chunks,
         "chunks": chunks,
@@ -976,6 +1074,7 @@ def build_chunk(output: Path, chunk_id: str, stage: str = "all") -> dict[str, An
     files = [file_by_path[path] for path in chunk["file_paths"]]
     if stage == "syntax":
         parse_by_path = {item["file"]["path"]: item["parse"] for item in catalog["files"]}
+        syntax_warnings = [warning for path in chunk["file_paths"] for warning in parse_by_path[path].get("warnings", [])]
         syntax_result = {
             "schema_version": SCHEMA_VERSION,
             "chunk_id": chunk_id,
@@ -984,6 +1083,7 @@ def build_chunk(output: Path, chunk_id: str, stage: str = "all") -> dict[str, An
             "file_paths": chunk["file_paths"],
             "entity_ids": chunk["entity_ids"],
             "parse_results": {path: parse_by_path[path] for path in chunk["file_paths"]},
+            "warning_summary": _syntax_warning_summary(syntax_warnings, output / "syntax-warnings.json"),
             "built_at_utc": utc_now(),
         }
         chunk_dir = output / "chunks" / chunk_id
@@ -1058,9 +1158,22 @@ def build_chunk(output: Path, chunk_id: str, stage: str = "all") -> dict[str, An
         "entities": entities,
         "links": links,
         "providers": provider_results,
+        "syntax_warnings": [
+            warning
+            for item in catalog["files"]
+            if item["file"]["path"] in chunk["file_paths"]
+            for warning in item.get("parse", {}).get("warnings", [])
+        ],
         "built_at_utc": utc_now(),
     }
     json_write(chunk_dir / "candidate.json", candidate)
+    semantic_warnings = [
+        warning
+        for provider in provider_results
+        for warning in provider.get("warnings", [])
+    ]
+    existing_semantic_warnings = list(state.get("semantic_warnings", {}).get("warnings", []))
+    state["semantic_warnings"] = _semantic_warning_summary([*existing_semantic_warnings, *semantic_warnings])
     template = {
         "schema_version": SCHEMA_VERSION,
         "chunk_id": chunk_id,
@@ -1079,6 +1192,10 @@ def build_chunk(output: Path, chunk_id: str, stage: str = "all") -> dict[str, An
                 "change_when_zh": "" if entity["classification"] != "appendix" else None,
                 "description_zh": "" if entity["classification"] == "appendix" else None,
                 "evidence_note": "",
+                "source_completeness": entity.get("source_completeness", "complete"),
+                "source_confidence": entity.get("source_confidence", "high"),
+                "syntax_warning_ids": entity.get("syntax_warning_ids", []),
+                "absence_inference_allowed": bool(entity.get("absence_inference_allowed", True)),
                 "status": "draft",
             }
             for entity in entities
@@ -1458,6 +1575,8 @@ def merge(output: Path) -> dict[str, Any]:
         "scope": json_load(output / "scope.json"),
         "format": state["format"],
         "semantic_precision": state["semantic_precision"],
+        "syntax_warnings": json_load(output / "syntax-warnings.json"),
+        "semantic_warnings": state.get("semantic_warnings", _semantic_warning_summary([])),
         "entities": sorted(entities, key=lambda item: item["id"]),
         "links": sorted(links_by_id.values(), key=lambda item: item["id"]),
         "providers": providers,
@@ -3228,6 +3347,8 @@ def finalize(output: Path) -> dict[str, Any]:
         "scope": str((output / "scope.json").resolve()),
         "format": state["format"],
         "semantic_precision": state["semantic_precision"],
+        "syntax_warnings": state.get("syntax_warnings"),
+        "semantic_warnings": state.get("semantic_warnings"),
         "semantic_providers": [
             {
                 "language": provider.get("language"),
@@ -3264,6 +3385,8 @@ def finalize(output: Path) -> dict[str, Any]:
             "status": "complete",
             "machine": result["projections"].get("machine"),
             "facts": result["projections"].get("facts"),
+            "syntax_warnings": complete.get("syntax_warnings"),
+            "semantic_warnings": complete.get("semantic_warnings"),
             "global_audit": complete["global_audit"],
             "completed_at_utc": complete["completed_at_utc"],
         },

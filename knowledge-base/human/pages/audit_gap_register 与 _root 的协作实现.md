@@ -37,9 +37,9 @@
 - [[AutomationTest.register 等测试场景]]
 - [[CodeKnowledgeBuilderTests]]
 - [[CodeKnowledgeBuilderTests 等测试场景]]
+- [[HumanPageAuthoringValidationFailureTests]]
+- [[HumanPageTemplateRegistryTests 等测试场景]]
 - [[MigrationTest]]
-- [[RecordReplaceTests]]
-- [[ScopeExtensionTest]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 

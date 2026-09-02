@@ -1,0 +1,22 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0055",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-02T22:46:36Z",
+  "reviews": [
+    {
+      "entity_id": "ent-0289d68e396f5ee58549f2e43a3ca385",
+      "classification": "page",
+      "owner_page_id": "ent-0289d68e396f5ee58549f2e43a3ca385",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 199,
+      "end_line": 2232,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_ckb.py` 第 199 至 2232 行；摘录与 Git blob ee9f78028022 一致。",
+      "meaning_zh": "代码单元 `setUp`负责验证 CKB 核心构建、检索、投影、参考资料、运行时和 C++ 语法边界。",
+      "role_zh": "它属于项目主要公开合同的综合回归保护，当前说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当任何核心命令、生成协议、运行时边界或跨模块行为变化时，应同步复查本页及其直接关联测试。"
+    }
+  ]
+}

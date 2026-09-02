@@ -20,17 +20,18 @@
 ## 谁会来到这里
 
 - [[audit_agent_protocol]] 会使用这里提供的行为。
-- [[audit_global 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 - [[audit_work_record_index 与 _contains_chinese 的协作实现]] 汇总了本页。
+- [[finalize 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 - [[maintenance_check]] 会使用这里提供的行为。
+- [[replace_note 与 RecordReplaceLockError 的协作实现]] 会使用这里提供的行为。
 
 ## 相关测试
 
 - [[AgentProtocolBatchApplyTests]]
 - [[AutomationTest.register 等测试场景]]
 - [[CodeKnowledgeBuilderTests]]
+- [[CodeKnowledgeBuilderTests 等测试场景]]
 - [[KeywordFallbackRetrievalWiringTests]]
 - [[MigrationTest]]
-- [[RecordReplaceTests]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。

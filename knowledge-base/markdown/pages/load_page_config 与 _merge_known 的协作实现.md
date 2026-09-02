@@ -20,8 +20,7 @@
 
 ## 谁会来到这里
 
-- [[audit_global]] 会使用这里提供的行为。
-- [[audit_global 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
+- [[finalize 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 - [[load_page_config]] 会使用这里提供的行为。
 - 可从 [[scripts 职责导览]] 进入本页。
 
@@ -29,7 +28,7 @@
 
 - [[CodeKnowledgeBuilderTests]]
 - [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[HumanPageTemplateValidationTests]]
+- [[FactFreshnessStateMachineTest 等测试场景]]
 - [[KeywordFallbackRetrievalWiringTests]]
 - [[MigrationTest]]
 - [[MigrationTest 等测试场景]]

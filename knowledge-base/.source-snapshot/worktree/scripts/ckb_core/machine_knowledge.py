@@ -481,7 +481,22 @@ def build_machine_knowledge(
                 (link["id"], link["source"], link["target"], relation, RELATION_WEIGHTS.get(relation, 1.0), str(link.get("provider") or ""), 1 if link.get("cross_chunk") else 0),
             )
             connection.execute("INSERT INTO relation_evidence VALUES(?,?)", (link["id"], json.dumps(link.get("evidence") or {}, ensure_ascii=False, sort_keys=True)))
-        for provider in graph.get("providers", []):
+        indexed_providers = list(graph.get("providers", []))
+        syntax_warning_record = graph.get("syntax_warnings", {})
+        syntax_warnings = list(syntax_warning_record.get("warnings", [])) if isinstance(syntax_warning_record, dict) else []
+        if syntax_warnings:
+            indexed_providers.append(
+                {
+                    "name": "tree-sitter",
+                    "language": "c/cpp",
+                    "status": "passed-with-warnings",
+                    "precision": "range-degraded",
+                    "diagnostic_count": sum(int(item.get("diagnostic_count", 0)) for item in syntax_warnings),
+                    "warnings": syntax_warnings,
+                    "warning_summary": syntax_warning_record.get("summary", {}),
+                }
+            )
+        for provider in indexed_providers:
             cursor = connection.execute(
                 "INSERT INTO providers(name,language,status,precision,diagnostic_count,evidence_json) VALUES(?,?,?,?,?,?)",
                 (provider.get("name") or "", provider.get("language") or "", provider.get("status") or "", provider.get("precision") or "", int(provider.get("diagnostic_count", 0)), json.dumps(provider, ensure_ascii=False, sort_keys=True)),
@@ -490,6 +505,8 @@ def build_machine_knowledge(
             for severity, values in (("fatal", provider.get("fatal_diagnostics", [])), ("stderr", provider.get("fatal_stderr", []))):
                 for value in values:
                     connection.execute("INSERT INTO diagnostics(provider_id,severity,content) VALUES(?,?,?)", (provider_id, severity, json.dumps(value, ensure_ascii=False) if not isinstance(value, str) else value))
+            for value in provider.get("warnings", []):
+                connection.execute("INSERT INTO diagnostics(provider_id,severity,content) VALUES(?,?,?)", (provider_id, "warning", json.dumps(value, ensure_ascii=False, sort_keys=True)))
         communities_path = output / "graphify-out/communities.json"
         if communities_path.is_file():
             for community in json_load(communities_path).get("communities", []):
@@ -799,6 +816,95 @@ def _next_pack_path(output: Path) -> tuple[Path, Path]:
         if not markdown.exists() and not record.exists():
             return markdown, record
     raise CkbError("machine pack name space is exhausted")
+
+
+def _indexed_warning_summary(connection: sqlite3.Connection) -> tuple[dict[str, Any], set[str]]:
+    warnings: list[dict[str, Any]] = []
+    affected_entity_ids: set[str] = set()
+    providers_table = connection.execute(
+        "SELECT 1 FROM sqlite_master WHERE type='table' AND name='providers'"
+    ).fetchone()
+    if providers_table is None:
+        return (
+            {
+                "status": "complete",
+                "warning_count": 0,
+                "examples": [],
+                "omitted_warning_count": 0,
+                "absence_inference_allowed": True,
+                "message_zh": None,
+            },
+            affected_entity_ids,
+        )
+    for row in connection.execute("SELECT evidence_json FROM providers ORDER BY provider_id"):
+        try:
+            evidence = json.loads(row[0])
+        except (TypeError, json.JSONDecodeError):
+            continue
+        for warning in evidence.get("warnings", []):
+            if not isinstance(warning, dict):
+                continue
+            affected_entity_ids.update(str(value) for value in warning.get("affected_entity_ids", []))
+            warnings.append(
+                {
+                    "kind": warning.get("kind"),
+                    "language": warning.get("language"),
+                    "file": warning.get("file"),
+                    "range": warning.get("range"),
+                    "diagnostic_categories": warning.get("diagnostic_categories", []),
+                    "diagnostic_count": int(warning.get("diagnostic_count", 0)),
+                    "coverage": warning.get("coverage", {}),
+                    "precision": warning.get("precision"),
+                    "build_evidence": warning.get("build_evidence", {}),
+                    "affected_entity_count": len(warning.get("affected_entity_ids", [])),
+                    "absence_inference_allowed": bool(warning.get("absence_inference_allowed", False)),
+                }
+            )
+    ordered = sorted(
+        warnings,
+        key=lambda item: (str(item.get("kind")), str(item.get("file")), int((item.get("range") or {}).get("start_byte", 0))),
+    )
+    examples = ordered[:8]
+    return (
+        {
+            "status": "warning" if ordered else "complete",
+            "warning_count": len(ordered),
+            "examples": examples,
+            "omitted_warning_count": max(0, len(ordered) - len(examples)),
+            "absence_inference_allowed": not bool(ordered),
+            "message_zh": "警告范围或有界近似语义结果不完整，不可据此推断未检出事实在源码中不存在。" if ordered else None,
+        },
+        affected_entity_ids,
+    )
+
+
+def _warning_pack_block(summary: dict[str, Any]) -> str:
+    if summary.get("status") != "warning":
+        return ""
+    lines = [
+        "## 完整性警告",
+        "",
+        "警告范围或有界近似语义结果不完整、置信度较低；不可把受影响范围内的未检出解释为源码中不存在。",
+        "",
+    ]
+    for warning in summary.get("examples", []):
+        source_range = warning.get("range") or {}
+        location = str(warning.get("file") or warning.get("language") or "unknown")
+        if source_range:
+            location += f":{source_range.get('start_line')}-{source_range.get('end_line')}"
+        categories = ",".join(str(value) for value in warning.get("diagnostic_categories", [])) or str(warning.get("precision") or warning.get("kind"))
+        coverage = warning.get("coverage") or {}
+        coverage_text = (
+            f"，行覆盖={coverage.get('affected_lines')}/{coverage.get('total_lines')}，字节覆盖={coverage.get('affected_bytes')}/{coverage.get('total_bytes')}"
+            if coverage
+            else ""
+        )
+        lines.append(
+            f"- `{location}`：{categories}，诊断数={warning.get('diagnostic_count', 0)}{coverage_text}，`absence_inference_allowed=false`"
+        )
+    if summary.get("omitted_warning_count"):
+        lines.append(f"- 另有 {summary['omitted_warning_count']} 条警告保留在完整机器记录中。")
+    return "\n".join(lines) + "\n\n"
 
 
 def _sql_placeholders(values: Iterable[Any]) -> str:
@@ -1132,6 +1238,7 @@ def _retrieve_machine_deterministic(
         reasons[entity_id].append(reason)
 
     try:
+        indexed_warnings, warning_affected_entity_ids = _indexed_warning_summary(connection)
         exact_rows = connection.execute(
             "SELECT entity_id,name,qualified_name,source_path FROM entities WHERE name=? COLLATE NOCASE OR qualified_name=? COLLATE NOCASE OR source_path=? COLLATE NOCASE",
             (question, question, question),
@@ -1274,6 +1381,7 @@ def _retrieve_machine_deterministic(
                 "terms": terms,
                 "anchors": anchors,
                 "reason": "机器知识库没有来源绑定的候选，请按 scope 或源码路径继续读取。",
+                "warnings": indexed_warnings,
             }
         if not scores and (automation_rows or feedback_rows or document_matches):
             pack_path, record_path = _next_pack_path(output)
@@ -1281,6 +1389,7 @@ def _retrieve_machine_deterministic(
                 f"# Agent 机器知识阅读包\n\n问题：{question}\n\n检索档位：{profile}\n\n"
                 "本阅读包只命中工作记录或人工反馈；会话记录仍按状态接受来源审阅，反馈按锚点状态处理。\n\n"
             )
+            pack += _warning_pack_block(indexed_warnings)
             related = []
             for row in document_matches:
                 block = _document_block(row, max(420, budget * 2))
@@ -1366,6 +1475,7 @@ def _retrieve_machine_deterministic(
                 "pending_agent_review": any(item.get("status") == "pending-agent-review" for item in related),
                 "open_feedback": sum(1 for item in related if item["kind"] == "feedback" and item["status"] == "open"),
                 "grep_fallback_required": False,
+                "warnings": indexed_warnings,
             }
             json_write(record_path, result)
             return result
@@ -1406,6 +1516,7 @@ def _retrieve_machine_deterministic(
         selected_ids = _diverse_candidates(overscan_ids, entity_rows, budgeted_entity_limit)
         pack_path, record_path = _next_pack_path(output)
         pack = f"# Agent 机器知识阅读包\n\n问题：{question}\n\n检索档位：{profile}\n\n所有说明使用简体中文；代码标识符保持源码形式。\n\n"
+        pack += _warning_pack_block(indexed_warnings)
         included_documents: list[dict[str, Any]] = []
         document_budget = max(480, int(budget * 3 * 0.34))
         for row in document_matches[:3]:
@@ -1466,6 +1577,9 @@ def _retrieve_machine_deterministic(
                     "score_breakdown": {key: round(value, 8) for key, value in sorted(breakdown[entity_id].items())},
                     "reasons": list(dict.fromkeys(reasons[entity_id])),
                     "sections": included_sections,
+                    "source_completeness": "incomplete" if entity_id in warning_affected_entity_ids else "complete",
+                    "source_confidence": "low" if entity_id in warning_affected_entity_ids else "high",
+                    "absence_inference_allowed": entity_id not in warning_affected_entity_ids,
                 }
             )
         note_rows = list(included_documents)
@@ -1551,6 +1665,7 @@ def _retrieve_machine_deterministic(
         "deterministic": True,
         "source_grounded": True,
         "grep_fallback_required": False,
+        "warnings": indexed_warnings,
     }
     json_write(record_path, result)
     return result
@@ -1597,7 +1712,7 @@ def _attach_keyword_fallback(
     return result
 
 
-def retrieve_machine(
+def _retrieve_machine_without_freshness(
     output: Path,
     question: str,
     budget: int = 1500,
@@ -1707,6 +1822,31 @@ def retrieve_machine(
         },
     }
     return _attach_keyword_fallback(output, question, final, metadata)
+
+
+def retrieve_machine(
+    output: Path,
+    question: str,
+    budget: int = 1500,
+    entity_limit: int = 8,
+    profile: str = "fast",
+    *,
+    keyword_fallback: KeywordFallbackOptions | None = None,
+) -> dict[str, Any]:
+    """Retrieve fixed facts and attach a live Git currentness guard."""
+
+    result = _retrieve_machine_without_freshness(
+        output,
+        question,
+        budget,
+        entity_limit,
+        profile,
+        keyword_fallback=keyword_fallback,
+    )
+    from .freshness import attach_freshness_to_retrieval, check_fact_freshness
+
+    freshness = check_fact_freshness(output, trigger="first-query")
+    return attach_freshness_to_retrieval(output, result, freshness)
 
 
 def coverage(output: Path) -> dict[str, Any]:

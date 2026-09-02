@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "checks": {
+    "raw_row_count_exact": true,
+    "all_aggregate_fields_exact": true,
+    "question_ids_exact": true,
+    "arm_ids_exact": true
+  },
+  "comparisons": {
+    "legacy-deterministic": {
+      "exact": true,
+      "recomputed": {
+        "questions": 12,
+        "runs": 72,
+        "recall_at_8": 0.75,
+        "mrr_at_8": 0.611111111,
+        "ndcg_at_8": 0.646821626,
+        "first_pack_estimated_tokens": 2375.5,
+        "latency_ms_p50": 532.28605,
+        "latency_ms_p95": 666.995355,
+        "cold_latency_ms_p50": 634.72725,
+        "cold_latency_ms_p95": 837.58653,
+        "hot_latency_ms_p50": 523.8392,
+        "hot_latency_ms_p95": 636.02214,
+        "provider_process_starts": 0,
+        "deterministic_question_rate": 1
+      },
+      "reported": {
+        "questions": 12,
+        "runs": 72,
+        "recall_at_8": 0.75,
+        "mrr_at_8": 0.611111111,
+        "ndcg_at_8": 0.646821626,
+        "first_pack_estimated_tokens": 2375.5,
+        "latency_ms_p50": 532.28605,
+        "latency_ms_p95": 666.995355,
+        "cold_latency_ms_p50": 634.72725,
+        "cold_latency_ms_p95": 837.58653,
+        "hot_latency_ms_p50": 523.8392,
+        "hot_latency_ms_p95": 636.02214,
+        "provider_process_starts": 0,
+        "deterministic_question_rate": 1
+      }
+    },
+    "current-deterministic": {
+      "exact": true,
+      "recomputed": {
+        "questions": 12,
+        "runs": 72,
+        "recall_at_8": 0.75,
+        "mrr_at_8": 0.611111111,
+        "ndcg_at_8": 0.646821626,
+        "first_pack_estimated_tokens": 2339.5,
+        "latency_ms_p50": 541.07045,
+        "latency_ms_p95": 670.582975,
+        "cold_latency_ms_p50": 624.22075,
+        "cold_latency_ms_p95": 700.117065,
+        "hot_latency_ms_p50": 527.97605,
+        "hot_latency_ms_p95": 638.54838,
+        "provider_process_starts": 0,
+        "deterministic_question_rate": 1
+      },
+      "reported": {
+        "questions": 12,
+        "runs": 72,
+        "recall_at_8": 0.75,
+        "mrr_at_8": 0.611111111,
+        "ndcg_at_8": 0.646821626,
+        "first_pack_estimated_tokens": 2339.5,
+        "latency_ms_p50": 541.07045,
+        "latency_ms_p95": 670.582975,
+        "cold_latency_ms_p50": 624.22075,
+        "cold_latency_ms_p95": 700.117065,
+        "hot_latency_ms_p50": 527.97605,
+        "hot_latency_ms_p95": 638.54838,
+        "provider_process_starts": 0,
+        "deterministic_question_rate": 1
+      }
+    },
+    "llm-replay-fallback": {
+      "exact": true,
+      "recomputed": {
+        "questions": 12,
+        "runs": 72,
+        "recall_at_8": 1.0,
+        "mrr_at_8": 0.958333333,
+        "ndcg_at_8": 0.969244146,
+        "first_pack_estimated_tokens": 2375.5,
+        "latency_ms_p50": 629.55225,
+        "latency_ms_p95": 798.49525,
+        "cold_latency_ms_p50": 781.97655,
+        "cold_latency_ms_p95": 884.51917,
+        "hot_latency_ms_p50": 605.26665,
+        "hot_latency_ms_p95": 735.55761,
+        "provider_process_starts": 12,
+        "deterministic_question_rate": 1
+      },
+      "reported": {
+        "questions": 12,
+        "runs": 72,
+        "recall_at_8": 1.0,
+        "mrr_at_8": 0.958333333,
+        "ndcg_at_8": 0.969244146,
+        "first_pack_estimated_tokens": 2375.5,
+        "latency_ms_p50": 629.55225,
+        "latency_ms_p95": 798.49525,
+        "cold_latency_ms_p50": 781.97655,
+        "cold_latency_ms_p95": 884.51917,
+        "hot_latency_ms_p50": 605.26665,
+        "hot_latency_ms_p95": 735.55761,
+        "provider_process_starts": 12,
+        "deterministic_question_rate": 1
+      }
+    }
+  }
+}

@@ -20,25 +20,27 @@
 
 ## 谁会来到这里
 
+- [[HumanPageAuthoringValidationFailureTests 等测试场景]] 会使用这里提供的行为。
 - [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]] 汇总了本页。
 - [[_Transport.close 与 _StartGate 的协作实现]] 会使用这里提供的行为。
 - [[audit_agent_protocol 与 _default_python 的协作实现]] 会使用这里提供的行为。
 - [[audit_migration]] 会使用这里提供的行为。
 - [[audit_migration 与 _entity_key 的协作实现]] 会使用这里提供的行为。
-- [[audit_references]] 会使用这里提供的行为。
+- [[benchmark 的协作边界（prototypes）]] 会使用这里提供的行为。
 - [[bind_conversation 与 default_management_registry_path 的协作实现]] 会使用这里提供的行为。
 - [[build_case]] 会使用这里提供的行为。
-- [[build_manual_index]] 会使用这里提供的行为。
-- [[build_manual_index 等测试场景]] 会使用这里提供的行为。
 - [[create_knowledge_batch_plan 与 KnowledgeRelease 的协作实现]] 会使用这里提供的行为。
 - [[doctor_report 与 _version_matches 的协作实现]] 会使用这里提供的行为。
 - [[freeze 的协作边界]] 会使用这里提供的行为。
 - [[graph 的协作边界]] 会使用这里提供的行为。
 - [[ingest_event 与 default_registry_path 的协作实现]] 会使用这里提供的行为。
+- [[ingest_reference 与 _root 的协作实现]] 会使用这里提供的行为。
+- [[render_page_author 与 _error 的协作实现]] 会使用这里提供的行为。
 - [[replace_note 与 RecordReplaceLockError 的协作实现]] 会使用这里提供的行为。
 - [[retrieve]] 会使用这里提供的行为。
 - [[retrieve 与 _tokens 的协作实现]] 会使用这里提供的行为。
 - [[retrieve_machine 与 estimated_tokens 的协作实现]] 会使用这里提供的行为。
+- [[run_failure_probe 等测试场景]] 会使用这里提供的行为。
 - [[start_scope_extension 与 _error 的协作实现]] 会使用这里提供的行为。
 
 ## 相关测试

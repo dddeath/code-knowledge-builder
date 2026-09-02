@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "baseline_commit": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
+  "measurement_parent_head": "5b8d97da8582ecde2d323ca090e993ba1166a4df",
+  "inputs": {
+    "protocol": "/mnt/e/knowledge_builder/self-workspace/worktrees/chinese-retrieval-effect-retest/tests/fixtures/chinese-retrieval-effects/protocol.json",
+    "protocol_sha256": "529d20785b949288003753bb0914fd520d89d25fb953da61ec292b72654fdcc8",
+    "frozen_corpus_manifest": "frozen-corpus-manifest.json",
+    "frozen_machine_sqlite_sha256": "c139d27233703e3fee09011134d90729ce23b7129aeadb5f5b23312dc59c9bbe",
+    "frozen_legacy_sqlite_sha256": "e5aba4daec7e34b54dc93bbae6da9750bee87448d48749dc0aaed64dd568349f"
+  },
+  "commands": [
+    {
+      "name": "targeted-coverage-tests",
+      "command": "python3 -X utf8 -m unittest <rank-metrics-test> <source-drift-test> -v",
+      "cwd": "/mnt/e/knowledge_builder/self-workspace/worktrees/chinese-retrieval-effect-retest",
+      "exit_code": 0,
+      "literal_output": "test_rank_metrics_are_computed_from_document_order_and_fixed_grades (tests.test_chinese_retrieval_fixture.ChineseRetrievalEffectRetestFixtureTests) ... ok\ntest_source_corpus_drift_fails_without_damaging_copied_index (tests.test_chinese_retrieval_fixture.ChineseRetrievalEffectRetestFixtureTests) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 0.953s\n\nOK\nTARGETED_TEST_EXIT=0\n"
+    },
+    {
+      "name": "unit-tests",
+      "command": "python3 -X utf8 -m unittest tests.test_chinese_retrieval_fixture tests.test_keyword_fallback -v",
+      "cwd": "/mnt/e/knowledge_builder/self-workspace/worktrees/chinese-retrieval-effect-retest",
+      "exit_code": 0,
+      "literal_output": "test_legacy_arm_preserves_the_exact_mechanical_fragments (tests.test_chinese_retrieval_fixture.ChineseRetrievalEffectRetestFixtureTests) ... ok\ntest_questions_have_fixed_relevance_labels_and_replay_responses (tests.test_chinese_retrieval_fixture.ChineseRetrievalEffectRetestFixtureTests) ... ok\ntest_rank_metrics_are_computed_from_document_order_and_fixed_grades (tests.test_chinese_retrieval_fixture.ChineseRetrievalEffectRetestFixtureTests) ... ok\ntest_replay_is_declared_separately_from_real_provider_evidence (tests.test_chinese_retrieval_fixture.ChineseRetrievalEffectRetestFixtureTests) ... ok\ntest_source_corpus_drift_fails_without_damaging_copied_index (tests.test_chinese_retrieval_fixture.ChineseRetrievalEffectRetestFixtureTests) ... ok\ntest_three_arm_protocol_is_frozen_at_the_fixed_knowledge_base_commit (tests.test_chinese_retrieval_fixture.ChineseRetrievalEffectRetestFixtureTests) ... ok\ntest_baseline_corpus_and_recall_are_complete (tests.test_chinese_retrieval_fixture.ChineseRetrievalFixtureTests) ... ok\ntest_baseline_records_all_mechanical_fragments (tests.test_chinese_retrieval_fixture.ChineseRetrievalFixtureTests) ... ok\ntest_frozen_protocol_shape (tests.test_chinese_retrieval_fixture.ChineseRetrievalFixtureTests) ... ok\ntest_cache_audit_rejects_secret_shaped_content (tests.test_keyword_fallback.KeywordFallbackAdapterTests) ... ok\ntest_command_adapter_caches_only_validated_output_under_identity_key (tests.test_keyword_fallback.KeywordFallbackAdapterTests) ... ok\ntest_invalid_json_output_and_process_failures_fall_back (tests.test_keyword_fallback.KeywordFallbackAdapterTests) ... ok\ntest_missing_credentials_prevents_process_start (tests.test_keyword_fallback.KeywordFallbackAdapterTests) ... ok\ntest_timeout_is_bounded_and_retried_at_most_once (tests.test_keyword_fallback.KeywordFallbackAdapterTests) ... ok\ntest_fixed_benchmark_compares_quality_latency_context_usage_and_restores_cache (tests.test_keyword_fallback.KeywordFallbackBenchmarkTests) ... ok\ntest_allow_mode_does_not_start_provider_after_passed_result (tests.test_keyword_fallback.KeywordFallbackRetrievalWiringTests) ... ok\ntest_default_result_adds_unavailable_freshness_without_starting_provider (tests.test_keyword_fallback.KeywordFallbackRetrievalWiringTests) ... ok\ntest_needs_source_read_uses_validated_terms_then_deterministic_selection (tests.test_keyword_fallback.KeywordFallbackRetrievalWiringTests) ... ok\ntest_provider_failure_returns_original_result_with_structured_reason (tests.test_keyword_fallback.KeywordFallbackRetrievalWiringTests) ... ok\ntest_stdio_exposes_the_same_nested_canonical_options (tests.test_keyword_fallback.KeywordFallbackRetrievalWiringTests) ... ok\ntest_canonical_failure_types_are_preserved_without_candidates (tests.test_keyword_fallback.KeywordFallbackSchemaTests) ... ok\ntest_canonical_fixture_output_is_bounded_and_normalized (tests.test_keyword_fallback.KeywordFallbackSchemaTests) ... ok\ntest_chinese_retrieval_replay_is_keyed_by_the_canonical_input_hash (tests.test_keyword_fallback.KeywordFallbackSchemaTests) ... ok\ntest_invalid_json_is_rejected (tests.test_keyword_fallback.KeywordFallbackSchemaTests) ... ok\ntest_oversized_duplicate_injected_and_invalid_candidates_are_rejected (tests.test_keyword_fallback.KeywordFallbackSchemaTests) ... ok\n\n----------------------------------------------------------------------\nRan 25 tests in 8.987s\n\nOK\nUNIT_TEST_EXIT=0\n"
+    },
+    {
+      "name": "fixed-three-arm-benchmark",
+      "command": "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe -X utf8 E:\\knowledge_builder\\self-workspace\\worktrees\\chinese-retrieval-effect-retest\\tests\\benchmark_chinese_retrieval.py --protocol E:\\knowledge_builder\\self-workspace\\worktrees\\chinese-retrieval-effect-retest\\tests\\fixtures\\chinese-retrieval-effects\\protocol.json --source-corpus E:\\knowledge_builder\\artifacts\\handoffs\\20260903-remaining-wave2\\chinese-retrieval-effect-retest\\frozen-corpus --output E:\\knowledge_builder\\artifacts\\handoffs\\20260903-remaining-wave2\\chinese-retrieval-effect-retest\\benchmark-run",
+      "cwd": "/mnt/e/knowledge_builder/self-workspace/worktrees/chinese-retrieval-effect-retest",
+      "exit_code": 0,
+      "literal_output": "BENCHMARK_EXIT=0\\nstatus passed\\nchecks {\"all_rankings_deterministic\": true, \"benchmark_index_unchanged\": true, \"copied_sqlite_integrity\": true, \"default_arms_started_no_provider\": true, \"failure_falls_back_to_original\": true, \"replay_cold_started_once_per_question\": true, \"replay_hot_used_cache\": true, \"row_count_exact\": true, \"source_corpus_unchanged\": true}"
+    },
+    {
+      "name": "independent-recompute",
+      "command": "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe -X utf8 E:\\knowledge_builder\\self-workspace\\worktrees\\chinese-retrieval-effect-retest\\tests\\fixtures\\chinese-retrieval-effects\\recompute.py --protocol E:\\knowledge_builder\\self-workspace\\worktrees\\chinese-retrieval-effect-retest\\tests\\fixtures\\chinese-retrieval-effects\\protocol.json --raw E:\\knowledge_builder\\artifacts\\handoffs\\20260903-remaining-wave2\\chinese-retrieval-effect-retest\\benchmark-run\\raw-results.json --reported E:\\knowledge_builder\\artifacts\\handoffs\\20260903-remaining-wave2\\chinese-retrieval-effect-retest\\benchmark-run\\report.json --output E:\\knowledge_builder\\artifacts\\handoffs\\20260903-remaining-wave2\\chinese-retrieval-effect-retest\\benchmark-run\\recomputed.json",
+      "cwd": "/mnt/e/knowledge_builder/self-workspace/worktrees/chinese-retrieval-effect-retest",
+      "exit_code": 0,
+      "literal_output": "RECOMPUTE_EXIT=0\\nstatus passed\\nchecks {\"all_aggregate_fields_exact\": true, \"arm_ids_exact\": true, \"question_ids_exact\": true, \"raw_row_count_exact\": true}"
+    }
+  ],
+  "benchmark_checks": {
+    "row_count_exact": true,
+    "copied_sqlite_integrity": true,
+    "benchmark_index_unchanged": true,
+    "source_corpus_unchanged": true,
+    "default_arms_started_no_provider": true,
+    "replay_cold_started_once_per_question": true,
+    "replay_hot_used_cache": true,
+    "all_rankings_deterministic": true,
+    "failure_falls_back_to_original": true
+  },
+  "aggregate_recomputed_exact": true,
+  "unit_coverage": {
+    "total_tests": 25,
+    "rank_metrics_test": "passed",
+    "source_drift_test": "passed",
+    "rank_metrics_assertions": [
+      "recall_at_8=0.5",
+      "mrr_at_8=0.5",
+      "relevant_hit_rank=2",
+      "missing_reason=not-selected"
+    ]
+  },
+  "source_drift_negative_test": {
+    "status": "passed",
+    "test": "test_source_corpus_drift_fails_without_damaging_copied_index",
+    "observed_report_status": "failed",
+    "source_corpus_unchanged": false,
+    "benchmark_index_unchanged": true,
+    "copied_machine_bytes": "copied-machine-fixed",
+    "copied_legacy_bytes": "copied-legacy-fixed"
+  },
+  "real_llm_actual_calls": 0,
+  "real_llm_status": "provider-unavailable",
+  "artifacts": {
+    "raw-results.json": {
+      "bytes": 848218,
+      "sha256": "3bac0b908d8e29ed8f922a43924cacee58b959ecbd8d1f9d5051d4ff32d4b0f7"
+    },
+    "report.json": {
+      "bytes": 155122,
+      "sha256": "51ceada934e5a3a37c93b80568dfa28b1e37a30d7db732620074232eec72ac59"
+    },
+    "recomputed.json": {
+      "bytes": 3618,
+      "sha256": "5f4815631b02ee405d5eac0cfaf65d6de419683458c6f7156640ba8f32285a6a"
+    },
+    "summary.md": {
+      "bytes": 2395,
+      "sha256": "a794fa2bfa6333e50f2e0f0d4e74e6a45fda7770e9ed3c36b47e261055ee62b8"
+    },
+    "provider-starts.log": {
+      "bytes": 429,
+      "sha256": "f4c5b3dcb6105ff61590e37dbf329e2f40b13c583774087069f49fd99d2d7849"
+    }
+  },
+  "concurrency_drift_evidence": "concurrency-drift-evidence.json"
+}

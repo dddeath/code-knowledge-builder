@@ -25,22 +25,43 @@ from ckb_core.human_page_templates import (
 
 
 FIXTURES = SKILL_ROOT / "tests/fixtures/human-page-templates"
+DEEP_TARGET = "INDEX.md#让-Agent-精确定位"
 
 
 def _reasons(result: dict[str, object]) -> list[str]:
     return [str(error["reason"]) for error in result["errors"]]  # type: ignore[index]
 
 
-def _source_context(target: str, purpose: str, key_entities: list[str] | None = None) -> dict[str, object]:
+def _context(**sections: dict[str, object]) -> dict[str, object]:
+    return {"sections": sections, "current_facts": []}
+
+
+def _section_context(
+    *,
+    key_entities: list[str] | None = None,
+    links: list[dict[str, str]] | None = None,
+    metrics: list[str] | None = None,
+    source_refs: list[dict[str, str]] | None = None,
+    machine_evidence_refs: list[dict[str, str]] | None = None,
+) -> dict[str, object]:
     return {
         "key_entities": key_entities or [],
-        "links": [{"target": target, "purpose": purpose, "kind": "source"}],
-        "current_facts": [],
+        "links": links or [],
+        "metrics": metrics or [],
+        "source_refs": source_refs or [],
+        "machine_evidence_refs": machine_evidence_refs or [],
     }
 
 
+def _deep_context(**sections: dict[str, object]) -> dict[str, object]:
+    sections["deep-reading"] = _section_context(
+        links=[{"target": DEEP_TARGET, "purpose": "继续定位相关源码与记录", "kind": "internal"}]
+    )
+    return _context(**sections)
+
+
 class HumanPageTemplateRegistryTests(unittest.TestCase):
-    def test_registry_has_one_versioned_contract_for_every_human_page_type(self) -> None:
+    def test_registry_has_one_v3_contract_for_every_human_page_type(self) -> None:
         expected = (
             "INDEX",
             "WIKI",
@@ -57,36 +78,48 @@ class HumanPageTemplateRegistryTests(unittest.TestCase):
             "feedback",
             "README",
         )
+        self.assertEqual(3, HUMAN_PAGE_TEMPLATE_SCHEMA_VERSION)
+        self.assertEqual("3.0.0", HUMAN_PAGE_TEMPLATE_CONTRACT_VERSION)
         self.assertEqual(expected, list_human_page_types())
         registry = human_page_template_registry_document()
-        self.assertEqual(HUMAN_PAGE_TEMPLATE_SCHEMA_VERSION, registry["schema_version"])
-        self.assertEqual(HUMAN_PAGE_TEMPLATE_CONTRACT_VERSION, registry["contract_version"])
+        self.assertEqual(3, registry["schema_version"])
+        self.assertEqual("3.0.0", registry["contract_version"])
         self.assertEqual(list(expected), registry["page_type_order"])
         self.assertEqual(list(expected), [item["page_type"] for item in registry["page_types"]])
+        section_fields = {
+            "required_content",
+            "allowed_content",
+            "forbidden_content",
+            "length_budget",
+            "key_entity_budget",
+            "link_budget",
+            "source_requirements",
+            "freshness_rule",
+            "disclosure_level",
+            "empty_behavior",
+        }
         for item in registry["page_types"]:
             self.assertTrue(item["reader_task"])
-            self.assertTrue(item["entry_conditions"])
-            self.assertTrue(item["first_screen"]["responsibility"])
             self.assertTrue(item["required_sections"])
-            self.assertTrue(item["forbidden_content"])
-            self.assertIn("maximum", item["key_entity_budget"])
-            self.assertIn(item["key_entity_budget"]["scope"], {"page", "entry"})
-            self.assertIn("maximum", item["source_link_budget"])
-            self.assertIn(item["source_link_budget"]["scope"], {"page", "entry"})
-            self.assertTrue(item["link_requirements"])
-            self.assertTrue(item["evidence_requirements"]["required_fields"])
-            self.assertIn("extension_points", item)
-            self.assertIsInstance(item["extension_points"], list)
-            self.assertTrue(item["applicability_boundary"])
+            for section in item["required_sections"] + item["optional_sections"]:
+                self.assertTrue(section_fields.issubset(section))
+                self.assertTrue(section["required_content"])
+                self.assertTrue(section["allowed_content"])
+                self.assertTrue(section["forbidden_content"])
+                self.assertTrue(section["source_requirements"])
+                self.assertTrue(section["freshness_rule"])
+                self.assertIn(section["disclosure_level"], {"L1", "L2", "L3"})
+                self.assertIn(section["empty_behavior"], {"error", "omit", "explicit-empty"})
+                self.assertEqual("section", section["key_entity_budget"]["scope"])
+                self.assertTrue(section["link_budget"]["target_types"])
 
     def test_registry_serialization_and_hash_are_byte_stable(self) -> None:
         first = serialize_human_page_template_registry()
         second = serialize_human_page_template_registry()
         self.assertEqual(first, second)
         self.assertTrue(first.endswith("\n"))
-        parsed = json.loads(first)
-        self.assertEqual(list(list_human_page_types()), parsed["page_type_order"])
         self.assertEqual(hashlib.sha256(first.encode("utf-8")).hexdigest(), human_page_template_registry_sha256())
+        self.assertEqual(json.loads(first), human_page_template_registry_document())
 
     def test_query_returns_an_immutable_contract(self) -> None:
         contract = get_human_page_template("change")
@@ -94,265 +127,265 @@ class HumanPageTemplateRegistryTests(unittest.TestCase):
             contract.reader_task = "changed"  # type: ignore[misc]
         self.assertIs(contract, get_human_page_template("CHANGE"))
 
-    def test_change_contract_matches_the_accepted_section_contract_without_body_literals(self) -> None:
-        contract = get_human_page_template("change")
-        self.assertEqual(
-            (
-                "修改内容",
-                "修改时间",
-                "修改原因",
-                "修改方式",
-                "关联特性",
-                "验证结果与适用边界",
-                "关键源码范围",
-            ),
-            tuple(section.heading for section in contract.required_sections),
-        )
-        serialized = json.dumps(human_page_template_registry_document(), ensure_ascii=False)
-        self.assertNotIn("Agent 会话级 stdio 生命周期变更", serialized)
-        self.assertEqual(3, contract.key_entity_budget.maximum)
+    def test_confirmed_v3_headings_are_exact(self) -> None:
+        expected = {
+            "INDEX": ("先选择你要完成的任务", "按职责浏览代码", "查找项目记录", "让 Agent 精确定位"),
+            "WIKI": ("从哪里开始", "各类页面负责什么", "如何追踪方案与实现变化", "如何让 Agent 帮助阅读", "深入了解"),
+            "RECORDS": ("先选择你要查找的内容", "分析与方案", "实现与修改", "实验与性能", "问题与限制", "会话与方案变化", "让 Agent 帮助查找"),
+            "REFERENCES": ("这些资料能回答什么", "按主题选择资料", "让 Agent 帮助查找"),
+            "responsibility": ("职责说明", "适用场景", "功能结果", "关联范围", "当前边界", "深入阅读"),
+            "change": ("修改内容", "修改时间", "修改原因", "实现概述", "关联特性", "当前结果", "适用边界", "深入阅读"),
+            "analysis": ("当前结论", "问题关联", "事实基础", "结论应用", "未决事项", "后续建议", "深入阅读"),
+            "pitfall": ("问题现象", "触发条件", "影响范围", "原因说明", "处理方式", "当前结果", "适用边界", "深入阅读"),
+            "experiment": ("实验问题", "比较对象", "功能与性能覆盖", "结果摘要", "结论", "适用边界", "后续工作", "深入阅读"),
+            "session": ("任务目标", "执行范围", "关键决策与方案变化", "当前结果", "可用成果", "未决事项", "后续行动", "深入阅读"),
+            "reference": ("资料概述", "适用问题", "关键结论", "来源", "适用边界", "深入阅读"),
+            "learning-note": ("学习问题", "解释摘要", "应用方式", "关联内容"),
+            "feedback": ("反馈内容", "影响范围", "当前状态", "后续行动"),
+            "README": ("先选择你要完成的任务", "了解本项目知识库结构", "让 Agent 安装本项目", "让 Agent 解释自己的项目", "安装后继续指挥 Agent"),
+        }
+        for page_type, headings in expected.items():
+            with self.subTest(page_type=page_type):
+                self.assertEqual(headings, tuple(value.heading for value in get_human_page_template(page_type).required_sections))
+        self.assertEqual(("查找外部资料",), tuple(value.heading for value in get_human_page_template("INDEX").optional_sections))
+        self.assertEqual(("实验功能",), tuple(value.heading for value in get_human_page_template("README").optional_sections))
+        self.assertEqual(3, get_human_page_template("README").first_screen.maximum_key_items)
+        self.assertEqual(("后续问题",), tuple(value.heading for value in get_human_page_template("learning-note").optional_sections))
+        self.assertEqual(("处理结论",), tuple(value.heading for value in get_human_page_template("feedback").optional_sections))
 
-    def test_readme_contract_keeps_the_three_accepted_reader_tasks(self) -> None:
-        contract = get_human_page_template("README")
-        self.assertEqual(
-            (
-                "先选择你要完成的任务",
-                "了解本项目知识库结构",
-                "让 Agent 安装本项目",
-                "让 Agent 解释自己的项目",
-            ),
-            tuple(section.heading for section in contract.required_sections),
+    def test_old_1_0_0_is_rejected_with_explicit_migration_rule(self) -> None:
+        with self.assertRaisesRegex(CkbError, "显式按 V3 章节重写"):
+            get_human_page_template("change", contract_version="1.0.0", schema_version=1)
+        result = validate_human_page(
+            "change",
+            "# 旧页面\n",
+            contract_version="1.0.0",
+            schema_version=1,
         )
-        self.assertEqual(3, contract.first_screen.maximum_key_items)
+        self.assertEqual("failed", result["status"])
+        self.assertEqual("contract-version-incompatible", result["errors"][0]["reason"])
+        self.assertEqual("explicit-rewrite", result["errors"][0]["migration"]["mode"])
 
-    def test_unknown_query_and_incompatible_query_fail_with_chinese_diagnostics(self) -> None:
+    def test_unknown_query_and_validator_type_fail_with_machine_readable_reasons(self) -> None:
         with self.assertRaisesRegex(CkbError, "未知人类页面类型"):
             get_human_page_template("unknown")
-        with self.assertRaisesRegex(CkbError, "版本不兼容"):
-            get_human_page_template("change", contract_version="2.0.0")
+        result = validate_human_page("unknown", "# 未知页面\n", context=_context())
+        self.assertEqual("failed", result["status"])
+        self.assertEqual("unknown-page-type", result["errors"][0]["reason"])
 
 
 class HumanPageTemplateValidationTests(unittest.TestCase):
-    def test_every_page_type_accepts_one_minimal_contract_document(self) -> None:
+    def test_every_page_type_accepts_one_minimal_v3_document(self) -> None:
         source = "vscode://file/E:/fixture/source.py:1:1"
         cases: dict[str, tuple[str, dict[str, object]]] = {
-            "INDEX": (
-                """# 项目知识库
-
-## 按任务选择入口
-按任务选择职责、记录或检索。
-## 按职责浏览代码
-进入职责导览。
-## 工作记录
-进入工作记录导览。
-## 精确定位
-使用 brief 定位来源。
-""",
-                {"key_entities": [], "links": [], "current_facts": []},
-            ),
-            "WIKI": (
-                """# 如何阅读知识库
-
-## 从哪里开始
-先选择读者任务。
-## 页面只保留什么
-只保留完成任务所需信息。
-## 如何寻找修改入口
-从职责进入源码和测试。
-## Agent 确定性检索
-先读取紧凑 pack。
-""",
-                {"key_entities": [], "links": [], "current_facts": []},
-            ),
-            "RECORDS": (
-                """# 工作记录导览
-
-## 先按任务选择
-按结论、变化、实验、踩坑或会话选择记录。
-## 快速查找
-先按标题浏览，再使用稳定关键词。
-## 分析与决策
-- 当前没有这一类记录。
-## 实现与变更
-- 当前没有这一类记录。
-## 实验与量化结果
-- 当前没有这一类记录。
-## 踩坑与限制
-- 当前没有这一类记录。
-## 会话与任务过程
-- 当前没有这一类记录。
-""",
-                {"key_entities": [], "links": [], "current_facts": []},
-            ),
-            "REFERENCES": (
-                """# 参考资料导览
-
-## 已审阅资料
-- [[确定性检索资料]] — 说明可复查的检索顺序。
-""",
-                {
-                    "key_entities": [],
-                    "links": [{"target": "确定性检索资料", "purpose": "阅读已审阅资料摘要", "kind": "internal"}],
-                    "current_facts": [],
-                },
-            ),
-            "responsibility": (
-                (FIXTURES / "responsibility-valid.md").read_text(encoding="utf-8"),
-                _source_context(source, "打开会话生命周期实现", ["start_session"]),
-            ),
-            "change": (
-                """# 会话行为变更
-
-## 修改内容
-会话检索复用进程。
-## 修改时间
-合并时间见验证记录。
-## 修改原因
-原有进程没有会话所有者。
-## 修改方式
-生命周期管理负责创建和释放。
-## 关联特性
-与检索回退直接关联。
-## 验证结果与适用边界
-连续检索通过，缺少结束事件时显式关闭。
-## 关键源码范围
-- `session_stdio.py`：负责生命周期。
-""",
-                {"key_entities": ["lifecycle"], "links": [], "current_facts": []},
-            ),
-            "analysis": (
-                """# 检索策略分析
-
-## 结论
-先使用紧凑检索。
-## 已确认事实
-检索保存来源范围。
-## 事实对当前问题的影响
-任务先缩小到少量文件。
-## 仍需核验的内容
-需要复测特殊语言仓库。
-## 建议的下一步
-使用固定问题集验证。
-""",
-                {"key_entities": [], "links": [], "current_facts": []},
-            ),
-            "pitfall": (
-                """# Windows 路径踩坑
-
-## 现象
-混合路径导致入口失效。
-## 触发条件
-WSL Python 接收 Windows 根路径。
-## 根因
-运行时解释了错误的路径根。
-## 解决方法
-使用项目绑定的 Windows Python。
-## 验证结果
-同一命令返回正确页面。
-## 适用边界
-只涉及 Windows 知识库路径。
-""",
-                {"key_entities": [], "links": [], "current_facts": []},
-            ),
-            "experiment": (
-                f"""# 检索实验
-
-## 实验问题
-比较两条检索路径。
-## 实验设计
-固定输入和顺序。
-## 对照与变量
-只改变检索档位。
-## 结果
-记录字面输出。
-## 结论
-紧凑路径满足本组任务。
-## 适用边界
-结论只覆盖固定样本。
-## 复现入口
-[打开实验记录]({source})
-""",
-                _source_context(source, "打开固定实验结果"),
-            ),
-            "session": (
-                """# 模板合同任务
-
-## 任务目标
-建立类型化合同。
-## 执行范围
-只修改合同和测试。
-## 已完成结果
-注册表已生成。
-## 验证结果
-稳定序列化通过。
-## 待继续事项
-等待后续接入正式审计。
-""",
-                {"key_entities": [], "links": [], "current_facts": []},
-            ),
-            "reference": (
-                f"""# 外部资料
-
-## 这份资料讲什么
-资料说明确定性检索方法。
-## 关键结论
-- 每项结论回链原文。
-## 来源
-- [打开归档原文]({source})
-""",
-                _source_context(source, "核对归档原文"),
-            ),
-            "learning-note": (
-                """# 2026-09-02 学习笔记
-
-标签：#类型/学习
-
-> 汇总当天经过审计的解释。
-
-## 09:30:00 · 来源页面
-
-来源：[[source|来源页面]]
-
-### 我的问题
-
-这个合同解决什么问题？
-
-### 选中文本
-
-> 类型化模板合同
-
-### 解释
-
-它让生成和审计读取同一组字段。
-""",
-                _source_context("source", "打开选区来源页面"),
-            ),
-            "feedback": (
-                """# 关于职责页的反馈
-
-状态：待处理
-
-## 反馈内容
-请说明验证入口。
-## 锚点摘录
-> 什么时候需要修改
-""",
-                {"key_entities": [], "links": [], "current_facts": []},
-            ),
-            "README": (
-                """# Code Knowledge Builder
+            "INDEX": ("""# 项目知识库
 
 ## 先选择你要完成的任务
-选择了解结构、安装或解释项目。
+选择职责、记录、资料或精确定位。
+## 按职责浏览代码
+进入职责说明页。
+## 查找项目记录
+进入项目记录导览。
+## 让 Agent 精确定位
+描述问题后由 Agent 返回源码范围。
+""", _context()),
+            "WIKI": ("""# 如何阅读知识库
+
+## 从哪里开始
+先按当前阅读任务选择入口。
+## 各类页面负责什么
+导航页负责选择，内容页负责解释。
+## 如何追踪方案与实现变化
+从项目记录进入职责与源码。
+## 如何让 Agent 帮助阅读
+描述目标并要求返回结论和来源。
+## 深入了解
+继续阅读职责、记录或资料。
+""", _context()),
+            "RECORDS": ("""# 项目记录
+
+## 先选择你要查找的内容
+按问题目的选择记录。
+## 分析与方案
+暂无相关记录。
+## 实现与修改
+暂无相关记录。
+## 实验与性能
+暂无相关记录。
+## 问题与限制
+暂无相关记录。
+## 会话与方案变化
+暂无相关记录。
+## 让 Agent 帮助查找
+说明问题和时间范围后返回记录摘要。
+""", _context()),
+            "REFERENCES": ("""# 外部资料
+
+## 这些资料能回答什么
+资料用于核对已审阅外部主张。
+## 按主题选择资料
+按检索主题进入摘要页。
+## 让 Agent 帮助查找
+描述问题后返回资料和原文范围。
+""", _context()),
+            "responsibility": ("""# 模板职责
+
+## 职责说明
+产生稳定的人类页面合同。
+## 适用场景
+需要生成或检查人类页面时使用。
+## 功能结果
+页面标题、预算和边界保持一致。
+## 关联范围
+`human_page_templates` 承担注册与验证。
+## 当前边界
+只覆盖 V3 人类页面合同。
+## 深入阅读
+[让 Agent 按本页问题继续定位](INDEX.md#让-Agent-精确定位)。
+""", _deep_context(**{"related-scope": _section_context(key_entities=["human_page_templates"])})),
+            "change": ("""# V3 页面合同
+
+## 修改内容
+人类页面按章节声明完整约束。
+## 修改时间
+该描述绑定 V3 合同。
+## 修改原因
+旧合同只表达标题和用途。
+## 实现概述
+`human_page_templates` 统一注册和验证。
+## 关联特性
+authoring 与 proposal 读取同一规范。
+## 当前结果
+候选页会检查章节预算和披露层级。
+## 适用边界
+只覆盖 V3 输入。
+## 深入阅读
+[让 Agent 按本页问题继续定位](INDEX.md#让-Agent-精确定位)。
+""", _deep_context(implementation=_section_context(key_entities=["human_page_templates"]))),
+            "analysis": ("""# V3 合同分析
+
+## 当前结论
+章节级合同适合统一生成和审阅。
+## 问题关联
+旧输入缺少披露与空值语义。
+## 事实基础
+注册表为每节保存相同字段。
+## 结论应用
+生成器读取字段后构造候选页。
+## 未决事项
+既有页面迁移留给后续集成。
+## 后续建议
+先在隔离输出验证候选页。
+## 深入阅读
+[让 Agent 按本页问题继续定位](INDEX.md#让-Agent-精确定位)。
+""", _deep_context()),
+            "pitfall": ("""# L4 证据泄漏
+
+## 问题现象
+普通人类页混入机器验证明细。
+## 触发条件
+把验证记录直接复制到正文。
+## 影响范围
+读者无法快速获得当前结论。
+## 原因说明
+摘要与机器证据没有分离。
+## 处理方式
+正文只保留概述并登记证据引用。
+## 当前结果
+人类页保持结论与边界。
+## 适用边界
+完整证据仍由机器层保存。
+## 深入阅读
+[让 Agent 按本页问题继续定位](INDEX.md#让-Agent-精确定位)。
+""", _deep_context()),
+            "experiment": ("""# 页面披露实验
+
+## 实验问题
+验证摘要能否保留功能与性能信息。
+## 比较对象
+比较 V3 摘要与旧式证据堆叠。
+## 功能与性能覆盖
+覆盖原生文本 PDF、扫描页、页码定位和代码块保留。
+## 结果摘要
+准确率 92%，延迟 120 ms。
+## 结论
+少量指标足以说明本组结果。
+## 适用边界
+代码布局仍有限制。
+## 后续工作
+扩展固定样本后再比较。
+## 深入阅读
+[让 Agent 按本页问题继续定位](INDEX.md#让-Agent-精确定位)。
+""", _deep_context(summary=_section_context(metrics=["准确率 92%", "延迟 120 ms"]))),
+            "session": ("""# V3 开发任务
+
+## 任务目标
+实现章节级人类页面合同。
+## 执行范围
+只修改模板、authoring、proposal 与 Prompt。
+## 关键决策与方案变化
+人类摘要与机器证据引用分离。
+## 当前结果
+模板注册表已具备完整章节字段。
+## 可用成果
+候选页可由结构化输入重新生成。
+## 未决事项
+正式投影迁移由后续集成执行。
+## 后续行动
+运行回归并交给管理任务复查。
+## 深入阅读
+[让 Agent 按本页问题继续定位](INDEX.md#让-Agent-精确定位)。
+""", _deep_context()),
+            "reference": (f"""# 页面设计资料
+
+## 资料概述
+资料说明渐进式披露方法。
+## 适用问题
+用于判断人类页应展示哪些信息。
+## 关键结论
+入口页只保留任务和直接结果。
+## 来源
+[打开归档资料]({source})用于核对原文。
+## 适用边界
+资料结论只覆盖已审阅范围。
+## 深入阅读
+[让 Agent 按本页问题继续定位](INDEX.md#让-Agent-精确定位)。
+""", _deep_context(source=_section_context(links=[{"target": source, "purpose": "核对归档原文", "kind": "source"}]))),
+            "learning-note": ("""# 页面合同学习
+
+## 学习问题
+怎样分离摘要与机器证据？
+## 解释摘要
+正文保存任务结论，机器引用保存完整证据。
+## 应用方式
+生成候选页时只渲染 human_summary。
+## 关联内容
+继续阅读模板职责说明。
+""", _context()),
+            "feedback": ("""# 页面合同反馈
+
+## 反馈内容
+请明确每节的链接预算。
+## 影响范围
+影响 change 页的深入阅读章节。
+## 当前状态
+反馈等待模板实现复核。
+## 后续行动
+实现后由管理任务审阅。
+""", _context()),
+            "README": ("""# Code Knowledge Builder
+
+## 先选择你要完成的任务
+首屏只选择了解结构、安装本项目或解释自己的项目。
 ## 了解本项目知识库结构
-区分人类入口和机器入口。
+人类入口给出结论，机器入口保存完整事实。
 ## 让 Agent 安装本项目
-安装 Prompt 只完成安装验收。
+把项目来源交给 Agent，并要求返回安装结果与边界。
 ## 让 Agent 解释自己的项目
-解释 Prompt 为目标仓库建库并回答问题。
-""",
-                {"key_entities": ["结构", "安装", "解释"], "links": [], "current_facts": []},
-            ),
+把仓库和问题交给 Agent，并要求返回结论与来源。
+## 安装后继续指挥 Agent
+继续要求 Agent 阅读、定位、修改或核验指定问题。
+""", _context()),
         }
         self.assertEqual(set(list_human_page_types()), set(cases))
         for page_type, (markdown, context) in cases.items():
@@ -360,106 +393,242 @@ WSL Python 接收 Windows 根路径。
                 result = validate_human_page(page_type, markdown, context=context)
                 self.assertEqual("passed", result["status"], result["errors"])
 
-    def test_learning_note_budgets_are_applied_per_repeated_entry(self) -> None:
-        markdown = """# 2026-09-02 学习笔记
+    def test_section_budget_is_scoped_to_the_named_section(self) -> None:
+        markdown = """# 模板职责
 
-## 09:30:00 · 第一页
-来源：[[source-one|第一页]]
-### 我的问题
-第一个问题是什么？
-### 解释
-第一条解释。
-
-## 10:00:00 · 第二页
-来源：[[source-two|第二页]]
-### 我的追问
-第二个问题是什么？
-### 解释
-第二条解释。
+## 职责说明
+产生稳定合同。
+## 适用场景
+生成人类页时使用。
+## 功能结果
+候选页返回清楚结果。
+## 关联范围
+列出关键实现。
+## 当前边界
+只覆盖模板层。
+## 深入阅读
+继续阅读项目记录。
 """
-        context = {
-            "key_entities": ["ENTITY_1", "ENTITY_2", "ENTITY_3", "ENTITY_4"],
-            "links": [
-                {"target": "source-one", "purpose": "打开第一条选区来源", "kind": "source"},
-                {"target": "source-two", "purpose": "打开第二条选区来源", "kind": "source"},
-            ],
-            "current_facts": [],
-        }
-        result = validate_human_page("learning-note", markdown, context=context)
-        self.assertEqual("passed", result["status"], result["errors"])
-        contract = get_human_page_template("learning-note")
-        self.assertEqual("entry", contract.key_entity_budget.scope)
-        self.assertEqual("entry", contract.source_link_budget.scope)
-
-    def test_missing_required_section_fails_deterministically(self) -> None:
-        markdown = (FIXTURES / "change-missing-section.md").read_text(encoding="utf-8")
         result = validate_human_page(
-            "change",
+            "responsibility",
             markdown,
-            context={"key_entities": ["session_stdio"], "links": [], "current_facts": []},
+            context=_context(**{"related-scope": _section_context(key_entities=["A", "B", "C", "D", "E", "F"])}),
         )
-        self.assertEqual("failed", result["status"])
-        self.assertIn("required-section-missing", _reasons(result))
-        missing = next(error for error in result["errors"] if error["reason"] == "required-section-missing")
-        self.assertEqual("修改原因", missing["heading"])
+        self.assertIn("section-key-entity-budget", _reasons(result))
+        error = next(value for value in result["errors"] if value["reason"] == "section-key-entity-budget")
+        self.assertEqual("related-scope", error["section_id"])
+        self.assertEqual(5, error["maximum"])
 
-    def test_duplicate_heading_fails_deterministically(self) -> None:
-        markdown = (FIXTURES / "analysis-duplicate-heading.md").read_text(encoding="utf-8")
-        result = validate_human_page("analysis", markdown)
-        self.assertIn("duplicate-heading", _reasons(result))
-        duplicate = next(error for error in result["errors"] if error["reason"] == "duplicate-heading")
-        self.assertEqual([3, 7], duplicate["lines"])
+    def test_l3_allows_coverage_and_small_metrics_but_rejects_l4_shapes(self) -> None:
+        base = """# 实验摘要
 
-    def test_key_entity_budget_uses_explicit_context_and_fails_at_eight(self) -> None:
-        markdown = (FIXTURES / "responsibility-valid.md").read_text(encoding="utf-8")
-        context = json.loads((FIXTURES / "responsibility-too-many-entities.json").read_text(encoding="utf-8"))
-        result = validate_human_page("responsibility", markdown, context=context)
-        self.assertIn("key-entity-budget", _reasons(result))
-        error = next(error for error in result["errors"] if error["reason"] == "key-entity-budget")
-        self.assertEqual(8, error["actual"])
-        self.assertEqual(7, error["maximum"])
-
-    def test_unverified_current_fact_fails_and_exact_evidence_passes(self) -> None:
-        markdown = (FIXTURES / "change-untrusted-current-fact.md").read_text(encoding="utf-8")
-        base_context = {"key_entities": ["session_stdio"], "links": [], "current_facts": []}
-        failed = validate_human_page("change", markdown, context=base_context)
-        self.assertIn("current-fact-unverified", _reasons(failed))
-        passed = validate_human_page(
-            "change",
-            markdown,
-            context={
-                **base_context,
-                "current_facts": [
-                    {
-                        "claim": "当前状态已经覆盖所有 Harness。",
-                        "source": "verification.json",
-                        "observed_at": "2026-09-02",
-                    }
-                ],
-            },
+## 实验问题
+验证披露边界。
+## 比较对象
+比较两种页面表示。
+## 功能与性能覆盖
+已测试原生文本 PDF、扫描页、页码定位和代码块保留；代码布局仍有限制。
+## 结果摘要
+准确率 92%，延迟 120 ms。
+## 结论
+少量指标足以支持本组判断。
+## 适用边界
+结论只覆盖固定样本。
+## 后续工作
+扩展样本后再比较。
+## 深入阅读
+[让 Agent 按本页问题继续定位](INDEX.md#让-Agent-精确定位)。
+"""
+        context = _deep_context(
+            coverage=_section_context(),
+            summary=_section_context(
+                metrics=["准确率 92%", "延迟 120 ms"],
+                machine_evidence_refs=[{"target": "artifacts/verification.json", "purpose": "复查完整命令与结果", "kind": "log"}],
+            ),
         )
-        self.assertEqual("passed", passed["status"], passed["errors"])
+        context["current_facts"] = [
+            {
+                "section_id": "coverage",
+                "claim": "已测试原生文本 PDF、扫描页、页码定位和代码块保留；代码布局仍有限制。",
+                "source": "machine-evidence:coverage",
+                "observed_at": "2026-09-02",
+            }
+        ]
+        self.assertEqual("passed", validate_human_page("experiment", base, context=context)["status"])
+        leaked = base.replace("准确率 92%，延迟 120 ms。", "专项测试 268/268 通过，exit_status=0。")
+        result = validate_human_page("experiment", leaked, context=_deep_context())
+        leaks = [value for value in result["errors"] if value["reason"] == "l4-evidence-leak"]
+        self.assertTrue(leaks)
+        self.assertEqual("summary", leaks[0]["section_id"])
+        self.assertIn(leaks[0]["evidence_shape"], {"test-total", "raw-log"})
 
-    def test_process_meta_copy_and_purposeless_link_fail(self) -> None:
-        meta = (FIXTURES / "analysis-process-meta-copy.md").read_text(encoding="utf-8")
-        self.assertIn("process-meta-copy", _reasons(validate_human_page("analysis", meta)))
-        readme = (FIXTURES / "readme-purposeless-link.md").read_text(encoding="utf-8")
+    def test_machine_evidence_ref_target_must_not_be_rendered(self) -> None:
+        markdown = """# 页面合同分析
+
+## 当前结论
+章节级合同保持一致。
+## 问题关联
+用于分离人类摘要与机器证据。
+## 事实基础
+注册表保存结构化字段。
+## 结论应用
+生成器读取同一规范。
+## 未决事项
+正式迁移尚待集成。
+## 后续建议
+先验证候选页。
+## 深入阅读
+验证文件 artifacts/verification.json 记录完整结果；[让 Agent 按本页问题继续定位](INDEX.md#让-Agent-精确定位)。
+"""
         result = validate_human_page(
+            "analysis",
+            markdown,
+            context=_context(**{
+                "deep-reading": _section_context(machine_evidence_refs=[
+                    {"target": "artifacts/verification.json", "purpose": "复查完整验证", "kind": "log"}
+                ], links=[{"target": DEEP_TARGET, "purpose": "继续定位相关源码与记录", "kind": "internal"}])
+            }),
+        )
+        self.assertIn("l4-machine-evidence-rendered", _reasons(result))
+
+    def test_visible_links_require_exact_registration_and_reject_unused_or_conflicting_targets(self) -> None:
+        markdown = """# Code Knowledge Builder
+
+## 先选择你要完成的任务
+[阅读项目说明](guide.md)。
+## 了解本项目知识库结构
+区分人类与机器入口。
+## 让 Agent 安装本项目
+交给 Agent 完成安装。
+## 让 Agent 解释自己的项目
+交给 Agent 回答问题。
+## 安装后继续指挥 Agent
+继续指挥 Agent 阅读与修改。
+"""
+        undeclared = validate_human_page("README", markdown, context=_context())
+        self.assertIn("link-context-missing", _reasons(undeclared))
+
+        without_link = markdown.replace("[阅读项目说明](guide.md)。", "先选择一项任务。")
+        unused = validate_human_page(
             "README",
-            readme,
-            context={"key_entities": ["结构", "安装", "解释"], "links": [], "current_facts": []},
+            without_link,
+            context=_context(**{
+                "task-choice": _section_context(
+                    links=[{"target": "guide.md", "purpose": "阅读项目说明", "kind": "internal"}]
+                )
+            }),
         )
-        self.assertIn("link-purpose-missing", _reasons(result))
+        self.assertIn("link-context-unused", _reasons(unused))
 
-    def test_unknown_type_and_incompatible_version_return_machine_failures(self) -> None:
-        unknown = validate_human_page("unknown", "# 页面\n")
-        self.assertEqual(["unknown-page-type"], _reasons(unknown))
-        incompatible = validate_human_page("change", "# 页面\n", contract_version="2.0.0")
-        self.assertEqual(["contract-version-incompatible"], _reasons(incompatible))
-        self.assertEqual(
-            {"schema_version": HUMAN_PAGE_TEMPLATE_SCHEMA_VERSION, "contract_version": HUMAN_PAGE_TEMPLATE_CONTRACT_VERSION},
-            incompatible["errors"][0]["expected"],
+        conflicting = validate_human_page(
+            "README",
+            markdown,
+            context=_context(**{
+                "task-choice": _section_context(
+                    links=[
+                        {"target": "guide.md", "purpose": "阅读项目说明", "kind": "internal"},
+                        {"target": "guide.md", "purpose": "打开外部资料", "kind": "external"},
+                    ]
+                )
+            }),
         )
+        self.assertIn("link-target-conflict", _reasons(conflicting))
+
+    def test_complete_test_total_shapes_are_l4_but_feature_coverage_is_not(self) -> None:
+        template = """# 实验摘要
+
+## 实验问题
+验证测试摘要边界。
+## 比较对象
+比较人类摘要与机器证据。
+## 功能与性能覆盖
+已测试原生文本 PDF、扫描页、页码定位和代码块保留；代码布局仍有限制。
+## 结果摘要
+RESULT
+## 结论
+人类页只保留结论边界。
+## 适用边界
+结论只覆盖固定样例。
+## 后续工作
+继续扩展固定样例。
+## 深入阅读
+[让 Agent 按本页问题继续定位](INDEX.md#让-Agent-精确定位)。
+"""
+        for value in (
+            "Ran 266 tests in 1126.469s; OK。",
+            "266 tests passed。",
+            "通过 266 项测试。",
+            "测试总数：266。",
+        ):
+            with self.subTest(value=value):
+                result = validate_human_page("experiment", template.replace("RESULT", value), context=_deep_context())
+                leaks = [error for error in result["errors"] if error["reason"] == "l4-evidence-leak"]
+                self.assertTrue(leaks)
+                self.assertIn("test-total", {error["evidence_shape"] for error in leaks})
+
+        positive = template.replace("RESULT", "覆盖原生文本 PDF、扫描页、页码定位和代码块保留。")
+        context = _deep_context()
+        context["current_facts"] = [{
+            "section_id": "coverage",
+            "claim": "已测试原生文本 PDF、扫描页、页码定位和代码块保留；代码布局仍有限制。",
+            "source": "machine-evidence:coverage",
+            "observed_at": "2026-09-02",
+        }]
+        result = validate_human_page("experiment", positive, context=context)
+        self.assertNotIn("l4-evidence-leak", _reasons(result))
+
+    def test_duplicate_heading_process_meta_and_purposeless_link_fail(self) -> None:
+        duplicate = """# 分析
+
+## 当前结论
+第一条结论。
+## 当前结论
+第二条结论。
+"""
+        self.assertIn("duplicate-heading", _reasons(validate_human_page("analysis", duplicate, context=_context())))
+        meta = """# 分析
+
+## 当前结论
+本页面用于说明合同。
+"""
+        self.assertIn("process-meta-copy", _reasons(validate_human_page("analysis", meta, context=_context())))
+        readme = """# Code Knowledge Builder
+
+## 先选择你要完成的任务
+[这里](guide.md)
+## 了解本项目知识库结构
+区分人类与机器入口。
+## 让 Agent 安装本项目
+交给 Agent 完成安装。
+## 让 Agent 解释自己的项目
+交给 Agent 回答问题。
+## 安装后继续指挥 Agent
+继续指挥 Agent 阅读与修改。
+"""
+        no_purpose = _context(**{
+            "task-choice": _section_context(
+                links=[{"target": "guide.md", "purpose": "", "kind": "internal"}]
+            )
+        })
+        self.assertIn("link-purpose-missing", _reasons(validate_human_page("README", readme, context=no_purpose)))
+
+    def test_unverified_current_fact_requires_exact_source_and_time(self) -> None:
+        markdown = """# 反馈
+
+## 反馈内容
+请补充适用边界。
+## 影响范围
+影响分析页。
+## 当前状态
+当前状态已经处理完成。
+## 后续行动
+无需新增动作。
+"""
+        failed = validate_human_page("feedback", markdown, context=_context())
+        self.assertIn("current-fact-unverified", _reasons(failed))
+        context = _context()
+        context["current_facts"] = [{"section_id": "status", "claim": "当前状态已经处理完成。", "source": "feedback-record", "observed_at": "2026-09-02"}]
+        self.assertEqual("passed", validate_human_page("feedback", markdown, context=context)["status"])
 
 
 if __name__ == "__main__":

@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ckb.local/schemas/tag-audit.schema.json",
+  "title": "CKB tag audit",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "current_commit", "as_of", "policy", "summary", "results"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "status": {"const": "passed"},
+    "current_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "as_of": {"type": "string", "format": "date-time"},
+    "policy": {"type": "object"},
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidate", "confirmed", "contested", "deprecated"],
+      "properties": {
+        "candidate": {"type": "integer", "minimum": 0},
+        "confirmed": {"type": "integer", "minimum": 0},
+        "contested": {"type": "integer", "minimum": 0},
+        "deprecated": {"type": "integer", "minimum": 0}
+      }
+    },
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["target", "tag", "state", "reason_codes", "metrics"],
+        "properties": {
+          "target": {"type": "object"},
+          "tag": {"type": "string"},
+          "state": {"enum": ["candidate", "confirmed", "contested", "deprecated"]},
+          "reason_codes": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+          "metrics": {"type": "object"}
+        }
+      }
+    }
+  }
+}

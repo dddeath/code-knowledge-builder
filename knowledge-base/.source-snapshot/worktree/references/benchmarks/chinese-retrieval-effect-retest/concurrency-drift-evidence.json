@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "status": "retained-concurrency-drift-evidence",
+  "manager_confirmation": "管理侧在测量期间执行了受控 record 正文替换与后续维护；该漂移不是 benchmark runner 写入。",
+  "original_run_status": "failed",
+  "failed_check": "source_corpus_unchanged",
+  "source_machine_sha256_before": "e65cf583e33b7f9e3b8785e6fb2c7263c1009dd5a41d0e8cc100e08bdf928fb7",
+  "source_machine_sha256_after": "bbba92604e4c313254ffb3078a7e5e69e9fa4928c61a95bcc5c249bbfcd4843d",
+  "source_legacy_sha256_before": "3d886f4126d25b60bc1aaf9561d0608b8a45368f2c890d2d4cd453fef1ec55d7",
+  "source_legacy_sha256_after": "5859641a31db08f22fbc26ad7a3a49269223136805a127c067f75e9d0d24c154",
+  "retained_full_evidence": "/mnt/e/knowledge_builder/artifacts/handoffs/20260903-remaining-wave2/chinese-retrieval-effect-retest/concurrency-drift-run"
+}

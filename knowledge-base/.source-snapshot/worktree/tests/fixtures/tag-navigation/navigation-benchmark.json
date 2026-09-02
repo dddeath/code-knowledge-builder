@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "scope": "isolated-fixture",
+  "page_sets": {
+    "no_tag": [
+      "INDEX.md",
+      "WIKI.md",
+      "RECORDS.md",
+      "human/pages/navigation.md",
+      "human/pages/agent-index.md",
+      "human/pages/obsidian.md",
+      "human/pages/schema.md",
+      "human/pages/audit.md",
+      "references/design/tag-navigation-research/research-report.md",
+      "human/pages/unrelated-a.md",
+      "human/pages/unrelated-b.md"
+    ],
+    "confirmed_tag": [
+      "INDEX.md",
+      "WIKI.md",
+      "RECORDS.md",
+      "human/pages/navigation.md",
+      "human/pages/agent-index.md",
+      "human/pages/obsidian.md",
+      "human/pages/schema.md",
+      "human/pages/audit.md",
+      "references/design/tag-navigation-research/research-report.md",
+      "human/pages/unrelated-a.md",
+      "human/pages/unrelated-b.md"
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "T01",
+      "target": "human/pages/navigation.md",
+      "accepted_routes": {
+        "no_tag": [
+          "INDEX.md",
+          "WIKI.md",
+          "human/pages/navigation.md"
+        ],
+        "confirmed_tag": [
+          "INDEX.md",
+          "human/pages/navigation.md"
+        ]
+      }
+    },
+    {
+      "task_id": "T02",
+      "target": "human/pages/agent-index.md",
+      "accepted_routes": {
+        "no_tag": [
+          "INDEX.md",
+          "RECORDS.md",
+          "human/pages/agent-index.md"
+        ],
+        "confirmed_tag": [
+          "INDEX.md",
+          "human/pages/agent-index.md"
+        ]
+      }
+    },
+    {
+      "task_id": "T03",
+      "target": "human/pages/obsidian.md",
+      "accepted_routes": {
+        "no_tag": [
+          "INDEX.md",
+          "WIKI.md",
+          "human/pages/obsidian.md"
+        ],
+        "confirmed_tag": [
+          "INDEX.md",
+          "human/pages/obsidian.md"
+        ]
+      }
+    },
+    {
+      "task_id": "T04",
+      "target": "human/pages/schema.md",
+      "accepted_routes": {
+        "no_tag": [
+          "INDEX.md",
+          "WIKI.md",
+          "human/pages/schema.md"
+        ],
+        "confirmed_tag": [
+          "INDEX.md",
+          "human/pages/schema.md"
+        ]
+      }
+    },
+    {
+      "task_id": "T05",
+      "target": "human/pages/audit.md",
+      "accepted_routes": {
+        "no_tag": [
+          "INDEX.md",
+          "RECORDS.md",
+          "WIKI.md",
+          "human/pages/audit.md"
+        ],
+        "confirmed_tag": [
+          "INDEX.md",
+          "human/pages/audit.md"
+        ]
+      }
+    },
+    {
+      "task_id": "T06",
+      "target": "references/design/tag-navigation-research/research-report.md",
+      "accepted_routes": {
+        "no_tag": [
+          "INDEX.md",
+          "WIKI.md",
+          "RECORDS.md",
+          "references/design/tag-navigation-research/research-report.md"
+        ],
+        "confirmed_tag": [
+          "INDEX.md",
+          "references/design/tag-navigation-research/research-report.md"
+        ]
+      }
+    }
+  ]
+}

@@ -14,7 +14,6 @@
 
 ## 谁会来到这里
 
-- [[CodeKnowledgeBuilderTests 等测试场景]] 会使用这里提供的行为。
 - 可从 [[tests 职责导览]] 进入本页。
 
 ## 相关测试

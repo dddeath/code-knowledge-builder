@@ -1,82 +1,203 @@
-# Human-readable page contract
+# Human-readable page contract V3
 
-## Separation of concerns
+## Version and migration boundary
 
-Machine artifacts (`facts/`, `machine/knowledge.sqlite`, `graph.json`, projection JSON, audit records, review packs) retain stable IDs, commits, blobs, ranges, providers, confidence, classification, ownership, complete relations and full fixed source. Human artifacts (`human/INDEX.md`, `human/WIKI.md`, `human/pages/*.md`, the compatibility `markdown/` vault, Logseq page blocks, and `GRAPH_REPORT.md`) explain the code and do not repeat those machine properties.
+The built-in human-page registry uses `schema_version=3` and
+`contract_version=3.0.0`. An input declaring the former `1.0.0` contract is
+rejected with `contract-version-incompatible`; the caller must explicitly
+rewrite the page against the V3 section list. Generators must not silently map
+old headings to new headings because that would make a page appear reviewed
+under constraints it never received.
 
-Agent analysis/change/pitfall/experiment/session notes are human artifacts. They
-link generated pages and source entries but contain no frontmatter or hash-like
-identifier. Their machine evidence lives under `workspace-meta`.
+The built-in registry still contains exactly fourteen page types: `INDEX`,
+`WIKI`, `RECORDS`, `REFERENCES`, `responsibility`, `change`, `analysis`,
+`pitfall`, `experiment`, `session`, `reference`, `learning-note`, `feedback`,
+and `README`. V3 changes the contract and authoring representation; it does not
+add another page family, database, dependency, or projection state machine.
 
-`INDEX.md` separates four task intents before presenting details: understand or
-modify code, find prior work records, locate an exact source unit, and learn the
-reading rules. `RECORDS.md` is the human entry for all durable Agent notes. It
-groups the complete note set by purpose and extracts one Chinese description
-from each record with a fixed script. It never receives a benchmark query or a
-manually selected page list.
+## Progressive disclosure levels
 
-## 简体中文叙述
+Human and machine artifacts retain distinct responsibilities:
 
-每项含义、职责、修改时机、来源说明、附录句子、关系叙述、Wiki、分析、修改原因、踩坑、实验和会话总结必须使用简体中文。英文仅用于专有名词、源码符号、路径、命令和必要术语。页面标题可以原样使用英文类名或函数名，但正文不得是纯英文说明。Agent 在逐实体审阅时负责依据源码写出中文叙述；脚本在审阅提交、全局图、人类层和机器层四处确定性复核。
+- **L1 — task entry.** `README`, `INDEX`, `WIKI`, `RECORDS`, and `REFERENCES`
+  tell a reader which task can be completed, what direct result they will get,
+  and the minimum Prompt needed to direct an Agent.
+- **L2 — current explanation.** `responsibility`, `change`, `analysis`,
+  `pitfall`, `session`, `learning-note`, and `feedback` summarize current
+  function, conclusions, affected scope, test-coverage meaning, decisions, and
+  applicability boundaries.
+- **L3 — experiment and source summary.** `experiment` and `reference` may name
+  comparison objects, tested function/performance dimensions, a few registered
+  human metrics, sources, and the boundary of the conclusion.
+- **L4 — machine evidence.** Complete commands, complete test counts, gate
+  checklists, raw stdout/stderr, complete hashes, exit statuses, SQLite state,
+  manifest content, maintain subchecks, and rollback probes remain in machine
+  records or external verification artifacts. They are referenced through
+  `machine_evidence_refs` and are not rendered into ordinary human Markdown.
 
-## Allowed human pages
+A human experiment summary may say that native-text PDF, scanned pages, page
+location, and code-block retention were tested while code layout remains
+limited. It may also include a few decision-relevant metrics. It must not paste
+the complete reproduction or audit record merely to prove that summary.
 
-- **Code-unit page:** one class-like type, function, method, constructor, or destructor.
-- **Code-unit aggregation:** the related types/functions implemented by one file, one directory responsibility group, the project entry, or one local-scan boundary.
+## Complete section contract
 
-Properties, fields, enums, accessors, local helpers, thin wrappers, and simple predicates remain appendix entries even when an entry selector names them. The nearest class/function or file aggregation becomes the landing page.
+Every required or optional section serializes the same fields:
 
-## Titles and filenames
+- `required_content`: questions or facts the section must answer;
+- `allowed_content`: narrative, entities, metrics, and links that may appear;
+- `forbidden_content`: content that does not belong in the section;
+- `length_budget`: character, paragraph, list-item, and human-metric limits;
+- `key_entity_budget`: the section-scoped limit for directly named entities;
+- `link_budget`: the count and permitted target types for visible links;
+- `source_requirements`: required source or record classes;
+- `freshness_rule`: how current, supported, and tested claims bind evidence;
+- `disclosure_level`: `L1`, `L2`, or `L3`;
+- `empty_behavior`: `error`, `omit`, or `explicit-empty`.
 
-- Use the shortest source-recognizable class/function name.
-- A method may use `Class.method`.
-- An implementation aggregation uses titles such as `OrderCoordinator 相关实现` or `Order 与 OrderLine 的协作实现`.
-- A directory aggregation uses `<directory> 职责导览`.
-- Add a natural parenthetical qualifier only for a real collision, such as `（接口）`, `（实现）`, or a source stem.
-- Never prefix titles with entity, file, module, repository, or boundary labels.
-- Never put IDs or hashes in titles or filenames.
+Required sections use `empty_behavior=error`. Optional sections normally use
+`empty_behavior=omit`; an empty optional heading is not retained as decoration.
+The registry, deterministic serialization and hash, proposal schema, authoring
+skeleton, renderer, and validator use these names without aliases.
 
-## Type tags and source links
+## Confirmed navigation titles
 
-Each generated page has exactly one tag selected by deterministic page type:
+Navigation pages may use task-oriented headings:
 
-- code-unit/file aggregation: `#类型/代码`
-- repository/module responsibility aggregation: `#类型/职责`
-- local scan boundary: `#类型/边界`
+- `INDEX`: `先选择你要完成的任务`, `按职责浏览代码`, `查找项目记录`, optional
+  `查找外部资料`, and `让 Agent 精确定位`;
+- `WIKI`: `从哪里开始`, `各类页面负责什么`, `如何追踪方案与实现变化`,
+  `如何让 Agent 帮助阅读`, and `深入了解`;
+- `RECORDS`: `先选择你要查找的内容`, `分析与方案`, `实现与修改`, `实验与性能`,
+  `问题与限制`, `会话与方案变化`, and `让 Agent 帮助查找`;
+- `REFERENCES`: `这些资料能回答什么`, `按主题选择资料`, and
+  `让 Agent 帮助查找`;
+- `README`: `先选择你要完成的任务`, `了解本项目知识库结构`,
+  `让 Agent 安装本项目`, `让 Agent 解释自己的项目`,
+  `安装后继续指挥 Agent`, and optional `实验功能`.
 
-Do not add language, visibility, lifecycle, module, or relation tags. Agent note
-tags are fixed by note kind. Render tags as one inline `标签：#类型/...` line,
-not YAML frontmatter.
+`README` is a human task entry, not a human command-line tutorial. Installation
+and project explanation remain separate Prompts. Its first screen contains
+exactly three task rows: understand the knowledge-base structure, ask an Agent
+to install the project, or ask an Agent to explain the reader's project. Each
+later task card separates `你会直接得到` from `复制给 Agent`. The continuation
+section appears after those three first-screen tasks and tells the reader how
+to ask the Agent to read, locate, modify, or verify one problem after
+installation.
 
-Every source-bearing page renders one clickable local editor link followed by
-the repository-relative path and line range. The URI is derived from
-`local-openers.json`; it does not alter page identity or classification.
+## Confirmed formal-page titles
 
-## Page prose
+Formal content pages use stable written headings:
 
-A code-unit or implementation aggregation contains only useful reading content. The pinned page configuration controls optional section presence, order, headings, overview field selection, and collapsed/expanded appendix presentation:
+- `responsibility`: `职责说明`, `适用场景`, `功能结果`, `关联范围`, `当前边界`,
+  `深入阅读`;
+- `change`: `修改内容`, `修改时间`, `修改原因`, `实现概述`, `关联特性`,
+  `当前结果`, `适用边界`, `深入阅读`;
+- `analysis`: `当前结论`, `问题关联`, `事实基础`, `结论应用`, `未决事项`,
+  `后续建议`, `深入阅读`;
+- `pitfall`: `问题现象`, `触发条件`, `影响范围`, `原因说明`, `处理方式`,
+  `当前结果`, `适用边界`, `深入阅读`;
+- `experiment`: `实验问题`, `比较对象`, `功能与性能覆盖`, `结果摘要`, `结论`,
+  `适用边界`, `后续工作`, `深入阅读`;
+- `session`: `任务目标`, `执行范围`, `关键决策与方案变化`, `当前结果`,
+  `可用成果`, `未决事项`, `后续行动`, `深入阅读`;
+- `reference`: `资料概述`, `适用问题`, `关键结论`, `来源`, `适用边界`,
+  `深入阅读`;
+- `learning-note`: `学习问题`, `解释摘要`, `应用方式`, `关联内容`, optional
+  `后续问题`;
+- `feedback`: `反馈内容`, `影响范围`, status-dependent `处理结论`, `当前状态`,
+  and `后续行动`.
 
-1. one reviewed description and responsibility;
-2. when a developer would modify it;
-3. the source path and line range;
-4. natural-language links to collaborating code, callers, and tests;
-5. the audited internal-details appendix, collapsed by default.
+## Authoring representation
 
-The overview, source location, appendix ownership, aggregate overview, and local boundary details cannot be removed because they carry the human completeness and source-location contract. `change_when`, partial-fragment details, outgoing collaboration, backlinks, tests, and the hidden-relation hint are optional configured sections.
+`page-author init` returns both a typed skeleton and `section_constraints`. Each
+section input separates:
 
-Omit empty sections. Translate relations into short Chinese sentences such as “实现时会用到”, “会调用”, “由测试覆盖”, and “继续浏览”. Do not show relation IDs, raw relation types, confidence, degree, cohesion, or aggregate machine counts.
+- `human_summary`, the only field rendered into the Markdown section;
+- `key_entities`, `metrics`, and visible `links`, used for section budgets;
+- `source_refs`, used to bind descriptive claims;
+- `machine_evidence_refs`, used to retain L4 evidence outside the rendered body.
 
-Appendix tables have exactly two human columns: code symbol and one-sentence responsibility. IDs, kinds, source ranges, and relation counts remain in the machine layer.
+Every visible Markdown link must have an exact entry in the owning section's
+`links` array with `target`, `kind`, and non-empty `purpose`. A visible but
+undeclared link, a declared but unused target, and repeated targets with
+conflicting kind or purpose are deterministic failures. The seven formal page
+types that contain `深入阅读` require at least one such link. When no deeper
+document exists, that link points to the existing internal Agent-question entry
+and states the question the Agent should continue locating; it does not create
+a second navigation state machine.
 
-## Wiki and Graphify report
+`new` renders a complete candidate. `supplement` adds only missing sections to a
+hash-pinned source. `revise` replaces one uniquely located paragraph with a new
+`human_summary` and requires structured `source_refs`. None of these modes
+writes generator-managed human or Markdown projections directly.
 
-Every Markdown projection contains a Chinese `WIKI.md` explaining reading order, page shapes, modification workflow, work-record lookup, Graphify task narrowing, and Logseq opening. `GRAPH_REPORT.md` presents classes/functions grouped by responsibility; commits, confidence tiers, node counts, degrees, classifications, community IDs, and cohesion remain only in JSON.
+The validator parses headings and section ranges before applying constraints.
+L4 detection is therefore scoped by page type, section, disclosure level, and
+structured evidence input rather than by a global technology-word blacklist.
+Normal technical prose may mention SQLite, manifests, tests, or rollback as
+concepts; literal command shapes, complete counts, raw result fields, full
+hashes, database verdicts, manifest bodies, maintain subresults, and rollback
+probe output are rejected from L1–L3 summaries. Complete test-total forms such
+as `Ran N tests`, `N tests`, `通过 N 项测试`, and `测试总数：N` are L4. A coverage
+sentence such as `已测试原生文本 PDF、扫描页、页码定位和代码块保留` remains a valid
+L3 summary when its current-fact source and observation time are registered.
 
-The work-record index has one `#类型/导览` tag, no frontmatter, no machine IDs,
-and one entry per note title. Each entry contains a double link and one useful
-Chinese sentence. Empty note categories remain visible as explicit empty
-states, so a missing section cannot be mistaken for an omitted record.
+## Source traceability
 
-## Completion gate
+Progressive disclosure does not remove provenance. Human pages may keep a few
+descriptive links to source ranges, experiments, references, and work records.
+Each visible link states why the reader would open it. Complete provenance,
+fixed-source text, relation sets, operation logs, and validation artifacts stay
+available in `facts/`, `machine/knowledge.sqlite`, `workspace-meta`, or external
+verification artifacts for Agent retrieval.
 
-`readability-audit.json` must report `passed`. The deterministic gate checks zero frontmatter pages, zero prefixed titles, zero visible commit/hash identifiers, zero machine markers, zero raw relation labels, zero page-property lines, zero non-Chinese narrative fields, exactly one allowed type tag, a clickable source link where required, class/function-only standalone pages, complete Wiki sections, valid double links, a task-first `INDEX.md`, and exact work-record coverage in `RECORDS.md`. A readability failure prevents `.complete`、`.human.complete` and `.machine.complete`.
+## Proposal and projection boundary
+
+Output-local template proposals use the same V3 section constraint fields. An
+Agent or human submission creates only a `pending` proposal. Activation still
+requires an explicit human audit pinned to the proposal version and content
+hash; proposal submission does not bypass review.
+
+V3 authoring packages contain a validated `body.md` and machine-only routing
+`manifest.json` in a new staging directory. `body.md` contains no source or
+machine-evidence target merely because it was declared. The manifest retains a
+registry-ordered `section_evidence.sections` list containing each section ID,
+heading, disclosure level, normalized `source_refs`, and normalized
+`machine_evidence_refs`, plus `section_evidence_sha256`. File-shaped targets
+must remain within `workspace_root`, exist, and match their declared SHA-256.
+The packager copies each such file to
+`evidence/<sha256>/<source-basename>` inside the package, rewrites `target` to
+that manifest-parent-relative path, and retains `original_target`, SHA-256,
+and `package_owned=true`. Opaque URI targets keep their original target bytes
+and receive `target_basis=uri`. `package_owned_paths` lists the body, manifest,
+and copied evidence so rollback removes only the package directory and never
+the source evidence. The package reopens every copy and the manifest, checks
+all hashes, and remains resolvable after the whole directory moves to another
+location on the same filesystem before returning `next_entry`.
+
+Existing generators remain the sole owners of `human/pages`, `markdown/pages`,
+navigation outputs, mirror parity, and both SQLite indexes. A later integration
+may migrate existing pages only through an explicit, separately reviewed
+migration.
+
+## Completion checks
+
+A V3 implementation is complete only when:
+
+1. all fourteen built-in types expose the complete section fields;
+2. repeated serialization produces identical bytes and registry hashes;
+3. confirmed headings match exactly and old `1.0.0` input has explicit failure;
+4. authoring skeletons expose section constraints and render only
+   `human_summary`;
+5. positive experiment summaries retain coverage, comparison, a few metrics,
+   and conclusion boundaries;
+6. negative L4 fixtures fail deterministically;
+7. descriptive source, experiment, reference, and work-record links remain
+   registered, purposeful, and valid, with one deep link on each formal page
+   that contains `深入阅读`;
+8. proposals remain pending until human audit;
+9. package manifests retain normalized section evidence and reject target
+   drift;
+10. affected tests and complete repository regression pass against the actual
+   behavior.

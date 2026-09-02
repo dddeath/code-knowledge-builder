@@ -16,7 +16,7 @@
 
 - 实现时会用到 [[append]]。
 - 实现时会用到 [[audit_gap_register 与 _root 的协作实现]]。
-- 实现时会用到 [[execute]]。
+- 实现时会用到 [[ingest 与 connect 的协作实现]]。
 
 ## 谁会来到这里
 

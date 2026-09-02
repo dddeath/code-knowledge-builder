@@ -22,17 +22,15 @@
 - 主要代码单元是 [[audit_agent_protocol]]。
 - 实现时会用到 [[audit_feedback 与 _contains_chinese 的协作实现]]。
 - 实现时会用到 [[ckb_canvas 的协作边界]]。
-- 实现时会用到 [[execute]]。
+- 实现时会用到 [[ingest]]。
+- 实现时会用到 [[ingest 与 connect 的协作实现]]。
 - 实现时会用到 [[record_note 与 page_tag 的协作实现]]。
 - 实现时会用到 [[retrieve]]。
-- 实现时会用到 [[rollback]]。
 - 实现时会用到 [[start_scope_extension 与 _error 的协作实现]]。
 
 ## 谁会来到这里
 
 - [[audit_agent_protocol]] 会使用这里提供的行为。
-- [[audit_global]] 会使用这里提供的行为。
-- [[audit_global 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 - [[create_batch_plan 与 ProtocolRelease 的协作实现]] 会使用这里提供的行为。
 - [[create_knowledge_batch_plan 与 KnowledgeRelease 的协作实现]] 会使用这里提供的行为。
 - [[run 等测试场景]] 会使用这里提供的行为。
@@ -44,8 +42,8 @@
 - [[AgentProtocolBatchApplyTests 等测试场景]]
 - [[CodeKnowledgeBuilderTests]]
 - [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[HumanPageTemplateValidationTests]]
 - [[KeywordFallbackRetrievalWiringTests]]
+- [[MigrationTest]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 

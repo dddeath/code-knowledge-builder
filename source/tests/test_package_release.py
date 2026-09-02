@@ -18,6 +18,13 @@ SPEC = importlib.util.spec_from_file_location(
 assert SPEC and SPEC.loader
 PACKAGE_RELEASE = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(PACKAGE_RELEASE)
+RUNTIME_SPEC = importlib.util.spec_from_file_location(
+    "build_runtime_payload",
+    ROOT / "scripts" / "build_runtime_payload.py",
+)
+assert RUNTIME_SPEC and RUNTIME_SPEC.loader
+BUILD_RUNTIME = importlib.util.module_from_spec(RUNTIME_SPEC)
+RUNTIME_SPEC.loader.exec_module(BUILD_RUNTIME)
 
 
 class PackageReleaseTests(unittest.TestCase):
@@ -58,6 +65,43 @@ class PackageReleaseTests(unittest.TestCase):
                 self.assertEqual(canary.returncode, 0, canary.stderr)
                 self.assertIn("request", canary.stdout)
                 self.assertIn("cleanup", canary.stdout)
+
+    def test_full_runtime_locks_pypdf_without_expanding_lite_runtime_boundary(self) -> None:
+        lock = json.loads((ROOT / "toolchain.lock.json").read_text(encoding="utf-8"))
+        self.assertEqual(lock["lock_id"], BUILD_RUNTIME.RUNTIME_LOCK_ID)
+        component = next(item for item in lock["components"] if item["name"] == "pypdf")
+        self.assertEqual(component["version"], BUILD_RUNTIME.PYPDF_VERSION)
+        self.assertEqual(component["license"], "BSD-3-Clause")
+        self.assertEqual(component["distribution"], "full-win-x64")
+        self.assertEqual(component["artifact_size"], BUILD_RUNTIME.PYPDF_WHEEL_SIZE)
+        self.assertEqual(component["artifact_sha256"], BUILD_RUNTIME.PYPDF_WHEEL_SHA256)
+        payload = PACKAGE_RELEASE.validate_full_payload(lock)
+        with zipfile.ZipFile(payload) as archive:
+            names = set(archive.namelist())
+            self.assertTrue(set(BUILD_RUNTIME.PYPDF_REQUIRED) <= names)
+            wheel = archive.read(f"sources/{BUILD_RUNTIME.PYPDF_WHEEL}")
+            self.assertEqual(len(wheel), BUILD_RUNTIME.PYPDF_WHEEL_SIZE)
+            self.assertEqual(PACKAGE_RELEASE.hashlib.sha256(wheel).hexdigest(), BUILD_RUNTIME.PYPDF_WHEEL_SHA256)
+            metadata = archive.read(
+                f"python/Lib/site-packages/pypdf-{BUILD_RUNTIME.PYPDF_VERSION}.dist-info/METADATA"
+            ).decode("utf-8")
+            self.assertIn(f"Version: {BUILD_RUNTIME.PYPDF_VERSION}", metadata.splitlines())
+            self.assertIn("License-Expression: BSD-3-Clause", metadata.splitlines())
+            self.assertEqual(
+                archive.read(f"python/Lib/site-packages/pypdf-{BUILD_RUNTIME.PYPDF_VERSION}.dist-info/licenses/LICENSE"),
+                archive.read(f"licenses/pypdf-{BUILD_RUNTIME.PYPDF_VERSION}/LICENSE"),
+            )
+            build_record = json.loads(archive.read("runtime-build-record.json"))
+            self.assertFalse(build_record["pdf_runtime"]["ocr_engine_bundled"])
+            self.assertEqual(build_record["pdf_runtime"]["version"], BUILD_RUNTIME.PYPDF_VERSION)
+            with tempfile.TemporaryDirectory() as temporary:
+                staged = Path(temporary)
+                for name in BUILD_RUNTIME.PYPDF_REQUIRED:
+                    archive.extract(name, staged)
+                validated = BUILD_RUNTIME.validate_pdf_runtime(staged)
+                self.assertEqual(validated["wheel_sha256"], BUILD_RUNTIME.PYPDF_WHEEL_SHA256)
+        lite = {path.relative_to(ROOT).as_posix() for path in PACKAGE_RELEASE.source_files(False)}
+        self.assertFalse(any(path.startswith("assets/runtime/win-x64/") for path in lite))
 
     def test_obsidian_plugin_is_independently_versioned(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

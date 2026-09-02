@@ -15,14 +15,10 @@
 ## 相关代码
 
 - 主要代码单元是 [[ScopeExtensionTest]]。
-- 实现时会用到 [[audit_global 与 _replace_output_prefix 的协作实现]]。
+- 实现时会用到 [[finalize 与 _replace_output_prefix 的协作实现]]。
 
 ## 谁会来到这里
 
-- [[load_page_config]] 关联到这里的验证场景。
-- [[parse_file]] 关联到这里的验证场景。
-- [[parse_file 与 _language 的协作实现]] 关联到这里的验证场景。
-- [[preflight]] 关联到这里的验证场景。
 - 可从 [[tests 职责导览]] 进入本页。
 
 ## 内部细节

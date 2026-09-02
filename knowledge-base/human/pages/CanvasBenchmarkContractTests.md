@@ -16,30 +16,29 @@
 
 - 实现时会用到 [[CanvasBenchmarkContractTests 等测试场景]]。
 - 实现时会用到 [[append]]。
-- 实现时会用到 [[benchmark 的协作边界]]。
-- 实现时会用到 [[contracts 的协作边界]]。
-- 实现时会用到 [[graph 的协作边界]]。
+- 实现时会用到 [[benchmark 的协作边界（cbc71645）]]。
+- 实现时会用到 [[contracts 的协作边界（2ef5688e）]]。
 
 ## 谁会来到这里
 
 - [[CanvasBenchmarkContractTests 等测试场景]] 汇总了本页。
 - [[CkbError]] 关联到这里的验证场景。
 - [[CkbError 与 DependencyError 的协作实现]] 关联到这里的验证场景。
+- [[FactFreshnessStateMachineTest]] 关联到这里的验证场景。
 - [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]] 关联到这里的验证场景。
 - [[_Transport.close]] 关联到这里的验证场景。
 - [[append]] 关联到这里的验证场景。
-- [[benchmark 的协作边界]] 关联到这里的验证场景。
+- [[benchmark 的协作边界（cbc71645）]] 关联到这里的验证场景。
 - [[bind_conversation 与 default_management_registry_path 的协作实现]] 关联到这里的验证场景。
 - [[build_case 等测试场景]] 关联到这里的验证场景。
-- [[contracts 的协作边界]] 关联到这里的验证场景。
+- [[commands 的协作边界]] 关联到这里的验证场景。
+- [[contracts 的协作边界（2ef5688e）]] 关联到这里的验证场景。
 - [[doctor_report 与 _version_matches 的协作实现]] 关联到这里的验证场景。
+- [[finalize 与 _replace_output_prefix 的协作实现]] 关联到这里的验证场景。
 - [[freeze 的协作边界]] 关联到这里的验证场景。
 - [[graph 的协作边界]] 关联到这里的验证场景。
-- [[rollback]] 关联到这里的验证场景。
-- [[rollback 与 RenderedBundle 的协作实现]] 关联到这里的验证场景。
 - [[source_files]] 关联到这里的验证场景。
 - [[transaction 的协作边界]] 关联到这里的验证场景。
-- [[validate 与 canonical 的协作实现]] 关联到这里的验证场景。
 
 ## 内部细节
 

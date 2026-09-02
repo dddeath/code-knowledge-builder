@@ -29,7 +29,7 @@ Obsidian 解释侧栏在完成一次“解释选中内容”后，会在同一�
 - [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]]
 - [[ingest_event 与 default_registry_path 的协作实现]]
 - [[audit_migration 与 _entity_key 的协作实现]]
-- [[audit_global 与 _replace_output_prefix 的协作实现]]
+- [[finalize 与 _replace_output_prefix 的协作实现]]
 - [[CkbError 与 DependencyError 的协作实现]]
 - [[retrieve_machine 与 estimated_tokens 的协作实现]]
 - [[module_name 与 estimated_tokens 的协作实现]]

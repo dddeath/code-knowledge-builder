@@ -18,11 +18,10 @@
 
 ## 谁会来到这里
 
+- [[ChineseRetrievalEffectRetestFixtureTests]] 会使用这里提供的行为。
 - [[QueryTermsTests]] 会使用这里提供的行为。
-- [[build_manual_index 等测试场景]] 会使用这里提供的行为。
 - [[retrieve]] 会使用这里提供的行为。
-- [[retrieve_machine]] 会使用这里提供的行为。
-- [[retrieve_machine 与 estimated_tokens 的协作实现]] 会使用这里提供的行为。
+- [[run_failure_probe 等测试场景]] 会使用这里提供的行为。
 - [[search_terms 与 _split_camel 的协作实现]] 汇总了本页。
 
 ## 相关测试
@@ -30,8 +29,8 @@
 - [[AgentProtocolBatchApplyTests]]
 - [[AgentProtocolBatchApplyTests 等测试场景]]
 - [[AutomationTest.register 等测试场景]]
+- [[ChineseRetrievalEffectRetestFixtureTests]]
 - [[CodeKnowledgeBuilderTests]]
 - [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[HumanPageTemplateValidationTests]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。

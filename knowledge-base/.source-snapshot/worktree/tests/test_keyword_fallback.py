@@ -102,6 +102,33 @@ class KeywordFallbackSchemaTests(unittest.TestCase):
                 self.assertEqual(validated["failure_type"], mode)
                 self.assertEqual(validated["keywords"], [])
 
+    def test_chinese_retrieval_replay_is_keyed_by_the_canonical_input_hash(self) -> None:
+        protocol = json.loads(
+            (FIXTURE.parent / "chinese-retrieval-effects" / "protocol.json").read_text(encoding="utf-8")
+        )
+        config = KeywordProviderConfig(
+            command=CONFIG.command,
+            provider="fixture",
+            model="chinese-retrieval-replay",
+            version="1",
+        )
+        environment = {
+            "CKB_FAKE_KEYWORD_PROVIDER_MODE": "chinese-retrieval-replay",
+            "CKB_FAKE_KEYWORD_PROVIDER_MODEL": config.model,
+        }
+        with tempfile.TemporaryDirectory() as temporary, patch.dict(os.environ, environment, clear=False):
+            marker = Path(temporary) / "starts.log"
+            with patch.dict(os.environ, {"CKB_FAKE_KEYWORD_PROVIDER_MARKER": str(marker)}, clear=False):
+                results = [
+                    run_keyword_provider(Path(temporary), item["question"], config, use_cache=False)
+                    for item in protocol["questions"]
+                ]
+            starts = len(marker.read_text(encoding="utf-8").splitlines())
+        self.assertTrue(all(result["status"] == "passed" for result in results))
+        self.assertEqual(results[1]["anchors"], ["ingest_event"])
+        self.assertEqual(results[1]["usage"]["total_tokens"], 72)
+        self.assertEqual(starts, len(protocol["questions"]))
+
 
 class KeywordFallbackAdapterTests(unittest.TestCase):
     def setUp(self) -> None:
@@ -206,13 +233,17 @@ class KeywordFallbackRetrievalWiringTests(unittest.TestCase):
     def tearDown(self) -> None:
         self.temporary.cleanup()
 
-    def test_default_result_is_returned_unchanged_and_provider_is_not_called(self) -> None:
+    def test_default_result_adds_unavailable_freshness_without_starting_provider(self) -> None:
         baseline = {"status": "passed", "terms": ["base"], "anchors": [], "selected_entities": ["entity"]}
         with patch(
             "ckb_core.machine_knowledge._retrieve_machine_deterministic", return_value=baseline
         ) as deterministic, patch("ckb_core.machine_knowledge.run_keyword_provider") as provider:
             result = retrieve_machine(self.output, QUESTION, 1200, 8, "fast")
-        self.assertIs(result, baseline)
+        self.assertIsNot(result, baseline)
+        self.assertEqual(result["status"], "passed")
+        self.assertEqual(result["fact_freshness"]["state"], "unavailable")
+        self.assertFalse(result["current_source_grounded"])
+        self.assertNotIn("fact_freshness", baseline)
         deterministic.assert_called_once_with(self.output, QUESTION, 1200, 8, "fast")
         provider.assert_not_called()
 

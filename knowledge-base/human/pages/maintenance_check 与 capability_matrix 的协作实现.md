@@ -2,19 +2,20 @@
 
 标签：#类型/代码
 
-> `scripts/ckb_core/llm_wiki_capabilities.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。 负责能力矩阵、紧凑 brief 与聚合 maintain 检查的生成和审计。
+> 文件 `scripts/ckb_core/llm_wiki_capabilities.py`负责维护外部 Wiki 能力的吸收状态，并给 Agent 生成紧凑能力说明。 它属于知识库能力边界与后续研究队列的机器可读入口，当前说明只覆盖所列固定源码范围。
 
 ## 什么时候需要修改
 
-当 `scripts/ckb_core/llm_wiki_capabilities.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。
+当能力状态、证据链接、维护检查或紧凑说明格式变化时，应同步复查本页及其直接关联测试。
 
 ## 在代码中的位置
 
-[打开源码：scripts/ckb_core/llm_wiki_capabilities.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/llm_wiki_capabilities.py:1:1)  `scripts/ckb_core/llm_wiki_capabilities.py:1-459`
+[打开源码：scripts/ckb_core/llm_wiki_capabilities.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/llm_wiki_capabilities.py:1:1)  `scripts/ckb_core/llm_wiki_capabilities.py:1-478`
 
 ## 相关代码
 
 - 实现时会用到 [[CkbError]]。
+- 实现时会用到 [[FactFreshnessStateMachineTest]]。
 - 实现时会用到 [[append]]。
 - 实现时会用到 [[ckb_canvas 的协作边界]]。
 - 主要代码单元是 [[maintenance_check]]。
@@ -41,9 +42,9 @@
 
 | 代码单元 | 一句话作用 |
 |---|---|
-| `capability_matrix` | `capability_matrix` 是第 275-286 行的函数，供所属页面定位实现。 |
-| `render_capability_matrix_markdown` | `render_capability_mat...` 是第 289-343 行的函数，供所属页面定位实现。 |
-| `write_capability_matrix` | `write_capability_matrix` 是第 346-355 行的函数，供所属页面定位实现。 |
-| `compact_agent_brief` | `compact_agent_brief` 是第 358-405 行的函数，供所属页面定位实现。 |
+| `capability_matrix` | `capability_matrix` 完成Wiki 能力状态维护中的一个明确步骤。 |
+| `render_capability_matrix_markdown` | `render_capability_matrix_markdown` 生成并写入Wiki 能力状态维护所需的数据或状态。 |
+| `write_capability_matrix` | `write_capability_matrix` 生成并写入Wiki 能力状态维护所需的数据或状态。 |
+| `compact_agent_brief` | `compact_agent_brief` 完成Wiki 能力状态维护中的一个明确步骤。 |
 
 </details>

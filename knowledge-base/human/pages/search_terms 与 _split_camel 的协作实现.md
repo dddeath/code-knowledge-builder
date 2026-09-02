@@ -14,14 +14,14 @@
 
 ## 相关代码
 
+- 实现时会用到 [[graph 的协作边界]]。
 - 主要代码单元是 [[search_terms]]。
 
 ## 谁会来到这里
 
 - [[QueryTermsTests]] 会使用这里提供的行为。
 - [[retrieve 与 _tokens 的协作实现]] 会使用这里提供的行为。
-- [[retrieve_machine]] 会使用这里提供的行为。
-- [[retrieve_machine 与 estimated_tokens 的协作实现]] 会使用这里提供的行为。
+- [[run_failure_probe 等测试场景]] 会使用这里提供的行为。
 - 可从 [[scripts 职责导览]] 进入本页。
 - [[search_terms]] 会使用这里提供的行为。
 
@@ -29,9 +29,9 @@
 
 - [[AgentProtocolBatchApplyTests 等测试场景]]
 - [[AutomationTest.register 等测试场景]]
+- [[ChineseRetrievalEffectRetestFixtureTests]]
 - [[CodeKnowledgeBuilderTests]]
 - [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[HumanPageTemplateValidationTests]]
 - [[KeywordFallbackRetrievalWiringTests]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。

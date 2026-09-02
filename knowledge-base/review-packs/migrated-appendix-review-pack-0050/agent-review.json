@@ -1,0 +1,86 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-appendix-review-pack-0050",
+  "kind": "appendix-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-02T22:47:17Z",
+  "reviews": [
+    {
+      "entity_id": "ent-485650371e4b541a9cb7875189c13487",
+      "classification": "appendix",
+      "owner_page_id": "file-52d9f9b748935975bb484d3b94ceff3c",
+      "source_path": "tests/test_keyword_fallback.py",
+      "start_line": 384,
+      "end_line": 464,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 bd8519583e3a 中 `tests/test_keyword_fallback.py` 第 384 至 464 行，摘录属于 Git blob b7d3f189afb0。",
+      "description_zh": "该测试验证“fixed benchmark compares qual…”场景，保护关键词慢路径测试的结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-d74a992e80425a66a0267968654e4996",
+      "classification": "appendix",
+      "owner_page_id": "file-d74b16540d865dd19e29a51aefea2296",
+      "source_path": "tests/test_knowledge_batch_migration.py",
+      "start_line": 25,
+      "end_line": 124,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_knowledge_batch_migration.py` 第 25-124 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`KnowledgeBatchVersion...` 是第 25-124 行的类，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-f5693d9fdbd35c2ba12c04f2b27540e4",
+      "classification": "appendix",
+      "owner_page_id": "file-d74b16540d865dd19e29a51aefea2296",
+      "source_path": "tests/test_knowledge_batch_migration.py",
+      "start_line": 26,
+      "end_line": 75,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_knowledge_batch_migration.py` 第 26-75 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`KnowledgeBatchVersion...` 是第 26-75 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-53fb9730408056fcb0b87820f68a304a",
+      "classification": "appendix",
+      "owner_page_id": "file-d74b16540d865dd19e29a51aefea2296",
+      "source_path": "tests/test_knowledge_batch_migration.py",
+      "start_line": 77,
+      "end_line": 101,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_knowledge_batch_migration.py` 第 77-101 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`KnowledgeBatchVersion...` 是第 77-101 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-3247a9192b905b0a8c03b0be110ae67b",
+      "classification": "appendix",
+      "owner_page_id": "file-d74b16540d865dd19e29a51aefea2296",
+      "source_path": "tests/test_knowledge_batch_migration.py",
+      "start_line": 103,
+      "end_line": 109,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_knowledge_batch_migration.py` 第 103-109 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`KnowledgeBatchVersion...` 是第 103-109 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-1520569b72415bbe9c29afcd573520fd",
+      "classification": "appendix",
+      "owner_page_id": "file-d74b16540d865dd19e29a51aefea2296",
+      "source_path": "tests/test_knowledge_batch_migration.py",
+      "start_line": 111,
+      "end_line": 124,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_knowledge_batch_migration.py` 第 111-124 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`KnowledgeBatchVersion...` 是第 111-124 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-436af92331665b66a9bffa91ed8138d0",
+      "classification": "appendix",
+      "owner_page_id": "file-d74b16540d865dd19e29a51aefea2296",
+      "source_path": "tests/test_knowledge_batch_migration.py",
+      "start_line": 127,
+      "end_line": 701,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_knowledge_batch_migration.py` 第 127-701 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`KnowledgeBatchWorkflo...` 是第 127-701 行的类，供所属页面定位实现。"
+    }
+  ]
+}

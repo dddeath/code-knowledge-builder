@@ -1,0 +1,207 @@
+{
+  "document": [
+    [
+      "note:experiments:中文检索三臂效果复测",
+      "experiment",
+      "中文检索三臂效果复测",
+      "#类型/实验",
+      "experiments/中文检索三臂效果复测.md",
+      null,
+      "# 中文检索三臂效果复测\n\n标签：#类型/实验\n\n## 实验问题\n\n当前中文确定性词项是否比旧的机械二元组、三元组提高检索质量；显式 LLM 关键词慢路径在同一索引上可能带来什么变化。\n\n## 固定范围\n\n实验固定 12 个中文项目问题、同一份提交 `19152b2…` 的只读知识语料、相同的前 8 条结果、冷启动一次和热运行五次。三组分别使用旧确定性词项、当前确定性词项和固定关键词回放；默认检索不会启动关键词 Provider。\n\n## 实验方法\n\n每次运行保存实际词项、命中文档、排序、缺失原因、首包估算 token、延迟和 Provider 启动次数。聚合结果由独立脚本从 216 行逐次记录重新计算；来源语料或复制后的两份 SQLite 发生漂移都会使实验失败。\n\n## 实验结果\n\n旧确定性与当前确定性的 Recall@8、MRR@8、nDCG@8 均为 `0.750`、`0.611111`、`0.646822`，当前词项的质量提升未被这组问题证明。当前首包中位数从 `2375.5` 降到 `2339.5` 个估算 token。固定关键词回放达到 `1.000`、`0.958333`、`0.969244`，但它是为固定问题准备的离线回放，不是真实模型结果。\n\n## 如何解释\n\n现有中文分词已经去除不自然的机械碎片，并略微减少首包上下文，但这 12 题没有显示排序质量收益。关键词扩展在固定回放中能够补齐缺失线索，说明慢路径值得继续验证；当前没有真实 LLM Provider 调用证据，不能据此声称真实模型已经提高效果。\n\n## 适用边界\n\n延迟来自单机重复测量，只说明本次固定环境；真实 LLM 调用数为 0，状态为 `provider-unavailable`。本实验没有修改生产检索、默认触发条件或排序，只增加可重复测量与失败样例。\n\n## 下一步\n\n使用明确的真实 LLM Provider、冻结模型与费用上限重跑同一问题集，再决定是否扩大问题集或调整中文词项；在此之前，默认路径继续保持确定性。\n\n## 相关知识页\n\n- [[retrieve_machine]]\n\n## 源码入口\n\n- [打开源码：scripts/ckb_core/machine_knowledge.py 第 1827 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1827:1)  `scripts/ckb_core/machine_knowledge.py:1827-1849`\n",
+      772
+    ]
+  ],
+  "sections": [
+    [
+      "note:experiments:中文检索三臂效果复测:0",
+      "note:experiments:中文检索三臂效果复测",
+      0,
+      "中文检索三臂效果复测",
+      "标签：#类型/实验",
+      8,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:experiments:中文检索三臂效果复测:1",
+      "note:experiments:中文检索三臂效果复测",
+      1,
+      "实验问题",
+      "当前中文确定性词项是否比旧的机械二元组、三元组提高检索质量；显式 LLM 关键词慢路径在同一索引上可能带来什么变化。",
+      55,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:experiments:中文检索三臂效果复测:2",
+      "note:experiments:中文检索三臂效果复测",
+      2,
+      "固定范围",
+      "实验固定 12 个中文项目问题、同一份提交 `19152b2…` 的只读知识语料、相同的前 8 条结果、冷启动一次和热运行五次。三组分别使用旧确定性词项、当前确定性词项和固定关键词回放；默认检索不会启动关键词 Provider。",
+      96,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:experiments:中文检索三臂效果复测:3",
+      "note:experiments:中文检索三臂效果复测",
+      3,
+      "实验方法",
+      "每次运行保存实际词项、命中文档、排序、缺失原因、首包估算 token、延迟和 Provider 启动次数。聚合结果由独立脚本从 216 行逐次记录重新计算；来源语料或复制后的两份 SQLite 发生漂移都会使实验失败。",
+      90,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:experiments:中文检索三臂效果复测:4",
+      "note:experiments:中文检索三臂效果复测",
+      4,
+      "实验结果",
+      "旧确定性与当前确定性的 Recall@8、MRR@8、nDCG@8 均为 `0.750`、`0.611111`、`0.646822`，当前词项的质量提升未被这组问题证明。当前首包中位数从 `2375.5` 降到 `2339.5` 个估算 token。固定关键词回放达到 `1.000`、`0.958333`、`0.969244`，但它是为固定问题准备的离线回放，不是真实模型结果。",
+      122,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:experiments:中文检索三臂效果复测:5",
+      "note:experiments:中文检索三臂效果复测",
+      5,
+      "如何解释",
+      "现有中文分词已经去除不自然的机械碎片，并略微减少首包上下文，但这 12 题没有显示排序质量收益。关键词扩展在固定回放中能够补齐缺失线索，说明慢路径值得继续验证；当前没有真实 LLM Provider 调用证据，不能据此声称真实模型已经提高效果。",
+      110,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:experiments:中文检索三臂效果复测:6",
+      "note:experiments:中文检索三臂效果复测",
+      6,
+      "适用边界",
+      "延迟来自单机重复测量，只说明本次固定环境；真实 LLM 调用数为 0，状态为 `provider-unavailable`。本实验没有修改生产检索、默认触发条件或排序，只增加可重复测量与失败样例。",
+      78,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:experiments:中文检索三臂效果复测:7",
+      "note:experiments:中文检索三臂效果复测",
+      7,
+      "下一步",
+      "使用明确的真实 LLM Provider、冻结模型与费用上限重跑同一问题集，再决定是否扩大问题集或调整中文词项；在此之前，默认路径继续保持确定性。",
+      65,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:experiments:中文检索三臂效果复测:8",
+      "note:experiments:中文检索三臂效果复测",
+      8,
+      "相关知识页",
+      "- [[retrieve_machine]]",
+      8,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:experiments:中文检索三臂效果复测:9",
+      "note:experiments:中文检索三臂效果复测",
+      9,
+      "源码入口",
+      "- [打开源码：scripts/ckb_core/machine_knowledge.py 第 1827 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1827:1)  `scripts/ckb_core/machine_knowledge.py:1827-1849`",
+      75,
+      null,
+      null,
+      null
+    ]
+  ],
+  "section_sources": [],
+  "links": [
+    [
+      "note:experiments:中文检索三臂效果复测",
+      null,
+      "retrieve_machine",
+      "wikilink"
+    ]
+  ],
+  "fts": [
+    [
+      "note:experiments:中文检索三臂效果复测:0",
+      "note:experiments:中文检索三臂效果复测",
+      "中文检索三臂效果复测",
+      "标签：#类型/实验",
+      ""
+    ],
+    [
+      "note:experiments:中文检索三臂效果复测:1",
+      "note:experiments:中文检索三臂效果复测",
+      "实验问题",
+      "当前中文确定性词项是否比旧的机械二元组、三元组提高检索质量；显式 LLM 关键词慢路径在同一索引上可能带来什么变化。",
+      ""
+    ],
+    [
+      "note:experiments:中文检索三臂效果复测:2",
+      "note:experiments:中文检索三臂效果复测",
+      "固定范围",
+      "实验固定 12 个中文项目问题、同一份提交 `19152b2…` 的只读知识语料、相同的前 8 条结果、冷启动一次和热运行五次。三组分别使用旧确定性词项、当前确定性词项和固定关键词回放；默认检索不会启动关键词 Provider。",
+      ""
+    ],
+    [
+      "note:experiments:中文检索三臂效果复测:3",
+      "note:experiments:中文检索三臂效果复测",
+      "实验方法",
+      "每次运行保存实际词项、命中文档、排序、缺失原因、首包估算 token、延迟和 Provider 启动次数。聚合结果由独立脚本从 216 行逐次记录重新计算；来源语料或复制后的两份 SQLite 发生漂移都会使实验失败。",
+      ""
+    ],
+    [
+      "note:experiments:中文检索三臂效果复测:4",
+      "note:experiments:中文检索三臂效果复测",
+      "实验结果",
+      "旧确定性与当前确定性的 Recall@8、MRR@8、nDCG@8 均为 `0.750`、`0.611111`、`0.646822`，当前词项的质量提升未被这组问题证明。当前首包中位数从 `2375.5` 降到 `2339.5` 个估算 token。固定关键词回放达到 `1.000`、`0.958333`、`0.969244`，但它是为固定问题准备的离线回放，不是真实模型结果。",
+      ""
+    ],
+    [
+      "note:experiments:中文检索三臂效果复测:5",
+      "note:experiments:中文检索三臂效果复测",
+      "如何解释",
+      "现有中文分词已经去除不自然的机械碎片，并略微减少首包上下文，但这 12 题没有显示排序质量收益。关键词扩展在固定回放中能够补齐缺失线索，说明慢路径值得继续验证；当前没有真实 LLM Provider 调用证据，不能据此声称真实模型已经提高效果。",
+      ""
+    ],
+    [
+      "note:experiments:中文检索三臂效果复测:6",
+      "note:experiments:中文检索三臂效果复测",
+      "适用边界",
+      "延迟来自单机重复测量，只说明本次固定环境；真实 LLM 调用数为 0，状态为 `provider-unavailable`。本实验没有修改生产检索、默认触发条件或排序，只增加可重复测量与失败样例。",
+      ""
+    ],
+    [
+      "note:experiments:中文检索三臂效果复测:7",
+      "note:experiments:中文检索三臂效果复测",
+      "下一步",
+      "使用明确的真实 LLM Provider、冻结模型与费用上限重跑同一问题集，再决定是否扩大问题集或调整中文词项；在此之前，默认路径继续保持确定性。",
+      ""
+    ],
+    [
+      "note:experiments:中文检索三臂效果复测:8",
+      "note:experiments:中文检索三臂效果复测",
+      "相关知识页",
+      "- [[retrieve_machine]]",
+      ""
+    ],
+    [
+      "note:experiments:中文检索三臂效果复测:9",
+      "note:experiments:中文检索三臂效果复测",
+      "源码入口",
+      "- [打开源码：scripts/ckb_core/machine_knowledge.py 第 1827 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1827:1)  `scripts/ckb_core/machine_knowledge.py:1827-1849`",
+      ""
+    ]
+  ]
+}

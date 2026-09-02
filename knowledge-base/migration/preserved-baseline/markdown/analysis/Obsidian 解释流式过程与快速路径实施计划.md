@@ -90,7 +90,7 @@
 - [[retrieve_machine]]
 - [[module_name 与 estimated_tokens 的协作实现]]
 - [[record_note]]
-- [[audit_global 与 _replace_output_prefix 的协作实现]]
+- [[finalize 与 _replace_output_prefix 的协作实现]]
 - [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]]
 
 ## 源码入口

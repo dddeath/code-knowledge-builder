@@ -3,20 +3,33 @@
   "pack_id": "migrated-page-review-pack-0033",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T02:37:17Z",
+  "reviewed_at_utc": "2026-09-02T22:45:49Z",
   "reviews": [
     {
-      "entity_id": "file-acea35747e6954de9efcd51bbac1bf5f",
+      "entity_id": "file-dce85f454e7b56deaf43420d88b171be",
       "classification": "page",
-      "owner_page_id": "file-acea35747e6954de9efcd51bbac1bf5f",
-      "source_path": "scripts/ckb_core/session_stdio.py",
+      "owner_page_id": "file-dce85f454e7b56deaf43420d88b171be",
+      "source_path": "scripts/ckb_core/parsers.py",
       "start_line": 1,
-      "end_line": 1459,
+      "end_line": 719,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/session_stdio.py` 第 1-1459 行的源码摘录，文件、符号与行范围一致。",
-      "meaning_zh": "`scripts/ckb_core/session_stdio.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
-      "role_zh": "负责会话级 stdio 服务的首次激活、租约续用、关闭与资源释放。",
-      "change_when_zh": "当 `scripts/ckb_core/session_stdio.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/parsers.py` 第 1 至 719 行；摘录与 Git blob d065fd12495e 一致。",
+      "meaning_zh": "文件 `scripts/ckb_core/parsers.py`负责从固定源码提取结构，并把可局部归因的 C++ 语法问题降级为有边界警告。",
+      "role_zh": "它属于源码图谱事实生成与语法失败边界的第一层判断，当前说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当语言语法、实体分类、警告标识、影响范围或失败升级规则变化时，应同步复查本页及其直接关联测试。"
+    },
+    {
+      "entity_id": "ent-a944a09c77675131be7f47fe985cc370",
+      "classification": "page",
+      "owner_page_id": "ent-a944a09c77675131be7f47fe985cc370",
+      "source_path": "scripts/ckb_core/parsers.py",
+      "start_line": 383,
+      "end_line": 611,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/parsers.py` 第 383 至 611 行；摘录与 Git blob d065fd12495e 一致。",
+      "meaning_zh": "代码单元 `parse_file`负责从固定源码提取结构，并把可局部归因的 C++ 语法问题降级为有边界警告。",
+      "role_zh": "它属于源码图谱事实生成与语法失败边界的第一层判断，当前说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当语言语法、实体分类、警告标识、影响范围或失败升级规则变化时，应同步复查本页及其直接关联测试。"
     }
   ]
 }

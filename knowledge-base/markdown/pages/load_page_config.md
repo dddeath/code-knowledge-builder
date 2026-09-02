@@ -20,16 +20,5 @@
 
 ## 谁会来到这里
 
-- [[audit_global 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
+- [[finalize 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 - [[load_page_config 与 _merge_known 的协作实现]] 汇总了本页。
-
-## 相关测试
-
-- [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[MigrationTest]]
-- [[MigrationTest 等测试场景]]
-- [[ScopeExtensionTest]]
-- [[ScopeExtensionTest 等测试场景]]
-- [[build_manual_index 等测试场景]]
-
-> 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。

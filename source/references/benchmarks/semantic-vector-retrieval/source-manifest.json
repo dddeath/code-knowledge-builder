@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "checked_at_utc": "2026-09-02T21:13:53.773644+00:00",
+  "engine": {
+    "name": "fastembed",
+    "version": "0.8.0",
+    "tag": "v0.8.0",
+    "license": "Apache-2.0",
+    "python_requirement": ">=3.10.0",
+    "python_3_14_onnxruntime_requirement": ">=1.24.2",
+    "sources": [
+      "https://github.com/qdrant/fastembed/tree/v0.8.0",
+      "https://raw.githubusercontent.com/qdrant/fastembed/v0.8.0/pyproject.toml",
+      "https://raw.githubusercontent.com/qdrant/fastembed/v0.8.0/LICENSE",
+      "https://github.com/qdrant/fastembed/blob/v0.8.0/fastembed/text/onnx_embedding.py#L83-L98",
+      "https://github.com/qdrant/fastembed/blob/v0.8.0/fastembed/text/onnx_embedding.py#L304-L322"
+    ]
+  },
+  "model": {
+    "registered_name": "BAAI/bge-small-zh-v1.5",
+    "artifact_repository": "Qdrant/bge-small-zh-v1.5",
+    "artifact_revision": "46fbe35fd4374a00fee7de77dfddaeb6dd6a2c59",
+    "language": "zh",
+    "dimension": 512,
+    "max_input_tokens": 512,
+    "registered_size_gb": 0.09,
+    "license": "MIT",
+    "normalized": true,
+    "query_instruction": "为这个句子生成表示以用于检索相关文章：",
+    "passage_instruction": null,
+    "sources": [
+      "https://huggingface.co/api/models/Qdrant/bge-small-zh-v1.5",
+      "https://huggingface.co/Qdrant/bge-small-zh-v1.5/tree/46fbe35fd4374a00fee7de77dfddaeb6dd6a2c59",
+      "https://huggingface.co/BAAI/bge-small-zh-v1.5",
+      "https://qdrant.github.io/fastembed/examples/Supported_Models/"
+    ]
+  },
+  "interpretation_zh": "本清单只确认上游身份、接口和许可证；质量、延迟、磁盘、内存与稳定性必须由本仓冻结语料上的真实执行结果给出。"
+}

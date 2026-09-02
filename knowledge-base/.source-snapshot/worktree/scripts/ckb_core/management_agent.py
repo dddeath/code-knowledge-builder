@@ -27,6 +27,7 @@ from .human_maintenance_prompts import (
     human_maintenance_registry_document,
     human_maintenance_registry_sha256,
 )
+from .freshness import check_fact_freshness, query_collaboration_records, record_collaboration
 from .session_stdio import close_session
 
 
@@ -631,15 +632,24 @@ def binding_status(
     if binding is None:
         raise CkbError(f"management conversation binding does not exist: harness={harness_id}; conversation={conversation_id}")
     runtime = _runtime_state(binding)
+    freshness = check_fact_freshness(
+        Path(binding["knowledge_base"]),
+        Path(binding["repo_root"]),
+        session_id=str(binding["conversation_id"]),
+        trigger="manager-status",
+    )
     active = binding["status"] == "active"
-    ready = active and not runtime["errors"]
+    freshness_blockers = [] if freshness.get("state") == "current" else [f"knowledge-facts-{freshness.get('state', 'unavailable')}"]
+    blockers = ([] if active else ["binding-unbound"]) + runtime["errors"] + freshness_blockers
+    ready = active and not blockers
     return {
         "schema_version": MANAGEMENT_SCHEMA_VERSION,
         "status": "ready" if ready else "unbound" if not active else "blocked",
         "registry": str(registry),
         "binding": binding,
         "runtime": runtime,
-        "blockers": ([] if active else ["binding-unbound"]) + runtime["errors"],
+        "fact_freshness": freshness,
+        "blockers": blockers,
     }
 
 
@@ -788,6 +798,7 @@ def _manager_commands(binding: dict[str, Any], python: Path, ckb: Path, registry
 def _management_prompt(
     binding: dict[str, Any],
     runtime: dict[str, Any],
+    freshness: dict[str, Any],
     knowledge: dict[str, Any],
     commands: dict[str, str],
     blockers: list[str],
@@ -810,6 +821,8 @@ def _management_prompt(
 - current integration HEAD：`{runtime.get('integration_head')}`
 - HEAD drift：`{runtime.get('head_drift')}`
 - integration worktree clean：`{runtime.get('clean')}`
+- source fact freshness：`{freshness.get('state')}`
+- source fact next action：`{(freshness.get('next_action') or {}).get('action')}`
 
 ## 当前管理门
 
@@ -875,6 +888,7 @@ def audit_management_prompt(
         binding["integration_branch"],
         binding["bound_head"],
         str(runtime.get("integration_head")),
+        "source fact freshness",
         "brief --out",
         "feedback list",
         "gaps list",
@@ -930,7 +944,7 @@ def management_context(
     python_path = (python or Path(sys.executable)).expanduser().resolve()
     ckb_path = (ckb or (Path(__file__).resolve().parents[1] / "ckb.py")).expanduser().resolve()
     commands = _manager_commands(binding, python_path, ckb_path, registry)
-    prompt = _management_prompt(binding, status["runtime"], knowledge, commands, blockers)
+    prompt = _management_prompt(binding, status["runtime"], status["fact_freshness"], knowledge, commands, blockers)
     prompt_audit = audit_management_prompt(prompt, binding, status["runtime"], commands)
     if prompt_audit["status"] != "passed":
         blockers.append("management-prompt-audit-failed")
@@ -940,6 +954,7 @@ def management_context(
         "registry": str(registry),
         "binding": binding,
         "runtime": status["runtime"],
+        "fact_freshness": status["fact_freshness"],
         "knowledge": knowledge,
         "blockers": blockers,
         "commands": commands,
@@ -960,6 +975,25 @@ def _task_artifact_root(registry: Path) -> Path:
 
 def _find_task(value: dict[str, Any], dispatch_id: str) -> dict[str, Any] | None:
     return next((item for item in value["tasks"] if item.get("dispatch_id") == dispatch_id), None)
+
+
+def _record_task_collaboration(
+    binding: dict[str, Any],
+    task: dict[str, Any],
+    status: str,
+    commit: str,
+) -> dict[str, Any]:
+    phase = "计划" if status == "planned" else "实现"
+    return record_collaboration(
+        Path(binding["knowledge_base"]),
+        feature=str(task["task_id"]),
+        summary=f"管理 Agent 在分支 {task['branch']} {phase}任务 {task['task_id']}。",
+        status=status,
+        branch=str(task["branch"]),
+        commit=commit,
+        task=str(task["task_id"]),
+        paths=list(task.get("allowed_paths") or []),
+    )
 
 
 def _bounded_values(values: list[str] | None, field: str, *, required: bool = False) -> list[str]:
@@ -1168,6 +1202,7 @@ def create_management_task(
             run(["git", "-C", str(repo), "branch", "-D", branch], timeout=60)
         raise error
     assert result is not None
+    result["collaboration"] = _record_task_collaboration(binding, result["task"], "planned", result["task"]["base_commit"])
     return result
 
 
@@ -1242,6 +1277,7 @@ def management_task_status(dispatch_id: str, registry_path: Path | None = None) 
         development["errors"].append("task-verification-stale")
     blockers = ([] if binding["status"] == "active" else ["binding-unbound"]) + binding_runtime["errors"] + development["errors"]
     merge_ready = not blockers and development["verification_verified"]
+    collaboration = query_collaboration_records(Path(binding["knowledge_base"]), task=str(task["task_id"]))
     return {
         "schema_version": MANAGEMENT_SCHEMA_VERSION,
         "status": "merge-ready" if merge_ready else "blocked",
@@ -1250,6 +1286,7 @@ def management_task_status(dispatch_id: str, registry_path: Path | None = None) 
         "task": task,
         "integration": binding_runtime,
         "development": development,
+        "collaboration": collaboration,
         "blockers": blockers,
         "merge_performed": False,
     }
@@ -1263,6 +1300,7 @@ def review_management_task(dispatch_id: str, registry_path: Path | None = None) 
         if before["status"] == "merge-ready":
             task = before["task"]
             verification_path = Path(task["verification_path"])
+            collaboration = _record_task_collaboration(before["binding"], task, "implemented", str(before["development"]["head"]))
             return {
                 "schema_version": MANAGEMENT_SCHEMA_VERSION,
                 "status": "passed",
@@ -1272,6 +1310,7 @@ def review_management_task(dispatch_id: str, registry_path: Path | None = None) 
                 "verification_sha256": task["verification_sha256"],
                 "gate": before,
                 "idempotent": True,
+                "collaboration": collaboration,
                 "merge_performed": False,
             }
         allowed_pre_review = {"task-verification-stale"}
@@ -1341,6 +1380,11 @@ def review_management_task(dispatch_id: str, registry_path: Path | None = None) 
                 _audit_event(binding["binding_id"], "task-review", "passed" if passed else "failed", dispatch_id)
             )
         after = management_task_status(dispatch_id, registry)
+        collaboration = (
+            _record_task_collaboration(binding, task, "implemented", str(final_head))
+            if after["status"] == "merge-ready" and final_head
+            else None
+        )
         return {
             "schema_version": MANAGEMENT_SCHEMA_VERSION,
             "status": "passed" if after["status"] == "merge-ready" else "failed",
@@ -1350,5 +1394,6 @@ def review_management_task(dispatch_id: str, registry_path: Path | None = None) 
             "verification_sha256": verification_hash,
             "gate": after,
             "idempotent": False,
+            "collaboration": collaboration,
             "merge_performed": False,
         }

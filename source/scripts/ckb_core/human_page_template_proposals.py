@@ -27,7 +27,7 @@ from .human_page_templates import (
 )
 
 
-TEMPLATE_PROPOSAL_SCHEMA_VERSION = 1
+TEMPLATE_PROPOSAL_SCHEMA_VERSION = 3
 TEMPLATE_PROPOSAL_STORE_DIRECTORY = "human-page-template-proposals"
 TEMPLATE_PROPOSAL_STATUSES = ("builtin", "pending", "approved", "rejected", "superseded")
 TEMPLATE_PROPOSAL_DECISIONS = ("approve", "reject", "return")
@@ -53,10 +53,36 @@ _TOP_LEVEL_FIELDS = {
 _PROPOSER_FIELDS = {"id", "kind"}
 _TARGET_FIELDS = {"contract_version", "registry_id", "registry_sha256", "schema_version"}
 _FIELD_FIELDS = {"field_id", "label", "purpose", "required", "value_type"}
-_SECTION_FIELDS = {"field_ids", "heading", "purpose", "required", "section_id"}
+_SECTION_FIELDS = {
+    "allowed_content",
+    "disclosure_level",
+    "empty_behavior",
+    "field_ids",
+    "forbidden_content",
+    "freshness_rule",
+    "heading",
+    "key_entity_budget",
+    "length_budget",
+    "link_budget",
+    "purpose",
+    "required",
+    "required_content",
+    "section_id",
+    "source_requirements",
+}
 _BUDGET_FIELDS = {"key_entities", "source_links", "total_characters"}
 _COUNT_BUDGET_FIELDS = {"counting_rule", "maximum", "minimum", "overflow_action", "scope"}
 _CHARACTER_BUDGET_FIELDS = {"maximum", "overflow_action"}
+_SECTION_LENGTH_FIELDS = {
+    "counting_rule",
+    "maximum_characters",
+    "maximum_list_items",
+    "maximum_metrics",
+    "maximum_paragraphs",
+    "minimum_characters",
+    "overflow_action",
+}
+_SECTION_LINK_BUDGET_FIELDS = {"counting_rule", "maximum", "minimum", "overflow_action", "target_types"}
 _LINK_FIELDS = {"allow_external", "requirements"}
 _EVIDENCE_FIELDS = {"current_fact_rule", "freshness_fields", "required_fields"}
 _EXAMPLE_FIELDS = {"content", "expected_result", "name"}
@@ -70,6 +96,9 @@ _MIGRATION_FIELDS = {
 _ROLLBACK_FIELDS = {"preserves_history", "steps", "summary"}
 _VALUE_TYPES = {"boolean", "integer", "list", "object", "text"}
 _MIGRATION_COMPATIBILITY = {"additive", "incompatible", "migration-required"}
+_DISCLOSURE_LEVELS = {"L1", "L2", "L3"}
+_EMPTY_BEHAVIORS = {"error", "omit", "explicit-empty"}
+_LINK_TARGET_TYPES = {"internal", "external", "source", "experiment", "reference", "work-record"}
 _IDENTIFIER = re.compile(r"^[A-Za-z][A-Za-z0-9._-]{0,63}$")
 _SEMVER = re.compile(r"^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$")
 _HASH = re.compile(r"^[0-9a-f]{64}$")
@@ -188,7 +217,12 @@ def _validate_target(value: Any) -> dict[str, Any]:
     return expected
 
 
-def _normalize_count_budget(value: Any, label: str) -> dict[str, Any]:
+def _normalize_count_budget(
+    value: Any,
+    label: str,
+    *,
+    allowed_scopes: set[str] | None = None,
+) -> dict[str, Any]:
     budget = _expect_object(value, label)
     _expect_fields(budget, _COUNT_BUDGET_FIELDS, label)
     minimum = _integer(budget["minimum"], f"{label}.minimum", minimum=0, maximum=10_000)
@@ -196,14 +230,53 @@ def _normalize_count_budget(value: Any, label: str) -> dict[str, Any]:
     if maximum < minimum:
         raise CkbError(f"template proposal {label}.maximum must be at least minimum")
     scope = _text(budget["scope"], f"{label}.scope", maximum=32)
-    if scope not in {"entry", "page"}:
-        raise CkbError(f"template proposal {label}.scope must be entry or page")
+    allowed_scopes = allowed_scopes or {"entry", "page"}
+    if scope not in allowed_scopes:
+        raise CkbError(f"template proposal {label}.scope must be one of {sorted(allowed_scopes)}")
     return {
         "counting_rule": _text(budget["counting_rule"], f"{label}.counting_rule"),
         "maximum": maximum,
         "minimum": minimum,
         "overflow_action": _text(budget["overflow_action"], f"{label}.overflow_action"),
         "scope": scope,
+    }
+
+
+def _normalize_section_length_budget(value: Any, label: str) -> dict[str, Any]:
+    budget = _expect_object(value, label)
+    _expect_fields(budget, _SECTION_LENGTH_FIELDS, label)
+    minimum = _integer(budget["minimum_characters"], f"{label}.minimum_characters", minimum=0, maximum=1_000_000)
+    maximum = _integer(budget["maximum_characters"], f"{label}.maximum_characters", minimum=1, maximum=1_000_000)
+    if maximum < minimum:
+        raise CkbError(f"template proposal {label}.maximum_characters must be at least minimum_characters")
+    return {
+        "counting_rule": _text(budget["counting_rule"], f"{label}.counting_rule"),
+        "maximum_characters": maximum,
+        "maximum_list_items": _integer(budget["maximum_list_items"], f"{label}.maximum_list_items", minimum=0, maximum=10_000),
+        "maximum_metrics": _integer(budget["maximum_metrics"], f"{label}.maximum_metrics", minimum=0, maximum=10_000),
+        "maximum_paragraphs": _integer(budget["maximum_paragraphs"], f"{label}.maximum_paragraphs", minimum=0, maximum=10_000),
+        "minimum_characters": minimum,
+        "overflow_action": _text(budget["overflow_action"], f"{label}.overflow_action"),
+    }
+
+
+def _normalize_section_link_budget(value: Any, label: str) -> dict[str, Any]:
+    budget = _expect_object(value, label)
+    _expect_fields(budget, _SECTION_LINK_BUDGET_FIELDS, label)
+    minimum = _integer(budget["minimum"], f"{label}.minimum", minimum=0, maximum=10_000)
+    maximum = _integer(budget["maximum"], f"{label}.maximum", minimum=0, maximum=10_000)
+    if maximum < minimum:
+        raise CkbError(f"template proposal {label}.maximum must be at least minimum")
+    target_types = _string_list(budget["target_types"], f"{label}.target_types")
+    unknown = sorted(set(target_types) - _LINK_TARGET_TYPES)
+    if unknown:
+        raise CkbError(f"template proposal {label}.target_types contains unsupported values: {unknown}")
+    return {
+        "counting_rule": _text(budget["counting_rule"], f"{label}.counting_rule"),
+        "maximum": maximum,
+        "minimum": minimum,
+        "overflow_action": _text(budget["overflow_action"], f"{label}.overflow_action"),
+        "target_types": target_types,
     }
 
 
@@ -251,13 +324,42 @@ def _normalize_sections(value: Any, field_ids: set[str]) -> list[dict[str, Any]]
         unknown = sorted(set(section_fields) - field_ids)
         if unknown:
             raise CkbError(f"template proposal sections[{index}] references unknown fields: {unknown}")
+        required = _boolean(section["required"], f"sections[{index}].required")
+        disclosure_level = _text(section["disclosure_level"], f"sections[{index}].disclosure_level", maximum=8)
+        if disclosure_level not in _DISCLOSURE_LEVELS:
+            raise CkbError(f"template proposal sections[{index}].disclosure_level must be L1, L2, or L3")
+        empty_behavior = _text(section["empty_behavior"], f"sections[{index}].empty_behavior", maximum=32)
+        if empty_behavior not in _EMPTY_BEHAVIORS:
+            raise CkbError(f"template proposal sections[{index}].empty_behavior is unsupported")
+        if required and empty_behavior == "omit":
+            raise CkbError(f"template proposal sections[{index}] required section cannot use empty_behavior=omit")
+        if not required and empty_behavior == "error":
+            raise CkbError(f"template proposal sections[{index}] optional section cannot use empty_behavior=error")
         result.append(
             {
+                "allowed_content": _string_list(section["allowed_content"], f"sections[{index}].allowed_content"),
+                "disclosure_level": disclosure_level,
+                "empty_behavior": empty_behavior,
                 "field_ids": section_fields,
+                "forbidden_content": _string_list(section["forbidden_content"], f"sections[{index}].forbidden_content"),
+                "freshness_rule": _text(section["freshness_rule"], f"sections[{index}].freshness_rule"),
                 "heading": _text(section["heading"], f"sections[{index}].heading", maximum=120),
+                "key_entity_budget": _normalize_count_budget(
+                    section["key_entity_budget"],
+                    f"sections[{index}].key_entity_budget",
+                    allowed_scopes={"section"},
+                ),
+                "length_budget": _normalize_section_length_budget(
+                    section["length_budget"], f"sections[{index}].length_budget"
+                ),
+                "link_budget": _normalize_section_link_budget(
+                    section["link_budget"], f"sections[{index}].link_budget"
+                ),
                 "purpose": _text(section["purpose"], f"sections[{index}].purpose"),
-                "required": _boolean(section["required"], f"sections[{index}].required"),
+                "required": required,
+                "required_content": _string_list(section["required_content"], f"sections[{index}].required_content"),
                 "section_id": section_id,
+                "source_requirements": _string_list(section["source_requirements"], f"sections[{index}].source_requirements"),
             }
         )
     identifiers = [item["section_id"] for item in result]
@@ -309,7 +411,8 @@ def normalize_template_proposal(document: Any) -> dict[str, Any]:
     if proposal["schema_version"] != TEMPLATE_PROPOSAL_SCHEMA_VERSION:
         raise CkbError(
             "unsupported template proposal schema_version: "
-            f"{proposal['schema_version']}; expected {TEMPLATE_PROPOSAL_SCHEMA_VERSION}"
+            f"{proposal['schema_version']}; expected {TEMPLATE_PROPOSAL_SCHEMA_VERSION}; "
+            "旧 schema 1 proposal 必须重新执行 template init 并显式补齐 V3 章节合同字段"
         )
     proposer = _expect_object(proposal["proposer"], "proposer")
     _expect_fields(proposer, _PROPOSER_FIELDS, "proposer")
@@ -412,20 +515,50 @@ def template_proposal_skeleton(template_name: str = "output-local-template") -> 
         "reader_task": "填写读者使用本模板要完成的任务。",
         "fields": [
             {
-                "field_id": "result",
-                "label": "结果",
+                "field_id": "human_summary",
+                "label": "人类摘要",
                 "value_type": "text",
                 "required": True,
-                "purpose": "填写该字段对读者任务的作用。",
+                "purpose": "填写只进入 L1-L3 人类页面的摘要正文。",
             }
         ],
         "sections": [
             {
+                "allowed_content": ["结论、直接结果、适用边界和少量描述性链接。"],
+                "disclosure_level": "L2",
+                "empty_behavior": "error",
+                "field_ids": ["human_summary"],
+                "forbidden_content": ["完整命令、测试总数、逐门清单、日志、完整哈希、SQLite、manifest、maintain 和回滚探针。"],
+                "freshness_rule": "当前、已支持和已测试表述必须绑定机器证据与观察时间。",
                 "section_id": "result",
                 "heading": "结果",
+                "key_entity_budget": {
+                    "minimum": 0,
+                    "maximum": 3,
+                    "scope": "section",
+                    "counting_rule": "统计本章节直接点名的关键实体。",
+                    "overflow_action": "把实现明细移到职责页或机器记录。",
+                },
+                "length_budget": {
+                    "minimum_characters": 1,
+                    "maximum_characters": 600,
+                    "maximum_paragraphs": 3,
+                    "maximum_list_items": 6,
+                    "maximum_metrics": 2,
+                    "counting_rule": "统计 human_summary 的字符、段落、列表项和显式指标。",
+                    "overflow_action": "保留结论和边界，把完整证据移到机器记录。",
+                },
+                "link_budget": {
+                    "minimum": 0,
+                    "maximum": 4,
+                    "target_types": ["internal", "source", "experiment", "reference", "work-record"],
+                    "counting_rule": "统计带阅读目的的描述性链接。",
+                    "overflow_action": "只保留直接支持结论的链接。",
+                },
                 "required": True,
+                "required_content": ["先呈现读者要获得的结果。"],
                 "purpose": "先呈现读者要获得的结果。",
-                "field_ids": ["result"],
+                "source_requirements": ["时效性事实必须绑定来源；L4 字面证据只保留引用。"],
             }
         ],
         "budgets": {
