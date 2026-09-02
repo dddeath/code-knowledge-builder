@@ -1,26 +1,26 @@
 {
   "schema_version": 1,
   "status": "passed",
-  "updated_at_utc": "2026-09-02T22:58:32Z",
+  "updated_at_utc": "2026-09-02T23:37:06Z",
   "retention_days": 30,
   "max_records_per_shard": 2000,
   "max_shard_bytes": 1048576,
-  "records": 271,
+  "records": 273,
   "counts_by_operation": {
     "compile": 23,
-    "query": 172,
-    "record": 60,
+    "query": 173,
+    "record": 61,
     "audit": 10,
     "maintenance": 6
   },
   "counts_by_status": {
-    "agent-reviewed": 34,
+    "agent-reviewed": 35,
     "complete": 6,
     "completed": 3,
     "failed": 5,
     "not-found": 5,
     "open": 8,
-    "passed": 182,
+    "passed": 183,
     "pending-agent-review": 5,
     "ready": 3,
     "ready-to-finalize": 3,
@@ -44,35 +44,11 @@
     {
       "date": "2026-09-02",
       "path": "2026-09-02.jsonl",
-      "records": 100,
-      "bytes": 29596
+      "records": 102,
+      "bytes": 30270
     }
   ],
   "latest": [
-    {
-      "schema_version": 1,
-      "event_id": "operation-3dc2dc11f75f595a9936a5c321fdaff6",
-      "recorded_at_utc": "2026-09-02T21:03:27Z",
-      "operation": "record",
-      "command": "record:experiment",
-      "result_status": "agent-reviewed",
-      "evidence_paths": [
-        "human/experiments/中文检索三臂效果复测.md",
-        "markdown/experiments/中文检索三臂效果复测.md"
-      ]
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-f88fbfd88ba05a7b95b19980681c9b65",
-      "recorded_at_utc": "2026-09-02T21:03:32Z",
-      "operation": "record",
-      "command": "record:experiment",
-      "result_status": "agent-reviewed",
-      "evidence_paths": [
-        "human/experiments/机器 Tag 导航隔离实验.md",
-        "markdown/experiments/机器 Tag 导航隔离实验.md"
-      ]
-    },
     {
       "schema_version": 1,
       "event_id": "operation-02fd33602b3555b6a20f66baabb096f3",
@@ -281,11 +257,35 @@
         "machine/agent-packs/pack-20260902-225827-415575-01.json",
         "machine/agent-packs/pack-20260902-225827-415575-01.md"
       ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-a7cdf28984d55c719086d07152aca6ac",
+      "recorded_at_utc": "2026-09-02T23:36:51Z",
+      "operation": "record",
+      "command": "record:change",
+      "result_status": "agent-reviewed",
+      "evidence_paths": [
+        "human/changes/发布 GitHub 发展分支并同步稳定知识库.md",
+        "markdown/changes/发布 GitHub 发展分支并同步稳定知识库.md"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-4453fb6c7411559c825005523d8ff7c9",
+      "recorded_at_utc": "2026-09-02T23:36:55Z",
+      "operation": "query",
+      "command": "brief",
+      "result_status": "passed",
+      "evidence_paths": [
+        "machine/agent-packs/pack-20260902-233654-605181-01.json",
+        "machine/agent-packs/pack-20260902-233654-605181-01.md"
+      ]
     }
   ],
   "bounded_drops": {
     "size_or_count": 0,
     "retention": 0,
-    "deduplicated": 584
+    "deduplicated": 586
   }
 }

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "published-development-remote-verified",
+  "status": "locally-verified-final-knowledge-ready-to-push",
   "repository": "https://github.com/dddeath/code-knowledge-builder",
   "target_branch": "codex/development-knowledge-builder",
   "publication_base": "e864d84c361e1d871ca43f535f8ff85cb1eaa117",
@@ -12,7 +12,7 @@
     "version": "5.4.0",
     "schema_version": 4,
     "repository_commit": "c533dd7c53224a637b1438ea72ee25da887fc6de",
-    "records": 68,
+    "records": 69,
     "references": 1,
     "research_gaps": 7,
     "research_gap_status": {
@@ -26,7 +26,7 @@
     "source": "delivery/source-files.json",
     "source_sha256": "59052da09f152e75bc4b7dfb662756f9990bc7c7e48f4be30893cebc117629e8",
     "knowledge": "delivery/knowledge-files.json",
-    "knowledge_sha256": "8f56345dab8f98afa7ba7c1f6218d523bc1d7af6b8a26207f1591af4e0af26fb"
+    "knowledge_sha256": "ae7623dbfffce7193e337c3997251503a37fe84f62485fcb30b75694769903b6"
   },
   "lfs_patterns": [
     "*.zip",
@@ -45,8 +45,8 @@
     },
     {
       "path": "knowledge-base/agent-index.sqlite",
-      "size": 9977856,
-      "sha256": "8590f5d2acf419cf53636c3aa5d53841fefe9f39484537dc520cc38853476dc4"
+      "size": 9932800,
+      "sha256": "0ca8d213e60f1f2f0901c22a6918292a1ee6865d4f3365c6f6a0735b48c2e1b0"
     },
     {
       "path": "knowledge-base/machine/automation.sqlite",
@@ -55,8 +55,8 @@
     },
     {
       "path": "knowledge-base/machine/knowledge.sqlite",
-      "size": 64356352,
-      "sha256": "d331e313d5971fe24dd4d66e3f4d291fa054807d8b12dc84f8b84231c6a29620"
+      "size": 64372736,
+      "sha256": "04ad6648b0c56ee48b45351ea66395d6c753a914d42cca6f0aa9c725e6f2b9c2"
     },
     {
       "path": "knowledge-base/migration/preserved-baseline/machine/automation.sqlite",
@@ -97,34 +97,29 @@
   },
   "final_knowledge_trace": {
     "status": "included",
-    "record_count": 68,
+    "record_count": 69,
     "records": [
       "knowledge-base/human/experiments/单文档自动页面扩张对照实验.md",
-      "knowledge-base/human/experiments/真实语义向量检索三臂对照实验.md"
+      "knowledge-base/human/experiments/真实语义向量检索三臂对照实验.md",
+      "knowledge-base/human/changes/发布 GitHub 发展分支并同步稳定知识库.md"
     ],
     "maintain": "passed"
   },
   "credential_scan": {
     "status": "passed",
     "path": "delivery/credential-scan.json",
-    "scanned_text_files": 4225,
-    "findings": 0,
-    "sha256": "258eb5ad19a593968583fd865f2a4fd4f027d24c309f1707e96600f97d5bda9e"
+    "sha256": "b1381f602ba6074de5ba7542a425b4db08450f381cac6baa7b27e085a6b72f0f",
+    "scanned_text_files": 4233,
+    "findings": 0
   },
   "local_verification": {
     "status": "passed",
-    "path": "delivery/local-development-verification.json",
-    "sha256": "8f3c29244a10f0e165893ffaafe0067dd3328d6e1710e4c075c11d3eea807135",
+    "path": "delivery/local-final-knowledge-verification.json",
+    "sha256": "da30e2deb5cd4134a52aa2dc57c4326f0eb70f6964dd5d2da6682eeefce4c75b",
     "checks": 15
   },
   "remote_clone_verification": {
-    "status": "passed",
-    "commit": "832a273d5169cdc08e147cac468195536ee2e950",
-    "path": "delivery/remote-development-verification.json",
-    "sha256": "00110854ea590e96625ce564e896ea0fcd0e915281e28048670c65a672926ca5",
-    "checks": 15,
-    "lfs_fsck": "passed",
-    "lfs_evidence": "delivery/remote-development-lfs-fsck.txt"
+    "status": "pending-final-knowledge-sync"
   },
   "rollback": {
     "baseline": "e864d84c361e1d871ca43f535f8ff85cb1eaa117",

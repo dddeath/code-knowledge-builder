@@ -2,7 +2,7 @@
   "schema_version": 1,
   "status": "passed",
   "algorithm": "sha256-per-file-v1",
-  "file_count": 3215,
+  "file_count": 3220,
   "files": [
     {
       "path": ".complete",
@@ -5061,8 +5061,8 @@
     },
     {
       "path": "agent-index.sqlite",
-      "size": 9977856,
-      "sha256": "8590f5d2acf419cf53636c3aa5d53841fefe9f39484537dc520cc38853476dc4"
+      "size": 9932800,
+      "sha256": "0ca8d213e60f1f2f0901c22a6918292a1ee6865d4f3365c6f6a0735b48c2e1b0"
     },
     {
       "path": "audit/global.json",
@@ -5406,8 +5406,8 @@
     },
     {
       "path": "human/RECORDS.md",
-      "size": 22624,
-      "sha256": "cbb5552919721a66cf56ead1d6c77bc414dde3a3b906c7b950e2fa9588bc5317"
+      "size": 22925,
+      "sha256": "c5f8c5bc9d1482c9e256c280505e2043f43ad8c48b7fe8b64e6610a2ec14da47"
     },
     {
       "path": "human/REFERENCES.md",
@@ -5633,6 +5633,11 @@
       "path": "human/changes/双知识库与确定性检索改造记录.md",
       "size": 2037,
       "sha256": "977acbbeca0beeb99b14586407abd68699feedd26a051c0a65c3261ca0815225"
+    },
+    {
+      "path": "human/changes/发布 GitHub 发展分支并同步稳定知识库.md",
+      "size": 2269,
+      "sha256": "5c9d3c839342068c028d5c800da2e22b6c52e423157ce7f9d3178669e4cb1bfe"
     },
     {
       "path": "human/changes/发布 README 人类入口并迁移既有 Change 页.md",
@@ -7070,9 +7075,19 @@
       "sha256": "0c0ed5ee0440f35fc072d8edbdba5818189a75c95c74968e6d5ca9428fea8d5b"
     },
     {
+      "path": "machine/agent-packs/pack-20260902-233654-605181-01.json",
+      "size": 12322,
+      "sha256": "6b204a0c11665f4a45f583e81f50e143aca93b38160118980e0f9f3a441cbda9"
+    },
+    {
+      "path": "machine/agent-packs/pack-20260902-233654-605181-01.md",
+      "size": 4296,
+      "sha256": "8bbc7b092c1445b8d58d66a5905f415e7af55b53dc3a346f8279be703ebf7be2"
+    },
+    {
       "path": "machine/audit.json",
       "size": 733,
-      "sha256": "1b8be7890c420afcb22b260d5e5d066857d97910afcbfb2cc73a7aeffcfdf4c2"
+      "sha256": "b43fa73d8f13a2dc067f860f62f7429221b9530bb915afedd43f803d6ab1d06f"
     },
     {
       "path": "machine/automation.sqlite",
@@ -7081,8 +7096,8 @@
     },
     {
       "path": "machine/knowledge.sqlite",
-      "size": 64356352,
-      "sha256": "d331e313d5971fe24dd4d66e3f4d291fa054807d8b12dc84f8b84231c6a29620"
+      "size": 64372736,
+      "sha256": "04ad6648b0c56ee48b45351ea66395d6c753a914d42cca6f0aa9c725e6f2b9c2"
     },
     {
       "path": "markdown/.ckb-generated-files.json",
@@ -7141,8 +7156,8 @@
     },
     {
       "path": "markdown/RECORDS.md",
-      "size": 22624,
-      "sha256": "cbb5552919721a66cf56ead1d6c77bc414dde3a3b906c7b950e2fa9588bc5317"
+      "size": 22925,
+      "sha256": "c5f8c5bc9d1482c9e256c280505e2043f43ad8c48b7fe8b64e6610a2ec14da47"
     },
     {
       "path": "markdown/REFERENCES.md",
@@ -7363,6 +7378,11 @@
       "path": "markdown/changes/双知识库与确定性检索改造记录.md",
       "size": 2037,
       "sha256": "977acbbeca0beeb99b14586407abd68699feedd26a051c0a65c3261ca0815225"
+    },
+    {
+      "path": "markdown/changes/发布 GitHub 发展分支并同步稳定知识库.md",
+      "size": 2269,
+      "sha256": "5c9d3c839342068c028d5c800da2e22b6c52e423157ce7f9d3178669e4cb1bfe"
     },
     {
       "path": "markdown/changes/发布 README 人类入口并迁移既有 Change 页.md",
@@ -14197,7 +14217,7 @@
     {
       "path": "workspace-meta/agent-protocol-audit.json",
       "size": 1504,
-      "sha256": "aba4f70eeb4ac2264db23ca01cb6f3378b7f59650a35590b9cf12611892c2d7f"
+      "sha256": "734dfe5f136a86664f7eaa56294c3cd26fe0840be9a46017d6838f4dff8006bc"
     },
     {
       "path": "workspace-meta/agent-protocol.json",
@@ -14331,8 +14351,8 @@
     },
     {
       "path": "workspace-meta/freshness/events.jsonl",
-      "size": 23897,
-      "sha256": "c41b553bb61248a0f601b7f66bfb18bf676a794eabb058dc16d9e2856c099355"
+      "size": 24231,
+      "sha256": "6a32cce43686b767f3a152b2bf560b34f4dd60b45fe7a316f5e1596a33340a79"
     },
     {
       "path": "workspace-meta/freshness/plans/freshness-migration-01dfd425541c5b4c92ba3e49fee9d249.json",
@@ -14351,8 +14371,8 @@
     },
     {
       "path": "workspace-meta/freshness/state.json",
-      "size": 96351,
-      "sha256": "11df6114932832a58b5a113e6198c7ae0f92ff686b157937cb3882ee727d0dfb"
+      "size": 97201,
+      "sha256": "81fe6cc3f76025daccb999dd79889b0aa7132247d6869db16ee2ce62cf6d6084"
     },
     {
       "path": "workspace-meta/gaps/index.json",
@@ -14402,7 +14422,7 @@
     {
       "path": "workspace-meta/maintenance/latest.json",
       "size": 5310,
-      "sha256": "911f2d4dfbc16b843025ecaf52f21a8c38708dd25f3581f148b36118e8652526"
+      "sha256": "79def2089659408b5a7a0eab342ba40733f90a091715ee11786c9bb08fbe51ad"
     },
     {
       "path": "workspace-meta/notes/Agent 会话 20260826-124551-01.json",
@@ -14640,6 +14660,11 @@
       "sha256": "123a0dce33cdacaef6b7a7ac5cfc050ada0f1940feb6b08efc605c47b85dd9bc"
     },
     {
+      "path": "workspace-meta/notes/发布 GitHub 发展分支并同步稳定知识库.json",
+      "size": 1222,
+      "sha256": "2ed7c688fea3b2e9093919a20c815a89aa677d5651d93949f91617ed71d4fc2f"
+    },
+    {
       "path": "workspace-meta/notes/发布 README 人类入口并迁移既有 Change 页.json",
       "size": 1243,
       "sha256": "f4f1ce4b4865ac709910a8e4f97949c7fd3a61376eeb0286027df3cac524512e"
@@ -14761,18 +14786,18 @@
     },
     {
       "path": "workspace-meta/operations/2026-09-02.jsonl",
-      "size": 29596,
-      "sha256": "93f1ba258c820c0a26418daf32f29a00948494c349f1b7134f43e63e95e623cd"
+      "size": 30270,
+      "sha256": "d928589b3dd4fefdf88573410d8db5f7c93af86e462ad2ca8e9f7e5f37236019"
     },
     {
       "path": "workspace-meta/operations/latest.json",
-      "size": 9071,
-      "sha256": "6acaf1665a5fd4654b9fea29ce9751dde89ec09781d39c631826417ef4f3a391"
+      "size": 9083,
+      "sha256": "0e252d4e5b0d994a1737177904cf55a463ac5ee8140ad5c95936a6176a36cc9d"
     },
     {
       "path": "workspace-meta/operations/state.json",
       "size": 105,
-      "sha256": "fe5541063662500cb72c4399d90a68933a55e66291a0bc01cd5a57353c1721e4"
+      "sha256": "8a7a2ee72452f1ec2f947ada26ae1c771252ae0df5a466a17801f180e626bf38"
     },
     {
       "path": "workspace-meta/pending-notes/Agent 会话 20260826-124551-01-01.json",
@@ -16077,7 +16102,7 @@
     {
       "path": "workspace-meta/work-record-index-audit.json",
       "size": 217,
-      "sha256": "717907ee5c767ea52ab363113f7d9c7463ca282a757e19f200a4dc9e8f6ce268"
+      "sha256": "9392012b2008f6e565e509d435240dd7f3a3194f437ffa7e34dbded8df7e6658"
     }
   ],
   "fixed_source_commit": "c533dd7c53224a637b1438ea72ee25da887fc6de",

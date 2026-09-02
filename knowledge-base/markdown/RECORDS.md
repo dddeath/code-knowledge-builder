@@ -73,6 +73,7 @@
 - [[修复 GUI 学习解释乱码与错误归档]] — Obsidian Companion 0.7.2 将 Node 启动的 Python 环境固定为 PYTHONUTF8=1 和 PYTHONIOENCODING=utf-8，CKB stdio 服务端同时把默认 stdin/stdou……
 - [[修复 Obsidian Codex WSL 非交互启动路径]] — Obsidian Companion 的 Codex Provider 继续使用默认 WSL 发行版 Ubuntu。模型发现失败的直接原因不是 Codex 缺失，而是 Codex Desktop 只把 WSL 启动器目录临时注入当前任……
 - [[双知识库与确定性检索改造记录]] — 自身知识库已经从单一页面索引升级为事实层、完整机器 SQLite 和保守中文人类 vault。新增分节全文索引、确定性 fast/precise 图检索、实体与邻居查询、源码范围读取、Agent 会话排队与结束记录，以及机器/人类独立完成标记。
+- [[发布 GitHub 发展分支并同步稳定知识库]] — 项目已建立 GitHub 发展分支 codex/development-knowledge-builder。该分支同时提供当前集成源码、与源码提交 c533dd7… 对齐的稳定知识库、面向人类的 README、Git LFS 大文件和可执行回滚入口。
 - [[发布 README 人类入口并迁移既有 Change 页]] — 项目 README 现在从人类要完成的任务出发，只保留三个入门入口：了解本项目知识库结构、让 Agent 安装本项目、让 Agent 解释自己的项目。安装 Skill 与为业务仓库建库使用两段独立 Prompt，后续阅读、记录、维护、迁移和 Harness 接入按自然顺序继续展开。
 - [[增加受控的工作记录正文替换与回滚]] — 本次修改为既有工作记录增加受控正文替换能力。管理 Agent 可以按精确类型和标题替换当前正文，同时更新 human、markdown、记录元数据、RECORDS 导览、两个 SQLite 和 operation journal；普通新建与追加行为保持不变。
 - [[增加可追溯的 PDF 参考资料吸收]] — 参考资料层现在可以直接吸收 PDF，并把每条可确认主张绑定到具体页码和原文片段。文本不足、扫描页或混合文档会进入待补充状态，不会伪装成已经完成的资料吸收。
