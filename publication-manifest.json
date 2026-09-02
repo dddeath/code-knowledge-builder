@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "locally-verified-final-knowledge-ready-to-push",
+  "status": "published-development-final-knowledge-remote-verified",
   "repository": "https://github.com/dddeath/code-knowledge-builder",
   "target_branch": "codex/development-knowledge-builder",
   "publication_base": "e864d84c361e1d871ca43f535f8ff85cb1eaa117",
@@ -119,7 +119,13 @@
     "checks": 15
   },
   "remote_clone_verification": {
-    "status": "pending-final-knowledge-sync"
+    "status": "passed",
+    "commit": "31e85e881a8be03084ad5a6a37391265fa4b221b",
+    "path": "delivery/remote-final-knowledge-verification.json",
+    "sha256": "4fe48cbaa14c4ae7f992963172919e47821f65d6cddeafb5cf83b29fd97602c3",
+    "checks": 15,
+    "lfs_fsck": "passed",
+    "lfs_evidence": "delivery/remote-final-knowledge-lfs-fsck.txt"
   },
   "rollback": {
     "baseline": "e864d84c361e1d871ca43f535f8ff85cb1eaa117",
