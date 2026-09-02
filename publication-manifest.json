@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "locally-verified-ready-to-push",
+  "status": "published-development-remote-verified",
   "repository": "https://github.com/dddeath/code-knowledge-builder",
   "target_branch": "codex/development-knowledge-builder",
   "publication_base": "e864d84c361e1d871ca43f535f8ff85cb1eaa117",
@@ -118,11 +118,22 @@
     "checks": 15
   },
   "remote_clone_verification": {
-    "status": "pending"
+    "status": "passed",
+    "commit": "832a273d5169cdc08e147cac468195536ee2e950",
+    "path": "delivery/remote-development-verification.json",
+    "sha256": "00110854ea590e96625ce564e896ea0fcd0e915281e28048670c65a672926ca5",
+    "checks": 15,
+    "lfs_fsck": "passed",
+    "lfs_evidence": "delivery/remote-development-lfs-fsck.txt"
   },
   "rollback": {
     "baseline": "e864d84c361e1d871ca43f535f8ff85cb1eaa117",
     "script": "delivery/rollback-development-publication.ps1",
     "stable_knowledge_backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base-backup-bd85195-wave3-20260903"
+  },
+  "initial_push": {
+    "status": "passed",
+    "commit": "832a273d5169cdc08e147cac468195536ee2e950",
+    "branch": "codex/development-knowledge-builder"
   }
 }
