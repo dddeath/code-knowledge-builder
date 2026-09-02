@@ -8,9 +8,21 @@ $Branch = 'codex/development-knowledge-builder'
 $Baseline = 'e864d84c361e1d871ca43f535f8ff85cb1eaa117'
 
 function Invoke-GitText([string[]]$GitArguments) {
-  $output = & $GitPath -C $Worktree @GitArguments 2>&1
-  if ($LASTEXITCODE -ne 0) { throw "git $($GitArguments -join ' ') failed: $output" }
-  return ($output -join "`n").Trim()
+  $token = [Guid]::NewGuid().ToString('N')
+  $stdoutPath = Join-Path $env:TEMP "ckb-development-rollback-$token.out"
+  $stderrPath = Join-Path $env:TEMP "ckb-development-rollback-$token.err"
+  try {
+    $process = Start-Process -FilePath $GitPath -ArgumentList $GitArguments `
+      -WorkingDirectory $Worktree -Wait -PassThru -NoNewWindow `
+      -RedirectStandardOutput $stdoutPath -RedirectStandardError $stderrPath
+    $stdout = if (Test-Path -LiteralPath $stdoutPath) { [IO.File]::ReadAllText($stdoutPath, [Text.Encoding]::UTF8) } else { '' }
+    $stderr = if (Test-Path -LiteralPath $stderrPath) { [IO.File]::ReadAllText($stderrPath, [Text.Encoding]::UTF8) } else { '' }
+    if ($process.ExitCode -ne 0) { throw "git $($GitArguments -join ' ') failed: $stderr" }
+    return $stdout.Trim()
+  } finally {
+    Remove-Item -LiteralPath $stdoutPath -Force -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath $stderrPath -Force -ErrorAction SilentlyContinue
+  }
 }
 
 if (-not (Test-Path -LiteralPath $Worktree -PathType Container)) { throw "worktree missing: $Worktree" }
