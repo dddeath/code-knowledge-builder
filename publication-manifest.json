@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "experimental-canvas-and-record-replace-local-verification-passed-pending-push",
+  "status": "published-experimental-canvas-and-record-replace-remote-verified",
   "repository": "https://github.com/dddeath/code-knowledge-builder",
   "target_branch": "codex/release-5.4.0-stable-knowledge",
   "remote_base": "917c79094a9ff31f39900a28776a38077159638b",
@@ -105,8 +105,13 @@
     "checks": 14
   },
   "remote_clone_verification": {
-    "status": "pending",
-    "path": "delivery/remote-clone-verification-experimental.json"
+    "status": "passed",
+    "commit": "e18884bea3a259864b90b24652b071f458eab476",
+    "path": "delivery/remote-clone-verification-experimental.json",
+    "sha256": "bb74b6adf9201dd84a7812c2a86e883ebb9c8bd07df0d9a58608a9a4056b3f54",
+    "checks": 14,
+    "lfs_fsck": "passed",
+    "short_root_required_on_windows": true
   },
   "credential_scan": {
     "status": "passed",
@@ -166,7 +171,7 @@
     }
   },
   "release_update": {
-    "status": "local-prepared",
+    "status": "published-and-remote-verified",
     "source_sync": {
       "files": 869,
       "copied": 0,

@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "repository": "https://github.com/dddeath/code-knowledge-builder",
+  "branch": "codex/release-5.4.0-stable-knowledge",
+  "release_commit": "e18884bea3a259864b90b24652b071f458eab476",
+  "remote_ls_commit": "e18884bea3a259864b90b24652b071f458eab476",
+  "fresh_clone": {
+    "status": "passed",
+    "path": "E:\\ckb-rv-e188",
+    "core_longpaths": true,
+    "head": "e18884bea3a259864b90b24652b071f458eab476",
+    "working_tree_clean": true
+  },
+  "initial_long_path_probe": {
+    "status": "failed-as-expected",
+    "path": "E:\\knowledge_builder\\artifacts\\verification\\record-replace-and-experimental-canvas-release\\remote-clone-e18884b",
+    "reason": "Windows checkout path exceeded the traditional path budget",
+    "corrective_action": "repeat at a short root with core.longpaths=true"
+  },
+  "publication_verification": {
+    "status": "passed",
+    "checks": 14,
+    "failed_checks": []
+  },
+  "git_lfs_fsck": "passed",
+  "verified_behaviors": [
+    "source and knowledge manifests exact",
+    "fixed source commit current",
+    "double SQLite integrity",
+    "human/markdown mirror",
+    "five-page readability",
+    "experimental Canvas and record replacement surface",
+    "57 records, one reference, five research gaps",
+    "two learning-note originals",
+    "credential scan",
+    "all LFS objects materialized"
+  ]
+}
