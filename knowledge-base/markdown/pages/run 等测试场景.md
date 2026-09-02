@@ -17,18 +17,14 @@
 - 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
 - 实现时会用到 [[append]]。
 - 实现时会用到 [[audit_agent_protocol 与 _default_python 的协作实现]]。
+- 实现时会用到 [[audit_global 与 _replace_output_prefix 的协作实现]]。
 - 实现时会用到 [[command]]。
 - 实现时会用到 [[create_batch_plan 与 ProtocolRelease 的协作实现]]。
-- 实现时会用到 [[initialize]]。
-- 实现时会用到 [[initialize 与 _replace_output_prefix 的协作实现]]。
 - 实现时会用到 [[parser]]。
 - 主要代码单元是 [[run]]。
 
 ## 谁会来到这里
 
-- [[audit_obsidian]] 关联到这里的验证场景。
-- [[audit_obsidian 与 prepare_vault 的协作实现]] 关联到这里的验证场景。
-- [[create_batch_plan 与 ProtocolRelease 的协作实现]] 关联到这里的验证场景。
 - [[run]] 会使用这里提供的行为。
 - 可从 [[tests 职责导览]] 进入本页。
 

@@ -25,7 +25,7 @@ Claudian 固定源码通过 typecheck、lint、5 个测试套件共 33 项测试
 ## 相关知识页
 
 - [[audit_obsidian 与 prepare_vault 的协作实现]]
-- [[initialize 与 _replace_output_prefix 的协作实现]]
+- [[audit_global 与 _replace_output_prefix 的协作实现]]
 - [[preflight 与 git 的协作实现]]
 - [[keyword_provider_config 与 parser 的协作实现]]
 - [[__init__ 实现概览]]

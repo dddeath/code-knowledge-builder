@@ -16,11 +16,11 @@
 
 - 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
 - 实现时会用到 [[_Transport.close]]。
+- 实现时会用到 [[audit_global 与 _replace_output_prefix 的协作实现]]。
 - 实现时会用到 [[audit_migration]]。
 - 实现时会用到 [[audit_migration 与 _entity_key 的协作实现]]。
+- 实现时会用到 [[build_case 等测试场景]]。
 - 实现时会用到 [[execute]]。
-- 实现时会用到 [[initialize]]。
-- 实现时会用到 [[initialize 与 _replace_output_prefix 的协作实现]]。
 
 ## 谁会来到这里
 
@@ -28,11 +28,8 @@
 - [[MigrationTest 等测试场景]] 汇总了本页。
 - [[append 等测试场景]] 关联到这里的验证场景。
 - [[audit_agent_protocol]] 关联到这里的验证场景。
-- [[audit_agent_protocol 与 _default_python 的协作实现]] 关联到这里的验证场景。
 - [[audit_feedback]] 关联到这里的验证场景。
-- [[audit_feedback 与 _contains_chinese 的协作实现]] 关联到这里的验证场景。
 - [[audit_gap_register 与 _root 的协作实现]] 关联到这里的验证场景。
-- [[audit_migration]] 关联到这里的验证场景。
 - [[audit_migration 与 _entity_key 的协作实现]] 关联到这里的验证场景。
 - [[audit_obsidian]] 关联到这里的验证场景。
 - [[audit_obsidian 与 prepare_vault 的协作实现]] 关联到这里的验证场景。
@@ -43,12 +40,10 @@
 - [[audit_work_record_index]] 关联到这里的验证场景。
 - [[audit_work_record_index 与 _contains_chinese 的协作实现]] 关联到这里的验证场景。
 - [[doctor_report 与 _version_matches 的协作实现]] 关联到这里的验证场景。
-- [[initialize]] 关联到这里的验证场景。
 - [[keyword_provider_config 与 parser 的协作实现]] 关联到这里的验证场景。
 - [[load_page_config]] 关联到这里的验证场景。
 - [[load_page_config 与 _merge_known 的协作实现]] 关联到这里的验证场景。
 - [[module_name]] 关联到这里的验证场景。
-- [[normalize]] 关联到这里的验证场景。
 - [[parse_file]] 关联到这里的验证场景。
 - [[parse_file 与 _language 的协作实现]] 关联到这里的验证场景。
 - [[parser]] 关联到这里的验证场景。
@@ -56,10 +51,9 @@
 - [[preflight 与 git 的协作实现]] 关联到这里的验证场景。
 - [[query_graph 与 _networkx_modules 的协作实现]] 关联到这里的验证场景。
 - [[record_note]] 关联到这里的验证场景。
-- [[record_note 与 page_tag 的协作实现]] 关联到这里的验证场景。
 - [[refresh]] 关联到这里的验证场景。
 - [[register_obsidian_plugin 与 default_obsidian_plugin_registry 的协作实现]] 关联到这里的验证场景。
-- [[run_keyword_provider 与 KeywordProviderConfig 的协作实现]] 关联到这里的验证场景。
+- [[sample 等测试场景]] 关联到这里的验证场景。
 - [[sync_human_layer]] 关联到这里的验证场景。
 - [[sync_human_layer 与 _source_manifest 的协作实现]] 关联到这里的验证场景。
 

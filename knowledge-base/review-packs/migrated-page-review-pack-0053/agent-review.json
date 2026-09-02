@@ -1,0 +1,35 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0053",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-02T02:38:07Z",
+  "reviews": [
+    {
+      "entity_id": "file-620d06607ecd50f5a39a330bbed0bf9b",
+      "classification": "page",
+      "owner_page_id": "file-620d06607ecd50f5a39a330bbed0bf9b",
+      "source_path": "tests/test_scope_extension.py",
+      "start_line": 1,
+      "end_line": 423,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_scope_extension.py` 第 1-423 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`tests/test_scope_extension.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
+      "role_zh": "负责以可执行样例验证 `test_scope_extension.py` 覆盖的成功行为、失败边界和回归约束。",
+      "change_when_zh": "当 `tests/test_scope_extension.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "classification": "page",
+      "owner_page_id": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "source_path": "tests/test_scope_extension.py",
+      "start_line": 63,
+      "end_line": 418,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_scope_extension.py` 第 63-418 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`ScopeExtensionTest` 是 `tests/test_scope_extension.py` 第 63-418 行定义的类，本页绑定该固定源码范围。",
+      "role_zh": "该类作为可执行验证入口，检查标识符 `ScopeExtensionTest` 所指的行为与失败边界。",
+      "change_when_zh": "当被测行为、输入夹具、断言或失败条件变化时，应同步更新 `ScopeExtensionTest` 的说明。"
+    }
+  ]
+}

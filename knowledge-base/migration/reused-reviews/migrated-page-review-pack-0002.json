@@ -3,59 +3,33 @@
   "pack_id": "migrated-page-review-pack-0002",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-01T05:15:22Z",
+  "reviewed_at_utc": "2026-09-02T02:36:22Z",
   "reviews": [
     {
-      "entity_id": "file-1cae4d6581415d46a0184780ef8c1d58",
+      "entity_id": "file-5c9d67f4649c5cde977f08b53d1fa732",
       "classification": "page",
-      "owner_page_id": "file-1cae4d6581415d46a0184780ef8c1d58",
-      "source_path": "scripts/ckb_core/common.py",
+      "owner_page_id": "file-5c9d67f4649c5cde977f08b53d1fa732",
+      "source_path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
       "start_line": 1,
-      "end_line": 168,
+      "end_line": 181,
       "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/common.py` 第 1 至 168 行，核对 `scripts/ckb_core/common.py` 的签名、分支和数据流后写出本条简体中文说明。",
-      "meaning_zh": "`scripts/ckb_core/common.py` 是 `scripts/ckb_core/common.py` 中负责汇总并提供路径、时间、JSON、哈希、进程与通用错误处理的文件入口。",
-      "role_zh": "它按源码所示的参数、条件分支和数据结构完成汇总并提供路径、时间、JSON、哈希、进程与通用错误处理，并把确定结果交给调用方或后续审计、索引、投影阶段。",
-      "change_when_zh": "当路径、时间、JSON、哈希、进程与通用错误处理的输入格式、状态规则、错误处理或输出契约变化时，需要修改该代码单元并复核对应测试。"
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `references/design/obsidian-canvas-agent-visualization/verification/validate_design.py` 第 1-181 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "meaning_zh": "`references/design/obsidian-canvas-agent-visualization/verification/validate_design.py` 页面绑定固定源码第 1-181 行，说明该文件在Canvas 设计 schema、fixture、链接和 benchmark 合同验证中的整体职责。",
+      "role_zh": "该文件负责Canvas 设计 schema、fixture、链接和 benchmark 合同验证，并为相关命令或测试提供可复查实现入口。",
+      "change_when_zh": "当 `references/design/obsidian-canvas-agent-visualization/verification/validate_design.py` 中 `references/design/obsidian-canvas-agent-visualization/verification/validate_design.py` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
     },
     {
-      "entity_id": "ent-c560a893671e52c086e12cafdceff0e6",
+      "entity_id": "ent-a3f5a4f419825475bd3ea017a1214d93",
       "classification": "page",
-      "owner_page_id": "ent-c560a893671e52c086e12cafdceff0e6",
-      "source_path": "scripts/ckb_core/common.py",
-      "start_line": 24,
-      "end_line": 25,
+      "owner_page_id": "ent-a3f5a4f419825475bd3ea017a1214d93",
+      "source_path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
+      "start_line": 31,
+      "end_line": 69,
       "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/common.py` 第 24 至 25 行，核对 `CkbError` 的签名、分支和数据流后写出本条简体中文说明。",
-      "meaning_zh": "`CkbError` 是 `scripts/ckb_core/common.py` 中负责为 CKB 输入或状态错误提供固定进程退出码的类。",
-      "role_zh": "它按源码所示的参数、条件分支和数据结构完成为 CKB 输入或状态错误提供固定进程退出码，并把确定结果交给调用方或后续审计、索引、投影阶段。",
-      "change_when_zh": "当路径、时间、JSON、哈希、进程与通用错误处理的输入格式、状态规则、错误处理或输出契约变化时，需要修改该代码单元并复核对应测试。"
-    },
-    {
-      "entity_id": "file-74ca13a463b55b5abd79f0536a0307b0",
-      "classification": "page",
-      "owner_page_id": "file-74ca13a463b55b5abd79f0536a0307b0",
-      "source_path": "scripts/ckb_core/feedback.py",
-      "start_line": 1,
-      "end_line": 595,
-      "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 1 至 595 行，核对 `scripts/ckb_core/feedback.py` 的签名、分支和数据流后写出本条简体中文说明。",
-      "meaning_zh": "`scripts/ckb_core/feedback.py` 是 `scripts/ckb_core/feedback.py` 中负责汇总并提供定位式人工反馈的创建、重定位、审计与归档的文件入口。",
-      "role_zh": "它按源码所示的参数、条件分支和数据结构完成汇总并提供定位式人工反馈的创建、重定位、审计与归档，并把确定结果交给调用方或后续审计、索引、投影阶段。",
-      "change_when_zh": "当定位式人工反馈的创建、重定位、审计与归档的输入格式、状态规则、错误处理或输出契约变化时，需要修改该代码单元并复核对应测试。"
-    },
-    {
-      "entity_id": "ent-1d39604dd33850f5983092a5f7690b9d",
-      "classification": "page",
-      "owner_page_id": "ent-1d39604dd33850f5983092a5f7690b9d",
-      "source_path": "scripts/ckb_core/feedback.py",
-      "start_line": 437,
-      "end_line": 545,
-      "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 437 至 545 行，核对 `audit_feedback` 的签名、分支和数据流后写出本条简体中文说明。",
-      "meaning_zh": "`audit_feedback` 是 `scripts/ckb_core/feedback.py` 中负责检查反馈锚点、状态、镜像、归档与落实记录的一致性的函数。",
-      "role_zh": "它按源码所示的参数、条件分支和数据结构完成检查反馈锚点、状态、镜像、归档与落实记录的一致性，并把确定结果交给调用方或后续审计、索引、投影阶段。",
-      "change_when_zh": "当定位式人工反馈的创建、重定位、审计与归档的输入格式、状态规则、错误处理或输出契约变化时，需要修改该代码单元并复核对应测试。"
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `references/design/obsidian-canvas-agent-visualization/verification/validate_design.py` 第 31-69 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "meaning_zh": "`validate` 位于 `references/design/obsidian-canvas-agent-visualization/verification/validate_design.py` 第 31-69 行，本页用固定源码范围说明它如何校验输入、状态、证据或输出合同。",
+      "role_zh": "`validate` 负责在Canvas 设计 schema、fixture、链接和 benchmark 合同验证中校验输入、状态、证据或输出合同。",
+      "change_when_zh": "当 `references/design/obsidian-canvas-agent-visualization/verification/validate_design.py` 中 `validate` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
     }
   ]
 }

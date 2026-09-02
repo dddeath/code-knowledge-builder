@@ -25,19 +25,18 @@
 
 ## 谁会来到这里
 
+- [[audit_global]] 会使用这里提供的行为。
 - [[audit_references 与 _root 的协作实现]] 汇总了本页。
 - [[create_knowledge_batch_plan 与 KnowledgeRelease 的协作实现]] 会使用这里提供的行为。
-- [[initialize 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 - [[maintenance_check]] 会使用这里提供的行为。
-- [[main（ckb 实现）]] 会使用这里提供的行为。
 
 ## 相关测试
 
 - [[CodeKnowledgeBuilderTests]]
 - [[CodeKnowledgeBuilderTests 等测试场景]]
+- [[HumanPageTemplateValidationTests]]
 - [[KeywordFallbackRetrievalWiringTests]]
 - [[MigrationTest]]
-- [[ScopeExtensionTest]]
-- [[append 等测试场景]]
+- [[RecordReplaceTests]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。

@@ -1,0 +1,232 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-09-02T00:00:00+08:00",
+  "research_baseline": "150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3",
+  "evidence_states": [
+    "source-confirmed",
+    "repository-test-present-not-run",
+    "reasonable-inference",
+    "prototype-required",
+    "excluded"
+  ],
+  "official_sources": [
+    {
+      "name": "Obsidian Canvas help",
+      "version_or_commit": "current page checked 2026-09-02",
+      "license": "Obsidian application terms",
+      "url": "https://obsidian.md/help/plugins/canvas",
+      "evidence_state": "source-confirmed"
+    },
+    {
+      "name": "JSON Canvas specification",
+      "version_or_commit": "1.0; spec last commit cb29ef61788cf430f3deb7ed3501110ed5bced7c; repo HEAD 456f843cb293df4f4ab1763e22ccb46a80b307c8",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/obsidianmd/jsoncanvas/main/spec/1.0.md",
+      "repository_url": "https://github.com/obsidianmd/jsoncanvas",
+      "repository_api_url": "https://api.github.com/repos/obsidianmd/jsoncanvas",
+      "head_api_url": "https://api.github.com/repos/obsidianmd/jsoncanvas/commits/main",
+      "evidence_state": "source-confirmed"
+    },
+    {
+      "name": "Obsidian Canvas API types",
+      "version_or_commit": "cc1744324150c632416857c98964f87b1574a5fc; Obsidian API 1.13.2",
+      "license": "MIT",
+      "url": "https://raw.githubusercontent.com/obsidianmd/obsidian-api/cc1744324150c632416857c98964f87b1574a5fc/canvas.d.ts",
+      "evidence_state": "source-confirmed"
+    },
+    {
+      "name": "Obsidian Terms of Service",
+      "version_or_commit": "current page checked 2026-09-02",
+      "license": "application license terms",
+      "url": "https://obsidian.md/terms",
+      "evidence_state": "source-confirmed"
+    },
+    {
+      "name": "Model Context Protocol",
+      "version_or_commit": "2026-07-28",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic",
+      "transport_url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/transports",
+      "evidence_state": "source-confirmed"
+    },
+    {
+      "name": "OpenAI Build skills",
+      "version_or_commit": "current page checked 2026-09-02",
+      "url": "https://learn.chatgpt.com/docs/build-skills",
+      "evidence_state": "source-confirmed"
+    },
+    {
+      "name": "OpenAI Codex MCP",
+      "version_or_commit": "current page checked 2026-09-02",
+      "url": "https://learn.chatgpt.com/docs/extend/mcp?surface=cli",
+      "evidence_state": "source-confirmed"
+    },
+    {
+      "name": "OpenAI Visualizations",
+      "version_or_commit": "current page checked 2026-09-02",
+      "url": "https://learn.chatgpt.com/docs/visualizations",
+      "evidence_state": "source-confirmed"
+    }
+  ],
+  "candidates": [
+    {
+      "name": "coddingtonbear/obsidian-local-rest-api",
+      "kind": "obsidian-companion-mcp",
+      "version": "5.1.0",
+      "commit": "209eff08154374bbec02142ab8e763e68fb0d13b",
+      "commit_date": "2026-08-31T02:21:03Z",
+      "release": "5.1.0",
+      "release_date": "2026-08-01T00:00:43Z",
+      "license": "MIT",
+      "runtime": "Obsidian desktop plugin; Streamable HTTP",
+      "authentication": "Bearer API key",
+      "read_scope": "current vault",
+      "write_scope": "current vault; generic file operations",
+      "canvas_support": "generic UTF-8 file read/write only; no JSON Canvas schema",
+      "repository_url": "https://github.com/coddingtonbear/obsidian-local-rest-api",
+      "manifest_url": "https://raw.githubusercontent.com/coddingtonbear/obsidian-local-rest-api/209eff08154374bbec02142ab8e763e68fb0d13b/manifest.json",
+      "source_url": "https://raw.githubusercontent.com/coddingtonbear/obsidian-local-rest-api/209eff08154374bbec02142ab8e763e68fb0d13b/src/mcpHandler.ts",
+      "test_url": "https://raw.githubusercontent.com/coddingtonbear/obsidian-local-rest-api/209eff08154374bbec02142ab8e763e68fb0d13b/src/integration/mcp.test.ts",
+      "release_url": "https://github.com/coddingtonbear/obsidian-local-rest-api/releases/tag/5.1.0",
+      "evidence_state": [
+        "source-confirmed",
+        "repository-test-present-not-run",
+        "prototype-required"
+      ]
+    },
+    {
+      "name": "cyanheads/obsidian-mcp-server",
+      "kind": "external-obsidian-mcp",
+      "version": "3.5.0",
+      "commit": "030e7b9b2233616387adf412ff6871577883dbd1",
+      "commit_date": "2026-08-22T16:19:22Z",
+      "release": "v3.5.0",
+      "release_date": "2026-08-22T16:20:31Z",
+      "license": "Apache-2.0",
+      "runtime": "local Node/Bun; stdio or Streamable HTTP; wraps Local REST API",
+      "authentication": "Local REST API bearer key; optional MCP HTTP auth",
+      "read_scope": "OBSIDIAN_READ_PATHS or full vault",
+      "write_scope": "OBSIDIAN_WRITE_PATHS or full vault; OBSIDIAN_READ_ONLY kill switch",
+      "canvas_support": "JSON whole-file write is a reasonable inference; no Canvas-specific tool or test",
+      "repository_url": "https://github.com/cyanheads/obsidian-mcp-server",
+      "manifest_url": "https://raw.githubusercontent.com/cyanheads/obsidian-mcp-server/030e7b9b2233616387adf412ff6871577883dbd1/manifest.json",
+      "config_url": "https://raw.githubusercontent.com/cyanheads/obsidian-mcp-server/030e7b9b2233616387adf412ff6871577883dbd1/src/config/server-config.ts",
+      "source_url": "https://raw.githubusercontent.com/cyanheads/obsidian-mcp-server/030e7b9b2233616387adf412ff6871577883dbd1/src/mcp-server/tools/definitions/obsidian-write-note.tool.ts",
+      "test_url": "https://raw.githubusercontent.com/cyanheads/obsidian-mcp-server/030e7b9b2233616387adf412ff6871577883dbd1/tests/tools/obsidian-write-note.test.ts",
+      "release_url": "https://github.com/cyanheads/obsidian-mcp-server/releases/tag/v3.5.0",
+      "evidence_state": [
+        "source-confirmed",
+        "repository-test-present-not-run",
+        "reasonable-inference",
+        "prototype-required"
+      ]
+    },
+    {
+      "name": "MarkusPfundstein/mcp-obsidian",
+      "kind": "external-obsidian-mcp",
+      "version": "0.2.2",
+      "commit": "5ee0b84fa8319fd2fdf0db0ee1febb065e712a15",
+      "commit_date": "2026-08-31T11:49:01Z",
+      "release": null,
+      "license": "MIT",
+      "runtime": "local Python stdio; wraps Local REST API",
+      "authentication": "OBSIDIAN_API_KEY environment variable",
+      "read_scope": "full configured vault",
+      "write_scope": "full configured vault; delete requires confirm=true",
+      "canvas_support": "generic file overwrite only; no JSON Canvas schema",
+      "repository_url": "https://github.com/MarkusPfundstein/mcp-obsidian",
+      "package_url": "https://raw.githubusercontent.com/MarkusPfundstein/mcp-obsidian/5ee0b84fa8319fd2fdf0db0ee1febb065e712a15/pyproject.toml",
+      "source_url": "https://raw.githubusercontent.com/MarkusPfundstein/mcp-obsidian/5ee0b84fa8319fd2fdf0db0ee1febb065e712a15/src/mcp_obsidian/tools.py",
+      "test_url": "https://raw.githubusercontent.com/MarkusPfundstein/mcp-obsidian/5ee0b84fa8319fd2fdf0db0ee1febb065e712a15/tests/test_tools.py",
+      "evidence_state": [
+        "source-confirmed",
+        "repository-test-present-not-run",
+        "reasonable-inference",
+        "prototype-required"
+      ]
+    },
+    {
+      "name": "Cam10001110101/obsidian-jsoncanvas",
+      "kind": "json-canvas-mcp",
+      "version": "0.2.0",
+      "commit": "687b8a1e15b4b83dfac87a981d9660b6017e1d48",
+      "commit_date": "2026-05-21T17:44:49Z",
+      "release": null,
+      "license": "MIT",
+      "runtime": "local Python; stdio or Streamable HTTP",
+      "authentication": "none in server; default HTTP bind 127.0.0.1 with Origin validation",
+      "read_scope": "basename-only .canvas files inside OUTPUT_PATH",
+      "write_scope": "basename-only .canvas files inside OUTPUT_PATH",
+      "canvas_support": "create, validate, read, list, edit, export, search JSON Canvas 1.0",
+      "repository_url": "https://github.com/Cam10001110101/obsidian-jsoncanvas",
+      "package_url": "https://raw.githubusercontent.com/Cam10001110101/obsidian-jsoncanvas/687b8a1e15b4b83dfac87a981d9660b6017e1d48/pyproject.toml",
+      "server_manifest_url": "https://raw.githubusercontent.com/Cam10001110101/obsidian-jsoncanvas/687b8a1e15b4b83dfac87a981d9660b6017e1d48/server.json",
+      "source_url": "https://raw.githubusercontent.com/Cam10001110101/obsidian-jsoncanvas/687b8a1e15b4b83dfac87a981d9660b6017e1d48/jsoncanvas/server.py",
+      "test_url": "https://raw.githubusercontent.com/Cam10001110101/obsidian-jsoncanvas/687b8a1e15b4b83dfac87a981d9660b6017e1d48/tests/test_server.py",
+      "evidence_state": [
+        "source-confirmed",
+        "repository-test-present-not-run",
+        "prototype-required"
+      ]
+    },
+    {
+      "name": "bazylhorsey/obsidian-mcp-server",
+      "kind": "direct-vault-canvas-mcp",
+      "version": "1.0.0",
+      "commit": "ba06b16757467b5a0acf5eebc71398213c254ede",
+      "commit_date": "2025-10-16T22:06:10Z",
+      "release": null,
+      "license": "package claims MIT; repository LICENSE missing; GitHub SPDX null",
+      "runtime": "local Node with vault filesystem access",
+      "authentication": "not sufficiently established for CKB use",
+      "read_scope": "configured vault path",
+      "write_scope": "configured vault path",
+      "canvas_support": "direct Canvas read/write and node/edge mutation; no Canvas-specific test file found",
+      "repository_url": "https://github.com/bazylhorsey/obsidian-mcp-server",
+      "package_url": "https://raw.githubusercontent.com/bazylhorsey/obsidian-mcp-server/ba06b16757467b5a0acf5eebc71398213c254ede/package.json",
+      "source_url": "https://raw.githubusercontent.com/bazylhorsey/obsidian-mcp-server/ba06b16757467b5a0acf5eebc71398213c254ede/src/services/CanvasService.ts",
+      "evidence_state": [
+        "source-confirmed",
+        "excluded"
+      ]
+    },
+    {
+      "name": "kepano/obsidian-skills/json-canvas",
+      "kind": "agent-skill",
+      "version": null,
+      "commit": "a1dc48e68138490d522c04cbf5822214c6eb1202",
+      "commit_date": "2026-06-08T16:12:01Z",
+      "release": null,
+      "license": "MIT",
+      "runtime": "skills-compatible agent host",
+      "authentication": "none; inherits host filesystem permissions",
+      "read_scope": "host-selected files",
+      "write_scope": "host-selected files",
+      "canvas_support": "instruction workflow for JSON Canvas 1.0 creation, edit, ID and edge validation",
+      "repository_url": "https://github.com/kepano/obsidian-skills",
+      "source_url": "https://raw.githubusercontent.com/kepano/obsidian-skills/a1dc48e68138490d522c04cbf5822214c6eb1202/skills/json-canvas/SKILL.md",
+      "evidence_state": [
+        "source-confirmed",
+        "prototype-required"
+      ]
+    },
+    {
+      "name": "OpenAI visualize",
+      "kind": "host-visualization-skill",
+      "version": "1.0.23",
+      "commit": null,
+      "license": "Proprietary",
+      "runtime": "supported ChatGPT/Codex desktop conversation host",
+      "authentication": "host-managed",
+      "read_scope": "conversation inputs and host-granted local files",
+      "write_scope": "thread visualization directory",
+      "canvas_support": "none; Mermaid or host-rendered HTML visualization, not JSON Canvas",
+      "official_url": "https://learn.chatgpt.com/docs/visualizations",
+      "local_manifest": "C:\\Users\\19739\\.codex\\plugins\\cache\\openai-bundled\\visualize\\1.0.23\\.codex-plugin\\plugin.json",
+      "local_skill": "C:\\Users\\19739\\.codex\\plugins\\cache\\openai-bundled\\visualize\\1.0.23\\skills\\visualize\\SKILL.md",
+      "evidence_state": [
+        "source-confirmed",
+        "excluded"
+      ]
+    }
+  ]
+}

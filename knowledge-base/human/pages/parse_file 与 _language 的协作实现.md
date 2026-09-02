@@ -20,7 +20,6 @@
 
 ## 谁会来到这里
 
-- [[initialize]] 会使用这里提供的行为。
 - [[parse_file]] 会使用这里提供的行为。
 - 可从 [[scripts 职责导览]] 进入本页。
 
@@ -31,7 +30,7 @@
 - [[MigrationTest 等测试场景]]
 - [[ScopeExtensionTest]]
 - [[ScopeExtensionTest 等测试场景]]
-- [[command 等测试场景]]
+- [[build_manual_index 等测试场景]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 

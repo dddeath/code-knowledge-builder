@@ -1,0 +1,48 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0047",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-02T02:37:43Z",
+  "reviews": [
+    {
+      "entity_id": "file-c77b586485cb591089a955bf48a9e75f",
+      "classification": "page",
+      "owner_page_id": "file-c77b586485cb591089a955bf48a9e75f",
+      "source_path": "tests/test_human_page_authoring.py",
+      "start_line": 1,
+      "end_line": 509,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_human_page_authoring.py` 第 1-509 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "meaning_zh": "`tests/test_human_page_authoring.py` 页面绑定固定源码第 1-509 行，说明该文件在页面候选的初始化、检查、渲染、验证和隔离打包中的整体职责。",
+      "role_zh": "该文件负责页面候选的初始化、检查、渲染、验证和隔离打包，并为相关命令或测试提供可复查实现入口。",
+      "change_when_zh": "当 `tests/test_human_page_authoring.py` 中 `tests/test_human_page_authoring.py` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "ent-2bc8a258c9995cb1920f55db99628932",
+      "classification": "page",
+      "owner_page_id": "ent-2bc8a258c9995cb1920f55db99628932",
+      "source_path": "tests/test_human_page_authoring.py",
+      "start_line": 416,
+      "end_line": 504,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_human_page_authoring.py` 第 416-504 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "meaning_zh": "`HumanPageAuthoringPackageTests` 位于 `tests/test_human_page_authoring.py` 第 416-504 行，本页用固定源码范围说明它如何验证目标行为、失败分类和回归边界。",
+      "role_zh": "`HumanPageAuthoringPackageTests` 负责在页面候选的初始化、检查、渲染、验证和隔离打包中验证目标行为、失败分类和回归边界。",
+      "change_when_zh": "当 `tests/test_human_page_authoring.py` 中 `HumanPageAuthoringPackageTests` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "file-2e1c756693165c03bc2d68e9ed098ead",
+      "classification": "page",
+      "owner_page_id": "file-2e1c756693165c03bc2d68e9ed098ead",
+      "source_path": "tests/test_human_page_template_proposals.py",
+      "start_line": 1,
+      "end_line": 353,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_human_page_template_proposals.py` 第 1-353 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "meaning_zh": "`tests/test_human_page_template_proposals.py` 页面绑定固定源码第 1-353 行，说明该文件在输出局部模板提议、人工审计、事件重放和回滚中的整体职责。",
+      "role_zh": "该文件负责输出局部模板提议、人工审计、事件重放和回滚，并为相关命令或测试提供可复查实现入口。",
+      "change_when_zh": "当 `tests/test_human_page_template_proposals.py` 中 `tests/test_human_page_template_proposals.py` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
+    }
+  ]
+}

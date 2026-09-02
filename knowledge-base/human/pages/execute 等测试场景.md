@@ -23,12 +23,10 @@
 ## 谁会来到这里
 
 - [[Box 等测试场景（main 测试）]] 关联到这里的验证场景。
-- [[_Transport.close 与 _StartGate 的协作实现]] 关联到这里的验证场景。
 - [[append 等测试场景]] 关联到这里的验证场景。
 - [[bind_conversation]] 关联到这里的验证场景。
 - [[keyword_provider_config 与 parser 的协作实现]] 关联到这里的验证场景。
 - [[parser]] 关联到这里的验证场景。
-- [[refresh]] 关联到这里的验证场景。
 - 可从 [[tests 职责导览]] 进入本页。
 
 ## 内部细节

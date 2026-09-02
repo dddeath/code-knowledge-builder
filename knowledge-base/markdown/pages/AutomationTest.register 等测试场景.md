@@ -36,21 +36,25 @@
 - [[append]] 关联到这里的验证场景。
 - [[audit_feedback 与 _contains_chinese 的协作实现]] 关联到这里的验证场景。
 - [[audit_gap_register 与 _root 的协作实现]] 关联到这里的验证场景。
+- [[audit_global]] 关联到这里的验证场景。
+- [[audit_global 与 _replace_output_prefix 的协作实现]] 关联到这里的验证场景。
 - [[audit_migration]] 关联到这里的验证场景。
 - [[audit_operation_journal 与 _root 的协作实现]] 关联到这里的验证场景。
 - [[audit_references 与 _root 的协作实现]] 关联到这里的验证场景。
 - [[audit_work_record_index]] 关联到这里的验证场景。
 - [[audit_work_record_index 与 _contains_chinese 的协作实现]] 关联到这里的验证场景。
 - [[bind_conversation 与 default_management_registry_path 的协作实现]] 关联到这里的验证场景。
+- [[build_case 等测试场景]] 关联到这里的验证场景。
+- [[ckb_canvas 的协作边界]] 关联到这里的验证场景。
 - [[command]] 关联到这里的验证场景。
+- [[contracts 的协作边界]] 关联到这里的验证场景。
 - [[doctor_report 与 _version_matches 的协作实现]] 关联到这里的验证场景。
 - [[emit]] 关联到这里的验证场景。
 - [[execute]] 关联到这里的验证场景。
+- [[graph 的协作边界]] 关联到这里的验证场景。
 - [[ingest_event]] 关联到这里的验证场景。
 - [[ingest_event 与 default_registry_path 的协作实现]] 关联到这里的验证场景。
-- [[initialize 与 _replace_output_prefix 的协作实现]] 关联到这里的验证场景。
 - [[module_name 与 estimated_tokens 的协作实现]] 关联到这里的验证场景。
-- [[normalize]] 关联到这里的验证场景。
 - [[record_note]] 关联到这里的验证场景。
 - [[record_note 与 page_tag 的协作实现]] 关联到这里的验证场景。
 - [[render_integration]] 关联到这里的验证场景。
@@ -59,6 +63,8 @@
 - [[retrieve 与 _tokens 的协作实现]] 关联到这里的验证场景。
 - [[retrieve_machine]] 关联到这里的验证场景。
 - [[retrieve_machine 与 estimated_tokens 的协作实现]] 关联到这里的验证场景。
+- [[rollback]] 关联到这里的验证场景。
+- [[rollback 与 RenderedBundle 的协作实现]] 关联到这里的验证场景。
 - [[run_keyword_provider]] 关联到这里的验证场景。
 - [[run_keyword_provider 与 KeywordProviderConfig 的协作实现]] 关联到这里的验证场景。
 - [[search_terms]] 关联到这里的验证场景。
@@ -66,6 +72,8 @@
 - [[start_scope_extension 与 _error 的协作实现]] 关联到这里的验证场景。
 - [[sync_human_layer 与 _source_manifest 的协作实现]] 关联到这里的验证场景。
 - 可从 [[tests 职责导览]] 进入本页。
+- [[transaction 的协作边界]] 关联到这里的验证场景。
+- [[validate]] 关联到这里的验证场景。
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 

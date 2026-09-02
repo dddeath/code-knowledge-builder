@@ -20,8 +20,8 @@
 - 实现时会用到 [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]]。
 - 实现时会用到 [[_Transport.close]]。
 - 实现时会用到 [[append]]。
+- 实现时会用到 [[audit_global 与 _replace_output_prefix 的协作实现]]。
 - 实现时会用到 [[execute]]。
-- 实现时会用到 [[initialize 与 _replace_output_prefix 的协作实现]]。
 - 主要代码单元是 [[retrieve]]。
 - 实现时会用到 [[search_terms 与 _split_camel 的协作实现]]。
 
@@ -42,7 +42,7 @@
 - [[AutomationTest.register 等测试场景]]
 - [[CodeKnowledgeBuilderTests]]
 - [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[KeywordFallbackRetrievalWiringTests]]
+- [[HumanPageTemplateValidationTests]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 

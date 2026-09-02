@@ -1,0 +1,22 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0015",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-02T02:36:38Z",
+  "reviews": [
+    {
+      "entity_id": "ent-e5f53bf02cee53128cce6d6afc4d06a0",
+      "classification": "page",
+      "owner_page_id": "ent-e5f53bf02cee53128cce6d6afc4d06a0",
+      "source_path": "scripts/ckb_core/human_page_template_proposals.py",
+      "start_line": 988,
+      "end_line": 1045,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `scripts/ckb_core/human_page_template_proposals.py` 第 988-1045 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "meaning_zh": "`propose_template` 位于 `scripts/ckb_core/human_page_template_proposals.py` 第 988-1045 行，本页用固定源码范围说明它如何完成输出局部模板提议、人工审计、事件重放和回滚中的局部职责。",
+      "role_zh": "`propose_template` 负责在输出局部模板提议、人工审计、事件重放和回滚中完成输出局部模板提议、人工审计、事件重放和回滚中的局部职责。",
+      "change_when_zh": "当 `scripts/ckb_core/human_page_template_proposals.py` 中 `propose_template` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
+    }
+  ]
+}

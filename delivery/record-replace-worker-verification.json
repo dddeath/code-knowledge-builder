@@ -1,0 +1,393 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "branch": "codex/record-body-replace",
+  "baseline": "d20b81bc328ec400524fd993ba4a9629c1fd246d",
+  "head": "a1f42418e747858f142956aab6d83924b557b5d7",
+  "merge_base": "d20b81bc328ec400524fd993ba4a9629c1fd246d",
+  "commits": [
+    [
+      "47eea9f184ef7e38861e8d31f18817b8ac126075",
+      "feat(record): add transactional body replacement"
+    ],
+    [
+      "464e12495afe023f88b96c767e26b222b9c7d0ab",
+      "test(record): cover replace rollback and failures"
+    ],
+    [
+      "37f42c445a2dd218e9fa51b50dd5228adbf0af47",
+      "fix(record): keep journal evidence output-relative"
+    ],
+    [
+      "a1f42418e747858f142956aab6d83924b557b5d7",
+      "fix(record): make replacement lock owner-safe"
+    ]
+  ],
+  "changed_paths": [
+    "scripts/ckb.py",
+    "scripts/ckb_core/operation_journal.py",
+    "scripts/ckb_core/record_replace.py",
+    "scripts/ckb_core/workspace_notes.py",
+    "tests/test_record_replace.py"
+  ],
+  "cli_contract": {
+    "replace": "record --out OUTPUT --kind KIND --title TITLE --body BODY --replace [--link PAGE ...] [--from-query RECORD | --from-pack RECORD]",
+    "rollback": "record-rollback --out OUTPUT --manifest MANIFEST",
+    "mutual_exclusion": "--replace and --append are mutually exclusive",
+    "evidence": "explicit evidence replaces associations; omission preserves reviewed links",
+    "target": "exact kind/title managed record only"
+  },
+  "owner_lock_contract": {
+    "schema_version": 1,
+    "fields": [
+      "schema_version",
+      "owner_pid",
+      "owner_token",
+      "owner_process_start",
+      "owner_host",
+      "created_at_utc"
+    ],
+    "descriptor_lock": "OS-released nonblocking descriptor lock reused from agent_protocol_batch",
+    "live_owner": "never recovered solely because mtime is old",
+    "dead_or_pid_reused_owner": "recovered only after stale threshold and positive identity classification",
+    "invalid_foreign_host_or_unverifiable_owner": "remains busy",
+    "release": "same file plus owner token checked; drift leaves the newer lock in place",
+    "timeout_seconds": 30.0,
+    "stale_seconds": 120.0,
+    "test_scenarios": {
+      "aged_live_cross_process": "passed",
+      "dead_cross_process_recovery": "passed",
+      "unverifiable_stale_record_not_recovered": "passed",
+      "cross_process_release_token_drift_preserves_lock": "passed"
+    }
+  },
+  "promotion_order": [
+    "human-note",
+    "markdown-note",
+    "note-metadata",
+    "human-records",
+    "markdown-records",
+    "work-record-index-audit",
+    "agent-index-note",
+    "machine-knowledge-note",
+    "operation-journal"
+  ],
+  "rollback_contract": {
+    "manifest_schema_version": 1,
+    "operation_id": "record-replace-eff567ae74a55b55b6d0226294032ed8",
+    "current_manifest_status": "rolled-back",
+    "rollback_command": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\python\\python.exe' 'E:\\knowledge_builder\\self-workspace\\worktrees\\record-body-replace\\scripts\\ckb.py' 'record-rollback' '--out' 'E:\\knowledge_builder\\artifacts\\handoffs\\20260902-record-body-replace\\worker-delivery\\e2e-fixture\\output' '--manifest' 'E:\\knowledge_builder\\artifacts\\handoffs\\20260902-record-body-replace\\worker-delivery\\e2e-fixture\\output\\workspace-meta\\record-replace\\record-replace-eff567ae74a55b55b6d0226294032ed8\\manifest.json'",
+    "rollback_argv": [
+      "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\python\\python.exe",
+      "E:\\knowledge_builder\\self-workspace\\worktrees\\record-body-replace\\scripts\\ckb.py",
+      "record-rollback",
+      "--out",
+      "E:\\knowledge_builder\\artifacts\\handoffs\\20260902-record-body-replace\\worker-delivery\\e2e-fixture\\output",
+      "--manifest",
+      "E:\\knowledge_builder\\artifacts\\handoffs\\20260902-record-body-replace\\worker-delivery\\e2e-fixture\\output\\workspace-meta\\record-replace\\record-replace-eff567ae74a55b55b6d0226294032ed8\\manifest.json"
+    ],
+    "drift_guard": "six file SHA-256 values and two SQLite target logical digests",
+    "idempotency": "second call returns rolled-back/idempotent=true"
+  },
+  "verified_behaviors": {
+    "baseline": "old text exists once before replacement",
+    "modified": "old text absent and new text once in mirrors and SQLite target documents",
+    "replace_maintain": {
+      "status": "passed",
+      "failed_checks": [],
+      "page_writes": 0
+    },
+    "rollback_first": {
+      "schema_version": 1,
+      "status": "rolled-back",
+      "idempotent": false,
+      "operation_id": "record-replace-eff567ae74a55b55b6d0226294032ed8",
+      "manifest": "E:\\knowledge_builder\\artifacts\\handoffs\\20260902-record-body-replace\\worker-delivery\\e2e-fixture\\output\\workspace-meta\\record-replace\\record-replace-eff567ae74a55b55b6d0226294032ed8\\manifest.json",
+      "restored_roles": [
+        "human-note",
+        "markdown-note",
+        "note-metadata",
+        "human-records",
+        "markdown-records",
+        "work-record-index-audit",
+        "agent-index-note",
+        "machine-knowledge-note"
+      ],
+      "operation_journal": {
+        "status": "passed",
+        "event_id": "operation-d3f530a1ef5b500983dd9e5fc38ab8c5",
+        "idempotent": false,
+        "journal": "E:\\knowledge_builder\\artifacts\\handoffs\\20260902-record-body-replace\\worker-delivery\\e2e-fixture\\output\\workspace-meta\\operations\\2026-09-02.jsonl"
+      },
+      "operation_journal_recorded": true
+    },
+    "rollback_second": {
+      "schema_version": 1,
+      "status": "rolled-back",
+      "idempotent": true,
+      "operation_id": "record-replace-eff567ae74a55b55b6d0226294032ed8",
+      "manifest": "E:\\knowledge_builder\\artifacts\\handoffs\\20260902-record-body-replace\\worker-delivery\\e2e-fixture\\output\\workspace-meta\\record-replace\\record-replace-eff567ae74a55b55b6d0226294032ed8\\manifest.json",
+      "restored_roles": [
+        "human-note",
+        "markdown-note",
+        "note-metadata",
+        "human-records",
+        "markdown-records",
+        "work-record-index-audit",
+        "agent-index-note",
+        "machine-knowledge-note"
+      ],
+      "operation_journal": {
+        "status": "passed",
+        "event_id": "operation-d3f530a1ef5b500983dd9e5fc38ab8c5",
+        "idempotent": true,
+        "journal": "E:\\knowledge_builder\\artifacts\\handoffs\\20260902-record-body-replace\\worker-delivery\\e2e-fixture\\output\\workspace-meta\\operations\\2026-09-02.jsonl"
+      },
+      "operation_journal_recorded": true
+    },
+    "rollback_maintain": {
+      "status": "passed",
+      "failed_checks": [],
+      "page_writes": 0
+    },
+    "checks": {
+      "old_body_absent_human": true,
+      "old_body_absent_markdown": true,
+      "new_body_once_human": true,
+      "new_body_once_markdown": true,
+      "mirror_equal": true,
+      "agent_old_absent": true,
+      "agent_new_once": true,
+      "machine_old_absent": true,
+      "machine_new_once": true,
+      "identity_preserved": true,
+      "created_at_preserved": true,
+      "evidence_preserved": true,
+      "agent_integrity": true,
+      "machine_integrity": true,
+      "machine_foreign_keys": true
+    }
+  },
+  "test_runs": [
+    {
+      "name": "specialized",
+      "command": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\python\\python.exe' -m unittest discover -s tests -p 'test_record_replace.py' -v",
+      "literal_output": "test_cross_process_owner_liveness_recovery_and_release_token_drift (test_record_replace.RecordReplaceLockTests.test_cross_process_owner_liveness_recovery_and_release_token_drift) ... ok\ntest_body_and_explicit_evidence_validation_failures_are_stable (test_record_replace.RecordReplaceTests.test_body_and_explicit_evidence_validation_failures_are_stable) ... ok\ntest_candidate_mirror_mismatch_blocks_promotion (test_record_replace.RecordReplaceTests.test_candidate_mirror_mismatch_blocks_promotion) ... ok\ntest_exact_target_kind_and_cli_mode_failures_do_not_change_owned_roles (test_record_replace.RecordReplaceTests.test_exact_target_kind_and_cli_mode_failures_do_not_change_owned_roles) ... ok\ntest_explicit_evidence_replaces_old_links_and_create_append_remain_compatible (test_record_replace.RecordReplaceTests.test_explicit_evidence_replaces_old_links_and_create_append_remain_compatible) ... ok\ntest_promotion_failure_restores_all_roles_and_leaves_no_sqlite_sidecars (test_record_replace.RecordReplaceTests.test_promotion_failure_restores_all_roles_and_leaves_no_sqlite_sidecars) ... ok\ntest_replace_updates_every_role_and_rollback_is_exact_and_idempotent (test_record_replace.RecordReplaceTests.test_replace_updates_every_role_and_rollback_is_exact_and_idempotent) ... ok\ntest_rollback_detects_external_drift (test_record_replace.RecordReplaceTests.test_rollback_detects_external_drift) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 32.356s\n\nOK\n",
+      "exit_status": 0
+    },
+    {
+      "name": "existing-lock-regression",
+      "command": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\python\\python.exe' -m unittest discover -s tests -p 'test_agent_protocol_batch.py' -v",
+      "literal_output": "test_apply_rejects_plan_target_drift_before_transaction (test_agent_protocol_batch.AgentProtocolBatchApplyTests.test_apply_rejects_plan_target_drift_before_transaction) ... ok\ntest_apply_updates_protocol_contract_and_preserves_user_bytes (test_agent_protocol_batch.AgentProtocolBatchApplyTests.test_apply_updates_protocol_contract_and_preserves_user_bytes) ... ok\ntest_corrupt_pid_reused_unverifiable_and_release_drift_are_classified (test_agent_protocol_batch.AgentProtocolBatchApplyTests.test_corrupt_pid_reused_unverifiable_and_release_drift_are_classified) ... ok\ntest_current_version_fixture_is_audited_and_idempotently_skipped (test_agent_protocol_batch.AgentProtocolBatchApplyTests.test_current_version_fixture_is_audited_and_idempotently_skipped) ... ok\ntest_dead_cross_process_owner_is_recovered_only_after_stale_threshold (test_agent_protocol_batch.AgentProtocolBatchApplyTests.test_dead_cross_process_owner_is_recovered_only_after_stale_threshold) ... ok\ntest_existing_output_lock_reports_concurrent_failure_without_writes (test_agent_protocol_batch.AgentProtocolBatchApplyTests.test_existing_output_lock_reports_concurrent_failure_without_writes) ... ok\ntest_interrupted_apply_restores_baseline_then_resumes (test_agent_protocol_batch.AgentProtocolBatchApplyTests.test_interrupted_apply_restores_baseline_then_resumes) ... ok\ntest_live_cross_process_owner_is_not_stolen_after_stale_threshold (test_agent_protocol_batch.AgentProtocolBatchApplyTests.test_live_cross_process_owner_is_not_stolen_after_stale_threshold) ... ok\ntest_partial_failure_restores_failed_project_and_audits_each_result (test_agent_protocol_batch.AgentProtocolBatchApplyTests.test_partial_failure_restores_failed_project_and_audits_each_result) ... ok\ntest_rollback_refuses_post_batch_user_drift (test_agent_protocol_batch.AgentProtocolBatchApplyTests.test_rollback_refuses_post_batch_user_drift) ... ok\ntest_single_project_rollback_restores_bytes_modes_and_source_version (test_agent_protocol_batch.AgentProtocolBatchApplyTests.test_single_project_rollback_restores_bytes_modes_and_source_version) ... ok\ntest_subset_rollback_keeps_unselected_success_applied (test_agent_protocol_batch.AgentProtocolBatchApplyTests.test_subset_rollback_keeps_unselected_success_applied) ... ok\ntest_frozen_historical_fixtures_match_matrix (test_agent_protocol_batch.AgentProtocolBatchMatrixTests.test_frozen_historical_fixtures_match_matrix) ... ok\ntest_unknown_and_backward_paths_are_rejected (test_agent_protocol_batch.AgentProtocolBatchMatrixTests.test_unknown_and_backward_paths_are_rejected) ... ok\ntest_duplicate_and_nested_outputs_fail_manifest_preflight (test_agent_protocol_batch.AgentProtocolBatchPlanTests.test_duplicate_and_nested_outputs_fail_manifest_preflight) ... ok\ntest_manifest_and_project_failures_have_stable_categories (test_agent_protocol_batch.AgentProtocolBatchPlanTests.test_manifest_and_project_failures_have_stable_categories) ... ok\ntest_plan_is_byte_stable_and_does_not_write_target (test_agent_protocol_batch.AgentProtocolBatchPlanTests.test_plan_is_byte_stable_and_does_not_write_target) ... ok\ntest_required_failure_fixtures_are_classified_without_guessing (test_agent_protocol_batch.AgentProtocolBatchPlanTests.test_required_failure_fixtures_are_classified_without_guessing) ... ok\n\n----------------------------------------------------------------------\nRan 18 tests in 7.895s\n\nOK\n",
+      "exit_status": 0
+    },
+    {
+      "name": "full-regression",
+      "command": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\python\\python.exe' -m unittest discover -s tests -p 'test_*.py'",
+      "literal_output": "............................................................................................................................................................................................................................................................................\n----------------------------------------------------------------------\nRan 268 tests in 673.664s\n\nOK\n",
+      "exit_status": 0
+    },
+    {
+      "name": "isolated-e2e",
+      "command": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\python\\python.exe' 'E:\\knowledge_builder\\artifacts\\handoffs\\20260902-record-body-replace\\worker-delivery\\e2e-record-replace.py'",
+      "literal_output": "{\n  \"status\": \"passed\",\n  \"checks\": {\n    \"old_body_absent_human\": true,\n    \"old_body_absent_markdown\": true,\n    \"new_body_once_human\": true,\n    \"new_body_once_markdown\": true,\n    \"mirror_equal\": true,\n    \"agent_old_absent\": true,\n    \"agent_new_once\": true,\n    \"machine_old_absent\": true,\n    \"machine_new_once\": true,\n    \"identity_preserved\": true,\n    \"created_at_preserved\": true,\n    \"evidence_preserved\": true,\n    \"agent_integrity\": true,\n    \"machine_integrity\": true,\n    \"machine_foreign_keys\": true\n  },\n  \"rollback_first\": \"rolled-back\",\n  \"rollback_second_idempotent\": true\n}\n",
+      "exit_status": 0,
+      "full_command_record": "/mnt/e/knowledge_builder/artifacts/handoffs/20260902-record-body-replace/worker-delivery/e2e-verification-record.json"
+    },
+    {
+      "name": "patch-replay-and-rollback",
+      "command": "git apply --check; git apply; compare changed SHA-256; git apply --check -R; git apply -R",
+      "literal_output": "--- clone baseline core.autocrlf=false ---\nHEAD is now at d20b81b merge: add stable human maintenance prompts\n--- apply check ---\n--- apply ---\n--- compare changed files ---\nscripts/ckb.py\t7094df5e4ddccd1773970e7250e0f7259c47b2c6de1b6231afd26c8fe3dfcf24\nscripts/ckb_core/operation_journal.py\t2d6ada00b258bd1369dee222405c3ac8ddf1bb6ddea225f259a0006432e5b118\nscripts/ckb_core/record_replace.py\t04b610281d5e4127eec86c64c642389a4fdace00711600e59e6d93ae714e44a0\nscripts/ckb_core/workspace_notes.py\t41513ff35e273951500caa605b9e8fbfc8d6e5039a098901708e0feb0de91902\ntests/test_record_replace.py\te9558cf0167d5df488685df43b9b6a31890da5abd659316b5d2822be4cb9b9a0\nchanged_files=5\n--- reverse apply ---\nPATCH_REPLAY_AND_ROLLBACK_OK\n",
+      "exit_status": 0
+    },
+    {
+      "name": "rollback-manifest-reopen",
+      "command": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\python\\python.exe' 'E:\\knowledge_builder\\self-workspace\\worktrees\\record-body-replace\\scripts\\ckb.py' 'record-rollback' '--out' 'E:\\knowledge_builder\\artifacts\\handoffs\\20260902-record-body-replace\\worker-delivery\\e2e-fixture\\output' '--manifest' 'E:\\knowledge_builder\\artifacts\\handoffs\\20260902-record-body-replace\\worker-delivery\\e2e-fixture\\output\\workspace-meta\\record-replace\\record-replace-eff567ae74a55b55b6d0226294032ed8\\manifest.json'",
+      "literal_output": "{\n  \"schema_version\": 1,\n  \"status\": \"rolled-back\",\n  \"idempotent\": true,\n  \"operation_id\": \"record-replace-eff567ae74a55b55b6d0226294032ed8\",\n  \"manifest\": \"E:\\\\knowledge_builder\\\\artifacts\\\\handoffs\\\\20260902-record-body-replace\\\\worker-delivery\\\\e2e-fixture\\\\output\\\\workspace-meta\\\\record-replace\\\\record-replace-eff567ae74a55b55b6d0226294032ed8\\\\manifest.json\",\n  \"restored_roles\": [\n    \"human-note\",\n    \"markdown-note\",\n    \"note-metadata\",\n    \"human-records\",\n    \"markdown-records\",\n    \"work-record-index-audit\",\n    \"agent-index-note\",\n    \"machine-knowledge-note\"\n  ],\n  \"operation_journal\": {\n    \"status\": \"passed\",\n    \"event_id\": \"operation-d3f530a1ef5b500983dd9e5fc38ab8c5\",\n    \"idempotent\": true,\n    \"journal\": \"E:\\\\knowledge_builder\\\\artifacts\\\\handoffs\\\\20260902-record-body-replace\\\\worker-delivery\\\\e2e-fixture\\\\output\\\\workspace-meta\\\\operations\\\\2026-09-02.jsonl\"\n  },\n  \"operation_journal_recorded\": true\n}\n",
+      "exit_status": 0
+    }
+  ],
+  "failure_example": {
+    "command": [
+      "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\python\\python.exe",
+      "E:\\knowledge_builder\\self-workspace\\worktrees\\record-body-replace\\scripts\\ckb.py",
+      "record",
+      "--out",
+      "E:\\knowledge_builder\\artifacts\\handoffs\\20260902-record-body-replace\\worker-delivery\\e2e-fixture\\output",
+      "--kind",
+      "change",
+      "--title",
+      "不存在的精确标题",
+      "--body",
+      "E:\\knowledge_builder\\artifacts\\handoffs\\20260902-record-body-replace\\worker-delivery\\e2e-fixture\\new-change.md",
+      "--replace",
+      "--link",
+      "OrderService"
+    ],
+    "literal_stdout": "",
+    "literal_stderr": "CKB_ERROR=CkbError: record replace target does not exist for exact kind and title: kind=change; title=不存在的精确标题\n",
+    "exit_status": 2
+  },
+  "failed_attempt_journal": {
+    "result_status": "failed",
+    "evidence_path_pattern": "workspace-meta/record-replace/<operation-id>/manifest.json",
+    "verified_relative": true
+  },
+  "git_verification": {
+    "status": {
+      "argv": [
+        "/mnt/c/Program Files/Git/cmd/git.exe",
+        "status",
+        "--short",
+        "--branch"
+      ],
+      "literal_stdout": "## codex/record-body-replace\n",
+      "literal_stderr": "",
+      "exit_status": 0
+    },
+    "head": {
+      "argv": [
+        "/mnt/c/Program Files/Git/cmd/git.exe",
+        "rev-parse",
+        "HEAD"
+      ],
+      "literal_stdout": "a1f42418e747858f142956aab6d83924b557b5d7\n",
+      "literal_stderr": "",
+      "exit_status": 0
+    },
+    "merge_base": {
+      "argv": [
+        "/mnt/c/Program Files/Git/cmd/git.exe",
+        "merge-base",
+        "HEAD",
+        "codex/reference-ingest-v1"
+      ],
+      "literal_stdout": "d20b81bc328ec400524fd993ba4a9629c1fd246d\n",
+      "literal_stderr": "",
+      "exit_status": 0
+    },
+    "commit_list": {
+      "argv": [
+        "/mnt/c/Program Files/Git/cmd/git.exe",
+        "log",
+        "--reverse",
+        "--format=%H%x09%s",
+        "d20b81bc328ec400524fd993ba4a9629c1fd246d..HEAD"
+      ],
+      "literal_stdout": "47eea9f184ef7e38861e8d31f18817b8ac126075\tfeat(record): add transactional body replacement\n464e12495afe023f88b96c767e26b222b9c7d0ab\ttest(record): cover replace rollback and failures\n37f42c445a2dd218e9fa51b50dd5228adbf0af47\tfix(record): keep journal evidence output-relative\na1f42418e747858f142956aab6d83924b557b5d7\tfix(record): make replacement lock owner-safe\n",
+      "literal_stderr": "",
+      "exit_status": 0
+    },
+    "diff_check": {
+      "argv": [
+        "/mnt/c/Program Files/Git/cmd/git.exe",
+        "diff",
+        "--check",
+        "d20b81bc328ec400524fd993ba4a9629c1fd246d..HEAD"
+      ],
+      "literal_stdout": "",
+      "literal_stderr": "",
+      "exit_status": 0
+    },
+    "changed_paths": {
+      "argv": [
+        "/mnt/c/Program Files/Git/cmd/git.exe",
+        "diff",
+        "--name-only",
+        "d20b81bc328ec400524fd993ba4a9629c1fd246d..HEAD"
+      ],
+      "literal_stdout": "scripts/ckb.py\nscripts/ckb_core/operation_journal.py\nscripts/ckb_core/record_replace.py\nscripts/ckb_core/workspace_notes.py\ntests/test_record_replace.py\n",
+      "literal_stderr": "",
+      "exit_status": 0
+    }
+  },
+  "artifacts": {
+    "modified_artifact": {
+      "path": "/mnt/e/knowledge_builder/self-workspace/worktrees/record-body-replace/scripts/ckb_core/record_replace.py",
+      "sha256": "04b610281d5e4127eec86c64c642389a4fdace00711600e59e6d93ae714e44a0",
+      "bytes": 52313
+    },
+    "tests": {
+      "path": "/mnt/e/knowledge_builder/self-workspace/worktrees/record-body-replace/tests/test_record_replace.py",
+      "sha256": "e9558cf0167d5df488685df43b9b6a31890da5abd659316b5d2822be4cb9b9a0",
+      "bytes": 23363
+    },
+    "patch": {
+      "path": "/mnt/e/knowledge_builder/artifacts/handoffs/20260902-record-body-replace/worker-delivery/record-body-replace.patch",
+      "sha256": "d989c592f0815e2b66f73daa6b9f41a1758da610e20251eda02cd9d174ad16f6",
+      "bytes": 86949
+    },
+    "e2e_verification": {
+      "path": "/mnt/e/knowledge_builder/artifacts/handoffs/20260902-record-body-replace/worker-delivery/e2e-verification-record.json",
+      "sha256": "98e87a416202c4bd5c775cebdb96c3d6aefede5a822b96a09fd49046b46487ce",
+      "bytes": 259359
+    },
+    "e2e_baseline": {
+      "path": "/mnt/e/knowledge_builder/artifacts/handoffs/20260902-record-body-replace/worker-delivery/e2e-baseline-logical.json",
+      "sha256": "d1e08d95ddbaadfeb6d44376b5eb122ba60b1a8194845222f7eafb7170abc0b9",
+      "bytes": 15780
+    },
+    "e2e_modified": {
+      "path": "/mnt/e/knowledge_builder/artifacts/handoffs/20260902-record-body-replace/worker-delivery/e2e-modified-logical.json",
+      "sha256": "c92efc3fc80b521ee6568a0d015ef9624cda5f03d3c92645795d69b098ab4d42",
+      "bytes": 16244
+    },
+    "rollback_manifest": {
+      "path": "/mnt/e/knowledge_builder/artifacts/handoffs/20260902-record-body-replace/worker-delivery/e2e-fixture/output/workspace-meta/record-replace/record-replace-eff567ae74a55b55b6d0226294032ed8/manifest.json",
+      "sha256": "831db260b0758df2126682dc6629bdb96d78b88b73940af8c09368dfd6fb399e",
+      "bytes": 13220
+    },
+    "rollback_script": {
+      "path": "/mnt/e/knowledge_builder/artifacts/handoffs/20260902-record-body-replace/worker-delivery/rollback-e2e.ps1",
+      "sha256": "717f1aea8504fac1b4e6804ac4f851bd51202ed8d848fc760848abf6577c695b",
+      "bytes": 615
+    },
+    "specialized_log": {
+      "path": "/mnt/e/knowledge_builder/artifacts/handoffs/20260902-record-body-replace/worker-delivery/specialized-tests.log",
+      "sha256": "a2582b3b9819fbaff6ceb45bc22f14acd0a115ca155df6d622f5ee7550d8983e",
+      "bytes": 1510
+    },
+    "lock_regression_log": {
+      "path": "/mnt/e/knowledge_builder/artifacts/handoffs/20260902-record-body-replace/worker-delivery/lock-regression.log",
+      "sha256": "9b29baba0dbd63d9307c266db6d77daa729a600fdb04745f74f17c7a53fa6ad5",
+      "bytes": 3404
+    },
+    "full_regression_log": {
+      "path": "/mnt/e/knowledge_builder/artifacts/handoffs/20260902-record-body-replace/worker-delivery/full-regression.log",
+      "sha256": "3b97bee30f48afe8ea223493ff663d2b31cf8c7be0a20ae9fd7e954a0c66369b",
+      "bytes": 375
+    },
+    "patch_replay_log": {
+      "path": "/mnt/e/knowledge_builder/artifacts/handoffs/20260902-record-body-replace/worker-delivery/patch-replay.log",
+      "sha256": "24dae4e9fafe8550ef62d2b28d3884e201b09e3d69c2a0f4cbdd4aaae7708170",
+      "bytes": 719
+    },
+    "rollback_reopen_log": {
+      "path": "/mnt/e/knowledge_builder/artifacts/handoffs/20260902-record-body-replace/worker-delivery/rollback-reopen.log",
+      "sha256": "09ee2df549d31a96b5b6344edd289b0789c13dcc3f99d207af132e7a4ee9523b",
+      "bytes": 936
+    },
+    "brief_pack": {
+      "path": "/mnt/e/knowledge_builder/artifacts/handoffs/20260902-record-body-replace/worker-delivery/brief-pack.md",
+      "sha256": "5dcd24fb9929bf030e43fa56c78c033911b80e14e9f70b4982eb95be5bfae001",
+      "bytes": 5367
+    }
+  },
+  "confirmed_facts": [
+    "record replacement specialized tests passed 8/8",
+    "existing owner-lock regression passed 18/18",
+    "full regression passed 268/268",
+    "aged live cross-process owner was not stolen",
+    "dead owner was recovered after stale threshold",
+    "unverifiable stale record remained busy",
+    "release token drift preserved the changed lock",
+    "isolated replace and both maintain gates passed",
+    "rollback and patch reverse replay passed",
+    "worktree is clean"
+  ],
+  "not_performed_by_scope": [
+    "no integration merge",
+    "no stable knowledge-base change",
+    "no release or GitHub push"
+  ]
+}

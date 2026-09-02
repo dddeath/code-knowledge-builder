@@ -19,6 +19,7 @@
 - 实现时会用到 [[audit_output_contract]]。
 - 实现时会用到 [[create_batch_plan]]。
 - 实现时会用到 [[create_batch_plan 与 ProtocolRelease 的协作实现]]。
+- 实现时会用到 [[rollback]]。
 
 ## 谁会来到这里
 
@@ -40,10 +41,15 @@
 - [[audit_work_record_index]] 关联到这里的验证场景。
 - [[audit_work_record_index 与 _contains_chinese 的协作实现]] 关联到这里的验证场景。
 - [[bind_conversation 与 default_management_registry_path 的协作实现]] 关联到这里的验证场景。
+- [[build_case 等测试场景]] 关联到这里的验证场景。
+- [[ckb_canvas 的协作边界]] 关联到这里的验证场景。
 - [[command]] 关联到这里的验证场景。
+- [[contracts 的协作边界]] 关联到这里的验证场景。
 - [[create_batch_plan]] 关联到这里的验证场景。
 - [[create_batch_plan 与 ProtocolRelease 的协作实现]] 关联到这里的验证场景。
 - [[execute]] 关联到这里的验证场景。
+- [[freeze 的协作边界]] 关联到这里的验证场景。
+- [[graph 的协作边界]] 关联到这里的验证场景。
 - [[module_name 与 estimated_tokens 的协作实现]] 关联到这里的验证场景。
 - [[record_note 与 page_tag 的协作实现]] 关联到这里的验证场景。
 - [[register_obsidian_plugin 与 default_obsidian_plugin_registry 的协作实现]] 关联到这里的验证场景。
@@ -51,8 +57,12 @@
 - [[retrieve]] 关联到这里的验证场景。
 - [[retrieve 与 _tokens 的协作实现]] 关联到这里的验证场景。
 - [[retrieve_machine 与 estimated_tokens 的协作实现]] 关联到这里的验证场景。
+- [[rollback]] 关联到这里的验证场景。
+- [[rollback 与 RenderedBundle 的协作实现]] 关联到这里的验证场景。
 - [[search_terms]] 关联到这里的验证场景。
 - [[start_scope_extension 与 _error 的协作实现]] 关联到这里的验证场景。
+- [[transaction 的协作边界]] 关联到这里的验证场景。
+- [[validate 与 canonical 的协作实现]] 关联到这里的验证场景。
 
 ## 内部细节
 

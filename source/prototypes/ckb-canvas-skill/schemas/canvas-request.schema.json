@@ -1,0 +1,543 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ckb.local/schemas/canvas-request.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "mode": {
+      "const": "agent-pack-navigation"
+    },
+    "ckb": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "output_root": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 32767
+        },
+        "state_path": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 32767
+        },
+        "state_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "machine_index_path": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 32767
+        },
+        "machine_index_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "snapshot_commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "snapshot_tree": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "agent_pack_path": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 32767
+        },
+        "agent_pack_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "record_path": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 32767
+        },
+        "record_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "record_schema_version": {
+          "const": 3
+        },
+        "human_root": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 32767
+        },
+        "human_projection_path": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 32767
+        },
+        "human_projection_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "human_manifest_path": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 32767
+        },
+        "human_manifest_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "local_openers_path": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 32767
+        },
+        "local_openers_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "frozen_evidence": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "human_files": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "relative_path": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 1024,
+                    "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$"
+                  },
+                  "sha256": {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{64}$"
+                  }
+                },
+                "required": [
+                  "relative_path",
+                  "sha256"
+                ]
+              },
+              "minItems": 1,
+              "maxItems": 32
+            },
+            "source_files": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "relative_path": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 1024,
+                    "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$"
+                  },
+                  "sha256": {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{64}$"
+                  }
+                },
+                "required": [
+                  "relative_path",
+                  "sha256"
+                ]
+              },
+              "minItems": 0,
+              "maxItems": 32
+            }
+          },
+          "required": [
+            "human_files",
+            "source_files"
+          ]
+        }
+      },
+      "required": [
+        "output_root",
+        "state_path",
+        "state_sha256",
+        "machine_index_path",
+        "machine_index_sha256",
+        "snapshot_commit",
+        "snapshot_tree",
+        "agent_pack_path",
+        "agent_pack_sha256",
+        "record_path",
+        "record_sha256",
+        "record_schema_version",
+        "human_root",
+        "human_projection_path",
+        "human_projection_sha256",
+        "human_manifest_path",
+        "human_manifest_sha256",
+        "local_openers_path",
+        "local_openers_sha256",
+        "frozen_evidence"
+      ]
+    },
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "source_link_mode": {
+          "const": "verified-editor-uri"
+        },
+        "authorized_staging_root": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 32767
+        },
+        "target_canvas_path": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 32767
+        },
+        "backup_root": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 32767
+        },
+        "replace": {
+          "type": "boolean"
+        },
+        "baseline": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "canvas": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "state": {
+                      "const": "absent"
+                    }
+                  },
+                  "required": [
+                    "state"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "state": {
+                      "const": "present"
+                    },
+                    "sha256": {
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{64}$"
+                    }
+                  },
+                  "required": [
+                    "state",
+                    "sha256"
+                  ]
+                }
+              ]
+            },
+            "validation_manifest": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "state": {
+                      "const": "absent"
+                    }
+                  },
+                  "required": [
+                    "state"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "state": {
+                      "const": "present"
+                    },
+                    "sha256": {
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{64}$"
+                    }
+                  },
+                  "required": [
+                    "state",
+                    "sha256"
+                  ]
+                }
+              ]
+            },
+            "rollback_manifest": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "state": {
+                      "const": "absent"
+                    }
+                  },
+                  "required": [
+                    "state"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "state": {
+                      "const": "present"
+                    },
+                    "sha256": {
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{64}$"
+                    }
+                  },
+                  "required": [
+                    "state",
+                    "sha256"
+                  ]
+                }
+              ]
+            }
+          },
+          "required": [
+            "canvas",
+            "validation_manifest",
+            "rollback_manifest"
+          ]
+        },
+        "required_entries": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "kind": {
+                    "const": "selected_entity"
+                  },
+                  "ordinal": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 31
+                  },
+                  "require": {
+                    "enum": [
+                      "page",
+                      "source",
+                      "page-and-source"
+                    ]
+                  }
+                },
+                "required": [
+                  "kind",
+                  "ordinal",
+                  "require"
+                ]
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "kind": {
+                    "const": "related_document"
+                  },
+                  "ordinal": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 31
+                  },
+                  "require": {
+                    "const": "record"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "ordinal",
+                  "require"
+                ]
+              }
+            ]
+          },
+          "maxItems": 12,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "title",
+        "source_link_mode",
+        "authorized_staging_root",
+        "target_canvas_path",
+        "backup_root",
+        "replace",
+        "baseline",
+        "required_entries"
+      ]
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "max_nodes": {
+          "const": 12
+        },
+        "max_edges": {
+          "const": 16
+        },
+        "max_page_nodes": {
+          "const": 6
+        },
+        "max_record_nodes": {
+          "const": 2
+        },
+        "max_source_nodes": {
+          "const": 3
+        },
+        "max_text_nodes": {
+          "const": 1
+        },
+        "max_groups": {
+          "const": 0
+        }
+      },
+      "required": [
+        "max_nodes",
+        "max_edges",
+        "max_page_nodes",
+        "max_record_nodes",
+        "max_source_nodes",
+        "max_text_nodes",
+        "max_groups"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "mode",
+    "ckb",
+    "request",
+    "budget"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "request": {
+            "properties": {
+              "replace": {
+                "const": false
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "request": {
+            "properties": {
+              "baseline": {
+                "properties": {
+                  "canvas": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "state": {
+                        "const": "absent"
+                      }
+                    },
+                    "required": [
+                      "state"
+                    ]
+                  },
+                  "validation_manifest": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "state": {
+                        "const": "absent"
+                      }
+                    },
+                    "required": [
+                      "state"
+                    ]
+                  },
+                  "rollback_manifest": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "state": {
+                        "const": "absent"
+                      }
+                    },
+                    "required": [
+                      "state"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "request": {
+            "properties": {
+              "replace": {
+                "const": true
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "request": {
+            "properties": {
+              "baseline": {
+                "properties": {
+                  "canvas": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "state": {
+                        "const": "present"
+                      },
+                      "sha256": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{64}$"
+                      }
+                    },
+                    "required": [
+                      "state",
+                      "sha256"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

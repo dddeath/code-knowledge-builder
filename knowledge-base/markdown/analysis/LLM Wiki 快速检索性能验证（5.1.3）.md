@@ -38,7 +38,7 @@
 
 - [[retrieve_machine 与 estimated_tokens 的协作实现]]
 - [[package_showcase 与 _parse_sample 的协作实现]]
-- [[initialize 与 _replace_output_prefix 的协作实现]]
+- [[audit_global 与 _replace_output_prefix 的协作实现]]
 - [[audit_migration 与 _entity_key 的协作实现]]
 - [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]]
 - [[MigrationTest 等测试场景]]

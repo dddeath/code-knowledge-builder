@@ -13,6 +13,8 @@
 
 代码职责入口：
 
+- [[prototypes 职责导览]]
+- [[references 职责导览]]
 - [[scripts 职责导览]]
 - [[tests 职责导览]]
 
@@ -35,7 +37,7 @@
 
 普通文件、核心文件和邻近文件最多分别生成 1、4、1 个关键实体页；每个入口最多选择 4 个核心页和 3 个邻近页。
 
-代码页按以下顺序组织内容：overview、change_when、source_location、partial_fragments、related_code、backlinks、tests、hidden_relation_hint、appendix。附录采用 `collapsed` 展示方式。完整规范化配置保存在 `E:\knowledge_builder\self-workspace\kb-stg-89eac148\page-config.json`。
+代码页按以下顺序组织内容：overview、change_when、source_location、partial_fragments、related_code、backlinks、tests、hidden_relation_hint、appendix。附录采用 `collapsed` 展示方式。完整规范化配置保存在 `E:\knowledge_builder\self-workspace\knowledge-base\page-config.json`。
 
 ## 如何寻找修改入口
 
@@ -70,8 +72,8 @@ Agent 解释代码时先读取 retrieve 产生的阅读包，再把结论保存�
 
 ## 在 Obsidian 中打开
 
-把 `E:\knowledge_builder\self-workspace\kb-stg-89eac148\human` 作为 vault 打开。核心搜索、图谱、反向链接、出链、标签和页面预览配置已经准备好；从 `INDEX` 或本页开始。`E:\knowledge_builder\self-workspace\kb-stg-89eac148\markdown` 是兼容镜像。
+把 `E:\knowledge_builder\self-workspace\knowledge-base\human` 作为 vault 打开。核心搜索、图谱、反向链接、出链、标签和页面预览配置已经准备好；从 `INDEX` 或本页开始。`E:\knowledge_builder\self-workspace\knowledge-base\markdown` 是兼容镜像。
 
 ## 在 Logseq 中打开
 
-选择知识库输出目录 `E:\knowledge_builder\self-workspace\kb-stg-89eac148`。该目录已经包含 Logseq 文件图谱所需的配置；进入图谱后从 `INDEX` 或本页开始阅读。
+选择知识库输出目录 `E:\knowledge_builder\self-workspace\knowledge-base`。该目录已经包含 Logseq 文件图谱所需的配置；进入图谱后从 `INDEX` 或本页开始阅读。

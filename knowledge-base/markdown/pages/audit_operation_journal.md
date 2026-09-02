@@ -2,15 +2,15 @@
 
 标签：#类型/代码
 
-> `audit_operation_journal` 是 `scripts/ckb_core/operation_journal.py` 第 383-452 行定义的函数，本页绑定该固定源码范围。 负责追加和审计有界、机器可读的操作日志。
+> `audit_operation_journal` 位于 `scripts/ckb_core/operation_journal.py` 第 385-454 行，本页用固定源码范围说明它如何校验输入、状态、证据或输出合同。 `audit_operation_journal` 负责在该文件所属能力的输入、状态、输出和失败边界中校验输入、状态、证据或输出合同。
 
 ## 什么时候需要修改
 
-当 `audit_operation_journal` 的输入、输出、状态转换或失败返回变化时，应更新本页并重跑对应测试。
+当 `scripts/ckb_core/operation_journal.py` 中 `audit_operation_journal` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。
 
 ## 在代码中的位置
 
-[打开源码：scripts/ckb_core/operation_journal.py 第 383 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/operation_journal.py:383:1)  `scripts/ckb_core/operation_journal.py:383-452`
+[打开源码：scripts/ckb_core/operation_journal.py 第 385 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/operation_journal.py:385:1)  `scripts/ckb_core/operation_journal.py:385-454`
 
 ## 相关代码
 

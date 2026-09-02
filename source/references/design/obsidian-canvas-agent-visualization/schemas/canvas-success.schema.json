@@ -1,0 +1,276 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ckb.local/schemas/canvas-success.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "status": {
+      "const": "passed"
+    },
+    "operation": {
+      "const": "generate"
+    },
+    "exit_code": {
+      "const": 0
+    },
+    "request_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "canvas": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 32767
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "byte_length": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "path",
+        "sha256",
+        "byte_length"
+      ]
+    },
+    "validation_manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 32767
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "byte_length": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "path",
+        "sha256",
+        "byte_length"
+      ]
+    },
+    "rollback_manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 32767
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "byte_length": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "path",
+        "sha256",
+        "byte_length"
+      ]
+    },
+    "node_count": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 12
+    },
+    "edge_count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 16
+    },
+    "role_counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "page": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 6
+        },
+        "record": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2
+        },
+        "source": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        }
+      },
+      "required": [
+        "text",
+        "page",
+        "record",
+        "source"
+      ]
+    },
+    "backlinks_checked": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 12
+    },
+    "dangling_edges": {
+      "const": 0
+    },
+    "machine_fields_exposed": {
+      "const": 0
+    },
+    "target_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 32767
+        },
+        "before": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "state": {
+                  "const": "absent"
+                }
+              },
+              "required": [
+                "state"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "state": {
+                  "const": "present"
+                },
+                "sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                }
+              },
+              "required": [
+                "state",
+                "sha256"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "state": {
+                  "const": "unavailable"
+                }
+              },
+              "required": [
+                "state"
+              ]
+            }
+          ]
+        },
+        "after": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "state": {
+                  "const": "absent"
+                }
+              },
+              "required": [
+                "state"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "state": {
+                  "const": "present"
+                },
+                "sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                }
+              },
+              "required": [
+                "state",
+                "sha256"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "state": {
+                  "const": "unavailable"
+                }
+              },
+              "required": [
+                "state"
+              ]
+            }
+          ]
+        },
+        "changed": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "path",
+        "before",
+        "after",
+        "changed"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "status",
+    "operation",
+    "exit_code",
+    "request_sha256",
+    "canvas",
+    "validation_manifest",
+    "rollback_manifest",
+    "node_count",
+    "edge_count",
+    "role_counts",
+    "backlinks_checked",
+    "dangling_edges",
+    "machine_fields_exposed",
+    "target_state"
+  ]
+}

@@ -19,9 +19,9 @@
 
 ## 谁会来到这里
 
+- [[audit_global 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 - [[bind_conversation]] 会使用这里提供的行为。
 - [[command 等测试场景]] 会使用这里提供的行为。
-- [[initialize]] 会使用这里提供的行为。
 - [[preflight 与 git 的协作实现]] 汇总了本页。
 - [[start_scope_extension]] 会使用这里提供的行为。
 - [[start_scope_extension 与 _error 的协作实现]] 会使用这里提供的行为。

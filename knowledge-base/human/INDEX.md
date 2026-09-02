@@ -12,6 +12,8 @@
 
 ## 按职责浏览代码
 
+- [[prototypes 职责导览]]
+- [[references 职责导览]]
 - [[scripts 职责导览]]
 - [[tests 职责导览]]
 
@@ -25,8 +27,8 @@
 
 ## 在 Obsidian 中打开
 
-把 `E:\knowledge_builder\self-workspace\kb-stg-89eac148\human` 作为 Obsidian vault 打开；从本页、工作记录导览、标签或反向链接进入。`E:\knowledge_builder\self-workspace\kb-stg-89eac148\markdown` 是兼容镜像。
+把 `E:\knowledge_builder\self-workspace\knowledge-base\human` 作为 Obsidian vault 打开；从本页、工作记录导览、标签或反向链接进入。`E:\knowledge_builder\self-workspace\knowledge-base\markdown` 是兼容镜像。
 
 ## 在 Logseq 中打开
 
-选择输出目录 `E:\knowledge_builder\self-workspace\kb-stg-89eac148`；配置文件位于 [logseq/config.edn](logseq/config.edn)。
+选择输出目录 `E:\knowledge_builder\self-workspace\knowledge-base`；配置文件位于 [logseq/config.edn](logseq/config.edn)。

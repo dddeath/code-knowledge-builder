@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "integration_branch": "codex/reference-ingest-v1",
+  "integration_head": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+  "runs": [
+    {
+      "name": "record-replace-specialized",
+      "tests": 8,
+      "exit_status": 0,
+      "stdout": "/mnt/e/knowledge_builder/artifacts/verification/record-replace-and-experimental-canvas-release/postmerge-specialized.stdout",
+      "stderr": "/mnt/e/knowledge_builder/artifacts/verification/record-replace-and-experimental-canvas-release/postmerge-specialized.stderr"
+    },
+    {
+      "name": "owner-lock-regression",
+      "tests": 18,
+      "exit_status": 0,
+      "stdout": "/mnt/e/knowledge_builder/artifacts/verification/record-replace-and-experimental-canvas-release/postmerge-lock.stdout",
+      "stderr": "/mnt/e/knowledge_builder/artifacts/verification/record-replace-and-experimental-canvas-release/postmerge-lock.stderr"
+    },
+    {
+      "name": "full-regression",
+      "tests": 268,
+      "exit_status": 0,
+      "stdout": "/mnt/e/knowledge_builder/artifacts/verification/record-replace-and-experimental-canvas-release/postmerge-full.stdout",
+      "stderr": "/mnt/e/knowledge_builder/artifacts/verification/record-replace-and-experimental-canvas-release/postmerge-full.stderr"
+    }
+  ],
+  "knowledge_verification": "/mnt/e/knowledge_builder/artifacts/verification/record-replace-and-experimental-canvas-release/postcutover-final-verification.json"
+}

@@ -1,0 +1,22 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0018",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-02T02:36:41Z",
+  "reviews": [
+    {
+      "entity_id": "file-4814dad0f53355a7babed03c449e644d",
+      "classification": "page",
+      "owner_page_id": "file-4814dad0f53355a7babed03c449e644d",
+      "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
+      "start_line": 1,
+      "end_line": 2076,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/knowledge_batch_migration.py` 第 1-2076 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`scripts/ckb_core/knowledge_batch_migration.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
+      "role_zh": "负责完整知识库批量迁移的计划、隔离构建、审计、切换和精确回滚。",
+      "change_when_zh": "当 `scripts/ckb_core/knowledge_batch_migration.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
+    }
+  ]
+}

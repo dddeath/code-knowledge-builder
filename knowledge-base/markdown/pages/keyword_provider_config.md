@@ -2,15 +2,15 @@
 
 标签：#类型/代码
 
-> `keyword_provider_config` 是 `scripts/ckb.py` 第 237-257 行定义的函数，本页绑定该固定源码范围。 负责注册 CKB 命令、校验参数，并把子命令分派到对应的知识库实现。
+> `keyword_provider_config` 位于 `scripts/ckb.py` 第 270-290 行，本页用固定源码范围说明它如何完成CKB 主命令解析、分发和退出状态中的局部职责。 `keyword_provider_config` 负责在CKB 主命令解析、分发和退出状态中完成CKB 主命令解析、分发和退出状态中的局部职责。
 
 ## 什么时候需要修改
 
-当 `keyword_provider_config` 的输入、输出、状态转换或失败返回变化时，应更新本页并重跑对应测试。
+当 `scripts/ckb.py` 中 `keyword_provider_config` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。
 
 ## 在代码中的位置
 
-[打开源码：scripts/ckb.py 第 237 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:237:1)  `scripts/ckb.py:237-257`
+[打开源码：scripts/ckb.py 第 270 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:270:1)  `scripts/ckb.py:270-290`
 
 ## 相关代码
 

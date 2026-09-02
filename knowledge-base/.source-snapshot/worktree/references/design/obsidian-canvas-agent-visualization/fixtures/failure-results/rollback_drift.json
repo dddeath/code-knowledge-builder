@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "status": "failed",
+  "operation": "rollback",
+  "reason": "rollback_drift",
+  "phase": "rollback",
+  "exit_code": 6,
+  "detail": "当前 Canvas 不等于 generated hash",
+  "target_state": {
+    "path": "C:\\fixture\\交付\\暂存\\ckb-navigation.canvas",
+    "before": {
+      "state": "present",
+      "sha256": "8ba8496a2525ae171ffd104d632dede6ef418d9b95962a9d88e2fcdbc8d48d24"
+    },
+    "after": {
+      "state": "present",
+      "sha256": "8e5a36dcce6039335e60d8f5f1a2344654eecff058efaa680cdc3adadd05e946"
+    },
+    "changed": true
+  },
+  "recovery": {
+    "action": "manual-review-current-bytes",
+    "required_inputs": [
+      "current bytes and rollback manifest"
+    ]
+  }
+}

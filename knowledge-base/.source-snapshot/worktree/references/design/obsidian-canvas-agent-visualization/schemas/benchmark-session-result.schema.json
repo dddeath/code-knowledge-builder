@@ -1,0 +1,213 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ckb.local/schemas/benchmark-session-result.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "status": {
+      "enum": [
+        "passed",
+        "failed",
+        "stopped"
+      ]
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "session_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sequence_id": {
+      "enum": [
+        "sequence-1",
+        "sequence-2"
+      ]
+    },
+    "condition": {
+      "enum": [
+        "markdown",
+        "canvas"
+      ]
+    },
+    "participant_slot": {
+      "type": "string",
+      "minLength": 1
+    },
+    "environment_verified": {
+      "type": "boolean"
+    },
+    "task_order": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^P[1-6][AB]$"
+      },
+      "minItems": 6,
+      "maxItems": 6,
+      "uniqueItems": true
+    },
+    "observations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "task_id": {
+            "type": "string",
+            "pattern": "^P[1-6][AB]$"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "elapsed_seconds": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 180
+          },
+          "first_correct_entry_seconds": {
+            "oneOf": [
+              {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 180
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "navigation_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "backtrack_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "comprehension_score": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2
+          },
+          "source_verified": {
+            "oneOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "unsupported_assertions": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "submitted_page": {
+            "oneOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024,
+                "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "submitted_source_path": {
+            "oneOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024,
+                "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "submitted_start_line": {
+            "oneOf": [
+              {
+                "type": "integer",
+                "minimum": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "submitted_end_line": {
+            "oneOf": [
+              {
+                "type": "integer",
+                "minimum": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "task_id",
+          "success",
+          "elapsed_seconds",
+          "first_correct_entry_seconds",
+          "navigation_count",
+          "backtrack_count",
+          "comprehension_score",
+          "source_verified",
+          "unsupported_assertions",
+          "submitted_page",
+          "submitted_source_path",
+          "submitted_start_line",
+          "submitted_end_line"
+        ]
+      },
+      "minItems": 0,
+      "maxItems": 6
+    },
+    "stop_reason": {
+      "oneOf": [
+        {
+          "enum": [
+            "missing-backlink",
+            "machine-field-exposure",
+            "write-outside-scope",
+            "evidence-set-drift",
+            "overwrite-on-drift",
+            "unfrozen-environment",
+            "unfrozen-task-order",
+            "custom-uri-failed",
+            "subpath-failed"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "status",
+    "run_id",
+    "session_id",
+    "sequence_id",
+    "condition",
+    "participant_slot",
+    "environment_verified",
+    "task_order",
+    "observations",
+    "stop_reason"
+  ]
+}

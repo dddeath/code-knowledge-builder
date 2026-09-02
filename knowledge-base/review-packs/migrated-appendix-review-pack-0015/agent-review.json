@@ -1,0 +1,207 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-appendix-review-pack-0015",
+  "kind": "appendix-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-02T02:37:03Z",
+  "reviews": [
+    {
+      "entity_id": "ent-710a84280b44577581dd5848696fda16",
+      "classification": "appendix",
+      "owner_page_id": "file-b3850879feff5f0493dd407f02c6a401",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 354,
+      "end_line": 613,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/machine_knowledge.py` 第 354-613 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`build_machine_knowledge` 是第 354-613 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-74cf488198ef5e4cb5eff50a2c4e88ac",
+      "classification": "appendix",
+      "owner_page_id": "file-b3850879feff5f0493dd407f02c6a401",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 616,
+      "end_line": 634,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/machine_knowledge.py` 第 616-634 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_markdown_sections` 是第 616-634 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-92e0e5a7d0ce56e5b88ddfa3bd1d76bb",
+      "classification": "appendix",
+      "owner_page_id": "file-b3850879feff5f0493dd407f02c6a401",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 637,
+      "end_line": 718,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/machine_knowledge.py` 第 637-718 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`audit_machine_knowledge` 是第 637-718 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-64af953eac855a299b206e2b3694c243",
+      "classification": "appendix",
+      "owner_page_id": "file-b3850879feff5f0493dd407f02c6a401",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 721,
+      "end_line": 731,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/machine_knowledge.py` 第 721-731 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_adjacency` 是第 721-731 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-e0a3a64e0c925cd6b93c6fff5259158c",
+      "classification": "appendix",
+      "owner_page_id": "file-b3850879feff5f0493dd407f02c6a401",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 734,
+      "end_line": 754,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/machine_knowledge.py` 第 734-754 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_fast_graph_scores` 是第 734-754 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-332d8f9e592c55858d01899d3677bc28",
+      "classification": "appendix",
+      "owner_page_id": "file-b3850879feff5f0493dd407f02c6a401",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 757,
+      "end_line": 789,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/machine_knowledge.py` 第 757-789 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_deterministic_ppr` 是第 757-789 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-05fc86b8b7ae5b3d81678fc13d17cf3b",
+      "classification": "appendix",
+      "owner_page_id": "file-b3850879feff5f0493dd407f02c6a401",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 792,
+      "end_line": 801,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/machine_knowledge.py` 第 792-801 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_next_pack_path` 是第 792-801 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-ff1e18eba342558ea2de0b77158db406",
+      "classification": "appendix",
+      "owner_page_id": "file-b3850879feff5f0493dd407f02c6a401",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 804,
+      "end_line": 808,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/machine_knowledge.py` 第 804-808 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`该实体` 是第 804-808 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-2170392e27485db4bf3a164683d0ee07",
+      "classification": "appendix",
+      "owner_page_id": "file-b3850879feff5f0493dd407f02c6a401",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 811,
+      "end_line": 820,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/machine_knowledge.py` 第 811-820 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_utf8_prefix` 是第 811-820 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-e5eb91c14d94514db4808cba71ec83fb",
+      "classification": "appendix",
+      "owner_page_id": "file-b3850879feff5f0493dd407f02c6a401",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 823,
+      "end_line": 846,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/machine_knowledge.py` 第 823-846 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_bulk_entity_context` 是第 823-846 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-e8953156d4585f718d2f673619617149",
+      "classification": "appendix",
+      "owner_page_id": "file-b3850879feff5f0493dd407f02c6a401",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 849,
+      "end_line": 872,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/machine_knowledge.py` 第 849-872 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_diverse_candidates` 是第 849-872 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-d8b257f3048f5199b9217d3fd287b5d3",
+      "classification": "appendix",
+      "owner_page_id": "file-b3850879feff5f0493dd407f02c6a401",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 875,
+      "end_line": 931,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/machine_knowledge.py` 第 875-931 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_compact_entity_block` 是第 875-931 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-0478ab0c61e25b789f4912e258bff918",
+      "classification": "appendix",
+      "owner_page_id": "file-b3850879feff5f0493dd407f02c6a401",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 934,
+      "end_line": 946,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/machine_knowledge.py` 第 934-946 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_static_retrieval_key` 是第 934-946 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-0c3b05d97c4255ebb43f1f3280dce751",
+      "classification": "appendix",
+      "owner_page_id": "file-b3850879feff5f0493dd407f02c6a401",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 949,
+      "end_line": 1003,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/machine_knowledge.py` 第 949-1003 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_static_retrieval_con...` 是第 949-1003 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-5ba5709468c755f194ecb4c9da35a62f",
+      "classification": "appendix",
+      "owner_page_id": "file-b3850879feff5f0493dd407f02c6a401",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 1006,
+      "end_line": 1018,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/machine_knowledge.py` 第 1006-1018 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_openers` 是第 1006-1018 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-3d1a1b4141f3528f8778bbde61b31094",
+      "classification": "appendix",
+      "owner_page_id": "file-b3850879feff5f0493dd407f02c6a401",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 1021,
+      "end_line": 1044,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/machine_knowledge.py` 第 1021-1044 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_matching_documents` 是第 1021-1044 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-a603101ef6385f6a944a170d44ce51e9",
+      "classification": "appendix",
+      "owner_page_id": "file-b3850879feff5f0493dd407f02c6a401",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 1047,
+      "end_line": 1058,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/machine_knowledge.py` 第 1047-1058 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_document_source_link` 是第 1047-1058 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-939ec86bc70c5479bc69cc293eefcd5b",
+      "classification": "appendix",
+      "owner_page_id": "file-b3850879feff5f0493dd407f02c6a401",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 1061,
+      "end_line": 1074,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/machine_knowledge.py` 第 1061-1074 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_document_block` 是第 1061-1074 行的函数，供所属页面定位实现。"
+    }
+  ]
+}

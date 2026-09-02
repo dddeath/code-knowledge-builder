@@ -26,8 +26,8 @@
 - [[KeywordFallbackRetrievalWiringTests]] 会使用这里提供的行为。
 - [[KeywordFallbackRetrievalWiringTests 等测试场景]] 会使用这里提供的行为。
 - [[bind_conversation 与 default_management_registry_path 的协作实现]] 会使用这里提供的行为。
+- [[build_manual_index 等测试场景]] 会使用这里提供的行为。
 - [[command 等测试场景]] 会使用这里提供的行为。
-- [[normalize 等测试场景]] 会使用这里提供的行为。
 - [[retrieve_machine 与 estimated_tokens 的协作实现]] 汇总了本页。
 - [[run_keyword_benchmark 与 _text_list 的协作实现]] 会使用这里提供的行为。
 - [[serve_stdio]] 会使用这里提供的行为。
@@ -37,9 +37,9 @@
 
 - [[AutomationTest.register 等测试场景]]
 - [[CodeKnowledgeBuilderTests]]
+- [[HumanPageTemplateValidationTests]]
 - [[KeywordFallbackRetrievalWiringTests]]
 - [[KeywordFallbackRetrievalWiringTests 等测试场景]]
 - [[append 等测试场景]]
-- [[command 等测试场景]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。

@@ -1,0 +1,64 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-appendix-review-pack-0036",
+  "kind": "appendix-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-02T02:37:56Z",
+  "reviews": [
+    {
+      "entity_id": "ent-cf5128da4dc85f1a91c0db83ca7219cc",
+      "classification": "appendix",
+      "owner_page_id": "ent-31d2b76dd5c35696a980335552fa734b",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 1145,
+      "end_line": 1689,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_ckb.py` 第 1145-1689 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`CodeKnowledgeBuilderT...` 是第 1145-1689 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-9d0fe968f4395cde823947973121195d",
+      "classification": "appendix",
+      "owner_page_id": "ent-31d2b76dd5c35696a980335552fa734b",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 1691,
+      "end_line": 1707,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_ckb.py` 第 1691-1707 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`CodeKnowledgeBuilderT...` 是第 1691-1707 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-4f5ae8ba974e5909aeca9cf14f049fa1",
+      "classification": "appendix",
+      "owner_page_id": "ent-31d2b76dd5c35696a980335552fa734b",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 1709,
+      "end_line": 1768,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_ckb.py` 第 1709-1768 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`CodeKnowledgeBuilderT...` 是第 1709-1768 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-5e10605cffa053e8aeb76fbafca4751e",
+      "classification": "appendix",
+      "owner_page_id": "ent-31d2b76dd5c35696a980335552fa734b",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 1770,
+      "end_line": 1782,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_ckb.py` 第 1770-1782 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`CodeKnowledgeBuilderT...` 是第 1770-1782 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-9b2b6d4fd38059d087573fc5c51b664f",
+      "classification": "appendix",
+      "owner_page_id": "ent-31d2b76dd5c35696a980335552fa734b",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 1784,
+      "end_line": 1794,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_ckb.py` 第 1784-1794 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`CodeKnowledgeBuilderT...` 是第 1784-1794 行的函数，供所属页面定位实现。"
+    }
+  ]
+}

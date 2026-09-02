@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "template_name": "decision-log",
+  "version": "1.0.0",
+  "proposer": {
+    "kind": "agent",
+    "id": "fixture-agent"
+  },
+  "target": {
+    "contract_version": "1.0.0",
+    "registry_id": "ckb-human-page-template-contracts",
+    "registry_sha256": "52e3896dd6fb17bbb32cd5a1d8f897122db263e8a8b871b2f9615a84196185f2",
+    "schema_version": 1
+  },
+  "reader_task": "让读者快速确认一项决策、依据、影响和后续验证入口。",
+  "fields": [
+    {
+      "field_id": "decision",
+      "label": "决策",
+      "value_type": "text",
+      "required": true,
+      "purpose": "直接说明当前采用的结论。"
+    },
+    {
+      "field_id": "evidence",
+      "label": "依据",
+      "value_type": "list",
+      "required": true,
+      "purpose": "列出支持决策的可复查事实。"
+    }
+  ],
+  "sections": [
+    {
+      "section_id": "decision",
+      "heading": "决策",
+      "required": true,
+      "purpose": "首屏呈现已经确认的决定。",
+      "field_ids": [
+        "decision"
+      ]
+    },
+    {
+      "section_id": "evidence",
+      "heading": "确认依据",
+      "required": true,
+      "purpose": "给出事实与验证入口。",
+      "field_ids": [
+        "evidence"
+      ]
+    }
+  ],
+  "budgets": {
+    "key_entities": {
+      "minimum": 0,
+      "maximum": 4,
+      "scope": "page",
+      "counting_rule": "只统计正文直接点名的实现实体。",
+      "overflow_action": "把额外实现细节移入既有职责页。"
+    },
+    "source_links": {
+      "minimum": 1,
+      "maximum": 6,
+      "scope": "page",
+      "counting_rule": "统计可点击源码或验证记录链接。",
+      "overflow_action": "只保留直接支持结论的链接。"
+    },
+    "total_characters": {
+      "maximum": 8000,
+      "overflow_action": "删除与决策无关的背景展开。"
+    }
+  },
+  "links": {
+    "requirements": [
+      "每个链接必须说明目标内容和阅读目的。",
+      "链接目标必须存在于当前输出或明确标注的外部来源。"
+    ],
+    "allow_external": true
+  },
+  "evidence": {
+    "required_fields": [
+      "source",
+      "observed_at"
+    ],
+    "current_fact_rule": "当前状态必须绑定来源和观察时间。",
+    "freshness_fields": [
+      "observed_at"
+    ]
+  },
+  "examples": [
+    {
+      "name": "包含决策与依据",
+      "content": "# 选择局部索引\n\n## 决策\n使用输出局部索引。\n\n## 确认依据\n- 验证记录说明索引可重放。\n",
+      "expected_result": "passed"
+    }
+  ],
+  "failure_examples": [
+    {
+      "name": "缺少依据",
+      "content": "# 选择局部索引\n\n## 决策\n使用输出局部索引。\n",
+      "expected_errors": [
+        "缺少确认依据章节"
+      ]
+    }
+  ],
+  "migration_impact": {
+    "summary": "新增局部页面类型，不迁移或重写既有内置页面。",
+    "compatibility": "additive",
+    "affected_page_types": [],
+    "requires_existing_page_migration": false
+  },
+  "applicability_boundary": "只适用于显式启用该扩展的当前 CKB 输出，不进入内置 14 类合同。",
+  "rollback": {
+    "summary": "停用扩展并重建局部索引，保留提议和审计历史。",
+    "steps": [
+      "运行 template rollback 指向已批准扩展。",
+      "复查局部索引中该扩展不再 active。"
+    ],
+    "preserves_history": true
+  }
+}

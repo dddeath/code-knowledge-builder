@@ -2,15 +2,15 @@
 
 标签：#类型/代码
 
-> `emit` 是 `scripts/ckb.py` 第 749-752 行定义的函数，本页绑定该固定源码范围。 负责注册 CKB 命令、校验参数，并把子命令分派到对应的知识库实现。
+> `emit` 位于 `scripts/ckb.py` 第 859-862 行，本页用固定源码范围说明它如何生成稳定排序的结构化表示或人类输出。 `emit` 负责在CKB 主命令解析、分发和退出状态中生成稳定排序的结构化表示或人类输出。
 
 ## 什么时候需要修改
 
-当 `emit` 的输入、输出、状态转换或失败返回变化时，应更新本页并重跑对应测试。
+当 `scripts/ckb.py` 中 `emit` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。
 
 ## 在代码中的位置
 
-[打开源码：scripts/ckb.py 第 749 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:749:1)  `scripts/ckb.py:749-752`
+[打开源码：scripts/ckb.py 第 859 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:859:1)  `scripts/ckb.py:859-862`
 
 ## 相关代码
 

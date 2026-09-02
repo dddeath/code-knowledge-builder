@@ -28,10 +28,10 @@
 - [[parse_file 与 _language 的协作实现]]
 - [[render_integration 与 _looks_windows 的协作实现]]
 - [[execute 等测试场景]]
-- [[AutomationTest.event 等测试场景]]
+- [[AutomationTest.register 等测试场景]]
 - [[CodeKnowledgeBuilderTests]]
 - [[audit_global 与 _replace_output_prefix 的协作实现]]
-- [[LspClient.start 与 _version_matches 的协作实现]]
+- [[doctor_report 与 _version_matches 的协作实现]]
 
 ## 源码入口
 

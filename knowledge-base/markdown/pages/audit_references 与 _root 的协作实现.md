@@ -17,16 +17,18 @@
 - 实现时会用到 [[CkbError]]。
 - 实现时会用到 [[CkbError 与 DependencyError 的协作实现]]。
 - 实现时会用到 [[append]]。
+- 实现时会用到 [[audit_global 与 _replace_output_prefix 的协作实现]]。
 - 主要代码单元是 [[audit_references]]。
-- 实现时会用到 [[initialize 与 _replace_output_prefix 的协作实现]]。
+- 实现时会用到 [[propose_template 与 _canonical_bytes 的协作实现]]。
 - 实现时会用到 [[render_integration 与 _looks_windows 的协作实现]]。
 - 实现时会用到 [[retrieve 与 _tokens 的协作实现]]。
 - 实现时会用到 [[retrieve_machine 与 estimated_tokens 的协作实现]]。
+- 实现时会用到 [[rollback]]。
+- 实现时会用到 [[validate 与 canonical 的协作实现]]。
 
 ## 谁会来到这里
 
 - [[audit_references]] 会使用这里提供的行为。
-- [[main（ckb 实现）]] 会使用这里提供的行为。
 - 可从 [[scripts 职责导览]] 进入本页。
 
 ## 相关测试
@@ -35,8 +37,8 @@
 - [[CodeKnowledgeBuilderTests]]
 - [[CodeKnowledgeBuilderTests 等测试场景]]
 - [[MigrationTest]]
+- [[RecordReplaceTests]]
 - [[ScopeExtensionTest]]
-- [[command 等测试场景]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 

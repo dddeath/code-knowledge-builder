@@ -1,0 +1,294 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ckb.local/schemas/canvas-rollback-manifest.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "status": {
+      "const": "ready"
+    },
+    "request_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "authorized_staging_root": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 32767
+    },
+    "backup_root": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 32767
+    },
+    "baseline": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "canvas": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "state": {
+                  "const": "absent"
+                }
+              },
+              "required": [
+                "state"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "state": {
+                  "const": "present"
+                },
+                "sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "backup_path": {
+                  "type": "string",
+                  "minLength": 3,
+                  "maxLength": 32767
+                },
+                "backup_sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                }
+              },
+              "required": [
+                "state",
+                "sha256",
+                "backup_path",
+                "backup_sha256"
+              ]
+            }
+          ]
+        },
+        "validation_manifest": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "state": {
+                  "const": "absent"
+                }
+              },
+              "required": [
+                "state"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "state": {
+                  "const": "present"
+                },
+                "sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "backup_path": {
+                  "type": "string",
+                  "minLength": 3,
+                  "maxLength": 32767
+                },
+                "backup_sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                }
+              },
+              "required": [
+                "state",
+                "sha256",
+                "backup_path",
+                "backup_sha256"
+              ]
+            }
+          ]
+        },
+        "rollback_manifest": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "state": {
+                  "const": "absent"
+                }
+              },
+              "required": [
+                "state"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "state": {
+                  "const": "present"
+                },
+                "sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "backup_path": {
+                  "type": "string",
+                  "minLength": 3,
+                  "maxLength": 32767
+                },
+                "backup_sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                }
+              },
+              "required": [
+                "state",
+                "sha256",
+                "backup_path",
+                "backup_sha256"
+              ]
+            }
+          ]
+        }
+      },
+      "required": [
+        "canvas",
+        "validation_manifest",
+        "rollback_manifest"
+      ]
+    },
+    "generated": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "canvas": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 32767
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          },
+          "required": [
+            "path",
+            "sha256"
+          ]
+        },
+        "validation_manifest": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 32767
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          },
+          "required": [
+            "path",
+            "sha256"
+          ]
+        }
+      },
+      "required": [
+        "canvas",
+        "validation_manifest"
+      ]
+    },
+    "rollback_manifest_path": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 32767
+    },
+    "guard": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "expected_canvas_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "expected_validation_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "expected_manifest_content_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "expected_canvas_sha256",
+        "expected_validation_sha256",
+        "expected_manifest_content_sha256"
+      ]
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "role": {
+            "enum": [
+              "canvas",
+              "validation_manifest",
+              "rollback_manifest"
+            ]
+          },
+          "action": {
+            "enum": [
+              "delete",
+              "restore"
+            ]
+          },
+          "verify": {
+            "enum": [
+              "absent",
+              "sha256"
+            ]
+          }
+        },
+        "required": [
+          "role",
+          "action",
+          "verify"
+        ]
+      },
+      "minItems": 3,
+      "maxItems": 3
+    }
+  },
+  "required": [
+    "schema_version",
+    "status",
+    "request_sha256",
+    "authorized_staging_root",
+    "backup_root",
+    "baseline",
+    "generated",
+    "rollback_manifest_path",
+    "guard",
+    "actions"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-appendix-review-pack-0019",
+  "kind": "appendix-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-02T02:37:07Z",
+  "reviews": [
+    {
+      "entity_id": "ent-8bbc19869deb579eaf412aa6d3f3f10d",
+      "classification": "appendix",
+      "owner_page_id": "file-50ba4ba20745503d977291b4c28045e8",
+      "source_path": "scripts/ckb_core/obsidian.py",
+      "start_line": 48,
+      "end_line": 108,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/obsidian.py` 第 48 至 108 行，核对该代码单元的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "安装 `obsidian` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-8dc1da79b39a5beba61b6d0da983932f",
+      "classification": "appendix",
+      "owner_page_id": "file-50ba4ba20745503d977291b4c28045e8",
+      "source_path": "scripts/ckb_core/obsidian.py",
+      "start_line": 111,
+      "end_line": 115,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/obsidian.py` 第 111 至 115 行，核对该代码单元的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "写入 `generated_ownership` 对应的数据与约束。"
+    }
+  ]
+}

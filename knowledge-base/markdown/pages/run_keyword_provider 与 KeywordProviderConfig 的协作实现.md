@@ -17,8 +17,8 @@
 - 实现时会用到 [[CkbError]]。
 - 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
 - 实现时会用到 [[append]]。
+- 实现时会用到 [[ckb_canvas 的协作边界]]。
 - 实现时会用到 [[command]]。
-- 实现时会用到 [[normalize]]。
 - 主要代码单元是 [[run_keyword_provider]]。
 
 ## 谁会来到这里
@@ -38,11 +38,11 @@
 ## 相关测试
 
 - [[AutomationTest.register 等测试场景]]
-- [[CodeKnowledgeBuilderTests]]
-- [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[KeywordFallbackRetrievalWiringTests]]
-- [[KeywordFallbackRetrievalWiringTests 等测试场景]]
-- [[MigrationTest]]
+- [[CanvasContractTests]]
+- [[CanvasDeterminismTests]]
+- [[CanvasGraphTests]]
+- [[CanvasPathTests]]
+- [[CanvasRollbackTests]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 

@@ -6,26 +6,22 @@
   "file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human\\changes\\稳定知识库恢复与当前 HEAD 同步.md",
   "compatibility_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown\\changes\\稳定知识库恢复与当前 HEAD 同步.md",
   "linked_pages": [
-    "create_knowledge_batch_plan 与 KnowledgeRelease 的协作实现",
-    "serve_stdio 与 _write_line 的协作实现",
-    "start_session 与 _session_directory 的协作实现",
-    "_Transport.close 与 _StartGate 的协作实现",
-    "run_keyword_provider 与 KeywordProviderConfig 的协作实现",
-    "parse_file 与 _language 的协作实现",
-    "maintenance_check 与 capability_matrix 的协作实现",
     "audit_migration 与 _entity_key 的协作实现"
   ],
   "source_links": [
-    "[打开源码：scripts/ckb_core/knowledge_batch_migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/knowledge_batch_migration.py:1:1)  `scripts/ckb_core/knowledge_batch_migration.py:1-2076`",
-    "[打开源码：scripts/ckb_core/stdio_server.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/stdio_server.py:1:1)  `scripts/ckb_core/stdio_server.py:1-392`",
-    "[打开源码：scripts/ckb_core/agent_maintenance.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_maintenance.py:1:1)  `scripts/ckb_core/agent_maintenance.py:1-255`",
-    "[打开源码：scripts/ckb_core/session_stdio.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/session_stdio.py:1:1)  `scripts/ckb_core/session_stdio.py:1-1459`",
-    "[打开源码：scripts/ckb_core/keyword_fallback.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/keyword_fallback.py:1:1)  `scripts/ckb_core/keyword_fallback.py:1-633`",
-    "[打开源码：scripts/ckb_core/parsers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/parsers.py:1:1)  `scripts/ckb_core/parsers.py:1-538`",
-    "[打开源码：scripts/ckb_core/llm_wiki_capabilities.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/llm_wiki_capabilities.py:1:1)  `scripts/ckb_core/llm_wiki_capabilities.py:1-459`",
     "[打开源码：scripts/ckb_core/migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/migration.py:1:1)  `scripts/ckb_core/migration.py:1-604`"
   ],
-  "query_record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260901-052420-266825-01.json",
-  "updated_at_utc": "2026-09-01T05:37:03Z",
-  "obsidian_uri": "obsidian://open?path=E%3A%5Cknowledge_builder%5Cself-workspace%5Cknowledge-base%5Cmarkdown%5Cchanges%5C%E7%A8%B3%E5%AE%9A%E7%9F%A5%E8%AF%86%E5%BA%93%E6%81%A2%E5%A4%8D%E4%B8%8E%E5%BD%93%E5%89%8D%20HEAD%20%E5%90%8C%E6%AD%A5.md"
+  "query_record": null,
+  "updated_at_utc": "2026-09-02T02:44:32Z",
+  "obsidian_uri": "obsidian://open?path=E%3A%5Cknowledge_builder%5Cself-workspace%5Cknowledge-base%5Cmarkdown%5Cchanges%5C%E7%A8%B3%E5%AE%9A%E7%9F%A5%E8%AF%86%E5%BA%93%E6%81%A2%E5%A4%8D%E4%B8%8E%E5%BD%93%E5%89%8D%20HEAD%20%E5%90%8C%E6%AD%A5.md",
+  "record_id": "work-record-1621ed390d7e5aa4acf6d6d58e00dcdb",
+  "created_at_utc": "2026-09-01T05:37:03Z",
+  "body_sha256": "192d0abef4058b96c645d138d803b0afb6d12d514baab929d346479e2962d5a8",
+  "replacement": {
+    "operation_id": "record-replace-b0781622bbdf5560abac81bf2fd8a8df",
+    "replaced_at_utc": "2026-09-02T02:44:32Z",
+    "previous_page_sha256": "1ce954eeda203b5d89964ea9ef0814d2bd6834274638a36d80fd5b855bbcec96",
+    "previous_body_sha256": "1ce954eeda203b5d89964ea9ef0814d2bd6834274638a36d80fd5b855bbcec96",
+    "body_sha256": "192d0abef4058b96c645d138d803b0afb6d12d514baab929d346479e2962d5a8"
+  }
 }

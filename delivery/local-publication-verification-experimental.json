@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "root": "/mnt/e/knowledge_builder/self-workspace/publish-worktrees/release-5.4.0-stable-knowledge",
+  "checks": [
+    {
+      "name": "source-files",
+      "passed": true,
+      "detail": {
+        "passed": true,
+        "expected_count": 869,
+        "actual_count": 869,
+        "missing": [],
+        "extra": [],
+        "changed": []
+      }
+    },
+    {
+      "name": "knowledge-files",
+      "passed": true,
+      "detail": {
+        "passed": true,
+        "expected_count": 2405,
+        "actual_count": 2405,
+        "missing": [],
+        "extra": [],
+        "changed": []
+      }
+    },
+    {
+      "name": "fixed-source-commit",
+      "passed": true,
+      "detail": {
+        "root": "E:\\knowledge_builder\\self-workspace\\source",
+        "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+        "tree": "6da95dc3ac8991b5abb12b816bcc5e577f53c997",
+        "git_bootstrap": {
+          "requested": false,
+          "performed": false,
+          "repository_created": false,
+          "initial_commit_created": false,
+          "root": "E:\\knowledge_builder\\self-workspace\\source",
+          "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+          "commit_count": 113,
+          "commit_message": null,
+          "author": null
+        }
+      }
+    },
+    {
+      "name": "completion-markers",
+      "passed": true,
+      "detail": "three markers"
+    },
+    {
+      "name": "global-audit",
+      "passed": true,
+      "detail": "passed"
+    },
+    {
+      "name": "double-sqlite",
+      "passed": true,
+      "detail": [
+        {
+          "path": "/mnt/e/knowledge_builder/self-workspace/publish-worktrees/release-5.4.0-stable-knowledge/knowledge-base/agent-index.sqlite",
+          "passed": true,
+          "integrity_check": "ok",
+          "foreign_key_error_count": 0,
+          "schema_version": "1",
+          "sha256": "1f363a5b647ec79d384072023b1ae0ad780a18216957adb86057510dd5a288af"
+        },
+        {
+          "path": "/mnt/e/knowledge_builder/self-workspace/publish-worktrees/release-5.4.0-stable-knowledge/knowledge-base/machine/knowledge.sqlite",
+          "passed": true,
+          "integrity_check": "ok",
+          "foreign_key_error_count": 0,
+          "schema_version": "3",
+          "sha256": "2587a4d9604451d14138e947aab83888ae87b2e31f00bd73bb59e9a47290b705"
+        }
+      ]
+    },
+    {
+      "name": "human-markdown-mirror",
+      "passed": true,
+      "detail": {
+        "passed": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "readability",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "experimental-canvas-and-record-replace-surface",
+      "passed": true,
+      "detail": {
+        "files": {
+          "canvas_skill": true,
+          "canvas_cli": true,
+          "canvas_schema": true,
+          "record_replace": true,
+          "record_replace_test": true,
+          "record_replace_note": true,
+          "canvas_release_note": true
+        },
+        "canvas_status": "experimental",
+        "record_replace_status": "supported",
+        "readme_experimental_heading": true
+      }
+    },
+    {
+      "name": "durable-counts",
+      "passed": true,
+      "detail": {
+        "records": 57,
+        "expected_records": 57,
+        "references": 1,
+        "expected_references": 1,
+        "research_gaps": 5,
+        "expected_research_gaps": 5
+      }
+    },
+    {
+      "name": "learning-note-originals",
+      "passed": true,
+      "detail": [
+        {
+          "name": "2026-08-29.md",
+          "expected": "62059c19c42a0969e116c66d747627c6fae1b9fef3ef412e2c0ed03ced45ceeb",
+          "human": "62059c19c42a0969e116c66d747627c6fae1b9fef3ef412e2c0ed03ced45ceeb",
+          "markdown": "62059c19c42a0969e116c66d747627c6fae1b9fef3ef412e2c0ed03ced45ceeb",
+          "passed": true
+        },
+        {
+          "name": "2026-08-30.md",
+          "expected": "dc7e8eb4791816b8d7989bb7bb82e97f50d6cbdb2f586f769422baf79ea91e67",
+          "human": "dc7e8eb4791816b8d7989bb7bb82e97f50d6cbdb2f586f769422baf79ea91e67",
+          "markdown": "dc7e8eb4791816b8d7989bb7bb82e97f50d6cbdb2f586f769422baf79ea91e67",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "no-transient-git-or-sqlite-state",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "credential-scan",
+      "passed": true,
+      "detail": {
+        "status": "passed",
+        "scanned_text_files": 3323,
+        "findings": [],
+        "allowlisted_test_fixtures": 6
+      }
+    },
+    {
+      "name": "lfs-objects-materialized",
+      "passed": true,
+      "detail": []
+    }
+  ]
+}

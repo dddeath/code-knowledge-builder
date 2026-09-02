@@ -1,0 +1,100 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0046",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-02T02:37:42Z",
+  "reviews": [
+    {
+      "entity_id": "ent-05db65d424ca5ce0a00d27a67afa4bbc",
+      "classification": "page",
+      "owner_page_id": "ent-05db65d424ca5ce0a00d27a67afa4bbc",
+      "source_path": "tests/test_ckb_canvas_paths.py",
+      "start_line": 31,
+      "end_line": 150,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_ckb_canvas_paths.py` 第 31-150 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "meaning_zh": "`CanvasPathTests` 位于 `tests/test_ckb_canvas_paths.py` 第 31-150 行，本页用固定源码范围说明它如何验证目标行为、失败分类和回归边界。",
+      "role_zh": "`CanvasPathTests` 负责在对应能力的可执行成功、失败和回归验证中验证目标行为、失败分类和回归边界。",
+      "change_when_zh": "当 `tests/test_ckb_canvas_paths.py` 中 `CanvasPathTests` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "file-93d52dddc2bd5a6ab7c922934c77492c",
+      "classification": "page",
+      "owner_page_id": "file-93d52dddc2bd5a6ab7c922934c77492c",
+      "source_path": "tests/test_ckb_canvas_rollback.py",
+      "start_line": 1,
+      "end_line": 80,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_ckb_canvas_rollback.py` 第 1-80 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "meaning_zh": "`tests/test_ckb_canvas_rollback.py` 页面绑定固定源码第 1-80 行，说明该文件在对应能力的可执行成功、失败和回归验证中的整体职责。",
+      "role_zh": "该文件负责对应能力的可执行成功、失败和回归验证，并为相关命令或测试提供可复查实现入口。",
+      "change_when_zh": "当 `tests/test_ckb_canvas_rollback.py` 中 `tests/test_ckb_canvas_rollback.py` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "ent-d6c22a7fe5c4557a942ec9557cc732b3",
+      "classification": "page",
+      "owner_page_id": "ent-d6c22a7fe5c4557a942ec9557cc732b3",
+      "source_path": "tests/test_ckb_canvas_rollback.py",
+      "start_line": 18,
+      "end_line": 75,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_ckb_canvas_rollback.py` 第 18-75 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "meaning_zh": "`CanvasRollbackTests` 位于 `tests/test_ckb_canvas_rollback.py` 第 18-75 行，本页用固定源码范围说明它如何验证目标行为、失败分类和回归边界。",
+      "role_zh": "`CanvasRollbackTests` 负责在对应能力的可执行成功、失败和回归验证中验证目标行为、失败分类和回归边界。",
+      "change_when_zh": "当 `tests/test_ckb_canvas_rollback.py` 中 `CanvasRollbackTests` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "file-75186268e306528a8fd68c30113574f4",
+      "classification": "page",
+      "owner_page_id": "file-75186268e306528a8fd68c30113574f4",
+      "source_path": "tests/test_ckb_canvas_transaction.py",
+      "start_line": 1,
+      "end_line": 116,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_ckb_canvas_transaction.py` 第 1-116 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "meaning_zh": "`tests/test_ckb_canvas_transaction.py` 页面绑定固定源码第 1-116 行，说明该文件在对应能力的可执行成功、失败和回归验证中的整体职责。",
+      "role_zh": "该文件负责对应能力的可执行成功、失败和回归验证，并为相关命令或测试提供可复查实现入口。",
+      "change_when_zh": "当 `tests/test_ckb_canvas_transaction.py` 中 `tests/test_ckb_canvas_transaction.py` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "ent-71f0bf88565c5231a7899e2c3b7ff8f8",
+      "classification": "page",
+      "owner_page_id": "ent-71f0bf88565c5231a7899e2c3b7ff8f8",
+      "source_path": "tests/test_ckb_canvas_transaction.py",
+      "start_line": 24,
+      "end_line": 111,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_ckb_canvas_transaction.py` 第 24-111 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "meaning_zh": "`CanvasTransactionTests` 位于 `tests/test_ckb_canvas_transaction.py` 第 24-111 行，本页用固定源码范围说明它如何验证目标行为、失败分类和回归边界。",
+      "role_zh": "`CanvasTransactionTests` 负责在对应能力的可执行成功、失败和回归验证中验证目标行为、失败分类和回归边界。",
+      "change_when_zh": "当 `tests/test_ckb_canvas_transaction.py` 中 `CanvasTransactionTests` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "file-7c78989b12ef5bfa9c06691d17daa6fc",
+      "classification": "page",
+      "owner_page_id": "file-7c78989b12ef5bfa9c06691d17daa6fc",
+      "source_path": "tests/test_human_maintenance_prompts.py",
+      "start_line": 1,
+      "end_line": 423,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_human_maintenance_prompts.py` 第 1-423 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "meaning_zh": "`tests/test_human_maintenance_prompts.py` 页面绑定固定源码第 1-423 行，说明该文件在稳定维护 Prompt 的 action 映射、渲染和交付审计中的整体职责。",
+      "role_zh": "该文件负责稳定维护 Prompt 的 action 映射、渲染和交付审计，并为相关命令或测试提供可复查实现入口。",
+      "change_when_zh": "当 `tests/test_human_maintenance_prompts.py` 中 `tests/test_human_maintenance_prompts.py` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "ent-56a899fdc8c25fa4af1b6a95a04f1f62",
+      "classification": "page",
+      "owner_page_id": "ent-56a899fdc8c25fa4af1b6a95a04f1f62",
+      "source_path": "tests/test_human_maintenance_prompts.py",
+      "start_line": 102,
+      "end_line": 179,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_human_maintenance_prompts.py` 第 102-179 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "meaning_zh": "`HumanMaintenancePromptRegistryTests` 位于 `tests/test_human_maintenance_prompts.py` 第 102-179 行，本页用固定源码范围说明它如何验证目标行为、失败分类和回归边界。",
+      "role_zh": "`HumanMaintenancePromptRegistryTests` 负责在稳定维护 Prompt 的 action 映射、渲染和交付审计中验证目标行为、失败分类和回归边界。",
+      "change_when_zh": "当 `tests/test_human_maintenance_prompts.py` 中 `HumanMaintenancePromptRegistryTests` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
+    }
+  ]
+}

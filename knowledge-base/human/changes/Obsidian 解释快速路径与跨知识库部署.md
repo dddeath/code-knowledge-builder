@@ -24,7 +24,7 @@ Obsidian Companion 升级到 0.7.0。右键解释仍跟随用户选择的 Provid
 - [[retrieve_machine 与 estimated_tokens 的协作实现]]
 - [[deployment_plan 与 skill_root 的协作实现]]
 - [[CkbError 与 DependencyError 的协作实现]]
-- [[initialize 与 _replace_output_prefix 的协作实现]]
+- [[audit_global 与 _replace_output_prefix 的协作实现]]
 - [[preflight 与 git 的协作实现]]
 - [[keyword_provider_config 与 parser 的协作实现]]
 - [[query_graph 与 _networkx_modules 的协作实现]]

@@ -19,6 +19,7 @@
 - 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
 - 实现时会用到 [[append]]。
 - 实现时会用到 [[package_showcase 与 _parse_sample 的协作实现]]。
+- 实现时会用到 [[sample 等测试场景]]。
 
 ## 谁会来到这里
 

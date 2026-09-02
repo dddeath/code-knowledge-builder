@@ -27,10 +27,15 @@
 - [[audit_migration 与 _entity_key 的协作实现]] 会使用这里提供的行为。
 - [[audit_references]] 会使用这里提供的行为。
 - [[bind_conversation 与 default_management_registry_path 的协作实现]] 会使用这里提供的行为。
+- [[build_case]] 会使用这里提供的行为。
+- [[build_manual_index]] 会使用这里提供的行为。
+- [[build_manual_index 等测试场景]] 会使用这里提供的行为。
 - [[create_knowledge_batch_plan 与 KnowledgeRelease 的协作实现]] 会使用这里提供的行为。
 - [[doctor_report 与 _version_matches 的协作实现]] 会使用这里提供的行为。
+- [[freeze 的协作边界]] 会使用这里提供的行为。
+- [[graph 的协作边界]] 会使用这里提供的行为。
 - [[ingest_event 与 default_registry_path 的协作实现]] 会使用这里提供的行为。
-- [[normalize 等测试场景]] 会使用这里提供的行为。
+- [[replace_note 与 RecordReplaceLockError 的协作实现]] 会使用这里提供的行为。
 - [[retrieve]] 会使用这里提供的行为。
 - [[retrieve 与 _tokens 的协作实现]] 会使用这里提供的行为。
 - [[retrieve_machine 与 estimated_tokens 的协作实现]] 会使用这里提供的行为。
@@ -41,8 +46,8 @@
 - [[AgentProtocolBatchApplyTests]]
 - [[AgentProtocolBatchApplyTests 等测试场景]]
 - [[AutomationTest.register 等测试场景]]
-- [[CodeKnowledgeBuilderTests]]
-- [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[KeywordFallbackRetrievalWiringTests]]
+- [[CanvasContractTests]]
+- [[CanvasContractTests 等测试场景]]
+- [[CanvasDeterminismTests]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。

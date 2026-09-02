@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "status": "failed",
+  "operation": "generate",
+  "reason": "budget_exceeded",
+  "phase": "select",
+  "exit_code": 5,
+  "detail": "required page 节点超过 6",
+  "target_state": {
+    "path": "C:\\fixture\\交付\\暂存\\ckb-navigation.canvas",
+    "before": {
+      "state": "absent"
+    },
+    "after": {
+      "state": "absent"
+    },
+    "changed": false
+  },
+  "recovery": {
+    "action": "reduce-required-set",
+    "required_inputs": [
+      "required_entries within budget"
+    ]
+  }
+}

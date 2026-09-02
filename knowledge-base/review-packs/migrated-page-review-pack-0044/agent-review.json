@@ -1,0 +1,22 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0044",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-02T02:37:40Z",
+  "reviews": [
+    {
+      "entity_id": "ent-31d2b76dd5c35696a980335552fa734b",
+      "classification": "page",
+      "owner_page_id": "ent-31d2b76dd5c35696a980335552fa734b",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 199,
+      "end_line": 2232,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_ckb.py` 第 199-2232 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`CodeKnowledgeBuilderT...` 是 `tests/test_ckb.py` 第 199-2232 行定义的类，本页绑定该固定源码范围。",
+      "role_zh": "该类作为可执行验证入口，检查标识符 `CodeKnowledgeBuilderTests` 所指的行为与失败边界。",
+      "change_when_zh": "当被测行为、输入夹具、断言或失败条件变化时，应同步更新 `CodeKnowledgeBuilderTests` 的说明。"
+    }
+  ]
+}

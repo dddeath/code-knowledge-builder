@@ -1,0 +1,230 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ckb.local/schemas/canvas-failure.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "status": {
+      "const": "failed"
+    },
+    "operation": {
+      "enum": [
+        "generate",
+        "validate",
+        "rollback",
+        "benchmark"
+      ]
+    },
+    "reason": {
+      "enum": [
+        "invalid_request",
+        "unsupported_record_schema",
+        "pack_record_mismatch",
+        "input_drift",
+        "snapshot_mismatch",
+        "source_outside_scope",
+        "target_exists",
+        "missing_backlink",
+        "missing_target",
+        "invalid_source_range",
+        "budget_exceeded",
+        "duplicate_id",
+        "dangling_edge",
+        "invalid_canvas",
+        "promotion_drift",
+        "rollback_drift",
+        "io_failure"
+      ]
+    },
+    "phase": {
+      "enum": [
+        "request",
+        "freeze",
+        "select",
+        "layout",
+        "validate",
+        "baseline",
+        "staging",
+        "promotion",
+        "reopen",
+        "rollback",
+        "benchmark"
+      ]
+    },
+    "exit_code": {
+      "enum": [
+        2,
+        5,
+        6,
+        7
+      ]
+    },
+    "detail": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1000
+    },
+    "target_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 32767
+        },
+        "before": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "state": {
+                  "const": "absent"
+                }
+              },
+              "required": [
+                "state"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "state": {
+                  "const": "present"
+                },
+                "sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                }
+              },
+              "required": [
+                "state",
+                "sha256"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "state": {
+                  "const": "unavailable"
+                }
+              },
+              "required": [
+                "state"
+              ]
+            }
+          ]
+        },
+        "after": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "state": {
+                  "const": "absent"
+                }
+              },
+              "required": [
+                "state"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "state": {
+                  "const": "present"
+                },
+                "sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                }
+              },
+              "required": [
+                "state",
+                "sha256"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "state": {
+                  "const": "unavailable"
+                }
+              },
+              "required": [
+                "state"
+              ]
+            }
+          ]
+        },
+        "changed": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "path",
+        "before",
+        "after",
+        "changed"
+      ]
+    },
+    "recovery": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "enum": [
+            "correct-request",
+            "regenerate-request",
+            "use-matching-pack-record",
+            "restore-input",
+            "use-fixed-snapshot",
+            "move-into-scope",
+            "choose-new-target-or-pin-baseline",
+            "supply-reviewed-backlink",
+            "restore-target",
+            "correct-source-range",
+            "reduce-required-set",
+            "fix-generator",
+            "rebaseline-after-review",
+            "manual-review-current-bytes",
+            "retry-io"
+          ]
+        },
+        "required_inputs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "maxItems": 8
+        }
+      },
+      "required": [
+        "action",
+        "required_inputs"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "status",
+    "operation",
+    "reason",
+    "phase",
+    "exit_code",
+    "detail",
+    "target_state",
+    "recovery"
+  ]
+}

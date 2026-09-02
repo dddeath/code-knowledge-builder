@@ -1,0 +1,91 @@
+{
+  "schema_version": 4,
+  "chunk_id": "batch-0004",
+  "status": "passed",
+  "gates": {
+    "scope": {
+      "status": "passed",
+      "checks": [
+        {
+          "name": "chunk-entity-set-exact",
+          "passed": true,
+          "detail": {
+            "missing": [],
+            "extra": []
+          }
+        }
+      ]
+    },
+    "syntax": {
+      "status": "passed",
+      "checks": [
+        {
+          "name": "all-files-parse",
+          "passed": true,
+          "detail": {}
+        },
+        {
+          "name": "entity-ids-unique",
+          "passed": true,
+          "detail": 406
+        }
+      ]
+    },
+    "classification": {
+      "status": "passed",
+      "checks": [
+        {
+          "name": "classification-and-owner-valid",
+          "passed": true,
+          "detail": []
+        }
+      ]
+    },
+    "semantics": {
+      "status": "passed",
+      "checks": [
+        {
+          "name": "providers-passed",
+          "passed": true,
+          "detail": []
+        },
+        {
+          "name": "key-entity-coverage",
+          "passed": true,
+          "detail": []
+        }
+      ]
+    },
+    "source": {
+      "status": "passed",
+      "checks": [
+        {
+          "name": "git-source-authentic",
+          "passed": true,
+          "detail": []
+        }
+      ]
+    },
+    "descriptions": {
+      "status": "passed",
+      "checks": [
+        {
+          "name": "pages-and-appendix-sentences-agent-reviewed",
+          "passed": true,
+          "detail": []
+        }
+      ]
+    },
+    "links": {
+      "status": "passed",
+      "checks": [
+        {
+          "name": "link-endpoints-valid",
+          "passed": true,
+          "detail": []
+        }
+      ]
+    }
+  },
+  "audited_at_utc": "2026-09-02T02:48:42Z"
+}

@@ -15,12 +15,11 @@
 ## 相关代码
 
 - 主要代码单元是 [[MigrationTest]]。
-- 实现时会用到 [[initialize 与 _replace_output_prefix 的协作实现]]。
+- 实现时会用到 [[audit_global 与 _replace_output_prefix 的协作实现]]。
 
 ## 谁会来到这里
 
 - [[doctor_report 与 _version_matches 的协作实现]] 关联到这里的验证场景。
-- [[initialize]] 关联到这里的验证场景。
 - [[load_page_config]] 关联到这里的验证场景。
 - [[load_page_config 与 _merge_known 的协作实现]] 关联到这里的验证场景。
 - [[parse_file]] 关联到这里的验证场景。

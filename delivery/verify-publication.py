@@ -11,7 +11,7 @@ import sqlite3
 from typing import Any
 
 
-TARGET_COMMIT = "150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3"
+TARGET_COMMIT = "94bf2201524342c2c87f9835ad5391a03cb9a7d9"
 LEARNING_NOTES = {
     "2026-08-29.md": "62059c19c42a0969e116c66d747627c6fae1b9fef3ef412e2c0ed03ced45ceeb",
     "2026-08-30.md": "dc7e8eb4791816b8d7989bb7bb82e97f50d6cbdb2f586f769422baf79ea91e67",
@@ -130,11 +130,38 @@ def main() -> int:
     check("human-markdown-mirror", mirror["passed"], mirror)
     readability = load(knowledge / "human/readability-audit.json")
     check("readability", readability.get("status") == "passed" and not readability.get("errors"), readability.get("errors"))
+    readme_text = (root / "README.md").read_text(encoding="utf-8")
+    experimental = publication.get("experimental_features", {})
+    surface = {
+        "canvas_skill": source / "prototypes/ckb-canvas-skill/SKILL.md",
+        "canvas_cli": source / "prototypes/ckb-canvas-skill/scripts/ckb_canvas.py",
+        "canvas_schema": source / "prototypes/ckb-canvas-skill/schemas/canvas-request.schema.json",
+        "record_replace": source / "scripts/ckb_core/record_replace.py",
+        "record_replace_test": source / "tests/test_record_replace.py",
+        "record_replace_note": knowledge / "human/changes/增加受控的工作记录正文替换与回滚.md",
+        "canvas_release_note": knowledge / "human/changes/将 Obsidian Canvas 原型纳入实验发布.md",
+    }
+    surface_detail = {
+        "files": {name: path.is_file() for name, path in surface.items()},
+        "canvas_status": experimental.get("obsidian_canvas", {}).get("status"),
+        "record_replace_status": experimental.get("record_body_replace", {}).get("status"),
+        "readme_experimental_heading": "## 实验功能：让 Agent 生成当前问题的 Obsidian Canvas" in readme_text,
+    }
+    check(
+        "experimental-canvas-and-record-replace-surface",
+        all(surface_detail["files"].values())
+        and surface_detail["canvas_status"] == "experimental"
+        and surface_detail["record_replace_status"] == "supported"
+        and surface_detail["readme_experimental_heading"],
+        surface_detail,
+    )
     records = list((knowledge / "workspace-meta/notes").glob("*.json"))
     references = list((knowledge / "references/manifests").glob("*.json"))
     gaps = list((knowledge / "workspace-meta/gaps/records").glob("*.json"))
     expected_records = int(publication.get("knowledge_state", {}).get("records", 0))
-    check("durable-counts", len(records) == expected_records and len(references) == 1 and len(gaps) == 3, {"records": len(records), "expected_records": expected_records, "references": len(references), "research_gaps": len(gaps)})
+    expected_references = int(publication.get("knowledge_state", {}).get("references", 0))
+    expected_gaps = int(publication.get("knowledge_state", {}).get("research_gaps", 0))
+    check("durable-counts", len(records) == expected_records and len(references) == expected_references and len(gaps) == expected_gaps, {"records": len(records), "expected_records": expected_records, "references": len(references), "expected_references": expected_references, "research_gaps": len(gaps), "expected_research_gaps": expected_gaps})
     notes = []
     for name, digest in LEARNING_NOTES.items():
         row = {"name": name, "expected": digest}
@@ -146,6 +173,17 @@ def main() -> int:
     check("learning-note-originals", all(item["passed"] for item in notes), notes)
     transient = [path.relative_to(knowledge).as_posix() for path in knowledge.rglob("*") if path.is_file() and (path.name == ".git" or path.name.endswith((".sqlite-wal", ".sqlite-shm")))]
     check("no-transient-git-or-sqlite-state", not transient, transient)
+    credential_scan = load(root / "delivery/credential-scan.json")
+    check(
+        "credential-scan",
+        credential_scan.get("status") == "passed" and not credential_scan.get("findings"),
+        {
+            "status": credential_scan.get("status"),
+            "scanned_text_files": credential_scan.get("scanned_text_files"),
+            "findings": credential_scan.get("findings"),
+            "allowlisted_test_fixtures": len(credential_scan.get("allowlisted_test_fixtures", [])),
+        },
+    )
     lfs_files = [root / item["path"] for item in publication.get("lfs_files", [])]
     lfs_errors = [str(path) for path in lfs_files if not path.is_file() or path.read_bytes()[: len(LFS_PREFIX)] == LFS_PREFIX]
     check("lfs-objects-materialized", not lfs_errors, lfs_errors)

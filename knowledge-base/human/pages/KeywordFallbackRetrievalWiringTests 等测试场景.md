@@ -16,6 +16,8 @@
 
 - 实现时会用到 [[CkbError]]。
 - 主要代码单元是 [[KeywordFallbackRetrievalWiringTests]]。
+- 实现时会用到 [[build_case 等测试场景]]。
+- 实现时会用到 [[ckb_canvas 的协作边界]]。
 - 实现时会用到 [[command]]。
 - 实现时会用到 [[retrieve_machine]]。
 - 实现时会用到 [[run_keyword_benchmark]]。
@@ -33,6 +35,8 @@
 - [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]] 会使用这里提供的行为。
 - [[append 等测试场景]] 会使用这里提供的行为。
 - [[audit_feedback 与 _contains_chinese 的协作实现]] 关联到这里的验证场景。
+- [[audit_global]] 关联到这里的验证场景。
+- [[audit_global 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 - [[audit_migration]] 关联到这里的验证场景。
 - [[audit_migration 与 _entity_key 的协作实现]] 会使用这里提供的行为。
 - [[audit_obsidian]] 会使用这里提供的行为。
@@ -42,9 +46,6 @@
 - [[deploy 的协作边界]] 会使用这里提供的行为。
 - [[doctor_report 与 _version_matches 的协作实现]] 会使用这里提供的行为。
 - [[execute 等测试场景]] 会使用这里提供的行为。
-- [[ingest_event 与 default_registry_path 的协作实现]] 关联到这里的验证场景。
-- [[initialize]] 会使用这里提供的行为。
-- [[initialize 与 _replace_output_prefix 的协作实现]] 关联到这里的验证场景。
 - [[keyword_provider_config]] 会使用这里提供的行为。
 - [[keyword_provider_config 与 parser 的协作实现]] 会使用这里提供的行为。
 - [[load_page_config]] 会使用这里提供的行为。
@@ -52,20 +53,17 @@
 - [[main（ckb 实现）]] 会使用这里提供的行为。
 - [[main（generate_large_fixture 测试）]] 会使用这里提供的行为。
 - [[module_name 与 estimated_tokens 的协作实现]] 会使用这里提供的行为。
-- [[normalize]] 关联到这里的验证场景。
 - [[package_showcase]] 会使用这里提供的行为。
 - [[parser]] 会使用这里提供的行为。
 - [[preflight 与 git 的协作实现]] 会使用这里提供的行为。
 - [[refresh 等测试场景]] 会使用这里提供的行为。
 - [[register_obsidian_plugin 与 default_obsidian_plugin_registry 的协作实现]] 会使用这里提供的行为。
 - [[retrieve_machine]] 关联到这里的验证场景。
-- [[retrieve_machine 与 estimated_tokens 的协作实现]] 关联到这里的验证场景。
 - [[run 等测试场景]] 会使用这里提供的行为。
 - [[run_keyword_benchmark]] 关联到这里的验证场景。
 - [[run_keyword_benchmark 与 _text_list 的协作实现]] 关联到这里的验证场景。
 - [[run_keyword_provider]] 关联到这里的验证场景。
-- [[run_keyword_provider 与 KeywordProviderConfig 的协作实现]] 关联到这里的验证场景。
-- [[search_terms 与 _split_camel 的协作实现]] 关联到这里的验证场景。
+- [[run_keyword_provider 与 KeywordProviderConfig 的协作实现]] 会使用这里提供的行为。
 - [[serve_stdio 与 _write_line 的协作实现]] 会使用这里提供的行为。
 - [[start_scope_extension]] 会使用这里提供的行为。
 - [[sync_human_layer]] 会使用这里提供的行为。
@@ -76,9 +74,9 @@
 - [[AgentProtocolBatchApplyTests]]
 - [[AgentProtocolBatchApplyTests 等测试场景]]
 - [[AutomationTest.register 等测试场景]]
-- [[CodeKnowledgeBuilderTests]]
-- [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[KeywordFallbackRetrievalWiringTests]]
+- [[CanvasContractTests]]
+- [[CanvasContractTests 等测试场景]]
+- [[CanvasDeterminismTests]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 

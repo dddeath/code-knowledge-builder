@@ -18,20 +18,19 @@
 - 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
 - 实现时会用到 [[_Transport.close]]。
 - 主要代码单元是 [[append]]。
+- 实现时会用到 [[audit_global 与 _replace_output_prefix 的协作实现]]。
 - 实现时会用到 [[bind_conversation]]。
 - 实现时会用到 [[bind_conversation 与 default_management_registry_path 的协作实现]]。
-- 实现时会用到 [[initialize 与 _replace_output_prefix 的协作实现]]。
+- 实现时会用到 [[build_case 等测试场景]]。
+- 实现时会用到 [[ckb_canvas 的协作边界]]。
 
 ## 谁会来到这里
 
 - [[_Transport.close 与 _StartGate 的协作实现]] 关联到这里的验证场景。
 - [[audit_gap_register]] 关联到这里的验证场景。
-- [[audit_gap_register 与 _root 的协作实现]] 关联到这里的验证场景。
 - [[audit_operation_journal]] 关联到这里的验证场景。
-- [[audit_references]] 关联到这里的验证场景。
 - [[bind_conversation]] 关联到这里的验证场景。
 - [[bind_conversation 与 default_management_registry_path 的协作实现]] 会使用这里提供的行为。
-- [[initialize]] 关联到这里的验证场景。
 - [[maintenance_check]] 关联到这里的验证场景。
 - [[maintenance_check 与 capability_matrix 的协作实现]] 关联到这里的验证场景。
 - [[parser]] 会使用这里提供的行为。
@@ -45,9 +44,9 @@
 - [[CodeKnowledgeBuilderTests 等测试场景]]
 - [[MigrationTest]]
 - [[ScopeExtensionTest]]
+- [[build_manual_index 等测试场景]]
 - [[command 等测试场景]]
 - [[execute 等测试场景]]
-- [[main（generate_large_fixture 测试）]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 

@@ -1,0 +1,267 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "counts": {
+    "passed": 16,
+    "total": 16
+  },
+  "checks": [
+    {
+      "name": "status-current-head",
+      "passed": true,
+      "detail": {
+        "status": "complete",
+        "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9"
+      }
+    },
+    {
+      "name": "retrieval-canary",
+      "passed": true,
+      "detail": {
+        "status": "passed",
+        "readings": 4,
+        "grep": false
+      }
+    },
+    {
+      "name": "work-record-count",
+      "passed": true,
+      "detail": {
+        "baseline": 55,
+        "new": 2,
+        "actual": 57
+      }
+    },
+    {
+      "name": "reference-count",
+      "passed": true,
+      "detail": 1
+    },
+    {
+      "name": "research-gap-state",
+      "passed": true,
+      "detail": {
+        "total": 5,
+        "status": {
+          "open": 4,
+          "resolved": 1
+        }
+      }
+    },
+    {
+      "name": "learning-note-originals",
+      "passed": true,
+      "detail": [
+        {
+          "path": "human/学习笔记/2026-08-29.md",
+          "expected": "62059c19c42a0969e116c66d747627c6fae1b9fef3ef412e2c0ed03ced45ceeb",
+          "actual": "62059c19c42a0969e116c66d747627c6fae1b9fef3ef412e2c0ed03ced45ceeb"
+        },
+        {
+          "path": "human/学习笔记/2026-08-30.md",
+          "expected": "dc7e8eb4791816b8d7989bb7bb82e97f50d6cbdb2f586f769422baf79ea91e67",
+          "actual": "dc7e8eb4791816b8d7989bb7bb82e97f50d6cbdb2f586f769422baf79ea91e67"
+        }
+      ]
+    },
+    {
+      "name": "five-change-pages-readable-and-replaced",
+      "passed": true,
+      "detail": [
+        {
+          "title": "稳定知识库恢复与当前 HEAD 同步",
+          "passed": true,
+          "headings": [
+            "修改内容",
+            "修改时间",
+            "修改原因",
+            "修改方式",
+            "涉及的其他特性",
+            "验证结果",
+            "当前边界",
+            "相关知识页",
+            "源码入口"
+          ],
+          "linked": [
+            "audit_migration 与 _entity_key 的协作实现"
+          ],
+          "operation_id": "record-replace-b0781622bbdf5560abac81bf2fd8a8df",
+          "manifest_status": "completed"
+        },
+        {
+          "title": "Agent 会话级 stdio 生命周期合并审计",
+          "passed": true,
+          "headings": [
+            "修改内容",
+            "修改时间",
+            "修改原因",
+            "修改方式",
+            "涉及的其他特性",
+            "验证结果",
+            "当前边界",
+            "相关知识页",
+            "源码入口"
+          ],
+          "linked": [
+            "start_session 与 _session_directory 的协作实现"
+          ],
+          "operation_id": "record-replace-5ee176f293845f6ea64167b7f67f2a2d",
+          "manifest_status": "completed"
+        },
+        {
+          "title": "低版本完整知识库批量迁移合并审计",
+          "passed": true,
+          "headings": [
+            "修改内容",
+            "修改时间",
+            "修改原因",
+            "修改方式",
+            "涉及的其他特性",
+            "验证结果",
+            "当前边界",
+            "相关知识页",
+            "源码入口"
+          ],
+          "linked": [
+            "create_knowledge_batch_plan 与 KnowledgeRelease 的协作实现"
+          ],
+          "operation_id": "record-replace-d4cc2c517ae75173bea56ae5fc206d1b",
+          "manifest_status": "completed"
+        },
+        {
+          "title": "低版本 Agent Protocol 批量升级合并审计",
+          "passed": true,
+          "headings": [
+            "修改内容",
+            "修改时间",
+            "修改原因",
+            "修改方式",
+            "涉及的其他特性",
+            "验证结果",
+            "当前边界",
+            "相关知识页",
+            "源码入口"
+          ],
+          "linked": [
+            "audit_agent_protocol 与 _default_python 的协作实现"
+          ],
+          "operation_id": "record-replace-5f884ece705a5167905046121f663f73",
+          "manifest_status": "completed"
+        },
+        {
+          "title": "既有知识库追加新中心合并审计",
+          "passed": true,
+          "headings": [
+            "修改内容",
+            "修改时间",
+            "修改原因",
+            "修改方式",
+            "涉及的其他特性",
+            "验证结果",
+            "当前边界",
+            "相关知识页",
+            "源码入口"
+          ],
+          "linked": [
+            "audit_migration 与 _entity_key 的协作实现"
+          ],
+          "operation_id": "record-replace-fc7870ba458256468627df0d8d8329c3",
+          "manifest_status": "completed"
+        }
+      ]
+    },
+    {
+      "name": "human-markdown-mirror",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "dual-sqlite-fts",
+      "passed": true,
+      "detail": [
+        {
+          "path": "agent-index.sqlite",
+          "quick": "ok",
+          "fts": {
+            "page_fts": 196,
+            "note_fts": 57
+          }
+        },
+        {
+          "path": "machine/knowledge.sqlite",
+          "quick": "ok",
+          "fts": {
+            "entity_fts": 1686,
+            "section_fts": 6171,
+            "source_fts": 92
+          }
+        }
+      ]
+    },
+    {
+      "name": "readability",
+      "passed": true,
+      "detail": {
+        "status": "passed",
+        "errors": []
+      }
+    },
+    {
+      "name": "maintain",
+      "passed": true,
+      "detail": {
+        "status": "passed",
+        "failed": [],
+        "checks": {
+          "agent_protocol": "passed",
+          "work_record_index": "passed",
+          "agent_index": "passed",
+          "machine_knowledge": "passed",
+          "keyword_fallback": "passed",
+          "human_layer": "passed",
+          "references": "passed",
+          "operations": "passed",
+          "research_gaps": "passed"
+        }
+      }
+    },
+    {
+      "name": "no-sqlite-sidecars",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "rollback-baseline-preserved",
+      "passed": true,
+      "detail": {
+        "path": "/mnt/e/knowledge_builder/self-workspace/knowledge-base-backup-d20-record-replace-20260902",
+        "state": "de562a0739ffe2bbe5d1491d3467313bd644eb83194fc8f3a69ab13acf019f32",
+        "expected": "de562a0739ffe2bbe5d1491d3467313bd644eb83194fc8f3a69ab13acf019f32",
+        "records": 55
+      }
+    },
+    {
+      "name": "real-replacement-rollback-reapply",
+      "passed": true,
+      "detail": {
+        "rollback_exit": "0",
+        "reapply_exit": "0"
+      }
+    },
+    {
+      "name": "workspace-adapter-active-path",
+      "passed": true,
+      "detail": {
+        "staging_absent": true
+      }
+    },
+    {
+      "name": "cutover-probe-and-backup",
+      "passed": true,
+      "detail": {
+        "probe_exit": "0",
+        "backup": "/mnt/e/knowledge_builder/self-workspace/knowledge-base-backup-d20-record-replace-20260902"
+      }
+    }
+  ]
+}

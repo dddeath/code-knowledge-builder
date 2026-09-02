@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "status": "frozen",
+  "runtime_root": "%TEMP%\\ckb-canvas-fixtures\\CASE_ID",
+  "cases": [
+    {
+      "case_id": "success-absent-chinese-path",
+      "category": "success",
+      "setup": "create frozen output and staging under 中文目录; target absent",
+      "expected": "passed exit 0; three roles reopen"
+    },
+    {
+      "case_id": "success-replace",
+      "category": "success",
+      "setup": "create target and both sidecars with pinned hashes; empty backup root",
+      "expected": "passed exit 0; rollback restores all three bytes"
+    },
+    {
+      "case_id": "windows-long-path",
+      "category": "path",
+      "setup": "create a resolved target path of 250-259 characters and enable Windows long paths",
+      "expected": "passed or io_failure with target unchanged; never truncate path"
+    },
+    {
+      "case_id": "symlink-inside",
+      "category": "path",
+      "setup": "target parent symlink resolves inside authorized staging root",
+      "expected": "passed"
+    },
+    {
+      "case_id": "symlink-outside",
+      "category": "path",
+      "setup": "target parent symlink or junction resolves outside authorized staging root",
+      "expected": "source_outside_scope exit 2"
+    },
+    {
+      "case_id": "corrupt-request-json",
+      "category": "json",
+      "setup": "truncate canvas-request.json after an object key",
+      "expected": "invalid_request exit 2"
+    },
+    {
+      "case_id": "corrupt-record-json",
+      "category": "json",
+      "setup": "truncate full record while keeping request hash synchronized to corrupt bytes",
+      "expected": "unsupported_record_schema exit 2"
+    },
+    {
+      "case_id": "dangling-edge-injection",
+      "category": "canvas",
+      "setup": "test hook replaces one toNode before in-memory validation",
+      "expected": "dangling_edge exit 5"
+    },
+    {
+      "case_id": "concurrent-target-change",
+      "category": "concurrency",
+      "setup": "replace target after BASELINED and before PROMOTION_READY",
+      "expected": "promotion_drift exit 6; concurrent bytes preserved"
+    },
+    {
+      "case_id": "rollback-absent",
+      "category": "rollback",
+      "setup": "absent -> generated -> rollback",
+      "expected": "target and sidecars absent; 3/3 state verified"
+    },
+    {
+      "case_id": "rollback-present",
+      "category": "rollback",
+      "setup": "baseline bytes -> generated -> rollback",
+      "expected": "all present roles byte-identical to baseline"
+    },
+    {
+      "case_id": "rollback-drift",
+      "category": "rollback",
+      "setup": "change generated Canvas by one byte before rollback",
+      "expected": "rollback_drift exit 6; manual byte preserved"
+    }
+  ]
+}

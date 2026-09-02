@@ -27,7 +27,7 @@ integration 回滚入口为撤销 merge commit `190e4e4…`；开发交付还包
 - [[ingest_event 与 default_registry_path 的协作实现]]
 - [[audit_agent_protocol]]
 - [[retrieve 与 _tokens 的协作实现]]
-- [[initialize 与 _replace_output_prefix 的协作实现]]
+- [[audit_global 与 _replace_output_prefix 的协作实现]]
 - [[start_session 与 _session_directory 的协作实现]]
 - [[render_integration 与 _looks_windows 的协作实现]]
 - [[audit_references]]

@@ -1,30 +1,32 @@
 {
   "schema_version": 1,
   "status": "passed",
-  "updated_at_utc": "2026-09-01T12:31:11Z",
+  "updated_at_utc": "2026-09-02T02:48:55Z",
   "retention_days": 30,
   "max_records_per_shard": 2000,
   "max_shard_bytes": 1048576,
-  "records": 132,
+  "records": 194,
   "counts_by_operation": {
-    "compile": 15,
-    "query": 83,
-    "record": 24,
-    "audit": 6,
-    "maintenance": 4
+    "compile": 22,
+    "query": 122,
+    "record": 38,
+    "audit": 7,
+    "maintenance": 5
   },
   "counts_by_status": {
-    "agent-reviewed": 18,
-    "complete": 4,
-    "completed": 2,
+    "agent-reviewed": 23,
+    "complete": 6,
+    "completed": 3,
     "failed": 3,
-    "not-found": 3,
-    "open": 4,
-    "passed": 91,
-    "pending-agent-review": 4,
-    "ready": 1,
-    "ready-to-finalize": 1,
-    "resolved": 1
+    "not-found": 4,
+    "open": 6,
+    "passed": 131,
+    "pending-agent-review": 5,
+    "ready": 2,
+    "ready-to-finalize": 3,
+    "replaced": 6,
+    "resolved": 1,
+    "rolled-back": 1
   },
   "shards": [
     {
@@ -36,24 +38,48 @@
     {
       "date": "2026-09-01",
       "path": "2026-09-01.jsonl",
-      "records": 39,
-      "bytes": 10491
+      "records": 78,
+      "bytes": 22595
+    },
+    {
+      "date": "2026-09-02",
+      "path": "2026-09-02.jsonl",
+      "records": 23,
+      "bytes": 6142
     }
   ],
   "latest": [
     {
       "schema_version": 1,
-      "event_id": "operation-679543b345da50a18783040645b39867",
-      "recorded_at_utc": "2026-09-01T05:18:49Z",
+      "event_id": "operation-00cbef9f82925764ad8cf3cdb118c4eb",
+      "recorded_at_utc": "2026-09-02T02:38:13Z",
       "operation": "compile",
-      "command": "migrate:audit",
-      "result_status": "failed",
+      "command": "migrate:start",
+      "result_status": "pending-agent-review",
       "evidence_paths": []
     },
     {
       "schema_version": 1,
-      "event_id": "operation-49ee81822c5d5c30a6674445b6c19830",
-      "recorded_at_utc": "2026-09-01T05:19:02Z",
+      "event_id": "operation-85e8ea11874159b0a2521c4cab1577ac",
+      "recorded_at_utc": "2026-09-02T02:42:59Z",
+      "operation": "compile",
+      "command": "review-pack",
+      "result_status": "passed",
+      "evidence_paths": []
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-fed3032603b65bb89e8e4c60761299c7",
+      "recorded_at_utc": "2026-09-02T02:43:35Z",
+      "operation": "compile",
+      "command": "migrate:status",
+      "result_status": "ready-to-finalize",
+      "evidence_paths": []
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-87aff5db28fc5b71bbc8f036d7f8fcda",
+      "recorded_at_utc": "2026-09-02T02:43:36Z",
       "operation": "compile",
       "command": "merge",
       "result_status": "completed",
@@ -61,8 +87,8 @@
     },
     {
       "schema_version": 1,
-      "event_id": "operation-50228ff0752f534fb9ec85dce1baed60",
-      "recorded_at_utc": "2026-09-01T05:19:11Z",
+      "event_id": "operation-cfc725d1618255d98efdbe92dbf3b8d8",
+      "recorded_at_utc": "2026-09-02T02:43:38Z",
       "operation": "compile",
       "command": "migrate:audit",
       "result_status": "passed",
@@ -70,26 +96,8 @@
     },
     {
       "schema_version": 1,
-      "event_id": "operation-6b9aecbe85b35c91b5ba7b51e9efd6a3",
-      "recorded_at_utc": "2026-09-01T05:22:00Z",
-      "operation": "compile",
-      "command": "reindex",
-      "result_status": "passed",
-      "evidence_paths": []
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-acf0852600dd58f889f0df2c6d55297f",
-      "recorded_at_utc": "2026-09-01T05:22:24Z",
-      "operation": "audit",
-      "command": "agent-policy:check",
-      "result_status": "passed",
-      "evidence_paths": []
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-da558c0795805312b2aa2e6bcf548c60",
-      "recorded_at_utc": "2026-09-01T05:22:44Z",
+      "event_id": "operation-80aa4d9c8a7058e1a7ce2b81747b294e",
+      "recorded_at_utc": "2026-09-02T02:44:08Z",
       "operation": "compile",
       "command": "finalize",
       "result_status": "complete",
@@ -97,19 +105,109 @@
     },
     {
       "schema_version": 1,
-      "event_id": "operation-fb9a72188dbb51d087d1ea3fef16b7cb",
-      "recorded_at_utc": "2026-09-01T05:22:53Z",
-      "operation": "maintenance",
-      "command": "maintain",
-      "result_status": "failed",
+      "event_id": "operation-d935b8e461e1501bb5d9c34a0bcfe49a",
+      "recorded_at_utc": "2026-09-02T02:44:34Z",
+      "operation": "record",
+      "command": "record:replace",
+      "result_status": "replaced",
       "evidence_paths": [
-        "workspace-meta/maintenance/latest.json"
+        "workspace-meta/record-replace/record-replace-b0781622bbdf5560abac81bf2fd8a8df/manifest.json"
       ]
     },
     {
       "schema_version": 1,
-      "event_id": "operation-2ceda0cd5e1351aaae0aa3235b594527",
-      "recorded_at_utc": "2026-09-01T05:23:51Z",
+      "event_id": "operation-48d74f9beb3f5e5b9a6ec99f2c9c4ea6",
+      "recorded_at_utc": "2026-09-02T02:44:36Z",
+      "operation": "record",
+      "command": "record:replace",
+      "result_status": "replaced",
+      "evidence_paths": [
+        "workspace-meta/record-replace/record-replace-5ee176f293845f6ea64167b7f67f2a2d/manifest.json"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-a00abe326d755b549367c521a64738ea",
+      "recorded_at_utc": "2026-09-02T02:44:38Z",
+      "operation": "record",
+      "command": "record:replace",
+      "result_status": "replaced",
+      "evidence_paths": [
+        "workspace-meta/record-replace/record-replace-d4cc2c517ae75173bea56ae5fc206d1b/manifest.json"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-01f61e6e42a957d8a6604d6d02fde868",
+      "recorded_at_utc": "2026-09-02T02:44:40Z",
+      "operation": "record",
+      "command": "record:replace",
+      "result_status": "replaced",
+      "evidence_paths": [
+        "workspace-meta/record-replace/record-replace-5f884ece705a5167905046121f663f73/manifest.json"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-36b0ed80da5a5f2388a302f7a7ac0846",
+      "recorded_at_utc": "2026-09-02T02:44:42Z",
+      "operation": "record",
+      "command": "record:replace",
+      "result_status": "replaced",
+      "evidence_paths": [
+        "workspace-meta/record-replace/record-replace-109a43c663795cc3938e0c3c39a509e0/manifest.json"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-d45bb926bb715eb8bd331c40b6755fc9",
+      "recorded_at_utc": "2026-09-02T02:44:57Z",
+      "operation": "record",
+      "command": "record:rollback",
+      "result_status": "rolled-back",
+      "evidence_paths": [
+        "workspace-meta/record-replace/record-replace-109a43c663795cc3938e0c3c39a509e0/manifest.json"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-97e79390489d550f906442bc444cc09b",
+      "recorded_at_utc": "2026-09-02T02:44:59Z",
+      "operation": "record",
+      "command": "record:replace",
+      "result_status": "replaced",
+      "evidence_paths": [
+        "workspace-meta/record-replace/record-replace-fc7870ba458256468627df0d8d8329c3/manifest.json"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-b304b1689b5259e0b3341ff38b70c741",
+      "recorded_at_utc": "2026-09-02T02:45:34Z",
+      "operation": "record",
+      "command": "record:change",
+      "result_status": "agent-reviewed",
+      "evidence_paths": [
+        "human/changes/增加受控的工作记录正文替换与回滚.md",
+        "markdown/changes/增加受控的工作记录正文替换与回滚.md"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-2d2a66f41100523b90f4650037657eb8",
+      "recorded_at_utc": "2026-09-02T02:45:38Z",
+      "operation": "record",
+      "command": "record:change",
+      "result_status": "agent-reviewed",
+      "evidence_paths": [
+        "human/changes/将 Obsidian Canvas 原型纳入实验发布.md",
+        "markdown/changes/将 Obsidian Canvas 原型纳入实验发布.md"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-bf63aa5732a85a588d3e11f9ad6fda9c",
+      "recorded_at_utc": "2026-09-02T02:46:19Z",
       "operation": "audit",
       "command": "gaps:audit",
       "result_status": "passed",
@@ -117,8 +215,19 @@
     },
     {
       "schema_version": 1,
-      "event_id": "operation-c1973885596154e98230e7a6343ff081",
-      "recorded_at_utc": "2026-09-01T05:24:19Z",
+      "event_id": "operation-4c96ca3ada3d5ee5a9af52726b85088b",
+      "recorded_at_utc": "2026-09-02T02:46:31Z",
+      "operation": "maintenance",
+      "command": "maintain",
+      "result_status": "passed",
+      "evidence_paths": [
+        "workspace-meta/maintenance/latest.json"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-c4cde0bb127850c7912a09c5d2d283c2",
+      "recorded_at_utc": "2026-09-02T02:46:43Z",
       "operation": "query",
       "command": "status",
       "result_status": "complete",
@@ -126,133 +235,32 @@
     },
     {
       "schema_version": 1,
-      "event_id": "operation-62f35753e103590a926a005f289b5e8d",
-      "recorded_at_utc": "2026-09-01T05:24:20Z",
+      "event_id": "operation-88023508397058adb873d2f052dbf440",
+      "recorded_at_utc": "2026-09-02T02:46:43Z",
       "operation": "query",
       "command": "brief",
       "result_status": "passed",
       "evidence_paths": [
-        "machine/agent-packs/pack-20260901-052420-266825-01.json",
-        "machine/agent-packs/pack-20260901-052420-266825-01.md"
+        "machine/agent-packs/pack-20260902-024643-751228-01.json",
+        "machine/agent-packs/pack-20260902-024643-751228-01.md"
       ]
     },
     {
       "schema_version": 1,
-      "event_id": "operation-6fcd4bc268305780907370b0e93ec9a0",
-      "recorded_at_utc": "2026-09-01T05:37:06Z",
-      "operation": "record",
-      "command": "record:change",
-      "result_status": "agent-reviewed",
-      "evidence_paths": [
-        "human/changes/稳定知识库恢复与当前 HEAD 同步.md",
-        "markdown/changes/稳定知识库恢复与当前 HEAD 同步.md"
-      ]
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-e7cd35bdf5e855c7b5e04cc70ae5226e",
-      "recorded_at_utc": "2026-09-01T05:38:11Z",
-      "operation": "record",
-      "command": "record:change",
-      "result_status": "agent-reviewed",
-      "evidence_paths": [
-        "human/changes/CKB 5.3.0 GitHub 发布边界.md",
-        "markdown/changes/CKB 5.3.0 GitHub 发布边界.md"
-      ]
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-52be4ba1b7ba5708bd6f4a060a169e08",
-      "recorded_at_utc": "2026-09-01T05:47:07Z",
+      "event_id": "operation-07f36cec35f95fe2a01d9ae9865df16b",
+      "recorded_at_utc": "2026-09-02T02:48:55Z",
       "operation": "query",
       "command": "brief",
       "result_status": "passed",
       "evidence_paths": [
-        "machine/agent-packs/pack-20260901-054707-907157-01.json",
-        "machine/agent-packs/pack-20260901-054707-907157-01.md"
-      ]
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-d4f6ffa52a555bc7a7739553410f5bc5",
-      "recorded_at_utc": "2026-09-01T11:19:55Z",
-      "operation": "query",
-      "command": "brief",
-      "result_status": "passed",
-      "evidence_paths": [
-        "machine/agent-packs/pack-20260901-111955-521715-01.json",
-        "machine/agent-packs/pack-20260901-111955-521715-01.md"
-      ]
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-a027f60032365f929f3ce9700dba1dcb",
-      "recorded_at_utc": "2026-09-01T12:11:09Z",
-      "operation": "record",
-      "command": "record:change",
-      "result_status": "agent-reviewed",
-      "evidence_paths": [
-        "human/changes/CKB 5.4.0 GitHub 发布与远端复验.md",
-        "markdown/changes/CKB 5.4.0 GitHub 发布与远端复验.md"
-      ]
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-6970809e3bb55bc7b000b6f9a718ee7b",
-      "recorded_at_utc": "2026-09-01T12:21:20Z",
-      "operation": "query",
-      "command": "brief",
-      "result_status": "passed",
-      "evidence_paths": [
-        "machine/agent-packs/pack-20260901-122120-029597-01.json",
-        "machine/agent-packs/pack-20260901-122120-029597-01.md"
-      ]
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-3be6e99fce8c5327bf23436279664eb4",
-      "recorded_at_utc": "2026-09-01T12:30:06Z",
-      "operation": "record",
-      "command": "feedback:create",
-      "result_status": "open",
-      "evidence_paths": []
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-b1de3c09ac955182849752c152cbb6a7",
-      "recorded_at_utc": "2026-09-01T12:30:11Z",
-      "operation": "record",
-      "command": "feedback:resolve",
-      "result_status": "resolved",
-      "evidence_paths": [
-        "workspace-meta/feedback/resolved/feedback-20260901-123006-01.json"
-      ]
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-359bcd8db9ce599685512651872b95ad",
-      "recorded_at_utc": "2026-09-01T12:30:11Z",
-      "operation": "audit",
-      "command": "feedback:audit",
-      "result_status": "passed",
-      "evidence_paths": []
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-226598e8faa856ba830dff9fc95266c6",
-      "recorded_at_utc": "2026-09-01T12:31:10Z",
-      "operation": "query",
-      "command": "brief",
-      "result_status": "passed",
-      "evidence_paths": [
-        "machine/agent-packs/pack-20260901-123110-951416-01.json",
-        "machine/agent-packs/pack-20260901-123110-951416-01.md"
+        "machine/agent-packs/pack-20260902-024855-800423-01.json",
+        "machine/agent-packs/pack-20260902-024855-800423-01.md"
       ]
     }
   ],
   "bounded_drops": {
     "size_or_count": 0,
     "retention": 0,
-    "deduplicated": 336
+    "deduplicated": 417
   }
 }

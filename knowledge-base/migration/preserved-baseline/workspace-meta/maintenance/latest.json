@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "status": "passed",
-  "checked_at_utc": "2026-09-01T04:48:58Z",
+  "checked_at_utc": "2026-09-01T21:37:12Z",
   "output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
   "page_writes": 0,
   "checks": {
@@ -21,10 +21,16 @@
         "status": "passed",
         "counts": {
           "open": 0,
-          "resolved": 0,
+          "resolved": 1,
           "stale_open": 0
         },
-        "records": [],
+        "records": [
+          {
+            "feedback_id": "feedback-20260901-123006-01",
+            "status": "resolved",
+            "anchor_status": "stale"
+          }
+        ],
         "errors": []
       },
       "output_contracts": {
@@ -47,14 +53,14 @@
       },
       "work_record_index": {
         "status": "passed",
-        "record_count": 50,
-        "linked_record_count": 50,
+        "record_count": 55,
+        "linked_record_count": 55,
         "section_counts": {
           "analysis": 18,
-          "changes": 27,
+          "changes": 30,
           "pitfalls": 0,
-          "experiments": 2,
-          "sessions": 3
+          "experiments": 3,
+          "sessions": 4
         },
         "errors": []
       },
@@ -62,14 +68,14 @@
     },
     "work_record_index": {
       "status": "passed",
-      "record_count": 50,
-      "linked_record_count": 50,
+      "record_count": 55,
+      "linked_record_count": 55,
       "section_counts": {
         "analysis": 18,
-        "changes": 27,
+        "changes": 30,
         "pitfalls": 0,
-        "experiments": 2,
-        "sessions": 3
+        "experiments": 3,
+        "sessions": 4
       },
       "errors": []
     },
@@ -79,11 +85,11 @@
       "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\agent-index.sqlite",
       "integrity": "ok",
       "counts": {
-        "pages": 91,
-        "symbols": 680,
-        "edges": 756,
-        "terms": 6920,
-        "notes": 50
+        "pages": 190,
+        "symbols": 1611,
+        "edges": 1652,
+        "terms": 21143,
+        "notes": 55
       },
       "projection_format": "markdown",
       "errors": []
@@ -94,25 +100,32 @@
       "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\knowledge.sqlite",
       "integrity": "ok",
       "counts": {
-        "files": 42,
-        "entities": 680,
-        "source_ranges": 680,
-        "relations": 2618,
-        "reviews": 680,
-        "documents": 734,
-        "sections": 2839,
-        "human_projection": 680,
+        "files": 89,
+        "entities": 1611,
+        "source_ranges": 1611,
+        "relations": 6576,
+        "reviews": 1611,
+        "documents": 1672,
+        "sections": 5901,
+        "human_projection": 1611,
         "workspace_changes": 0,
         "reference_sources": 1,
-        "research_gaps": 3
+        "research_gaps": 5
       },
       "fts_counts": {
-        "entity_fts": 680,
-        "section_fts": 2839,
-        "source_fts": 42
+        "entity_fts": 1611,
+        "section_fts": 5901,
+        "source_fts": 89
       },
       "language_contract": "所有说明使用简体中文，允许英文专有名词和代码标识符",
       "retrieval": "sqlite-exact-fts5-sections-deterministic-weighted-graph",
+      "errors": []
+    },
+    "keyword_fallback": {
+      "schema_version": 1,
+      "status": "passed",
+      "cache_records": 0,
+      "request_records": 0,
       "errors": []
     },
     "human_layer": {
@@ -144,7 +157,7 @@
     "operations": {
       "schema_version": 1,
       "status": "passed",
-      "records": 110,
+      "records": 170,
       "shards": 2,
       "initialized": true,
       "latest": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\operations\\latest.json",
@@ -155,8 +168,8 @@
       "status": "passed",
       "initialized": true,
       "counts": {
-        "total": 3,
-        "open": 3,
+        "total": 5,
+        "open": 5,
         "deferred": 0,
         "resolved": 0
       },

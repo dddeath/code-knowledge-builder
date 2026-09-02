@@ -1,0 +1,223 @@
+{
+  "schema_version": 1,
+  "status": "passed-with-isolated-runtime-invocation-adjustment",
+  "branch": "codex/obsidian-canvas-visualization-prototype",
+  "integration_branch": "codex/reference-ingest-v1",
+  "exact_baseline": "2094f900033bb5498c9c1214ac5b2b742c7ef5b7",
+  "merged_design_source_head": "b55be3098a5381fdcbecf81cfb7842cfa9534154",
+  "recorded_implementation_head": "14d9788ab1b653a288189c80ec40895bd9b40190",
+  "commits": [
+    {
+      "sha256": "ad6b81a0cbc8f4b288a4c356526b433d0dcff575",
+      "subject": "feat(prototype): add strict canvas contracts and input freezer"
+    },
+    {
+      "sha256": "da242f97e4b2bf10d7b7ad22c722f8bf7aec6003",
+      "subject": "feat(prototype): add deterministic canvas graph and transaction"
+    },
+    {
+      "sha256": "9dcd30ed1608eaec6c15ba56369aacfe9445e03c",
+      "subject": "test(prototype): add canvas fixtures and rollback probes"
+    },
+    {
+      "sha256": "14d9788ab1b653a288189c80ec40895bd9b40190",
+      "subject": "test(benchmark): add frozen markdown canvas runner"
+    }
+  ],
+  "artifact_roles": {
+    "modified_artifact": {
+      "path": "E:\\knowledge_builder\\self-workspace\\worktrees\\obsidian-canvas-visualization-prototype",
+      "branch": "codex/obsidian-canvas-visualization-prototype",
+      "implementation_head": "14d9788ab1b653a288189c80ec40895bd9b40190"
+    },
+    "patch": {
+      "path": "E:\\knowledge_builder\\self-workspace\\worktrees\\obsidian-canvas-visualization-prototype\\references\\design\\obsidian-canvas-agent-visualization\\prototype-verification\\implementation.patch",
+      "sha256": "27c6f5b486e33acb69fd274e635754143ac20226f03f75e0f207e73ae5c56051",
+      "reverse_apply_check_exit": 0
+    },
+    "verification_record": {
+      "path": "E:\\knowledge_builder\\self-workspace\\worktrees\\obsidian-canvas-visualization-prototype\\references\\design\\obsidian-canvas-agent-visualization\\prototype-verification\\verification-record.json"
+    },
+    "rollback": {
+      "path": "E:\\knowledge_builder\\self-workspace\\worktrees\\obsidian-canvas-visualization-prototype\\references\\design\\obsidian-canvas-agent-visualization\\prototype-verification\\rollback_prototype.ps1",
+      "sha256": "2278c33a6436ca191f77ef15abf3c554e57b82bea91d51a98559733540b79674",
+      "dry_run_exit": 0,
+      "dry_run_stdout": "{\"schema_version\":1,\"status\":\"verified-dry-run\",\"git\":\"C:\\\\Program Files\\\\Git\\\\cmd\\\\git.exe\",\"source_repo\":\"E:\\\\knowledge_builder\\\\self-workspace\\\\source\",\"worktree\":\"E:\\\\knowledge_builder\\\\self-workspace\\\\worktrees\\\\obsidian-canvas-visualization-prototype\",\"branch\":\"codex/obsidian-canvas-visualization-prototype\",\"step_count\":2}"
+    }
+  },
+  "schema_parity": {
+    "count": 9,
+    "status": "byte-identical",
+    "sha256": {
+      "benchmark-run.schema.json": "2eceb8358166765db205408a5a50e9dbba91939e4560c44e25cb4fe4fd108a64",
+      "benchmark-session-result.schema.json": "d693e358646ed18a0dcab35ebda7d736e4f179f858c02a0bcafebb46d87350c3",
+      "benchmark-summary.schema.json": "6e820930ec56cd9d29454d5c2bcab9efc69907eb2810487beb8965d2429f5959",
+      "canvas-failure.schema.json": "8151c7646e381945cdd32c782e4b5faf477aa70d9bffc76733808b53a0e00a09",
+      "canvas-request.schema.json": "a2cb8b101f0e43977cc632270d60595050a352c77ed1ef997ba27d2dd49ce46d",
+      "canvas-rollback-manifest.schema.json": "8e9a9ec114621c4fa824f8d3286bc69ad8cae83845eb4d6fb1fc3d8b24d5353e",
+      "canvas-success.schema.json": "2dee5e4f998c9e1fb6381e8f9293ba00b9e83edcf17da0e1122dcb1d61c45f7a",
+      "canvas-validation-manifest.schema.json": "05602d873845b652e15642241844d6d3e313f61c668c26a8b0bcb16eb6c75eb7",
+      "json-canvas-1.0-ckb-subset.schema.json": "8502e933dbe9f993dd5e497717f6d91e26d73de271bb8f6dab17100f575b94f3"
+    }
+  },
+  "failure_fixture_parity": {
+    "count": 17,
+    "status": "byte-identical",
+    "sha256": {
+      "budget_exceeded.json": "addb5669b07e256284556a03c640b2e7a9412d7206a317887a450ce138fb15ce",
+      "dangling_edge.json": "d35c0478ed5a88e0bc0a70e5eb8430bef9d910c7b7f2b5bbd24dc1a154dd2940",
+      "duplicate_id.json": "4f419df917d761d4466c8da04a94e5671287e4e46ca92d147bcc914fe6cfa63b",
+      "input_drift.json": "0c5337bfbe3405c8fd4bf60b5f933931a21ef2c22fab4e1fe074c10ccedf3133",
+      "invalid_canvas.json": "cc7ea4a1ba26107b75e863440bcdc59186f063a2861ad2816785290e90166d94",
+      "invalid_request.json": "74ea9a1de44d026a49df0541fe1df5fef6044286b8583253d2039f0488ee0a88",
+      "invalid_source_range.json": "493fa55aeb2e2cbae31e0e3949a804fe3079dd0c8e938280698684b24fd2f385",
+      "io_failure.json": "9daad98e922c3be2ff5f9202970619faba365425795f7f5473f920884430d301",
+      "missing_backlink.json": "17470308dba16357e713b6dbb6e0bbee39dd6c029008485fb432881158358711",
+      "missing_target.json": "b209262672524e5d64d0d4dcf9dff978836f9d1a4a58247b33cb9e011e1bd138",
+      "pack_record_mismatch.json": "57788e74deb73dd7fd43aaf4b843527c81906d5d60a747e7f866bc0f44a9fac7",
+      "promotion_drift.json": "2c10ac098fbc123b87d4b4b45702ad550c1bcbf3b92b5beac5ac68281eaae41d",
+      "rollback_drift.json": "68b84c4dab6a203800a3172291260dd761732ef0e7cce41ccf22cd85ca689681",
+      "snapshot_mismatch.json": "967f17f5ccb1ffe0fbeacc8385faedf26066c71f979604d86cc6df3b384b2052",
+      "source_outside_scope.json": "162ea043c38c2e16efe224b62d2f581908839500836ae2ad6113b345ca77f833",
+      "target_exists.json": "e1eaefe3bd8eb16662b28fffccaf20aa6ec9e3a1243b642d5aa69f9a3f3fb881",
+      "unsupported_record_schema.json": "b2c354d8523b68ef30e74e40306feaf5a0bb83be331bd6f9e30440b588b62e50"
+    }
+  },
+  "automated_assertions": {
+    "unit_tests": {
+      "count": 35,
+      "status": "passed"
+    },
+    "request_unknown_object_layers": "all tested layers exit 2 invalid_request",
+    "record_variants": "schema 1, keyword fallback, and unknown candidate fields rejected",
+    "graph": "12 nodes, 11 selected edges under hard max 16, stable order/ID/coordinates passed",
+    "determinism_10x": {
+      "runs": 10,
+      "canvas_hashes": [
+        "77277d41b7c92dba1ae688880b8c48fcbd2e386064840efe1e3eed2de74ac8a9"
+      ],
+      "validation_manifest_hashes": [
+        "33125e00ae75bcca24de2a6c59d3f474ebb3e9ce7d0fe7952291aeb6028fa44c"
+      ],
+      "rollback_manifest_hashes": [
+        "3349df4aa18bd94faf3b0a1b1c9509196407238292c9433c44ea4358d447471f"
+      ],
+      "rollback_content_hashes": [
+        "8e45a3a2392d94776da844afc66a5753c9a655bde107a87f3b21073d27786870"
+      ]
+    },
+    "rollback_probes": {
+      "passed": 3,
+      "total": 3,
+      "absent": "three roles absent",
+      "present": "three roles byte-identical",
+      "drift": "exit 6 rollback_drift; current bytes and backups preserved"
+    },
+    "paths": {
+      "chinese": "passed",
+      "long_path": {
+        "target_length": 256,
+        "reason": "io_failure",
+        "exit_code": 7,
+        "target": "absent; no partial role"
+      },
+      "link_inside": "passed",
+      "link_outside": {
+        "reason": "source_outside_scope",
+        "exit_code": 2
+      }
+    },
+    "corrupt_json": "request invalid_request exit 2; record unsupported_record_schema exit 2; no traceback in stdout",
+    "dangling_edge": "dangling_edge exit 5",
+    "promotion_concurrency": {
+      "reason": "promotion_drift",
+      "exit_code": 6,
+      "external_canvas_preserved": true,
+      "generated_sidecars_absent": true
+    },
+    "fault_injection": "write, fsync, promotion, staged reopen preserve complete baseline/generated/external bytes",
+    "benchmark_contract": "12 unique tasks; four assignments x 6; each sequence and condition covers all 12; evidence and budget parity passed"
+  },
+  "benchmark_run": {
+    "path": "E:\\knowledge_builder\\self-workspace\\worktrees\\obsidian-canvas-visualization-prototype\\tests\\fixtures\\obsidian-canvas-agent-visualization\\benchmark\\benchmark-run.json",
+    "sha256": "eb1f08ac08b2766dad5458d3d0f68ab63e778414067678147dd1adb06b40c56e",
+    "obsidian_version": "OBSIDIAN_VERSION",
+    "manual_status": "not-run"
+  },
+  "commands": [
+    {
+      "name": "fixed dotted unittest invocation",
+      "command": "/mnt/c/Users/19739/.codex/cache/code-knowledge-builder/runtime/win-x64/win-x64-2.0.0/python/python.exe -m unittest tests.test_ckb_canvas_contracts tests.test_ckb_canvas_graph tests.test_ckb_canvas_transaction tests.test_ckb_canvas_rollback tests.test_ckb_canvas_paths tests.test_ckb_canvas_determinism tests.test_ckb_canvas_benchmark_contract",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr_summary": "ModuleNotFoundError: No module named tests; isolated embedded runtime sys.path omits cwd; zero test bodies executed."
+    },
+    {
+      "name": "isolated runtime equivalent discovery",
+      "command": "/mnt/c/Users/19739/.codex/cache/code-knowledge-builder/runtime/win-x64/win-x64-2.0.0/python/python.exe -m unittest discover -s E:\\knowledge_builder\\self-workspace\\worktrees\\obsidian-canvas-visualization-prototype\\tests -p test_ckb_canvas_*.py",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr_summary": "...................................\n----------------------------------------------------------------------\nRan 35 tests in 5.824s\n\nOK"
+    },
+    {
+      "name": "validate CLI",
+      "command": "/mnt/c/Users/19739/.codex/cache/code-knowledge-builder/runtime/win-x64/win-x64-2.0.0/python/python.exe prototypes\\ckb-canvas-skill\\scripts\\ckb_canvas.py validate --request tests\\fixtures\\obsidian-canvas-agent-visualization\\runtime\\success\\request.json",
+      "exit_code": 0,
+      "stdout": "{\"backlinks\":[{\"node_id\":\"c1712f2f40efadb2\",\"record_ref\":\"request.title\",\"role\":\"focus\",\"sha256\":\"036ab369b59821ed7a29fc1d7d9c23814be13531b9fa2562b42607b2eb2bd2cf\",\"status\":\"passed\",\"target\":\"INDEX.md\"},{\"node_id\":\"0bbed46ab1d635bc\",\"record_ref\":\"selected_entities[0]\",\"role\":\"page\",\"sha256\":\"3b466bdd09d12cb96aefd5d61796c594354dcfdfe60cdc3d22427544d62588dc\",\"status\":\"passed\",\"target\":\"pages/page-00.md\"},{\"node_id\":\"76b81d01290ba73e\",\"record_ref\":\"related_documents[0]\",\"role\":\"record\",\"sha256\":\"debe519fb0fb6bd66f59c0a6f36c9b06e0094e9f586e21e9ff4496fcd40d1675\",\"status\":\"passed\",\"target\":\"sessions/record-00.md\"},{\"node_id\":\"29fe19bc468ca079\",\"record_ref\":\"selected_entities[0].source_path:1-3\",\"role\":\"source\",\"sha256\":\"72cffc335ce07c5124154dfe7d911f71e2037734e17a474b92fc4f6c7404a965\",\"status\":\"passed\",\"target\":\"vscode://file/E:/knowledge_builder/self-workspace/worktrees/obsidian-canvas-visualization-prototype/tests/fixtures/obsidian-canvas-agent-visualization/runtime/success/output/.source-snapshot/worktree/scripts/source-00.py:1:1\"}],\"canvas\":{\"byte_length\":1195,\"path\":\"E:\\\\knowledge_builder\\\\self-workspace\\\\worktrees\\\\obsidian-canvas-visualization-prototype\\\\tests\\\\fixtures\\\\obsidian-canvas-agent-visualization\\\\runtime\\\\success\\\\交付暂存\\\\ckb-navigation.canvas\",\"sha256\":\"c66b54b57c1eb3cfc0c71f943804637e7fe3fe25d14aa3333b477e65b0389d8e\"},\"checks\":{\"backlinks\":\"passed\",\"budget\":\"passed\",\"canonical_serialization\":\"passed\",\"canvas_schema\":\"passed\",\"dangling_edges\":0,\"input_hashes\":\"passed\",\"machine_fields_exposed\":0,\"path_scope\":\"passed\",\"record_compatibility\":\"passed\",\"request_schema\":\"passed\",\"snapshot_consistency\":\"passed\",\"source_ranges\":\"passed\",\"stable_ids\":\"passed\"},\"edge_count\":3,\"inputs\":{\"agent_pack_path\":\"E:\\\\knowledge_builder\\\\self-workspace\\\\worktrees\\\\obsidian-canvas-visualization-prototype\\\\tests\\\\fixtures\\\\obsidian-canvas-agent-visualization\\\\runtime\\\\success\\\\output\\\\machine\\\\agent-packs\\\\pack-fixture.md\",\"agent_pack_sha256\":\"ddd62a813457452427c3836d03dd41ab1810af25a3e901cb1bf64cfb340f18ac\",\"record_path\":\"E:\\\\knowledge_builder\\\\self-workspace\\\\worktrees\\\\obsidian-canvas-visualization-prototype\\\\tests\\\\fixtures\\\\obsidian-canvas-agent-visualization\\\\runtime\\\\success\\\\output\\\\machine\\\\agent-packs\\\\pack-fixture.json\",\"record_schema_version\":3,\"record_sha256\":\"3c3ab22ee3ed3d9e0f6f9c99ad7c76862b86c1c3880e5eba1b52bc0eb595f9f4\"},\"node_count\":4,\"request_sha256\":\"f0b6aab90ac1e4cae7277b12c1b66171feb455b66b691746d4e2c4919023e674\",\"role_counts\":{\"page\":1,\"record\":1,\"source\":1,\"text\":1},\"schema_version\":1,\"snapshot\":{\"commit\":\"1111111111111111111111111111111111111111\",\"human_manifest_sha256\":\"4655598fd5f25456f09016231962f75b9fcea25de2618a82fe1d54a9433183ec\",\"human_projection_sha256\":\"4964d5c0bfe4a6d728658fad6db5aed10a81befeac74aea067eaae44cb41a7a4\",\"local_openers_sha256\":\"a552033e6e8f118ec4e299f8c1068c05040226559a4268b91b6108c783a2999b\",\"machine_index_sha256\":\"77d0e4d8b680a3aea1ef07ca4181b6b2441c3d616c79813b95c3189675b4b308\",\"state_sha256\":\"5f515e0d144efee40e085704941e5114d2e2804c979d0a75a54c40f618841a60\",\"tree\":\"2222222222222222222222222222222222222222\"},\"status\":\"passed\"}",
+      "stderr_summary": ""
+    },
+    {
+      "name": "git diff check",
+      "command": "git.exe -C E:\\knowledge_builder\\self-workspace\\worktrees\\obsidian-canvas-visualization-prototype diff --check",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr_summary": ""
+    },
+    {
+      "name": "patch reverse apply check",
+      "command": "git.exe -C WORKTREE apply --reverse --check prototype-verification/implementation.patch",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr_summary": ""
+    },
+    {
+      "name": "rollback dry run",
+      "command": "rollback_prototype.ps1 -WhatIf",
+      "exit_code": 0,
+      "stdout": "{\"schema_version\":1,\"status\":\"verified-dry-run\",\"git\":\"C:\\\\Program Files\\\\Git\\\\cmd\\\\git.exe\",\"source_repo\":\"E:\\\\knowledge_builder\\\\self-workspace\\\\source\",\"worktree\":\"E:\\\\knowledge_builder\\\\self-workspace\\\\worktrees\\\\obsidian-canvas-visualization-prototype\",\"branch\":\"codex/obsidian-canvas-visualization-prototype\",\"step_count\":2}",
+      "stderr_summary": ""
+    },
+    {
+      "name": "git status before verification docs",
+      "command": "git.exe -C WORKTREE status --short",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr_summary": ""
+    }
+  ],
+  "fixed_invocation_note": "The exact dotted unittest command cannot import repository modules under the pinned embedded Python because its python314._pth isolates sys.path and omits the working directory. The same pinned executable ran all seven requested files through unittest discover: 35 tests, exit 0. No runtime or global site-packages files were modified.",
+  "scope_audit": {
+    "implementation_changed_paths": 62,
+    "forbidden_paths": [],
+    "status": "passed"
+  },
+  "confirmed_boundaries": {
+    "main_cli_wired": false,
+    "companion_modified": false,
+    "mcp_modified": false,
+    "release_package_modified": false,
+    "active_stable_knowledge_base_updated": false,
+    "merged": false,
+    "pushed": false
+  },
+  "manual_benchmark": {
+    "status": "not-run",
+    "reason": "OBSIDIAN_VERSION and independent human sessions remain intentionally unfilled"
+  },
+  "pending_product_decisions": [
+    "Canvas output ownership after benchmark",
+    "companion open/refresh action",
+    "direct editor URI versus page-mediated source navigation",
+    "formal scripts/ckb.py command promotion"
+  ]
+}

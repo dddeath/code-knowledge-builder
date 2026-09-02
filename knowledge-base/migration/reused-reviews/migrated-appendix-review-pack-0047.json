@@ -1,0 +1,86 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-appendix-review-pack-0047",
+  "kind": "appendix-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-02T02:38:11Z",
+  "reviews": [
+    {
+      "entity_id": "ent-c4b50a7d168758a198aa78d0b0a3ed73",
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "source_path": "tests/test_session_stdio.py",
+      "start_line": 499,
+      "end_line": 536,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 499-536 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`SessionStdioLifecycle...` 是第 499-536 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-72d3a67456ff547fac198985b010de10",
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "source_path": "tests/test_session_stdio.py",
+      "start_line": 500,
+      "end_line": 526,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 500-526 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`SessionStdioLifecycle...` 是第 500-526 行的类，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-5f47f9df34c05e2d8fdfca2527891eed",
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "source_path": "tests/test_session_stdio.py",
+      "start_line": 504,
+      "end_line": 510,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 504-510 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`SessionStdioLifecycle...` 是第 504-510 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-260c76f46aee5f62b2c615c50b376ef3",
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "source_path": "tests/test_session_stdio.py",
+      "start_line": 512,
+      "end_line": 513,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 512-513 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`SessionStdioLifecycle...` 是第 512-513 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-bd59a6bae9c153b390c5771704a21e02",
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "source_path": "tests/test_session_stdio.py",
+      "start_line": 515,
+      "end_line": 520,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 515-520 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`SessionStdioLifecycle...` 是第 515-520 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-d7d89b53aab95a8a80634e980b969157",
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "source_path": "tests/test_session_stdio.py",
+      "start_line": 522,
+      "end_line": 523,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 522-523 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`SessionStdioLifecycle...` 是第 522-523 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-7d208290ea65548aa429aa701cba8cac",
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "source_path": "tests/test_session_stdio.py",
+      "start_line": 525,
+      "end_line": 526,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 525-526 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`SessionStdioLifecycle...` 是第 525-526 行的函数，供所属页面定位实现。"
+    }
+  ]
+}

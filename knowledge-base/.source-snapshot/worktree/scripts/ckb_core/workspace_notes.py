@@ -2,12 +2,13 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 import re
 from typing import Any
 
-from .common import CkbError, json_load, json_write, run, safe_title, utc_now
+from .common import CkbError, json_load, json_write, run, safe_title, stable_id, utc_now
 from .obsidian import NOTE_DIRECTORIES
 from .source_links import ensure_local_openers, obsidian_open_uri, source_markdown_link
 from .machine_knowledge import contains_chinese_narrative
@@ -104,6 +105,36 @@ def _source_links_for_titles(output: Path, titles: list[str]) -> list[str]:
     return links
 
 
+def read_note_body(body_path: Path) -> str:
+    """Read and validate one user-authored knowledge-note body."""
+
+    if not body_path.is_file():
+        raise CkbError(f"note body does not exist: {body_path}")
+    try:
+        body = body_path.read_text(encoding="utf-8-sig").strip()
+    except UnicodeDecodeError as exc:
+        raise CkbError(f"note body must be valid UTF-8: {exc}") from exc
+    if not body:
+        raise CkbError("note body must not be empty")
+    if not contains_chinese_narrative(body):
+        raise CkbError("knowledge note descriptions must use Simplified Chinese; English proper nouns and code identifiers are allowed")
+    if body.startswith("---\n") or LONG_HEX.search(body):
+        raise CkbError("human knowledge notes must omit frontmatter and hash-like identifiers")
+    return body
+
+
+def render_note_text(kind: str, title: str, body: str, linked_titles: list[str], source_links: list[str]) -> str:
+    sections = [f"# {title.strip()}", "", f"标签：{TAG_BY_KIND[kind]}", "", body]
+    if linked_titles:
+        sections.extend(["", "## 相关知识页", "", *[f"- [[{value}]]" for value in linked_titles]])
+    if source_links:
+        sections.extend(["", "## 源码入口", "", *[f"- {value}" for value in source_links]])
+    text = "\n".join(sections).rstrip() + "\n"
+    if LONG_HEX.search(text):
+        raise CkbError("generated human knowledge note contains a hash-like identifier")
+    return text
+
+
 def record_note(
     output: Path,
     kind: str,
@@ -116,15 +147,7 @@ def record_note(
 ) -> dict[str, Any]:
     if kind not in TAG_BY_KIND:
         raise CkbError(f"note kind must be one of: {sorted(TAG_BY_KIND)}")
-    if not body_path.is_file():
-        raise CkbError(f"note body does not exist: {body_path}")
-    body = body_path.read_text(encoding="utf-8-sig").strip()
-    if not body:
-        raise CkbError("note body must not be empty")
-    if not contains_chinese_narrative(body):
-        raise CkbError("knowledge note descriptions must use Simplified Chinese; English proper nouns and code identifiers are allowed")
-    if body.startswith("---\n") or LONG_HEX.search(body):
-        raise CkbError("human knowledge notes must omit frontmatter and hash-like identifiers")
+    body = read_note_body(body_path)
     root = _markdown_root(output)
     linked_titles = _resolve_page_titles(output, selectors or [], query_record)
     if kind != "session" and not linked_titles:
@@ -136,14 +159,11 @@ def record_note(
     target = directory / filename
     if target.exists() and not append:
         raise CkbError(f"knowledge note already exists: {target}; use --append to add a revision")
-    sections = [f"# {title.strip()}", "", f"标签：{TAG_BY_KIND[kind]}", "", body]
-    if linked_titles:
-        sections.extend(["", "## 相关知识页", "", *[f"- [[{value}]]" for value in linked_titles]])
-    if source_links:
-        sections.extend(["", "## 源码入口", "", *[f"- {value}" for value in source_links]])
-    text = "\n".join(sections).rstrip() + "\n"
-    if LONG_HEX.search(text):
-        raise CkbError("generated human knowledge note contains a hash-like identifier")
+    text = render_note_text(kind, title, body, linked_titles, source_links)
+    previous_record = None
+    previous_record_path = output / "workspace-meta" / "notes" / (safe_title(title) + ".json")
+    if append and previous_record_path.is_file():
+        previous_record = json_load(previous_record_path)
     if append and target.exists():
         existing = target.read_text(encoding="utf-8")
         text = existing.rstrip() + "\n\n## 后续补充\n\n" + body + "\n"
@@ -155,9 +175,12 @@ def record_note(
     human_target = output / "human" / relative_note
     meta_dir = output / "workspace-meta" / "notes"
     meta_dir.mkdir(parents=True, exist_ok=True)
+    now = utc_now()
     record = {
         "schema_version": 1,
         "status": "agent-reviewed",
+        "record_id": (previous_record or {}).get("record_id")
+        or stable_id("work-record", kind, title.strip().casefold(), relative_note.as_posix()),
         "kind": kind,
         "title": title.strip(),
         "file": str((human_target if human_target.is_file() else target).resolve()),
@@ -165,7 +188,9 @@ def record_note(
         "linked_pages": linked_titles,
         "source_links": source_links,
         "query_record": str(query_record.resolve()) if query_record else None,
-        "updated_at_utc": utc_now(),
+        "created_at_utc": (previous_record or {}).get("created_at_utc") or (previous_record or {}).get("updated_at_utc") or now,
+        "updated_at_utc": now,
+        "body_sha256": hashlib.sha256((body.rstrip() + "\n").encode("utf-8")).hexdigest(),
         "obsidian_uri": obsidian_open_uri(target),
     }
     json_write(meta_dir / (safe_title(title) + ".json"), record)

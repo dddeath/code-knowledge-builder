@@ -18,6 +18,7 @@
 - 实现时会用到 [[append]]。
 - 实现时会用到 [[parser]]。
 - 主要代码单元是 [[source_files]]。
+- 实现时会用到 [[validate 与 canonical 的协作实现]]。
 
 ## 谁会来到这里
 

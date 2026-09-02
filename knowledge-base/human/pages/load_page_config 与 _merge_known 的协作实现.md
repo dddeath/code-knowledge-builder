@@ -20,8 +20,8 @@
 
 ## 谁会来到这里
 
-- [[initialize]] 会使用这里提供的行为。
-- [[initialize 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
+- [[audit_global]] 会使用这里提供的行为。
+- [[audit_global 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 - [[load_page_config]] 会使用这里提供的行为。
 - 可从 [[scripts 职责导览]] 进入本页。
 
@@ -29,10 +29,10 @@
 
 - [[CodeKnowledgeBuilderTests]]
 - [[CodeKnowledgeBuilderTests 等测试场景]]
+- [[HumanPageTemplateValidationTests]]
 - [[KeywordFallbackRetrievalWiringTests]]
 - [[MigrationTest]]
 - [[MigrationTest 等测试场景]]
-- [[ScopeExtensionTest]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 

@@ -1,0 +1,22 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0013",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-02T02:36:35Z",
+  "reviews": [
+    {
+      "entity_id": "ent-f7114eb25ab8549b83d11be0fe4b4288",
+      "classification": "page",
+      "owner_page_id": "ent-f7114eb25ab8549b83d11be0fe4b4288",
+      "source_path": "scripts/ckb_core/human_page_authoring.py",
+      "start_line": 705,
+      "end_line": 937,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `scripts/ckb_core/human_page_authoring.py` 第 705-937 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "meaning_zh": "`render_page_author` 位于 `scripts/ckb_core/human_page_authoring.py` 第 705-937 行，本页用固定源码范围说明它如何生成稳定排序的结构化表示或人类输出。",
+      "role_zh": "`render_page_author` 负责在页面候选的初始化、检查、渲染、验证和隔离打包中生成稳定排序的结构化表示或人类输出。",
+      "change_when_zh": "当 `scripts/ckb_core/human_page_authoring.py` 中 `render_page_author` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
+    }
+  ]
+}

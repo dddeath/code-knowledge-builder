@@ -1,0 +1,100 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-appendix-review-pack-0047",
+  "kind": "appendix-review",
+  "reviewer": "Agent",
+  "reviewed_at_utc": null,
+  "reviews": [
+    {
+      "entity_id": "ent-c4b50a7d168758a198aa78d0b0a3ed73",
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "source_path": "tests/test_session_stdio.py",
+      "start_line": 499,
+      "end_line": 536,
+      "source_blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "source_excerpt": "def test_close_timeout_escalates_to_terminate_then_kill_and_waits(self) -> None:\n        class TimeoutProcess:\n            pid = 54321\n            returncode: int | None = None\n\n            def __init__(self) -> None:\n                self.stdin = io.StringIO()\n                self.stdout = io.StringIO()\n                self.stderr = io.StringIO()\n                self.wait_calls = 0\n                self.terminated = False\n                self.killed = False\n\n            def poll(self) -> int | None:\n                return self.returncode\n\n            def wait(self, timeout: float | None = None) -> int:\n                self.wait_calls += 1\n                if self.wait_calls < 3:\n                    raise subprocess.TimeoutExpired(\"fixture\", timeout)\n                self.returncode = 137\n                return self.returncode\n\n            def terminate(self) -> None:\n                self.terminated = True\n\n            def kill(self) -> None:\n                self.killed = True\n\n        process = TimeoutProcess()\n        transport = _Transport(executable=Path(sys.executable), ckb=ROOT / \"scripts/ckb.py\", output=self.output, process=process)\n        with patch.object(_Transport, \"request\", side_effect=CkbError(\"shutdown response timeout\")):\n            closed = transport.close(0.6)\n        self.assertEqual(closed[\"escalation\"], \"kill\")\n        self.assertTrue(process.terminated)\n        self.assertTrue(process.killed)\n        self.assertEqual(process.wait_calls, 3)\n        self.assertEqual(closed[\"exit_code\"], 137)",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-72d3a67456ff547fac198985b010de10",
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "source_path": "tests/test_session_stdio.py",
+      "start_line": 500,
+      "end_line": 526,
+      "source_blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "source_excerpt": "class TimeoutProcess:\n            pid = 54321\n            returncode: int | None = None\n\n            def __init__(self) -> None:\n                self.stdin = io.StringIO()\n                self.stdout = io.StringIO()\n                self.stderr = io.StringIO()\n                self.wait_calls = 0\n                self.terminated = False\n                self.killed = False\n\n            def poll(self) -> int | None:\n                return self.returncode\n\n            def wait(self, timeout: float | None = None) -> int:\n                self.wait_calls += 1\n                if self.wait_calls < 3:\n                    raise subprocess.TimeoutExpired(\"fixture\", timeout)\n                self.returncode = 137\n                return self.returncode\n\n            def terminate(self) -> None:\n                self.terminated = True\n\n            def kill(self) -> None:\n                self.killed = True",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-5f47f9df34c05e2d8fdfca2527891eed",
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "source_path": "tests/test_session_stdio.py",
+      "start_line": 504,
+      "end_line": 510,
+      "source_blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "source_excerpt": "def __init__(self) -> None:\n                self.stdin = io.StringIO()\n                self.stdout = io.StringIO()\n                self.stderr = io.StringIO()\n                self.wait_calls = 0\n                self.terminated = False\n                self.killed = False",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-260c76f46aee5f62b2c615c50b376ef3",
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "source_path": "tests/test_session_stdio.py",
+      "start_line": 512,
+      "end_line": 513,
+      "source_blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "source_excerpt": "def poll(self) -> int | None:\n                return self.returncode",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-bd59a6bae9c153b390c5771704a21e02",
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "source_path": "tests/test_session_stdio.py",
+      "start_line": 515,
+      "end_line": 520,
+      "source_blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "source_excerpt": "def wait(self, timeout: float | None = None) -> int:\n                self.wait_calls += 1\n                if self.wait_calls < 3:\n                    raise subprocess.TimeoutExpired(\"fixture\", timeout)\n                self.returncode = 137\n                return self.returncode",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-d7d89b53aab95a8a80634e980b969157",
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "source_path": "tests/test_session_stdio.py",
+      "start_line": 522,
+      "end_line": 523,
+      "source_blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "source_excerpt": "def terminate(self) -> None:\n                self.terminated = True",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-7d208290ea65548aa429aa701cba8cac",
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "source_path": "tests/test_session_stdio.py",
+      "start_line": 525,
+      "end_line": 526,
+      "source_blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "source_excerpt": "def kill(self) -> None:\n                self.killed = True",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    }
+  ]
+}

@@ -19,12 +19,14 @@
 - 实现时会用到 [[SourceLinkRenderer.uri]]。
 - 实现时会用到 [[_Transport.close]]。
 - 实现时会用到 [[append]]。
+- 实现时会用到 [[audit_global 与 _replace_output_prefix 的协作实现]]。
 - 实现时会用到 [[audit_migration 与 _entity_key 的协作实现]]。
 - 实现时会用到 [[execute]]。
-- 实现时会用到 [[initialize 与 _replace_output_prefix 的协作实现]]。
 - 实现时会用到 [[maintenance_check]]。
 - 实现时会用到 [[preflight]]。
+- 实现时会用到 [[rollback]]。
 - 主要代码单元是 [[start_scope_extension]]。
+- 实现时会用到 [[validate]]。
 
 ## 谁会来到这里
 
@@ -35,12 +37,9 @@
 - [[create_batch_plan 与 ProtocolRelease 的协作实现]] 会使用这里提供的行为。
 - [[create_knowledge_batch_plan 与 KnowledgeRelease 的协作实现]] 会使用这里提供的行为。
 - [[keyword_provider_config 与 parser 的协作实现]] 会使用这里提供的行为。
-- [[main（ckb 实现）]] 会使用这里提供的行为。
-- [[parser]] 会使用这里提供的行为。
 - [[query_graph]] 会使用这里提供的行为。
 - [[refresh]] 会使用这里提供的行为。
 - [[refresh 等测试场景]] 会使用这里提供的行为。
-- [[run]] 会使用这里提供的行为。
 - 可从 [[scripts 职责导览]] 进入本页。
 - [[serve_stdio]] 会使用这里提供的行为。
 - [[start_scope_extension]] 会使用这里提供的行为。
@@ -52,7 +51,7 @@
 - [[AutomationTest.register 等测试场景]]
 - [[CodeKnowledgeBuilderTests]]
 - [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[KeywordFallbackRetrievalWiringTests]]
+- [[HumanPageAuthoringPackageTests]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 

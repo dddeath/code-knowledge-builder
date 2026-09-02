@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
   "status": "passed",
-  "integration_commit": "150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3",
-  "integration_tree": "7976883a0f6ff177deb649eaef6e8d2e7af2fda8",
+  "integration_commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+  "integration_tree": "6da95dc3ac8991b5abb12b816bcc5e577f53c997",
   "algorithm": "sha256-per-file-v1",
-  "file_count": 731,
+  "file_count": 869,
   "files": [
     {
       "path": ".gitignore",
@@ -107,6 +107,96 @@
       "sha256": "abd381aad24d8b22ed5012e25bf1c3d9936ecbab00678f74068cd523bdfc8d9c"
     },
     {
+      "path": "prototypes/ckb-canvas-skill/SKILL.md",
+      "size": 1329,
+      "sha256": "b4a3feab478f567f7a033f34e56ecb46e58fbe11dd3fcadba96500d1f5054804"
+    },
+    {
+      "path": "prototypes/ckb-canvas-skill/ckb_canvas/__init__.py",
+      "size": 187,
+      "sha256": "060debe1bc6d0525352c9ba92bd2beb10b8e21c0f7eb4dfc0b29c3338ede80b5"
+    },
+    {
+      "path": "prototypes/ckb-canvas-skill/ckb_canvas/benchmark.py",
+      "size": 23747,
+      "sha256": "873e540605a5894cc5fb7f7c75fbaac2ba7f91ff16cfdc476e859754ffd92923"
+    },
+    {
+      "path": "prototypes/ckb-canvas-skill/ckb_canvas/commands.py",
+      "size": 8612,
+      "sha256": "86a04ad85b455f27ddc126d6be567ff03b9e2a577516928adb2742e460475888"
+    },
+    {
+      "path": "prototypes/ckb-canvas-skill/ckb_canvas/contracts.py",
+      "size": 10778,
+      "sha256": "91086614ec10f648c754b155ca98bb00f22298c7b0025cee6fb01d67fa854bec"
+    },
+    {
+      "path": "prototypes/ckb-canvas-skill/ckb_canvas/freeze.py",
+      "size": 22989,
+      "sha256": "82cca74b3dd7897387a42c3ea74635ddc17fecfe2760434d5ac3154b341a47a0"
+    },
+    {
+      "path": "prototypes/ckb-canvas-skill/ckb_canvas/graph.py",
+      "size": 17878,
+      "sha256": "3b375e6b1e9d92ddd59e59c06c2ed36ce1636ce3b787f8376a2ea86aeb8c0087"
+    },
+    {
+      "path": "prototypes/ckb-canvas-skill/ckb_canvas/transaction.py",
+      "size": 23125,
+      "sha256": "3aa4eeb1b14b53c53be4e8482e9512121f0523c3961d86fbd91cd216c691b84d"
+    },
+    {
+      "path": "prototypes/ckb-canvas-skill/schemas/benchmark-run.schema.json",
+      "size": 13446,
+      "sha256": "2eceb8358166765db205408a5a50e9dbba91939e4560c44e25cb4fe4fd108a64"
+    },
+    {
+      "path": "prototypes/ckb-canvas-skill/schemas/benchmark-session-result.schema.json",
+      "size": 4796,
+      "sha256": "d693e358646ed18a0dcab35ebda7d736e4f179f858c02a0bcafebb46d87350c3"
+    },
+    {
+      "path": "prototypes/ckb-canvas-skill/schemas/benchmark-summary.schema.json",
+      "size": 7597,
+      "sha256": "6e820930ec56cd9d29454d5c2bcab9efc69907eb2810487beb8965d2429f5959"
+    },
+    {
+      "path": "prototypes/ckb-canvas-skill/schemas/canvas-failure.schema.json",
+      "size": 5187,
+      "sha256": "8151c7646e381945cdd32c782e4b5faf477aa70d9bffc76733808b53a0e00a09"
+    },
+    {
+      "path": "prototypes/ckb-canvas-skill/schemas/canvas-request.schema.json",
+      "size": 14197,
+      "sha256": "a2cb8b101f0e43977cc632270d60595050a352c77ed1ef997ba27d2dd49ce46d"
+    },
+    {
+      "path": "prototypes/ckb-canvas-skill/schemas/canvas-rollback-manifest.schema.json",
+      "size": 7165,
+      "sha256": "8e9a9ec114621c4fa824f8d3286bc69ad8cae83845eb4d6fb1fc3d8b24d5353e"
+    },
+    {
+      "path": "prototypes/ckb-canvas-skill/schemas/canvas-success.schema.json",
+      "size": 5995,
+      "sha256": "2dee5e4f998c9e1fb6381e8f9293ba00b9e83edcf17da0e1122dcb1d61c45f7a"
+    },
+    {
+      "path": "prototypes/ckb-canvas-skill/schemas/canvas-validation-manifest.schema.json",
+      "size": 6341,
+      "sha256": "05602d873845b652e15642241844d6d3e313f61c668c26a8b0bcb16eb6c75eb7"
+    },
+    {
+      "path": "prototypes/ckb-canvas-skill/schemas/json-canvas-1.0-ckb-subset.schema.json",
+      "size": 4745,
+      "sha256": "8502e933dbe9f993dd5e497717f6d91e26d73de271bb8f6dab17100f575b94f3"
+    },
+    {
+      "path": "prototypes/ckb-canvas-skill/scripts/ckb_canvas.py",
+      "size": 3900,
+      "sha256": "c203f83c4460f4a0634212e31937c66ba8ff0492a4c406e33ea4614a19ef168b"
+    },
+    {
       "path": "references/agent-policy.md",
       "size": 8730,
       "sha256": "a2dba2f3311f60c60f4b791654bd5042de62ad6229219a457921cd881e1afae7"
@@ -125,6 +215,246 @@
       "path": "references/automation.md",
       "size": 21007,
       "sha256": "337b6bcbc7a7a92b1f25194bad2ac932a24e595d3bad7f6ca3efc45e7131dc13"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/benchmark-contract.md",
+      "size": 8035,
+      "sha256": "f1e4afa6c14e23ba3bf5f518042fafe2c0ae3102a50ba23aa63cc9f19107bf34"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/contracts-and-fixtures.md",
+      "size": 11858,
+      "sha256": "4762151fa36e0f2e428b9ba7486e154fbada7143c25f3b5b9535a494ef4f84bd"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/fixtures/benchmark/benchmark-run.json",
+      "size": 10609,
+      "sha256": "b410560b0ef57531779d0e2a7adb037f2e6dc13549528ad759f42ffcdb535026"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/fixtures/benchmark/benchmark-session-result.json",
+      "size": 3317,
+      "sha256": "2f88191b6e971a425d6abca62d48850953cfce55787438e6a658e855a10e5f4a"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/fixtures/benchmark/benchmark-summary.json",
+      "size": 3216,
+      "sha256": "2353cc84681df4d86795cafa9d2bd15754e05d6c5779847871ab779500eff161"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/fixtures/failure-catalog.json",
+      "size": 4672,
+      "sha256": "66978ac25c1c535519931051ee2d7cf3baf4151215dd391e8edff0ee961a98e0"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/budget_exceeded.json",
+      "size": 522,
+      "sha256": "addb5669b07e256284556a03c640b2e7a9412d7206a317887a450ce138fb15ce"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/dangling_edge.json",
+      "size": 514,
+      "sha256": "d35c0478ed5a88e0bc0a70e5eb8430bef9d910c7b7f2b5bbd24dc1a154dd2940"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/duplicate_id.json",
+      "size": 521,
+      "sha256": "4f419df917d761d4466c8da04a94e5671287e4e46ca92d147bcc914fe6cfa63b"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/input_drift.json",
+      "size": 513,
+      "sha256": "0c5337bfbe3405c8fd4bf60b5f933931a21ef2c22fab4e1fe074c10ccedf3133"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/invalid_canvas.json",
+      "size": 531,
+      "sha256": "cc7ea4a1ba26107b75e863440bcdc59186f063a2861ad2816785290e90166d94"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/invalid_request.json",
+      "size": 506,
+      "sha256": "74ea9a1de44d026a49df0541fe1df5fef6044286b8583253d2039f0488ee0a88"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/invalid_source_range.json",
+      "size": 530,
+      "sha256": "493fa55aeb2e2cbae31e0e3949a804fe3079dd0c8e938280698684b24fd2f385"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/io_failure.json",
+      "size": 518,
+      "sha256": "9daad98e922c3be2ff5f9202970619faba365425795f7f5473f920884430d301"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/missing_backlink.json",
+      "size": 551,
+      "sha256": "17470308dba16357e713b6dbb6e0bbee39dd6c029008485fb432881158358711"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/missing_target.json",
+      "size": 502,
+      "sha256": "b209262672524e5d64d0d4dcf9dff978836f9d1a4a58247b33cb9e011e1bd138"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/pack_record_mismatch.json",
+      "size": 538,
+      "sha256": "57788e74deb73dd7fd43aaf4b843527c81906d5d60a747e7f866bc0f44a9fac7"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/promotion_drift.json",
+      "size": 701,
+      "sha256": "2c10ac098fbc123b87d4b4b45702ad550c1bcbf3b92b5beac5ac68281eaae41d"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/rollback_drift.json",
+      "size": 715,
+      "sha256": "68b84c4dab6a203800a3172291260dd761732ef0e7cce41ccf22cd85ca689681"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/snapshot_mismatch.json",
+      "size": 538,
+      "sha256": "967f17f5ccb1ffe0fbeacc8385faedf26066c71f979604d86cc6df3b384b2052"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/source_outside_scope.json",
+      "size": 543,
+      "sha256": "162ea043c38c2e16efe224b62d2f581908839500836ae2ad6113b345ca77f833"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/target_exists.json",
+      "size": 541,
+      "sha256": "e1eaefe3bd8eb16662b28fffccaf20aa6ec9e3a1243b642d5aa69f9a3f3fb881"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/unsupported_record_schema.json",
+      "size": 549,
+      "sha256": "b2c354d8523b68ef30e74e40306feaf5a0bb83be331bd6f9e30440b588b62e50"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/fixtures/fixture-catalog.json",
+      "size": 2715,
+      "sha256": "ffdd4afe331c6e8be9b40d9a94d9c14a0fa03b591d23d1e4ebd4b212ff71c6e6"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/fixtures/success/canvas-request.json",
+      "size": 2712,
+      "sha256": "7c30552fc5d50eb96d14b779aa48dd2605cf089a578cc6142743bf1c063ff7d0"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/fixtures/success/canvas-success.json",
+      "size": 1090,
+      "sha256": "d8dfc3d214e8e7d9d828db7ff79ab2619de7799b61a738407669db300a4835a9"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/fixtures/success/ckb-navigation.canvas",
+      "size": 1167,
+      "sha256": "3a444a1ef1f9d6c24189c67f775ffd98e40b8a68dafe134b1a11d5dfb5b29c70"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/fixtures/success/ckb-navigation.canvas.rollback.json",
+      "size": 1305,
+      "sha256": "4789297ced92e0daa03e1fc89177b039e6ccbb9a1c37ec2d7c77265ea3b33585"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/fixtures/success/ckb-navigation.canvas.validation.json",
+      "size": 2661,
+      "sha256": "e25154ac484cb0a772d6240baa2acc58cf9cd3676f4eddd22e6f32575492cc2f"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/prototype-task.md",
+      "size": 10649,
+      "sha256": "d9568b59f9857c2ae06922825711c37f32892798293e1a5491e1879d4ab27e7d"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/prototype-verification/implementation.patch",
+      "size": 302484,
+      "sha256": "27c6f5b486e33acb69fd274e635754143ac20226f03f75e0f207e73ae5c56051"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/prototype-verification/rollback_prototype.ps1",
+      "size": 963,
+      "sha256": "2278c33a6436ca191f77ef15abf3c554e57b82bea91d51a98559733540b79674"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/prototype-verification/verification-record.json",
+      "size": 15321,
+      "sha256": "1bb93a98b29474f159761c4218fd71201994dd0599fb05266924be4f3c9ebe8e"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/schemas/benchmark-run.schema.json",
+      "size": 13446,
+      "sha256": "2eceb8358166765db205408a5a50e9dbba91939e4560c44e25cb4fe4fd108a64"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/schemas/benchmark-session-result.schema.json",
+      "size": 4796,
+      "sha256": "d693e358646ed18a0dcab35ebda7d736e4f179f858c02a0bcafebb46d87350c3"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/schemas/benchmark-summary.schema.json",
+      "size": 7597,
+      "sha256": "6e820930ec56cd9d29454d5c2bcab9efc69907eb2810487beb8965d2429f5959"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/schemas/canvas-failure.schema.json",
+      "size": 5187,
+      "sha256": "8151c7646e381945cdd32c782e4b5faf477aa70d9bffc76733808b53a0e00a09"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/schemas/canvas-request.schema.json",
+      "size": 14197,
+      "sha256": "a2cb8b101f0e43977cc632270d60595050a352c77ed1ef997ba27d2dd49ce46d"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/schemas/canvas-rollback-manifest.schema.json",
+      "size": 7165,
+      "sha256": "8e9a9ec114621c4fa824f8d3286bc69ad8cae83845eb4d6fb1fc3d8b24d5353e"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/schemas/canvas-success.schema.json",
+      "size": 5995,
+      "sha256": "2dee5e4f998c9e1fb6381e8f9293ba00b9e83edcf17da0e1122dcb1d61c45f7a"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/schemas/canvas-validation-manifest.schema.json",
+      "size": 6341,
+      "sha256": "05602d873845b652e15642241844d6d3e313f61c668c26a8b0bcb16eb6c75eb7"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/schemas/json-canvas-1.0-ckb-subset.schema.json",
+      "size": 4745,
+      "sha256": "8502e933dbe9f993dd5e497717f6d91e26d73de271bb8f6dab17100f575b94f3"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/technical-design.md",
+      "size": 27723,
+      "sha256": "3e0ce9590578be0f09cb09376030d4a101e3a1de619054925818d541386039ad"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/verification/design-delivery.patch",
+      "size": 190997,
+      "sha256": "a3244fe2f1c051aaa94d3dac0b17b3864506c2f8a770c4d3d5bf594e73413802"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/verification/rollback_design.ps1",
+      "size": 2885,
+      "sha256": "5c7dd00d00a03264069bc950164c58a58adeb3dde458f9b6e716d53a8b218a30"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/verification/rollback_probe.py",
+      "size": 3029,
+      "sha256": "be84583d65557ee89177fc08ad3a74706cbd6cda781abea8fc25b852c81679eb"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
+      "size": 10895,
+      "sha256": "3c16662606a34e4d6d7a3c432939c6a356db15f00e230efdce8a13dc7467707b"
+    },
+    {
+      "path": "references/design/obsidian-canvas-agent-visualization/verification/verification-record.md",
+      "size": 6188,
+      "sha256": "eb2dc163701a524987e61ef3cb8176d60b540fe943d0a7ee9e91a559aa3a6ebf"
     },
     {
       "path": "references/distributions.md",
@@ -210,6 +540,31 @@
       "path": "references/reference-ingest.md",
       "size": 5401,
       "sha256": "c6d4507fc9c93fc0160c489e3a55ff777ecfac3dda67adedf0afd1f79070b33a"
+    },
+    {
+      "path": "references/research/obsidian-canvas-agent-visualization/capability-data-boundary-matrix.md",
+      "size": 12141,
+      "sha256": "dd30ef167bb8ce70fd37796a86c21551c0ff7e618fccaf4e7a583d15dd259f2f"
+    },
+    {
+      "path": "references/research/obsidian-canvas-agent-visualization/design-input-and-benchmark.md",
+      "size": 15534,
+      "sha256": "08b0bf06cd751ae223fcdccb31a2042afa06b8074f4e2162161c4224ac40048c"
+    },
+    {
+      "path": "references/research/obsidian-canvas-agent-visualization/handoff.json",
+      "size": 6389,
+      "sha256": "31b417b984c07d5e353fc62d9a016d1710fb97720c94015525279beaaef2a75d"
+    },
+    {
+      "path": "references/research/obsidian-canvas-agent-visualization/official-sources.md",
+      "size": 7861,
+      "sha256": "5b1d90fe9d47955d118b45852d68a078a4b30f24f71b93590f480b20ce3445ac"
+    },
+    {
+      "path": "references/research/obsidian-canvas-agent-visualization/sources.json",
+      "size": 11636,
+      "sha256": "a20025c8ce4380719aa643add0c9d520bb15d51563267d34b8272489f8346b2c"
     },
     {
       "path": "references/research-gaps.md",
@@ -3263,8 +3618,8 @@
     },
     {
       "path": "scripts/ckb.py",
-      "size": 72427,
-      "sha256": "6d5f5b25709a1b73189ad4db47fc86a65064c14eb0dacefc30f251467bd302af"
+      "size": 84925,
+      "sha256": "7094df5e4ddccd1773970e7250e0f7259c47b2c6de1b6231afd26c8fe3dfcf24"
     },
     {
       "path": "scripts/ckb_core/__init__.py",
@@ -3322,6 +3677,26 @@
       "sha256": "75ee4d445fc9fb08d0ef0538a4176fa8f49b0b5e606693fa479b3f5934ba0b63"
     },
     {
+      "path": "scripts/ckb_core/human_maintenance_prompts.py",
+      "size": 104401,
+      "sha256": "9f3304128622530a8917b75365a0a59bb4debfb249772bab8b12d495796d43d4"
+    },
+    {
+      "path": "scripts/ckb_core/human_page_authoring.py",
+      "size": 43196,
+      "sha256": "ec72e1cade00cc7d5fa82f4b07713c9d931fced2fd75cb7e038015b76090d5f4"
+    },
+    {
+      "path": "scripts/ckb_core/human_page_template_proposals.py",
+      "size": 58080,
+      "sha256": "3811447f8342ec3e5482a5c30c501cc4c85a45fd9c0c27138ca1be1693670e53"
+    },
+    {
+      "path": "scripts/ckb_core/human_page_templates.py",
+      "size": 62675,
+      "sha256": "41153ffa07001e171bae4dc305bface56eb0bd0545e75fa51dfd642cf026baf0"
+    },
+    {
       "path": "scripts/ckb_core/keyword_benchmark.py",
       "size": 9864,
       "sha256": "9ba9454ccf46117f53952d84c1dfa3a974c6755fd207a20344e42924b525cc10"
@@ -3353,8 +3728,8 @@
     },
     {
       "path": "scripts/ckb_core/management_agent.py",
-      "size": 60345,
-      "sha256": "bba2220c9cebbcd8f6381e37b6a4cb9cd583eba01d93957eb82775115ebe6c74"
+      "size": 61010,
+      "sha256": "2166932964726115e6ef9d468f964c15cb741aab004301272bcf128756344e03"
     },
     {
       "path": "scripts/ckb_core/migration.py",
@@ -3378,8 +3753,8 @@
     },
     {
       "path": "scripts/ckb_core/operation_journal.py",
-      "size": 17419,
-      "sha256": "c997651ae2821bf206a79c0b1f8ee697efdfe35d37f249499f86cac1d8cd38d2"
+      "size": 17496,
+      "sha256": "2d6ada00b258bd1369dee222405c3ac8ddf1bb6ddea225f259a0006432e5b118"
     },
     {
       "path": "scripts/ckb_core/output_contract.py",
@@ -3410,6 +3785,11 @@
       "path": "scripts/ckb_core/query_terms.py",
       "size": 4007,
       "sha256": "e9cdca9e4d952bef442ac2a5608c8b0c6bc14fb5dac7ccc3da4ea5d53b93eb1e"
+    },
+    {
+      "path": "scripts/ckb_core/record_replace.py",
+      "size": 52313,
+      "sha256": "04b610281d5e4127eec86c64c642389a4fdace00711600e59e6d93ae714e44a0"
     },
     {
       "path": "scripts/ckb_core/reference_documents.py",
@@ -3458,8 +3838,8 @@
     },
     {
       "path": "scripts/ckb_core/workspace_notes.py",
-      "size": 16244,
-      "sha256": "28cda929a9954339d527bfe0b592a48e8f8d4ed1e1bd368672c0cc93740f1b72"
+      "size": 17390,
+      "sha256": "41513ff35e273951500caa605b9e8fbfc8d6e5039a098901708e0feb0de91902"
     },
     {
       "path": "scripts/make_source_patch.py",
@@ -3475,6 +3855,11 @@
       "path": "tests/benchmark_chinese_retrieval.py",
       "size": 25574,
       "sha256": "9b985b8650af97a9acfea3b486f152f7dc6ab5c2b4e5fb4cadd17164643916dc"
+    },
+    {
+      "path": "tests/benchmark_obsidian_canvas_navigation.py",
+      "size": 856,
+      "sha256": "1bd8c6491d59f3683023153d3b8545805ffc6eae87adc4061d669b8110fab4e9"
     },
     {
       "path": "tests/e2e_agent_protocol_batch.py",
@@ -3552,6 +3937,71 @@
       "sha256": "347d91584f6a0305b2c5e3ee3b011ce014d04b64e74cd351a8370477d96d01b1"
     },
     {
+      "path": "tests/fixtures/human-maintenance-prompts/actions.json",
+      "size": 228813,
+      "sha256": "a45e641d4fb4f57879188ac8b4c17b7bcee8549dc1dea9f7a906b9ac79ff2bef"
+    },
+    {
+      "path": "tests/fixtures/human-maintenance-prompts/readme-v4.json",
+      "size": 2764,
+      "sha256": "8472c5cfae38440bab78a93a89c9c93cf0899c60476b5a48b77e73f50e6b24bf"
+    },
+    {
+      "path": "tests/fixtures/human-page-authoring/analysis-current-fact.md",
+      "size": 297,
+      "sha256": "7a7604924c8dfe2fcf4e2fa5460e94f4d0e318216b7ce5148cc3178e9a8abe41"
+    },
+    {
+      "path": "tests/fixtures/human-page-authoring/change-complete.md",
+      "size": 544,
+      "sha256": "5c6ded8bf8eae8e150ec10a3991336993a800b82a70efd7fa93d66e37a681989"
+    },
+    {
+      "path": "tests/fixtures/human-page-authoring/change-missing-reason.md",
+      "size": 472,
+      "sha256": "b37f7b024b9ee38d5bfa5ec806c53f98a63b718a1e54d2d183c37ef7ada9b7ac"
+    },
+    {
+      "path": "tests/fixtures/human-page-template-proposals/valid-proposal.json",
+      "size": 3403,
+      "sha256": "81d0f732ebd347b5d4380eb4875e71515326376c38c3a05431682f13d7c8fece"
+    },
+    {
+      "path": "tests/fixtures/human-page-templates/analysis-duplicate-heading.md",
+      "size": 369,
+      "sha256": "86784bdec3d80cfa9425e30a3312a12d2d8999dc2de7427fae4795af1695f640"
+    },
+    {
+      "path": "tests/fixtures/human-page-templates/analysis-process-meta-copy.md",
+      "size": 340,
+      "sha256": "94abca0368fdc4b6f7893c7ff6e9abb7c216929d5accc9d64155f951dafe1484"
+    },
+    {
+      "path": "tests/fixtures/human-page-templates/change-missing-section.md",
+      "size": 445,
+      "sha256": "d2af4f72589b2d9e422d93a364dc1a780a60993b6f87a8d3125aedb96482b7a1"
+    },
+    {
+      "path": "tests/fixtures/human-page-templates/change-untrusted-current-fact.md",
+      "size": 466,
+      "sha256": "e7f983b6eb249ea5eccc4e4b864028f26c4361fd6a3b9d54f773a6f718762115"
+    },
+    {
+      "path": "tests/fixtures/human-page-templates/readme-purposeless-link.md",
+      "size": 366,
+      "sha256": "02db0d472e916ee5c4947a8ceff12331111643b74ce1d9dc3925760db8aef841"
+    },
+    {
+      "path": "tests/fixtures/human-page-templates/responsibility-too-many-entities.json",
+      "size": 311,
+      "sha256": "1bb67a38dd65df44f334d6ed3968ef064c89f81e05b7bfcd7939684ff04a6b7a"
+    },
+    {
+      "path": "tests/fixtures/human-page-templates/responsibility-valid.md",
+      "size": 368,
+      "sha256": "09c16aefc0d7bd1225109b15ee788746683a4162df57c596b31b9f69ec917496"
+    },
+    {
       "path": "tests/fixtures/keyword_benchmark.json",
       "size": 299,
       "sha256": "24e2612b2d81930969287cb62c33aad071f4d1f787d670e955095ccccd97ad40"
@@ -3565,6 +4015,186 @@
       "path": "tests/fixtures/knowledge-batch-migration/versions.json",
       "size": 796,
       "sha256": "f53949082f6da2e6e29fa4a258d884f57f33119fc11c241bc628c0a954795e09"
+    },
+    {
+      "path": "tests/fixtures/obsidian-canvas-agent-visualization/.gitignore",
+      "size": 9,
+      "sha256": "fdcd0183a4babd894e7cce83ec87bd24f385c424cc83571009ed07ab34722d9f"
+    },
+    {
+      "path": "tests/fixtures/obsidian-canvas-agent-visualization/README.md",
+      "size": 933,
+      "sha256": "cabcc4e670b52b61572dad10f34226d749210427bd5367a8af0481ce1cdad5ca"
+    },
+    {
+      "path": "tests/fixtures/obsidian-canvas-agent-visualization/benchmark/benchmark-run.json",
+      "size": 7801,
+      "sha256": "eb1f08ac08b2766dad5458d3d0f68ab63e778414067678147dd1adb06b40c56e"
+    },
+    {
+      "path": "tests/fixtures/obsidian-canvas-agent-visualization/benchmark/benchmark-session-result.json",
+      "size": 3317,
+      "sha256": "2f88191b6e971a425d6abca62d48850953cfce55787438e6a658e855a10e5f4a"
+    },
+    {
+      "path": "tests/fixtures/obsidian-canvas-agent-visualization/benchmark/benchmark-summary.json",
+      "size": 3216,
+      "sha256": "2353cc84681df4d86795cafa9d2bd15754e05d6c5779847871ab779500eff161"
+    },
+    {
+      "path": "tests/fixtures/obsidian-canvas-agent-visualization/benchmark/session-capture.json",
+      "size": 2272,
+      "sha256": "32324d09ff0d012ad74cc38f6452a5e2218caeffb1a52f4b8928f9779095316d"
+    },
+    {
+      "path": "tests/fixtures/obsidian-canvas-agent-visualization/benchmark/session-index.json",
+      "size": 2284,
+      "sha256": "b71fade1cbc7588d6a81acbbd9a1ae8b04becbb95dcb7aad9fb7453fc9049bf9"
+    },
+    {
+      "path": "tests/fixtures/obsidian-canvas-agent-visualization/expected/canvas-request.json",
+      "size": 2712,
+      "sha256": "7c30552fc5d50eb96d14b779aa48dd2605cf089a578cc6142743bf1c063ff7d0"
+    },
+    {
+      "path": "tests/fixtures/obsidian-canvas-agent-visualization/expected/canvas-success.json",
+      "size": 1090,
+      "sha256": "d8dfc3d214e8e7d9d828db7ff79ab2619de7799b61a738407669db300a4835a9"
+    },
+    {
+      "path": "tests/fixtures/obsidian-canvas-agent-visualization/expected/ckb-navigation.canvas",
+      "size": 1167,
+      "sha256": "3a444a1ef1f9d6c24189c67f775ffd98e40b8a68dafe134b1a11d5dfb5b29c70"
+    },
+    {
+      "path": "tests/fixtures/obsidian-canvas-agent-visualization/expected/ckb-navigation.canvas.rollback.json",
+      "size": 1305,
+      "sha256": "4789297ced92e0daa03e1fc89177b039e6ccbb9a1c37ec2d7c77265ea3b33585"
+    },
+    {
+      "path": "tests/fixtures/obsidian-canvas-agent-visualization/expected/ckb-navigation.canvas.validation.json",
+      "size": 2661,
+      "sha256": "e25154ac484cb0a772d6240baa2acc58cf9cd3676f4eddd22e6f32575492cc2f"
+    },
+    {
+      "path": "tests/fixtures/obsidian-canvas-agent-visualization/failure-results/budget_exceeded.json",
+      "size": 522,
+      "sha256": "addb5669b07e256284556a03c640b2e7a9412d7206a317887a450ce138fb15ce"
+    },
+    {
+      "path": "tests/fixtures/obsidian-canvas-agent-visualization/failure-results/dangling_edge.json",
+      "size": 514,
+      "sha256": "d35c0478ed5a88e0bc0a70e5eb8430bef9d910c7b7f2b5bbd24dc1a154dd2940"
+    },
+    {
+      "path": "tests/fixtures/obsidian-canvas-agent-visualization/failure-results/duplicate_id.json",
+      "size": 521,
+      "sha256": "4f419df917d761d4466c8da04a94e5671287e4e46ca92d147bcc914fe6cfa63b"
+    },
+    {
+      "path": "tests/fixtures/obsidian-canvas-agent-visualization/failure-results/input_drift.json",
+      "size": 513,
+      "sha256": "0c5337bfbe3405c8fd4bf60b5f933931a21ef2c22fab4e1fe074c10ccedf3133"
+    },
+    {
+      "path": "tests/fixtures/obsidian-canvas-agent-visualization/failure-results/invalid_canvas.json",
+      "size": 531,
+      "sha256": "cc7ea4a1ba26107b75e863440bcdc59186f063a2861ad2816785290e90166d94"
+    },
+    {
+      "path": "tests/fixtures/obsidian-canvas-agent-visualization/failure-results/invalid_request.json",
+      "size": 506,
+      "sha256": "74ea9a1de44d026a49df0541fe1df5fef6044286b8583253d2039f0488ee0a88"
+    },
+    {
+      "path": "tests/fixtures/obsidian-canvas-agent-visualization/failure-results/invalid_source_range.json",
+      "size": 530,
+      "sha256": "493fa55aeb2e2cbae31e0e3949a804fe3079dd0c8e938280698684b24fd2f385"
+    },
+    {
+      "path": "tests/fixtures/obsidian-canvas-agent-visualization/failure-results/io_failure.json",
+      "size": 518,
+      "sha256": "9daad98e922c3be2ff5f9202970619faba365425795f7f5473f920884430d301"
+    },
+    {
+      "path": "tests/fixtures/obsidian-canvas-agent-visualization/failure-results/missing_backlink.json",
+      "size": 551,
+      "sha256": "17470308dba16357e713b6dbb6e0bbee39dd6c029008485fb432881158358711"
+    },
+    {
+      "path": "tests/fixtures/obsidian-canvas-agent-visualization/failure-results/missing_target.json",
+      "size": 502,
+      "sha256": "b209262672524e5d64d0d4dcf9dff978836f9d1a4a58247b33cb9e011e1bd138"
+    },
+    {
+      "path": "tests/fixtures/obsidian-canvas-agent-visualization/failure-results/pack_record_mismatch.json",
+      "size": 538,
+      "sha256": "57788e74deb73dd7fd43aaf4b843527c81906d5d60a747e7f866bc0f44a9fac7"
+    },
+    {
+      "path": "tests/fixtures/obsidian-canvas-agent-visualization/failure-results/promotion_drift.json",
+      "size": 701,
+      "sha256": "2c10ac098fbc123b87d4b4b45702ad550c1bcbf3b92b5beac5ac68281eaae41d"
+    },
+    {
+      "path": "tests/fixtures/obsidian-canvas-agent-visualization/failure-results/rollback_drift.json",
+      "size": 715,
+      "sha256": "68b84c4dab6a203800a3172291260dd761732ef0e7cce41ccf22cd85ca689681"
+    },
+    {
+      "path": "tests/fixtures/obsidian-canvas-agent-visualization/failure-results/snapshot_mismatch.json",
+      "size": 538,
+      "sha256": "967f17f5ccb1ffe0fbeacc8385faedf26066c71f979604d86cc6df3b384b2052"
+    },
+    {
+      "path": "tests/fixtures/obsidian-canvas-agent-visualization/failure-results/source_outside_scope.json",
+      "size": 543,
+      "sha256": "162ea043c38c2e16efe224b62d2f581908839500836ae2ad6113b345ca77f833"
+    },
+    {
+      "path": "tests/fixtures/obsidian-canvas-agent-visualization/failure-results/target_exists.json",
+      "size": 541,
+      "sha256": "e1eaefe3bd8eb16662b28fffccaf20aa6ec9e3a1243b642d5aa69f9a3f3fb881"
+    },
+    {
+      "path": "tests/fixtures/obsidian-canvas-agent-visualization/failure-results/unsupported_record_schema.json",
+      "size": 549,
+      "sha256": "b2c354d8523b68ef30e74e40306feaf5a0bb83be331bd6f9e30440b588b62e50"
+    },
+    {
+      "path": "tests/fixtures/obsidian-canvas-agent-visualization/runtime_builder.py",
+      "size": 13428,
+      "sha256": "844c5a8c4190ac03c300b4a8021cc04c9c62c2aed5b9ed4209a587d381c477e1"
+    },
+    {
+      "path": "tests/fixtures/obsidian-canvas-agent-visualization/template/human/INDEX.md",
+      "size": 21,
+      "sha256": "036ab369b59821ed7a29fc1d7d9c23814be13531b9fa2562b42607b2eb2bd2cf"
+    },
+    {
+      "path": "tests/fixtures/obsidian-canvas-agent-visualization/template/human/pages/page.md",
+      "size": 27,
+      "sha256": "9c3d016b5abe98a12d76ee9bf01b3a6a6f45bae4e2d0959cb3c08630751484d3"
+    },
+    {
+      "path": "tests/fixtures/obsidian-canvas-agent-visualization/template/human/sessions/record.md",
+      "size": 29,
+      "sha256": "3bff27aec3c93c088f803c9f319b309d7c9f84650e6dbe0c13c9bece14651b25"
+    },
+    {
+      "path": "tests/fixtures/obsidian-canvas-agent-visualization/template/pack-fixture.md",
+      "size": 30,
+      "sha256": "f40b8e17294a32e17bfc7dad86318880311ec1245c61c995bd9fe7273c425e09"
+    },
+    {
+      "path": "tests/fixtures/obsidian-canvas-agent-visualization/template/record-template.json",
+      "size": 109,
+      "sha256": "3a3a9546f9d546d5c0c90c08861e933eb86ff7debe4fe5e9cfe809998949a6a3"
+    },
+    {
+      "path": "tests/fixtures/obsidian-canvas-agent-visualization/template/source/scripts/sample.py",
+      "size": 35,
+      "sha256": "109c96d0c6147e59b27868ce1f6e3a6bb43741fa0861003c0f8d3f7c7f1e166c"
     },
     {
       "path": "tests/generate_large_fixture.py",
@@ -3617,6 +4247,61 @@
       "sha256": "808a672758e0317176b134c27b1b989817ebd892360fa6856f22999499011265"
     },
     {
+      "path": "tests/test_ckb_canvas_benchmark_contract.py",
+      "size": 9183,
+      "sha256": "a7a00f6a5ed29441fceb3bc239cddebc37c55d82dc7b906551c655b188f88648"
+    },
+    {
+      "path": "tests/test_ckb_canvas_contracts.py",
+      "size": 7299,
+      "sha256": "ca73f1f26d85abbecdb9fb6e766a6f4ddb73ac7286fb8dfc4b74262ff817b963"
+    },
+    {
+      "path": "tests/test_ckb_canvas_determinism.py",
+      "size": 2474,
+      "sha256": "3f659354f9f0bd65f04483e85915ab388979f78277c1c253380f8e29db15e76a"
+    },
+    {
+      "path": "tests/test_ckb_canvas_graph.py",
+      "size": 6885,
+      "sha256": "9ef12f5b8380dd2c9741264b3fe2b724c256ee0ddbe0ce97895e60c219705b04"
+    },
+    {
+      "path": "tests/test_ckb_canvas_paths.py",
+      "size": 6425,
+      "sha256": "3de79c530d64fab84b743f3e3d3a4d45085960f7dacc513e81cdcff07689b6aa"
+    },
+    {
+      "path": "tests/test_ckb_canvas_rollback.py",
+      "size": 3639,
+      "sha256": "75e212b7f5d629e7fcb091dbb6841baad443861ce09b455e8bb1c7d5f9275275"
+    },
+    {
+      "path": "tests/test_ckb_canvas_transaction.py",
+      "size": 5283,
+      "sha256": "6e3ee7b4a16e2f061564b47b1be25c43f198ccaa5da0898244f490f179de70c3"
+    },
+    {
+      "path": "tests/test_human_maintenance_prompts.py",
+      "size": 21618,
+      "sha256": "55c92c0dac221ef6f1fe52fb3afb891cdd6b98f5cf4c5227e5b6797d167fbe2d"
+    },
+    {
+      "path": "tests/test_human_page_authoring.py",
+      "size": 23872,
+      "sha256": "f1bd5dbd56369d2519209aedddbbdef4f7f2897b5a508b2f7fe606044e09fc0e"
+    },
+    {
+      "path": "tests/test_human_page_template_proposals.py",
+      "size": 16925,
+      "sha256": "52674cadff9e43dc318a2342fdbb2cf499ae084a55ab9bfacabedd4c58c2d005"
+    },
+    {
+      "path": "tests/test_human_page_templates.py",
+      "size": 16937,
+      "sha256": "61409f4a16ba3c0f795f276ed1f1a017c60d8323d7435957c9abb5293a0be481"
+    },
+    {
       "path": "tests/test_keyword_fallback.py",
       "size": 18721,
       "sha256": "0f070fca0875e429d507bed057261d46094d20e1d33cc1a9c412516a7cf6b6b5"
@@ -3645,6 +4330,11 @@
       "path": "tests/test_query_terms.py",
       "size": 4721,
       "sha256": "3e5be1da2e3a0a994ccfcb4d535a1475b708e1fcbf2b00005c78cb2b0d53d85f"
+    },
+    {
+      "path": "tests/test_record_replace.py",
+      "size": 23363,
+      "sha256": "e9558cf0167d5df488685df43b9b6a31890da5abd659316b5d2822be4cb9b9a0"
     },
     {
       "path": "tests/test_scope_extension.py",

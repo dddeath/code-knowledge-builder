@@ -1,0 +1,22 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0026",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-02T02:37:09Z",
+  "reviews": [
+    {
+      "entity_id": "ent-fd8bee1014f55c528044f9f8082f8486",
+      "classification": "page",
+      "owner_page_id": "ent-fd8bee1014f55c528044f9f8082f8486",
+      "source_path": "scripts/ckb_core/parsers.py",
+      "start_line": 272,
+      "end_line": 430,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/parsers.py` 第 272-430 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`parse_file` 是 `scripts/ckb_core/parsers.py` 第 272-430 行定义的函数，本页绑定该固定源码范围。",
+      "role_zh": "负责按语言解析源码，并为不完整 C++ 与 SCons 场景提供受控回退。",
+      "change_when_zh": "当 `parse_file` 的输入、输出、状态转换或失败返回变化时，应更新本页并重跑对应测试。"
+    }
+  ]
+}

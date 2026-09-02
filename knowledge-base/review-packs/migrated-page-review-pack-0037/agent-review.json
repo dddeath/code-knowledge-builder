@@ -1,0 +1,87 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0037",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-02T02:37:32Z",
+  "reviews": [
+    {
+      "entity_id": "file-11a19bbf3d535e42ab60c4d39a17aacf",
+      "classification": "page",
+      "owner_page_id": "file-11a19bbf3d535e42ab60c4d39a17aacf",
+      "source_path": "tests/benchmark_chinese_retrieval.py",
+      "start_line": 1,
+      "end_line": 569,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/benchmark_chinese_retrieval.py` 第 1-569 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`tests/benchmark_chinese_retrieval.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
+      "role_zh": "负责以可执行样例验证 `benchmark_chinese_retrieval.py` 覆盖的成功行为、失败边界和回归约束。",
+      "change_when_zh": "当 `tests/benchmark_chinese_retrieval.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "ent-8190492342cc5f588d3f1b530e9ce99a",
+      "classification": "page",
+      "owner_page_id": "ent-8190492342cc5f588d3f1b530e9ce99a",
+      "source_path": "tests/benchmark_chinese_retrieval.py",
+      "start_line": 111,
+      "end_line": 154,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/benchmark_chinese_retrieval.py` 第 111-154 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "meaning_zh": "`build_manual_index` 位于 `tests/benchmark_chinese_retrieval.py` 第 111-154 行，本页用固定源码范围说明它如何验证目标行为、失败分类和回归边界。",
+      "role_zh": "`build_manual_index` 负责在冻结 benchmark 输入、观测和判定合同中验证目标行为、失败分类和回归边界。",
+      "change_when_zh": "当 `tests/benchmark_chinese_retrieval.py` 中 `build_manual_index` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "file-47120aa2719051cca4fd367835aa50a0",
+      "classification": "page",
+      "owner_page_id": "file-47120aa2719051cca4fd367835aa50a0",
+      "source_path": "tests/benchmark_obsidian_canvas_navigation.py",
+      "start_line": 1,
+      "end_line": 31,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/benchmark_obsidian_canvas_navigation.py` 第 1-31 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "meaning_zh": "`tests/benchmark_obsidian_canvas_navigation.py` 页面绑定固定源码第 1-31 行，说明该文件在冻结 benchmark 输入、观测和判定合同中的整体职责。",
+      "role_zh": "该文件负责冻结 benchmark 输入、观测和判定合同，并为相关命令或测试提供可复查实现入口。",
+      "change_when_zh": "当 `tests/benchmark_obsidian_canvas_navigation.py` 中 `tests/benchmark_obsidian_canvas_navigation.py` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "ent-fef0ee232a1b5bc290fa7225027a998a",
+      "classification": "page",
+      "owner_page_id": "ent-fef0ee232a1b5bc290fa7225027a998a",
+      "source_path": "tests/benchmark_obsidian_canvas_navigation.py",
+      "start_line": 19,
+      "end_line": 26,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/benchmark_obsidian_canvas_navigation.py` 第 19-26 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "meaning_zh": "`main` 位于 `tests/benchmark_obsidian_canvas_navigation.py` 第 19-26 行，本页用固定源码范围说明它如何验证目标行为、失败分类和回归边界。",
+      "role_zh": "`main` 负责在冻结 benchmark 输入、观测和判定合同中验证目标行为、失败分类和回归边界。",
+      "change_when_zh": "当 `tests/benchmark_obsidian_canvas_navigation.py` 中 `main` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "file-15efc172532b5db1832fe247850f8619",
+      "classification": "page",
+      "owner_page_id": "file-15efc172532b5db1832fe247850f8619",
+      "source_path": "tests/e2e_agent_protocol_batch.py",
+      "start_line": 1,
+      "end_line": 320,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/e2e_agent_protocol_batch.py` 第 1-320 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`tests/e2e_agent_protocol_batch.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
+      "role_zh": "负责以可执行样例验证 `e2e_agent_protocol_batch.py` 覆盖的成功行为、失败边界和回归约束。",
+      "change_when_zh": "当 `tests/e2e_agent_protocol_batch.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "ent-68ddafb9ef775045b9a0fb8a7ca7bb9e",
+      "classification": "page",
+      "owner_page_id": "ent-68ddafb9ef775045b9a0fb8a7ca7bb9e",
+      "source_path": "tests/e2e_agent_protocol_batch.py",
+      "start_line": 147,
+      "end_line": 305,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/e2e_agent_protocol_batch.py` 第 147-305 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`run` 是 `tests/e2e_agent_protocol_batch.py` 第 147-305 行定义的函数，本页绑定该固定源码范围。",
+      "role_zh": "该函数作为可执行验证入口，检查标识符 `run` 所指的行为与失败边界。",
+      "change_when_zh": "当被测行为、输入夹具、断言或失败条件变化时，应同步更新 `run` 的说明。"
+    }
+  ]
+}

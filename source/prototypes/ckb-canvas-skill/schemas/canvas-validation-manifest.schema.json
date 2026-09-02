@@ -1,0 +1,289 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ckb.local/schemas/canvas-validation-manifest.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "status": {
+      "const": "passed"
+    },
+    "request_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "tree": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "state_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "machine_index_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "human_projection_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "human_manifest_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "local_openers_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "commit",
+        "tree",
+        "state_sha256",
+        "machine_index_sha256",
+        "human_projection_sha256",
+        "human_manifest_sha256",
+        "local_openers_sha256"
+      ]
+    },
+    "inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "agent_pack_path": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 32767
+        },
+        "agent_pack_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "record_path": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 32767
+        },
+        "record_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "record_schema_version": {
+          "const": 3
+        }
+      },
+      "required": [
+        "agent_pack_path",
+        "agent_pack_sha256",
+        "record_path",
+        "record_sha256",
+        "record_schema_version"
+      ]
+    },
+    "canvas": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 32767
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "byte_length": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "path",
+        "sha256",
+        "byte_length"
+      ]
+    },
+    "node_count": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 12
+    },
+    "edge_count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 16
+    },
+    "role_counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "page": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 6
+        },
+        "record": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2
+        },
+        "source": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        }
+      },
+      "required": [
+        "text",
+        "page",
+        "record",
+        "source"
+      ]
+    },
+    "checks": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "request_schema": {
+          "const": "passed"
+        },
+        "record_compatibility": {
+          "const": "passed"
+        },
+        "snapshot_consistency": {
+          "const": "passed"
+        },
+        "input_hashes": {
+          "const": "passed"
+        },
+        "path_scope": {
+          "const": "passed"
+        },
+        "canvas_schema": {
+          "const": "passed"
+        },
+        "budget": {
+          "const": "passed"
+        },
+        "stable_ids": {
+          "const": "passed"
+        },
+        "backlinks": {
+          "const": "passed"
+        },
+        "source_ranges": {
+          "const": "passed"
+        },
+        "dangling_edges": {
+          "const": 0
+        },
+        "machine_fields_exposed": {
+          "const": 0
+        },
+        "canonical_serialization": {
+          "const": "passed"
+        }
+      },
+      "required": [
+        "request_schema",
+        "record_compatibility",
+        "snapshot_consistency",
+        "input_hashes",
+        "path_scope",
+        "canvas_schema",
+        "budget",
+        "stable_ids",
+        "backlinks",
+        "source_ranges",
+        "dangling_edges",
+        "machine_fields_exposed",
+        "canonical_serialization"
+      ]
+    },
+    "backlinks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "node_id": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{16}$"
+          },
+          "role": {
+            "enum": [
+              "focus",
+              "page",
+              "record",
+              "source"
+            ]
+          },
+          "record_ref": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "target": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096
+          },
+          "sha256": {
+            "oneOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "status": {
+            "const": "passed"
+          }
+        },
+        "required": [
+          "node_id",
+          "role",
+          "record_ref",
+          "target",
+          "sha256",
+          "status"
+        ]
+      },
+      "minItems": 1,
+      "maxItems": 12
+    }
+  },
+  "required": [
+    "schema_version",
+    "status",
+    "request_sha256",
+    "snapshot",
+    "inputs",
+    "canvas",
+    "node_count",
+    "edge_count",
+    "role_counts",
+    "checks",
+    "backlinks"
+  ]
+}

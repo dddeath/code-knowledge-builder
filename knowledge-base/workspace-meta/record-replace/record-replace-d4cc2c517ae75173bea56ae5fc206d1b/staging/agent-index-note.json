@@ -1,0 +1,24 @@
+{
+  "note": [
+    [
+      "低版本完整知识库批量迁移合并审计",
+      "#类型/变更",
+      "changes/低版本完整知识库批量迁移合并审计.md",
+      "# 低版本完整知识库批量迁移合并审计\n\n标签：#类型/变更\n\n## 修改内容\n\n本次修改增加了低版本完整知识库的批量迁移流程。一个显式清单可以声明多个旧知识库，系统逐库完成计划、迁移、增量审阅、审计、切换和回滚；单库失败只恢复该库，已经通过的其他库可以保留结果并在后续续跑。\n\n迁移范围覆盖固定源码图谱、人类页面、双 SQLite、工作记录、reference、research gap、operation journal 和学习笔记，不再只升级 Agent Policy。\n\n## 修改时间\n\n2026 年 9 月 1 日完成源码合并；2026 年 9 月 2 日完成稳定知识库同步与页面重写。\n\n## 修改原因\n\n原有批量接口只负责协议文件，面对多个旧知识库时仍需逐库手工处理完整数据层。旧清单如果允许越界路径或多个项目共享恢复目录，还会使备份和回滚对象难以确认。\n\n## 修改方式\n\n迁移由四个关键对象约束：\n\n- 显式 manifest 只允许规范化的相对记录路径和声明过的工作根；\n- 每个知识库拥有独立 staging、备份、状态和 owner token；\n- 增量审阅只复用字节和审阅身份都匹配的内容，其余部分重新审阅；\n- 切换与回滚逐库执行，并根据当前完整树确定正在生效的操作。\n\n## 涉及的其他特性\n\n该修改与单库增量迁移、Agent Protocol、reference、research gap、双 SQLite、知识库维护门和发布恢复流程相连。它不会扫描清单之外的目录，也不会把一个项目的恢复结果覆盖到另一个项目。\n\n## 验证结果\n\n专项测试覆盖畸形路径、恢复目录冲突、部分失败、续跑、真实历史版本、切换和完整回滚。真实双库场景证明迁移前后的工作记录、reference、开放 research gap 和两份学习笔记原文得到保留，旧树在回滚后按字节恢复；合并后的相关回归测试全部通过。\n\n## 当前边界\n\nWindows 部署仍应避免把 staging、backup 和状态目录放到接近传统路径长度上限的位置。每个知识库仍需完成自己的 delta review 和维护门，批量命令启动成功不代表所有知识库已经通过。\n\n## 相关知识页\n\n- [[create_knowledge_batch_plan 与 KnowledgeRelease 的协作实现]]\n\n## 源码入口\n\n- [打开源码：scripts/ckb_core/knowledge_batch_migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/knowledge_batch_migration.py:1:1)  `scripts/ckb_core/knowledge_batch_migration.py:1-2076`\n",
+      852
+    ]
+  ],
+  "links": [
+    [
+      "低版本完整知识库批量迁移合并审计",
+      "create_knowledge_batch_plan 与 KnowledgeRelease 的协作实现"
+    ]
+  ],
+  "fts": [
+    [
+      "低版本完整知识库批量迁移合并审计",
+      "低版本完整知识库批量迁移合并审计",
+      "# 低版本完整知识库批量迁移合并审计\n\n标签：#类型/变更\n\n## 修改内容\n\n本次修改增加了低版本完整知识库的批量迁移流程。一个显式清单可以声明多个旧知识库，系统逐库完成计划、迁移、增量审阅、审计、切换和回滚；单库失败只恢复该库，已经通过的其他库可以保留结果并在后续续跑。\n\n迁移范围覆盖固定源码图谱、人类页面、双 SQLite、工作记录、reference、research gap、operation journal 和学习笔记，不再只升级 Agent Policy。\n\n## 修改时间\n\n2026 年 9 月 1 日完成源码合并；2026 年 9 月 2 日完成稳定知识库同步与页面重写。\n\n## 修改原因\n\n原有批量接口只负责协议文件，面对多个旧知识库时仍需逐库手工处理完整数据层。旧清单如果允许越界路径或多个项目共享恢复目录，还会使备份和回滚对象难以确认。\n\n## 修改方式\n\n迁移由四个关键对象约束：\n\n- 显式 manifest 只允许规范化的相对记录路径和声明过的工作根；\n- 每个知识库拥有独立 staging、备份、状态和 owner token；\n- 增量审阅只复用字节和审阅身份都匹配的内容，其余部分重新审阅；\n- 切换与回滚逐库执行，并根据当前完整树确定正在生效的操作。\n\n## 涉及的其他特性\n\n该修改与单库增量迁移、Agent Protocol、reference、research gap、双 SQLite、知识库维护门和发布恢复流程相连。它不会扫描清单之外的目录，也不会把一个项目的恢复结果覆盖到另一个项目。\n\n## 验证结果\n\n专项测试覆盖畸形路径、恢复目录冲突、部分失败、续跑、真实历史版本、切换和完整回滚。真实双库场景证明迁移前后的工作记录、reference、开放 research gap 和两份学习笔记原文得到保留，旧树在回滚后按字节恢复；合并后的相关回归测试全部通过。\n\n## 当前边界\n\nWindows 部署仍应避免把 staging、backup 和状态目录放到接近传统路径长度上限的位置。每个知识库仍需完成自己的 delta review 和维护门，批量命令启动成功不代表所有知识库已经通过。\n\n## 相关知识页\n\n- [[create_knowledge_batch_plan 与 KnowledgeRelease 的协作实现]]\n\n## 源码入口\n\n- [打开源码：scripts/ckb_core/knowledge_batch_migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/knowledge_batch_migration.py:1:1)  `scripts/ckb_core/knowledge_batch_migration.py:1-2076`\n"
+    ]
+  ]
+}

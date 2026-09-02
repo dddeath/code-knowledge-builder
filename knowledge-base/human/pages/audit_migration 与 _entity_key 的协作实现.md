@@ -20,20 +20,19 @@
 - 实现时会用到 [[SourceLinkRenderer.uri]]。
 - 实现时会用到 [[_Transport.close]]。
 - 实现时会用到 [[append]]。
+- 实现时会用到 [[audit_global 与 _replace_output_prefix 的协作实现]]。
 - 主要代码单元是 [[audit_migration]]。
 - 实现时会用到 [[ingest_event 与 default_registry_path 的协作实现]]。
-- 实现时会用到 [[initialize]]。
-- 实现时会用到 [[initialize 与 _replace_output_prefix 的协作实现]]。
 - 实现时会用到 [[module_name 与 estimated_tokens 的协作实现]]。
 - 实现时会用到 [[preflight 与 git 的协作实现]]。
 - 实现时会用到 [[render_integration 与 _looks_windows 的协作实现]]。
+- 实现时会用到 [[validate]]。
 
 ## 谁会来到这里
 
 - [[MigrationTest]] 会使用这里提供的行为。
+- [[audit_global]] 会使用这里提供的行为。
 - [[audit_migration]] 会使用这里提供的行为。
-- [[create_knowledge_batch_plan 与 KnowledgeRelease 的协作实现]] 会使用这里提供的行为。
-- [[initialize 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 - 可从 [[scripts 职责导览]] 进入本页。
 - [[start_scope_extension]] 会使用这里提供的行为。
 - [[start_scope_extension 与 _error 的协作实现]] 会使用这里提供的行为。
@@ -42,10 +41,10 @@
 
 - [[CodeKnowledgeBuilderTests]]
 - [[CodeKnowledgeBuilderTests 等测试场景]]
+- [[HumanPageTemplateValidationTests]]
 - [[KeywordFallbackRetrievalWiringTests]]
 - [[MigrationTest]]
-- [[ScopeExtensionTest]]
-- [[command 等测试场景]]
+- [[RecordReplaceTests]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 

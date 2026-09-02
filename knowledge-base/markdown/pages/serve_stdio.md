@@ -15,7 +15,9 @@
 ## 相关代码
 
 - 实现时会用到 [[CkbError]]。
-- 实现时会用到 [[initialize 与 _replace_output_prefix 的协作实现]]。
+- 实现时会用到 [[audit_global 与 _replace_output_prefix 的协作实现]]。
+- 实现时会用到 [[ckb_canvas 的协作边界]]。
+- 实现时会用到 [[contracts 的协作边界]]。
 - 实现时会用到 [[maintenance_check 与 capability_matrix 的协作实现]]。
 - 实现时会用到 [[retrieve]]。
 - 实现时会用到 [[retrieve_machine]]。

@@ -19,5 +19,4 @@
 
 ## 谁会来到这里
 
-- [[bind_conversation]] 关联到这里的验证场景。
 - [[main 等测试场景（session_stdio_harness_probe 测试）]] 汇总了本页。

@@ -312,6 +312,8 @@ def record_operation(output: Path, operation: str, command: str, result_status: 
 def record_cli_operation(args: Any, result: Any) -> dict[str, Any] | None:
     if str(getattr(args, "command", "")) == "operations" or not isinstance(result, dict):
         return None
+    if result.get("operation_journal_recorded") is True:
+        return None
     output_value = getattr(args, "out", None)
     if output_value is None:
         return None

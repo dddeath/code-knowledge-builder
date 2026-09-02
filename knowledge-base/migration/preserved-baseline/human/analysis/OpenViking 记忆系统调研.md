@@ -429,7 +429,7 @@ OpenViking 已经形成一条较完整的 Agent 长期记忆工程链路：会�
 - [[ingest_event 与 default_registry_path 的协作实现]]
 - [[render_integration 与 _looks_windows 的协作实现]]
 - [[retrieve_machine 与 estimated_tokens 的协作实现]]
-- [[LspClient.start 与 _version_matches 的协作实现]]
+- [[doctor_report 与 _version_matches 的协作实现]]
 - [[parse_file 与 _language 的协作实现]]
 
 ## 源码入口

@@ -1,0 +1,200 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ckb.local/schemas/json-canvas-1.0-ckb-subset.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "nodes": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{16}$"
+              },
+              "type": {
+                "const": "text"
+              },
+              "x": {
+                "type": "integer"
+              },
+              "y": {
+                "type": "integer"
+              },
+              "width": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "height": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "text": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "id",
+              "type",
+              "x",
+              "y",
+              "width",
+              "height",
+              "text"
+            ]
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{16}$"
+              },
+              "type": {
+                "const": "file"
+              },
+              "x": {
+                "type": "integer"
+              },
+              "y": {
+                "type": "integer"
+              },
+              "width": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "height": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "file": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024,
+                "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$"
+              },
+              "subpath": {
+                "type": "string",
+                "pattern": "^#.+",
+                "maxLength": 512
+              }
+            },
+            "required": [
+              "id",
+              "type",
+              "x",
+              "y",
+              "width",
+              "height",
+              "file"
+            ]
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{16}$"
+              },
+              "type": {
+                "const": "link"
+              },
+              "x": {
+                "type": "integer"
+              },
+              "y": {
+                "type": "integer"
+              },
+              "width": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "height": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "url": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096
+              }
+            },
+            "required": [
+              "id",
+              "type",
+              "x",
+              "y",
+              "width",
+              "height",
+              "url"
+            ]
+          }
+        ]
+      },
+      "minItems": 1,
+      "maxItems": 12
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{16}$"
+          },
+          "fromNode": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{16}$"
+          },
+          "fromSide": {
+            "const": "right"
+          },
+          "fromEnd": {
+            "const": "none"
+          },
+          "toNode": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{16}$"
+          },
+          "toSide": {
+            "const": "left"
+          },
+          "toEnd": {
+            "const": "arrow"
+          },
+          "label": {
+            "enum": [
+              "检索命中",
+              "相关记录",
+              "来源核对"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "fromNode",
+          "fromSide",
+          "fromEnd",
+          "toNode",
+          "toSide",
+          "toEnd",
+          "label"
+        ]
+      },
+      "maxItems": 16
+    }
+  },
+  "required": [
+    "nodes",
+    "edges"
+  ]
+}

@@ -47,7 +47,7 @@
 - [[audit_migration 与 _entity_key 的协作实现]]
 - [[MigrationTest 等测试场景]]
 - [[audit_obsidian 与 prepare_vault 的协作实现]]
-- [[AutomationTest.event 等测试场景]]
+- [[AutomationTest.register 等测试场景]]
 - [[query_graph 与 _networkx_modules 的协作实现]]
 - [[retrieve 与 _tokens 的协作实现]]
 

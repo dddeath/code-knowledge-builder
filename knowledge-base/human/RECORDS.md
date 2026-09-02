@@ -20,7 +20,7 @@
 
 这里仅汇总待验证主张，不把缺口写成已确认事实，也不为每个缺口创建页面。使用 `gaps list` 查看机器记录和证据路径。
 
-- 当前共 3 项：待补证据 3 项，暂缓 0 项，已关闭 0 项。
+- 当前共 5 项：待补证据 4 项，暂缓 0 项，已关闭 1 项。
 
 ## 分析与决策
 
@@ -49,7 +49,7 @@
 
 查找已经修改的内容、修改原因、验证结果和交付范围。
 
-- [[Agent 会话级 stdio 生命周期合并审计]] — integration branch 已普通合并 Agent 会话级 CKB stdio 生命周期，保留七个独立开发 commit。第一次精确 skill.applied、automation activate 或等价原生 Skill……
+- [[Agent 会话级 stdio 生命周期合并审计]] — 本次修改让 CKB 的常驻 stdio 服务跟随 Agent 会话存在：会话第一次调用知识库 Skill 时创建，同一会话后续检索复用同一健康服务；会话结束、任务终止、取消、Harness 关闭或父进程退出时，释放进程、管道、监听器、计时器和缓存引用。
 - [[C++ 解析与 SCons 回退合并审计]] — codex/cpp-parser-scons-fallback 已通过管理 Agent 独立审计，并以保留五个开发提交的普通 merge 合入 integration branch。合并提交为 ea455e2…；稳定知识库的固定源码图……
 - [[CKB 5.3.0 GitHub 发布边界]] — 当前 integration branch 和稳定知识库已经完成本地审计，但 GitHub 发布仍停在远端配置门。源码仓库没有 remote 与上游分支，工作区根目录也不是可直接承载全部内容的已提交发布仓库；本机同时缺少 gh 和 git-lfs 命令。
 - [[CKB 5.3.0 审阅文本资料吸收]] — CKB 5.3.0 新增经过 Agent 逐项审阅的本地文本参考资料层。用户提供的 UTF-8 Markdown/TXT 先归档到独立 references 层，必须填写标题、来源和明确许可证；导入后停在待审阅状态，不生成摘要页。Ag……
@@ -65,18 +65,21 @@
 - [[Obsidian 解释快速路径与跨知识库部署]] — 本次快速路径以常驻 serve --stdio 为运行入口，核心部署由 Obsidian vault 投影和独立插件登记器共同完成；正式记录继续通过统一的 record_note 入口写入并重建机器索引。
 - [[Obsidian 解释追问与逐轮 CKB 审计]] — Obsidian 解释侧栏在完成一次“解释选中内容”后，会在同一位置显示“继续追问”输入框。用户输入问题并点击“追问并记录”，或按 Ctrl+Enter / Cmd+Enter，即可围绕上一轮解释继续提问。每次成功追问后，侧栏显示最新回答，并继续保留下一轮追问入口。
 - [[中文检索确定性词项合并审计]] — 开发分支 codex/chinese-retrieval-tokenizer 的 5 个独立提交已由管理任务以非 squash 方式合并到集成分支 codex/reference-ingest-v1；开发 HEAD 与合并提交由管理验证记录精确保存。
-- [[低版本 Agent Protocol 批量升级合并审计]] — codex/agent-protocol-batch-upgrade 的 6 个独立提交已由管理任务以普通非 squash merge 合入 codex/reference-ingest-v1。新增 agent-policy batc……
-- [[低版本完整知识库批量迁移合并审计]] — integration branch 已普通合并低版本完整知识库批量迁移，保留开发分支的十个独立 commit和两次管理 merge。新增 migrate batch plan/apply/resume/status/audit/cu……
+- [[低版本 Agent Protocol 批量升级合并审计]] — 本次修改增加了多个知识库的 Agent Protocol 批量升级。显式清单可以为每个知识库固定来源协议版本、目标版本、Harness、Python、CKB 和允许写入的工作区；系统提供计划、执行、状态、审计和逐库回滚。
+- [[低版本完整知识库批量迁移合并审计]] — 本次修改增加了低版本完整知识库的批量迁移流程。一个显式清单可以声明多个旧知识库，系统逐库完成计划、迁移、增量审阅、审计、切换和回滚；单库失败只恢复该库，已经通过的其他库可以保留结果并在后续续跑。
 - [[修复 Codex commandWindows 在 WSL 中二次启动失败]] — 上一轮只修复了 POSIX command 的 Python 启动路径和 Hook 事件中的 WSL cwd。进一步的原样复现确认：Codex Desktop 仍可能按 Windows 桌面宿主选择 commandWindows，再由……
 - [[修复 Codex WSL Hook 事件路径与 Node 启动]] — Codex Desktop 的 app-server 当前运行于 WSL，而 CKB Hook 通过 WSL interop 启动 Windows Python。Hook 命令本身能够启动，但事件中的 /mnt/e/... 被 Win……
 - [[修复 Codex WSL Hook 启动路径并重新安装 Plugin]] — Codex App 当前把 app-server 运行在 WSL，而旧 Plugin 的 POSIX command 直接使用 C:\...\python.exe。该命令在 CKB 进程启动前以退出码 127 结束，导致原生会话事件、Stop 待审阅记录与后续知识页投影全部缺失。
 - [[修复 GUI 学习解释乱码与错误归档]] — Obsidian Companion 0.7.2 将 Node 启动的 Python 环境固定为 PYTHONUTF8=1 和 PYTHONIOENCODING=utf-8，CKB stdio 服务端同时把默认 stdin/stdou……
 - [[修复 Obsidian Codex WSL 非交互启动路径]] — Obsidian Companion 的 Codex Provider 继续使用默认 WSL 发行版 Ubuntu。模型发现失败的直接原因不是 Codex 缺失，而是 Codex Desktop 只把 WSL 启动器目录临时注入当前任……
 - [[双知识库与确定性检索改造记录]] — 自身知识库已经从单一页面索引升级为事实层、完整机器 SQLite 和保守中文人类 vault。新增分节全文索引、确定性 fast/precise 图检索、实体与邻居查询、源码范围读取、Agent 会话排队与结束记录，以及机器/人类独立完成标记。
+- [[增加受控的工作记录正文替换与回滚]] — 本次修改为既有工作记录增加受控正文替换能力。管理 Agent 可以按精确类型和标题替换当前正文，同时更新 human、markdown、记录元数据、RECORDS 导览、两个 SQLite 和 operation journal；普通新建与追加行为保持不变。
 - [[对话绑定管理 Agent 合并审计]] — codex/conversation-management-agent 已通过管理 Agent 独立审计，并在 C++ parser/SCons 合并后的 integration HEAD 上以普通 merge 合入；五个开发提交全部……
+- [[将 Obsidian Canvas 原型纳入实验发布]] — 本次发布把当前 Obsidian Canvas 原型作为实验功能随源码和 lite 包提供。Agent 可以从一次固定的 CKB 检索结果中选择少量知识页、工作记录和源码入口，在隔离 staging 中生成 Canvas、valida……
+- [[建立人类页面模板与稳定维护入口]] — 本次修改为人类知识库补齐了统一的页面写作合同，并把“提出模板、人工审阅、按模板创建页面、通过稳定提示词复现维护动作”连成一条受控流程。人类首先看到页面应解决的问题、何时需要阅读、修改入口和当前边界；完整实现实体仍留在机器知识层。
 - [[插件门控的 CKB 输出契约投影]] — CKB 新增插件专用的机器可读输出契约 .ckb/output-contract.json。契约只投影到实际安装 Code Knowledge Builder Companion 的 vault，记录该 vault 对应的 OUTPU……
-- [[既有知识库追加新中心合并审计]] — codex/knowledge-scope-center-extension 的 6 个独立提交已由管理任务以普通非 squash merge 合入 codex/reference-ingest-v1。新增 scope extend……
-- [[稳定知识库恢复与当前 HEAD 同步]] — 稳定知识库已经从固定源码基线迁移到 integration branch 的当前提交 150a1ce。迁移先在独立 staging 中重建源码事实、关系、中文页面、FTS5 索引和兼容 Agent 索引，再经过状态、检索、双 SQLi……
+- [[既有知识库追加新中心合并审计]] — 本次修改允许在同一个固定源码快照内，为既有知识库追加新的分析中心。新中心与原有入口形成只增不减的确定性并集；未变化的源码和审阅结果按精确证据复用，新增实体和受影响关系进入 delta review。
+- [[稳定知识库恢复与当前 HEAD 同步]] — 稳定知识库已从旧固定源码快照迁移到当前 integration branch，并在隔离 staging 中重新生成变化的源码事实、关系、人类页面和检索索引。切换保留了迁移前全部工作记录、一个已审阅 reference、开放 resea……
 - [[跨 Harness 会话与修改自动同步实现]] — 过去的会话页与修改页依赖 Agent 主动调用记录命令，容易遗漏，也缺少跨 Harness 的统一幂等、恢复和隐私边界。本次把 Harness 限定为事件来源，把项目启用、脱敏、持久化、分类和审阅统一放进确定性核心，从而兼顾自动化、可恢复性、人类可读性与较低上下文成本。
 
 ## 实验与量化结果
@@ -85,6 +88,7 @@
 
 - [[LLM Wiki 吸收特性与 Flask 检索收益]] — Code Knowledge Builder 吸收了 LLM Wiki 的“先编译知识、再检索知识、把回答回写到 Wiki、持续审计图谱健康”方法，但没有直接复制其页面结构或非确定性 Agent 行为。CKB 将这些方法改造成来源绑定……
 - [[常驻 stdio 检索性能复测（Flask 3.1.3）]] — Code Knowledge Builder 现提供本地常驻 JSONL stdio 检索命令。它在一个 Agent 会话内复用 Windows Python 进程、SQLite 数据和静态检索缓存，不打开网络端口，也不改变现有排序……
+- [[验证 Obsidian Canvas 导航原型边界]] — Obsidian Canvas 适合承载“为当前问题解释关系”的临时视图，但不应取代机器知识图谱，也不应默认把所有实体铺到白板。更合适的方向是独立、确定性的 Canvas Skill：从固定检索结果生成小型视图，写入前验证路径与合同，并能够完整回滚。
 
 ## 踩坑与限制
 
@@ -99,3 +103,4 @@
 - [[Agent 会话 20260826-124551-01]] — 验证构建前 Agent 会话在最终双知识库中自动落页，并记录最终源码修复
 - [[LLM Wiki 快速检索验证与 Hook 会话记录]] — 验证已合并的 LLM Wiki 快速检索是否带来性能提升，并通过本轮 SessionStart、用户提示、工具结果和 Stop 事件测试会话级 Hook。
 - [[session-20260826-124551-01 分析总结]] — 最终自身知识库固定在包含三层知识库、纯确定性检索、简体中文硬门和完整 Agent 会话生命周期的源码提交上。构建前启动的会话已在最终人类投影中自动落页。
+- [[人类可读性样例确认与第一开发波次派发]] — 已按人类确认的 change 样例和 README 第一屏继续执行开发队列。人类页面模板、模板提案、页面创建引导、稳定维护提示词与 Obsidian Canvas 隔离原型已经完成独立审阅并进入集成分支；README 第一屏已进入发布分支。

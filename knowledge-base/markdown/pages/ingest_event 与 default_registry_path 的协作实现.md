@@ -20,6 +20,7 @@
 - 实现时会用到 [[_Transport.close]]。
 - 实现时会用到 [[_Transport.close 与 _StartGate 的协作实现]]。
 - 实现时会用到 [[append]]。
+- 实现时会用到 [[ckb_canvas 的协作边界]]。
 - 实现时会用到 [[command]]。
 - 实现时会用到 [[doctor_report 与 _version_matches 的协作实现]]。
 - 实现时会用到 [[execute]]。
@@ -27,6 +28,8 @@
 - 实现时会用到 [[record_note]]。
 - 实现时会用到 [[record_note 与 page_tag 的协作实现]]。
 - 实现时会用到 [[retrieve_machine 与 estimated_tokens 的协作实现]]。
+- 实现时会用到 [[rollback]]。
+- 实现时会用到 [[validate 与 canonical 的协作实现]]。
 
 ## 谁会来到这里
 
@@ -45,8 +48,8 @@
 - [[AutomationTest.register 等测试场景]]
 - [[CodeKnowledgeBuilderTests]]
 - [[CodeKnowledgeBuilderTests 等测试场景]]
+- [[HumanPageTemplateValidationTests]]
 - [[KeywordFallbackRetrievalWiringTests]]
-- [[KeywordFallbackRetrievalWiringTests 等测试场景]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 

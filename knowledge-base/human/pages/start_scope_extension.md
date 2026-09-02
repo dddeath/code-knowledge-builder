@@ -18,9 +18,8 @@
 - 实现时会用到 [[CkbError 与 DependencyError 的协作实现]]。
 - 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
 - 实现时会用到 [[append]]。
+- 实现时会用到 [[audit_global 与 _replace_output_prefix 的协作实现]]。
 - 实现时会用到 [[audit_migration 与 _entity_key 的协作实现]]。
-- 实现时会用到 [[initialize]]。
-- 实现时会用到 [[initialize 与 _replace_output_prefix 的协作实现]]。
 - 实现时会用到 [[preflight]]。
 - 实现时会用到 [[start_scope_extension 与 _error 的协作实现]]。
 

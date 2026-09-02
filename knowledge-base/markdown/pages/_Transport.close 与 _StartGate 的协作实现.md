@@ -19,12 +19,16 @@
 - 实现时会用到 [[SourceLinkRenderer.uri]]。
 - 主要代码单元是 [[_Transport.close]]。
 - 实现时会用到 [[append]]。
+- 实现时会用到 [[audit_global 与 _replace_output_prefix 的协作实现]]。
+- 实现时会用到 [[build_case 等测试场景]]。
+- 实现时会用到 [[ckb_canvas 的协作边界]]。
 - 实现时会用到 [[command]]。
+- 实现时会用到 [[contracts 的协作边界]]。
 - 实现时会用到 [[doctor_report 与 _version_matches 的协作实现]]。
 - 实现时会用到 [[execute]]。
-- 实现时会用到 [[initialize 与 _replace_output_prefix 的协作实现]]。
 - 实现时会用到 [[retrieve]]。
 - 实现时会用到 [[start_scope_extension 与 _error 的协作实现]]。
+- 实现时会用到 [[validate 与 canonical 的协作实现]]。
 
 ## 谁会来到这里
 
@@ -46,8 +50,8 @@
 - [[CodeKnowledgeBuilderTests 等测试场景]]
 - [[SessionStdioLifecycleTests]]
 - [[append 等测试场景]]
+- [[build_manual_index 等测试场景]]
 - [[command 等测试场景]]
-- [[execute 等测试场景]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 

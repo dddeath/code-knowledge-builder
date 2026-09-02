@@ -1,0 +1,87 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0035",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-02T02:37:19Z",
+  "reviews": [
+    {
+      "entity_id": "file-0f252eefb7935698b6b82e85d874e1a5",
+      "classification": "page",
+      "owner_page_id": "file-0f252eefb7935698b6b82e85d874e1a5",
+      "source_path": "scripts/ckb_core/work_record_index.py",
+      "start_line": 1,
+      "end_line": 242,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/work_record_index.py` 第 1 至 242 行，核对 `scripts/ckb_core/work_record_index.py` 的签名、分支和数据流后写出本条简体中文说明。",
+      "meaning_zh": "`scripts/ckb_core/work_record_index.py` 是 `scripts/ckb_core/work_record_index.py` 中负责汇总并提供工作记录的完整分组、中文摘要、导航生成与审计的文件入口。",
+      "role_zh": "它按源码所示的参数、条件分支和数据结构完成汇总并提供工作记录的完整分组、中文摘要、导航生成与审计，并把确定结果交给调用方或后续审计、索引、投影阶段。",
+      "change_when_zh": "当工作记录的完整分组、中文摘要、导航生成与审计的输入格式、状态规则、错误处理或输出契约变化时，需要修改该代码单元并复核对应测试。"
+    },
+    {
+      "entity_id": "ent-d201f12e29c55919bfa9bbff41a0c076",
+      "classification": "page",
+      "owner_page_id": "ent-d201f12e29c55919bfa9bbff41a0c076",
+      "source_path": "scripts/ckb_core/work_record_index.py",
+      "start_line": 230,
+      "end_line": 241,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/work_record_index.py` 第 230-241 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`audit_work_record_index` 是 `scripts/ckb_core/work_record_index.py` 第 230-241 行定义的函数，本页绑定该固定源码范围。",
+      "role_zh": "负责实现 `work_record_index.py` 中由固定源码定义的命令或知识库处理步骤。",
+      "change_when_zh": "当 `audit_work_record_index` 的输入、输出、状态转换或失败返回变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "file-9f2f9f2ca60f5535a3028b07cd0bfb91",
+      "classification": "page",
+      "owner_page_id": "file-9f2f9f2ca60f5535a3028b07cd0bfb91",
+      "source_path": "scripts/make_source_patch.py",
+      "start_line": 1,
+      "end_line": 47,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 3cc221386ba3064ec00d588f3ac5368295df8209 中 scripts/make_source_patch.py:1-47，核对 `.git`、资产、缓存与二进制排除分支后确认本条说明。",
+      "meaning_zh": "该代码页汇总从空基线生成 Skill 文本统一补丁的实现。",
+      "role_zh": "它遍历可交付 UTF-8 文本文件，排除 `.git`、第三方 vendored 源码、运行时资产、缓存和二进制文件，再为每个文件生成新增补丁段。",
+      "change_when_zh": "当源码目录结构、文本交付边界或补丁格式变化时，需要修改本页并检查输出中不含仓库元数据。"
+    },
+    {
+      "entity_id": "ent-c12569f839785f4689ba46b649ae6bb6",
+      "classification": "page",
+      "owner_page_id": "ent-c12569f839785f4689ba46b649ae6bb6",
+      "source_path": "scripts/make_source_patch.py",
+      "start_line": 19,
+      "end_line": 42,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 提交 3cc221386ba3064ec00d588f3ac5368295df8209 中 scripts/make_source_patch.py:19-42，核对 `.git`、资产、缓存与二进制排除分支后确认本条说明。",
+      "meaning_zh": "`main` 解析补丁输出路径并生成从空目录到完整 Skill 的文本统一差异。",
+      "role_zh": "它确定性过滤 `.git`、第三方 vendored 源码与二进制资产，按路径排序拼接新增文件补丁并以 UTF-8/LF 写入。",
+      "change_when_zh": "当排除集合、编码策略、排序规则或统一差异格式变化时，需要修改该函数。"
+    },
+    {
+      "entity_id": "file-fbc9765e941958108262bad82e08a57b",
+      "classification": "page",
+      "owner_page_id": "file-fbc9765e941958108262bad82e08a57b",
+      "source_path": "scripts/package_release.py",
+      "start_line": 1,
+      "end_line": 307,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/package_release.py` 第 1-307 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`scripts/package_release.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
+      "role_zh": "负责实现 `package_release.py` 中由固定源码定义的命令或知识库处理步骤。",
+      "change_when_zh": "当 `scripts/package_release.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "ent-e34e7710f5995a2288c597c258ffe90b",
+      "classification": "page",
+      "owner_page_id": "ent-e34e7710f5995a2288c597c258ffe90b",
+      "source_path": "scripts/package_release.py",
+      "start_line": 42,
+      "end_line": 63,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/package_release.py` 第 42-63 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`source_files` 是 `scripts/package_release.py` 第 42-63 行定义的函数，本页绑定该固定源码范围。",
+      "role_zh": "负责实现 `package_release.py` 中由固定源码定义的命令或知识库处理步骤。",
+      "change_when_zh": "当 `source_files` 的输入、输出、状态转换或失败返回变化时，应更新本页并重跑对应测试。"
+    }
+  ]
+}

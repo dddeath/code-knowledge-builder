@@ -1,0 +1,87 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-appendix-review-pack-0029",
+  "kind": "appendix-review",
+  "reviewer": "Agent",
+  "reviewed_at_utc": null,
+  "reviews": [
+    {
+      "entity_id": "ent-85c8156f899b53af921303894be9e48e",
+      "classification": "appendix",
+      "owner_page_id": "file-fbc9765e941958108262bad82e08a57b",
+      "source_path": "scripts/package_release.py",
+      "start_line": 100,
+      "end_line": 119,
+      "source_blob": "b6738769542cc5e2d2ff39edca6b67663d9056fe",
+      "source_excerpt": "def validate_full_payload(lock: dict) -> Path:\n    payload_lock = lock.get(\"payload\")\n    if not isinstance(payload_lock, dict):\n        raise RuntimeError(\"full payload lock is pending\")\n    relative = payload_lock.get(\"path\")\n    if not isinstance(relative, str):\n        raise RuntimeError(\"full payload path is absent from the lock\")\n    path = (ROOT / relative).resolve()\n    if not path.is_file():\n        raise RuntimeError(f\"full payload is absent: {path}\")\n    if path.stat().st_size != int(payload_lock.get(\"size\", -1)):\n        raise RuntimeError(\"full payload size differs from toolchain.lock.json\")\n    actual_hash = sha256(path)\n    if actual_hash != payload_lock.get(\"sha256\"):\n        raise RuntimeError(\"full payload SHA-256 differs from toolchain.lock.json\")\n    for required in payload_lock.get(\"required_members\", []):\n        with zipfile.ZipFile(path) as archive:\n            if required not in archive.namelist():\n                raise RuntimeError(f\"full payload member is absent: {required}\")\n    return path",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-0b003df4cfcb525689e7d9f96c9a1f84",
+      "classification": "appendix",
+      "owner_page_id": "file-fbc9765e941958108262bad82e08a57b",
+      "source_path": "scripts/package_release.py",
+      "start_line": 122,
+      "end_line": 185,
+      "source_blob": "b6738769542cc5e2d2ff39edca6b67663d9056fe",
+      "source_excerpt": "def build_core(kind: str, dist: Path) -> dict:\n    lock = json.loads((ROOT / \"toolchain.lock.json\").read_text(encoding=\"utf-8\"))\n    validate_core_boundary()\n    include_runtime = kind == \"full-win-x64\"\n    if include_runtime:\n        validate_full_payload(lock)\n    files = source_files(include_runtime)\n    manifest = {\n        \"schema_version\": 1,\n        \"name\": \"code-knowledge-builder\",\n        \"version\": VERSION,\n        \"distribution\": kind,\n        \"category\": \"core\",\n        \"capabilities\": core_capabilities(kind),\n        \"extends\": \"lite\" if include_runtime else None,\n        \"forbidden_prefixes\": [\"plugins/\"],\n        \"only_adds_prefix\": \"assets/runtime/win-x64/\" if include_runtime else None,\n        \"toolchain_lock_id\": lock[\"lock_id\"],\n        \"files\": [\n            {\n                \"path\": path.relative_to(ROOT).as_posix(),\n                \"size\": path.stat().st_size,\n                \"sha256\": sha256(path),\n            }\n            for path in files\n        ],\n    }\n    dist.mkdir(parents=True, exist_ok=True)\n    archive_path = dist / f\"code-knowledge-builder-{kind}-{VERSION}.zip\"\n    if archive_path.exists():\n        archive_path.unlink()\n    prefix = PurePosixPath(\"code-knowledge-builder\")\n    with zipfile.ZipFile(archive_path, \"w\", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:\n        for path in files:\n            relative = PurePosixPath(path.relative_to(ROOT).as_posix())\n            info = zipfile.ZipInfo(str(prefix / relative), date_time=(2026, 8, 26, 0, 0, 0))\n            info.compress_type = zipfile.ZIP_DEFLATED\n            info.external_attr = 0o100644 << 16\n            archive.writestr(info, path.read_bytes(), compress_type=zipfile.ZIP_DEFLATED, compresslevel=9)\n        manifest_info = zipfile.ZipInfo(str(prefix / \"distribution\" / \"release-manifest.json\"), date_time=(2026, 8, 26, 0, 0, 0))\n        manifest_info.compress_type = zipfile.ZIP_DEFLATED\n        manifest_info.external_attr = 0o100644 << 16\n        archive.writestr(manifest_info, json.dumps(manifest, ensure_ascii=False, indent=2).encode(\"utf-8\") + b\"\\n\")\n    with zipfile.ZipFile(archive_path) as archive:\n        bad_member = archive.testzip()\n        if bad_member:\n            raise RuntimeError(f\"ZIP CRC failed: {bad_member}\")\n        archived_manifest = json.loads(archive.read(str(prefix / \"distribution\" / \"release-manifest.json\")))\n        if archived_manifest != manifest:\n            raise RuntimeError(\"archived release manifest differs from the generated manifest\")\n    result = {\n        \"status\": \"passed\",\n        \"distribution\": kind,\n        \"archive\": str(archive_path.resolve()),\n        \"size\": archive_path.stat().st_size,\n        \"sha256\": sha256(archive_path),\n        \"file_count\": len(files),\n    }\n    (dist / f\"code-knowledge-builder-{kind}-{VERSION}.manifest.json\").write_text(\n        json.dumps({**result, \"content\": manifest}, ensure_ascii=False, indent=2) + \"\\n\",\n        encoding=\"utf-8\",\n        newline=\"\\n\",\n    )\n    return result",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-e020c81d49b55bd1bacad381891f4b41",
+      "classification": "appendix",
+      "owner_page_id": "file-fbc9765e941958108262bad82e08a57b",
+      "source_path": "scripts/package_release.py",
+      "start_line": 188,
+      "end_line": 210,
+      "source_blob": "b6738769542cc5e2d2ff39edca6b67663d9056fe",
+      "source_excerpt": "def validate_plugin_dist() -> tuple[str, list[Path], dict]:\n    dist = PLUGIN_ROOT / \"dist\"\n    files = [dist / name for name in PLUGIN_FILES]\n    missing = [path.name for path in files if not path.is_file() or path.stat().st_size == 0]\n    if missing:\n        raise RuntimeError(f\"Obsidian plugin dist files are absent: {missing}\")\n    manifest = json.loads((dist / \"manifest.json\").read_text(encoding=\"utf-8\"))\n    version = manifest.get(\"version\")\n    if not isinstance(version, str) or not version.strip():\n        raise RuntimeError(\"Obsidian plugin version is absent from manifest.json\")\n    build_record = json.loads((dist / \"build-record.json\").read_text(encoding=\"utf-8\"))\n    if build_record.get(\"status\") != \"passed\":\n        raise RuntimeError(\"Obsidian plugin build-record.json has not passed\")\n    recorded = {item[\"path\"]: item for item in build_record.get(\"files\", [])}\n    for path in files:\n        if path.name == \"build-record.json\":\n            continue\n        item = recorded.get(path.name)\n        if not item:\n            raise RuntimeError(f\"Obsidian plugin build record is missing: {path.name}\")\n        if int(item.get(\"size\", -1)) != path.stat().st_size or item.get(\"sha256\") != sha256(path):\n            raise RuntimeError(f\"Obsidian plugin dist differs from build record: {path.name}\")\n    return version, files, build_record",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-2ffc6fa7662d5c4e94ba856ffe8247f0",
+      "classification": "appendix",
+      "owner_page_id": "file-fbc9765e941958108262bad82e08a57b",
+      "source_path": "scripts/package_release.py",
+      "start_line": 213,
+      "end_line": 270,
+      "source_blob": "b6738769542cc5e2d2ff39edca6b67663d9056fe",
+      "source_excerpt": "def build_plugin(dist: Path) -> dict:\n    version, files, build_record = validate_plugin_dist()\n    manifest = {\n        \"schema_version\": 1,\n        \"name\": \"code-knowledge-builder-obsidian\",\n        \"version\": version,\n        \"distribution\": \"obsidian-plugin\",\n        \"category\": \"plugin\",\n        \"requires\": {\n            \"knowledge_base\": \"CKB output with machine/knowledge.sqlite\",\n            \"core_package\": \"installed separately\",\n        },\n        \"bundled_core\": False,\n        \"bundled_offline_runtime\": False,\n        \"agent_deploy\": {\n            \"standalone\": \"python deploy.py deploy --vault VAULT\",\n            \"core\": \"ckb.py obsidian-plugin register/deploy/status/remove\",\n            \"auto_deploy_after_registration\": True,\n        },\n        \"files\": [\n            {\"path\": path.name, \"size\": path.stat().st_size, \"sha256\": sha256(path)}\n            for path in files\n        ],\n        \"upstream_commit\": build_record.get(\"claudian_commit\"),\n    }\n    dist.mkdir(parents=True, exist_ok=True)\n    archive_path = dist / f\"code-knowledge-builder-obsidian-{version}.zip\"\n    if archive_path.exists():\n        archive_path.unlink()\n    with zipfile.ZipFile(archive_path, \"w\", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:\n        for path in files:\n            info = zipfile.ZipInfo(path.name, date_time=(2026, 8, 30, 0, 0, 0))\n            info.compress_type = zipfile.ZIP_DEFLATED\n            info.external_attr = 0o100644 << 16\n            archive.writestr(info, path.read_bytes(), compress_type=zipfile.ZIP_DEFLATED, compresslevel=9)\n    with zipfile.ZipFile(archive_path) as archive:\n        bad_member = archive.testzip()\n        if bad_member:\n            raise RuntimeError(f\"Obsidian plugin ZIP CRC failed: {bad_member}\")\n        if archive.namelist() != list(PLUGIN_FILES):\n            raise RuntimeError(\"Obsidian plugin ZIP member set or order differs\")\n        for path in files:\n            if archive.read(path.name) != path.read_bytes():\n                raise RuntimeError(f\"Obsidian plugin ZIP bytes differ: {path.name}\")\n    result = {\n        \"status\": \"passed\",\n        \"distribution\": \"obsidian-plugin\",\n        \"archive\": str(archive_path.resolve()),\n        \"size\": archive_path.stat().st_size,\n        \"sha256\": sha256(archive_path),\n        \"file_count\": len(files),\n    }\n    (dist / f\"code-knowledge-builder-obsidian-{version}.manifest.json\").write_text(\n        json.dumps({**result, \"content\": manifest}, ensure_ascii=False, indent=2) + \"\\n\",\n        encoding=\"utf-8\",\n        newline=\"\\n\",\n    )\n    return result",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-0d42fe8b9967554ca1c39361e1d3331d",
+      "classification": "appendix",
+      "owner_page_id": "file-fbc9765e941958108262bad82e08a57b",
+      "source_path": "scripts/package_release.py",
+      "start_line": 273,
+      "end_line": 276,
+      "source_blob": "b6738769542cc5e2d2ff39edca6b67663d9056fe",
+      "source_excerpt": "def build(kind: str, dist: Path) -> dict:\n    if kind == \"obsidian-plugin\":\n        return build_plugin(dist)\n    return build_core(kind, dist)",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-685ef951116c5b89a37e77cfd651c84a",
+      "classification": "appendix",
+      "owner_page_id": "file-fbc9765e941958108262bad82e08a57b",
+      "source_path": "scripts/package_release.py",
+      "start_line": 279,
+      "end_line": 302,
+      "source_blob": "b6738769542cc5e2d2ff39edca6b67663d9056fe",
+      "source_excerpt": "def main() -> int:\n    parser = argparse.ArgumentParser(description=__doc__)\n    parser.add_argument(\n        \"--kind\",\n        choices=(\"lite\", \"full-win-x64\", \"obsidian-plugin\", \"both\", \"all\"),\n        required=True,\n    )\n    parser.add_argument(\"--dist\", type=Path, required=True)\n    args = parser.parse_args()\n    if args.kind == \"both\":\n        kinds = (\"lite\", \"full-win-x64\")\n    elif args.kind == \"all\":\n        kinds = (\"lite\", \"full-win-x64\", \"obsidian-plugin\")\n    else:\n        kinds = (args.kind,)\n    results = []\n    try:\n        for kind in kinds:\n            results.append(build(kind, args.dist.resolve()))\n    except RuntimeError as exc:\n        print(json.dumps({\"status\": \"pending\", \"reason\": str(exc), \"completed\": results}, ensure_ascii=False, indent=2), file=sys.stderr)\n        return 3\n    print(json.dumps({\"status\": \"passed\", \"results\": results}, ensure_ascii=False, indent=2))\n    return 0",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    }
+  ]
+}

@@ -13,6 +13,7 @@
 - 继续浏览 [[audit_agent_protocol 与 _default_python 的协作实现]]。
 - 继续浏览 [[audit_feedback 与 _contains_chinese 的协作实现]]。
 - 继续浏览 [[audit_gap_register 与 _root 的协作实现]]。
+- 继续浏览 [[audit_global 与 _replace_output_prefix 的协作实现]]。
 - 继续浏览 [[audit_migration 与 _entity_key 的协作实现]]。
 - 继续浏览 [[audit_obsidian 与 prepare_vault 的协作实现]]。
 - 继续浏览 [[audit_operation_journal 与 _root 的协作实现]]。
@@ -24,8 +25,8 @@
 - 继续浏览 [[create_knowledge_batch_plan 与 KnowledgeRelease 的协作实现]]。
 - 继续浏览 [[deployment_plan 与 skill_root 的协作实现]]。
 - 继续浏览 [[doctor_report 与 _version_matches 的协作实现]]。
+- 继续浏览 [[get_human_page_template 与 SectionContract 的协作实现]]。
 - 继续浏览 [[ingest_event 与 default_registry_path 的协作实现]]。
-- 继续浏览 [[initialize 与 _replace_output_prefix 的协作实现]]。
 - 继续浏览 [[keyword_provider_config 与 parser 的协作实现]]。
 - 继续浏览 [[load_page_config 与 _merge_known 的协作实现]]。
 - 继续浏览 [[main 与 sha256 的协作实现]]。
@@ -35,10 +36,14 @@
 - 继续浏览 [[package_showcase 与 _parse_sample 的协作实现]]。
 - 继续浏览 [[parse_file 与 _language 的协作实现]]。
 - 继续浏览 [[preflight 与 git 的协作实现]]。
+- 继续浏览 [[propose_template 与 _canonical_bytes 的协作实现]]。
 - 继续浏览 [[query_graph 与 _networkx_modules 的协作实现]]。
 - 继续浏览 [[record_note 与 page_tag 的协作实现]]。
 - 继续浏览 [[register_obsidian_plugin 与 default_obsidian_plugin_registry 的协作实现]]。
+- 继续浏览 [[render_human_maintenance_prompt 与 ParameterSpec 的协作实现]]。
 - 继续浏览 [[render_integration 与 _looks_windows 的协作实现]]。
+- 继续浏览 [[render_page_author 与 _error 的协作实现]]。
+- 继续浏览 [[replace_note 与 RecordReplaceLockError 的协作实现]]。
 - 继续浏览 [[retrieve 与 _tokens 的协作实现]]。
 - 继续浏览 [[retrieve_machine 与 estimated_tokens 的协作实现]]。
 - 继续浏览 [[run_keyword_benchmark 与 _text_list 的协作实现]]。

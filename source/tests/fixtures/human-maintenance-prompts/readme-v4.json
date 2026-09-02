@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "source": "README V4 accepted release fixture",
+  "source_commit": "3341fa7",
+  "install": {
+    "action": "install-project",
+    "prompt": "请安装 Code Knowledge Builder 项目及其 code-knowledge-builder Skill。\n\n项目来源：https://github.com/dddeath/code-knowledge-builder\n发布分支：codex/release-5.4.0-stable-knowledge\n安装位置：<可省略；默认使用当前 Harness 的标准项目与 Skill 目录>\n\n请按固定顺序完成：\n1. 下载指定发布分支及其 Git LFS 内容；\n2. 核对 publication-manifest.json，并运行发布包自带的完整性校验；\n3. 从该发布包安装 code-knowledge-builder Skill 和配套运行环境；\n4. 验证当前 Harness 能发现并调用该 Skill，检查 Python、解析器、SQLite 和本地依赖；\n5. 执行一个不修改业务仓库的最小检索探针；\n6. 返回安装验收摘要：项目位置、发布分支与提交、Skill 位置、运行环境、Git LFS、发布校验、检索探针和卸载或回滚入口。\n\n本次只完成 Code Knowledge Builder 安装。不要为其他仓库建立知识库，也不要开始解释业务代码。\n"
+  },
+  "explain": {
+    "action": "explain",
+    "prompt": "请使用已安装的 $code-knowledge-builder 为我的代码仓库建立或接管知识库，然后回答问题。\n\nrepository=<本地 Git 仓库或 Git URL；留空时使用当前工作区内唯一的 Git 仓库>\nquestion=<我想了解的项目问题>\n\n可选参数：\nknowledge_base=<知识库位置；省略时使用源码仓库同级的 knowledge-base>\nscope=<目录或入口符号；省略时覆盖整个仓库>\n\n请按固定顺序完成：\n1. 确认 repository、当前 Git 提交、工作树状态和知识库输出边界；Git URL 先下载到独立目录；\n2. 查找与该仓库绑定的现有知识库；没有时从当前干净提交建立，有时先核对固定源码版本和当前状态，再选择直接使用、迁移或局部更新；\n3. 新建时固定源码快照，按 review pack 完成源码审阅，生成人类页面、机器索引和 Obsidian 镜像；\n4. 安装并核对项目级 Agent 使用规则，使后续 Agent 先检索知识库，再按返回范围窄读源码；\n5. 使用 brief 获取紧凑阅读包，按阅读包回答 question，并区分已确认事实、推断和待核验内容；\n6. 运行知识库维护门和一个与 question 对应的真实检索验证；\n7. 返回交付摘要：固定源码版本、知识库位置、人类入口、覆盖范围、待审阅项、双 SQLite、镜像、检索验证、feedback、research gap、维护结果、回答依据和回滚入口。\n\n本次从已经安装的 Skill 开始，不重复安装 Code Knowledge Builder。\n"
+  }
+}

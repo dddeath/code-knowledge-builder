@@ -17,6 +17,7 @@
 - 主要代码单元是 [[CodeKnowledgeBuilderTests]]。
 - 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
 - 实现时会用到 [[bind_reference]]。
+- 实现时会用到 [[build_case 等测试场景]]。
 - 实现时会用到 [[command]]。
 - 实现时会用到 [[debug_value 等测试场景]]。
 - 实现时会用到 [[doctor_report 与 _version_matches 的协作实现]]。
@@ -26,38 +27,29 @@
 ## 谁会来到这里
 
 - [[AutomationTest.register]] 关联到这里的验证场景。
-- [[CkbError]] 关联到这里的验证场景。
-- [[CkbError 与 DependencyError 的协作实现]] 关联到这里的验证场景。
-- [[KeywordFallbackRetrievalWiringTests 等测试场景]] 关联到这里的验证场景。
-- [[SourceLinkRenderer.uri]] 关联到这里的验证场景。
-- [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]] 关联到这里的验证场景。
-- [[_Transport.close]] 关联到这里的验证场景。
+- [[CanvasContractTests]] 关联到这里的验证场景。
+- [[RecordReplaceTests]] 会使用这里提供的行为。
 - [[_Transport.close 与 _StartGate 的协作实现]] 关联到这里的验证场景。
-- [[append]] 关联到这里的验证场景。
 - [[append 等测试场景]] 关联到这里的验证场景。
 - [[audit_agent_protocol]] 关联到这里的验证场景。
 - [[audit_agent_protocol 与 _default_python 的协作实现]] 关联到这里的验证场景。
 - [[audit_gap_register 与 _root 的协作实现]] 关联到这里的验证场景。
+- [[audit_global]] 关联到这里的验证场景。
+- [[audit_global 与 _replace_output_prefix 的协作实现]] 关联到这里的验证场景。
 - [[audit_migration]] 关联到这里的验证场景。
 - [[audit_migration 与 _entity_key 的协作实现]] 关联到这里的验证场景。
 - [[audit_references]] 关联到这里的验证场景。
 - [[audit_references 与 _root 的协作实现]] 关联到这里的验证场景。
 - [[bind_conversation]] 关联到这里的验证场景。
-- [[bind_conversation 与 default_management_registry_path 的协作实现]] 关联到这里的验证场景。
 - [[bind_reference]] 关联到这里的验证场景。
 - [[bind_reference 等测试场景]] 关联到这里的验证场景。
-- [[command]] 关联到这里的验证场景。
 - [[debug_value 等测试场景]] 关联到这里的验证场景。
 - [[doctor_report 与 _version_matches 的协作实现]] 关联到这里的验证场景。
-- [[execute]] 关联到这里的验证场景。
 - [[ingest_event 与 default_registry_path 的协作实现]] 关联到这里的验证场景。
-- [[initialize]] 关联到这里的验证场景。
-- [[initialize 与 _replace_output_prefix 的协作实现]] 关联到这里的验证场景。
 - [[keyword_provider_config 与 parser 的协作实现]] 关联到这里的验证场景。
 - [[load_page_config]] 关联到这里的验证场景。
 - [[load_page_config 与 _merge_known 的协作实现]] 关联到这里的验证场景。
 - [[module_name 与 estimated_tokens 的协作实现]] 关联到这里的验证场景。
-- [[normalize]] 关联到这里的验证场景。
 - [[parse_file]] 关联到这里的验证场景。
 - [[parse_file 与 _language 的协作实现]] 关联到这里的验证场景。
 - [[parser]] 关联到这里的验证场景。
@@ -67,11 +59,10 @@
 - [[record_note 与 page_tag 的协作实现]] 关联到这里的验证场景。
 - [[refresh]] 关联到这里的验证场景。
 - [[register_obsidian_plugin 与 default_obsidian_plugin_registry 的协作实现]] 关联到这里的验证场景。
-- [[render_integration 与 _looks_windows 的协作实现]] 关联到这里的验证场景。
 - [[retrieve]] 关联到这里的验证场景。
 - [[retrieve 与 _tokens 的协作实现]] 关联到这里的验证场景。
 - [[retrieve_machine 与 estimated_tokens 的协作实现]] 关联到这里的验证场景。
-- [[run_keyword_provider 与 KeywordProviderConfig 的协作实现]] 关联到这里的验证场景。
+- [[sample 等测试场景]] 关联到这里的验证场景。
 - [[search_terms]] 关联到这里的验证场景。
 - [[search_terms 与 _split_camel 的协作实现]] 关联到这里的验证场景。
 - [[start_scope_extension 与 _error 的协作实现]] 关联到这里的验证场景。
@@ -82,6 +73,7 @@
 ## 相关测试
 
 - [[CodeKnowledgeBuilderTests]]
+- [[RecordReplaceTests]]
 
 ## 内部细节
 

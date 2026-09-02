@@ -15,6 +15,7 @@
 ## 相关代码
 
 - 主要代码单元是 [[main（build_runtime_payload 实现）]]。
+- 实现时会用到 [[validate 与 canonical 的协作实现]]。
 
 ## 谁会来到这里
 

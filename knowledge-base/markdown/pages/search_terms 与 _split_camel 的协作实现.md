@@ -14,7 +14,6 @@
 
 ## 相关代码
 
-- 实现时会用到 [[normalize]]。
 - 主要代码单元是 [[search_terms]]。
 
 ## 谁会来到这里
@@ -32,8 +31,8 @@
 - [[AutomationTest.register 等测试场景]]
 - [[CodeKnowledgeBuilderTests]]
 - [[CodeKnowledgeBuilderTests 等测试场景]]
+- [[HumanPageTemplateValidationTests]]
 - [[KeywordFallbackRetrievalWiringTests]]
-- [[KeywordFallbackRetrievalWiringTests 等测试场景]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 

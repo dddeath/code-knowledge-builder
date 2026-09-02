@@ -26,7 +26,7 @@ integration branch 已普通合并 Agent 会话级 CKB stdio 生命周期，保�
 - [[ingest_event 与 default_registry_path 的协作实现]]
 - [[retrieve 与 _tokens 的协作实现]]
 - [[render_integration]]
-- [[LspClient.start 与 _version_matches 的协作实现]]
+- [[doctor_report 与 _version_matches 的协作实现]]
 - [[record_note 与 page_tag 的协作实现]]
 
 ## 源码入口

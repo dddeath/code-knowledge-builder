@@ -19,11 +19,14 @@
 ## 谁会来到这里
 
 - [[bind_reference]] 会使用这里提供的行为。
+- [[render_page_author 与 _error 的协作实现]] 会使用这里提供的行为。
 - 可从 [[tests 职责导览]] 进入本页。
 
 ## 相关测试
 
 - [[CodeKnowledgeBuilderTests 等测试场景]]
+- [[HumanPageAuthoringPackageTests]]
+- [[HumanPageAuthoringPackageTests 等测试场景]]
 - [[bind_reference]]
 
 ## 内部细节

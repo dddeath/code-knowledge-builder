@@ -1,0 +1,177 @@
+{
+  "document": [
+    [
+      "note:changes:低版本完整知识库批量迁移合并审计",
+      "change",
+      "低版本完整知识库批量迁移合并审计",
+      "#类型/变更",
+      "changes/低版本完整知识库批量迁移合并审计.md",
+      null,
+      "# 低版本完整知识库批量迁移合并审计\n\n标签：#类型/变更\n\n## 修改内容\n\nintegration branch 已普通合并低版本完整知识库批量迁移，保留开发分支的十个独立 commit和两次管理 merge。新增 `migrate batch plan/apply/resume/status/audit/cutover/rollback`，使用显式 manifest、真实版本矩阵、逐库 staging、兼容迁移、delta review、cold build、owner-token、独立备份、部分失败续跑、逐库 cutover 和全层 rollback。\n\nManifest 只接受固定八个 `origin.records` 键，并在文件读取前拒绝额外、绝对、点路径、父路径和非规范分隔；恢复拓扑在 plan 阶段使用实际 operation/project 叶核对 backup、quarantine、OUTPUT 和 staging 的跨项目重叠。测试的 Git common directory 通过当前 checkout 自发现，同时兼容普通 checkout 与 Git worktree。\n\n## 修改原因\n\n原协议批量接口只迁移 Agent Policy，无法批量升级 state、facts、graph、review、人类投影、双 SQLite、reference、gap、operation journal 和学习笔记。管理首轮审计发现 origin record 越界读取和相同 recovery root 无法 rollback；合并后回归又发现测试硬编码 worktree 父层级。三个缺口均在原分支新增独立 commit 后关闭，未通过整树覆盖或 squash规避。\n\n## 验证结果\n\n管理探针确认畸形 `origin.records` 与 backup/quarantine 冲突均在 state、staging、backup 和 control 写入前拒绝。合并后从真实 integration 根完成十四项完整迁移专项、双历史版本 E2E、五项 scope extension、十八项 Agent Protocol batch、三十七项 CKB core、二十二项 automation、一项 incremental migration 和三项 package release，全部 exit 0。\n\n真实历史 E2E 从两个仓库历史 commit 构建旧 OUTPUT，再执行当前 plan、apply、audit、cutover 和 rollback；旧/新检索通过且旧树字节恢复。正式保留 fixture 验证迁移前后工作记录、一个 reference、三个 open research gap 和两份学习笔记原文不丢失。完整 post-merge 证据位于 `E:\\knowledge_builder\\artifacts\\verification\\knowledge-base-batch-migration\\post-merge-verification.json`。当前只完成源码合并；最终稳定知识库仍需在隔离 staging 迁移、审计和切换后才能报告同步完成。\n\n## 相关知识页\n\n- [[module_name 与 estimated_tokens 的协作实现]]\n- [[audit_references 与 _root 的协作实现]]\n- [[main 与 sha256 的协作实现]]\n- [[source_files 与 sha256 的协作实现]]\n- [[deploy 的协作边界]]\n- [[audit_migration 与 _entity_key 的协作实现]]\n- [[audit_global 与 _replace_output_prefix 的协作实现]]\n- [[retrieve 与 _tokens 的协作实现]]\n\n## 源码入口\n\n- [打开源码：scripts/ckb_core/navigation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/navigation.py:1:1)  `scripts/ckb_core/navigation.py:1-456`\n- [打开源码：scripts/ckb_core/reference_documents.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/reference_documents.py:1:1)  `scripts/ckb_core/reference_documents.py:1-604`\n- [打开源码：scripts/build_runtime_payload.py 第 32 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/build_runtime_payload.py:32:1)  `scripts/build_runtime_payload.py:32-98`\n- [打开源码：scripts/package_release.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/package_release.py:1:1)  `scripts/package_release.py:1-306`\n- [打开源码：scripts/ckb_core/migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/migration.py:1:1)  `scripts/ckb_core/migration.py:1-585`\n- [打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3482`\n- [打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-569`\n",
+      1373
+    ]
+  ],
+  "sections": [
+    [
+      "note:changes:低版本完整知识库批量迁移合并审计:0",
+      "note:changes:低版本完整知识库批量迁移合并审计",
+      0,
+      "低版本完整知识库批量迁移合并审计",
+      "标签：#类型/变更",
+      8,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:低版本完整知识库批量迁移合并审计:1",
+      "note:changes:低版本完整知识库批量迁移合并审计",
+      1,
+      "修改内容",
+      "integration branch 已普通合并低版本完整知识库批量迁移，保留开发分支的十个独立 commit和两次管理 merge。新增 `migrate batch plan/apply/resume/status/audit/cutover/rollback`，使用显式 manifest、真实版本矩阵、逐库 staging、兼容迁移、delta review、cold build、owner-token、独立备份、部分失败续跑、逐库 cutover 和全层 rollback。\n\nManifest 只接受固定八个 `origin.records` 键，并在文件读取前拒绝额外、绝对、点路径、父路径和非规范分隔；恢复拓扑在 plan 阶段使用实际 operation/project 叶核对 backup、quarantine、OUTPUT 和 staging 的跨项目重叠。测试的 Git common directory 通过当前 checkout 自发现，同时兼容普通 checkout 与 Git worktree。",
+      262,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:低版本完整知识库批量迁移合并审计:2",
+      "note:changes:低版本完整知识库批量迁移合并审计",
+      2,
+      "修改原因",
+      "原协议批量接口只迁移 Agent Policy，无法批量升级 state、facts、graph、review、人类投影、双 SQLite、reference、gap、operation journal 和学习笔记。管理首轮审计发现 origin record 越界读取和相同 recovery root 无法 rollback；合并后回归又发现测试硬编码 worktree 父层级。三个缺口均在原分支新增独立 commit 后关闭，未通过整树覆盖或 squash规避。",
+      145,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:低版本完整知识库批量迁移合并审计:3",
+      "note:changes:低版本完整知识库批量迁移合并审计",
+      3,
+      "验证结果",
+      "管理探针确认畸形 `origin.records` 与 backup/quarantine 冲突均在 state、staging、backup 和 control 写入前拒绝。合并后从真实 integration 根完成十四项完整迁移专项、双历史版本 E2E、五项 scope extension、十八项 Agent Protocol batch、三十七项 CKB core、二十二项 automation、一项 incremental migration 和三项 package release，全部 exit 0。\n\n真实历史 E2E 从两个仓库历史 commit 构建旧 OUTPUT，再执行当前 plan、apply、audit、cutover 和 rollback；旧/新检索通过且旧树字节恢复。正式保留 fixture 验证迁移前后工作记录、一个 reference、三个 open research gap 和两份学习笔记原文不丢失。完整 post-merge 证据位于 `E:\\knowledge_builder\\artifacts\\verification\\knowledge-base-batch-migration\\post-merge-verification.json`。当前只完成源码合并；最终稳定知识库仍需在隔离 staging 迁移、审计和切换后才能报告同步完成。",
+      328,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:低版本完整知识库批量迁移合并审计:4",
+      "note:changes:低版本完整知识库批量迁移合并审计",
+      4,
+      "相关知识页",
+      "- [[module_name 与 estimated_tokens 的协作实现]]\n- [[audit_references 与 _root 的协作实现]]\n- [[main 与 sha256 的协作实现]]\n- [[source_files 与 sha256 的协作实现]]\n- [[deploy 的协作边界]]\n- [[audit_migration 与 _entity_key 的协作实现]]\n- [[audit_global 与 _replace_output_prefix 的协作实现]]\n- [[retrieve 与 _tokens 的协作实现]]",
+      125,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:低版本完整知识库批量迁移合并审计:5",
+      "note:changes:低版本完整知识库批量迁移合并审计",
+      5,
+      "源码入口",
+      "- [打开源码：scripts/ckb_core/navigation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/navigation.py:1:1)  `scripts/ckb_core/navigation.py:1-456`\n- [打开源码：scripts/ckb_core/reference_documents.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/reference_documents.py:1:1)  `scripts/ckb_core/reference_documents.py:1-604`\n- [打开源码：scripts/build_runtime_payload.py 第 32 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/build_runtime_payload.py:32:1)  `scripts/build_runtime_payload.py:32-98`\n- [打开源码：scripts/package_release.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/package_release.py:1:1)  `scripts/package_release.py:1-306`\n- [打开源码：scripts/ckb_core/migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/migration.py:1:1)  `scripts/ckb_core/migration.py:1-585`\n- [打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3482`\n- [打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-569`",
+      456,
+      null,
+      null,
+      null
+    ]
+  ],
+  "section_sources": [],
+  "links": [
+    [
+      "note:changes:低版本完整知识库批量迁移合并审计",
+      null,
+      "audit_global 与 _replace_output_prefix 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:changes:低版本完整知识库批量迁移合并审计",
+      null,
+      "audit_migration 与 _entity_key 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:changes:低版本完整知识库批量迁移合并审计",
+      null,
+      "audit_references 与 _root 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:changes:低版本完整知识库批量迁移合并审计",
+      null,
+      "deploy 的协作边界",
+      "wikilink"
+    ],
+    [
+      "note:changes:低版本完整知识库批量迁移合并审计",
+      null,
+      "main 与 sha256 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:changes:低版本完整知识库批量迁移合并审计",
+      null,
+      "module_name 与 estimated_tokens 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:changes:低版本完整知识库批量迁移合并审计",
+      null,
+      "retrieve 与 _tokens 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:changes:低版本完整知识库批量迁移合并审计",
+      null,
+      "source_files 与 sha256 的协作实现",
+      "wikilink"
+    ]
+  ],
+  "fts": [
+    [
+      "note:changes:低版本完整知识库批量迁移合并审计:0",
+      "note:changes:低版本完整知识库批量迁移合并审计",
+      "低版本完整知识库批量迁移合并审计",
+      "标签：#类型/变更",
+      ""
+    ],
+    [
+      "note:changes:低版本完整知识库批量迁移合并审计:1",
+      "note:changes:低版本完整知识库批量迁移合并审计",
+      "修改内容",
+      "integration branch 已普通合并低版本完整知识库批量迁移，保留开发分支的十个独立 commit和两次管理 merge。新增 `migrate batch plan/apply/resume/status/audit/cutover/rollback`，使用显式 manifest、真实版本矩阵、逐库 staging、兼容迁移、delta review、cold build、owner-token、独立备份、部分失败续跑、逐库 cutover 和全层 rollback。\n\nManifest 只接受固定八个 `origin.records` 键，并在文件读取前拒绝额外、绝对、点路径、父路径和非规范分隔；恢复拓扑在 plan 阶段使用实际 operation/project 叶核对 backup、quarantine、OUTPUT 和 staging 的跨项目重叠。测试的 Git common directory 通过当前 checkout 自发现，同时兼容普通 checkout 与 Git worktree。",
+      ""
+    ],
+    [
+      "note:changes:低版本完整知识库批量迁移合并审计:2",
+      "note:changes:低版本完整知识库批量迁移合并审计",
+      "修改原因",
+      "原协议批量接口只迁移 Agent Policy，无法批量升级 state、facts、graph、review、人类投影、双 SQLite、reference、gap、operation journal 和学习笔记。管理首轮审计发现 origin record 越界读取和相同 recovery root 无法 rollback；合并后回归又发现测试硬编码 worktree 父层级。三个缺口均在原分支新增独立 commit 后关闭，未通过整树覆盖或 squash规避。",
+      ""
+    ],
+    [
+      "note:changes:低版本完整知识库批量迁移合并审计:3",
+      "note:changes:低版本完整知识库批量迁移合并审计",
+      "验证结果",
+      "管理探针确认畸形 `origin.records` 与 backup/quarantine 冲突均在 state、staging、backup 和 control 写入前拒绝。合并后从真实 integration 根完成十四项完整迁移专项、双历史版本 E2E、五项 scope extension、十八项 Agent Protocol batch、三十七项 CKB core、二十二项 automation、一项 incremental migration 和三项 package release，全部 exit 0。\n\n真实历史 E2E 从两个仓库历史 commit 构建旧 OUTPUT，再执行当前 plan、apply、audit、cutover 和 rollback；旧/新检索通过且旧树字节恢复。正式保留 fixture 验证迁移前后工作记录、一个 reference、三个 open research gap 和两份学习笔记原文不丢失。完整 post-merge 证据位于 `E:\\knowledge_builder\\artifacts\\verification\\knowledge-base-batch-migration\\post-merge-verification.json`。当前只完成源码合并；最终稳定知识库仍需在隔离 staging 迁移、审计和切换后才能报告同步完成。",
+      ""
+    ],
+    [
+      "note:changes:低版本完整知识库批量迁移合并审计:4",
+      "note:changes:低版本完整知识库批量迁移合并审计",
+      "相关知识页",
+      "- [[module_name 与 estimated_tokens 的协作实现]]\n- [[audit_references 与 _root 的协作实现]]\n- [[main 与 sha256 的协作实现]]\n- [[source_files 与 sha256 的协作实现]]\n- [[deploy 的协作边界]]\n- [[audit_migration 与 _entity_key 的协作实现]]\n- [[audit_global 与 _replace_output_prefix 的协作实现]]\n- [[retrieve 与 _tokens 的协作实现]]",
+      ""
+    ],
+    [
+      "note:changes:低版本完整知识库批量迁移合并审计:5",
+      "note:changes:低版本完整知识库批量迁移合并审计",
+      "源码入口",
+      "- [打开源码：scripts/ckb_core/navigation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/navigation.py:1:1)  `scripts/ckb_core/navigation.py:1-456`\n- [打开源码：scripts/ckb_core/reference_documents.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/reference_documents.py:1:1)  `scripts/ckb_core/reference_documents.py:1-604`\n- [打开源码：scripts/build_runtime_payload.py 第 32 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/build_runtime_payload.py:32:1)  `scripts/build_runtime_payload.py:32-98`\n- [打开源码：scripts/package_release.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/package_release.py:1:1)  `scripts/package_release.py:1-306`\n- [打开源码：scripts/ckb_core/migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/migration.py:1:1)  `scripts/ckb_core/migration.py:1-585`\n- [打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3482`\n- [打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-569`",
+      ""
+    ]
+  ]
+}

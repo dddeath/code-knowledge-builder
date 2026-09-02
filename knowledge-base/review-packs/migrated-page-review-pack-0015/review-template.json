@@ -1,0 +1,24 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0015",
+  "kind": "page-review",
+  "reviewer": "Agent",
+  "reviewed_at_utc": null,
+  "reviews": [
+    {
+      "entity_id": "ent-e5f53bf02cee53128cce6d6afc4d06a0",
+      "classification": "page",
+      "owner_page_id": "ent-e5f53bf02cee53128cce6d6afc4d06a0",
+      "source_path": "scripts/ckb_core/human_page_template_proposals.py",
+      "start_line": 988,
+      "end_line": 1045,
+      "source_blob": "d501799d0665256a150ef5acc5ed780849b38fd7",
+      "source_excerpt": "def propose_template(output: Path, proposal_path: Path) -> dict[str, Any]:\n    output = _validated_output(output)\n    proposal_path = proposal_path.resolve()\n    if not proposal_path.is_file():\n        raise CkbError(f\"template proposal input does not exist: {proposal_path}\")\n    try:\n        document = json_load(proposal_path)\n    except (json.JSONDecodeError, UnicodeDecodeError) as exc:\n        raise CkbError(f\"template proposal must be valid UTF-8 JSON: {exc}\") from exc\n    normalized = normalize_template_proposal(document)\n    digest = _sha256(normalized)\n    proposal_id = stable_id(\"template-proposal\", digest)\n    root = _prepare_store(output)\n    with _store_lock(root):\n        _initialize_store_locked(root)\n        events = _load_events(root)\n        _validate_local_version(normalized, events)\n        existing = next((event for event in events if event[\"proposal_id\"] == proposal_id), None)\n        if existing is not None:\n            index = _rebuild_store(root)\n            return {\n                \"schema_version\": TEMPLATE_PROPOSAL_SCHEMA_VERSION,\n                \"status\": \"pending\",\n                \"proposal_id\": proposal_id,\n                \"content_hash\": digest,\n                \"idempotent\": True,\n                \"proposal\": str((root / \"proposals\" / f\"{proposal_id}.json\").resolve()),\n                \"index\": str((root / \"index.json\").resolve()),\n                \"operation_log\": str((root / \"operations.jsonl\").resolve()),\n                \"event_count\": index[\"event_count\"],\n            }\n        sequence = max((int(event[\"sequence\"]) for event in events), default=0) + 1\n        event = {\n            \"schema_version\": TEMPLATE_PROPOSAL_SCHEMA_VERSION,\n            \"event_type\": \"proposal\",\n            \"event_id\": proposal_id,\n            \"proposal_id\": proposal_id,\n            \"sequence\": sequence,\n            \"submitted_at_utc\": utc_now(),\n            \"content_hash\": digest,\n            \"payload\": normalized,\n        }\n        proposal_store_path = root / \"proposals\" / f\"{proposal_id}.json\"\n        json_write(proposal_store_path, event)\n        index = _rebuild_store(root)\n    return {\n        \"schema_version\": TEMPLATE_PROPOSAL_SCHEMA_VERSION,\n        \"status\": \"pending\",\n        \"proposal_id\": proposal_id,\n        \"content_hash\": digest,\n        \"idempotent\": False,\n        \"proposal\": str(proposal_store_path.resolve()),\n        \"schema\": str((root / \"schema.json\").resolve()),\n        \"index\": str((root / \"index.json\").resolve()),\n        \"operation_log\": str((root / \"operations.jsonl\").resolve()),\n        \"event_count\": index[\"event_count\"],\n        \"next\": \"template audit requires an explicit human reviewer\",\n    }",
+      "status": "draft",
+      "evidence_note": "",
+      "meaning_zh": "",
+      "role_zh": "",
+      "change_when_zh": ""
+    }
+  ]
+}

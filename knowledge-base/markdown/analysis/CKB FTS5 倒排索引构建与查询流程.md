@@ -54,7 +54,7 @@ CKB 把固定 Git 快照中的代码实体、中文审阅字段、人类知识�
 ## 相关知识页
 
 - [[retrieve_machine 与 estimated_tokens 的协作实现]]
-- [[initialize 与 _replace_output_prefix 的协作实现]]
+- [[audit_global 与 _replace_output_prefix 的协作实现]]
 - [[sync_human_layer 与 _source_manifest 的协作实现]]
 - [[maintenance_check 与 capability_matrix 的协作实现]]
 - [[render_integration 与 _looks_windows 的协作实现]]

@@ -81,6 +81,18 @@ from ckb_core.keyword_fallback import (
     KeywordProviderConfig,
     validate_provider_config,
 )
+from ckb_core.human_maintenance_prompts import (
+    HUMAN_MAINTENANCE_PROMPT_CONTRACT_VERSION,
+    HUMAN_MAINTENANCE_PROMPT_SCHEMA_VERSION,
+    audit_human_maintenance_delivery_file,
+    get_human_maintenance_action,
+    human_maintenance_action_document,
+    human_maintenance_registry_document,
+    human_maintenance_registry_sha256,
+    list_human_maintenance_actions,
+    render_human_maintenance_prompt,
+    validate_human_maintenance_invocation,
+)
 from ckb_core.knowledge_batch_migration import (
     apply_knowledge_batch_plan,
     audit_knowledge_batch_state,
@@ -118,6 +130,26 @@ from ckb_core.page_config import (
     load_page_config,
     page_config_sha256,
     write_page_config,
+)
+from ckb_core.human_page_authoring import (
+    HUMAN_PAGE_AUTHORING_SCHEMA_VERSION,
+    init_page_author,
+    inspect_page_author,
+    load_authoring_input,
+    package_page_author,
+    render_page_author,
+    validate_page_author,
+)
+from ckb_core.human_page_template_proposals import (
+    TEMPLATE_PROPOSAL_DECISIONS,
+    TEMPLATE_PROPOSAL_STATUSES,
+    audit_template_proposal,
+    list_templates,
+    propose_template,
+    rollback_template_extension,
+    show_template,
+    validate_template_proposal,
+    write_template_proposal_skeleton,
 )
 from ckb_core.pipeline import (
     audit_chunk,
@@ -179,6 +211,7 @@ from ckb_core.session_stdio import (
     session_digest,
 )
 from ckb_core.workspace_notes import record_note, sync_workspace, workspace_status
+from ckb_core.record_replace import replace_note, rollback_replacement
 
 
 def add_initial_arguments(parser: argparse.ArgumentParser, required: bool = True) -> None:
@@ -313,6 +346,30 @@ def parser() -> argparse.ArgumentParser:
     status_command.add_argument("--json", action="store_true")
     human_refresh_command = sub.add_parser("human-refresh")
     human_refresh_command.add_argument("--out", type=Path, required=True)
+    page_author_command = sub.add_parser("page-author")
+    page_author_sub = page_author_command.add_subparsers(dest="page_author_command", required=True)
+    page_author_init = page_author_sub.add_parser("init")
+    page_author_init.add_argument("--page-type", required=True)
+    page_author_init.add_argument("--mode", choices=("new", "supplement", "revise"), required=True)
+    page_author_init.add_argument("--contract-version", default="1.0.0")
+    page_author_init.add_argument("--schema-version", type=int, default=1)
+    page_author_inspect = page_author_sub.add_parser("inspect")
+    page_author_inspect.add_argument("--page-type", required=True)
+    page_author_inspect.add_argument("--mode", choices=("supplement", "revise"), required=True)
+    page_author_inspect.add_argument("--source", type=Path, required=True)
+    page_author_inspect.add_argument("--workspace-root", type=Path, required=True)
+    page_author_inspect.add_argument("--expected-sha256")
+    page_author_inspect.add_argument("--contract-version", default="1.0.0")
+    page_author_inspect.add_argument("--schema-version", type=int, default=1)
+    page_author_render = page_author_sub.add_parser("render")
+    page_author_render.add_argument("--input", type=Path, required=True)
+    page_author_render.add_argument("--workspace-root", type=Path, default=Path.cwd())
+    page_author_validate = page_author_sub.add_parser("validate")
+    page_author_validate.add_argument("--input", type=Path, required=True)
+    page_author_package = page_author_sub.add_parser("package")
+    page_author_package.add_argument("--input", type=Path, required=True)
+    page_author_package.add_argument("--workspace-root", type=Path, required=True)
+    page_author_package.add_argument("--staging", type=Path, required=True)
     human_refresh_command.add_argument("--staging", action="store_true")
     migration_command = sub.add_parser("migrate")
     migration_sub = migration_command.add_subparsers(dest="migration_command", required=True)
@@ -398,6 +455,20 @@ def parser() -> argparse.ArgumentParser:
     capabilities_command.add_argument("--write", type=Path)
     maintain_command = sub.add_parser("maintain")
     maintain_command.add_argument("--out", type=Path, required=True)
+    prompt_command = sub.add_parser("prompt")
+    prompt_sub = prompt_command.add_subparsers(dest="prompt_command", required=True)
+    prompt_sub.add_parser("list")
+    prompt_show = prompt_sub.add_parser("show")
+    prompt_show.add_argument("action")
+    prompt_render = prompt_sub.add_parser("render")
+    prompt_render.add_argument("action")
+    prompt_render.add_argument("parameters", nargs="*", metavar="key=value")
+    prompt_validate = prompt_sub.add_parser("validate")
+    prompt_validate.add_argument("action")
+    prompt_validate.add_argument("parameters", nargs="*", metavar="key=value")
+    prompt_audit = prompt_sub.add_parser("audit")
+    prompt_audit.add_argument("action")
+    prompt_audit.add_argument("--summary", type=Path, required=True)
     operations_command = sub.add_parser("operations")
     operations_sub = operations_command.add_subparsers(dest="operations_command", required=True)
     operations_list = operations_sub.add_parser("list")
@@ -450,6 +521,40 @@ def parser() -> argparse.ArgumentParser:
     reference_rollback = reference_sub.add_parser("rollback")
     reference_rollback.add_argument("--out", type=Path, required=True)
     reference_rollback.add_argument("--reference", required=True)
+    template_command = sub.add_parser("template")
+    template_sub = template_command.add_subparsers(dest="template_command", required=True)
+    template_list = template_sub.add_parser("list")
+    template_list.add_argument("--out", type=Path, required=True)
+    template_list.add_argument("--status", choices=("all", *TEMPLATE_PROPOSAL_STATUSES), default="all")
+    template_show = template_sub.add_parser("show")
+    template_show.add_argument("--out", type=Path, required=True)
+    template_show.add_argument("--template", required=True)
+    template_init = template_sub.add_parser("init")
+    template_init.add_argument("--out", type=Path, required=True)
+    template_init.add_argument("--write", type=Path, required=True)
+    template_init.add_argument("--name", default="output-local-template")
+    template_validate = template_sub.add_parser("validate")
+    template_validate.add_argument("--out", type=Path, required=True)
+    template_validate.add_argument("--proposal", type=Path, required=True)
+    template_propose = template_sub.add_parser("propose")
+    template_propose.add_argument("--out", type=Path, required=True)
+    template_propose.add_argument("--proposal", type=Path, required=True)
+    template_audit = template_sub.add_parser("audit")
+    template_audit.add_argument("--out", type=Path, required=True)
+    template_audit.add_argument("--proposal", required=True)
+    template_audit.add_argument("--decision", choices=TEMPLATE_PROPOSAL_DECISIONS, required=True)
+    template_audit.add_argument("--reviewer-kind", choices=("human",), required=True)
+    template_audit.add_argument("--reviewer-id", required=True)
+    template_audit.add_argument("--conclusion", required=True)
+    template_audit.add_argument("--version", required=True)
+    template_audit.add_argument("--expected-content-hash", required=True)
+    template_rollback = template_sub.add_parser("rollback")
+    template_rollback.add_argument("--out", type=Path, required=True)
+    template_rollback.add_argument("--proposal", required=True)
+    template_rollback.add_argument("--reviewer-kind", choices=("human",), required=True)
+    template_rollback.add_argument("--reviewer-id", required=True)
+    template_rollback.add_argument("--reason", required=True)
+    template_rollback.add_argument("--expected-content-hash", required=True)
     serve_command = sub.add_parser("serve")
     serve_command.add_argument("--out", type=Path, required=True)
     serve_command.add_argument("--stdio", action="store_true", required=True)
@@ -532,7 +637,12 @@ def parser() -> argparse.ArgumentParser:
     record_source = record_command.add_mutually_exclusive_group()
     record_source.add_argument("--from-query", type=Path)
     record_source.add_argument("--from-pack", type=Path)
-    record_command.add_argument("--append", action="store_true")
+    record_mode = record_command.add_mutually_exclusive_group()
+    record_mode.add_argument("--append", action="store_true")
+    record_mode.add_argument("--replace", action="store_true")
+    record_rollback_command = sub.add_parser("record-rollback")
+    record_rollback_command.add_argument("--out", type=Path, required=True)
+    record_rollback_command.add_argument("--manifest", type=Path, required=True)
     feedback_command = sub.add_parser("feedback")
     feedback_sub = feedback_command.add_subparsers(dest="feedback_command", required=True)
     feedback_create = feedback_sub.add_parser("create")
@@ -752,6 +862,16 @@ def emit(value) -> None:
     print(json.dumps(value, ensure_ascii=False, indent=2))
 
 
+def emit_prompt_json(value) -> None:
+    """Keep prompt-contract stdout byte-stable without changing legacy commands."""
+
+    sys.stdout.buffer.write((json.dumps(value, ensure_ascii=False, indent=2) + "\n").encode("utf-8"))
+
+
+def emit_prompt_text(value: str) -> None:
+    sys.stdout.buffer.write(value.encode("utf-8"))
+
+
 def _session_query(output: Path, request: dict[str, object]) -> dict[str, object] | None:
     wrapper = maybe_request_session(output.resolve(), request)
     if wrapper is None:
@@ -810,6 +930,47 @@ def main() -> int:
         result = refresh_human_navigation(args.out.resolve(), staging=args.staging)
         emit(result)
         return 0 if result.get("status") == "passed" else 5
+    elif args.command == "page-author":
+        try:
+            if args.page_author_command == "init":
+                result = init_page_author(
+                    args.page_type,
+                    args.mode,
+                    contract_version=args.contract_version,
+                    schema_version=args.schema_version,
+                )
+            elif args.page_author_command == "inspect":
+                result = inspect_page_author(
+                    args.page_type,
+                    args.mode,
+                    args.source,
+                    workspace_root=args.workspace_root,
+                    expected_sha256=args.expected_sha256,
+                    contract_version=args.contract_version,
+                    schema_version=args.schema_version,
+                )
+            elif args.page_author_command == "render":
+                result = render_page_author(
+                    load_authoring_input(args.input),
+                    workspace_root=args.workspace_root,
+                )
+            elif args.page_author_command == "validate":
+                result = validate_page_author(load_authoring_input(args.input))
+            else:
+                result = package_page_author(
+                    load_authoring_input(args.input),
+                    args.staging,
+                    workspace_root=args.workspace_root,
+                )
+        except (OSError, UnicodeError, ValueError, json.JSONDecodeError) as exc:
+            result = {
+                "errors": [{"reason": "command-input-invalid", "message": str(exc)}],
+                "operation": args.page_author_command,
+                "schema_version": HUMAN_PAGE_AUTHORING_SCHEMA_VERSION,
+                "status": "failed",
+            }
+        emit(result)
+        return 0 if result.get("status") in {"ready", "passed"} else 2
     elif args.command == "migrate":
         if args.migration_command == "batch":
             if args.migration_batch_command == "plan":
@@ -965,6 +1126,48 @@ def main() -> int:
         result = maintenance_check(args.out.resolve())
         emit(result)
         return 0 if result.get("status") == "passed" else 5
+    elif args.command == "prompt":
+        if args.prompt_command == "list":
+            emit_prompt_json({**human_maintenance_registry_document(), "registry_sha256": human_maintenance_registry_sha256()})
+        elif args.prompt_command == "show":
+            try:
+                contract = get_human_maintenance_action(args.action)
+            except CkbError:
+                emit_prompt_json(
+                    {
+                        "schema_version": HUMAN_MAINTENANCE_PROMPT_SCHEMA_VERSION,
+                        "contract_version": HUMAN_MAINTENANCE_PROMPT_CONTRACT_VERSION,
+                        "registry_sha256": human_maintenance_registry_sha256(),
+                        "status": "failed",
+                        "action": args.action,
+                        "available": list(list_human_maintenance_actions()),
+                        "errors": [{"reason": "unknown-action", "message": "未知 human maintenance action。"}],
+                    }
+                )
+                return 2
+            emit_prompt_json(
+                {
+                    "schema_version": HUMAN_MAINTENANCE_PROMPT_SCHEMA_VERSION,
+                    "contract_version": HUMAN_MAINTENANCE_PROMPT_CONTRACT_VERSION,
+                    "registry_sha256": human_maintenance_registry_sha256(),
+                    "status": "ready",
+                    "action": human_maintenance_action_document(contract),
+                }
+            )
+        elif args.prompt_command == "validate":
+            result = validate_human_maintenance_invocation(args.action, args.parameters)
+            emit_prompt_json(result)
+            return 0 if result.get("status") == "passed" else 2
+        elif args.prompt_command == "render":
+            validation = validate_human_maintenance_invocation(args.action, args.parameters)
+            if validation.get("status") != "passed":
+                emit_prompt_json(validation)
+                return 2
+            emit_prompt_text(render_human_maintenance_prompt(args.action, args.parameters))
+        else:
+            result = audit_human_maintenance_delivery_file(args.action, args.summary)
+            emit_prompt_json(result)
+            return 0 if result.get("status") == "passed" else 5
     elif args.command == "operations":
         if args.operations_command == "list":
             emit(list_operations(args.out.resolve(), args.operation, args.result_status, args.limit))
@@ -1003,6 +1206,41 @@ def main() -> int:
             emit(list_references(args.out.resolve(), args.status))
         else:
             emit(rollback_reference(args.out.resolve(), args.reference))
+    elif args.command == "template":
+        if args.template_command == "list":
+            emit(list_templates(args.out.resolve(), args.status))
+        elif args.template_command == "show":
+            emit(show_template(args.out.resolve(), args.template))
+        elif args.template_command == "init":
+            emit(write_template_proposal_skeleton(args.out.resolve(), args.write, args.name))
+        elif args.template_command == "validate":
+            emit(validate_template_proposal(args.out.resolve(), args.proposal))
+        elif args.template_command == "propose":
+            emit(propose_template(args.out.resolve(), args.proposal))
+        elif args.template_command == "audit":
+            emit(
+                audit_template_proposal(
+                    args.out.resolve(),
+                    args.proposal,
+                    args.decision,
+                    args.reviewer_kind,
+                    args.reviewer_id,
+                    args.conclusion,
+                    args.version,
+                    args.expected_content_hash,
+                )
+            )
+        else:
+            emit(
+                rollback_template_extension(
+                    args.out.resolve(),
+                    args.proposal,
+                    args.reviewer_kind,
+                    args.reviewer_id,
+                    args.reason,
+                    args.expected_content_hash,
+                )
+            )
     elif args.command == "serve":
         serve_stdio(args.out.resolve())
     elif args.command == "stdio-session":
@@ -1127,17 +1365,23 @@ def main() -> int:
     elif args.command == "explain":
         emit(explain_node(args.out.resolve(), args.selector))
     elif args.command == "record":
-        emit(
-            record_note(
-                args.out.resolve(),
-                args.kind,
-                args.title,
-                args.body.resolve(),
-                args.link,
-                (args.from_query or args.from_pack).resolve() if (args.from_query or args.from_pack) else None,
-                args.append,
+        source_record = (args.from_query or args.from_pack).resolve() if (args.from_query or args.from_pack) else None
+        if args.replace:
+            emit(replace_note(args.out.resolve(), args.kind, args.title, args.body.resolve(), args.link, source_record))
+        else:
+            emit(
+                record_note(
+                    args.out.resolve(),
+                    args.kind,
+                    args.title,
+                    args.body.resolve(),
+                    args.link,
+                    source_record,
+                    args.append,
+                )
             )
-        )
+    elif args.command == "record-rollback":
+        emit(rollback_replacement(args.out.resolve(), args.manifest.resolve()))
     elif args.command == "obsidian-plugin":
         if args.obsidian_plugin_command == "register":
             emit(register_obsidian_plugin(args.package.resolve()))

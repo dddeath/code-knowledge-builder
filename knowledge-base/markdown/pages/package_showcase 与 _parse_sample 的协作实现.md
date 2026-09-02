@@ -16,6 +16,7 @@
 
 - 实现时会用到 [[CkbError]]。
 - 主要代码单元是 [[package_showcase]]。
+- 实现时会用到 [[sample 等测试场景]]。
 
 ## 谁会来到这里
 

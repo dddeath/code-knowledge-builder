@@ -1,0 +1,35 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0049",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-02T02:37:45Z",
+  "reviews": [
+    {
+      "entity_id": "file-72c8e21bf3e35ae39c005cc256afcc39",
+      "classification": "page",
+      "owner_page_id": "file-72c8e21bf3e35ae39c005cc256afcc39",
+      "source_path": "tests/test_keyword_fallback.py",
+      "start_line": 1,
+      "end_line": 438,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_keyword_fallback.py` 第 1-438 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`tests/test_keyword_fallback.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
+      "role_zh": "负责以可执行样例验证 `test_keyword_fallback.py` 覆盖的成功行为、失败边界和回归约束。",
+      "change_when_zh": "当 `tests/test_keyword_fallback.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "ent-e891f03fc3d556c1881513d74f5b8fe4",
+      "classification": "page",
+      "owner_page_id": "ent-e891f03fc3d556c1881513d74f5b8fe4",
+      "source_path": "tests/test_keyword_fallback.py",
+      "start_line": 198,
+      "end_line": 349,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_keyword_fallback.py` 第 198-349 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`KeywordFallbackRetrie...` 是 `tests/test_keyword_fallback.py` 第 198-349 行定义的类，本页绑定该固定源码范围。",
+      "role_zh": "该类作为可执行验证入口，检查标识符 `KeywordFallbackRetrievalWiringTests` 所指的行为与失败边界。",
+      "change_when_zh": "当被测行为、输入夹具、断言或失败条件变化时，应同步更新 `KeywordFallbackRetrievalWiringTests` 的说明。"
+    }
+  ]
+}

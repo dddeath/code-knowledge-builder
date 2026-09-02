@@ -3,20 +3,20 @@
   "pack_id": "migrated-page-review-pack-0006",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-01T05:15:28Z",
+  "reviewed_at_utc": "2026-09-02T02:36:28Z",
   "reviews": [
     {
-      "entity_id": "file-2d990bca68d15247b4169b8a088505b0",
+      "entity_id": "ent-8d4cba6b1a1d55a5a3bf02bc9ebc343e",
       "classification": "page",
-      "owner_page_id": "file-2d990bca68d15247b4169b8a088505b0",
-      "source_path": "scripts/ckb_core/pipeline.py",
-      "start_line": 1,
-      "end_line": 3482,
+      "owner_page_id": "ent-8d4cba6b1a1d55a5a3bf02bc9ebc343e",
+      "source_path": "scripts/ckb_core/agent_protocol_batch.py",
+      "start_line": 657,
+      "end_line": 714,
       "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/pipeline.py` 第 1 至 3482 行，核对 `scripts/ckb_core/pipeline.py` 的签名、分支和数据流后写出本条简体中文说明。",
-      "meaning_zh": "`scripts/ckb_core/pipeline.py` 是 `scripts/ckb_core/pipeline.py` 中负责汇总并提供固定快照构建、审阅、合并、最终审计和完成状态机的文件入口。",
-      "role_zh": "它按源码所示的参数、条件分支和数据结构完成汇总并提供固定快照构建、审阅、合并、最终审计和完成状态机，并把确定结果交给调用方或后续审计、索引、投影阶段。",
-      "change_when_zh": "当固定快照构建、审阅、合并、最终审计和完成状态机的输入格式、状态规则、错误处理或输出契约变化时，需要修改该代码单元并复核对应测试。"
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/agent_protocol_batch.py` 第 657-714 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`create_batch_plan` 是 `scripts/ckb_core/agent_protocol_batch.py` 第 657-714 行定义的函数，本页绑定该固定源码范围。",
+      "role_zh": "负责批量升级 Agent Protocol，包括计划、锁、备份、审计、切换和回滚。",
+      "change_when_zh": "当 `create_batch_plan` 的输入、输出、状态转换或失败返回变化时，应更新本页并重跑对应测试。"
     }
   ]
 }

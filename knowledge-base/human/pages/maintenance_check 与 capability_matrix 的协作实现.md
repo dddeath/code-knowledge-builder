@@ -16,6 +16,7 @@
 
 - 实现时会用到 [[CkbError]]。
 - 实现时会用到 [[append]]。
+- 实现时会用到 [[ckb_canvas 的协作边界]]。
 - 主要代码单元是 [[maintenance_check]]。
 
 ## 谁会来到这里

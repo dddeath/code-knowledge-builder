@@ -16,6 +16,7 @@
 
 - 实现时会用到 [[CkbError]]。
 - 实现时会用到 [[append]]。
+- 实现时会用到 [[build_case 等测试场景]]。
 - 实现时会用到 [[create_batch_plan 与 ProtocolRelease 的协作实现]]。
 
 ## 谁会来到这里

@@ -27,6 +27,10 @@
 - 可从 [[scripts 职责导览]] 进入本页。
 - [[start_session]] 会使用这里提供的行为。
 
+## 相关测试
+
+- [[HumanPageTemplateValidationTests]]
+
 ## 内部细节
 
 <details><summary>查看本页收纳的 6 个辅助实现</summary>

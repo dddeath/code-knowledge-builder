@@ -1,0 +1,75 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-appendix-review-pack-0029",
+  "kind": "appendix-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-02T02:37:30Z",
+  "reviews": [
+    {
+      "entity_id": "ent-85c8156f899b53af921303894be9e48e",
+      "classification": "appendix",
+      "owner_page_id": "file-fbc9765e941958108262bad82e08a57b",
+      "source_path": "scripts/package_release.py",
+      "start_line": 100,
+      "end_line": 119,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/package_release.py` 第 100-119 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`validate_full_payload` 是第 100-119 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-0b003df4cfcb525689e7d9f96c9a1f84",
+      "classification": "appendix",
+      "owner_page_id": "file-fbc9765e941958108262bad82e08a57b",
+      "source_path": "scripts/package_release.py",
+      "start_line": 122,
+      "end_line": 185,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/package_release.py` 第 122-185 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`build_core` 是第 122-185 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-e020c81d49b55bd1bacad381891f4b41",
+      "classification": "appendix",
+      "owner_page_id": "file-fbc9765e941958108262bad82e08a57b",
+      "source_path": "scripts/package_release.py",
+      "start_line": 188,
+      "end_line": 210,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/package_release.py` 第 188-210 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`validate_plugin_dist` 是第 188-210 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-2ffc6fa7662d5c4e94ba856ffe8247f0",
+      "classification": "appendix",
+      "owner_page_id": "file-fbc9765e941958108262bad82e08a57b",
+      "source_path": "scripts/package_release.py",
+      "start_line": 213,
+      "end_line": 270,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/package_release.py` 第 213-270 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`build_plugin` 是第 213-270 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-0d42fe8b9967554ca1c39361e1d3331d",
+      "classification": "appendix",
+      "owner_page_id": "file-fbc9765e941958108262bad82e08a57b",
+      "source_path": "scripts/package_release.py",
+      "start_line": 273,
+      "end_line": 276,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/package_release.py` 第 273-276 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`build` 是第 273-276 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-685ef951116c5b89a37e77cfd651c84a",
+      "classification": "appendix",
+      "owner_page_id": "file-fbc9765e941958108262bad82e08a57b",
+      "source_path": "scripts/package_release.py",
+      "start_line": 279,
+      "end_line": 302,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/package_release.py` 第 279-302 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`main` 是第 279-302 行的函数，供所属页面定位实现。"
+    }
+  ]
+}

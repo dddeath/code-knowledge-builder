@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "status": "failed",
+  "operation": "generate",
+  "reason": "input_drift",
+  "phase": "promotion",
+  "exit_code": 2,
+  "detail": "promotion 前 pack SHA-256 改变",
+  "target_state": {
+    "path": "C:\\fixture\\交付\\暂存\\ckb-navigation.canvas",
+    "before": {
+      "state": "absent"
+    },
+    "after": {
+      "state": "absent"
+    },
+    "changed": false
+  },
+  "recovery": {
+    "action": "restore-input",
+    "required_inputs": [
+      "refrozen request hashes"
+    ]
+  }
+}

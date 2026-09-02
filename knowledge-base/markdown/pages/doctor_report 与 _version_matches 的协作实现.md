@@ -19,12 +19,13 @@
 - 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
 - 实现时会用到 [[SourceLinkRenderer.uri]]。
 - 实现时会用到 [[append]]。
+- 实现时会用到 [[audit_global 与 _replace_output_prefix 的协作实现]]。
+- 实现时会用到 [[ckb_canvas 的协作边界]]。
 - 实现时会用到 [[command]]。
 - 主要代码单元是 [[doctor_report]]。
-- 实现时会用到 [[initialize]]。
-- 实现时会用到 [[initialize 与 _replace_output_prefix 的协作实现]]。
 - 实现时会用到 [[render_integration 与 _looks_windows 的协作实现]]。
 - 实现时会用到 [[retrieve_machine 与 estimated_tokens 的协作实现]]。
+- 实现时会用到 [[validate 与 canonical 的协作实现]]。
 
 ## 谁会来到这里
 
@@ -33,6 +34,7 @@
 - [[CodeKnowledgeBuilderTests 等测试场景]] 会使用这里提供的行为。
 - [[SessionStdioLifecycleTests]] 会使用这里提供的行为。
 - [[_Transport.close 与 _StartGate 的协作实现]] 会使用这里提供的行为。
+- [[benchmark 的协作边界]] 会使用这里提供的行为。
 - [[deployment_plan]] 会使用这里提供的行为。
 - [[deployment_plan 与 skill_root 的协作实现]] 会使用这里提供的行为。
 - [[doctor_report]] 会使用这里提供的行为。
@@ -45,11 +47,11 @@
 ## 相关测试
 
 - [[AutomationTest.register 等测试场景]]
+- [[CanvasBenchmarkContractTests]]
 - [[CodeKnowledgeBuilderTests]]
 - [[CodeKnowledgeBuilderTests 等测试场景]]
 - [[MigrationTest]]
 - [[MigrationTest 等测试场景]]
-- [[ScopeExtensionTest]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 

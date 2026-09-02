@@ -22,6 +22,11 @@ from typing import Any, Iterator
 
 from .automation import SUPPORTED_HARNESSES
 from .common import CkbError, json_load, json_write, run, stable_id, utc_now
+from .human_maintenance_prompts import (
+    human_maintenance_action_document,
+    human_maintenance_registry_document,
+    human_maintenance_registry_sha256,
+)
 from .session_stdio import close_session
 
 
@@ -51,6 +56,19 @@ _OPAQUE_ID = re.compile(r"^[^\x00-\x1f\x7f]{1,512}$")
 def default_management_registry_path() -> Path:
     configured = os.environ.get(MANAGEMENT_REGISTRY_ENV)
     return Path(configured).expanduser() if configured else Path.home() / ".ckb" / "management-bindings.json"
+
+
+def management_human_maintenance_prompt_contract(action: str | None = None) -> dict[str, Any]:
+    """Read the shared immutable Prompt contract without adding manager state."""
+
+    if action is None:
+        document = human_maintenance_registry_document()
+    else:
+        document = {
+            "schema_version": MANAGEMENT_SCHEMA_VERSION,
+            "action": human_maintenance_action_document(action),
+        }
+    return {**document, "registry_sha256": human_maintenance_registry_sha256()}
 
 
 def _path_key(path: Path | str) -> str:

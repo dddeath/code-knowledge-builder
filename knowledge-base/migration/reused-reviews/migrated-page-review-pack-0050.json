@@ -1,0 +1,35 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0050",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-02T02:37:46Z",
+  "reviews": [
+    {
+      "entity_id": "file-44230487bf4b57d399bd45bf8c4a5983",
+      "classification": "page",
+      "owner_page_id": "file-44230487bf4b57d399bd45bf8c4a5983",
+      "source_path": "tests/test_knowledge_batch_migration.py",
+      "start_line": 1,
+      "end_line": 706,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_knowledge_batch_migration.py` 第 1-706 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`tests/test_knowledge_batch_migration.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
+      "role_zh": "负责以可执行样例验证 `test_knowledge_batch_migration.py` 覆盖的成功行为、失败边界和回归约束。",
+      "change_when_zh": "当 `tests/test_knowledge_batch_migration.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "ent-60a827e48f3751c492fe2974ff1b1f58",
+      "classification": "page",
+      "owner_page_id": "ent-60a827e48f3751c492fe2974ff1b1f58",
+      "source_path": "tests/test_knowledge_batch_migration.py",
+      "start_line": 468,
+      "end_line": 476,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_knowledge_batch_migration.py` 第 468-476 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`KnowledgeBatchWorkflo...` 是 `tests/test_knowledge_batch_migration.py` 第 468-476 行定义的函数，本页绑定该固定源码范围。",
+      "role_zh": "该函数作为可执行验证入口，检查标识符 `refresh` 所指的行为与失败边界。",
+      "change_when_zh": "当被测行为、输入夹具、断言或失败条件变化时，应同步更新 `refresh` 的说明。"
+    }
+  ]
+}

@@ -1,0 +1,5440 @@
+diff --git a/references/design/obsidian-canvas-agent-visualization/benchmark-contract.md b/references/design/obsidian-canvas-agent-visualization/benchmark-contract.md
+new file mode 100644
+index 0000000..3b235cf
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/benchmark-contract.md
+@@ -0,0 +1,137 @@
++# CKB Canvas 与纯 Markdown 冻结对照合同
++
++## 1. 比较问题
++
++对照只回答一个问题：在完全相同的 CKB 证据集合上，增加一个受 12 节点、16 边预算约束的 Canvas 入口，是否比纯 Markdown 导览更快、更少跳转，同时不降低来源核对和理解正确性。
++
++Canvas 条件不能增加页面、来源、摘要、机器实体、模型调用或搜索能力。若证据集不同，本轮结果直接 `stopped`，不计算效果。
++
++## 2. Runner 输入和输出
++
++规范输入是 [`fixtures/benchmark/benchmark-run.json`](fixtures/benchmark/benchmark-run.json)，由 [`schemas/benchmark-run.schema.json`](schemas/benchmark-run.schema.json) 校验。它固定：
++
++- canvas request、snapshot commit/tree、pack、record 和人类/来源 evidence hash；
++- Markdown 与 Canvas 的入口；
++- Obsidian 版本 slot、默认主题、第三方插件关闭、1440×900、100% 缩放、离线和 Zoom to fit；
++- 12 个任务、期望页、期望来源范围和回答事实；
++- 两个 sequence、四个 condition assignment、每个 block 的 seed 和实际 task order；
++- 每个 sequence 至少 2 个独立 session，同一参与者间隔至少 24 小时，或改用不同参与者；
++- 指标、七个门、三条 rollback probe 和 10 次确定性重复。
++
++一个独立 session 在同一 sequence 中执行两个互不重复的 condition block：
++
++- `sequence-1`：Markdown → Canvas；
++- `sequence-2`：Canvas → Markdown。
++
++每个 block 单独输出一个 [`benchmark-session-result`](schemas/benchmark-session-result.schema.json)，两个 block 共享 `session_id`，但 `condition` 和 task order 不同。至少需要 4 个独立 session、8 个有效 block。汇总输出符合 [`benchmark-summary.schema.json`](schemas/benchmark-summary.schema.json)。
++
++示例结果只用于 schema 验证：
++
++- [`benchmark-session-result.json`](fixtures/benchmark/benchmark-session-result.json)
++- [`benchmark-summary.json`](fixtures/benchmark/benchmark-summary.json)
++
++示例中的通过值不是实测结论，原型不得复制为 benchmark 结果。
++
++## 3. 十二个任务的固定答案对象
++
++| ID | 问题 | 正确页 | 正确来源范围或主张 |
++|---|---|---|---|
++| `P1A` | 定位 `obsidian.py` | `pages/audit_obsidian 与 prepare_vault 的协作实现.md` | `scripts/ckb_core/obsidian.py:1-166` |
++| `P1B` | 定位 `obsidian_plugin.py` | `pages/register_obsidian_plugin 与 default_obsidian_plugin_registry 的协作实现.md` | `scripts/ckb_core/obsidian_plugin.py:1-262` |
++| `P2A` | 定位 `compact_agent_brief` | `pages/maintenance_check 与 capability_matrix 的协作实现.md` | `scripts/ckb_core/llm_wiki_capabilities.py:358-405` |
++| `P2B` | 定位 `agent_index.py` | `pages/retrieve 与 _tokens 的协作实现.md` | `scripts/ckb_core/agent_index.py:1-555` |
++| `P3A` | 找到人类可读性派发记录 | `sessions/人类可读性样例确认与第一开发波次派发.md` | Canvas 是独立研究/设计任务，尚未成为已支持能力 |
++| `P3B` | 找到项目说明书记录 | `analysis/Code Knowledge Builder 项目说明书结构与验收样例.md` | 提交第 13 章目标与精确章节证据 |
++| `P4A` | 解释 Obsidian 搜索边界 | `INDEX.md` | 人类导航入口与 `machine/knowledge.sqlite` 完整机器入口 |
++| `P4B` | 解释 pack/record 边界 | `INDEX.md` | pack 是预算化正文；record 保留完整候选、词项、得分和统计 |
++| `P5A` | 从知识页打开 `obsidian.py` | 对应知识页 | 固定来源实际打开成功 |
++| `P5B` | 打开 `llm_wiki_capabilities.py:358-405` | 对应知识页 | 固定来源实际打开成功 |
++| `P6A` | 判断 CKB 是否已支持 Canvas | 派发记录 | 当前只有研究和设计输入，没有产品实现 |
++| `P6B` | 判断 companion 是否生成 Canvas | companion 作用页 | companion 已确认职责不含 Canvas 生成 |
++
++其中 file entity 的 `end_line=line_count+1` 是当前固定 record 形状，不代表 UI 必须打开不存在的末行；source open 以 `start_line` 为 URI 锚点，答案仍报告 record 的精确范围。
++
++## 4. Block 分配与顺序
++
++`sequence-1`：
++
++- Markdown：`P4B,P1A,P6B,P3A,P2B,P5A`；
++- Canvas：`P5B,P2A,P3B,P6A,P1B,P4A`。
++
++`sequence-2` 交换两个界面接触的 A/B 集：
++
++- Markdown：`P3B,P6A,P1B,P4A,P5B,P2A`；
++- Canvas：`P2B,P5A,P4B,P1A,P3A,P6B`。
++
++runner 不在执行时调用随机库；`order_seed` 只记录冻结顺序来源，实际顺序以 JSON 数组为准。这样跨 Python/Node/平台不会因为 PRNG 不同改变任务顺序。
++
++## 5. 事件与计分
++
++### 5.1 计时
++
++从 runner 显示任务文本并确认窗口前台开始，到参与者提交页面、来源和解释结束。每任务最多 180 秒。后台加载和前一任务清理在下一任务开始前完成，不计入任务时间。
++
++### 5.2 跳转
++
++以下每次计 1：
++
++- 打开 Markdown 页面；
++- 打开精确来源；
++- 返回；
++- 在 `INDEX.md`、`RECORDS.md`、`WIKI.md`、Canvas 间切换。
++
++Canvas pan、zoom、框选和移动视口不计跳转，但写入 `visible_text_characters`、`overlap_count` 和观察备注。
++
++### 5.3 正确性
++
++- `success=true`：在 180 秒内提交正确页/记录；需要来源的任务还必须提交正确 path 与 range。
++- `comprehension_score=2`：目标正确，且 `required_facts` 全部由冻结页/来源支持。
++- `comprehension_score=1`：目标正确，但缺少至少一个 required fact 或边界字段。
++- `comprehension_score=0`：目标错误、超时或给出与冻结证据冲突的支持状态。
++- `source_verified` 只对 `P1`、`P2`、`P5` 计分；其他任务写 `null`。
++- `unsupported_assertions` 是答案中不能回到冻结页/来源的事实条数，不能用“整体印象正确”抵消。
++
++## 6. 汇总算法
++
++只使用 environment verified、顺序匹配、证据 hash 匹配且未触发 stop 的 block。
++
++```text
++discoverability_success_rate = success trials / valid trials
++first_correct_entry_seconds = 各条件成功 trial 的中位数
++navigation_count = 各条件有效 trial 的中位数
++comprehension_percent = sum(score) / (2 * valid trials) * 100
++source_verification_rate = verified P1/P2/P5 trials / valid P1/P2/P5 trials
++time_reduction = (markdown_median - canvas_median) / markdown_median
++navigation_reduction = (markdown_median - canvas_median) / markdown_median
++```
++
++同一 task 在多个 session 中保留独立 trial，不先做主观多数表决。`11/12` 转换成预先固定的成功率下限 `0.9166666667`，避免 session 数增加后重新定义“一个任务是否成功”。
++
++## 7. 七个完成门
++
++| 门 | 必须满足 |
++|---|---|
++| 结构 | JSON 可解析；节点 `<=12`、边 `<=16`、悬空边 0、缺失回链 0、机器字段 0 |
++| 来源 | 两条件 `source_verification_rate=1.0`，无证据断言均 0 |
++| 任务 | 两条件成功率均 `>=0.9166666667`，Canvas 不低于 Markdown |
++| 理解 | Canvas 理解百分比最多比 Markdown 低 5 个百分点 |
++| 效率 | 时间中位数降低 `>=15%` 或跳转中位数降低 `>=20%` |
++| 回滚 | absent、present、drift 三条 probe `3/3` |
++| 稳定 | 同一输入 10 次 Canvas 原始 hash 相同，两个 manifest 规范化 hash 各只有一种 |
++
++全部通过时 summary 为 `passed`，decision 为 `advance-to-product-decision`。这只允许进入产品归属决策，不自动修改 companion、主 CLI 或活动知识库。
++
++效率门失败但结构、来源和理解未退化时，decision 固定为 `keep-markdown-default`。任一结构/来源/权限/漂移边界失败时为 `return-to-design`。session 数不足时为 `collect-more-sessions`。
++
++## 8. 立即停止
++
++出现以下任一项，本轮 `status=stopped`，不与通过轮混合：
++
++- 缺失回链；
++- 机器字段进入 Canvas；
++- 写出授权目录；
++- 两条件 evidence hash 不同；
++- promotion/rollback drift 后仍覆盖；
++- Obsidian 版本、主题、插件、窗口或任务顺序未冻结；
++- fixed Obsidian 版本不能从 Canvas 打开测试 editor URI；
++- file node/subpath 行为与冻结答案不一致。
+diff --git a/references/design/obsidian-canvas-agent-visualization/contracts-and-fixtures.md b/references/design/obsidian-canvas-agent-visualization/contracts-and-fixtures.md
+new file mode 100644
+index 0000000..c0cd168
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/contracts-and-fixtures.md
+@@ -0,0 +1,235 @@
++# CKB Canvas 接口、schema 与 fixture 合同
++
++本目录中的 JSON Schema 和 fixture 是第一原型的规范输入。实现可以使用显式字段校验器，不要求新增通用 schema 运行时依赖；但实现行为必须与这些 Draft 2020-12 schema 一致，且测试必须证明未知字段被拒绝。
++
++## 1. Schema 清单
++
++| 文件 | 角色 | 未知字段 |
++|---|---|---|
++| [`schemas/canvas-request.schema.json`](schemas/canvas-request.schema.json) | `generate`/`validate` 的唯一请求 | 所有 object 层级拒绝 |
++| [`schemas/canvas-success.schema.json`](schemas/canvas-success.schema.json) | 成功 stdout | 拒绝 |
++| [`schemas/canvas-failure.schema.json`](schemas/canvas-failure.schema.json) | `generate`、`validate`、`rollback`、`benchmark` 失败 stdout | 拒绝 |
++| [`schemas/canvas-validation-manifest.schema.json`](schemas/canvas-validation-manifest.schema.json) | 输入、snapshot、回链和 Canvas 验证证据 | 拒绝 |
++| [`schemas/canvas-rollback-manifest.schema.json`](schemas/canvas-rollback-manifest.schema.json) | 三角色 baseline、generated guard 和恢复动作 | 拒绝 |
++| [`schemas/json-canvas-1.0-ckb-subset.schema.json`](schemas/json-canvas-1.0-ckb-subset.schema.json) | 第一原型可生成的 JSON Canvas 1.0 子集 | 拒绝扩展键；不允许 group |
++| [`schemas/benchmark-run.schema.json`](schemas/benchmark-run.schema.json) | 12 项 Markdown/Canvas runner 输入 | 拒绝 |
++| [`schemas/benchmark-session-result.schema.json`](schemas/benchmark-session-result.schema.json) | 一个 sequence/condition block 的观察结果 | 拒绝 |
++| [`schemas/benchmark-summary.schema.json`](schemas/benchmark-summary.schema.json) | 汇总指标、七门和推进决策 | 拒绝 |
++
++Schema 自身只表达结构约束。路径解析、hash、SQLite meta、record allowlist、源码行范围、ID 冲突、边闭合、机器字段泄露和并发漂移由确定性语义校验器完成。
++
++## 2. `canvas-request` 冻结字段
++
++### 2.1 CKB 输入
++
++`ckb` 对以下角色同时固定绝对路径和 SHA-256：
++
++- `state.json`；
++- `machine/knowledge.sqlite`；
++- Agent pack Markdown；
++- 同名完整 machine record JSON；
++- `human/projection.json`；
++- `human/manifest.json`；
++- `local-openers.json`。
++
++请求另外固定 `snapshot_commit`、`snapshot_tree`、`record_schema_version=3`，以及本次候选可能使用的 `frozen_evidence.human_files` 与 `frozen_evidence.source_files`。evidence 路径都相对各自根，禁止绝对路径、反斜杠和 `..`。
++
++### 2.2 目标与 baseline
++
++`request` 固定：
++
++- 面向人的 `title`；
++- 原型变量 `source_link_mode=verified-editor-uri`；
++- `authorized_staging_root`；
++- `target_canvas_path`；
++- 空的或任务所有的 `backup_root`；
++- `replace`；
++- canvas、validation manifest、rollback manifest 三个角色各自的 baseline；
++- 可选 `required_entries`，只通过 record 数组 ordinal 引用候选，不接收自由文本实体或机器 ID。
++
++`replace=false` 时三个 baseline 都必须 absent。`replace=true` 时 Canvas baseline 必须 present，两个 sidecar 分别声明 absent 或 present。present baseline 必须带 SHA-256；实际 backup 路径由 `backup_root + role` 确定性派生并写进 rollback manifest。
++
++### 2.3 硬预算
++
++预算不是可调建议，schema 固定为：
++
++```json
++{
++  "max_nodes": 12,
++  "max_edges": 16,
++  "max_page_nodes": 6,
++  "max_record_nodes": 2,
++  "max_source_nodes": 3,
++  "max_text_nodes": 1,
++  "max_groups": 0
++}
++```
++
++原型调用方不能通过 request 提高预算。以后修改预算必须升 schema version 并重新执行 Markdown 对照。
++
++## 3. Machine record 3 兼容合同
++
++### 3.1 接受的顶层字段
++
++必须存在：
++
++```text
++schema_version status question profile budget estimated_tokens
++terms anchors seed_entity_ids selected_entities related_documents
++open_feedback pack record retrieval deterministic source_grounded
++grep_fallback_required
++```
++
++允许的可选字段只有：
++
++```text
++retrieval_stats pending_agent_review
++```
++
++出现 `keyword_fallback`、`keyword_fallback_record` 或其他未知字段统一返回 `unsupported_record_schema`。第一原型要求：
++
++```text
++schema_version == 3
++status == "passed"
++deterministic == true
++source_grounded == true
++grep_fallback_required == false
++pending_agent_review absent or false
++```
++
++### 3.2 `selected_entities`
++
++允许字段固定为：
++
++```text
++entity_id name qualified_name kind source_path start_line end_line
++human_page_title human_page_file display_mode score score_breakdown
++reasons sections
++```
++
++Canvas 选择器只消费数组 ordinal、`kind`、`source_path`、`start_line`、`end_line`、`human_page_file` 和 `human_page_title`。`entity_id`、score、score breakdown、reasons 和 sections 只用于 record 兼容校验，不得进入 Canvas。
++
++### 3.3 `related_documents`
++
++允许字段固定为：
++
++```text
++document_id title kind status human_file source_path start_line end_line
++severity target content_excerpt
++```
++
++Canvas 只接受 `status=agent-reviewed` 且有 `human_file` 的项。`gap`、feedback、pending review、没有人类页的记录都不进入第一原型画布。`document_id` 不进入 Canvas。
++
++### 3.4 文件范围末尾哨兵
++
++当前 parser 对完整 file 实体可能记录 `start_line=1,end_line=line_count+1`。因此语义校验规则为：
++
++- 非 file 实体：`1 <= start_line <= end_line <= line_count`；
++- file 实体：允许相同规则，或唯一的 `start_line=1,end_line=line_count+1`；
++- 其他 `line_count+1` 形状失败为 `invalid_source_range`。
++
++该例外只兼容当前真实 record，不改变 JSON Canvas 或 editor URI；URI 仍打开 `start_line`。
++
++## 4. 成功角色
++
++成功 fixture 位于 [`fixtures/success/`](fixtures/success/)：
++
++| 文件 | 说明 |
++|---|---|
++| `canvas-request.json` | 含 Windows 中文路径、固定 commit/tree、hash、evidence、baseline 和 required entries |
++| `ckb-navigation.canvas` | 1 个 focus、1 个 page、1 个 reviewed record、1 个 source，3 条允许边 |
++| `ckb-navigation.canvas.validation.json` | 所有输入、结构、回链、范围和泄露门通过 |
++| `ckb-navigation.canvas.rollback.json` | absent baseline 的三角色删除动作与 guard |
++| `canvas-success.json` | stdout 结果，包含三个角色的路径、hash、字节数和计数 |
++
++这些文件是 schema/序列化样例，不是活动知识库产物。绝对路径使用 `C:\fixture\...` typed fixture 根，原型测试在 `%TEMP%` 下实例化并重新计算 hash。
++
++rollback manifest 的 `expected_manifest_content_sha256` 计算规则固定为：把该字段临时设为 64 个 `0`，按规范 JSON 序列化并 SHA-256；完整 manifest 的 SHA-256 另由成功结果返回。`rollback` 命令必须同时接收完整 manifest 的 expected hash。
++
++## 5. 失败结果与 fixtures
++
++[`fixtures/failure-catalog.json`](fixtures/failure-catalog.json) 是稳定原因全集；[`fixtures/failure-results/`](fixtures/failure-results/) 为每个原因提供一个通过 failure schema 的字面结果。
++
++| 分组 | 原因 |
++|---|---|
++| 请求与版本 | `invalid_request`、`unsupported_record_schema`、`pack_record_mismatch` |
++| 冻结输入 | `input_drift`、`snapshot_mismatch`、`source_outside_scope` |
++| baseline 与回链 | `target_exists`、`missing_backlink`、`missing_target`、`invalid_source_range` |
++| 生成验证 | `budget_exceeded`、`duplicate_id`、`dangling_edge`、`invalid_canvas` |
++| 并发与 I/O | `promotion_drift`、`rollback_drift`、`io_failure` |
++
++每个 fixture 都含：触发 detail、固定退出状态、`before`/`after`、`changed`、恢复 action 和需要重新提供的输入。逐原因的触发条件、目标状态和恢复动作以 [`technical-design.md` 第 9 节](technical-design.md#9-稳定失败语义) 为规范。
++
++## 6. Runtime fixture 目录
++
++原型测试固定使用：
++
++```text
++%TEMP%\ckb-canvas-fixtures\CASE_ID\
++├── output\
++│   ├── state.json
++│   ├── local-openers.json
++│   ├── machine\knowledge.sqlite
++│   ├── machine\agent-packs\pack-fixture.{md,json}
++│   ├── human\{INDEX.md,manifest.json,projection.json}
++│   ├── human\pages\...
++│   └── .source-snapshot\worktree\scripts\...
++├── staging\
++├── outside\
++└── request.json
++```
++
++测试不得把绝对临时根提交进 fixture。builder 在运行时替换 typed fixture 根、创建最小 SQLite `meta` 表、计算真实 hash，并在测试结束删除目录。
++
++[`fixtures/fixture-catalog.json`](fixtures/fixture-catalog.json) 冻结以下 12 个 setup：
++
++1. absent + Windows 中文路径成功；
++2. replace 成功；
++3. 250–259 字符 Windows 长路径；
++4. 指向授权根内的 symlink；
++5. 指向根外的 symlink/junction；
++6. 损坏 request JSON；
++7. 损坏 record JSON；
++8. 悬空边注入；
++9. baseline 后并发目标变化；
++10. absent rollback；
++11. present rollback；
++12. rollback drift。
++
++## 7. 原型测试矩阵
++
++| 测试 ID | setup/fixture | 断言 |
++|---|---|---|
++| `request_unknown_field` | success request 加任意顶层和嵌套字段 | `invalid_request`，exit 2，staging 未创建 |
++| `record_v1_rejected` | 兼容 `agent_index` record 1 | `unsupported_record_schema`，exit 2 |
++| `record_keyword_variant_rejected` | record 3 加 `keyword_fallback` | `unsupported_record_schema` |
++| `pack_record_crosslink` | record.pack 或 stem 不同 | `pack_record_mismatch` |
++| `snapshot_commit_tree` | state/snapshot/SQLite 三者逐项漂移 | `snapshot_mismatch` |
++| `human_and_source_hashes` | 每个固定 evidence 单独改 1 byte | `input_drift` |
++| `chinese_path_success` | catalog 1 | 三角色成功、NFC、UTF-8、可重开 |
++| `windows_long_path` | catalog 3 | 明确成功或 `io_failure`；目标不截断、不部分写 |
++| `symlink_inside` | catalog 4 | 规范化后在根内，允许执行 |
++| `symlink_outside` | catalog 5 | `source_outside_scope`，目标未改变 |
++| `corrupt_json` | catalog 6/7 | 稳定失败 JSON；无 Python traceback 混入 stdout |
++| `selection_budget` | required pages 7、records 3、sources 4 | 各自 `budget_exceeded`；不静默丢 required 项 |
++| `selection_dedup_order` | 重复 page/source 与同分候选 | 首次 ordinal 保留，数组和字节稳定 |
++| `stable_id_collision` | collision test hook | `duplicate_id`，不加随机 salt |
++| `dangling_edge` | catalog 8 | `dangling_edge`，exit 5 |
++| `machine_field_scan` | 节点文本、key、edge label 分别注入机器字段 | `invalid_canvas` |
++| `canvas_reopen` | staged Canvas 截断或增加未知键 | `invalid_canvas`，baseline 未改变 |
++| `replace_three_roles` | catalog 2 | 三个 baseline/backup hash 全部记录 |
++| `promotion_concurrency` | catalog 9 | `promotion_drift`，并发字节保留 |
++| `rollback_absent` | catalog 10 | Canvas 与两个 sidecar 全 absent |
++| `rollback_present` | catalog 11 | 三角色 byte-identical baseline |
++| `rollback_drift` | catalog 12 | exit 6，人工改动与 backup 保留 |
++| `io_faults` | write/flush/fsync/replace/reopen/delete fault injection | `io_failure`；Canvas 只为完整旧/新/外部当前字节 |
++| `determinism_10x` | success fixture 十个隔离副本 | Canvas 原始 hash 1 种；两个 manifest 规范化 hash 各 1 种 |
++
++测试只允许通过明确 fault hook 改变阶段行为；生产命令不能暴露“跳过校验”“强制覆盖”“扩大预算”参数。
++
++## 8. Schema 变更规则
++
++- schema 1 期间可以收窄实现 bug，但不能增加字段、原因、节点类型、边标签或预算；
++- 增加 record 版本、Canvas 字段、关系或 source link mode 必须升请求与相关结果 schema；
++- schema 升级必须增加旧 fixture 的兼容/拒绝测试，并重新执行 10 次确定性与 Markdown 对照；
++- 第一原型失败时保留 schema 1 作为实验记录，不把未通过合同并入主 CLI。
+diff --git a/references/design/obsidian-canvas-agent-visualization/fixtures/benchmark/benchmark-run.json b/references/design/obsidian-canvas-agent-visualization/fixtures/benchmark/benchmark-run.json
+new file mode 100644
+index 0000000..1fcc67a
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/fixtures/benchmark/benchmark-run.json
+@@ -0,0 +1,364 @@
++{
++  "schema_version": 1,
++  "status": "frozen",
++  "run_id": "ckb-canvas-markdown-v1",
++  "freeze": {
++    "canvas_request_path": "/mnt/e/knowledge_builder/self-workspace/worktrees/obsidian-canvas-visualization-design/references/design/obsidian-canvas-agent-visualization/fixtures/success/canvas-request.json",
++    "canvas_request_sha256": "7c30552fc5d50eb96d14b779aa48dd2605cf089a578cc6142743bf1c063ff7d0",
++    "snapshot_commit": "150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3",
++    "snapshot_tree": "7976883a0f6ff177deb649eaef6e8d2e7af2fda8",
++    "agent_pack_path": "C:\\fixture\\CKB 输出\\machine\\agent-packs\\pack-0001.md",
++    "agent_pack_sha256": "4862f447f2c7f272fa2f4aaf89dadb3b1ac09105bd5864f8d1a0c9452bb0a226",
++    "record_path": "C:\\fixture\\CKB 输出\\machine\\agent-packs\\pack-0001.json",
++    "record_sha256": "70ce871f8a3d3fb449bc3c3ace6547cef02dfc74ffe48d912532a724bfdbe5b9",
++    "human_evidence_sha256": "b174f3b1f3a394dd79d0bfeac62c58034400d17b31181b3deb04dd04bed5294b",
++    "source_evidence_sha256": "b174f3b1f3a394dd79d0bfeac62c58034400d17b31181b3deb04dd04bed5294b",
++    "budget": {
++      "max_nodes": 12,
++      "max_edges": 16
++    }
++  },
++  "environment": {
++    "obsidian_version": "OBSIDIAN_VERSION",
++    "theme": "default",
++    "third_party_plugins": [],
++    "window_width": 1440,
++    "window_height": 900,
++    "display_scale_percent": 100,
++    "canvas_initial_view": "zoom-to-fit",
++    "network": "offline"
++  },
++  "conditions": {
++    "markdown": {
++      "entrypoints": [
++        "INDEX.md",
++        "RECORDS.md",
++        "WIKI.md"
++      ],
++      "evidence_set_sha256": "b174f3b1f3a394dd79d0bfeac62c58034400d17b31181b3deb04dd04bed5294b",
++      "max_nodes": null,
++      "max_edges": null
++    },
++    "canvas": {
++      "entrypoints": [
++        "ckb-navigation.canvas"
++      ],
++      "evidence_set_sha256": "b174f3b1f3a394dd79d0bfeac62c58034400d17b31181b3deb04dd04bed5294b",
++      "max_nodes": 12,
++      "max_edges": 16
++    }
++  },
++  "tasks": [
++    {
++      "task_id": "P1A",
++      "pair": "P1",
++      "variant": "A",
++      "category": "implementation-location",
++      "prompt": "找到 `obsidian.py` 的人类知识页，并报告源码范围",
++      "timeout_seconds": 180,
++      "expected": {
++        "page": "pages/audit_obsidian 与 prepare_vault 的协作实现.md",
++        "source_path": "scripts/ckb_core/obsidian.py",
++        "start_line": 1,
++        "end_line": 166,
++        "required_facts": [
++          "人类知识页",
++          "精确源码范围"
++        ]
++      }
++    },
++    {
++      "task_id": "P1B",
++      "pair": "P1",
++      "variant": "B",
++      "category": "implementation-location",
++      "prompt": "找到 `obsidian_plugin.py` 的人类知识页，并报告源码范围",
++      "timeout_seconds": 180,
++      "expected": {
++        "page": "pages/register_obsidian_plugin 与 default_obsidian_plugin_registry 的协作实现.md",
++        "source_path": "scripts/ckb_core/obsidian_plugin.py",
++        "start_line": 1,
++        "end_line": 262,
++        "required_facts": [
++          "人类知识页",
++          "精确源码范围"
++        ]
++      }
++    },
++    {
++      "task_id": "P2A",
++      "pair": "P2",
++      "variant": "A",
++      "category": "function-location",
++      "prompt": "找到 `compact_agent_brief` 的作用页与 `358-405` 范围",
++      "timeout_seconds": 180,
++      "expected": {
++        "page": "pages/maintenance_check 与 capability_matrix 的协作实现.md",
++        "source_path": "scripts/ckb_core/llm_wiki_capabilities.py",
++        "start_line": 358,
++        "end_line": 405,
++        "required_facts": [
++          "compact result 省略完整候选",
++          "358-405"
++        ]
++      }
++    },
++    {
++      "task_id": "P2B",
++      "pair": "P2",
++      "variant": "B",
++      "category": "function-location",
++      "prompt": "找到 `agent_index.py` 的作用页与完整文件范围",
++      "timeout_seconds": 180,
++      "expected": {
++        "page": "pages/retrieve 与 _tokens 的协作实现.md",
++        "source_path": "scripts/ckb_core/agent_index.py",
++        "start_line": 1,
++        "end_line": 555,
++        "required_facts": [
++          "兼容页面索引",
++          "完整文件范围"
++        ]
++      }
++    },
++    {
++      "task_id": "P3A",
++      "pair": "P3",
++      "variant": "A",
++      "category": "reviewed-record",
++      "prompt": "找到“人类可读性样例确认与第一开发波次派发”，说明 Canvas 当前所处阶段",
++      "timeout_seconds": 180,
++      "expected": {
++        "page": "sessions/人类可读性样例确认与第一开发波次派发.md",
++        "source_path": null,
++        "start_line": null,
++        "end_line": null,
++        "required_facts": [
++          "独立研究任务",
++          "尚未实现"
++        ]
++      }
++    },
++    {
++      "task_id": "P3B",
++      "pair": "P3",
++      "variant": "B",
++      "category": "reviewed-record",
++      "prompt": "找到“Code Knowledge Builder 项目说明书结构与验收样例”，说明第 13 章目标",
++      "timeout_seconds": 180,
++      "expected": {
++        "page": "analysis/Code Knowledge Builder 项目说明书结构与验收样例.md",
++        "source_path": null,
++        "start_line": null,
++        "end_line": null,
++        "required_facts": [
++          "第 13 章目标",
++          "原文精确章节"
++        ]
++      }
++    },
++    {
++      "task_id": "P4A",
++      "pair": "P4",
++      "variant": "A",
++      "category": "boundary-understanding",
++      "prompt": "说明为什么 Obsidian 搜索不是完整实体召回，并给出人类/机器入口",
++      "timeout_seconds": 180,
++      "expected": {
++        "page": "INDEX.md",
++        "source_path": null,
++        "start_line": null,
++        "end_line": null,
++        "required_facts": [
++          "Obsidian 人类导航",
++          "machine/knowledge.sqlite"
++        ]
++      }
++    },
++    {
++      "task_id": "P4B",
++      "pair": "P4",
++      "variant": "B",
++      "category": "boundary-understanding",
++      "prompt": "说明 Agent pack 与完整 record 分别保留什么，并给出两个路径",
++      "timeout_seconds": 180,
++      "expected": {
++        "page": "INDEX.md",
++        "source_path": null,
++        "start_line": null,
++        "end_line": null,
++        "required_facts": [
++          "pack 预算化正文",
++          "record 完整候选与统计"
++        ]
++      }
++    },
++    {
++      "task_id": "P5A",
++      "pair": "P5",
++      "variant": "A",
++      "category": "source-open",
++      "prompt": "从知识页跳到 `scripts/ckb_core/obsidian.py` 的精确来源",
++      "timeout_seconds": 180,
++      "expected": {
++        "page": "pages/audit_obsidian 与 prepare_vault 的协作实现.md",
++        "source_path": "scripts/ckb_core/obsidian.py",
++        "start_line": 1,
++        "end_line": 166,
++        "required_facts": [
++          "成功打开固定来源"
++        ]
++      }
++    },
++    {
++      "task_id": "P5B",
++      "pair": "P5",
++      "variant": "B",
++      "category": "source-open",
++      "prompt": "从知识页跳到 `scripts/ckb_core/llm_wiki_capabilities.py:358-405`",
++      "timeout_seconds": 180,
++      "expected": {
++        "page": "pages/maintenance_check 与 capability_matrix 的协作实现.md",
++        "source_path": "scripts/ckb_core/llm_wiki_capabilities.py",
++        "start_line": 358,
++        "end_line": 405,
++        "required_facts": [
++          "成功打开固定来源"
++        ]
++      }
++    },
++    {
++      "task_id": "P6A",
++      "pair": "P6",
++      "variant": "A",
++      "category": "support-status",
++      "prompt": "判断 CKB 当前是否已支持 Canvas，并给出证据边界",
++      "timeout_seconds": 180,
++      "expected": {
++        "page": "sessions/人类可读性样例确认与第一开发波次派发.md",
++        "source_path": null,
++        "start_line": null,
++        "end_line": null,
++        "required_facts": [
++          "研究与设计输入",
++          "当前不是已支持能力"
++        ]
++      }
++    },
++    {
++      "task_id": "P6B",
++      "pair": "P6",
++      "variant": "B",
++      "category": "support-status",
++      "prompt": "判断当前 companion 是否生成 Canvas，并给出已确认职责",
++      "timeout_seconds": 180,
++      "expected": {
++        "page": "pages/register_obsidian_plugin 与 default_obsidian_plugin_registry 的协作实现.md",
++        "source_path": null,
++        "start_line": null,
++        "end_line": null,
++        "required_facts": [
++          "不生成 Canvas",
++          "选区解释与审计凭据"
++        ]
++      }
++    }
++  ],
++  "assignments": [
++    {
++      "sequence_id": "sequence-1",
++      "condition": "markdown",
++      "order_seed": 1101,
++      "task_order": [
++        "P4B",
++        "P1A",
++        "P6B",
++        "P3A",
++        "P2B",
++        "P5A"
++      ]
++    },
++    {
++      "sequence_id": "sequence-1",
++      "condition": "canvas",
++      "order_seed": 1102,
++      "task_order": [
++        "P5B",
++        "P2A",
++        "P3B",
++        "P6A",
++        "P1B",
++        "P4A"
++      ]
++    },
++    {
++      "sequence_id": "sequence-2",
++      "condition": "markdown",
++      "order_seed": 2201,
++      "task_order": [
++        "P3B",
++        "P6A",
++        "P1B",
++        "P4A",
++        "P5B",
++        "P2A"
++      ]
++    },
++    {
++      "sequence_id": "sequence-2",
++      "condition": "canvas",
++      "order_seed": 2202,
++      "task_order": [
++        "P2B",
++        "P5A",
++        "P4B",
++        "P1A",
++        "P3A",
++        "P6B"
++      ]
++    }
++  ],
++  "metrics": [
++    "discoverability_success_rate",
++    "first_correct_entry_seconds",
++    "navigation_count",
++    "backtrack_count",
++    "comprehension_score",
++    "source_verification_rate",
++    "unsupported_assertions",
++    "visible_node_count",
++    "visible_edge_count",
++    "visible_text_characters",
++    "overlap_count",
++    "rollback_probe_rate"
++  ],
++  "gates": {
++    "structure": "required",
++    "source_verification_rate": 1.0,
++    "maximum_unsupported_assertions": 0,
++    "minimum_discoverability_success_rate": 0.9166666667,
++    "canvas_not_below_markdown": true,
++    "maximum_comprehension_drop_percentage_points": 5,
++    "minimum_median_time_reduction": 0.15,
++    "minimum_median_navigation_reduction": 0.2,
++    "efficiency_rule": "time-or-navigation",
++    "rollback_probes": "3/3",
++    "deterministic_repetitions": 10
++  },
++  "session_policy": {
++    "minimum_independent_sessions_per_sequence": 2,
++    "minimum_blocks_per_assignment": 2,
++    "same_participant_min_interval_hours": 24,
++    "different_participant_exempts_interval": true,
++    "sequence_block_order": {
++      "sequence-1": [
++        "markdown",
++        "canvas"
++      ],
++      "sequence-2": [
++        "canvas",
++        "markdown"
++      ]
++    }
++  }
++}
+diff --git a/references/design/obsidian-canvas-agent-visualization/fixtures/benchmark/benchmark-session-result.json b/references/design/obsidian-canvas-agent-visualization/fixtures/benchmark/benchmark-session-result.json
+new file mode 100644
+index 0000000..c3071de
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/fixtures/benchmark/benchmark-session-result.json
+@@ -0,0 +1,111 @@
++{
++  "schema_version": 1,
++  "status": "passed",
++  "run_id": "ckb-canvas-markdown-v1",
++  "session_id": "SESSION_SLOT_01",
++  "sequence_id": "sequence-1",
++  "condition": "markdown",
++  "participant_slot": "PARTICIPANT_SLOT_01",
++  "environment_verified": true,
++  "task_order": [
++    "P4B",
++    "P1A",
++    "P6B",
++    "P3A",
++    "P2B",
++    "P5A"
++  ],
++  "observations": [
++    {
++      "task_id": "P4B",
++      "success": true,
++      "elapsed_seconds": 90.0,
++      "first_correct_entry_seconds": 35.0,
++      "navigation_count": 4,
++      "backtrack_count": 0,
++      "comprehension_score": 2,
++      "source_verified": null,
++      "unsupported_assertions": 0,
++      "submitted_page": "INDEX.md",
++      "submitted_source_path": null,
++      "submitted_start_line": null,
++      "submitted_end_line": null
++    },
++    {
++      "task_id": "P1A",
++      "success": true,
++      "elapsed_seconds": 90.0,
++      "first_correct_entry_seconds": 35.0,
++      "navigation_count": 4,
++      "backtrack_count": 0,
++      "comprehension_score": 2,
++      "source_verified": true,
++      "unsupported_assertions": 0,
++      "submitted_page": "pages/audit_obsidian 与 prepare_vault 的协作实现.md",
++      "submitted_source_path": "scripts/ckb_core/obsidian.py",
++      "submitted_start_line": 1,
++      "submitted_end_line": 166
++    },
++    {
++      "task_id": "P6B",
++      "success": true,
++      "elapsed_seconds": 90.0,
++      "first_correct_entry_seconds": 35.0,
++      "navigation_count": 4,
++      "backtrack_count": 0,
++      "comprehension_score": 2,
++      "source_verified": null,
++      "unsupported_assertions": 0,
++      "submitted_page": "pages/register_obsidian_plugin 与 default_obsidian_plugin_registry 的协作实现.md",
++      "submitted_source_path": null,
++      "submitted_start_line": null,
++      "submitted_end_line": null
++    },
++    {
++      "task_id": "P3A",
++      "success": true,
++      "elapsed_seconds": 90.0,
++      "first_correct_entry_seconds": 35.0,
++      "navigation_count": 4,
++      "backtrack_count": 0,
++      "comprehension_score": 2,
++      "source_verified": null,
++      "unsupported_assertions": 0,
++      "submitted_page": "sessions/人类可读性样例确认与第一开发波次派发.md",
++      "submitted_source_path": null,
++      "submitted_start_line": null,
++      "submitted_end_line": null
++    },
++    {
++      "task_id": "P2B",
++      "success": true,
++      "elapsed_seconds": 90.0,
++      "first_correct_entry_seconds": 35.0,
++      "navigation_count": 4,
++      "backtrack_count": 0,
++      "comprehension_score": 2,
++      "source_verified": true,
++      "unsupported_assertions": 0,
++      "submitted_page": "pages/retrieve 与 _tokens 的协作实现.md",
++      "submitted_source_path": "scripts/ckb_core/agent_index.py",
++      "submitted_start_line": 1,
++      "submitted_end_line": 555
++    },
++    {
++      "task_id": "P5A",
++      "success": true,
++      "elapsed_seconds": 90.0,
++      "first_correct_entry_seconds": 35.0,
++      "navigation_count": 4,
++      "backtrack_count": 0,
++      "comprehension_score": 2,
++      "source_verified": true,
++      "unsupported_assertions": 0,
++      "submitted_page": "pages/audit_obsidian 与 prepare_vault 的协作实现.md",
++      "submitted_source_path": "scripts/ckb_core/obsidian.py",
++      "submitted_start_line": 1,
++      "submitted_end_line": 166
++    }
++  ],
++  "stop_reason": null
++}
+diff --git a/references/design/obsidian-canvas-agent-visualization/fixtures/benchmark/benchmark-summary.json b/references/design/obsidian-canvas-agent-visualization/fixtures/benchmark/benchmark-summary.json
+new file mode 100644
+index 0000000..5918ea6
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/fixtures/benchmark/benchmark-summary.json
+@@ -0,0 +1,108 @@
++{
++  "schema_version": 1,
++  "status": "passed",
++  "run_id": "ckb-canvas-markdown-v1",
++  "sessions_by_sequence": {
++    "sequence-1": 2,
++    "sequence-2": 2
++  },
++  "metrics": {
++    "discoverability_success_rate": {
++      "markdown": 0.9166666667,
++      "canvas": 1.0,
++      "delta": 0.0833333333
++    },
++    "median_first_correct_entry_seconds": {
++      "markdown": 40.0,
++      "canvas": 32.0,
++      "delta": -8.0
++    },
++    "median_navigation_count": {
++      "markdown": 5.0,
++      "canvas": 4.0,
++      "delta": -1.0
++    },
++    "mean_comprehension_percent": {
++      "markdown": 95.0,
++      "canvas": 95.0,
++      "delta": 0.0
++    },
++    "source_verification_rate": {
++      "markdown": 1.0,
++      "canvas": 1.0,
++      "delta": 0.0
++    },
++    "unsupported_assertions": {
++      "markdown": 0.0,
++      "canvas": 0.0,
++      "delta": 0.0
++    }
++  },
++  "structure": {
++    "node_count": 4,
++    "edge_count": 3,
++    "dangling_edges": 0,
++    "missing_backlinks": 0,
++    "machine_fields_exposed": 0,
++    "overlap_count": 0
++  },
++  "rollback_probes_passed": 3,
++  "deterministic_hashes": [
++    "3a444a1ef1f9d6c24189c67f775ffd98e40b8a68dafe134b1a11d5dfb5b29c70",
++    "3a444a1ef1f9d6c24189c67f775ffd98e40b8a68dafe134b1a11d5dfb5b29c70",
++    "3a444a1ef1f9d6c24189c67f775ffd98e40b8a68dafe134b1a11d5dfb5b29c70",
++    "3a444a1ef1f9d6c24189c67f775ffd98e40b8a68dafe134b1a11d5dfb5b29c70",
++    "3a444a1ef1f9d6c24189c67f775ffd98e40b8a68dafe134b1a11d5dfb5b29c70",
++    "3a444a1ef1f9d6c24189c67f775ffd98e40b8a68dafe134b1a11d5dfb5b29c70",
++    "3a444a1ef1f9d6c24189c67f775ffd98e40b8a68dafe134b1a11d5dfb5b29c70",
++    "3a444a1ef1f9d6c24189c67f775ffd98e40b8a68dafe134b1a11d5dfb5b29c70",
++    "3a444a1ef1f9d6c24189c67f775ffd98e40b8a68dafe134b1a11d5dfb5b29c70",
++    "3a444a1ef1f9d6c24189c67f775ffd98e40b8a68dafe134b1a11d5dfb5b29c70"
++  ],
++  "gates": [
++    {
++      "gate": "structure",
++      "status": "passed",
++      "evidence": "示例汇总值满足冻结阈值；真实 benchmark 必须替换本示例。"
++    },
++    {
++      "gate": "source",
++      "status": "passed",
++      "evidence": "示例汇总值满足冻结阈值；真实 benchmark 必须替换本示例。"
++    },
++    {
++      "gate": "task",
++      "status": "passed",
++      "evidence": "示例汇总值满足冻结阈值；真实 benchmark 必须替换本示例。"
++    },
++    {
++      "gate": "comprehension",
++      "status": "passed",
++      "evidence": "示例汇总值满足冻结阈值；真实 benchmark 必须替换本示例。"
++    },
++    {
++      "gate": "efficiency",
++      "status": "passed",
++      "evidence": "示例汇总值满足冻结阈值；真实 benchmark 必须替换本示例。"
++    },
++    {
++      "gate": "rollback",
++      "status": "passed",
++      "evidence": "示例汇总值满足冻结阈值；真实 benchmark 必须替换本示例。"
++    },
++    {
++      "gate": "stability",
++      "status": "passed",
++      "evidence": "示例汇总值满足冻结阈值；真实 benchmark 必须替换本示例。"
++    }
++  ],
++  "decision": "advance-to-product-decision",
++  "valid_independent_sessions": 4,
++  "valid_condition_blocks": 8,
++  "blocks_by_assignment": {
++    "sequence-1/markdown": 2,
++    "sequence-1/canvas": 2,
++    "sequence-2/markdown": 2,
++    "sequence-2/canvas": 2
++  }
++}
+diff --git a/references/design/obsidian-canvas-agent-visualization/fixtures/failure-catalog.json b/references/design/obsidian-canvas-agent-visualization/fixtures/failure-catalog.json
+new file mode 100644
+index 0000000..fa04efe
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/fixtures/failure-catalog.json
+@@ -0,0 +1,142 @@
++{
++  "schema_version": 1,
++  "status": "frozen",
++  "failures": [
++    {
++      "reason": "invalid_request",
++      "trigger": "request 出现未知字段",
++      "exit_code": 2,
++      "target_state": "baseline-unchanged",
++      "recovery": "correct-request",
++      "fixture": "failure-results/invalid_request.json"
++    },
++    {
++      "reason": "unsupported_record_schema",
++      "trigger": "record schema_version 为 1，不是 machine record 3",
++      "exit_code": 2,
++      "target_state": "baseline-unchanged",
++      "recovery": "regenerate-request",
++      "fixture": "failure-results/unsupported_record_schema.json"
++    },
++    {
++      "reason": "pack_record_mismatch",
++      "trigger": "record.pack 与请求 pack 路径不同",
++      "exit_code": 2,
++      "target_state": "baseline-unchanged",
++      "recovery": "use-matching-pack-record",
++      "fixture": "failure-results/pack_record_mismatch.json"
++    },
++    {
++      "reason": "input_drift",
++      "trigger": "promotion 前 pack SHA-256 改变",
++      "exit_code": 2,
++      "target_state": "baseline-unchanged",
++      "recovery": "restore-input",
++      "fixture": "failure-results/input_drift.json"
++    },
++    {
++      "reason": "snapshot_mismatch",
++      "trigger": "state 与 SQLite repository commit 不同",
++      "exit_code": 2,
++      "target_state": "baseline-unchanged",
++      "recovery": "use-fixed-snapshot",
++      "fixture": "failure-results/snapshot_mismatch.json"
++    },
++    {
++      "reason": "source_outside_scope",
++      "trigger": "目标父目录经 symlink 解析后越过 staging 根",
++      "exit_code": 2,
++      "target_state": "baseline-unchanged",
++      "recovery": "move-into-scope",
++      "fixture": "failure-results/source_outside_scope.json"
++    },
++    {
++      "reason": "target_exists",
++      "trigger": "replace=false 且目标已存在",
++      "exit_code": 2,
++      "target_state": "baseline-unchanged",
++      "recovery": "choose-new-target-or-pin-baseline",
++      "fixture": "failure-results/target_exists.json"
++    },
++    {
++      "reason": "missing_backlink",
++      "trigger": "required entity 没有人类页或精确来源",
++      "exit_code": 2,
++      "target_state": "baseline-unchanged",
++      "recovery": "supply-reviewed-backlink",
++      "fixture": "failure-results/missing_backlink.json"
++    },
++    {
++      "reason": "missing_target",
++      "trigger": "固定人类页不存在",
++      "exit_code": 2,
++      "target_state": "baseline-unchanged",
++      "recovery": "restore-target",
++      "fixture": "failure-results/missing_target.json"
++    },
++    {
++      "reason": "invalid_source_range",
++      "trigger": "end_line 超出固定源码行数",
++      "exit_code": 2,
++      "target_state": "baseline-unchanged",
++      "recovery": "correct-source-range",
++      "fixture": "failure-results/invalid_source_range.json"
++    },
++    {
++      "reason": "budget_exceeded",
++      "trigger": "required page 节点超过 6",
++      "exit_code": 5,
++      "target_state": "baseline-unchanged",
++      "recovery": "reduce-required-set",
++      "fixture": "failure-results/budget_exceeded.json"
++    },
++    {
++      "reason": "duplicate_id",
++      "trigger": "两个 canonical target 产生相同稳定 ID",
++      "exit_code": 5,
++      "target_state": "baseline-unchanged",
++      "recovery": "fix-generator",
++      "fixture": "failure-results/duplicate_id.json"
++    },
++    {
++      "reason": "dangling_edge",
++      "trigger": "边的 toNode 不在节点数组",
++      "exit_code": 5,
++      "target_state": "baseline-unchanged",
++      "recovery": "fix-generator",
++      "fixture": "failure-results/dangling_edge.json"
++    },
++    {
++      "reason": "invalid_canvas",
++      "trigger": "重开 Canvas 出现 JSON Canvas schema 错误",
++      "exit_code": 5,
++      "target_state": "baseline-unchanged",
++      "recovery": "fix-generator",
++      "fixture": "failure-results/invalid_canvas.json"
++    },
++    {
++      "reason": "promotion_drift",
++      "trigger": "baseline 后目标被并发替换",
++      "exit_code": 6,
++      "target_state": "external-current-preserved",
++      "recovery": "rebaseline-after-review",
++      "fixture": "failure-results/promotion_drift.json"
++    },
++    {
++      "reason": "rollback_drift",
++      "trigger": "当前 Canvas 不等于 generated hash",
++      "exit_code": 6,
++      "target_state": "external-current-preserved",
++      "recovery": "manual-review-current-bytes",
++      "fixture": "failure-results/rollback_drift.json"
++    },
++    {
++      "reason": "io_failure",
++      "trigger": "临时文件 fsync 返回 I/O 错误",
++      "exit_code": 7,
++      "target_state": "baseline-unchanged",
++      "recovery": "retry-io",
++      "fixture": "failure-results/io_failure.json"
++    }
++  ]
++}
+diff --git a/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/budget_exceeded.json b/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/budget_exceeded.json
+new file mode 100644
+index 0000000..5b48baf
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/budget_exceeded.json
+@@ -0,0 +1,25 @@
++{
++  "schema_version": 1,
++  "status": "failed",
++  "operation": "generate",
++  "reason": "budget_exceeded",
++  "phase": "select",
++  "exit_code": 5,
++  "detail": "required page 节点超过 6",
++  "target_state": {
++    "path": "C:\\fixture\\交付\\暂存\\ckb-navigation.canvas",
++    "before": {
++      "state": "absent"
++    },
++    "after": {
++      "state": "absent"
++    },
++    "changed": false
++  },
++  "recovery": {
++    "action": "reduce-required-set",
++    "required_inputs": [
++      "required_entries within budget"
++    ]
++  }
++}
+diff --git a/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/dangling_edge.json b/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/dangling_edge.json
+new file mode 100644
+index 0000000..c7154fd
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/dangling_edge.json
+@@ -0,0 +1,25 @@
++{
++  "schema_version": 1,
++  "status": "failed",
++  "operation": "generate",
++  "reason": "dangling_edge",
++  "phase": "validate",
++  "exit_code": 5,
++  "detail": "边的 toNode 不在节点数组",
++  "target_state": {
++    "path": "C:\\fixture\\交付\\暂存\\ckb-navigation.canvas",
++    "before": {
++      "state": "absent"
++    },
++    "after": {
++      "state": "absent"
++    },
++    "changed": false
++  },
++  "recovery": {
++    "action": "fix-generator",
++    "required_inputs": [
++      "closed node and edge set"
++    ]
++  }
++}
+diff --git a/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/duplicate_id.json b/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/duplicate_id.json
+new file mode 100644
+index 0000000..a4c2a7f
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/duplicate_id.json
+@@ -0,0 +1,25 @@
++{
++  "schema_version": 1,
++  "status": "failed",
++  "operation": "generate",
++  "reason": "duplicate_id",
++  "phase": "validate",
++  "exit_code": 5,
++  "detail": "两个 canonical target 产生相同稳定 ID",
++  "target_state": {
++    "path": "C:\\fixture\\交付\\暂存\\ckb-navigation.canvas",
++    "before": {
++      "state": "absent"
++    },
++    "after": {
++      "state": "absent"
++    },
++    "changed": false
++  },
++  "recovery": {
++    "action": "fix-generator",
++    "required_inputs": [
++      "collision diagnosis"
++    ]
++  }
++}
+diff --git a/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/input_drift.json b/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/input_drift.json
+new file mode 100644
+index 0000000..7f3895d
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/input_drift.json
+@@ -0,0 +1,25 @@
++{
++  "schema_version": 1,
++  "status": "failed",
++  "operation": "generate",
++  "reason": "input_drift",
++  "phase": "promotion",
++  "exit_code": 2,
++  "detail": "promotion 前 pack SHA-256 改变",
++  "target_state": {
++    "path": "C:\\fixture\\交付\\暂存\\ckb-navigation.canvas",
++    "before": {
++      "state": "absent"
++    },
++    "after": {
++      "state": "absent"
++    },
++    "changed": false
++  },
++  "recovery": {
++    "action": "restore-input",
++    "required_inputs": [
++      "refrozen request hashes"
++    ]
++  }
++}
+diff --git a/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/invalid_canvas.json b/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/invalid_canvas.json
+new file mode 100644
+index 0000000..d0da498
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/invalid_canvas.json
+@@ -0,0 +1,25 @@
++{
++  "schema_version": 1,
++  "status": "failed",
++  "operation": "generate",
++  "reason": "invalid_canvas",
++  "phase": "reopen",
++  "exit_code": 5,
++  "detail": "重开 Canvas 出现 JSON Canvas schema 错误",
++  "target_state": {
++    "path": "C:\\fixture\\交付\\暂存\\ckb-navigation.canvas",
++    "before": {
++      "state": "absent"
++    },
++    "after": {
++      "state": "absent"
++    },
++    "changed": false
++  },
++  "recovery": {
++    "action": "fix-generator",
++    "required_inputs": [
++      "valid canonical Canvas bytes"
++    ]
++  }
++}
+diff --git a/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/invalid_request.json b/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/invalid_request.json
+new file mode 100644
+index 0000000..f772540
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/invalid_request.json
+@@ -0,0 +1,25 @@
++{
++  "schema_version": 1,
++  "status": "failed",
++  "operation": "generate",
++  "reason": "invalid_request",
++  "phase": "request",
++  "exit_code": 2,
++  "detail": "request 出现未知字段",
++  "target_state": {
++    "path": "C:\\fixture\\交付\\暂存\\ckb-navigation.canvas",
++    "before": {
++      "state": "absent"
++    },
++    "after": {
++      "state": "absent"
++    },
++    "changed": false
++  },
++  "recovery": {
++    "action": "correct-request",
++    "required_inputs": [
++      "canvas-request.json"
++    ]
++  }
++}
+diff --git a/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/invalid_source_range.json b/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/invalid_source_range.json
+new file mode 100644
+index 0000000..47b1c17
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/invalid_source_range.json
+@@ -0,0 +1,25 @@
++{
++  "schema_version": 1,
++  "status": "failed",
++  "operation": "generate",
++  "reason": "invalid_source_range",
++  "phase": "validate",
++  "exit_code": 2,
++  "detail": "end_line 超出固定源码行数",
++  "target_state": {
++    "path": "C:\\fixture\\交付\\暂存\\ckb-navigation.canvas",
++    "before": {
++      "state": "absent"
++    },
++    "after": {
++      "state": "absent"
++    },
++    "changed": false
++  },
++  "recovery": {
++    "action": "correct-source-range",
++    "required_inputs": [
++      "valid record source range"
++    ]
++  }
++}
+diff --git a/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/io_failure.json b/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/io_failure.json
+new file mode 100644
+index 0000000..3fd461f
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/io_failure.json
+@@ -0,0 +1,25 @@
++{
++  "schema_version": 1,
++  "status": "failed",
++  "operation": "generate",
++  "reason": "io_failure",
++  "phase": "staging",
++  "exit_code": 7,
++  "detail": "临时文件 fsync 返回 I/O 错误",
++  "target_state": {
++    "path": "C:\\fixture\\交付\\暂存\\ckb-navigation.canvas",
++    "before": {
++      "state": "absent"
++    },
++    "after": {
++      "state": "absent"
++    },
++    "changed": false
++  },
++  "recovery": {
++    "action": "retry-io",
++    "required_inputs": [
++      "writable same-volume staging root"
++    ]
++  }
++}
+diff --git a/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/missing_backlink.json b/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/missing_backlink.json
+new file mode 100644
+index 0000000..82c2c5e
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/missing_backlink.json
+@@ -0,0 +1,25 @@
++{
++  "schema_version": 1,
++  "status": "failed",
++  "operation": "generate",
++  "reason": "missing_backlink",
++  "phase": "select",
++  "exit_code": 2,
++  "detail": "required entity 没有人类页或精确来源",
++  "target_state": {
++    "path": "C:\\fixture\\交付\\暂存\\ckb-navigation.canvas",
++    "before": {
++      "state": "absent"
++    },
++    "after": {
++      "state": "absent"
++    },
++    "changed": false
++  },
++  "recovery": {
++    "action": "supply-reviewed-backlink",
++    "required_inputs": [
++      "reviewed human page or source range"
++    ]
++  }
++}
+diff --git a/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/missing_target.json b/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/missing_target.json
+new file mode 100644
+index 0000000..627e316
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/missing_target.json
+@@ -0,0 +1,25 @@
++{
++  "schema_version": 1,
++  "status": "failed",
++  "operation": "generate",
++  "reason": "missing_target",
++  "phase": "freeze",
++  "exit_code": 2,
++  "detail": "固定人类页不存在",
++  "target_state": {
++    "path": "C:\\fixture\\交付\\暂存\\ckb-navigation.canvas",
++    "before": {
++      "state": "absent"
++    },
++    "after": {
++      "state": "absent"
++    },
++    "changed": false
++  },
++  "recovery": {
++    "action": "restore-target",
++    "required_inputs": [
++      "frozen evidence file"
++    ]
++  }
++}
+diff --git a/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/pack_record_mismatch.json b/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/pack_record_mismatch.json
+new file mode 100644
+index 0000000..2944386
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/pack_record_mismatch.json
+@@ -0,0 +1,25 @@
++{
++  "schema_version": 1,
++  "status": "failed",
++  "operation": "generate",
++  "reason": "pack_record_mismatch",
++  "phase": "freeze",
++  "exit_code": 2,
++  "detail": "record.pack 与请求 pack 路径不同",
++  "target_state": {
++    "path": "C:\\fixture\\交付\\暂存\\ckb-navigation.canvas",
++    "before": {
++      "state": "absent"
++    },
++    "after": {
++      "state": "absent"
++    },
++    "changed": false
++  },
++  "recovery": {
++    "action": "use-matching-pack-record",
++    "required_inputs": [
++      "same-stem pack and record"
++    ]
++  }
++}
+diff --git a/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/promotion_drift.json b/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/promotion_drift.json
+new file mode 100644
+index 0000000..01ae372
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/promotion_drift.json
+@@ -0,0 +1,27 @@
++{
++  "schema_version": 1,
++  "status": "failed",
++  "operation": "generate",
++  "reason": "promotion_drift",
++  "phase": "promotion",
++  "exit_code": 6,
++  "detail": "baseline 后目标被并发替换",
++  "target_state": {
++    "path": "C:\\fixture\\交付\\暂存\\ckb-navigation.canvas",
++    "before": {
++      "state": "present",
++      "sha256": "8ba8496a2525ae171ffd104d632dede6ef418d9b95962a9d88e2fcdbc8d48d24"
++    },
++    "after": {
++      "state": "present",
++      "sha256": "8e5a36dcce6039335e60d8f5f1a2344654eecff058efaa680cdc3adadd05e946"
++    },
++    "changed": true
++  },
++  "recovery": {
++    "action": "rebaseline-after-review",
++    "required_inputs": [
++      "reviewed current target hash"
++    ]
++  }
++}
+diff --git a/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/rollback_drift.json b/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/rollback_drift.json
+new file mode 100644
+index 0000000..e715c66
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/rollback_drift.json
+@@ -0,0 +1,27 @@
++{
++  "schema_version": 1,
++  "status": "failed",
++  "operation": "rollback",
++  "reason": "rollback_drift",
++  "phase": "rollback",
++  "exit_code": 6,
++  "detail": "当前 Canvas 不等于 generated hash",
++  "target_state": {
++    "path": "C:\\fixture\\交付\\暂存\\ckb-navigation.canvas",
++    "before": {
++      "state": "present",
++      "sha256": "8ba8496a2525ae171ffd104d632dede6ef418d9b95962a9d88e2fcdbc8d48d24"
++    },
++    "after": {
++      "state": "present",
++      "sha256": "8e5a36dcce6039335e60d8f5f1a2344654eecff058efaa680cdc3adadd05e946"
++    },
++    "changed": true
++  },
++  "recovery": {
++    "action": "manual-review-current-bytes",
++    "required_inputs": [
++      "current bytes and rollback manifest"
++    ]
++  }
++}
+diff --git a/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/snapshot_mismatch.json b/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/snapshot_mismatch.json
+new file mode 100644
+index 0000000..c1b9e9f
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/snapshot_mismatch.json
+@@ -0,0 +1,25 @@
++{
++  "schema_version": 1,
++  "status": "failed",
++  "operation": "generate",
++  "reason": "snapshot_mismatch",
++  "phase": "freeze",
++  "exit_code": 2,
++  "detail": "state 与 SQLite repository commit 不同",
++  "target_state": {
++    "path": "C:\\fixture\\交付\\暂存\\ckb-navigation.canvas",
++    "before": {
++      "state": "absent"
++    },
++    "after": {
++      "state": "absent"
++    },
++    "changed": false
++  },
++  "recovery": {
++    "action": "use-fixed-snapshot",
++    "required_inputs": [
++      "matching state and machine index"
++    ]
++  }
++}
+diff --git a/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/source_outside_scope.json b/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/source_outside_scope.json
+new file mode 100644
+index 0000000..548c61d
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/source_outside_scope.json
+@@ -0,0 +1,25 @@
++{
++  "schema_version": 1,
++  "status": "failed",
++  "operation": "generate",
++  "reason": "source_outside_scope",
++  "phase": "request",
++  "exit_code": 2,
++  "detail": "目标父目录经 symlink 解析后越过 staging 根",
++  "target_state": {
++    "path": "C:\\fixture\\交付\\暂存\\ckb-navigation.canvas",
++    "before": {
++      "state": "absent"
++    },
++    "after": {
++      "state": "absent"
++    },
++    "changed": false
++  },
++  "recovery": {
++    "action": "move-into-scope",
++    "required_inputs": [
++      "authorized staging path"
++    ]
++  }
++}
+diff --git a/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/target_exists.json b/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/target_exists.json
+new file mode 100644
+index 0000000..b43c8ec
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/target_exists.json
+@@ -0,0 +1,25 @@
++{
++  "schema_version": 1,
++  "status": "failed",
++  "operation": "generate",
++  "reason": "target_exists",
++  "phase": "baseline",
++  "exit_code": 2,
++  "detail": "replace=false 且目标已存在",
++  "target_state": {
++    "path": "C:\\fixture\\交付\\暂存\\ckb-navigation.canvas",
++    "before": {
++      "state": "absent"
++    },
++    "after": {
++      "state": "absent"
++    },
++    "changed": false
++  },
++  "recovery": {
++    "action": "choose-new-target-or-pin-baseline",
++    "required_inputs": [
++      "new target or complete baseline"
++    ]
++  }
++}
+diff --git a/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/unsupported_record_schema.json b/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/unsupported_record_schema.json
+new file mode 100644
+index 0000000..e87adc0
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/fixtures/failure-results/unsupported_record_schema.json
+@@ -0,0 +1,25 @@
++{
++  "schema_version": 1,
++  "status": "failed",
++  "operation": "generate",
++  "reason": "unsupported_record_schema",
++  "phase": "freeze",
++  "exit_code": 2,
++  "detail": "record schema_version 为 1，不是 machine record 3",
++  "target_state": {
++    "path": "C:\\fixture\\交付\\暂存\\ckb-navigation.canvas",
++    "before": {
++      "state": "absent"
++    },
++    "after": {
++      "state": "absent"
++    },
++    "changed": false
++  },
++  "recovery": {
++    "action": "regenerate-request",
++    "required_inputs": [
++      "machine record schema 3"
++    ]
++  }
++}
+diff --git a/references/design/obsidian-canvas-agent-visualization/fixtures/fixture-catalog.json b/references/design/obsidian-canvas-agent-visualization/fixtures/fixture-catalog.json
+new file mode 100644
+index 0000000..f8e6cc2
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/fixtures/fixture-catalog.json
+@@ -0,0 +1,79 @@
++{
++  "schema_version": 1,
++  "status": "frozen",
++  "runtime_root": "%TEMP%\\ckb-canvas-fixtures\\CASE_ID",
++  "cases": [
++    {
++      "case_id": "success-absent-chinese-path",
++      "category": "success",
++      "setup": "create frozen output and staging under 中文目录; target absent",
++      "expected": "passed exit 0; three roles reopen"
++    },
++    {
++      "case_id": "success-replace",
++      "category": "success",
++      "setup": "create target and both sidecars with pinned hashes; empty backup root",
++      "expected": "passed exit 0; rollback restores all three bytes"
++    },
++    {
++      "case_id": "windows-long-path",
++      "category": "path",
++      "setup": "create a resolved target path of 250-259 characters and enable Windows long paths",
++      "expected": "passed or io_failure with target unchanged; never truncate path"
++    },
++    {
++      "case_id": "symlink-inside",
++      "category": "path",
++      "setup": "target parent symlink resolves inside authorized staging root",
++      "expected": "passed"
++    },
++    {
++      "case_id": "symlink-outside",
++      "category": "path",
++      "setup": "target parent symlink or junction resolves outside authorized staging root",
++      "expected": "source_outside_scope exit 2"
++    },
++    {
++      "case_id": "corrupt-request-json",
++      "category": "json",
++      "setup": "truncate canvas-request.json after an object key",
++      "expected": "invalid_request exit 2"
++    },
++    {
++      "case_id": "corrupt-record-json",
++      "category": "json",
++      "setup": "truncate full record while keeping request hash synchronized to corrupt bytes",
++      "expected": "unsupported_record_schema exit 2"
++    },
++    {
++      "case_id": "dangling-edge-injection",
++      "category": "canvas",
++      "setup": "test hook replaces one toNode before in-memory validation",
++      "expected": "dangling_edge exit 5"
++    },
++    {
++      "case_id": "concurrent-target-change",
++      "category": "concurrency",
++      "setup": "replace target after BASELINED and before PROMOTION_READY",
++      "expected": "promotion_drift exit 6; concurrent bytes preserved"
++    },
++    {
++      "case_id": "rollback-absent",
++      "category": "rollback",
++      "setup": "absent -> generated -> rollback",
++      "expected": "target and sidecars absent; 3/3 state verified"
++    },
++    {
++      "case_id": "rollback-present",
++      "category": "rollback",
++      "setup": "baseline bytes -> generated -> rollback",
++      "expected": "all present roles byte-identical to baseline"
++    },
++    {
++      "case_id": "rollback-drift",
++      "category": "rollback",
++      "setup": "change generated Canvas by one byte before rollback",
++      "expected": "rollback_drift exit 6; manual byte preserved"
++    }
++  ]
++}
+diff --git a/references/design/obsidian-canvas-agent-visualization/fixtures/success/canvas-request.json b/references/design/obsidian-canvas-agent-visualization/fixtures/success/canvas-request.json
+new file mode 100644
+index 0000000..9dee9d1
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/fixtures/success/canvas-request.json
+@@ -0,0 +1 @@
++{"budget":{"max_edges":16,"max_groups":0,"max_nodes":12,"max_page_nodes":6,"max_record_nodes":2,"max_source_nodes":3,"max_text_nodes":1},"ckb":{"agent_pack_path":"C:\\fixture\\CKB 输出\\machine\\agent-packs\\pack-0001.md","agent_pack_sha256":"4862f447f2c7f272fa2f4aaf89dadb3b1ac09105bd5864f8d1a0c9452bb0a226","frozen_evidence":{"human_files":[{"relative_path":"INDEX.md","sha256":"1bc04b5291c26a46d918139138b992d2de976d6851d0893b0476b85bfbdfc6e6"},{"relative_path":"pages/audit_obsidian 与 prepare_vault 的协作实现.md","sha256":"3660315a9af3df255d8f19ab077e4797822b41488a0e2a04bc6af71213c23274"},{"relative_path":"sessions/人类可读性样例确认与第一开发波次派发.md","sha256":"2dd8605db2cc79dbe8af4d0fb5d3c53045d83dfe35aec592ee9b0cd0ffbbe506"}],"source_files":[{"relative_path":"scripts/ckb_core/obsidian.py","sha256":"41cf6794ba4200b839c53531555f0f3998df4cbb01a4d5cb0b94e3ca5e23947d"}]},"human_manifest_path":"C:\\fixture\\CKB 输出\\human\\manifest.json","human_manifest_sha256":"05b3abf2579a5eb66403cd78be557fd860633a1fe2103c7642030defe32c657f","human_projection_path":"C:\\fixture\\CKB 输出\\human\\projection.json","human_projection_sha256":"1b250ea199bec73d392caad39d1167d6edc43c81f20edead86eea52c52b94fc1","human_root":"C:\\fixture\\CKB 输出\\human","local_openers_path":"C:\\fixture\\CKB 输出\\local-openers.json","local_openers_sha256":"2623e98faab7052f6652904fceff92c4bbcb9857c96f93a493fcc9d9a76a4f62","machine_index_path":"C:\\fixture\\CKB 输出\\machine\\knowledge.sqlite","machine_index_sha256":"7bdc25d1694ef984782a16f6f1710c1c6bc83ba7a131b515baf532bea021d011","output_root":"C:\\fixture\\CKB 输出","record_path":"C:\\fixture\\CKB 输出\\machine\\agent-packs\\pack-0001.json","record_schema_version":3,"record_sha256":"70ce871f8a3d3fb449bc3c3ace6547cef02dfc74ffe48d912532a724bfdbe5b9","snapshot_commit":"150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3","snapshot_tree":"7976883a0f6ff177deb649eaef6e8d2e7af2fda8","state_path":"C:\\fixture\\CKB 输出\\state.json","state_sha256":"4ba69735ca53765ed6a709edb56c6ea236b7193a3b29a6b390c346f0f4340e4e"},"mode":"agent-pack-navigation","request":{"authorized_staging_root":"C:\\fixture\\交付\\暂存","backup_root":"C:\\fixture\\交付\\暂存\\.ckb-canvas-backups\\request-0001","baseline":{"canvas":{"state":"absent"},"rollback_manifest":{"state":"absent"},"validation_manifest":{"state":"absent"}},"replace":false,"required_entries":[{"kind":"selected_entity","ordinal":0,"require":"page-and-source"},{"kind":"related_document","ordinal":0,"require":"record"}],"source_link_mode":"verified-editor-uri","target_canvas_path":"C:\\fixture\\交付\\暂存\\ckb-navigation.canvas","title":"CKB Canvas 导航"},"schema_version":1}
+diff --git a/references/design/obsidian-canvas-agent-visualization/fixtures/success/canvas-success.json b/references/design/obsidian-canvas-agent-visualization/fixtures/success/canvas-success.json
+new file mode 100644
+index 0000000..aba91fe
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/fixtures/success/canvas-success.json
+@@ -0,0 +1 @@
++{"backlinks_checked":4,"canvas":{"byte_length":1167,"path":"C:\\fixture\\交付\\暂存\\ckb-navigation.canvas","sha256":"3a444a1ef1f9d6c24189c67f775ffd98e40b8a68dafe134b1a11d5dfb5b29c70"},"dangling_edges":0,"edge_count":3,"exit_code":0,"machine_fields_exposed":0,"node_count":4,"operation":"generate","request_sha256":"7c30552fc5d50eb96d14b779aa48dd2605cf089a578cc6142743bf1c063ff7d0","role_counts":{"page":1,"record":1,"source":1,"text":1},"rollback_manifest":{"byte_length":1305,"path":"C:\\fixture\\交付\\暂存\\ckb-navigation.canvas.rollback.json","sha256":"4789297ced92e0daa03e1fc89177b039e6ccbb9a1c37ec2d7c77265ea3b33585"},"schema_version":1,"status":"passed","target_state":{"after":{"sha256":"3a444a1ef1f9d6c24189c67f775ffd98e40b8a68dafe134b1a11d5dfb5b29c70","state":"present"},"before":{"state":"absent"},"changed":true,"path":"C:\\fixture\\交付\\暂存\\ckb-navigation.canvas"},"validation_manifest":{"byte_length":2661,"path":"C:\\fixture\\交付\\暂存\\ckb-navigation.canvas.validation.json","sha256":"e25154ac484cb0a772d6240baa2acc58cf9cd3676f4eddd22e6f32575492cc2f"}}
+diff --git a/references/design/obsidian-canvas-agent-visualization/fixtures/success/ckb-navigation.canvas b/references/design/obsidian-canvas-agent-visualization/fixtures/success/ckb-navigation.canvas
+new file mode 100644
+index 0000000..6ef4e28
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/fixtures/success/ckb-navigation.canvas
+@@ -0,0 +1 @@
++{"edges":[{"fromEnd":"none","fromNode":"c1712f2f40efadb2","fromSide":"right","id":"7333ace36825f8b8","label":"检索命中","toEnd":"arrow","toNode":"0662a47f05d0975b","toSide":"left"},{"fromEnd":"none","fromNode":"c1712f2f40efadb2","fromSide":"right","id":"bd4adaf38017c134","label":"相关记录","toEnd":"arrow","toNode":"b1bc8bd68f0dbc87","toSide":"left"},{"fromEnd":"none","fromNode":"0662a47f05d0975b","fromSide":"right","id":"77d89a3a9472b8a1","label":"来源核对","toEnd":"arrow","toNode":"6bd33fbea05b6a05","toSide":"left"}],"nodes":[{"height":180,"id":"c1712f2f40efadb2","text":"# CKB Canvas 导航\n\n[[INDEX]]","type":"text","width":360,"x":0,"y":0},{"file":"pages/audit_obsidian 与 prepare_vault 的协作实现.md","height":220,"id":"0662a47f05d0975b","type":"file","width":360,"x":480,"y":0},{"file":"sessions/人类可读性样例确认与第一开发波次派发.md","height":220,"id":"b1bc8bd68f0dbc87","type":"file","width":360,"x":480,"y":260},{"height":160,"id":"6bd33fbea05b6a05","type":"link","url":"vscode://file/C:/fixture/CKB%20%E8%BE%93%E5%87%BA/.source-snapshot/worktree/scripts/ckb_core/obsidian.py:111:1","width":360,"x":960,"y":0}]}
+diff --git a/references/design/obsidian-canvas-agent-visualization/fixtures/success/ckb-navigation.canvas.rollback.json b/references/design/obsidian-canvas-agent-visualization/fixtures/success/ckb-navigation.canvas.rollback.json
+new file mode 100644
+index 0000000..e2b3a3d
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/fixtures/success/ckb-navigation.canvas.rollback.json
+@@ -0,0 +1 @@
++{"actions":[{"action":"delete","role":"canvas","verify":"absent"},{"action":"delete","role":"validation_manifest","verify":"absent"},{"action":"delete","role":"rollback_manifest","verify":"absent"}],"authorized_staging_root":"C:\\fixture\\交付\\暂存","backup_root":"C:\\fixture\\交付\\暂存\\.ckb-canvas-backups\\request-0001","baseline":{"canvas":{"state":"absent"},"rollback_manifest":{"state":"absent"},"validation_manifest":{"state":"absent"}},"generated":{"canvas":{"path":"C:\\fixture\\交付\\暂存\\ckb-navigation.canvas","sha256":"3a444a1ef1f9d6c24189c67f775ffd98e40b8a68dafe134b1a11d5dfb5b29c70"},"validation_manifest":{"path":"C:\\fixture\\交付\\暂存\\ckb-navigation.canvas.validation.json","sha256":"e25154ac484cb0a772d6240baa2acc58cf9cd3676f4eddd22e6f32575492cc2f"}},"guard":{"expected_canvas_sha256":"3a444a1ef1f9d6c24189c67f775ffd98e40b8a68dafe134b1a11d5dfb5b29c70","expected_manifest_content_sha256":"ad04bc91e65520f15b912762a49dd4c2e5d47796c14c868f90e207802720112f","expected_validation_sha256":"e25154ac484cb0a772d6240baa2acc58cf9cd3676f4eddd22e6f32575492cc2f"},"request_sha256":"7c30552fc5d50eb96d14b779aa48dd2605cf089a578cc6142743bf1c063ff7d0","rollback_manifest_path":"C:\\fixture\\交付\\暂存\\ckb-navigation.canvas.rollback.json","schema_version":1,"status":"ready"}
+diff --git a/references/design/obsidian-canvas-agent-visualization/fixtures/success/ckb-navigation.canvas.validation.json b/references/design/obsidian-canvas-agent-visualization/fixtures/success/ckb-navigation.canvas.validation.json
+new file mode 100644
+index 0000000..f08eb65
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/fixtures/success/ckb-navigation.canvas.validation.json
+@@ -0,0 +1 @@
++{"backlinks":[{"node_id":"c1712f2f40efadb2","record_ref":"request.title","role":"focus","sha256":"1bc04b5291c26a46d918139138b992d2de976d6851d0893b0476b85bfbdfc6e6","status":"passed","target":"INDEX.md"},{"node_id":"0662a47f05d0975b","record_ref":"selected_entities[0]","role":"page","sha256":"3660315a9af3df255d8f19ab077e4797822b41488a0e2a04bc6af71213c23274","status":"passed","target":"pages/audit_obsidian 与 prepare_vault 的协作实现.md"},{"node_id":"b1bc8bd68f0dbc87","record_ref":"related_documents[0]","role":"record","sha256":"2dd8605db2cc79dbe8af4d0fb5d3c53045d83dfe35aec592ee9b0cd0ffbbe506","status":"passed","target":"sessions/人类可读性样例确认与第一开发波次派发.md"},{"node_id":"6bd33fbea05b6a05","record_ref":"selected_entities[0].source_path:111-115","role":"source","sha256":"41cf6794ba4200b839c53531555f0f3998df4cbb01a4d5cb0b94e3ca5e23947d","status":"passed","target":"vscode://file/C:/fixture/CKB%20%E8%BE%93%E5%87%BA/.source-snapshot/worktree/scripts/ckb_core/obsidian.py:111:1"}],"canvas":{"byte_length":1167,"path":"C:\\fixture\\交付\\暂存\\ckb-navigation.canvas","sha256":"3a444a1ef1f9d6c24189c67f775ffd98e40b8a68dafe134b1a11d5dfb5b29c70"},"checks":{"backlinks":"passed","budget":"passed","canonical_serialization":"passed","canvas_schema":"passed","dangling_edges":0,"input_hashes":"passed","machine_fields_exposed":0,"path_scope":"passed","record_compatibility":"passed","request_schema":"passed","snapshot_consistency":"passed","source_ranges":"passed","stable_ids":"passed"},"edge_count":3,"inputs":{"agent_pack_path":"C:\\fixture\\CKB 输出\\machine\\agent-packs\\pack-0001.md","agent_pack_sha256":"4862f447f2c7f272fa2f4aaf89dadb3b1ac09105bd5864f8d1a0c9452bb0a226","record_path":"C:\\fixture\\CKB 输出\\machine\\agent-packs\\pack-0001.json","record_schema_version":3,"record_sha256":"70ce871f8a3d3fb449bc3c3ace6547cef02dfc74ffe48d912532a724bfdbe5b9"},"node_count":4,"request_sha256":"7c30552fc5d50eb96d14b779aa48dd2605cf089a578cc6142743bf1c063ff7d0","role_counts":{"page":1,"record":1,"source":1,"text":1},"schema_version":1,"snapshot":{"commit":"150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3","human_manifest_sha256":"05b3abf2579a5eb66403cd78be557fd860633a1fe2103c7642030defe32c657f","human_projection_sha256":"1b250ea199bec73d392caad39d1167d6edc43c81f20edead86eea52c52b94fc1","local_openers_sha256":"2623e98faab7052f6652904fceff92c4bbcb9857c96f93a493fcc9d9a76a4f62","machine_index_sha256":"7bdc25d1694ef984782a16f6f1710c1c6bc83ba7a131b515baf532bea021d011","state_sha256":"4ba69735ca53765ed6a709edb56c6ea236b7193a3b29a6b390c346f0f4340e4e","tree":"7976883a0f6ff177deb649eaef6e8d2e7af2fda8"},"status":"passed"}
+diff --git a/references/design/obsidian-canvas-agent-visualization/prototype-task.md b/references/design/obsidian-canvas-agent-visualization/prototype-task.md
+new file mode 100644
+index 0000000..c51d764
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/prototype-task.md
+@@ -0,0 +1,217 @@
++# 原型任务交接：独立 CKB Canvas Skill
++
++本文件是可直接派发给独立 prototype worktree 的完整任务合同。派发管理 Agent 必须把本设计分支最终 HEAD 作为精确 baseline 传入，不以 integration branch 的移动 HEAD 代替。
++
++## 1. 目标
++
++实现一个不接线主 CLI、companion 或 MCP 的独立实验 Skill：从 schema 1 `canvas-request.json` 生成确定性 JSON Canvas 1.0、validation manifest 和 rollback manifest，执行严格 staging/promotion/replace/rollback，并提供冻结 Markdown 对照 runner。
++
++原型只证明合同可实现和对照可执行。它不决定产品 Canvas 路径归属，不写活动稳定知识库，不部署 Obsidian 插件，不发布 lite/full，不推送远端。
++
++## 2. 分支与 worktree 输入
++
++```text
++source branch: codex/obsidian-canvas-visualization-design
++source baseline: 管理 Agent 交接中给出的最终 40 位 HEAD
++prototype branch: codex/obsidian-canvas-visualization-prototype
++prototype worktree: E:\knowledge_builder\self-workspace\worktrees\obsidian-canvas-visualization-prototype
++integration branch: codex/reference-ingest-v1
++```
++
++Git 统一使用：
++
++```powershell
++& 'C:\Program Files\Git\cmd\git.exe' -C 'E:\knowledge_builder\self-workspace\worktrees\obsidian-canvas-visualization-prototype' ...
++```
++
++## 3. 规范输入
++
++实现前逐项读取，不重新设计：
++
++```text
++references/design/obsidian-canvas-agent-visualization/technical-design.md
++references/design/obsidian-canvas-agent-visualization/contracts-and-fixtures.md
++references/design/obsidian-canvas-agent-visualization/benchmark-contract.md
++references/design/obsidian-canvas-agent-visualization/schemas/*.json
++references/design/obsidian-canvas-agent-visualization/fixtures/**
++```
++
++当前真实复用入口只读引用：
++
++```text
++scripts/ckb_core/source_links.py::SourceLinkRenderer
++scripts/ckb_core/source_links.py::audit_source_uri
++scripts/ckb_core/common.py::sha256_file
++```
++
++不要导入或调用 `agent_protocol_batch.py` 的私有写入函数；在原型模块中实现同合同的受控写入，避免把批处理内部 API 变成公共依赖。
++
++## 4. 允许修改路径
++
++```text
++prototypes/ckb-canvas-skill/**
++tests/fixtures/obsidian-canvas-agent-visualization/**
++tests/test_ckb_canvas_contracts.py
++tests/test_ckb_canvas_graph.py
++tests/test_ckb_canvas_transaction.py
++tests/test_ckb_canvas_rollback.py
++tests/test_ckb_canvas_paths.py
++tests/test_ckb_canvas_determinism.py
++tests/test_ckb_canvas_benchmark_contract.py
++tests/benchmark_obsidian_canvas_navigation.py
++references/design/obsidian-canvas-agent-visualization/prototype-verification/**
++```
++
++原型将本设计的九个 schema byte-identical 复制到 `prototypes/ckb-canvas-skill/schemas/`，测试逐文件核对 SHA-256。设计目录只允许新增 `prototype-verification/` 的实际记录，不修改已经冻结的 schema、预算、任务或算法。
++
++## 5. 禁止修改路径
++
++```text
++scripts/ckb.py
++scripts/ckb_core/**
++scripts/package_release.py
++SKILL.md
++agents/**
++assets/**
++plugins/**
++references/research/obsidian-canvas-agent-visualization/**
++references/design/obsidian-canvas-agent-visualization/*.md
++references/design/obsidian-canvas-agent-visualization/schemas/**
++references/design/obsidian-canvas-agent-visualization/fixtures/**
++E:\knowledge_builder\self-workspace\knowledge-base/**
++```
++
++原型不能新增 SQL 查询、glob 扫描、模型关系、网络请求、MCP server、companion command、主 CLI parser 分支或发布包能力字段。
++
++## 6. 必须实现的模块
++
++严格按 [`technical-design.md` 第 3 节](technical-design.md#3-建议新增模块与公开函数)：
++
++```text
++contracts.py: schema 1 显式字段校验、成功/失败结果
++freeze.py: request/path/hash/record/snapshot/evidence 闭合
++graph.py: 选择、稳定 ID、布局、canonical bytes、Canvas 验证
++transaction.py: 三角色 baseline/staging/promotion/reopen/rollback
++commands.py: generate/validate/rollback 编排和 stdout JSON
++benchmark.py: block runner、judge、summary
++scripts/ckb_canvas.py: argparse 薄入口
++SKILL.md: 只编排，不生成图或直接写文件
++```
++
++运行时不得依赖本机未锁定的 `jsonschema`、Node 或 Obsidian API。`contracts.py` 对 schema 1 实现显式确定性校验；测试同时 JSON 解析设计 schema、验证全部正反 fixture，并证明每一层未知字段失败。
++
++## 7. 固定命令合同
++
++```powershell
++& $Python prototypes\ckb-canvas-skill\scripts\ckb_canvas.py validate --request REQUEST.json
++& $Python prototypes\ckb-canvas-skill\scripts\ckb_canvas.py generate --request REQUEST.json
++& $Python prototypes\ckb-canvas-skill\scripts\ckb_canvas.py rollback --manifest TARGET.canvas.rollback.json --expected-sha256 MANIFEST_SHA256
++& $Python prototypes\ckb-canvas-skill\scripts\ckb_canvas.py benchmark --run BENCHMARK-RUN.json --session SESSION_ID
++& $Python prototypes\ckb-canvas-skill\scripts\ckb_canvas.py summarize --run BENCHMARK-RUN.json --sessions SESSION-DIR --write SUMMARY.json
++```
++
++stdout 恰好一个 schema 化 JSON 对象；日志写 stderr。退出状态只用 `0,2,5,6,7`，reason/phase/目标状态与设计一致。不能提供 `--force`、`--skip-validation`、`--allow-outside-root`、`--max-nodes` 或 `--overwrite`。
++
++## 8. Fixture 实例化
++
++在 `tests/fixtures/obsidian-canvas-agent-visualization/` 提交：
++
++```text
++README.md                         # runtime builder 合同
++template/                         # 无绝对临时根的最小 UTF-8 输入
++expected/                         # canonical Canvas/result/manifest 字节
++failure-results/                  # 17 个 byte-identical 设计 failure fixture
++benchmark/                        # runner/session/summary schema fixture
++```
++
++测试运行时在 `%TEMP%\ckb-canvas-fixtures\CASE_ID` 创建最小 `state.json`、SQLite meta、pack/record、人类投影和 detached source。symlink/junction 与 250–259 字符路径只在 runtime 创建，不把不可移植链接提交进 Git。
++
++## 9. Commit 批次
++
++按以下顺序独立提交，不 squash：
++
++1. `feat(prototype): add strict canvas contracts and input freezer`
++2. `feat(prototype): add deterministic canvas graph and transaction`
++3. `test(prototype): add canvas fixtures and rollback probes`
++4. `test(benchmark): add frozen markdown canvas runner`
++
++每个 commit 只包含其职责；verification 记录跟随对应 test commit 或最后单独 `docs(prototype): record canvas verification`，不得混入产品目录。
++
++## 10. 自动验收命令
++
++固定 Windows Python：
++
++```powershell
++$Python = 'C:\Users\19739\.codex\cache\code-knowledge-builder\runtime\win-x64\win-x64-2.0.0\python\python.exe'
++$Repo = 'E:\knowledge_builder\self-workspace\worktrees\obsidian-canvas-visualization-prototype'
++
++& $Python -m unittest `
++  tests.test_ckb_canvas_contracts `
++  tests.test_ckb_canvas_graph `
++  tests.test_ckb_canvas_transaction `
++  tests.test_ckb_canvas_rollback `
++  tests.test_ckb_canvas_paths `
++  tests.test_ckb_canvas_determinism `
++  tests.test_ckb_canvas_benchmark_contract
++
++& $Python prototypes\ckb-canvas-skill\scripts\ckb_canvas.py validate `
++  --request tests\fixtures\obsidian-canvas-agent-visualization\runtime\success\request.json
++
++& 'C:\Program Files\Git\cmd\git.exe' -C $Repo diff --check
++& 'C:\Program Files\Git\cmd\git.exe' -C $Repo status --short
++```
++
++必须把字面 stdout、stderr 摘要和每条退出状态写到：
++
++```text
++references/design/obsidian-canvas-agent-visualization/prototype-verification/verification-record.json
++```
++
++## 11. 自动验收断言
++
++1. 九个 schema JSON 可解析，schema 与原型副本 byte-identical；
++2. success request/result/Canvas/validation/rollback 全部通过显式 validator；
++3. 17 个 failure result 全部通过 failure validator，reason 集合无缺失、无额外项；
++4. 每层 request object 增加未知字段均 exit 2；
++5. machine record 1、keyword fallback record 和未知 record 字段均拒绝；
++6. 12 节点/16 边硬上限、稳定 ID、数组顺序和固定坐标通过；
++7. 10 次隔离生成 Canvas 原始 hash 只有 1 种，两个 manifest 规范化 hash 各 1 种；
++8. 三条 rollback probe 3/3，present baseline 三角色 byte-identical；
++9. 中文路径、长路径、symlink/junction、损坏 JSON、悬空边、并发目标变化分别命中预期 reason/exit/目标状态；
++10. 目标 Canvas 在所有 fault 注入后都只有完整 baseline、完整 generated 或外部当前字节；
++11. runner input 恰好 12 个唯一 task，四个 assignment 各 6 个唯一 task，两 sequence/condition 合计各覆盖 12 个 task；
++12. Markdown/Canvas evidence hash、问题、来源和预算完全相同；
++13. diff 只含允许路径，工作树干净。
++
++## 12. 人工 Obsidian benchmark 输入
++
++自动门通过后，复制隔离 `OUTPUT/human` 和生成 Canvas 到 benchmark 根，填写 `OBSIDIAN_VERSION`，冻结 request/run hash，再按 [`benchmark-contract.md`](benchmark-contract.md) 执行。
++
++每个 sequence 至少 2 个独立 session；同一参与者重复时至少相隔 24 小时。每个 session 按 sequence block order 运行，block 内严格使用 JSON `task_order`。原型 Agent 只收集观察，不解释结果；`summarize` 统一计算门。
++
++若 fixed Obsidian 不能打开 editor URI 或 file node 精确行为不一致，立即 `stopped` 并返回设计，不把该轮作为 Canvas 效果差的普通样本。
++
++## 13. 完成输出
++
++向管理 Agent 返回：
++
++1. 分支、精确 baseline、最终 HEAD、干净状态；
++2. commit 列表与职责；
++3. 模块和命令路径；
++4. schema/fixture hash parity；
++5. 全部自动验收命令、字面结果与退出状态；
++6. 10 次 hash、三条 rollback probe、路径/并发用例结果；
++7. benchmark run 的完整路径/hash；
++8. 已确认实现结果、尚未运行的人工 benchmark、待用户产品决策；
++9. 明确声明未接线主 CLI、未修改 companion/MCP/发布包、未更新活动稳定知识库、未合并、未推送。
++
++## 14. 原型回滚
++
++分支未合并时，删除 prototype worktree 和分支即完整回滚，不触碰 integration：
++
++```powershell
++& 'C:\Program Files\Git\cmd\git.exe' -C 'E:\knowledge_builder\self-workspace\source' worktree remove --force 'E:\knowledge_builder\self-workspace\worktrees\obsidian-canvas-visualization-prototype'
++& 'C:\Program Files\Git\cmd\git.exe' -C 'E:\knowledge_builder\self-workspace\source' branch -D 'codex/obsidian-canvas-visualization-prototype'
++```
++
++若管理 Agent 选择在 integration 中审阅 commit，使用 `git revert` 按新到旧撤销原型 commit；不得 `reset` integration，不运行稳定知识库 rollback，因为本任务禁止写稳定知识库。
+diff --git a/references/design/obsidian-canvas-agent-visualization/schemas/benchmark-run.schema.json b/references/design/obsidian-canvas-agent-visualization/schemas/benchmark-run.schema.json
+new file mode 100644
+index 0000000..cc14986
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/schemas/benchmark-run.schema.json
+@@ -0,0 +1,546 @@
++{
++  "$schema": "https://json-schema.org/draft/2020-12/schema",
++  "$id": "https://ckb.local/schemas/benchmark-run.schema.json",
++  "type": "object",
++  "additionalProperties": false,
++  "properties": {
++    "schema_version": {
++      "const": 1
++    },
++    "status": {
++      "const": "frozen"
++    },
++    "run_id": {
++      "type": "string",
++      "pattern": "^[a-z0-9][a-z0-9-]{2,63}$"
++    },
++    "freeze": {
++      "type": "object",
++      "additionalProperties": false,
++      "properties": {
++        "canvas_request_path": {
++          "type": "string",
++          "minLength": 3,
++          "maxLength": 32767
++        },
++        "canvas_request_sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "snapshot_commit": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{40}$"
++        },
++        "snapshot_tree": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{40}$"
++        },
++        "agent_pack_path": {
++          "type": "string",
++          "minLength": 3,
++          "maxLength": 32767
++        },
++        "agent_pack_sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "record_path": {
++          "type": "string",
++          "minLength": 3,
++          "maxLength": 32767
++        },
++        "record_sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "human_evidence_sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "source_evidence_sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "budget": {
++          "type": "object",
++          "additionalProperties": false,
++          "properties": {
++            "max_nodes": {
++              "const": 12
++            },
++            "max_edges": {
++              "const": 16
++            }
++          },
++          "required": [
++            "max_nodes",
++            "max_edges"
++          ]
++        }
++      },
++      "required": [
++        "canvas_request_path",
++        "canvas_request_sha256",
++        "snapshot_commit",
++        "snapshot_tree",
++        "agent_pack_path",
++        "agent_pack_sha256",
++        "record_path",
++        "record_sha256",
++        "human_evidence_sha256",
++        "source_evidence_sha256",
++        "budget"
++      ]
++    },
++    "environment": {
++      "type": "object",
++      "additionalProperties": false,
++      "properties": {
++        "obsidian_version": {
++          "type": "string",
++          "minLength": 1,
++          "maxLength": 64
++        },
++        "theme": {
++          "const": "default"
++        },
++        "third_party_plugins": {
++          "type": "array",
++          "items": {
++            "type": "string"
++          },
++          "maxItems": 0
++        },
++        "window_width": {
++          "const": 1440
++        },
++        "window_height": {
++          "const": 900
++        },
++        "display_scale_percent": {
++          "const": 100
++        },
++        "canvas_initial_view": {
++          "const": "zoom-to-fit"
++        },
++        "network": {
++          "const": "offline"
++        }
++      },
++      "required": [
++        "obsidian_version",
++        "theme",
++        "third_party_plugins",
++        "window_width",
++        "window_height",
++        "display_scale_percent",
++        "canvas_initial_view",
++        "network"
++      ]
++    },
++    "conditions": {
++      "type": "object",
++      "additionalProperties": false,
++      "properties": {
++        "markdown": {
++          "type": "object",
++          "additionalProperties": false,
++          "properties": {
++            "entrypoints": {
++              "type": "array",
++              "items": {
++                "type": "string",
++                "minLength": 1,
++                "maxLength": 1024,
++                "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$"
++              },
++              "minItems": 1,
++              "maxItems": 4
++            },
++            "evidence_set_sha256": {
++              "type": "string",
++              "pattern": "^[0-9a-f]{64}$"
++            },
++            "max_nodes": {
++              "oneOf": [
++                {
++                  "const": 12
++                },
++                {
++                  "type": "null"
++                }
++              ]
++            },
++            "max_edges": {
++              "oneOf": [
++                {
++                  "const": 16
++                },
++                {
++                  "type": "null"
++                }
++              ]
++            }
++          },
++          "required": [
++            "entrypoints",
++            "evidence_set_sha256",
++            "max_nodes",
++            "max_edges"
++          ]
++        },
++        "canvas": {
++          "type": "object",
++          "additionalProperties": false,
++          "properties": {
++            "entrypoints": {
++              "type": "array",
++              "items": {
++                "type": "string",
++                "minLength": 1,
++                "maxLength": 1024,
++                "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$"
++              },
++              "minItems": 1,
++              "maxItems": 4
++            },
++            "evidence_set_sha256": {
++              "type": "string",
++              "pattern": "^[0-9a-f]{64}$"
++            },
++            "max_nodes": {
++              "oneOf": [
++                {
++                  "const": 12
++                },
++                {
++                  "type": "null"
++                }
++              ]
++            },
++            "max_edges": {
++              "oneOf": [
++                {
++                  "const": 16
++                },
++                {
++                  "type": "null"
++                }
++              ]
++            }
++          },
++          "required": [
++            "entrypoints",
++            "evidence_set_sha256",
++            "max_nodes",
++            "max_edges"
++          ]
++        }
++      },
++      "required": [
++        "markdown",
++        "canvas"
++      ]
++    },
++    "tasks": {
++      "type": "array",
++      "items": {
++        "type": "object",
++        "additionalProperties": false,
++        "properties": {
++          "task_id": {
++            "type": "string",
++            "pattern": "^P[1-6][AB]$"
++          },
++          "pair": {
++            "type": "string",
++            "pattern": "^P[1-6]$"
++          },
++          "variant": {
++            "enum": [
++              "A",
++              "B"
++            ]
++          },
++          "category": {
++            "enum": [
++              "implementation-location",
++              "function-location",
++              "reviewed-record",
++              "boundary-understanding",
++              "source-open",
++              "support-status"
++            ]
++          },
++          "prompt": {
++            "type": "string",
++            "minLength": 1,
++            "maxLength": 500
++          },
++          "timeout_seconds": {
++            "const": 180
++          },
++          "expected": {
++            "type": "object",
++            "additionalProperties": false,
++            "properties": {
++              "page": {
++                "oneOf": [
++                  {
++                    "type": "string",
++                    "minLength": 1,
++                    "maxLength": 1024,
++                    "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$"
++                  },
++                  {
++                    "type": "null"
++                  }
++                ]
++              },
++              "source_path": {
++                "oneOf": [
++                  {
++                    "type": "string",
++                    "minLength": 1,
++                    "maxLength": 1024,
++                    "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$"
++                  },
++                  {
++                    "type": "null"
++                  }
++                ]
++              },
++              "start_line": {
++                "oneOf": [
++                  {
++                    "type": "integer",
++                    "minimum": 1
++                  },
++                  {
++                    "type": "null"
++                  }
++                ]
++              },
++              "end_line": {
++                "oneOf": [
++                  {
++                    "type": "integer",
++                    "minimum": 1
++                  },
++                  {
++                    "type": "null"
++                  }
++                ]
++              },
++              "required_facts": {
++                "type": "array",
++                "items": {
++                  "type": "string",
++                  "minLength": 1,
++                  "maxLength": 300
++                },
++                "minItems": 1,
++                "maxItems": 6
++              }
++            },
++            "required": [
++              "page",
++              "source_path",
++              "start_line",
++              "end_line",
++              "required_facts"
++            ]
++          }
++        },
++        "required": [
++          "task_id",
++          "pair",
++          "variant",
++          "category",
++          "prompt",
++          "timeout_seconds",
++          "expected"
++        ]
++      },
++      "minItems": 12,
++      "maxItems": 12
++    },
++    "assignments": {
++      "type": "array",
++      "items": {
++        "type": "object",
++        "additionalProperties": false,
++        "properties": {
++          "sequence_id": {
++            "enum": [
++              "sequence-1",
++              "sequence-2"
++            ]
++          },
++          "condition": {
++            "enum": [
++              "markdown",
++              "canvas"
++            ]
++          },
++          "order_seed": {
++            "type": "integer",
++            "minimum": 0
++          },
++          "task_order": {
++            "type": "array",
++            "items": {
++              "type": "string",
++              "pattern": "^P[1-6][AB]$"
++            },
++            "minItems": 6,
++            "maxItems": 6,
++            "uniqueItems": true
++          }
++        },
++        "required": [
++          "sequence_id",
++          "condition",
++          "order_seed",
++          "task_order"
++        ]
++      },
++      "minItems": 4,
++      "maxItems": 4
++    },
++    "metrics": {
++      "type": "array",
++      "items": {
++        "enum": [
++          "discoverability_success_rate",
++          "first_correct_entry_seconds",
++          "navigation_count",
++          "backtrack_count",
++          "comprehension_score",
++          "source_verification_rate",
++          "unsupported_assertions",
++          "visible_node_count",
++          "visible_edge_count",
++          "visible_text_characters",
++          "overlap_count",
++          "rollback_probe_rate"
++        ]
++      },
++      "minItems": 12,
++      "maxItems": 12,
++      "uniqueItems": true
++    },
++    "gates": {
++      "type": "object",
++      "additionalProperties": false,
++      "properties": {
++        "structure": {
++          "const": "required"
++        },
++        "source_verification_rate": {
++          "const": 1.0
++        },
++        "maximum_unsupported_assertions": {
++          "const": 0
++        },
++        "minimum_discoverability_success_rate": {
++          "const": 0.9166666667
++        },
++        "canvas_not_below_markdown": {
++          "const": true
++        },
++        "maximum_comprehension_drop_percentage_points": {
++          "const": 5
++        },
++        "minimum_median_time_reduction": {
++          "const": 0.15
++        },
++        "minimum_median_navigation_reduction": {
++          "const": 0.2
++        },
++        "efficiency_rule": {
++          "const": "time-or-navigation"
++        },
++        "rollback_probes": {
++          "const": "3/3"
++        },
++        "deterministic_repetitions": {
++          "const": 10
++        }
++      },
++      "required": [
++        "structure",
++        "source_verification_rate",
++        "maximum_unsupported_assertions",
++        "minimum_discoverability_success_rate",
++        "canvas_not_below_markdown",
++        "maximum_comprehension_drop_percentage_points",
++        "minimum_median_time_reduction",
++        "minimum_median_navigation_reduction",
++        "efficiency_rule",
++        "rollback_probes",
++        "deterministic_repetitions"
++      ]
++    },
++    "session_policy": {
++      "type": "object",
++      "additionalProperties": false,
++      "properties": {
++        "minimum_independent_sessions_per_sequence": {
++          "const": 2
++        },
++        "minimum_blocks_per_assignment": {
++          "const": 2
++        },
++        "same_participant_min_interval_hours": {
++          "const": 24
++        },
++        "different_participant_exempts_interval": {
++          "const": true
++        },
++        "sequence_block_order": {
++          "type": "object",
++          "additionalProperties": false,
++          "properties": {
++            "sequence-1": {
++              "const": [
++                "markdown",
++                "canvas"
++              ]
++            },
++            "sequence-2": {
++              "const": [
++                "canvas",
++                "markdown"
++              ]
++            }
++          },
++          "required": [
++            "sequence-1",
++            "sequence-2"
++          ]
++        }
++      },
++      "required": [
++        "minimum_independent_sessions_per_sequence",
++        "minimum_blocks_per_assignment",
++        "same_participant_min_interval_hours",
++        "different_participant_exempts_interval",
++        "sequence_block_order"
++      ]
++    }
++  },
++  "required": [
++    "schema_version",
++    "status",
++    "run_id",
++    "freeze",
++    "environment",
++    "conditions",
++    "tasks",
++    "assignments",
++    "metrics",
++    "gates",
++    "session_policy"
++  ]
++}
+diff --git a/references/design/obsidian-canvas-agent-visualization/schemas/benchmark-session-result.schema.json b/references/design/obsidian-canvas-agent-visualization/schemas/benchmark-session-result.schema.json
+new file mode 100644
+index 0000000..8fd9bd2
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/schemas/benchmark-session-result.schema.json
+@@ -0,0 +1,213 @@
++{
++  "$schema": "https://json-schema.org/draft/2020-12/schema",
++  "$id": "https://ckb.local/schemas/benchmark-session-result.schema.json",
++  "type": "object",
++  "additionalProperties": false,
++  "properties": {
++    "schema_version": {
++      "const": 1
++    },
++    "status": {
++      "enum": [
++        "passed",
++        "failed",
++        "stopped"
++      ]
++    },
++    "run_id": {
++      "type": "string",
++      "minLength": 1
++    },
++    "session_id": {
++      "type": "string",
++      "minLength": 1
++    },
++    "sequence_id": {
++      "enum": [
++        "sequence-1",
++        "sequence-2"
++      ]
++    },
++    "condition": {
++      "enum": [
++        "markdown",
++        "canvas"
++      ]
++    },
++    "participant_slot": {
++      "type": "string",
++      "minLength": 1
++    },
++    "environment_verified": {
++      "type": "boolean"
++    },
++    "task_order": {
++      "type": "array",
++      "items": {
++        "type": "string",
++        "pattern": "^P[1-6][AB]$"
++      },
++      "minItems": 6,
++      "maxItems": 6,
++      "uniqueItems": true
++    },
++    "observations": {
++      "type": "array",
++      "items": {
++        "type": "object",
++        "additionalProperties": false,
++        "properties": {
++          "task_id": {
++            "type": "string",
++            "pattern": "^P[1-6][AB]$"
++          },
++          "success": {
++            "type": "boolean"
++          },
++          "elapsed_seconds": {
++            "type": "number",
++            "minimum": 0,
++            "maximum": 180
++          },
++          "first_correct_entry_seconds": {
++            "oneOf": [
++              {
++                "type": "number",
++                "minimum": 0,
++                "maximum": 180
++              },
++              {
++                "type": "null"
++              }
++            ]
++          },
++          "navigation_count": {
++            "type": "integer",
++            "minimum": 0
++          },
++          "backtrack_count": {
++            "type": "integer",
++            "minimum": 0
++          },
++          "comprehension_score": {
++            "type": "integer",
++            "minimum": 0,
++            "maximum": 2
++          },
++          "source_verified": {
++            "oneOf": [
++              {
++                "type": "boolean"
++              },
++              {
++                "type": "null"
++              }
++            ]
++          },
++          "unsupported_assertions": {
++            "type": "integer",
++            "minimum": 0
++          },
++          "submitted_page": {
++            "oneOf": [
++              {
++                "type": "string",
++                "minLength": 1,
++                "maxLength": 1024,
++                "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$"
++              },
++              {
++                "type": "null"
++              }
++            ]
++          },
++          "submitted_source_path": {
++            "oneOf": [
++              {
++                "type": "string",
++                "minLength": 1,
++                "maxLength": 1024,
++                "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$"
++              },
++              {
++                "type": "null"
++              }
++            ]
++          },
++          "submitted_start_line": {
++            "oneOf": [
++              {
++                "type": "integer",
++                "minimum": 1
++              },
++              {
++                "type": "null"
++              }
++            ]
++          },
++          "submitted_end_line": {
++            "oneOf": [
++              {
++                "type": "integer",
++                "minimum": 1
++              },
++              {
++                "type": "null"
++              }
++            ]
++          }
++        },
++        "required": [
++          "task_id",
++          "success",
++          "elapsed_seconds",
++          "first_correct_entry_seconds",
++          "navigation_count",
++          "backtrack_count",
++          "comprehension_score",
++          "source_verified",
++          "unsupported_assertions",
++          "submitted_page",
++          "submitted_source_path",
++          "submitted_start_line",
++          "submitted_end_line"
++        ]
++      },
++      "minItems": 0,
++      "maxItems": 6
++    },
++    "stop_reason": {
++      "oneOf": [
++        {
++          "enum": [
++            "missing-backlink",
++            "machine-field-exposure",
++            "write-outside-scope",
++            "evidence-set-drift",
++            "overwrite-on-drift",
++            "unfrozen-environment",
++            "unfrozen-task-order",
++            "custom-uri-failed",
++            "subpath-failed"
++          ]
++        },
++        {
++          "type": "null"
++        }
++      ]
++    }
++  },
++  "required": [
++    "schema_version",
++    "status",
++    "run_id",
++    "session_id",
++    "sequence_id",
++    "condition",
++    "participant_slot",
++    "environment_verified",
++    "task_order",
++    "observations",
++    "stop_reason"
++  ]
++}
+diff --git a/references/design/obsidian-canvas-agent-visualization/schemas/benchmark-summary.schema.json b/references/design/obsidian-canvas-agent-visualization/schemas/benchmark-summary.schema.json
+new file mode 100644
+index 0000000..d23f986
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/schemas/benchmark-summary.schema.json
+@@ -0,0 +1,336 @@
++{
++  "$schema": "https://json-schema.org/draft/2020-12/schema",
++  "$id": "https://ckb.local/schemas/benchmark-summary.schema.json",
++  "type": "object",
++  "additionalProperties": false,
++  "properties": {
++    "schema_version": {
++      "const": 1
++    },
++    "status": {
++      "enum": [
++        "passed",
++        "failed",
++        "insufficient-data",
++        "stopped"
++      ]
++    },
++    "run_id": {
++      "type": "string",
++      "minLength": 1
++    },
++    "sessions_by_sequence": {
++      "type": "object",
++      "additionalProperties": false,
++      "properties": {
++        "sequence-1": {
++          "type": "integer",
++          "minimum": 0
++        },
++        "sequence-2": {
++          "type": "integer",
++          "minimum": 0
++        }
++      },
++      "required": [
++        "sequence-1",
++        "sequence-2"
++      ]
++    },
++    "metrics": {
++      "type": "object",
++      "additionalProperties": false,
++      "properties": {
++        "discoverability_success_rate": {
++          "type": "object",
++          "additionalProperties": false,
++          "properties": {
++            "markdown": {
++              "type": "number",
++              "minimum": 0
++            },
++            "canvas": {
++              "type": "number",
++              "minimum": 0
++            },
++            "delta": {
++              "type": "number"
++            }
++          },
++          "required": [
++            "markdown",
++            "canvas",
++            "delta"
++          ]
++        },
++        "median_first_correct_entry_seconds": {
++          "type": "object",
++          "additionalProperties": false,
++          "properties": {
++            "markdown": {
++              "type": "number",
++              "minimum": 0
++            },
++            "canvas": {
++              "type": "number",
++              "minimum": 0
++            },
++            "delta": {
++              "type": "number"
++            }
++          },
++          "required": [
++            "markdown",
++            "canvas",
++            "delta"
++          ]
++        },
++        "median_navigation_count": {
++          "type": "object",
++          "additionalProperties": false,
++          "properties": {
++            "markdown": {
++              "type": "number",
++              "minimum": 0
++            },
++            "canvas": {
++              "type": "number",
++              "minimum": 0
++            },
++            "delta": {
++              "type": "number"
++            }
++          },
++          "required": [
++            "markdown",
++            "canvas",
++            "delta"
++          ]
++        },
++        "mean_comprehension_percent": {
++          "type": "object",
++          "additionalProperties": false,
++          "properties": {
++            "markdown": {
++              "type": "number",
++              "minimum": 0
++            },
++            "canvas": {
++              "type": "number",
++              "minimum": 0
++            },
++            "delta": {
++              "type": "number"
++            }
++          },
++          "required": [
++            "markdown",
++            "canvas",
++            "delta"
++          ]
++        },
++        "source_verification_rate": {
++          "type": "object",
++          "additionalProperties": false,
++          "properties": {
++            "markdown": {
++              "type": "number",
++              "minimum": 0
++            },
++            "canvas": {
++              "type": "number",
++              "minimum": 0
++            },
++            "delta": {
++              "type": "number"
++            }
++          },
++          "required": [
++            "markdown",
++            "canvas",
++            "delta"
++          ]
++        },
++        "unsupported_assertions": {
++          "type": "object",
++          "additionalProperties": false,
++          "properties": {
++            "markdown": {
++              "type": "number",
++              "minimum": 0
++            },
++            "canvas": {
++              "type": "number",
++              "minimum": 0
++            },
++            "delta": {
++              "type": "number"
++            }
++          },
++          "required": [
++            "markdown",
++            "canvas",
++            "delta"
++          ]
++        }
++      },
++      "required": [
++        "discoverability_success_rate",
++        "median_first_correct_entry_seconds",
++        "median_navigation_count",
++        "mean_comprehension_percent",
++        "source_verification_rate",
++        "unsupported_assertions"
++      ]
++    },
++    "structure": {
++      "type": "object",
++      "additionalProperties": false,
++      "properties": {
++        "node_count": {
++          "type": "integer",
++          "minimum": 0,
++          "maximum": 12
++        },
++        "edge_count": {
++          "type": "integer",
++          "minimum": 0,
++          "maximum": 16
++        },
++        "dangling_edges": {
++          "const": 0
++        },
++        "missing_backlinks": {
++          "const": 0
++        },
++        "machine_fields_exposed": {
++          "const": 0
++        },
++        "overlap_count": {
++          "type": "integer",
++          "minimum": 0
++        }
++      },
++      "required": [
++        "node_count",
++        "edge_count",
++        "dangling_edges",
++        "missing_backlinks",
++        "machine_fields_exposed",
++        "overlap_count"
++      ]
++    },
++    "rollback_probes_passed": {
++      "type": "integer",
++      "minimum": 0,
++      "maximum": 3
++    },
++    "deterministic_hashes": {
++      "type": "array",
++      "items": {
++        "type": "string",
++        "pattern": "^[0-9a-f]{64}$"
++      },
++      "minItems": 0,
++      "maxItems": 10
++    },
++    "gates": {
++      "type": "array",
++      "items": {
++        "type": "object",
++        "additionalProperties": false,
++        "properties": {
++          "gate": {
++            "enum": [
++              "structure",
++              "source",
++              "task",
++              "comprehension",
++              "efficiency",
++              "rollback",
++              "stability"
++            ]
++          },
++          "status": {
++            "enum": [
++              "passed",
++              "failed",
++              "not-run"
++            ]
++          },
++          "evidence": {
++            "type": "string",
++            "minLength": 1,
++            "maxLength": 500
++          }
++        },
++        "required": [
++          "gate",
++          "status",
++          "evidence"
++        ]
++      },
++      "minItems": 7,
++      "maxItems": 7
++    },
++    "decision": {
++      "enum": [
++        "advance-to-product-decision",
++        "keep-markdown-default",
++        "return-to-design",
++        "collect-more-sessions"
++      ]
++    },
++    "valid_independent_sessions": {
++      "type": "integer",
++      "minimum": 0
++    },
++    "valid_condition_blocks": {
++      "type": "integer",
++      "minimum": 0
++    },
++    "blocks_by_assignment": {
++      "type": "object",
++      "additionalProperties": false,
++      "properties": {
++        "sequence-1/markdown": {
++          "type": "integer",
++          "minimum": 0
++        },
++        "sequence-1/canvas": {
++          "type": "integer",
++          "minimum": 0
++        },
++        "sequence-2/markdown": {
++          "type": "integer",
++          "minimum": 0
++        },
++        "sequence-2/canvas": {
++          "type": "integer",
++          "minimum": 0
++        }
++      },
++      "required": [
++        "sequence-1/markdown",
++        "sequence-1/canvas",
++        "sequence-2/markdown",
++        "sequence-2/canvas"
++      ]
++    }
++  },
++  "required": [
++    "schema_version",
++    "status",
++    "run_id",
++    "sessions_by_sequence",
++    "metrics",
++    "structure",
++    "rollback_probes_passed",
++    "deterministic_hashes",
++    "gates",
++    "decision",
++    "valid_independent_sessions",
++    "valid_condition_blocks",
++    "blocks_by_assignment"
++  ]
++}
+diff --git a/references/design/obsidian-canvas-agent-visualization/schemas/canvas-failure.schema.json b/references/design/obsidian-canvas-agent-visualization/schemas/canvas-failure.schema.json
+new file mode 100644
+index 0000000..17a3dbf
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/schemas/canvas-failure.schema.json
+@@ -0,0 +1,230 @@
++{
++  "$schema": "https://json-schema.org/draft/2020-12/schema",
++  "$id": "https://ckb.local/schemas/canvas-failure.schema.json",
++  "type": "object",
++  "additionalProperties": false,
++  "properties": {
++    "schema_version": {
++      "const": 1
++    },
++    "status": {
++      "const": "failed"
++    },
++    "operation": {
++      "enum": [
++        "generate",
++        "validate",
++        "rollback",
++        "benchmark"
++      ]
++    },
++    "reason": {
++      "enum": [
++        "invalid_request",
++        "unsupported_record_schema",
++        "pack_record_mismatch",
++        "input_drift",
++        "snapshot_mismatch",
++        "source_outside_scope",
++        "target_exists",
++        "missing_backlink",
++        "missing_target",
++        "invalid_source_range",
++        "budget_exceeded",
++        "duplicate_id",
++        "dangling_edge",
++        "invalid_canvas",
++        "promotion_drift",
++        "rollback_drift",
++        "io_failure"
++      ]
++    },
++    "phase": {
++      "enum": [
++        "request",
++        "freeze",
++        "select",
++        "layout",
++        "validate",
++        "baseline",
++        "staging",
++        "promotion",
++        "reopen",
++        "rollback",
++        "benchmark"
++      ]
++    },
++    "exit_code": {
++      "enum": [
++        2,
++        5,
++        6,
++        7
++      ]
++    },
++    "detail": {
++      "type": "string",
++      "minLength": 1,
++      "maxLength": 1000
++    },
++    "target_state": {
++      "type": "object",
++      "additionalProperties": false,
++      "properties": {
++        "path": {
++          "type": "string",
++          "minLength": 3,
++          "maxLength": 32767
++        },
++        "before": {
++          "oneOf": [
++            {
++              "type": "object",
++              "additionalProperties": false,
++              "properties": {
++                "state": {
++                  "const": "absent"
++                }
++              },
++              "required": [
++                "state"
++              ]
++            },
++            {
++              "type": "object",
++              "additionalProperties": false,
++              "properties": {
++                "state": {
++                  "const": "present"
++                },
++                "sha256": {
++                  "type": "string",
++                  "pattern": "^[0-9a-f]{64}$"
++                }
++              },
++              "required": [
++                "state",
++                "sha256"
++              ]
++            },
++            {
++              "type": "object",
++              "additionalProperties": false,
++              "properties": {
++                "state": {
++                  "const": "unavailable"
++                }
++              },
++              "required": [
++                "state"
++              ]
++            }
++          ]
++        },
++        "after": {
++          "oneOf": [
++            {
++              "type": "object",
++              "additionalProperties": false,
++              "properties": {
++                "state": {
++                  "const": "absent"
++                }
++              },
++              "required": [
++                "state"
++              ]
++            },
++            {
++              "type": "object",
++              "additionalProperties": false,
++              "properties": {
++                "state": {
++                  "const": "present"
++                },
++                "sha256": {
++                  "type": "string",
++                  "pattern": "^[0-9a-f]{64}$"
++                }
++              },
++              "required": [
++                "state",
++                "sha256"
++              ]
++            },
++            {
++              "type": "object",
++              "additionalProperties": false,
++              "properties": {
++                "state": {
++                  "const": "unavailable"
++                }
++              },
++              "required": [
++                "state"
++              ]
++            }
++          ]
++        },
++        "changed": {
++          "type": "boolean"
++        }
++      },
++      "required": [
++        "path",
++        "before",
++        "after",
++        "changed"
++      ]
++    },
++    "recovery": {
++      "type": "object",
++      "additionalProperties": false,
++      "properties": {
++        "action": {
++          "enum": [
++            "correct-request",
++            "regenerate-request",
++            "use-matching-pack-record",
++            "restore-input",
++            "use-fixed-snapshot",
++            "move-into-scope",
++            "choose-new-target-or-pin-baseline",
++            "supply-reviewed-backlink",
++            "restore-target",
++            "correct-source-range",
++            "reduce-required-set",
++            "fix-generator",
++            "rebaseline-after-review",
++            "manual-review-current-bytes",
++            "retry-io"
++          ]
++        },
++        "required_inputs": {
++          "type": "array",
++          "items": {
++            "type": "string",
++            "minLength": 1,
++            "maxLength": 200
++          },
++          "maxItems": 8
++        }
++      },
++      "required": [
++        "action",
++        "required_inputs"
++      ]
++    }
++  },
++  "required": [
++    "schema_version",
++    "status",
++    "operation",
++    "reason",
++    "phase",
++    "exit_code",
++    "detail",
++    "target_state",
++    "recovery"
++  ]
++}
+diff --git a/references/design/obsidian-canvas-agent-visualization/schemas/canvas-request.schema.json b/references/design/obsidian-canvas-agent-visualization/schemas/canvas-request.schema.json
+new file mode 100644
+index 0000000..bd77343
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/schemas/canvas-request.schema.json
+@@ -0,0 +1,543 @@
++{
++  "$schema": "https://json-schema.org/draft/2020-12/schema",
++  "$id": "https://ckb.local/schemas/canvas-request.schema.json",
++  "type": "object",
++  "additionalProperties": false,
++  "properties": {
++    "schema_version": {
++      "const": 1
++    },
++    "mode": {
++      "const": "agent-pack-navigation"
++    },
++    "ckb": {
++      "type": "object",
++      "additionalProperties": false,
++      "properties": {
++        "output_root": {
++          "type": "string",
++          "minLength": 3,
++          "maxLength": 32767
++        },
++        "state_path": {
++          "type": "string",
++          "minLength": 3,
++          "maxLength": 32767
++        },
++        "state_sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "machine_index_path": {
++          "type": "string",
++          "minLength": 3,
++          "maxLength": 32767
++        },
++        "machine_index_sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "snapshot_commit": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{40}$"
++        },
++        "snapshot_tree": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{40}$"
++        },
++        "agent_pack_path": {
++          "type": "string",
++          "minLength": 3,
++          "maxLength": 32767
++        },
++        "agent_pack_sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "record_path": {
++          "type": "string",
++          "minLength": 3,
++          "maxLength": 32767
++        },
++        "record_sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "record_schema_version": {
++          "const": 3
++        },
++        "human_root": {
++          "type": "string",
++          "minLength": 3,
++          "maxLength": 32767
++        },
++        "human_projection_path": {
++          "type": "string",
++          "minLength": 3,
++          "maxLength": 32767
++        },
++        "human_projection_sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "human_manifest_path": {
++          "type": "string",
++          "minLength": 3,
++          "maxLength": 32767
++        },
++        "human_manifest_sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "local_openers_path": {
++          "type": "string",
++          "minLength": 3,
++          "maxLength": 32767
++        },
++        "local_openers_sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "frozen_evidence": {
++          "type": "object",
++          "additionalProperties": false,
++          "properties": {
++            "human_files": {
++              "type": "array",
++              "items": {
++                "type": "object",
++                "additionalProperties": false,
++                "properties": {
++                  "relative_path": {
++                    "type": "string",
++                    "minLength": 1,
++                    "maxLength": 1024,
++                    "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$"
++                  },
++                  "sha256": {
++                    "type": "string",
++                    "pattern": "^[0-9a-f]{64}$"
++                  }
++                },
++                "required": [
++                  "relative_path",
++                  "sha256"
++                ]
++              },
++              "minItems": 1,
++              "maxItems": 32
++            },
++            "source_files": {
++              "type": "array",
++              "items": {
++                "type": "object",
++                "additionalProperties": false,
++                "properties": {
++                  "relative_path": {
++                    "type": "string",
++                    "minLength": 1,
++                    "maxLength": 1024,
++                    "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$"
++                  },
++                  "sha256": {
++                    "type": "string",
++                    "pattern": "^[0-9a-f]{64}$"
++                  }
++                },
++                "required": [
++                  "relative_path",
++                  "sha256"
++                ]
++              },
++              "minItems": 0,
++              "maxItems": 32
++            }
++          },
++          "required": [
++            "human_files",
++            "source_files"
++          ]
++        }
++      },
++      "required": [
++        "output_root",
++        "state_path",
++        "state_sha256",
++        "machine_index_path",
++        "machine_index_sha256",
++        "snapshot_commit",
++        "snapshot_tree",
++        "agent_pack_path",
++        "agent_pack_sha256",
++        "record_path",
++        "record_sha256",
++        "record_schema_version",
++        "human_root",
++        "human_projection_path",
++        "human_projection_sha256",
++        "human_manifest_path",
++        "human_manifest_sha256",
++        "local_openers_path",
++        "local_openers_sha256",
++        "frozen_evidence"
++      ]
++    },
++    "request": {
++      "type": "object",
++      "additionalProperties": false,
++      "properties": {
++        "title": {
++          "type": "string",
++          "minLength": 1,
++          "maxLength": 120
++        },
++        "source_link_mode": {
++          "const": "verified-editor-uri"
++        },
++        "authorized_staging_root": {
++          "type": "string",
++          "minLength": 3,
++          "maxLength": 32767
++        },
++        "target_canvas_path": {
++          "type": "string",
++          "minLength": 3,
++          "maxLength": 32767
++        },
++        "backup_root": {
++          "type": "string",
++          "minLength": 3,
++          "maxLength": 32767
++        },
++        "replace": {
++          "type": "boolean"
++        },
++        "baseline": {
++          "type": "object",
++          "additionalProperties": false,
++          "properties": {
++            "canvas": {
++              "oneOf": [
++                {
++                  "type": "object",
++                  "additionalProperties": false,
++                  "properties": {
++                    "state": {
++                      "const": "absent"
++                    }
++                  },
++                  "required": [
++                    "state"
++                  ]
++                },
++                {
++                  "type": "object",
++                  "additionalProperties": false,
++                  "properties": {
++                    "state": {
++                      "const": "present"
++                    },
++                    "sha256": {
++                      "type": "string",
++                      "pattern": "^[0-9a-f]{64}$"
++                    }
++                  },
++                  "required": [
++                    "state",
++                    "sha256"
++                  ]
++                }
++              ]
++            },
++            "validation_manifest": {
++              "oneOf": [
++                {
++                  "type": "object",
++                  "additionalProperties": false,
++                  "properties": {
++                    "state": {
++                      "const": "absent"
++                    }
++                  },
++                  "required": [
++                    "state"
++                  ]
++                },
++                {
++                  "type": "object",
++                  "additionalProperties": false,
++                  "properties": {
++                    "state": {
++                      "const": "present"
++                    },
++                    "sha256": {
++                      "type": "string",
++                      "pattern": "^[0-9a-f]{64}$"
++                    }
++                  },
++                  "required": [
++                    "state",
++                    "sha256"
++                  ]
++                }
++              ]
++            },
++            "rollback_manifest": {
++              "oneOf": [
++                {
++                  "type": "object",
++                  "additionalProperties": false,
++                  "properties": {
++                    "state": {
++                      "const": "absent"
++                    }
++                  },
++                  "required": [
++                    "state"
++                  ]
++                },
++                {
++                  "type": "object",
++                  "additionalProperties": false,
++                  "properties": {
++                    "state": {
++                      "const": "present"
++                    },
++                    "sha256": {
++                      "type": "string",
++                      "pattern": "^[0-9a-f]{64}$"
++                    }
++                  },
++                  "required": [
++                    "state",
++                    "sha256"
++                  ]
++                }
++              ]
++            }
++          },
++          "required": [
++            "canvas",
++            "validation_manifest",
++            "rollback_manifest"
++          ]
++        },
++        "required_entries": {
++          "type": "array",
++          "items": {
++            "oneOf": [
++              {
++                "type": "object",
++                "additionalProperties": false,
++                "properties": {
++                  "kind": {
++                    "const": "selected_entity"
++                  },
++                  "ordinal": {
++                    "type": "integer",
++                    "minimum": 0,
++                    "maximum": 31
++                  },
++                  "require": {
++                    "enum": [
++                      "page",
++                      "source",
++                      "page-and-source"
++                    ]
++                  }
++                },
++                "required": [
++                  "kind",
++                  "ordinal",
++                  "require"
++                ]
++              },
++              {
++                "type": "object",
++                "additionalProperties": false,
++                "properties": {
++                  "kind": {
++                    "const": "related_document"
++                  },
++                  "ordinal": {
++                    "type": "integer",
++                    "minimum": 0,
++                    "maximum": 31
++                  },
++                  "require": {
++                    "const": "record"
++                  }
++                },
++                "required": [
++                  "kind",
++                  "ordinal",
++                  "require"
++                ]
++              }
++            ]
++          },
++          "maxItems": 12,
++          "uniqueItems": true
++        }
++      },
++      "required": [
++        "title",
++        "source_link_mode",
++        "authorized_staging_root",
++        "target_canvas_path",
++        "backup_root",
++        "replace",
++        "baseline",
++        "required_entries"
++      ]
++    },
++    "budget": {
++      "type": "object",
++      "additionalProperties": false,
++      "properties": {
++        "max_nodes": {
++          "const": 12
++        },
++        "max_edges": {
++          "const": 16
++        },
++        "max_page_nodes": {
++          "const": 6
++        },
++        "max_record_nodes": {
++          "const": 2
++        },
++        "max_source_nodes": {
++          "const": 3
++        },
++        "max_text_nodes": {
++          "const": 1
++        },
++        "max_groups": {
++          "const": 0
++        }
++      },
++      "required": [
++        "max_nodes",
++        "max_edges",
++        "max_page_nodes",
++        "max_record_nodes",
++        "max_source_nodes",
++        "max_text_nodes",
++        "max_groups"
++      ]
++    }
++  },
++  "required": [
++    "schema_version",
++    "mode",
++    "ckb",
++    "request",
++    "budget"
++  ],
++  "allOf": [
++    {
++      "if": {
++        "properties": {
++          "request": {
++            "properties": {
++              "replace": {
++                "const": false
++              }
++            }
++          }
++        }
++      },
++      "then": {
++        "properties": {
++          "request": {
++            "properties": {
++              "baseline": {
++                "properties": {
++                  "canvas": {
++                    "type": "object",
++                    "additionalProperties": false,
++                    "properties": {
++                      "state": {
++                        "const": "absent"
++                      }
++                    },
++                    "required": [
++                      "state"
++                    ]
++                  },
++                  "validation_manifest": {
++                    "type": "object",
++                    "additionalProperties": false,
++                    "properties": {
++                      "state": {
++                        "const": "absent"
++                      }
++                    },
++                    "required": [
++                      "state"
++                    ]
++                  },
++                  "rollback_manifest": {
++                    "type": "object",
++                    "additionalProperties": false,
++                    "properties": {
++                      "state": {
++                        "const": "absent"
++                      }
++                    },
++                    "required": [
++                      "state"
++                    ]
++                  }
++                }
++              }
++            }
++          }
++        }
++      }
++    },
++    {
++      "if": {
++        "properties": {
++          "request": {
++            "properties": {
++              "replace": {
++                "const": true
++              }
++            }
++          }
++        }
++      },
++      "then": {
++        "properties": {
++          "request": {
++            "properties": {
++              "baseline": {
++                "properties": {
++                  "canvas": {
++                    "type": "object",
++                    "additionalProperties": false,
++                    "properties": {
++                      "state": {
++                        "const": "present"
++                      },
++                      "sha256": {
++                        "type": "string",
++                        "pattern": "^[0-9a-f]{64}$"
++                      }
++                    },
++                    "required": [
++                      "state",
++                      "sha256"
++                    ]
++                  }
++                }
++              }
++            }
++          }
++        }
++      }
++    }
++  ]
++}
+diff --git a/references/design/obsidian-canvas-agent-visualization/schemas/canvas-rollback-manifest.schema.json b/references/design/obsidian-canvas-agent-visualization/schemas/canvas-rollback-manifest.schema.json
+new file mode 100644
+index 0000000..aa3e6e3
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/schemas/canvas-rollback-manifest.schema.json
+@@ -0,0 +1,294 @@
++{
++  "$schema": "https://json-schema.org/draft/2020-12/schema",
++  "$id": "https://ckb.local/schemas/canvas-rollback-manifest.schema.json",
++  "type": "object",
++  "additionalProperties": false,
++  "properties": {
++    "schema_version": {
++      "const": 1
++    },
++    "status": {
++      "const": "ready"
++    },
++    "request_sha256": {
++      "type": "string",
++      "pattern": "^[0-9a-f]{64}$"
++    },
++    "authorized_staging_root": {
++      "type": "string",
++      "minLength": 3,
++      "maxLength": 32767
++    },
++    "backup_root": {
++      "type": "string",
++      "minLength": 3,
++      "maxLength": 32767
++    },
++    "baseline": {
++      "type": "object",
++      "additionalProperties": false,
++      "properties": {
++        "canvas": {
++          "oneOf": [
++            {
++              "type": "object",
++              "additionalProperties": false,
++              "properties": {
++                "state": {
++                  "const": "absent"
++                }
++              },
++              "required": [
++                "state"
++              ]
++            },
++            {
++              "type": "object",
++              "additionalProperties": false,
++              "properties": {
++                "state": {
++                  "const": "present"
++                },
++                "sha256": {
++                  "type": "string",
++                  "pattern": "^[0-9a-f]{64}$"
++                },
++                "backup_path": {
++                  "type": "string",
++                  "minLength": 3,
++                  "maxLength": 32767
++                },
++                "backup_sha256": {
++                  "type": "string",
++                  "pattern": "^[0-9a-f]{64}$"
++                }
++              },
++              "required": [
++                "state",
++                "sha256",
++                "backup_path",
++                "backup_sha256"
++              ]
++            }
++          ]
++        },
++        "validation_manifest": {
++          "oneOf": [
++            {
++              "type": "object",
++              "additionalProperties": false,
++              "properties": {
++                "state": {
++                  "const": "absent"
++                }
++              },
++              "required": [
++                "state"
++              ]
++            },
++            {
++              "type": "object",
++              "additionalProperties": false,
++              "properties": {
++                "state": {
++                  "const": "present"
++                },
++                "sha256": {
++                  "type": "string",
++                  "pattern": "^[0-9a-f]{64}$"
++                },
++                "backup_path": {
++                  "type": "string",
++                  "minLength": 3,
++                  "maxLength": 32767
++                },
++                "backup_sha256": {
++                  "type": "string",
++                  "pattern": "^[0-9a-f]{64}$"
++                }
++              },
++              "required": [
++                "state",
++                "sha256",
++                "backup_path",
++                "backup_sha256"
++              ]
++            }
++          ]
++        },
++        "rollback_manifest": {
++          "oneOf": [
++            {
++              "type": "object",
++              "additionalProperties": false,
++              "properties": {
++                "state": {
++                  "const": "absent"
++                }
++              },
++              "required": [
++                "state"
++              ]
++            },
++            {
++              "type": "object",
++              "additionalProperties": false,
++              "properties": {
++                "state": {
++                  "const": "present"
++                },
++                "sha256": {
++                  "type": "string",
++                  "pattern": "^[0-9a-f]{64}$"
++                },
++                "backup_path": {
++                  "type": "string",
++                  "minLength": 3,
++                  "maxLength": 32767
++                },
++                "backup_sha256": {
++                  "type": "string",
++                  "pattern": "^[0-9a-f]{64}$"
++                }
++              },
++              "required": [
++                "state",
++                "sha256",
++                "backup_path",
++                "backup_sha256"
++              ]
++            }
++          ]
++        }
++      },
++      "required": [
++        "canvas",
++        "validation_manifest",
++        "rollback_manifest"
++      ]
++    },
++    "generated": {
++      "type": "object",
++      "additionalProperties": false,
++      "properties": {
++        "canvas": {
++          "type": "object",
++          "additionalProperties": false,
++          "properties": {
++            "path": {
++              "type": "string",
++              "minLength": 3,
++              "maxLength": 32767
++            },
++            "sha256": {
++              "type": "string",
++              "pattern": "^[0-9a-f]{64}$"
++            }
++          },
++          "required": [
++            "path",
++            "sha256"
++          ]
++        },
++        "validation_manifest": {
++          "type": "object",
++          "additionalProperties": false,
++          "properties": {
++            "path": {
++              "type": "string",
++              "minLength": 3,
++              "maxLength": 32767
++            },
++            "sha256": {
++              "type": "string",
++              "pattern": "^[0-9a-f]{64}$"
++            }
++          },
++          "required": [
++            "path",
++            "sha256"
++          ]
++        }
++      },
++      "required": [
++        "canvas",
++        "validation_manifest"
++      ]
++    },
++    "rollback_manifest_path": {
++      "type": "string",
++      "minLength": 3,
++      "maxLength": 32767
++    },
++    "guard": {
++      "type": "object",
++      "additionalProperties": false,
++      "properties": {
++        "expected_canvas_sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "expected_validation_sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "expected_manifest_content_sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        }
++      },
++      "required": [
++        "expected_canvas_sha256",
++        "expected_validation_sha256",
++        "expected_manifest_content_sha256"
++      ]
++    },
++    "actions": {
++      "type": "array",
++      "items": {
++        "type": "object",
++        "additionalProperties": false,
++        "properties": {
++          "role": {
++            "enum": [
++              "canvas",
++              "validation_manifest",
++              "rollback_manifest"
++            ]
++          },
++          "action": {
++            "enum": [
++              "delete",
++              "restore"
++            ]
++          },
++          "verify": {
++            "enum": [
++              "absent",
++              "sha256"
++            ]
++          }
++        },
++        "required": [
++          "role",
++          "action",
++          "verify"
++        ]
++      },
++      "minItems": 3,
++      "maxItems": 3
++    }
++  },
++  "required": [
++    "schema_version",
++    "status",
++    "request_sha256",
++    "authorized_staging_root",
++    "backup_root",
++    "baseline",
++    "generated",
++    "rollback_manifest_path",
++    "guard",
++    "actions"
++  ]
++}
+diff --git a/references/design/obsidian-canvas-agent-visualization/schemas/canvas-success.schema.json b/references/design/obsidian-canvas-agent-visualization/schemas/canvas-success.schema.json
+new file mode 100644
+index 0000000..2369980
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/schemas/canvas-success.schema.json
+@@ -0,0 +1,276 @@
++{
++  "$schema": "https://json-schema.org/draft/2020-12/schema",
++  "$id": "https://ckb.local/schemas/canvas-success.schema.json",
++  "type": "object",
++  "additionalProperties": false,
++  "properties": {
++    "schema_version": {
++      "const": 1
++    },
++    "status": {
++      "const": "passed"
++    },
++    "operation": {
++      "const": "generate"
++    },
++    "exit_code": {
++      "const": 0
++    },
++    "request_sha256": {
++      "type": "string",
++      "pattern": "^[0-9a-f]{64}$"
++    },
++    "canvas": {
++      "type": "object",
++      "additionalProperties": false,
++      "properties": {
++        "path": {
++          "type": "string",
++          "minLength": 3,
++          "maxLength": 32767
++        },
++        "sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "byte_length": {
++          "type": "integer",
++          "minimum": 1
++        }
++      },
++      "required": [
++        "path",
++        "sha256",
++        "byte_length"
++      ]
++    },
++    "validation_manifest": {
++      "type": "object",
++      "additionalProperties": false,
++      "properties": {
++        "path": {
++          "type": "string",
++          "minLength": 3,
++          "maxLength": 32767
++        },
++        "sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "byte_length": {
++          "type": "integer",
++          "minimum": 1
++        }
++      },
++      "required": [
++        "path",
++        "sha256",
++        "byte_length"
++      ]
++    },
++    "rollback_manifest": {
++      "type": "object",
++      "additionalProperties": false,
++      "properties": {
++        "path": {
++          "type": "string",
++          "minLength": 3,
++          "maxLength": 32767
++        },
++        "sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "byte_length": {
++          "type": "integer",
++          "minimum": 1
++        }
++      },
++      "required": [
++        "path",
++        "sha256",
++        "byte_length"
++      ]
++    },
++    "node_count": {
++      "type": "integer",
++      "minimum": 1,
++      "maximum": 12
++    },
++    "edge_count": {
++      "type": "integer",
++      "minimum": 0,
++      "maximum": 16
++    },
++    "role_counts": {
++      "type": "object",
++      "additionalProperties": false,
++      "properties": {
++        "text": {
++          "type": "integer",
++          "minimum": 0,
++          "maximum": 1
++        },
++        "page": {
++          "type": "integer",
++          "minimum": 0,
++          "maximum": 6
++        },
++        "record": {
++          "type": "integer",
++          "minimum": 0,
++          "maximum": 2
++        },
++        "source": {
++          "type": "integer",
++          "minimum": 0,
++          "maximum": 3
++        }
++      },
++      "required": [
++        "text",
++        "page",
++        "record",
++        "source"
++      ]
++    },
++    "backlinks_checked": {
++      "type": "integer",
++      "minimum": 1,
++      "maximum": 12
++    },
++    "dangling_edges": {
++      "const": 0
++    },
++    "machine_fields_exposed": {
++      "const": 0
++    },
++    "target_state": {
++      "type": "object",
++      "additionalProperties": false,
++      "properties": {
++        "path": {
++          "type": "string",
++          "minLength": 3,
++          "maxLength": 32767
++        },
++        "before": {
++          "oneOf": [
++            {
++              "type": "object",
++              "additionalProperties": false,
++              "properties": {
++                "state": {
++                  "const": "absent"
++                }
++              },
++              "required": [
++                "state"
++              ]
++            },
++            {
++              "type": "object",
++              "additionalProperties": false,
++              "properties": {
++                "state": {
++                  "const": "present"
++                },
++                "sha256": {
++                  "type": "string",
++                  "pattern": "^[0-9a-f]{64}$"
++                }
++              },
++              "required": [
++                "state",
++                "sha256"
++              ]
++            },
++            {
++              "type": "object",
++              "additionalProperties": false,
++              "properties": {
++                "state": {
++                  "const": "unavailable"
++                }
++              },
++              "required": [
++                "state"
++              ]
++            }
++          ]
++        },
++        "after": {
++          "oneOf": [
++            {
++              "type": "object",
++              "additionalProperties": false,
++              "properties": {
++                "state": {
++                  "const": "absent"
++                }
++              },
++              "required": [
++                "state"
++              ]
++            },
++            {
++              "type": "object",
++              "additionalProperties": false,
++              "properties": {
++                "state": {
++                  "const": "present"
++                },
++                "sha256": {
++                  "type": "string",
++                  "pattern": "^[0-9a-f]{64}$"
++                }
++              },
++              "required": [
++                "state",
++                "sha256"
++              ]
++            },
++            {
++              "type": "object",
++              "additionalProperties": false,
++              "properties": {
++                "state": {
++                  "const": "unavailable"
++                }
++              },
++              "required": [
++                "state"
++              ]
++            }
++          ]
++        },
++        "changed": {
++          "type": "boolean"
++        }
++      },
++      "required": [
++        "path",
++        "before",
++        "after",
++        "changed"
++      ]
++    }
++  },
++  "required": [
++    "schema_version",
++    "status",
++    "operation",
++    "exit_code",
++    "request_sha256",
++    "canvas",
++    "validation_manifest",
++    "rollback_manifest",
++    "node_count",
++    "edge_count",
++    "role_counts",
++    "backlinks_checked",
++    "dangling_edges",
++    "machine_fields_exposed",
++    "target_state"
++  ]
++}
+diff --git a/references/design/obsidian-canvas-agent-visualization/schemas/canvas-validation-manifest.schema.json b/references/design/obsidian-canvas-agent-visualization/schemas/canvas-validation-manifest.schema.json
+new file mode 100644
+index 0000000..8abce8a
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/schemas/canvas-validation-manifest.schema.json
+@@ -0,0 +1,289 @@
++{
++  "$schema": "https://json-schema.org/draft/2020-12/schema",
++  "$id": "https://ckb.local/schemas/canvas-validation-manifest.schema.json",
++  "type": "object",
++  "additionalProperties": false,
++  "properties": {
++    "schema_version": {
++      "const": 1
++    },
++    "status": {
++      "const": "passed"
++    },
++    "request_sha256": {
++      "type": "string",
++      "pattern": "^[0-9a-f]{64}$"
++    },
++    "snapshot": {
++      "type": "object",
++      "additionalProperties": false,
++      "properties": {
++        "commit": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{40}$"
++        },
++        "tree": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{40}$"
++        },
++        "state_sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "machine_index_sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "human_projection_sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "human_manifest_sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "local_openers_sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        }
++      },
++      "required": [
++        "commit",
++        "tree",
++        "state_sha256",
++        "machine_index_sha256",
++        "human_projection_sha256",
++        "human_manifest_sha256",
++        "local_openers_sha256"
++      ]
++    },
++    "inputs": {
++      "type": "object",
++      "additionalProperties": false,
++      "properties": {
++        "agent_pack_path": {
++          "type": "string",
++          "minLength": 3,
++          "maxLength": 32767
++        },
++        "agent_pack_sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "record_path": {
++          "type": "string",
++          "minLength": 3,
++          "maxLength": 32767
++        },
++        "record_sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "record_schema_version": {
++          "const": 3
++        }
++      },
++      "required": [
++        "agent_pack_path",
++        "agent_pack_sha256",
++        "record_path",
++        "record_sha256",
++        "record_schema_version"
++      ]
++    },
++    "canvas": {
++      "type": "object",
++      "additionalProperties": false,
++      "properties": {
++        "path": {
++          "type": "string",
++          "minLength": 3,
++          "maxLength": 32767
++        },
++        "sha256": {
++          "type": "string",
++          "pattern": "^[0-9a-f]{64}$"
++        },
++        "byte_length": {
++          "type": "integer",
++          "minimum": 1
++        }
++      },
++      "required": [
++        "path",
++        "sha256",
++        "byte_length"
++      ]
++    },
++    "node_count": {
++      "type": "integer",
++      "minimum": 1,
++      "maximum": 12
++    },
++    "edge_count": {
++      "type": "integer",
++      "minimum": 0,
++      "maximum": 16
++    },
++    "role_counts": {
++      "type": "object",
++      "additionalProperties": false,
++      "properties": {
++        "text": {
++          "type": "integer",
++          "minimum": 0,
++          "maximum": 1
++        },
++        "page": {
++          "type": "integer",
++          "minimum": 0,
++          "maximum": 6
++        },
++        "record": {
++          "type": "integer",
++          "minimum": 0,
++          "maximum": 2
++        },
++        "source": {
++          "type": "integer",
++          "minimum": 0,
++          "maximum": 3
++        }
++      },
++      "required": [
++        "text",
++        "page",
++        "record",
++        "source"
++      ]
++    },
++    "checks": {
++      "type": "object",
++      "additionalProperties": false,
++      "properties": {
++        "request_schema": {
++          "const": "passed"
++        },
++        "record_compatibility": {
++          "const": "passed"
++        },
++        "snapshot_consistency": {
++          "const": "passed"
++        },
++        "input_hashes": {
++          "const": "passed"
++        },
++        "path_scope": {
++          "const": "passed"
++        },
++        "canvas_schema": {
++          "const": "passed"
++        },
++        "budget": {
++          "const": "passed"
++        },
++        "stable_ids": {
++          "const": "passed"
++        },
++        "backlinks": {
++          "const": "passed"
++        },
++        "source_ranges": {
++          "const": "passed"
++        },
++        "dangling_edges": {
++          "const": 0
++        },
++        "machine_fields_exposed": {
++          "const": 0
++        },
++        "canonical_serialization": {
++          "const": "passed"
++        }
++      },
++      "required": [
++        "request_schema",
++        "record_compatibility",
++        "snapshot_consistency",
++        "input_hashes",
++        "path_scope",
++        "canvas_schema",
++        "budget",
++        "stable_ids",
++        "backlinks",
++        "source_ranges",
++        "dangling_edges",
++        "machine_fields_exposed",
++        "canonical_serialization"
++      ]
++    },
++    "backlinks": {
++      "type": "array",
++      "items": {
++        "type": "object",
++        "additionalProperties": false,
++        "properties": {
++          "node_id": {
++            "type": "string",
++            "pattern": "^[0-9a-f]{16}$"
++          },
++          "role": {
++            "enum": [
++              "focus",
++              "page",
++              "record",
++              "source"
++            ]
++          },
++          "record_ref": {
++            "type": "string",
++            "minLength": 1,
++            "maxLength": 128
++          },
++          "target": {
++            "type": "string",
++            "minLength": 1,
++            "maxLength": 4096
++          },
++          "sha256": {
++            "oneOf": [
++              {
++                "type": "string",
++                "pattern": "^[0-9a-f]{64}$"
++              },
++              {
++                "type": "null"
++              }
++            ]
++          },
++          "status": {
++            "const": "passed"
++          }
++        },
++        "required": [
++          "node_id",
++          "role",
++          "record_ref",
++          "target",
++          "sha256",
++          "status"
++        ]
++      },
++      "minItems": 1,
++      "maxItems": 12
++    }
++  },
++  "required": [
++    "schema_version",
++    "status",
++    "request_sha256",
++    "snapshot",
++    "inputs",
++    "canvas",
++    "node_count",
++    "edge_count",
++    "role_counts",
++    "checks",
++    "backlinks"
++  ]
++}
+diff --git a/references/design/obsidian-canvas-agent-visualization/schemas/json-canvas-1.0-ckb-subset.schema.json b/references/design/obsidian-canvas-agent-visualization/schemas/json-canvas-1.0-ckb-subset.schema.json
+new file mode 100644
+index 0000000..a8b2801
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/schemas/json-canvas-1.0-ckb-subset.schema.json
+@@ -0,0 +1,200 @@
++{
++  "$schema": "https://json-schema.org/draft/2020-12/schema",
++  "$id": "https://ckb.local/schemas/json-canvas-1.0-ckb-subset.schema.json",
++  "type": "object",
++  "additionalProperties": false,
++  "properties": {
++    "nodes": {
++      "type": "array",
++      "items": {
++        "oneOf": [
++          {
++            "type": "object",
++            "additionalProperties": false,
++            "properties": {
++              "id": {
++                "type": "string",
++                "pattern": "^[0-9a-f]{16}$"
++              },
++              "type": {
++                "const": "text"
++              },
++              "x": {
++                "type": "integer"
++              },
++              "y": {
++                "type": "integer"
++              },
++              "width": {
++                "type": "integer",
++                "minimum": 1
++              },
++              "height": {
++                "type": "integer",
++                "minimum": 1
++              },
++              "text": {
++                "type": "string",
++                "minLength": 1
++              }
++            },
++            "required": [
++              "id",
++              "type",
++              "x",
++              "y",
++              "width",
++              "height",
++              "text"
++            ]
++          },
++          {
++            "type": "object",
++            "additionalProperties": false,
++            "properties": {
++              "id": {
++                "type": "string",
++                "pattern": "^[0-9a-f]{16}$"
++              },
++              "type": {
++                "const": "file"
++              },
++              "x": {
++                "type": "integer"
++              },
++              "y": {
++                "type": "integer"
++              },
++              "width": {
++                "type": "integer",
++                "minimum": 1
++              },
++              "height": {
++                "type": "integer",
++                "minimum": 1
++              },
++              "file": {
++                "type": "string",
++                "minLength": 1,
++                "maxLength": 1024,
++                "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$"
++              },
++              "subpath": {
++                "type": "string",
++                "pattern": "^#.+",
++                "maxLength": 512
++              }
++            },
++            "required": [
++              "id",
++              "type",
++              "x",
++              "y",
++              "width",
++              "height",
++              "file"
++            ]
++          },
++          {
++            "type": "object",
++            "additionalProperties": false,
++            "properties": {
++              "id": {
++                "type": "string",
++                "pattern": "^[0-9a-f]{16}$"
++              },
++              "type": {
++                "const": "link"
++              },
++              "x": {
++                "type": "integer"
++              },
++              "y": {
++                "type": "integer"
++              },
++              "width": {
++                "type": "integer",
++                "minimum": 1
++              },
++              "height": {
++                "type": "integer",
++                "minimum": 1
++              },
++              "url": {
++                "type": "string",
++                "minLength": 1,
++                "maxLength": 4096
++              }
++            },
++            "required": [
++              "id",
++              "type",
++              "x",
++              "y",
++              "width",
++              "height",
++              "url"
++            ]
++          }
++        ]
++      },
++      "minItems": 1,
++      "maxItems": 12
++    },
++    "edges": {
++      "type": "array",
++      "items": {
++        "type": "object",
++        "additionalProperties": false,
++        "properties": {
++          "id": {
++            "type": "string",
++            "pattern": "^[0-9a-f]{16}$"
++          },
++          "fromNode": {
++            "type": "string",
++            "pattern": "^[0-9a-f]{16}$"
++          },
++          "fromSide": {
++            "const": "right"
++          },
++          "fromEnd": {
++            "const": "none"
++          },
++          "toNode": {
++            "type": "string",
++            "pattern": "^[0-9a-f]{16}$"
++          },
++          "toSide": {
++            "const": "left"
++          },
++          "toEnd": {
++            "const": "arrow"
++          },
++          "label": {
++            "enum": [
++              "检索命中",
++              "相关记录",
++              "来源核对"
++            ]
++          }
++        },
++        "required": [
++          "id",
++          "fromNode",
++          "fromSide",
++          "fromEnd",
++          "toNode",
++          "toSide",
++          "toEnd",
++          "label"
++        ]
++      },
++      "maxItems": 16
++    }
++  },
++  "required": [
++    "nodes",
++    "edges"
++  ]
++}
+diff --git a/references/design/obsidian-canvas-agent-visualization/technical-design.md b/references/design/obsidian-canvas-agent-visualization/technical-design.md
+new file mode 100644
+index 0000000..4e28fa7
+--- /dev/null
++++ b/references/design/obsidian-canvas-agent-visualization/technical-design.md
+@@ -0,0 +1,446 @@
++# CKB Canvas Skill 原型技术设计
++
++设计基线：`62b15376e8de899a2eaeda1d10bcc62bd1b3d2a8`
++冻结知识快照：`150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3`
++目标格式：JSON Canvas 1.0
++设计状态：可交给隔离原型任务；不表示产品能力已经实现
++
++## 1. 结论与边界
++
++第一原型采用一个独立的 CKB Canvas Skill，由 Skill 调用确定性 Python 脚本。脚本只消费冻结 Agent pack、同名完整 record、固定人类页、固定源码文件和当前 CKB 已验证的 `local-openers.json`；它在调用方授权的隔离 staging 根内生成 `.canvas`、validation manifest 和 rollback manifest。原型不注册 `scripts/ckb.py` 新命令，不修改现有 Obsidian companion，不启动 MCP，不写活动稳定知识库，也不进入 lite、full 或 Obsidian 插件发行合同。
++
++设计冻结以下内容，原型任务不得重新选择：
++
++- record 兼容版本与 pack/record 绑定方式；
++- 请求、成功、失败、validation 和 rollback 的 schema；
++- 最多 12 个节点、16 条边及其选择、ID、排序和布局；
++- staging、重开验证、原子 promotion、replace、并发漂移和 rollback 状态机；
++- 内部实验命令与 Skill 的职责边界；
++- fixture 目录、稳定失败原因、测试矩阵和 Markdown 对照 runner 合同。
++
++以下内容仍保留为产品阶段的人工决策，不在本设计中写成事实：
++
++- benchmark 通过后 Canvas 进入 `OUTPUT/human`、用户自有目录还是只读导出目录；
++- 是否给 companion 增加“打开/刷新 Canvas”；
++- 产品形态是否允许直接 editor URI，还是统一经人类知识页二跳到源码；
++- 是否把内部实验命令提升为正式 `scripts/ckb.py` 子命令。
++
++研究依据见：
++
++- [能力与数据边界](../../research/obsidian-canvas-agent-visualization/capability-data-boundary-matrix.md)
++- [最小合同与 Markdown 对照](../../research/obsidian-canvas-agent-visualization/design-input-and-benchmark.md)
++- [研究交接](../../research/obsidian-canvas-agent-visualization/handoff.json)
++
++## 2. 当前仓库事实与设计影响
++
++### 2.1 已确认入口
++
++| 当前入口 | 已确认行为 | 对原型的约束 |
++|---|---|---|
++| `scripts/ckb.py:384-390,910-945` | `brief` 调用 `retrieve_machine` 或兼容 `retrieve`，再用 `compact_agent_brief` 只返回 pack/record 路径和紧凑状态 | Canvas 不解析 `brief` 的紧凑 JSON 作为 record；它只消费 `brief` 指向的完整 `.json` |
++| `scripts/ckb_core/llm_wiki_capabilities.py:358-405` | compact result 的 `schema_version=1`，明确省略词项、实体、得分和统计 | compact schema 1 与完整 machine record schema 3 是两个合同，不混用 |
++| `scripts/ckb_core/machine_knowledge.py:1523-1555` | machine record 当前 `schema_version=3`，包含 `selected_entities`、`related_documents`、pack/record 路径、确定性标记和来源状态 | 第一原型只接受完整 machine record 3；兼容 `agent_index` record 1 明确失败 |
++| `scripts/ckb_core/agent_index.py:426-554` | 兼容 record 1 的字段是 `selected_pages` 与 `related_notes`，形状不同 | 不为原型维护第二个选择适配器，返回 `unsupported_record_schema` |
++| `scripts/ckb_core/source_links.py:17-81,105-180` | `SourceLinkRenderer` 校验相对路径、根边界、editor 类型并生成、审计 URI | 来源节点必须复用该 renderer 与 `audit_source_uri`，不得自行拼 URI |
++| `scripts/ckb_core/common.py:62-74` | `json_write` 使用同目录临时文件和 `os.replace` | 原型采用同一写入模式，但增加输入重查、三角色 staging、重开验证和 baseline guard |
++| `scripts/ckb_core/agent_protocol_batch.py:866-881` | `_state_file` 记录存在性/hash/mode，`_write_bytes_atomic` 写临时字节后 `os.replace` | replace 与 rollback 复用“存在性 + SHA-256 + 原子替换”思想，不复用批处理私有函数 |
++| `scripts/package_release.py:15-31,42-97` | lite/full 打包包含除固定排除项外的仓库文件，核心 ZIP 明确排除 `plugins/` | 原型分支不运行或修改发布打包；实验 Skill 的最终归属需 benchmark 后单独决定 |
++| `OUTPUT/state.json` 与 `machine/knowledge.sqlite.meta` | 当前快照 commit 都是 `150a1ce8...`；完整 record 本身没有 snapshot commit | 请求必须另外 pin `state.json`、machine SQLite 和 human projection，不能声称 record 自带 commit |
++
++### 2.2 pack 与 record 的真实边界
++
++Agent pack 是面向 Agent 阅读的 UTF-8 Markdown，没有独立 schema，也不携带 snapshot commit。完整 record 是机器 JSON，当前 machine schema 为 3。原型把 pack 当作不可变、不解析的证据字节，把 record 当作唯一选择序列；两者必须满足：
++
++1. 两个文件位于同一规范化目录，文件 stem 相同；
++2. record 的 `pack`、`record` 规范化后分别等于请求路径；
++3. 两个请求 hash 与实际字节一致；
++4. record 为 `status=passed`、`deterministic=true`、`grep_fallback_required=false`；
++5. record 不含 `keyword_fallback` 或 `keyword_fallback_record`；第一 benchmark 只测默认确定性路径；
++6. pack 和 record 都位于 `output_root/machine/agent-packs`，解析符号链接后仍在该目录；
++7. record 未知顶层字段或未知候选字段触发 `unsupported_record_schema`，不猜测兼容。
++
++### 2.3 snapshot 的真实 guard
++
++原型读取请求固定的 `state.json`、`machine/knowledge.sqlite`、`human/projection.json` 和 `local-openers.json`，并执行以下一致性检查：
++
++- 四个文件的 SHA-256 与请求一致；
++- `state.repository.commit == state.source_snapshot.commit == request.snapshot_commit`；
++- `state.repository.tree == state.source_snapshot.tree == request.snapshot_tree`；
++- SQLite `meta.status=ready`、`meta.schema_version=3`、`meta.repository_commit == request.snapshot_commit`；
++- `human_root == output_root/human`，`human/projection.json` 的路径和 hash 与请求一致；
++- `local-openers.json` 为 schema 1，且第一原型只接受 `source_view=baseline`；
++- `baseline_snapshot_root` 解析后等于 `state.source_snapshot.root`；
++- 人类页与源码文件均在请求的 `frozen_evidence` 中，当前 hash 必须一致。
++
++这样 snapshot 一致性来自当前仓库真实状态和 SQLite 元数据，而不是不存在的 record 字段。
++
++## 3. 建议新增模块与公开函数
++
++原型代码根固定为 `prototypes/ckb-canvas-skill/`。这里只定义原型内部公共面；这些函数不加入 CKB 正式公共 API。
++
++```text
++prototypes/ckb-canvas-skill/
++├── SKILL.md
++├── scripts/ckb_canvas.py
++└── ckb_canvas/
++    ├── contracts.py
++    ├── freeze.py
++    ├── graph.py
++    ├── transaction.py
++    ├── commands.py
++    └── benchmark.py
++```
++
++### 3.1 `contracts.py`
++
++只拥有 JSON Schema 加载、严格校验和稳定结果类型，不访问文件系统。
++
++| 公开实体 | 合同 |
++|---|---|
++| `load_schema(name) -> dict` | 从固定 schema 目录读取已知 schema 名；未知名失败 |
++| `validate_instance(schema_name, value) -> None` | Draft 2020-12 校验，拒绝未知字段 |
++| `CanvasFailure` | 稳定 `reason`、`phase`、`exit_code`、目标前后状态和恢复动作 |
++| `CanvasSuccess` | 三个角色的路径/hash、计数和目标前后状态 |
++
++### 3.2 `freeze.py`
++
++只拥有输入规范化、hash、版本、路径和来源闭合；不选择节点，不写输出。
++
++| 公开实体 | 合同 |
++|---|---|
++| `load_and_freeze_request(path) -> FrozenInputs` | 严格解析 request，规范化所有路径，读取并 hash 输入，完成 snapshot 与 pack/record 交叉校验 |
++| `recheck_frozen_inputs(frozen) -> None` | promotion 前重算全部输入和证据 hash；任一漂移返回 `input_drift` |
++| `resolve_scoped_path(root, candidate, must_exist) -> Path` | 解析 Windows symlink/junction 和现存父目录，保证最终路径仍在根内 |
++| `validate_source_range(path, start, end) -> SourceRange` | 要求普通实体 `1 <= start <= end <= line_count`；当前 file 实体允许唯一的 `end=line_count+1` 末尾哨兵，并返回固定源文件 hash |
++
++`FrozenInputs` 只保留规范化值、已验证字节/hash 和 record 序列；后续模块不得再次从 SQLite 扩展候选。
++
++### 3.3 `graph.py`
++
++纯函数模块，拥有候选选择、稳定 ID、布局、JSON Canvas 1.0 子集渲染和内存验证；不访问网络和 Obsidian workspace。
++
++| 公开实体 | 合同 |
++|---|---|
++| `select_graph(frozen) -> SelectedGraph` | 按第 5 节算法选择最多 12 个节点和 16 条边 |
++| `layout_graph(selected) -> CanvasDocument` | 使用冻结坐标和尺寸，不读取窗口或模型输出 |
++| `canonical_canvas_bytes(document) -> bytes` | UTF-8、无 BOM、LF、key 字典序、紧凑分隔符、末尾一个 LF |
++| `validate_canvas(document, frozen) -> ValidationFacts` | 检查 schema、预算、ID、悬空边、回链、来源范围和机器字段泄露 |
++
++### 3.4 `transaction.py`
++
++只拥有目标 baseline、staging、原子 promotion、replace 和 rollback，不决定图内容。
++
++| 公开实体 | 合同 |
++|---|---|
++| `capture_baseline(frozen) -> ArtifactBaseline` | 对 canvas、validation、rollback 三个最终路径记录存在性/hash；与 request baseline 精确相等 |
++| `stage_bundle(frozen, bytes_by_role) -> StagedBundle` | 每个角色写同父目录唯一临时文件，flush、fsync、关闭、重开并 hash |
++| `promote_bundle(staged, baseline) -> PromotedBundle` | 先重查输入和 baseline，再 promotion 两个 sidecar，最后原子替换 canvas；失败清理本次 sidecar |
++| `verify_promoted(promoted) -> None` | 重开三角色并核对 schema 与 hash；发生外部漂移时保留外部当前字节 |
++| `rollback_from_manifest(path) -> RollbackResult` | hash guard 后恢复三个角色的原始存在性和字节，恢复后重开验证 |
++
++### 3.5 `commands.py`
++
++只编排上述模块并把一个 schema 化 JSON 写到 stdout。诊断写 stderr，stdout 不混入日志。
++
++| 公开实体 | 合同 |
++|---|---|
++| `generate(request_path) -> CanvasSuccess | CanvasFailure` | 完整执行 freeze → graph → stage → promote → verify |
++| `rollback(manifest_path, expected_sha256) -> RollbackSuccess | CanvasFailure` | 先核对 manifest 完整 hash，再执行 guard、恢复和重开验证 |
++| `validate_only(request_path) -> ValidationResult | CanvasFailure` | 只到内存验证和 staging 重开，不 promotion |
++
++### 3.6 `benchmark.py`
++
++只读取冻结 runner 输入和 session 观察结果；不改变 Canvas 或 Markdown 证据集。
++
++| 公开实体 | 合同 |
++|---|---|
++| `run_session(run_path, session_id) -> SessionResult` | 核对环境、展示固定任务顺序、记录计时与跳转事件 |
++| `judge_session(run, observations) -> SessionResult` | 按固定答案字段和来源证据计分 |
++| `summarize(run, sessions) -> BenchmarkSummary` | 计算两条件指标、七个门和停止原因 |
++
++## 4. CLI 与 Skill 边界
++
++### 4.1 内部实验命令
++
++原型固定使用：
++
++```powershell
++python prototypes\ckb-canvas-skill\scripts\ckb_canvas.py generate --request REQUEST.json
++python prototypes\ckb-canvas-skill\scripts\ckb_canvas.py validate --request REQUEST.json
++python prototypes\ckb-canvas-skill\scripts\ckb_canvas.py rollback --manifest TARGET.canvas.rollback.json --expected-sha256 MANIFEST_SHA256
++python prototypes\ckb-canvas-skill\scripts\ckb_canvas.py benchmark --run BENCHMARK-RUN.json --session SESSION_ID
++python prototypes\ckb-canvas-skill\scripts\ckb_canvas.py summarize --run BENCHMARK-RUN.json --sessions SESSION-DIR --write SUMMARY.json
++```
++
++退出状态固定为：
++
++- `0`：命令完成且输出 schema 通过；
++- `2`：请求、版本、路径、输入、目标或回链前置条件不满足；
++- `5`：生成对象、Canvas、manifest 或 benchmark 判定未通过验证；
++- `6`：promotion 或 rollback 发现并发漂移；
++- `7`：文件系统 I/O 失败，目标仍为原字节或外部当前完整字节。
++
++### 4.2 Skill 只编排
++
++`SKILL.md` 的职责仅为：
++
++1. 要求一个已通过 schema 的 request 或 benchmark run；
++2. 调用内部命令；
++3. 重开命令返回的三个角色；
++4. 报告路径、字面状态和退出状态；
++5. 需要回滚时调用 manifest，而不是手工编辑 Canvas。
++
++Skill 不选择候选、不生成关系、不改预算、不拼 editor URI、不解释 hash 漂移、不直接写 `.canvas`。这些都由脚本确定性完成。
++
++### 4.3 暂不扩展主 CLI 的理由
++
++当前 `scripts/ckb.py` 已是正式建库、检索、记录、维护和迁移入口。Canvas 的导航收益、custom URI 行为和目标所有权尚未通过冻结对照；此时增加正式子命令会把实验 schema、路径归属和维护承诺提前变成产品合同。独立命令可以复用真实数据格式，同时把失败、撤回和目录删除限制在原型分支。benchmark 通过后，再由单独产品设计决定是否接入主 CLI、companion 或 MCP。
++
++## 5. 稳定选择、ID、排序和布局
++
++### 5.1 规范化
++
++- 所有可见文本执行 Unicode NFC；禁止控制字符，标题长度为 1–120 个 Unicode code point。
++- Canvas `file` 值是相对 `human_root` 的 POSIX 路径；不得出现绝对路径、`.`、`..` 或反斜杠。
++- Windows 机器路径只进入 validation/rollback manifest；drive letter 规范化为大写，比较不区分大小写，序列化保留解析后的规范路径。
++- 第一原型 `local-openers.source_view` 固定为 `baseline`；来源范围从 detached snapshot 打开。
++
++### 5.2 候选选择伪代码
++
++```text
++assert record.schema_version == 3
++assert request.budget == frozen_budget
++
++required = validate_required_record_ordinals(request.required_entries)
++page_candidates = stable_unique(
++    record.selected_entities where human_page_file exists,
++    key = canonical human_page_file,
++    order = record array ordinal
++)
++record_candidates = stable_unique(
++    record.related_documents where status == "agent-reviewed" and human_file exists,
++    key = canonical human_file,
++    order = record array ordinal
++)
++
++selected_pages = required pages in record order
++fill selected_pages from page_candidates until 6
++
++selected_records = required records in record order
++fill selected_records from record_candidates until 2
++
++source_candidates = first source range bound to each selected page,
++                    de-duplicated by (source_path, start_line, end_line),
++                    ordered by selected page order then entity ordinal
++selected_sources = required sources in source order
++fill selected_sources from source_candidates until 3
++
++if any required entry is absent, unbacklinked, invalid or over quota:
++    fail without dropping it
++
++nodes = [focus] + selected_pages + selected_records + selected_sources
++edges = focus->pages + focus->records + owning_page->sources
++assert len(nodes) <= 12 and len(edges) <= 16
++```
++
++候选不足时不填造节点。没有人类页且没有精确来源的普通候选被忽略；请求 `required_entries` 显式指定的候选缺回链时返回 `missing_backlink`。
++
++### 5.3 稳定 ID
++
++```text
++node_id = sha256(utf8("node\0" + role + "\0" + canonical_target))[0:16]
++edge_id = sha256(utf8("edge\0" + from_id + "\0" + label + "\0" + to_id))[0:16]
++```
++
++`canonical_target` 固定为：
++
++- focus：`index:INDEX.md\0title:<NFC title>`；
++- page：`file:<relative human page>`；
++- reviewed record：`record:<relative human record>`；
++- source：`source:<audited SourceLinkRenderer URI>`。
++
++16 位 ID 冲突时返回 `duplicate_id`，不加随机 salt。ID 是 Canvas 结构标识，不复制 `entity_id`、`document_id` 或 gap ID。
++
++### 5.4 冻结布局与字段
++
++| role | `x` | `y` | `width × height` | Canvas 类型 |
++|---|---:|---:|---:|---|
++| focus | 0 | 0 | `360 × 180` | `text` |
++| page | 480 | `page_index × 260` | `360 × 220` | `file` |
++| record | 480 | `(page_count + record_index) × 260` | `360 × 220` | `file` |
++| source | 960 | `source_index × 260` | `360 × 160` | `link` |
++
++节点数组顺序固定为 focus、page、record、source；同类保持上述选择顺序。边数组顺序固定为 `检索命中`、`相关记录`、`来源核对`，每类按起点数组序和终点数组序。所有边固定 `fromSide=right`、`toSide=left`、`fromEnd=none`、`toEnd=arrow`。
++
++focus 文本只含标题和 `[[INDEX]]`。page/record 只写 `file`；source 只写 renderer 产生并通过 `audit_source_uri` 的 `url`。第一原型不写 group、颜色、机器关系或任意扩展键。
++
++### 5.5 确定性字节
++
++Canvas 与两个 manifest 都使用：
++
++```text
++UTF-8 without BOM
++Unicode NFC
++JSON object keys sorted lexicographically
++separators = (",", ":")
++ensure_ascii = false
++exactly one trailing LF
++no timestamps, PID, temporary path or random value
++```
++
++相同 request 字节、同一冻结证据字节和相同目标 baseline 必须产生相同 Canvas 字节。manifest 的确定性检查使用规范化内容 hash；运行时临时文件名与实时时长不进入 manifest。
++
++## 6. 回链、来源范围与数据泄露门
++
++### 6.1 人类页
++
++每个 file 节点必须同时满足：
++
++1. 路径存在于 request `frozen_evidence.human_files`；
++2. hash 与 request 一致；
++3. 路径存在于 `human/projection.json`、`human/manifest.json.generated_files` 或受审阅记录目录；
++4. 解析后仍位于 `human_root`；
++5. 若使用 `subpath`，目标标题或 block ID 在文件中恰好出现一次。第一原型 fixture 默认不使用 `subpath`。
++
++### 6.2 来源范围
++
++每个 link 节点必须同时满足：
++
++1. `source_path` 是 record 现有相对路径；
++2. 路径存在于 request `frozen_evidence.source_files` 且 hash 一致；
++3. 路径解析到 `baseline_snapshot_root` 内；
++4. `start_line`、`end_line` 是整数；普通实体在当前 UTF-8 行数内，`kind=file` 只额外允许当前 parser 的 `end_line=line_count+1` 末尾哨兵；
++5. URL 由 `SourceLinkRenderer.uri(source_path,start_line,1)` 生成；
++6. `audit_source_uri` 返回无错误。
++
++直接 editor URI 只作为第一原型的受测变量。若固定 Obsidian 版本不能打开它，benchmark 写失败证据并停止产品化；本设计不据此决定最终产品必须使用 editor URI。
++
++### 6.3 Canvas 禁止字段
++
++递归扫描 key 和受控文本，以下机器内容出现一次即 `invalid_canvas`：
++
++- `entity_id`、`document_id`、gap ID、SQLite row ID；
++- `score`、`score_breakdown`、`terms`、`anchors`、`seed_entity_ids`、`retrieval_stats`；
++- pack/record/state/SQLite 的绝对路径与 hash；
++- token、缓存、环境变量、凭据或 MCP 字段；
++- record 未证明的 `calls`、`depends-on`、`contains` 等机器关系。
++
++绝对 editor URI 是显式允许的 source link，不属于 pack/record 内部路径泄露；validation manifest 记录它来自哪个固定 source range。
++
++## 7. 生成与 promotion 状态机
++
++### 7.1 状态
++
++```text
++NEW
++ └─validate request/schema/path─> REQUEST_VALID
++     └─read/hash/cross-check─> FROZEN
++         └─select/layout/validate memory─> RENDERED
++             └─capture three-role baseline─> BASELINED
++                 └─write/reopen/hash temp bundle─> STAGED
++                     └─recheck inputs + baseline─> PROMOTION_READY
++                         └─sidecars then canvas os.replace─> PROMOTED
++                             └─reopen all roles/hash/schema─> VERIFIED
++```
++
++`REQUEST_VALID` 前不得创建 staging。`PROMOTION_READY` 前不得改变三个最终路径。所有状态转移只有一个前驱；失败结果记录最后完成状态和失败 phase。
++
++### 7.2 路径与 staging
++
++- `authorized_staging_root` 必须已存在且是目录；所有目标、sidecar、backup 和临时文件解析后都在该根内。
++- `target_canvas_path` 以 `.canvas` 结尾；sidecar 固定为 `.validation.json` 和 `.rollback.json` 后缀。
++- 临时文件与对应最终文件在同一父目录，保证 `os.replace` 不跨卷。
++- 临时名可以含 PID/随机值，但不写进任何持久 manifest；存在冲突时重新创建临时名，不改变输出字节。
++- 每次写临时文件后执行 flush、fsync、close、reopen、parse 与 SHA-256 核对。
++
++### 7.3 replace baseline
++
++request 为三个最终角色分别固定 baseline：
++
++- `replace=false`：canvas、validation、rollback 都必须 `state=absent`；任一已存在返回 `target_exists`；
++- `replace=true`：canvas 必须 `state=present` 并给出 SHA-256；两个 sidecar 分别声明 absent 或 present；present 角色必须给出 SHA-256。backup 根必须为空且在授权 staging 根内。
++
++replace 时先把所有 present baseline 字节写入 backup 临时文件，重开核对，再原子变成固定 backup 文件。rollback manifest 记录三个角色各自的原始状态、hash 和 backup hash。baseline backup 在成功 rollback 后才删除。
++
++### 7.4 promotion 次序
++
++1. 重算 request 所有输入、证据和三个 baseline hash；
++2. promotion validation manifest；
++3. promotion rollback manifest；
++4. 最后用 `os.replace` promotion canvas；
++5. 重开 canvas、validation、rollback，核对各自 schema 和预期 hash；
++6. 写成功 JSON 到 stdout。
++
++Canvas 最后替换，因此前置失败时目标 Canvas 保持 baseline。每个角色由同目录 `os.replace` 完成，目标只可能是完整旧字节或完整新字节，不出现部分文件。
++
++若步骤 2 或 3 后、步骤 4 前失败，脚本按本次 staged hash 删除或恢复已 promotion sidecar，再核对三个角色仍等于 baseline。若步骤 4 后重开时发生外部并发变化，脚本不覆盖外部当前字节，返回 `promotion_drift`；该字节是外部完整写入，不被错误描述为本次部分写入。
++
++### 7.5 并发漂移
++
++在 `BASELINED`、`PROMOTION_READY` 和每次 `os.replace` 前都重新解析父目录和现存路径，并检查预期状态/hash：
++
++- 输入或证据变化：`input_drift`，不 promotion；
++- 目标/sidecar 从 absent 变 present、从 present 变 absent或 hash 变化：`promotion_drift`；
++- 符号链接或 junction 解析结果改变：`source_outside_scope`；
++- rollback 时任一当前生成角色不等于 manifest 记录的 generated hash：`rollback_drift`。
++
++锁文件不替代 hash guard。原型可用一个 sibling lock 避免同进程族重复工作，但拿到锁后仍执行全部 drift 检查；锁路径和时间不进入确定性 manifest。
++
++## 8. rollback 状态机
++
++```text
++ROLLBACK_NEW
++ └─load/validate manifest─> ROLLBACK_VALID
++     └─reopen current roles and backups─> ROLLBACK_GUARDED
++         └─restore present baselines / remove absent baselines─> ROLLED_BACK
++             └─reopen and compare exact baseline state/hash─> ROLLBACK_VERIFIED
++```
++
++执行规则：
++
++1. 先按命令参数 `expected_sha256` 核对 rollback manifest 完整字节，再读取整个 manifest 到内存；恢复 rollback sidecar 本身时不再依赖磁盘当前内容。
++2. 当前 Canvas 必须等于 `generated_sha256`；validation 与 rollback sidecar 也必须等于 manifest/成功结果固定的生成 hash。
++3. 原状态为 present 的角色，其 backup 必须存在且 hash 正确；用 backup 同目录临时副本原子替换。
++4. 原状态为 absent 的角色，只在当前 hash 等于本次 generated hash 时删除。
++5. rollback manifest 自身最后恢复或删除。
++6. 重开三个最终路径，要求存在性与 baseline 完全一致；present 字节必须 byte-identical。
++7. 全部恢复验证通过后才删除本次 backup 根。
++
++任何 guard 不一致返回 `rollback_drift` 并保留当前字节与 backup。I/O 失败返回 `io_failure`，恢复动作可对照 manifest 重试；脚本不得用 baseline 覆盖 hash 未知的当前文件。
++
++## 9. 稳定失败语义
++
++| `reason` | phase | exit | 触发条件 | 目标最终状态 | 恢复动作 |
++|---|---|---:|---|---|---|
++| `invalid_request` | request | 2 | request 不符合 schema、未知字段或条件分支 | 未检查或未改变 | 修正 request |
++| `unsupported_record_schema` | freeze | 2 | 非 machine record 3、未知 record 字段或禁用变体 | 未改变 | 用当前 `brief` 的完整 machine record 3 重建请求 |
++| `pack_record_mismatch` | freeze | 2 | stem、目录或 record 自指路径不一致 | 未改变 | 重新冻结同一次检索的 pack/record |
++| `input_drift` | freeze/promotion | 2 | 请求固定的任一输入或 evidence hash 改变 | 未改变 | 重新生成 hash 和 request |
++| `snapshot_mismatch` | freeze | 2 | state、snapshot、SQLite commit/tree 不一致 | 未改变 | 使用同一固定 CKB snapshot |
++| `source_outside_scope` | request/freeze/promotion | 2 | 输入、目标、backup、symlink 或 junction 解析后越界 | 未改变 | 移到授权根并移除越界重解析 |
++| `target_exists` | baseline | 2 | `replace=false` 的任一最终角色已存在 | 三角色保持原状 | 改目标或提供完整 replace baseline |
++| `missing_backlink` | select | 2 | required candidate 没有人类页或精确来源 | 未改变 | 移除 required 项或补齐已审阅回链后重新 brief |
++| `missing_target` | freeze/validate | 2 | 人类页、INDEX、source 文件、backup 或唯一 subpath 不存在 | 未改变 | 恢复固定文件并更新 hash |
++| `invalid_source_range` | freeze/validate | 2 | 行范围非法、越界或 URI 不能反解 | 未改变 | 使用 record 中有效精确范围 |
++| `budget_exceeded` | select/validate | 5 | required 节点或边超过任一硬预算 | 未改变 | 缩小 required 项；不得自动扩预算 |
++| `duplicate_id` | validate | 5 | 节点或边稳定 ID 冲突 | 未改变 | 调查 canonical target 冲突 |
++| `dangling_edge` | validate | 5 | 任一边端点不在节点集合 | 未改变 | 修正确定性选择实现 |
++| `invalid_canvas` | validate/reopen | 5 | JSON Canvas schema、字段、回链或泄露门失败 | baseline；已 promotion 时按 guard 补偿 | 修正生成器并重跑 validate |
++| `promotion_drift` | promotion/reopen | 6 | baseline 检查后目标被并发改变 | 保留并发当前完整字节 | 人工确认当前目标后重新冻结 baseline |
++| `rollback_drift` | rollback | 6 | 当前生成角色或 backup 与 manifest hash 不同 | 保留当前字节和 backup | 人工处理漂移；不得强制覆盖 |
++| `io_failure` | staging/promotion/reopen/rollback | 7 | 创建、flush、fsync、replace、reopen 或删除失败 | baseline 或外部当前完整字节；不留部分 Canvas | 保留 staging/backup，排除 I/O 原因后按 manifest 重试 |
++
++失败 JSON 必须给出 `before`、`after`、`changed` 与 recovery；不能只输出异常字符串。`changed=true` 只允许表示外部并发字节不同，不能表示本次留下未验证的 Canvas。
++
++## 10. 原型实现完成门
++
++原型只有同时满足以下条件才可进入冻结 Markdown 对照：
++
++1. 五个核心 schema、JSON Canvas 子集 schema 和 benchmark schema 均由 Draft 2020-12 validator 解析；
++2. success fixture 与每个稳定 failure fixture 均通过对应 schema；
++3. 同一 success 输入连续生成 10 次，Canvas 原始 SHA-256 相同，两个 manifest 规范化内容 SHA-256 相同；
++4. 节点 `<=12`、边 `<=16`、悬空边 0、缺失回链 0、机器字段泄露 0；
++5. absent、present 和 drift 三条 rollback probe 全部通过；
++6. Windows 中文路径、长路径、symlink/junction、损坏 JSON、悬空边和并发目标变化都有独立测试；
++7. `git diff` 只含原型任务允许路径，未接线主 CLI、companion、MCP、发布包或活动知识库；
++8. benchmark runner 用同一 pack、record、人类页、来源、任务和预算运行 Markdown 与 Canvas 条件。

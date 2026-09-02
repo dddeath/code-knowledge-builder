@@ -20,17 +20,17 @@
 ## 谁会来到这里
 
 - [[audit_operation_journal 与 _root 的协作实现]] 会使用这里提供的行为。
-- [[initialize 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 - [[parser]] 会使用这里提供的行为。
 - [[refresh 等测试场景]] 汇总了本页。
+- [[render_page_author 与 _error 的协作实现]] 会使用这里提供的行为。
 
 ## 相关测试
 
 - [[CodeKnowledgeBuilderTests]]
 - [[CodeKnowledgeBuilderTests 等测试场景]]
+- [[HumanPageAuthoringPackageTests]]
 - [[MigrationTest]]
 - [[ScopeExtensionTest]]
-- [[command 等测试场景]]
-- [[execute 等测试场景]]
+- [[build_manual_index 等测试场景]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。

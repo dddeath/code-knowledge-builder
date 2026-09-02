@@ -17,6 +17,7 @@
 - 实现时会用到 [[CkbError 与 DependencyError 的协作实现]]。
 - 实现时会用到 [[deployment_plan 与 skill_root 的协作实现]]。
 - 实现时会用到 [[doctor_report 与 _version_matches 的协作实现]]。
+- 实现时会用到 [[rollback]]。
 
 ## 谁会来到这里
 

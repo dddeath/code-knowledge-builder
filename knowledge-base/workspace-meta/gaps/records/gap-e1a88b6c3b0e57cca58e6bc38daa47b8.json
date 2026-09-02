@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "gap_id": "gap-e1a88b6c3b0e57cca58e6bc38daa47b8",
+  "kind": "insufficient-evidence",
+  "status": "resolved",
+  "summary_zh": "现有 `record` 更新已有 change 页面时只提供追加语义，会保留已经被人类否定的旧正文并增加“后续补充”。五个 change 页面需要使用受控替换语义才能按已确认模板重写，同时保持记录元数据、镜像、索引、操作日志和回滚合同。当前任务已恢复干净基线并暂时关闭，等待决定是否新增正式替换能力。",
+  "evidence_paths": [
+    "human/sessions/人类可读性样例确认与第一开发波次派发.md"
+  ],
+  "created_at_utc": "2026-09-01T17:56:00Z",
+  "updated_at_utc": "2026-09-02T02:46:02Z",
+  "resolution_zh": "受控正文替换、全角色原子提升、owner-safe 锁和带漂移保护的回滚已经合并。五个旧 change 页已通过公开 `record --replace` 重写；真实 staging 还完成了一次替换、回滚和重新替换，最终维护门通过。",
+  "resolution_evidence_paths": [
+    "human/changes/增加受控的工作记录正文替换与回滚.md"
+  ]
+}

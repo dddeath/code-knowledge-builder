@@ -18,6 +18,7 @@
 - 实现时会用到 [[CkbError 与 DependencyError 的协作实现]]。
 - 实现时会用到 [[append]]。
 - 主要代码单元是 [[audit_feedback]]。
+- 实现时会用到 [[ckb_canvas 的协作边界]]。
 
 ## 谁会来到这里
 
@@ -32,9 +33,9 @@
 - [[AgentProtocolBatchApplyTests]]
 - [[AutomationTest.register 等测试场景]]
 - [[CodeKnowledgeBuilderTests]]
+- [[HumanPageTemplateValidationTests]]
 - [[KeywordFallbackRetrievalWiringTests]]
 - [[KeywordFallbackRetrievalWiringTests 等测试场景]]
-- [[MigrationTest]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 

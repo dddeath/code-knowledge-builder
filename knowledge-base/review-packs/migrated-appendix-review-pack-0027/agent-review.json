@@ -1,0 +1,273 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-appendix-review-pack-0027",
+  "kind": "appendix-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-02T02:37:28Z",
+  "reviews": [
+    {
+      "entity_id": "ent-18d1b494f4795cd78093f354c5cb8b47",
+      "classification": "appendix",
+      "owner_page_id": "file-acea35747e6954de9efcd51bbac1bf5f",
+      "source_path": "scripts/ckb_core/session_stdio.py",
+      "start_line": 254,
+      "end_line": 303,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/session_stdio.py` 第 254-303 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`process_metrics` 是第 254-303 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-b6dcb2a4268b504b89b34b2fa5a1a597",
+      "classification": "appendix",
+      "owner_page_id": "file-acea35747e6954de9efcd51bbac1bf5f",
+      "source_path": "scripts/ckb_core/session_stdio.py",
+      "start_line": 262,
+      "end_line": 274,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/session_stdio.py` 第 262-274 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`process_metrics.PROCE...` 是第 262-274 行的类，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-4bd3d3c788ed53a89f14dbcea2039a05",
+      "classification": "appendix",
+      "owner_page_id": "file-acea35747e6954de9efcd51bbac1bf5f",
+      "source_path": "scripts/ckb_core/session_stdio.py",
+      "start_line": 306,
+      "end_line": 324,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/session_stdio.py` 第 306-324 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_state_counts` 是第 306-324 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-d87d4608a2ae59459c1430d34843aee4",
+      "classification": "appendix",
+      "owner_page_id": "file-acea35747e6954de9efcd51bbac1bf5f",
+      "source_path": "scripts/ckb_core/session_stdio.py",
+      "start_line": 327,
+      "end_line": 360,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/session_stdio.py` 第 327-360 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_base_lease` 是第 327-360 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-f50b3b94101258c6934d14dc4f553852",
+      "classification": "appendix",
+      "owner_page_id": "file-acea35747e6954de9efcd51bbac1bf5f",
+      "source_path": "scripts/ckb_core/session_stdio.py",
+      "start_line": 363,
+      "end_line": 378,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/session_stdio.py` 第 363-378 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_Reader` 是第 363-378 行的类，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-0185b3edb1ea5c009bb130804c3e0f76",
+      "classification": "appendix",
+      "owner_page_id": "file-acea35747e6954de9efcd51bbac1bf5f",
+      "source_path": "scripts/ckb_core/session_stdio.py",
+      "start_line": 364,
+      "end_line": 367,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/session_stdio.py` 第 364-367 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_Reader.__init__` 是第 364-367 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-15b7ae373b1d5b72bae7cc66a44dd825",
+      "classification": "appendix",
+      "owner_page_id": "file-acea35747e6954de9efcd51bbac1bf5f",
+      "source_path": "scripts/ckb_core/session_stdio.py",
+      "start_line": 369,
+      "end_line": 378,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/session_stdio.py` 第 369-378 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_Reader.run` 是第 369-378 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-21bd878856db5e1ca5d0b22814c4ce1e",
+      "classification": "appendix",
+      "owner_page_id": "file-acea35747e6954de9efcd51bbac1bf5f",
+      "source_path": "scripts/ckb_core/session_stdio.py",
+      "start_line": 382,
+      "end_line": 496,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/session_stdio.py` 第 382-496 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_Transport` 是第 382-496 行的类，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-aa9cf58a0fc0563789537c2a2d3f2163",
+      "classification": "appendix",
+      "owner_page_id": "file-acea35747e6954de9efcd51bbac1bf5f",
+      "source_path": "scripts/ckb_core/session_stdio.py",
+      "start_line": 393,
+      "end_line": 423,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/session_stdio.py` 第 393-423 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_Transport.start` 是第 393-423 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-21feafc2607b5e95bf50c66564f064d3",
+      "classification": "appendix",
+      "owner_page_id": "file-acea35747e6954de9efcd51bbac1bf5f",
+      "source_path": "scripts/ckb_core/session_stdio.py",
+      "start_line": 425,
+      "end_line": 455,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/session_stdio.py` 第 425-455 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_Transport.request` 是第 425-455 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-51c7ae7d5d16578eac4bb09ce7b4ea6c",
+      "classification": "appendix",
+      "owner_page_id": "file-acea35747e6954de9efcd51bbac1bf5f",
+      "source_path": "scripts/ckb_core/session_stdio.py",
+      "start_line": 499,
+      "end_line": 500,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/session_stdio.py` 第 499-500 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_write_response` 是第 499-500 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-fdcdd1a0e39f58b98cfca207025fd2b9",
+      "classification": "appendix",
+      "owner_page_id": "file-acea35747e6954de9efcd51bbac1bf5f",
+      "source_path": "scripts/ckb_core/session_stdio.py",
+      "start_line": 503,
+      "end_line": 515,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/session_stdio.py` 第 503-515 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_clear_transient` 是第 503-515 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-1a616b2570a15d80ba2916b2345e9208",
+      "classification": "appendix",
+      "owner_page_id": "file-acea35747e6954de9efcd51bbac1bf5f",
+      "source_path": "scripts/ckb_core/session_stdio.py",
+      "start_line": 518,
+      "end_line": 722,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/session_stdio.py` 第 518-722 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`controller_main` 是第 518-722 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-63014623a4a75527bbe49c328febf4cf",
+      "classification": "appendix",
+      "owner_page_id": "file-acea35747e6954de9efcd51bbac1bf5f",
+      "source_path": "scripts/ckb_core/session_stdio.py",
+      "start_line": 725,
+      "end_line": 729,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/session_stdio.py` 第 725-729 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_supervisor_process_o...` 是第 725-729 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-8333d39bddd8581dbf5a486492929d8e",
+      "classification": "appendix",
+      "owner_page_id": "file-acea35747e6954de9efcd51bbac1bf5f",
+      "source_path": "scripts/ckb_core/session_stdio.py",
+      "start_line": 732,
+      "end_line": 736,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/session_stdio.py` 第 732-736 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_reap_supervisor` 是第 732-736 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-323623b1d1ed51d58f21f1b34fc394b2",
+      "classification": "appendix",
+      "owner_page_id": "file-acea35747e6954de9efcd51bbac1bf5f",
+      "source_path": "scripts/ckb_core/session_stdio.py",
+      "start_line": 739,
+      "end_line": 767,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/session_stdio.py` 第 739-767 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_acquire_start_lock` 是第 739-767 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-cd556bb62abf509ca38e7650a6c92d9a",
+      "classification": "appendix",
+      "owner_page_id": "file-acea35747e6954de9efcd51bbac1bf5f",
+      "source_path": "scripts/ckb_core/session_stdio.py",
+      "start_line": 770,
+      "end_line": 785,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/session_stdio.py` 第 770-785 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_release_start_lock` 是第 770-785 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-705a6ee2b8bc5d2095abff1e05b37c46",
+      "classification": "appendix",
+      "owner_page_id": "file-acea35747e6954de9efcd51bbac1bf5f",
+      "source_path": "scripts/ckb_core/session_stdio.py",
+      "start_line": 788,
+      "end_line": 799,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/session_stdio.py` 第 788-799 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_active_lease` 是第 788-799 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-b0c8ebc70b8e51c3bc7b36e959f68ba8",
+      "classification": "appendix",
+      "owner_page_id": "file-acea35747e6954de9efcd51bbac1bf5f",
+      "source_path": "scripts/ckb_core/session_stdio.py",
+      "start_line": 802,
+      "end_line": 887,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/session_stdio.py` 第 802-887 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`activate_session_stdio` 是第 802-887 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-21f0f4bbc7a459d7a2506773890bd1b6",
+      "classification": "appendix",
+      "owner_page_id": "file-acea35747e6954de9efcd51bbac1bf5f",
+      "source_path": "scripts/ckb_core/session_stdio.py",
+      "start_line": 890,
+      "end_line": 905,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/session_stdio.py` 第 890-905 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_activation_exists` 是第 890-905 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-ca4d2a058e9e5cb281ad1cc388b3b22c",
+      "classification": "appendix",
+      "owner_page_id": "file-acea35747e6954de9efcd51bbac1bf5f",
+      "source_path": "scripts/ckb_core/session_stdio.py",
+      "start_line": 908,
+      "end_line": 1004,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/session_stdio.py` 第 908-1004 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_start_supervisor_locked` 是第 908-1004 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-aefedb840bc05874b222395524176307",
+      "classification": "appendix",
+      "owner_page_id": "file-acea35747e6954de9efcd51bbac1bf5f",
+      "source_path": "scripts/ckb_core/session_stdio.py",
+      "start_line": 1007,
+      "end_line": 1019,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/session_stdio.py` 第 1007-1019 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_start_supervisor` 是第 1007-1019 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-ea807daf962552548fa9592773e2a11f",
+      "classification": "appendix",
+      "owner_page_id": "file-acea35747e6954de9efcd51bbac1bf5f",
+      "source_path": "scripts/ckb_core/session_stdio.py",
+      "start_line": 1022,
+      "end_line": 1051,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/session_stdio.py` 第 1022-1051 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_fallback_command` 是第 1022-1051 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-e0e7d4eaaa2954f388a093e399870e61",
+      "classification": "appendix",
+      "owner_page_id": "file-acea35747e6954de9efcd51bbac1bf5f",
+      "source_path": "scripts/ckb_core/session_stdio.py",
+      "start_line": 1054,
+      "end_line": 1136,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/session_stdio.py` 第 1054-1136 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_run_cli_fallback` 是第 1054-1136 行的函数，供所属页面定位实现。"
+    }
+  ]
+}

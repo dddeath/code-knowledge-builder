@@ -1,0 +1,546 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ckb.local/schemas/benchmark-run.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "status": {
+      "const": "frozen"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]{2,63}$"
+    },
+    "freeze": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "canvas_request_path": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 32767
+        },
+        "canvas_request_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "snapshot_commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "snapshot_tree": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "agent_pack_path": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 32767
+        },
+        "agent_pack_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "record_path": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 32767
+        },
+        "record_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "human_evidence_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "source_evidence_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "budget": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "max_nodes": {
+              "const": 12
+            },
+            "max_edges": {
+              "const": 16
+            }
+          },
+          "required": [
+            "max_nodes",
+            "max_edges"
+          ]
+        }
+      },
+      "required": [
+        "canvas_request_path",
+        "canvas_request_sha256",
+        "snapshot_commit",
+        "snapshot_tree",
+        "agent_pack_path",
+        "agent_pack_sha256",
+        "record_path",
+        "record_sha256",
+        "human_evidence_sha256",
+        "source_evidence_sha256",
+        "budget"
+      ]
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "obsidian_version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "theme": {
+          "const": "default"
+        },
+        "third_party_plugins": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 0
+        },
+        "window_width": {
+          "const": 1440
+        },
+        "window_height": {
+          "const": 900
+        },
+        "display_scale_percent": {
+          "const": 100
+        },
+        "canvas_initial_view": {
+          "const": "zoom-to-fit"
+        },
+        "network": {
+          "const": "offline"
+        }
+      },
+      "required": [
+        "obsidian_version",
+        "theme",
+        "third_party_plugins",
+        "window_width",
+        "window_height",
+        "display_scale_percent",
+        "canvas_initial_view",
+        "network"
+      ]
+    },
+    "conditions": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "markdown": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "entrypoints": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024,
+                "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$"
+              },
+              "minItems": 1,
+              "maxItems": 4
+            },
+            "evidence_set_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "max_nodes": {
+              "oneOf": [
+                {
+                  "const": 12
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "max_edges": {
+              "oneOf": [
+                {
+                  "const": 16
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "entrypoints",
+            "evidence_set_sha256",
+            "max_nodes",
+            "max_edges"
+          ]
+        },
+        "canvas": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "entrypoints": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024,
+                "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$"
+              },
+              "minItems": 1,
+              "maxItems": 4
+            },
+            "evidence_set_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "max_nodes": {
+              "oneOf": [
+                {
+                  "const": 12
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "max_edges": {
+              "oneOf": [
+                {
+                  "const": 16
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "entrypoints",
+            "evidence_set_sha256",
+            "max_nodes",
+            "max_edges"
+          ]
+        }
+      },
+      "required": [
+        "markdown",
+        "canvas"
+      ]
+    },
+    "tasks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "task_id": {
+            "type": "string",
+            "pattern": "^P[1-6][AB]$"
+          },
+          "pair": {
+            "type": "string",
+            "pattern": "^P[1-6]$"
+          },
+          "variant": {
+            "enum": [
+              "A",
+              "B"
+            ]
+          },
+          "category": {
+            "enum": [
+              "implementation-location",
+              "function-location",
+              "reviewed-record",
+              "boundary-understanding",
+              "source-open",
+              "support-status"
+            ]
+          },
+          "prompt": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "timeout_seconds": {
+            "const": 180
+          },
+          "expected": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "page": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 1024,
+                    "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "source_path": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 1024,
+                    "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\).+$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "start_line": {
+                "oneOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "end_line": {
+                "oneOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "required_facts": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 300
+                },
+                "minItems": 1,
+                "maxItems": 6
+              }
+            },
+            "required": [
+              "page",
+              "source_path",
+              "start_line",
+              "end_line",
+              "required_facts"
+            ]
+          }
+        },
+        "required": [
+          "task_id",
+          "pair",
+          "variant",
+          "category",
+          "prompt",
+          "timeout_seconds",
+          "expected"
+        ]
+      },
+      "minItems": 12,
+      "maxItems": 12
+    },
+    "assignments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "sequence_id": {
+            "enum": [
+              "sequence-1",
+              "sequence-2"
+            ]
+          },
+          "condition": {
+            "enum": [
+              "markdown",
+              "canvas"
+            ]
+          },
+          "order_seed": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "task_order": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^P[1-6][AB]$"
+            },
+            "minItems": 6,
+            "maxItems": 6,
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "sequence_id",
+          "condition",
+          "order_seed",
+          "task_order"
+        ]
+      },
+      "minItems": 4,
+      "maxItems": 4
+    },
+    "metrics": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "discoverability_success_rate",
+          "first_correct_entry_seconds",
+          "navigation_count",
+          "backtrack_count",
+          "comprehension_score",
+          "source_verification_rate",
+          "unsupported_assertions",
+          "visible_node_count",
+          "visible_edge_count",
+          "visible_text_characters",
+          "overlap_count",
+          "rollback_probe_rate"
+        ]
+      },
+      "minItems": 12,
+      "maxItems": 12,
+      "uniqueItems": true
+    },
+    "gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "structure": {
+          "const": "required"
+        },
+        "source_verification_rate": {
+          "const": 1.0
+        },
+        "maximum_unsupported_assertions": {
+          "const": 0
+        },
+        "minimum_discoverability_success_rate": {
+          "const": 0.9166666667
+        },
+        "canvas_not_below_markdown": {
+          "const": true
+        },
+        "maximum_comprehension_drop_percentage_points": {
+          "const": 5
+        },
+        "minimum_median_time_reduction": {
+          "const": 0.15
+        },
+        "minimum_median_navigation_reduction": {
+          "const": 0.2
+        },
+        "efficiency_rule": {
+          "const": "time-or-navigation"
+        },
+        "rollback_probes": {
+          "const": "3/3"
+        },
+        "deterministic_repetitions": {
+          "const": 10
+        }
+      },
+      "required": [
+        "structure",
+        "source_verification_rate",
+        "maximum_unsupported_assertions",
+        "minimum_discoverability_success_rate",
+        "canvas_not_below_markdown",
+        "maximum_comprehension_drop_percentage_points",
+        "minimum_median_time_reduction",
+        "minimum_median_navigation_reduction",
+        "efficiency_rule",
+        "rollback_probes",
+        "deterministic_repetitions"
+      ]
+    },
+    "session_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "minimum_independent_sessions_per_sequence": {
+          "const": 2
+        },
+        "minimum_blocks_per_assignment": {
+          "const": 2
+        },
+        "same_participant_min_interval_hours": {
+          "const": 24
+        },
+        "different_participant_exempts_interval": {
+          "const": true
+        },
+        "sequence_block_order": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "sequence-1": {
+              "const": [
+                "markdown",
+                "canvas"
+              ]
+            },
+            "sequence-2": {
+              "const": [
+                "canvas",
+                "markdown"
+              ]
+            }
+          },
+          "required": [
+            "sequence-1",
+            "sequence-2"
+          ]
+        }
+      },
+      "required": [
+        "minimum_independent_sessions_per_sequence",
+        "minimum_blocks_per_assignment",
+        "same_participant_min_interval_hours",
+        "different_participant_exempts_interval",
+        "sequence_block_order"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "status",
+    "run_id",
+    "freeze",
+    "environment",
+    "conditions",
+    "tasks",
+    "assignments",
+    "metrics",
+    "gates",
+    "session_policy"
+  ]
+}

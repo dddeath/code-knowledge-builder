@@ -92,7 +92,7 @@ CKB 的人类知识库不是机器实体清单的 Markdown 导出，而是从完
 - [[audit_references 与 _root 的协作实现]]
 - [[module_name 与 estimated_tokens 的协作实现]]
 - [[load_page_config 与 _merge_known 的协作实现]]
-- [[initialize 与 _replace_output_prefix 的协作实现]]
+- [[audit_global 与 _replace_output_prefix 的协作实现]]
 
 ## 源码入口
 

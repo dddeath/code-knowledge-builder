@@ -112,7 +112,7 @@ Code Knowledge Builder 现提供本地常驻 JSONL stdio 检索命令。它在�
 
 ## 相关知识页
 
-- [[LspClient.start 与 _version_matches 的协作实现]]
+- [[doctor_report 与 _version_matches 的协作实现]]
 - [[audit_global 与 _replace_output_prefix 的协作实现]]
 - [[retrieve 与 _tokens 的协作实现]]
 - [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]]

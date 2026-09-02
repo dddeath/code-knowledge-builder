@@ -1,0 +1,364 @@
+{
+  "schema_version": 1,
+  "status": "frozen",
+  "run_id": "ckb-canvas-markdown-v1",
+  "freeze": {
+    "canvas_request_path": "/mnt/e/knowledge_builder/self-workspace/worktrees/obsidian-canvas-visualization-design/references/design/obsidian-canvas-agent-visualization/fixtures/success/canvas-request.json",
+    "canvas_request_sha256": "7c30552fc5d50eb96d14b779aa48dd2605cf089a578cc6142743bf1c063ff7d0",
+    "snapshot_commit": "150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3",
+    "snapshot_tree": "7976883a0f6ff177deb649eaef6e8d2e7af2fda8",
+    "agent_pack_path": "C:\\fixture\\CKB 输出\\machine\\agent-packs\\pack-0001.md",
+    "agent_pack_sha256": "4862f447f2c7f272fa2f4aaf89dadb3b1ac09105bd5864f8d1a0c9452bb0a226",
+    "record_path": "C:\\fixture\\CKB 输出\\machine\\agent-packs\\pack-0001.json",
+    "record_sha256": "70ce871f8a3d3fb449bc3c3ace6547cef02dfc74ffe48d912532a724bfdbe5b9",
+    "human_evidence_sha256": "b174f3b1f3a394dd79d0bfeac62c58034400d17b31181b3deb04dd04bed5294b",
+    "source_evidence_sha256": "b174f3b1f3a394dd79d0bfeac62c58034400d17b31181b3deb04dd04bed5294b",
+    "budget": {
+      "max_nodes": 12,
+      "max_edges": 16
+    }
+  },
+  "environment": {
+    "obsidian_version": "OBSIDIAN_VERSION",
+    "theme": "default",
+    "third_party_plugins": [],
+    "window_width": 1440,
+    "window_height": 900,
+    "display_scale_percent": 100,
+    "canvas_initial_view": "zoom-to-fit",
+    "network": "offline"
+  },
+  "conditions": {
+    "markdown": {
+      "entrypoints": [
+        "INDEX.md",
+        "RECORDS.md",
+        "WIKI.md"
+      ],
+      "evidence_set_sha256": "b174f3b1f3a394dd79d0bfeac62c58034400d17b31181b3deb04dd04bed5294b",
+      "max_nodes": null,
+      "max_edges": null
+    },
+    "canvas": {
+      "entrypoints": [
+        "ckb-navigation.canvas"
+      ],
+      "evidence_set_sha256": "b174f3b1f3a394dd79d0bfeac62c58034400d17b31181b3deb04dd04bed5294b",
+      "max_nodes": 12,
+      "max_edges": 16
+    }
+  },
+  "tasks": [
+    {
+      "task_id": "P1A",
+      "pair": "P1",
+      "variant": "A",
+      "category": "implementation-location",
+      "prompt": "找到 `obsidian.py` 的人类知识页，并报告源码范围",
+      "timeout_seconds": 180,
+      "expected": {
+        "page": "pages/audit_obsidian 与 prepare_vault 的协作实现.md",
+        "source_path": "scripts/ckb_core/obsidian.py",
+        "start_line": 1,
+        "end_line": 166,
+        "required_facts": [
+          "人类知识页",
+          "精确源码范围"
+        ]
+      }
+    },
+    {
+      "task_id": "P1B",
+      "pair": "P1",
+      "variant": "B",
+      "category": "implementation-location",
+      "prompt": "找到 `obsidian_plugin.py` 的人类知识页，并报告源码范围",
+      "timeout_seconds": 180,
+      "expected": {
+        "page": "pages/register_obsidian_plugin 与 default_obsidian_plugin_registry 的协作实现.md",
+        "source_path": "scripts/ckb_core/obsidian_plugin.py",
+        "start_line": 1,
+        "end_line": 262,
+        "required_facts": [
+          "人类知识页",
+          "精确源码范围"
+        ]
+      }
+    },
+    {
+      "task_id": "P2A",
+      "pair": "P2",
+      "variant": "A",
+      "category": "function-location",
+      "prompt": "找到 `compact_agent_brief` 的作用页与 `358-405` 范围",
+      "timeout_seconds": 180,
+      "expected": {
+        "page": "pages/maintenance_check 与 capability_matrix 的协作实现.md",
+        "source_path": "scripts/ckb_core/llm_wiki_capabilities.py",
+        "start_line": 358,
+        "end_line": 405,
+        "required_facts": [
+          "compact result 省略完整候选",
+          "358-405"
+        ]
+      }
+    },
+    {
+      "task_id": "P2B",
+      "pair": "P2",
+      "variant": "B",
+      "category": "function-location",
+      "prompt": "找到 `agent_index.py` 的作用页与完整文件范围",
+      "timeout_seconds": 180,
+      "expected": {
+        "page": "pages/retrieve 与 _tokens 的协作实现.md",
+        "source_path": "scripts/ckb_core/agent_index.py",
+        "start_line": 1,
+        "end_line": 555,
+        "required_facts": [
+          "兼容页面索引",
+          "完整文件范围"
+        ]
+      }
+    },
+    {
+      "task_id": "P3A",
+      "pair": "P3",
+      "variant": "A",
+      "category": "reviewed-record",
+      "prompt": "找到“人类可读性样例确认与第一开发波次派发”，说明 Canvas 当前所处阶段",
+      "timeout_seconds": 180,
+      "expected": {
+        "page": "sessions/人类可读性样例确认与第一开发波次派发.md",
+        "source_path": null,
+        "start_line": null,
+        "end_line": null,
+        "required_facts": [
+          "独立研究任务",
+          "尚未实现"
+        ]
+      }
+    },
+    {
+      "task_id": "P3B",
+      "pair": "P3",
+      "variant": "B",
+      "category": "reviewed-record",
+      "prompt": "找到“Code Knowledge Builder 项目说明书结构与验收样例”，说明第 13 章目标",
+      "timeout_seconds": 180,
+      "expected": {
+        "page": "analysis/Code Knowledge Builder 项目说明书结构与验收样例.md",
+        "source_path": null,
+        "start_line": null,
+        "end_line": null,
+        "required_facts": [
+          "第 13 章目标",
+          "原文精确章节"
+        ]
+      }
+    },
+    {
+      "task_id": "P4A",
+      "pair": "P4",
+      "variant": "A",
+      "category": "boundary-understanding",
+      "prompt": "说明为什么 Obsidian 搜索不是完整实体召回，并给出人类/机器入口",
+      "timeout_seconds": 180,
+      "expected": {
+        "page": "INDEX.md",
+        "source_path": null,
+        "start_line": null,
+        "end_line": null,
+        "required_facts": [
+          "Obsidian 人类导航",
+          "machine/knowledge.sqlite"
+        ]
+      }
+    },
+    {
+      "task_id": "P4B",
+      "pair": "P4",
+      "variant": "B",
+      "category": "boundary-understanding",
+      "prompt": "说明 Agent pack 与完整 record 分别保留什么，并给出两个路径",
+      "timeout_seconds": 180,
+      "expected": {
+        "page": "INDEX.md",
+        "source_path": null,
+        "start_line": null,
+        "end_line": null,
+        "required_facts": [
+          "pack 预算化正文",
+          "record 完整候选与统计"
+        ]
+      }
+    },
+    {
+      "task_id": "P5A",
+      "pair": "P5",
+      "variant": "A",
+      "category": "source-open",
+      "prompt": "从知识页跳到 `scripts/ckb_core/obsidian.py` 的精确来源",
+      "timeout_seconds": 180,
+      "expected": {
+        "page": "pages/audit_obsidian 与 prepare_vault 的协作实现.md",
+        "source_path": "scripts/ckb_core/obsidian.py",
+        "start_line": 1,
+        "end_line": 166,
+        "required_facts": [
+          "成功打开固定来源"
+        ]
+      }
+    },
+    {
+      "task_id": "P5B",
+      "pair": "P5",
+      "variant": "B",
+      "category": "source-open",
+      "prompt": "从知识页跳到 `scripts/ckb_core/llm_wiki_capabilities.py:358-405`",
+      "timeout_seconds": 180,
+      "expected": {
+        "page": "pages/maintenance_check 与 capability_matrix 的协作实现.md",
+        "source_path": "scripts/ckb_core/llm_wiki_capabilities.py",
+        "start_line": 358,
+        "end_line": 405,
+        "required_facts": [
+          "成功打开固定来源"
+        ]
+      }
+    },
+    {
+      "task_id": "P6A",
+      "pair": "P6",
+      "variant": "A",
+      "category": "support-status",
+      "prompt": "判断 CKB 当前是否已支持 Canvas，并给出证据边界",
+      "timeout_seconds": 180,
+      "expected": {
+        "page": "sessions/人类可读性样例确认与第一开发波次派发.md",
+        "source_path": null,
+        "start_line": null,
+        "end_line": null,
+        "required_facts": [
+          "研究与设计输入",
+          "当前不是已支持能力"
+        ]
+      }
+    },
+    {
+      "task_id": "P6B",
+      "pair": "P6",
+      "variant": "B",
+      "category": "support-status",
+      "prompt": "判断当前 companion 是否生成 Canvas，并给出已确认职责",
+      "timeout_seconds": 180,
+      "expected": {
+        "page": "pages/register_obsidian_plugin 与 default_obsidian_plugin_registry 的协作实现.md",
+        "source_path": null,
+        "start_line": null,
+        "end_line": null,
+        "required_facts": [
+          "不生成 Canvas",
+          "选区解释与审计凭据"
+        ]
+      }
+    }
+  ],
+  "assignments": [
+    {
+      "sequence_id": "sequence-1",
+      "condition": "markdown",
+      "order_seed": 1101,
+      "task_order": [
+        "P4B",
+        "P1A",
+        "P6B",
+        "P3A",
+        "P2B",
+        "P5A"
+      ]
+    },
+    {
+      "sequence_id": "sequence-1",
+      "condition": "canvas",
+      "order_seed": 1102,
+      "task_order": [
+        "P5B",
+        "P2A",
+        "P3B",
+        "P6A",
+        "P1B",
+        "P4A"
+      ]
+    },
+    {
+      "sequence_id": "sequence-2",
+      "condition": "markdown",
+      "order_seed": 2201,
+      "task_order": [
+        "P3B",
+        "P6A",
+        "P1B",
+        "P4A",
+        "P5B",
+        "P2A"
+      ]
+    },
+    {
+      "sequence_id": "sequence-2",
+      "condition": "canvas",
+      "order_seed": 2202,
+      "task_order": [
+        "P2B",
+        "P5A",
+        "P4B",
+        "P1A",
+        "P3A",
+        "P6B"
+      ]
+    }
+  ],
+  "metrics": [
+    "discoverability_success_rate",
+    "first_correct_entry_seconds",
+    "navigation_count",
+    "backtrack_count",
+    "comprehension_score",
+    "source_verification_rate",
+    "unsupported_assertions",
+    "visible_node_count",
+    "visible_edge_count",
+    "visible_text_characters",
+    "overlap_count",
+    "rollback_probe_rate"
+  ],
+  "gates": {
+    "structure": "required",
+    "source_verification_rate": 1.0,
+    "maximum_unsupported_assertions": 0,
+    "minimum_discoverability_success_rate": 0.9166666667,
+    "canvas_not_below_markdown": true,
+    "maximum_comprehension_drop_percentage_points": 5,
+    "minimum_median_time_reduction": 0.15,
+    "minimum_median_navigation_reduction": 0.2,
+    "efficiency_rule": "time-or-navigation",
+    "rollback_probes": "3/3",
+    "deterministic_repetitions": 10
+  },
+  "session_policy": {
+    "minimum_independent_sessions_per_sequence": 2,
+    "minimum_blocks_per_assignment": 2,
+    "same_participant_min_interval_hours": 24,
+    "different_participant_exempts_interval": true,
+    "sequence_block_order": {
+      "sequence-1": [
+        "markdown",
+        "canvas"
+      ],
+      "sequence-2": [
+        "canvas",
+        "markdown"
+      ]
+    }
+  }
+}

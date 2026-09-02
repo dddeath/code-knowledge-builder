@@ -1,0 +1,170 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-09-02T00:00:00+08:00",
+  "research": {
+    "branch": "codex/obsidian-canvas-visualization-research",
+    "baseline": "150a1ce8ea3fca0f7ce2f56c731d42a9973ee0e3",
+    "stable_gap": "gap-bb90bd3314185078a6a0a7cdb8d271e6",
+    "completed_phases": [
+      "official-source-review",
+      "capability-and-data-boundary"
+    ],
+    "not_completed": [
+      "product-design",
+      "prototype",
+      "benchmark",
+      "implementation"
+    ]
+  },
+  "recommendation": {
+    "next_stage": "independent-ckb-canvas-skill-design",
+    "orchestration": "skill",
+    "deterministic_owner": "script",
+    "format": "JSON Canvas 1.0",
+    "input": "frozen Agent pack plus full record and verified human/source links",
+    "first_write_location": "isolated staging directory",
+    "requires_obsidian_running": false,
+    "requires_mcp": false,
+    "requires_companion_change": false,
+    "promotion_gate": "frozen Markdown comparison must pass"
+  },
+  "excluded_first_stage": [
+    {
+      "option": "generic Obsidian MCP as required dependency",
+      "reason": "vault token and service lifecycle are broader than one deterministic file generation task"
+    },
+    {
+      "option": "bazylhorsey/obsidian-mcp-server",
+      "reason": "repository LICENSE missing, GitHub SPDX null, no Canvas-specific test file, and weaker maintenance evidence"
+    },
+    {
+      "option": "OpenAI Visualize as persistent Canvas layer",
+      "reason": "host-rendered Mermaid or HTML is not Obsidian JSON Canvas and is unavailable on Codex CLI/IDE"
+    },
+    {
+      "option": "full machine graph projection",
+      "reason": "violates the conservative human layer and deterministic attention budget"
+    }
+  ],
+  "prototype_contract": {
+    "input_schema": "canvas-request.json schema_version 1",
+    "max_nodes": 12,
+    "max_edges": 16,
+    "max_page_nodes": 6,
+    "max_record_nodes": 2,
+    "max_source_nodes": 3,
+    "max_text_nodes": 1,
+    "max_groups": 0,
+    "allowed_edge_labels": [
+      "检索命中",
+      "相关记录",
+      "来源核对"
+    ],
+    "required_outputs": [
+      "TARGET.canvas",
+      "TARGET.canvas.validation.json",
+      "TARGET.canvas.rollback.json"
+    ],
+    "hard_failures": [
+      "input_drift",
+      "snapshot_mismatch",
+      "unsupported_record_schema",
+      "source_outside_scope",
+      "target_exists",
+      "missing_backlink",
+      "missing_target",
+      "budget_exceeded",
+      "duplicate_id",
+      "dangling_edge",
+      "invalid_canvas",
+      "promotion_drift",
+      "rollback_drift"
+    ],
+    "canvas_forbidden_fields": [
+      "entity_id",
+      "document_id",
+      "gap_id",
+      "score",
+      "score_breakdown",
+      "terms",
+      "retrieval_stats",
+      "absolute_pack_path",
+      "credential"
+    ]
+  },
+  "benchmark": {
+    "baseline": "pure Markdown navigation using the same frozen pack, record, pages, sources, Obsidian version, and isolated vault copy",
+    "condition": "one generated Canvas entry over the exact same evidence set",
+    "task_pairs": 6,
+    "frozen_tasks": 12,
+    "sequences": 2,
+    "minimum_independent_sessions_per_sequence": 2,
+    "thresholds": {
+      "json_parse_rate": 1.0,
+      "backlink_rate": 1.0,
+      "source_verification_rate": 1.0,
+      "max_unsupported_assertions": 0,
+      "canvas_success_not_below_markdown": true,
+      "minimum_success_tasks": "11/12",
+      "maximum_comprehension_drop_percentage_points": 5,
+      "minimum_median_time_reduction": 0.15,
+      "minimum_median_navigation_reduction": 0.20,
+      "efficiency_rule": "time OR navigation threshold must pass",
+      "rollback_probes": "3/3",
+      "deterministic_repetitions": 10
+    },
+    "stop_on": [
+      "missing backlink",
+      "machine-only field exposure",
+      "write outside authorized directory",
+      "evidence-set drift between conditions",
+      "overwrite on promotion or rollback drift",
+      "unfrozen environment or task order"
+    ]
+  },
+  "stable_knowledge_base_handoff": {
+    "reference": {
+      "recommendation": "do not ingest downloaded web bodies from this worktree; if needed, archive separately licensed local source files and run the normal reference ingest/review/audit flow",
+      "source_manifest": "references/research/obsidian-canvas-agent-visualization/sources.json"
+    },
+    "analysis": {
+      "suggested_title": "Obsidian Canvas 与 Agent 解释可视化来源和数据边界研究",
+      "suggested_body_sources": [
+        "references/research/obsidian-canvas-agent-visualization/official-sources.md",
+        "references/research/obsidian-canvas-agent-visualization/capability-data-boundary-matrix.md",
+        "references/research/obsidian-canvas-agent-visualization/design-input-and-benchmark.md"
+      ],
+      "from_pack": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260901-175741-198169-01.json"
+    },
+    "gap": {
+      "action": "keep pending-evidence",
+      "reason": "source and boundary phases are complete, but prototype and frozen Markdown comparison have not run",
+      "new_evidence_paths": [
+        "references/research/obsidian-canvas-agent-visualization/official-sources.md",
+        "references/research/obsidian-canvas-agent-visualization/capability-data-boundary-matrix.md",
+        "references/research/obsidian-canvas-agent-visualization/design-input-and-benchmark.md",
+        "references/research/obsidian-canvas-agent-visualization/sources.json",
+        "references/research/obsidian-canvas-agent-visualization/handoff.json"
+      ]
+    }
+  },
+  "evidence_boundary": {
+    "source_confirmed": [
+      "JSON Canvas 1.0 shape and MIT license",
+      "current CKB Agent pack, human projection, source links, and companion boundary",
+      "candidate repository versions, commits, licenses, transports, auth fields, and source/test shapes",
+      "OpenAI Skill, MCP, and Visualization host boundaries"
+    ],
+    "reasonable_inference": [
+      "12-node and 16-edge budget is sufficient for the frozen pack",
+      "independent Skill is the lowest-cost first prototype location"
+    ],
+    "prototype_required": [
+      "Obsidian custom editor URI behavior from Canvas",
+      "file-node subpath precision",
+      "deterministic layout readability",
+      "measured navigation gain versus Markdown",
+      "managed versus user-owned Canvas update policy"
+    ]
+  }
+}

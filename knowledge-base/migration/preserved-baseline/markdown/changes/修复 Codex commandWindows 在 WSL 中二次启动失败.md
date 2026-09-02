@@ -23,12 +23,12 @@
 ## 相关知识页
 
 - [[render_integration 与 _looks_windows 的协作实现]]
-- [[add_git_bootstrap_arguments 与 parser 的协作实现]]
+- [[keyword_provider_config 与 parser 的协作实现]]
 - [[ingest_event 与 default_registry_path 的协作实现]]
 - [[audit_migration 与 _entity_key 的协作实现]]
 - [[CkbError 与 DependencyError 的协作实现]]
 - [[source_files]]
-- [[AutomationTest.event 等测试场景]]
+- [[AutomationTest.register 等测试场景]]
 - [[MigrationTest 等测试场景]]
 
 ## 源码入口

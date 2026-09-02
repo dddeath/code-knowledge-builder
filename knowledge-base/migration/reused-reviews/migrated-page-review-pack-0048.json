@@ -1,0 +1,48 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0048",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-02T02:37:44Z",
+  "reviews": [
+    {
+      "entity_id": "ent-14dce9abaf27557092560df8ca0cc9f3",
+      "classification": "page",
+      "owner_page_id": "ent-14dce9abaf27557092560df8ca0cc9f3",
+      "source_path": "tests/test_human_page_template_proposals.py",
+      "start_line": 38,
+      "end_line": 348,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_human_page_template_proposals.py` 第 38-348 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "meaning_zh": "`TemplateProposalStoreTests` 位于 `tests/test_human_page_template_proposals.py` 第 38-348 行，本页用固定源码范围说明它如何验证目标行为、失败分类和回归边界。",
+      "role_zh": "`TemplateProposalStoreTests` 负责在输出局部模板提议、人工审计、事件重放和回滚中验证目标行为、失败分类和回归边界。",
+      "change_when_zh": "当 `tests/test_human_page_template_proposals.py` 中 `TemplateProposalStoreTests` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "file-98de2c2a790450d281c3cb108476df2d",
+      "classification": "page",
+      "owner_page_id": "file-98de2c2a790450d281c3cb108476df2d",
+      "source_path": "tests/test_human_page_templates.py",
+      "start_line": 1,
+      "end_line": 467,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_human_page_templates.py` 第 1-467 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "meaning_zh": "`tests/test_human_page_templates.py` 页面绑定固定源码第 1-467 行，说明该文件在人类页面类型合同、预算和确定性验证中的整体职责。",
+      "role_zh": "该文件负责人类页面类型合同、预算和确定性验证，并为相关命令或测试提供可复查实现入口。",
+      "change_when_zh": "当 `tests/test_human_page_templates.py` 中 `tests/test_human_page_templates.py` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "ent-d73cc46721f95cf7bd3f6e1eca12e0b9",
+      "classification": "page",
+      "owner_page_id": "ent-d73cc46721f95cf7bd3f6e1eca12e0b9",
+      "source_path": "tests/test_human_page_templates.py",
+      "start_line": 135,
+      "end_line": 462,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_human_page_templates.py` 第 135-462 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "meaning_zh": "`HumanPageTemplateValidationTests` 位于 `tests/test_human_page_templates.py` 第 135-462 行，本页用固定源码范围说明它如何验证目标行为、失败分类和回归边界。",
+      "role_zh": "`HumanPageTemplateValidationTests` 负责在人类页面类型合同、预算和确定性验证中验证目标行为、失败分类和回归边界。",
+      "change_when_zh": "当 `tests/test_human_page_templates.py` 中 `HumanPageTemplateValidationTests` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
+    }
+  ]
+}

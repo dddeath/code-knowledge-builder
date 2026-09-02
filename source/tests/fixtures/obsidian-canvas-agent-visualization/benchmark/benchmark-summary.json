@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "run_id": "ckb-canvas-markdown-v1",
+  "sessions_by_sequence": {
+    "sequence-1": 2,
+    "sequence-2": 2
+  },
+  "metrics": {
+    "discoverability_success_rate": {
+      "markdown": 0.9166666667,
+      "canvas": 1.0,
+      "delta": 0.0833333333
+    },
+    "median_first_correct_entry_seconds": {
+      "markdown": 40.0,
+      "canvas": 32.0,
+      "delta": -8.0
+    },
+    "median_navigation_count": {
+      "markdown": 5.0,
+      "canvas": 4.0,
+      "delta": -1.0
+    },
+    "mean_comprehension_percent": {
+      "markdown": 95.0,
+      "canvas": 95.0,
+      "delta": 0.0
+    },
+    "source_verification_rate": {
+      "markdown": 1.0,
+      "canvas": 1.0,
+      "delta": 0.0
+    },
+    "unsupported_assertions": {
+      "markdown": 0.0,
+      "canvas": 0.0,
+      "delta": 0.0
+    }
+  },
+  "structure": {
+    "node_count": 4,
+    "edge_count": 3,
+    "dangling_edges": 0,
+    "missing_backlinks": 0,
+    "machine_fields_exposed": 0,
+    "overlap_count": 0
+  },
+  "rollback_probes_passed": 3,
+  "deterministic_hashes": [
+    "3a444a1ef1f9d6c24189c67f775ffd98e40b8a68dafe134b1a11d5dfb5b29c70",
+    "3a444a1ef1f9d6c24189c67f775ffd98e40b8a68dafe134b1a11d5dfb5b29c70",
+    "3a444a1ef1f9d6c24189c67f775ffd98e40b8a68dafe134b1a11d5dfb5b29c70",
+    "3a444a1ef1f9d6c24189c67f775ffd98e40b8a68dafe134b1a11d5dfb5b29c70",
+    "3a444a1ef1f9d6c24189c67f775ffd98e40b8a68dafe134b1a11d5dfb5b29c70",
+    "3a444a1ef1f9d6c24189c67f775ffd98e40b8a68dafe134b1a11d5dfb5b29c70",
+    "3a444a1ef1f9d6c24189c67f775ffd98e40b8a68dafe134b1a11d5dfb5b29c70",
+    "3a444a1ef1f9d6c24189c67f775ffd98e40b8a68dafe134b1a11d5dfb5b29c70",
+    "3a444a1ef1f9d6c24189c67f775ffd98e40b8a68dafe134b1a11d5dfb5b29c70",
+    "3a444a1ef1f9d6c24189c67f775ffd98e40b8a68dafe134b1a11d5dfb5b29c70"
+  ],
+  "gates": [
+    {
+      "gate": "structure",
+      "status": "passed",
+      "evidence": "示例汇总值满足冻结阈值；真实 benchmark 必须替换本示例。"
+    },
+    {
+      "gate": "source",
+      "status": "passed",
+      "evidence": "示例汇总值满足冻结阈值；真实 benchmark 必须替换本示例。"
+    },
+    {
+      "gate": "task",
+      "status": "passed",
+      "evidence": "示例汇总值满足冻结阈值；真实 benchmark 必须替换本示例。"
+    },
+    {
+      "gate": "comprehension",
+      "status": "passed",
+      "evidence": "示例汇总值满足冻结阈值；真实 benchmark 必须替换本示例。"
+    },
+    {
+      "gate": "efficiency",
+      "status": "passed",
+      "evidence": "示例汇总值满足冻结阈值；真实 benchmark 必须替换本示例。"
+    },
+    {
+      "gate": "rollback",
+      "status": "passed",
+      "evidence": "示例汇总值满足冻结阈值；真实 benchmark 必须替换本示例。"
+    },
+    {
+      "gate": "stability",
+      "status": "passed",
+      "evidence": "示例汇总值满足冻结阈值；真实 benchmark 必须替换本示例。"
+    }
+  ],
+  "decision": "advance-to-product-decision",
+  "valid_independent_sessions": 4,
+  "valid_condition_blocks": 8,
+  "blocks_by_assignment": {
+    "sequence-1/markdown": 2,
+    "sequence-1/canvas": 2,
+    "sequence-2/markdown": 2,
+    "sequence-2/canvas": 2
+  }
+}

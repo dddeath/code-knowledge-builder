@@ -16,13 +16,12 @@
 
 - 实现时会用到 [[append]]。
 - 实现时会用到 [[create_batch_plan 与 ProtocolRelease 的协作实现]]。
+- 实现时会用到 [[rollback]]。
 - 实现时会用到 [[run 等测试场景]]。
-- 实现时会用到 [[start_scope_extension 与 _error 的协作实现]]。
+- 实现时会用到 [[validate 与 canonical 的协作实现]]。
 
 ## 谁会来到这里
 
-- [[create_batch_plan 与 ProtocolRelease 的协作实现]] 关联到这里的验证场景。
-- [[module_name]] 关联到这里的验证场景。
 - [[run 等测试场景]] 汇总了本页。
 
 ## 内部细节

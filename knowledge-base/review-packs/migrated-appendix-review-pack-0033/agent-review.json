@@ -1,0 +1,97 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-appendix-review-pack-0033",
+  "kind": "appendix-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-02T02:37:53Z",
+  "reviews": [
+    {
+      "entity_id": "ent-07cfa9b80405526995512e47c99c57dd",
+      "classification": "appendix",
+      "owner_page_id": "file-b06019f1ad8451f4914d254295fce4cb",
+      "source_path": "tests/test_automation.py",
+      "start_line": 48,
+      "end_line": 885,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_automation.py` 第 48-885 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`AutomationTest` 是第 48-885 行的类，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-5f060433bd275a9399709ca173a1d825",
+      "classification": "appendix",
+      "owner_page_id": "file-b06019f1ad8451f4914d254295fce4cb",
+      "source_path": "tests/test_automation.py",
+      "start_line": 49,
+      "end_line": 73,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_automation.py` 第 49-73 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`AutomationTest.setUp` 是第 49-73 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-2a081fb5aa6351cab10b295245ce08d1",
+      "classification": "appendix",
+      "owner_page_id": "file-b06019f1ad8451f4914d254295fce4cb",
+      "source_path": "tests/test_automation.py",
+      "start_line": 75,
+      "end_line": 76,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_automation.py` 第 75-76 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`AutomationTest.tearDown` 是第 75-76 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-b651044b02be5a8481b49b0deef1b976",
+      "classification": "appendix",
+      "owner_page_id": "file-b06019f1ad8451f4914d254295fce4cb",
+      "source_path": "tests/test_automation.py",
+      "start_line": 82,
+      "end_line": 92,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_automation.py` 第 82-92 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`AutomationTest.event` 是第 82-92 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-2ccdcf4209b057968b7aad5a46230c8f",
+      "classification": "appendix",
+      "owner_page_id": "file-b06019f1ad8451f4914d254295fce4cb",
+      "source_path": "tests/test_automation.py",
+      "start_line": 94,
+      "end_line": 104,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_automation.py` 第 94-104 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`AutomationTest.test_e...` 是第 94-104 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-9da60b5d11f85749b3e1e7f76817af47",
+      "classification": "appendix",
+      "owner_page_id": "file-b06019f1ad8451f4914d254295fce4cb",
+      "source_path": "tests/test_automation.py",
+      "start_line": 107,
+      "end_line": 117,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_automation.py` 第 107-117 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`AutomationTest.test_w...` 是第 107-117 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-f1dfe67c05fe5228a08487244aa73609",
+      "classification": "appendix",
+      "owner_page_id": "file-b06019f1ad8451f4914d254295fce4cb",
+      "source_path": "tests/test_automation.py",
+      "start_line": 119,
+      "end_line": 127,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_automation.py` 第 119-127 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`AutomationTest.test_p...` 是第 119-127 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-521ca7bcc91b55758008bdc8c7dd3109",
+      "classification": "appendix",
+      "owner_page_id": "file-b06019f1ad8451f4914d254295fce4cb",
+      "source_path": "tests/test_automation.py",
+      "start_line": 129,
+      "end_line": 178,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_automation.py` 第 129-178 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`AutomationTest.test_r...` 是第 129-178 行的函数，供所属页面定位实现。"
+    }
+  ]
+}

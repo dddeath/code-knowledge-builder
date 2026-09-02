@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "status": "frozen",
+  "failures": [
+    {
+      "reason": "invalid_request",
+      "trigger": "request 出现未知字段",
+      "exit_code": 2,
+      "target_state": "baseline-unchanged",
+      "recovery": "correct-request",
+      "fixture": "failure-results/invalid_request.json"
+    },
+    {
+      "reason": "unsupported_record_schema",
+      "trigger": "record schema_version 为 1，不是 machine record 3",
+      "exit_code": 2,
+      "target_state": "baseline-unchanged",
+      "recovery": "regenerate-request",
+      "fixture": "failure-results/unsupported_record_schema.json"
+    },
+    {
+      "reason": "pack_record_mismatch",
+      "trigger": "record.pack 与请求 pack 路径不同",
+      "exit_code": 2,
+      "target_state": "baseline-unchanged",
+      "recovery": "use-matching-pack-record",
+      "fixture": "failure-results/pack_record_mismatch.json"
+    },
+    {
+      "reason": "input_drift",
+      "trigger": "promotion 前 pack SHA-256 改变",
+      "exit_code": 2,
+      "target_state": "baseline-unchanged",
+      "recovery": "restore-input",
+      "fixture": "failure-results/input_drift.json"
+    },
+    {
+      "reason": "snapshot_mismatch",
+      "trigger": "state 与 SQLite repository commit 不同",
+      "exit_code": 2,
+      "target_state": "baseline-unchanged",
+      "recovery": "use-fixed-snapshot",
+      "fixture": "failure-results/snapshot_mismatch.json"
+    },
+    {
+      "reason": "source_outside_scope",
+      "trigger": "目标父目录经 symlink 解析后越过 staging 根",
+      "exit_code": 2,
+      "target_state": "baseline-unchanged",
+      "recovery": "move-into-scope",
+      "fixture": "failure-results/source_outside_scope.json"
+    },
+    {
+      "reason": "target_exists",
+      "trigger": "replace=false 且目标已存在",
+      "exit_code": 2,
+      "target_state": "baseline-unchanged",
+      "recovery": "choose-new-target-or-pin-baseline",
+      "fixture": "failure-results/target_exists.json"
+    },
+    {
+      "reason": "missing_backlink",
+      "trigger": "required entity 没有人类页或精确来源",
+      "exit_code": 2,
+      "target_state": "baseline-unchanged",
+      "recovery": "supply-reviewed-backlink",
+      "fixture": "failure-results/missing_backlink.json"
+    },
+    {
+      "reason": "missing_target",
+      "trigger": "固定人类页不存在",
+      "exit_code": 2,
+      "target_state": "baseline-unchanged",
+      "recovery": "restore-target",
+      "fixture": "failure-results/missing_target.json"
+    },
+    {
+      "reason": "invalid_source_range",
+      "trigger": "end_line 超出固定源码行数",
+      "exit_code": 2,
+      "target_state": "baseline-unchanged",
+      "recovery": "correct-source-range",
+      "fixture": "failure-results/invalid_source_range.json"
+    },
+    {
+      "reason": "budget_exceeded",
+      "trigger": "required page 节点超过 6",
+      "exit_code": 5,
+      "target_state": "baseline-unchanged",
+      "recovery": "reduce-required-set",
+      "fixture": "failure-results/budget_exceeded.json"
+    },
+    {
+      "reason": "duplicate_id",
+      "trigger": "两个 canonical target 产生相同稳定 ID",
+      "exit_code": 5,
+      "target_state": "baseline-unchanged",
+      "recovery": "fix-generator",
+      "fixture": "failure-results/duplicate_id.json"
+    },
+    {
+      "reason": "dangling_edge",
+      "trigger": "边的 toNode 不在节点数组",
+      "exit_code": 5,
+      "target_state": "baseline-unchanged",
+      "recovery": "fix-generator",
+      "fixture": "failure-results/dangling_edge.json"
+    },
+    {
+      "reason": "invalid_canvas",
+      "trigger": "重开 Canvas 出现 JSON Canvas schema 错误",
+      "exit_code": 5,
+      "target_state": "baseline-unchanged",
+      "recovery": "fix-generator",
+      "fixture": "failure-results/invalid_canvas.json"
+    },
+    {
+      "reason": "promotion_drift",
+      "trigger": "baseline 后目标被并发替换",
+      "exit_code": 6,
+      "target_state": "external-current-preserved",
+      "recovery": "rebaseline-after-review",
+      "fixture": "failure-results/promotion_drift.json"
+    },
+    {
+      "reason": "rollback_drift",
+      "trigger": "当前 Canvas 不等于 generated hash",
+      "exit_code": 6,
+      "target_state": "external-current-preserved",
+      "recovery": "manual-review-current-bytes",
+      "fixture": "failure-results/rollback_drift.json"
+    },
+    {
+      "reason": "io_failure",
+      "trigger": "临时文件 fsync 返回 I/O 错误",
+      "exit_code": 7,
+      "target_state": "baseline-unchanged",
+      "recovery": "retry-io",
+      "fixture": "failure-results/io_failure.json"
+    }
+  ]
+}

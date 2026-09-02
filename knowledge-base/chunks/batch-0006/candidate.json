@@ -1,0 +1,4821 @@
+{
+  "schema_version": 4,
+  "chunk_id": "batch-0006",
+  "repository": {
+    "root": "E:\\knowledge_builder\\self-workspace\\source",
+    "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+    "tree": "6da95dc3ac8991b5abb12b816bcc5e577f53c997",
+    "git_bootstrap": {
+      "requested": false,
+      "performed": false,
+      "repository_created": false,
+      "initial_commit_created": false,
+      "root": "E:\\knowledge_builder\\self-workspace\\source",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "commit_count": 113,
+      "commit_message": null,
+      "author": null
+    }
+  },
+  "files": [
+    {
+      "id": "file-620d06607ecd50f5a39a330bbed0bf9b",
+      "path": "tests/test_scope_extension.py",
+      "language": "python",
+      "blob": "27b2937d148147c03556b90f4a087207f5c8b291",
+      "size": 23036,
+      "mode": "100644"
+    },
+    {
+      "id": "file-6abf8ca65dc8561eac5ae1281b9f5ed9",
+      "path": "tests/test_session_stdio.py",
+      "language": "python",
+      "blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "size": 22623,
+      "mode": "100644"
+    }
+  ],
+  "entities": [
+    {
+      "id": "file-620d06607ecd50f5a39a330bbed0bf9b",
+      "kind": "file",
+      "name": "test_scope_extension.py",
+      "qualified_name": "tests/test_scope_extension.py",
+      "language": "python",
+      "path": "tests/test_scope_extension.py",
+      "blob": "27b2937d148147c03556b90f4a087207f5c8b291",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 0,
+        "end_byte": 23036,
+        "start_line": 1,
+        "end_line": 423
+      },
+      "parent_id": null,
+      "candidate_classification": "page",
+      "classification_evidence": [
+        "file-always-page"
+      ],
+      "classification": "page",
+      "owner_page_id": "file-620d06607ecd50f5a39a330bbed0bf9b",
+      "navigation_evidence": [
+        "fixed-order-default"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "meaning_zh": "`tests/test_scope_extension.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
+      "role_zh": "负责以可执行样例验证 `test_scope_extension.py` 覆盖的成功行为、失败边界和回归约束。",
+      "change_when_zh": "当 `tests/test_scope_extension.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_scope_extension.py` 第 1-423 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-a5167c4706045092ba79b03c238f25fa",
+      "kind": "function",
+      "name": "git",
+      "qualified_name": "git",
+      "language": "python",
+      "path": "tests/test_scope_extension.py",
+      "blob": "27b2937d148147c03556b90f4a087207f5c8b291",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 788,
+        "end_byte": 1060,
+        "start_line": 31,
+        "end_line": 35,
+        "name_line": 31,
+        "name_column_utf8": 4
+      },
+      "parent_id": "file-620d06607ecd50f5a39a330bbed0bf9b",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported",
+        "side-effect-orchestration"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "file-620d06607ecd50f5a39a330bbed0bf9b",
+      "navigation_evidence": [
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`git` 是第 31-35 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_scope_extension.py` 第 31-35 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-5a6c3820e67b5f05aef2348a38f4daf8",
+      "kind": "function",
+      "name": "review_all",
+      "qualified_name": "review_all",
+      "language": "python",
+      "path": "tests/test_scope_extension.py",
+      "blob": "27b2937d148147c03556b90f4a087207f5c8b291",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 1063,
+        "end_byte": 2770,
+        "start_line": 38,
+        "end_line": 60,
+        "name_line": 38,
+        "name_column_utf8": 4
+      },
+      "parent_id": "file-620d06607ecd50f5a39a330bbed0bf9b",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "file-620d06607ecd50f5a39a330bbed0bf9b",
+      "navigation_evidence": [
+        "cross-file-reference",
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`review_all` 是第 38-60 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_scope_extension.py` 第 38-60 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "kind": "class",
+      "name": "ScopeExtensionTest",
+      "qualified_name": "ScopeExtensionTest",
+      "language": "python",
+      "path": "tests/test_scope_extension.py",
+      "blob": "27b2937d148147c03556b90f4a087207f5c8b291",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 2773,
+        "end_byte": 22986,
+        "start_line": 63,
+        "end_line": 418,
+        "name_line": 63,
+        "name_column_utf8": 6
+      },
+      "parent_id": "file-620d06607ecd50f5a39a330bbed0bf9b",
+      "candidate_classification": "page",
+      "classification_evidence": [
+        "public-or-exported",
+        "class-boundary",
+        "side-effect-orchestration"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "page",
+      "owner_page_id": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "navigation_evidence": [
+        "cross-file-reference",
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "meaning_zh": "`ScopeExtensionTest` 是 `tests/test_scope_extension.py` 第 63-418 行定义的类，本页绑定该固定源码范围。",
+      "role_zh": "该类作为可执行验证入口，检查标识符 `ScopeExtensionTest` 所指的行为与失败边界。",
+      "change_when_zh": "当被测行为、输入夹具、断言或失败条件变化时，应同步更新 `ScopeExtensionTest` 的说明。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_scope_extension.py` 第 63-418 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-e21979fa77f6544983f3eff4a21f1b42",
+      "kind": "function",
+      "name": "setUp",
+      "qualified_name": "ScopeExtensionTest.setUp",
+      "language": "python",
+      "path": "tests/test_scope_extension.py",
+      "blob": "27b2937d148147c03556b90f4a087207f5c8b291",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 2822,
+        "end_byte": 4732,
+        "start_line": 64,
+        "end_line": 91,
+        "name_line": 64,
+        "name_column_utf8": 8
+      },
+      "parent_id": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported",
+        "side-effect-orchestration"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "navigation_evidence": [
+        "cross-file-reference",
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`ScopeExtensionTest.setUp` 是第 64-91 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_scope_extension.py` 第 64-91 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-b830b9c9260d572d915ece13dd28c63f",
+      "kind": "function",
+      "name": "add_preserved_layers",
+      "qualified_name": "ScopeExtensionTest.add_preserved_layers",
+      "language": "python",
+      "path": "tests/test_scope_extension.py",
+      "blob": "27b2937d148147c03556b90f4a087207f5c8b291",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 4738,
+        "end_byte": 10082,
+        "start_line": 93,
+        "end_line": 192,
+        "name_line": 93,
+        "name_column_utf8": 8
+      },
+      "parent_id": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported",
+        "side-effect-orchestration"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "navigation_evidence": [
+        "cross-file-reference",
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`ScopeExtensionTest.ad...` 是第 93-192 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_scope_extension.py` 第 93-192 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-3aa878246dd55fe395aae6aa341c164b",
+      "kind": "function",
+      "name": "tearDown",
+      "qualified_name": "ScopeExtensionTest.tearDown",
+      "language": "python",
+      "path": "tests/test_scope_extension.py",
+      "blob": "27b2937d148147c03556b90f4a087207f5c8b291",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 10088,
+        "end_byte": 10318,
+        "start_line": 194,
+        "end_line": 199,
+        "name_line": 194,
+        "name_column_utf8": 8
+      },
+      "parent_id": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "navigation_evidence": [
+        "cross-file-reference",
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`ScopeExtensionTest.te...` 是第 194-199 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_scope_extension.py` 第 194-199 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-0f88b37a0e1c5bd89179693fb0f408a9",
+      "kind": "function",
+      "name": "test_union_delta_idempotence_cutover_and_byte_exact_rollback",
+      "qualified_name": "ScopeExtensionTest.test_union_delta_idempotence_cutover_and_byte_exact_rollback",
+      "language": "python",
+      "path": "tests/test_scope_extension.py",
+      "blob": "27b2937d148147c03556b90f4a087207f5c8b291",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 10324,
+        "end_byte": 13566,
+        "start_line": 201,
+        "end_line": 255,
+        "name_line": 201,
+        "name_column_utf8": 8
+      },
+      "parent_id": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "navigation_evidence": [
+        "cross-file-reference",
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`ScopeExtensionTest.te...` 是第 201-255 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_scope_extension.py` 第 201-255 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-3da67509a5df5d149bc21b6d53ddd4d4",
+      "kind": "function",
+      "name": "test_cutover_failure_restores_origin",
+      "qualified_name": "ScopeExtensionTest.test_cutover_failure_restores_origin",
+      "language": "python",
+      "path": "tests/test_scope_extension.py",
+      "blob": "27b2937d148147c03556b90f4a087207f5c8b291",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 13572,
+        "end_byte": 14391,
+        "start_line": 257,
+        "end_line": 268,
+        "name_line": 257,
+        "name_column_utf8": 8
+      },
+      "parent_id": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "navigation_evidence": [
+        "cross-file-reference",
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`ScopeExtensionTest.te...` 是第 257-268 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_scope_extension.py` 第 257-268 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-f13288dc20245672a6c0cd2831c3aae1",
+      "kind": "function",
+      "name": "test_audit_drift_and_rollback_failure_are_recoverable",
+      "qualified_name": "ScopeExtensionTest.test_audit_drift_and_rollback_failure_are_recoverable",
+      "language": "python",
+      "path": "tests/test_scope_extension.py",
+      "blob": "27b2937d148147c03556b90f4a087207f5c8b291",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 14397,
+        "end_byte": 15976,
+        "start_line": 270,
+        "end_line": 294,
+        "name_line": 270,
+        "name_column_utf8": 8
+      },
+      "parent_id": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported",
+        "side-effect-orchestration"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "navigation_evidence": [
+        "cross-file-reference",
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`ScopeExtensionTest.te...` 是第 270-294 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_scope_extension.py` 第 270-294 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-2daacf03bdd95777b8dab22cf3079e06",
+      "kind": "function",
+      "name": "test_fixed_failure_categories",
+      "qualified_name": "ScopeExtensionTest.test_fixed_failure_categories",
+      "language": "python",
+      "path": "tests/test_scope_extension.py",
+      "blob": "27b2937d148147c03556b90f4a087207f5c8b291",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 15982,
+        "end_byte": 17276,
+        "start_line": 296,
+        "end_line": 316,
+        "name_line": 296,
+        "name_column_utf8": 8
+      },
+      "parent_id": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "navigation_evidence": [
+        "cross-file-reference",
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`ScopeExtensionTest.te...` 是第 296-316 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_scope_extension.py` 第 296-316 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-f794ab8fe53c5fc5abe4964a3269ab13",
+      "kind": "function",
+      "name": "test_sequential_extensions_form_an_unwindable_active_chain",
+      "qualified_name": "ScopeExtensionTest.test_sequential_extensions_form_an_unwindable_active_chain",
+      "language": "python",
+      "path": "tests/test_scope_extension.py",
+      "blob": "27b2937d148147c03556b90f4a087207f5c8b291",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 17282,
+        "end_byte": 22986,
+        "start_line": 318,
+        "end_line": 418,
+        "name_line": 318,
+        "name_column_utf8": 8
+      },
+      "parent_id": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "navigation_evidence": [
+        "cross-file-reference",
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`ScopeExtensionTest.te...` 是第 318-418 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_scope_extension.py` 第 318-418 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "file-6abf8ca65dc8561eac5ae1281b9f5ed9",
+      "kind": "file",
+      "name": "test_session_stdio.py",
+      "qualified_name": "tests/test_session_stdio.py",
+      "language": "python",
+      "path": "tests/test_session_stdio.py",
+      "blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 0,
+        "end_byte": 22623,
+        "start_line": 1,
+        "end_line": 541
+      },
+      "parent_id": null,
+      "candidate_classification": "page",
+      "classification_evidence": [
+        "file-always-page"
+      ],
+      "classification": "page",
+      "owner_page_id": "file-6abf8ca65dc8561eac5ae1281b9f5ed9",
+      "navigation_evidence": [
+        "fixed-order-default"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "meaning_zh": "`tests/test_session_stdio.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
+      "role_zh": "负责以可执行样例验证 `test_session_stdio.py` 覆盖的成功行为、失败边界和回归约束。",
+      "change_when_zh": "当 `tests/test_session_stdio.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 1-541 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-992d26bdf4145f769b097a638507c6c5",
+      "kind": "function",
+      "name": "make_output",
+      "qualified_name": "make_output",
+      "language": "python",
+      "path": "tests/test_session_stdio.py",
+      "blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 777,
+        "end_byte": 2877,
+        "start_line": 38,
+        "end_line": 74,
+        "name_line": 38,
+        "name_column_utf8": 4
+      },
+      "parent_id": "file-6abf8ca65dc8561eac5ae1281b9f5ed9",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported",
+        "side-effect-orchestration"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "file-6abf8ca65dc8561eac5ae1281b9f5ed9",
+      "navigation_evidence": [
+        "cross-file-reference",
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`make_output` 是第 38-74 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 38-74 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "kind": "class",
+      "name": "SessionStdioLifecycleTests",
+      "qualified_name": "SessionStdioLifecycleTests",
+      "language": "python",
+      "path": "tests/test_session_stdio.py",
+      "blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 2880,
+        "end_byte": 22573,
+        "start_line": 77,
+        "end_line": 536,
+        "name_line": 77,
+        "name_column_utf8": 6
+      },
+      "parent_id": "file-6abf8ca65dc8561eac5ae1281b9f5ed9",
+      "candidate_classification": "page",
+      "classification_evidence": [
+        "public-or-exported",
+        "class-boundary",
+        "side-effect-orchestration"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "page",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "navigation_evidence": [
+        "cross-file-reference",
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "meaning_zh": "`SessionStdioLifecycle...` 是 `tests/test_session_stdio.py` 第 77-536 行定义的类，本页绑定该固定源码范围。",
+      "role_zh": "该类作为可执行验证入口，检查标识符 `SessionStdioLifecycleTests` 所指的行为与失败边界。",
+      "change_when_zh": "当被测行为、输入夹具、断言或失败条件变化时，应同步更新 `SessionStdioLifecycleTests` 的说明。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 77-536 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-0ffa57e61e8b5032b2eeda8f75ca90a3",
+      "kind": "function",
+      "name": "setUp",
+      "qualified_name": "SessionStdioLifecycleTests.setUp",
+      "language": "python",
+      "path": "tests/test_session_stdio.py",
+      "blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 2937,
+        "end_byte": 3630,
+        "start_line": 78,
+        "end_line": 93,
+        "name_line": 78,
+        "name_column_utf8": 8
+      },
+      "parent_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "navigation_evidence": [
+        "cross-file-reference",
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`SessionStdioLifecycle...` 是第 78-93 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 78-93 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-ef7277fca2dc5dea8fa328d84b13eb73",
+      "kind": "function",
+      "name": "tearDown",
+      "qualified_name": "SessionStdioLifecycleTests.tearDown",
+      "language": "python",
+      "path": "tests/test_session_stdio.py",
+      "blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 3636,
+        "end_byte": 4076,
+        "start_line": 95,
+        "end_line": 107,
+        "name_line": 95,
+        "name_column_utf8": 8
+      },
+      "parent_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "navigation_evidence": [
+        "cross-file-reference",
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`SessionStdioLifecycle...` 是第 95-107 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 95-107 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-603d1d54fbb4593eb97b459cc655faf3",
+      "kind": "function",
+      "name": "event",
+      "qualified_name": "SessionStdioLifecycleTests.event",
+      "language": "python",
+      "path": "tests/test_session_stdio.py",
+      "blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 4082,
+        "end_byte": 4416,
+        "start_line": 109,
+        "end_line": 116,
+        "name_line": 109,
+        "name_column_utf8": 8
+      },
+      "parent_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported",
+        "simple-attached-entity"
+      ],
+      "page_eligible": false,
+      "hard_exclusion": "single-return-or-call",
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "navigation_evidence": [
+        "public-or-exported",
+        "hard-exclusion:single-return-or-call"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`SessionStdioLifecycle...` 是第 109-116 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 109-116 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-0170e91c5cbb597b9ec50400008687dd",
+      "kind": "function",
+      "name": "test_session_start_and_plain_prompt_do_not_start_stdio",
+      "qualified_name": "SessionStdioLifecycleTests.test_session_start_and_plain_prompt_do_not_start_stdio",
+      "language": "python",
+      "path": "tests/test_session_stdio.py",
+      "blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 4422,
+        "end_byte": 5161,
+        "start_line": 118,
+        "end_line": 129,
+        "name_line": 118,
+        "name_column_utf8": 8
+      },
+      "parent_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "navigation_evidence": [
+        "cross-file-reference",
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`SessionStdioLifecycle...` 是第 118-129 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 118-129 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-087dab88756f52ffbb516e6550debf89",
+      "kind": "function",
+      "name": "test_exact_skill_activation_reuses_pid_across_turn_stop_and_session_end_reaps",
+      "qualified_name": "SessionStdioLifecycleTests.test_exact_skill_activation_reuses_pid_across_turn_stop_and_session_end_reaps",
+      "language": "python",
+      "path": "tests/test_session_stdio.py",
+      "blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 5167,
+        "end_byte": 7580,
+        "start_line": 131,
+        "end_line": 184,
+        "name_line": 131,
+        "name_column_utf8": 8
+      },
+      "parent_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported",
+        "side-effect-orchestration"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "navigation_evidence": [
+        "cross-file-reference",
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`SessionStdioLifecycle...` 是第 131-184 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 131-184 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-d9cac766b49f5c198cb8e723c81c2886",
+      "kind": "function",
+      "name": "test_sixteen_concurrent_first_requests_singleflight_and_isolation",
+      "qualified_name": "SessionStdioLifecycleTests.test_sixteen_concurrent_first_requests_singleflight_and_isolation",
+      "language": "python",
+      "path": "tests/test_session_stdio.py",
+      "blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 7586,
+        "end_byte": 10036,
+        "start_line": 186,
+        "end_line": 240,
+        "name_line": 186,
+        "name_column_utf8": 8
+      },
+      "parent_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported",
+        "side-effect-orchestration"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "navigation_evidence": [
+        "cross-file-reference",
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`SessionStdioLifecycle...` 是第 186-240 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 186-240 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-0041414242c45d7189d4bc809b7c357e",
+      "kind": "function",
+      "name": "request",
+      "qualified_name": "SessionStdioLifecycleTests.test_sixteen_concurrent_first_requests_singleflight_and_isolation.request",
+      "language": "python",
+      "path": "tests/test_session_stdio.py",
+      "blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 8360,
+        "end_byte": 8680,
+        "start_line": 207,
+        "end_line": 214,
+        "name_line": 207,
+        "name_column_utf8": 12
+      },
+      "parent_id": "ent-d9cac766b49f5c198cb8e723c81c2886",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported",
+        "side-effect-orchestration",
+        "simple-attached-entity"
+      ],
+      "page_eligible": false,
+      "hard_exclusion": "single-return-or-call",
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "navigation_evidence": [
+        "cross-file-reference",
+        "public-or-exported",
+        "hard-exclusion:single-return-or-call"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`SessionStdioLifecycle...` 是第 207-214 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 207-214 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-60172f63d3285a699ef0aa0226321121",
+      "kind": "function",
+      "name": "test_parent_death_reaps_and_explicit_close_is_idempotent",
+      "qualified_name": "SessionStdioLifecycleTests.test_parent_death_reaps_and_explicit_close_is_idempotent",
+      "language": "python",
+      "path": "tests/test_session_stdio.py",
+      "blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 10042,
+        "end_byte": 11503,
+        "start_line": 242,
+        "end_line": 269,
+        "name_line": 242,
+        "name_column_utf8": 8
+      },
+      "parent_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported",
+        "side-effect-orchestration"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "navigation_evidence": [
+        "cross-file-reference",
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`SessionStdioLifecycle...` 是第 242-269 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 242-269 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-1440d63074b655cc865f12e4eed9e667",
+      "kind": "function",
+      "name": "test_start_failure_is_bounded_cli_fallback_not_resident",
+      "qualified_name": "SessionStdioLifecycleTests.test_start_failure_is_bounded_cli_fallback_not_resident",
+      "language": "python",
+      "path": "tests/test_session_stdio.py",
+      "blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 11509,
+        "end_byte": 12127,
+        "start_line": 271,
+        "end_line": 284,
+        "name_line": 271,
+        "name_column_utf8": 8
+      },
+      "parent_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "navigation_evidence": [
+        "cross-file-reference",
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`SessionStdioLifecycle...` 是第 271-284 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 271-284 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-e49753ed698d5fe1a5f0d0ee8ade48e1",
+      "kind": "function",
+      "name": "test_same_external_id_immediate_reactivation_uses_new_generation",
+      "qualified_name": "SessionStdioLifecycleTests.test_same_external_id_immediate_reactivation_uses_new_generation",
+      "language": "python",
+      "path": "tests/test_session_stdio.py",
+      "blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 12133,
+        "end_byte": 13931,
+        "start_line": 286,
+        "end_line": 324,
+        "name_line": 286,
+        "name_column_utf8": 8
+      },
+      "parent_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported",
+        "side-effect-orchestration"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "navigation_evidence": [
+        "cross-file-reference",
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`SessionStdioLifecycle...` 是第 286-324 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 286-324 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-c5681a7e875e5b2587382bdc81a6160a",
+      "kind": "function",
+      "name": "test_compact_lease_temporary_supports_long_windows_root",
+      "qualified_name": "SessionStdioLifecycleTests.test_compact_lease_temporary_supports_long_windows_root",
+      "language": "python",
+      "path": "tests/test_session_stdio.py",
+      "blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 13937,
+        "end_byte": 15471,
+        "start_line": 326,
+        "end_line": 362,
+        "name_line": 326,
+        "name_column_utf8": 8
+      },
+      "parent_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported",
+        "side-effect-orchestration"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "navigation_evidence": [
+        "cross-file-reference",
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`SessionStdioLifecycle...` 是第 326-362 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 326-362 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-311b7b1130a350a2b3380f535464f38a",
+      "kind": "function",
+      "name": "test_over_budget_windows_root_returns_explicit_fallback",
+      "qualified_name": "SessionStdioLifecycleTests.test_over_budget_windows_root_returns_explicit_fallback",
+      "language": "python",
+      "path": "tests/test_session_stdio.py",
+      "blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 15563,
+        "end_byte": 16351,
+        "start_line": 365,
+        "end_line": 381,
+        "name_line": 365,
+        "name_column_utf8": 8
+      },
+      "parent_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "navigation_evidence": [
+        "cross-file-reference",
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`SessionStdioLifecycle...` 是第 365-381 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 365-381 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-3c999cf3a8445784b44feea8d5257aa6",
+      "kind": "function",
+      "name": "test_server_crash_restarts_once_then_falls_back_to_per_command_cli",
+      "qualified_name": "SessionStdioLifecycleTests.test_server_crash_restarts_once_then_falls_back_to_per_command_cli",
+      "language": "python",
+      "path": "tests/test_session_stdio.py",
+      "blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 16357,
+        "end_byte": 18119,
+        "start_line": 383,
+        "end_line": 421,
+        "name_line": 383,
+        "name_column_utf8": 8
+      },
+      "parent_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported",
+        "side-effect-orchestration"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "navigation_evidence": [
+        "cross-file-reference",
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`SessionStdioLifecycle...` 是第 383-421 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 383-421 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-2b51bee8f24f570da840a3c43d9873a1",
+      "kind": "function",
+      "name": "test_supervisor_crash_stale_lease_is_cleaned_before_reactivation",
+      "qualified_name": "SessionStdioLifecycleTests.test_supervisor_crash_stale_lease_is_cleaned_before_reactivation",
+      "language": "python",
+      "path": "tests/test_session_stdio.py",
+      "blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 18125,
+        "end_byte": 19507,
+        "start_line": 423,
+        "end_line": 454,
+        "name_line": 423,
+        "name_column_utf8": 8
+      },
+      "parent_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "navigation_evidence": [
+        "cross-file-reference",
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`SessionStdioLifecycle...` 是第 423-454 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 423-454 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-c7f3d566480c54bb87eac359f57aa245",
+      "kind": "function",
+      "name": "test_protocol_version_mismatch_fails_handshake_with_bounded_reason",
+      "qualified_name": "SessionStdioLifecycleTests.test_protocol_version_mismatch_fails_handshake_with_bounded_reason",
+      "language": "python",
+      "path": "tests/test_session_stdio.py",
+      "blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 19513,
+        "end_byte": 21033,
+        "start_line": 456,
+        "end_line": 497,
+        "name_line": 456,
+        "name_column_utf8": 8
+      },
+      "parent_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported",
+        "side-effect-orchestration"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "navigation_evidence": [
+        "cross-file-reference",
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`SessionStdioLifecycle...` 是第 456-497 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 456-497 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-df679bceb4c0578aa19b008efc0dfe07",
+      "kind": "class",
+      "name": "FakeProcess",
+      "qualified_name": "SessionStdioLifecycleTests.test_protocol_version_mismatch_fails_handshake_with_bounded_reason.FakeProcess",
+      "language": "python",
+      "path": "tests/test_session_stdio.py",
+      "blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 19607,
+        "end_byte": 20227,
+        "start_line": 457,
+        "end_line": 477,
+        "name_line": 457,
+        "name_column_utf8": 14
+      },
+      "parent_id": "ent-c7f3d566480c54bb87eac359f57aa245",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported",
+        "class-boundary"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "navigation_evidence": [
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`SessionStdioLifecycle...` 是第 457-477 行的类，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 457-477 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-3e02161837d057deb4670a843f1a75fd",
+      "kind": "function",
+      "name": "__init__",
+      "qualified_name": "SessionStdioLifecycleTests.test_protocol_version_mismatch_fails_handshake_with_bounded_reason.FakeProcess.__init__",
+      "language": "python",
+      "path": "tests/test_session_stdio.py",
+      "blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 19705,
+        "end_byte": 19863,
+        "start_line": 461,
+        "end_line": 464,
+        "name_line": 461,
+        "name_column_utf8": 16
+      },
+      "parent_id": "ent-df679bceb4c0578aa19b008efc0dfe07",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "attached-by-default"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": false,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "navigation_evidence": [
+        "fixed-order-default"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`SessionStdioLifecycle...` 是第 461-464 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 461-464 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-1361c0647b885e83bcf61677df4f3d11",
+      "kind": "function",
+      "name": "poll",
+      "qualified_name": "SessionStdioLifecycleTests.test_protocol_version_mismatch_fails_handshake_with_bounded_reason.FakeProcess.poll",
+      "language": "python",
+      "path": "tests/test_session_stdio.py",
+      "blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 19877,
+        "end_byte": 19945,
+        "start_line": 466,
+        "end_line": 467,
+        "name_line": 466,
+        "name_column_utf8": 16
+      },
+      "parent_id": "ent-df679bceb4c0578aa19b008efc0dfe07",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported",
+        "simple-attached-entity"
+      ],
+      "page_eligible": false,
+      "hard_exclusion": "single-return-or-call",
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "navigation_evidence": [
+        "public-or-exported",
+        "hard-exclusion:single-return-or-call"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`SessionStdioLifecycle...` 是第 466-467 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 466-467 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-66bed9200af052a2ab7478676ba7617a",
+      "kind": "function",
+      "name": "wait",
+      "qualified_name": "SessionStdioLifecycleTests.test_protocol_version_mismatch_fails_handshake_with_bounded_reason.FakeProcess.wait",
+      "language": "python",
+      "path": "tests/test_session_stdio.py",
+      "blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 19959,
+        "end_byte": 20072,
+        "start_line": 469,
+        "end_line": 471,
+        "name_line": 469,
+        "name_column_utf8": 16
+      },
+      "parent_id": "ent-df679bceb4c0578aa19b008efc0dfe07",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "navigation_evidence": [
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`SessionStdioLifecycle...` 是第 469-471 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 469-471 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-3aeb83dd891155c8bb177b444101a28c",
+      "kind": "function",
+      "name": "terminate",
+      "qualified_name": "SessionStdioLifecycleTests.test_protocol_version_mismatch_fails_handshake_with_bounded_reason.FakeProcess.terminate",
+      "language": "python",
+      "path": "tests/test_session_stdio.py",
+      "blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 20086,
+        "end_byte": 20152,
+        "start_line": 473,
+        "end_line": 474,
+        "name_line": 473,
+        "name_column_utf8": 16
+      },
+      "parent_id": "ent-df679bceb4c0578aa19b008efc0dfe07",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported",
+        "simple-attached-entity"
+      ],
+      "page_eligible": false,
+      "hard_exclusion": "single-return-or-call",
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "navigation_evidence": [
+        "public-or-exported",
+        "hard-exclusion:single-return-or-call"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`SessionStdioLifecycle...` 是第 473-474 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 473-474 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-32625aeec2c65568875847e4867d08de",
+      "kind": "function",
+      "name": "kill",
+      "qualified_name": "SessionStdioLifecycleTests.test_protocol_version_mismatch_fails_handshake_with_bounded_reason.FakeProcess.kill",
+      "language": "python",
+      "path": "tests/test_session_stdio.py",
+      "blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 20166,
+        "end_byte": 20227,
+        "start_line": 476,
+        "end_line": 477,
+        "name_line": 476,
+        "name_column_utf8": 16
+      },
+      "parent_id": "ent-df679bceb4c0578aa19b008efc0dfe07",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported",
+        "simple-attached-entity"
+      ],
+      "page_eligible": false,
+      "hard_exclusion": "single-return-or-call",
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "navigation_evidence": [
+        "public-or-exported",
+        "hard-exclusion:single-return-or-call"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`SessionStdioLifecycle...` 是第 476-477 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 476-477 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-c4b50a7d168758a198aa78d0b0a3ed73",
+      "kind": "function",
+      "name": "test_close_timeout_escalates_to_terminate_then_kill_and_waits",
+      "qualified_name": "SessionStdioLifecycleTests.test_close_timeout_escalates_to_terminate_then_kill_and_waits",
+      "language": "python",
+      "path": "tests/test_session_stdio.py",
+      "blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 21039,
+        "end_byte": 22573,
+        "start_line": 499,
+        "end_line": 536,
+        "name_line": 499,
+        "name_column_utf8": 8
+      },
+      "parent_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported",
+        "side-effect-orchestration"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "navigation_evidence": [
+        "cross-file-reference",
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`SessionStdioLifecycle...` 是第 499-536 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 499-536 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-72d3a67456ff547fac198985b010de10",
+      "kind": "class",
+      "name": "TimeoutProcess",
+      "qualified_name": "SessionStdioLifecycleTests.test_close_timeout_escalates_to_terminate_then_kill_and_waits.TimeoutProcess",
+      "language": "python",
+      "path": "tests/test_session_stdio.py",
+      "blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 21128,
+        "end_byte": 22026,
+        "start_line": 500,
+        "end_line": 526,
+        "name_line": 500,
+        "name_column_utf8": 14
+      },
+      "parent_id": "ent-c4b50a7d168758a198aa78d0b0a3ed73",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported",
+        "class-boundary",
+        "side-effect-orchestration"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "navigation_evidence": [
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`SessionStdioLifecycle...` 是第 500-526 行的类，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 500-526 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-5f47f9df34c05e2d8fdfca2527891eed",
+      "kind": "function",
+      "name": "__init__",
+      "qualified_name": "SessionStdioLifecycleTests.test_close_timeout_escalates_to_terminate_then_kill_and_waits.TimeoutProcess.__init__",
+      "language": "python",
+      "path": "tests/test_session_stdio.py",
+      "blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 21229,
+        "end_byte": 21499,
+        "start_line": 504,
+        "end_line": 510,
+        "name_line": 504,
+        "name_column_utf8": 16
+      },
+      "parent_id": "ent-72d3a67456ff547fac198985b010de10",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "attached-by-default"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": false,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "navigation_evidence": [
+        "fixed-order-default"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`SessionStdioLifecycle...` 是第 504-510 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 504-510 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-260c76f46aee5f62b2c615c50b376ef3",
+      "kind": "function",
+      "name": "poll",
+      "qualified_name": "SessionStdioLifecycleTests.test_close_timeout_escalates_to_terminate_then_kill_and_waits.TimeoutProcess.poll",
+      "language": "python",
+      "path": "tests/test_session_stdio.py",
+      "blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 21513,
+        "end_byte": 21581,
+        "start_line": 512,
+        "end_line": 513,
+        "name_line": 512,
+        "name_column_utf8": 16
+      },
+      "parent_id": "ent-72d3a67456ff547fac198985b010de10",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported",
+        "simple-attached-entity"
+      ],
+      "page_eligible": false,
+      "hard_exclusion": "single-return-or-call",
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "navigation_evidence": [
+        "public-or-exported",
+        "hard-exclusion:single-return-or-call"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`SessionStdioLifecycle...` 是第 512-513 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 512-513 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-bd59a6bae9c153b390c5771704a21e02",
+      "kind": "function",
+      "name": "wait",
+      "qualified_name": "SessionStdioLifecycleTests.test_close_timeout_escalates_to_terminate_then_kill_and_waits.TimeoutProcess.wait",
+      "language": "python",
+      "path": "tests/test_session_stdio.py",
+      "blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 21595,
+        "end_byte": 21873,
+        "start_line": 515,
+        "end_line": 520,
+        "name_line": 515,
+        "name_column_utf8": 16
+      },
+      "parent_id": "ent-72d3a67456ff547fac198985b010de10",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported",
+        "side-effect-orchestration"
+      ],
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "navigation_evidence": [
+        "public-or-exported"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`SessionStdioLifecycle...` 是第 515-520 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 515-520 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-d7d89b53aab95a8a80634e980b969157",
+      "kind": "function",
+      "name": "terminate",
+      "qualified_name": "SessionStdioLifecycleTests.test_close_timeout_escalates_to_terminate_then_kill_and_waits.TimeoutProcess.terminate",
+      "language": "python",
+      "path": "tests/test_session_stdio.py",
+      "blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 21887,
+        "end_byte": 21954,
+        "start_line": 522,
+        "end_line": 523,
+        "name_line": 522,
+        "name_column_utf8": 16
+      },
+      "parent_id": "ent-72d3a67456ff547fac198985b010de10",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported",
+        "simple-attached-entity"
+      ],
+      "page_eligible": false,
+      "hard_exclusion": "single-return-or-call",
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "navigation_evidence": [
+        "public-or-exported",
+        "hard-exclusion:single-return-or-call"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`SessionStdioLifecycle...` 是第 522-523 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 522-523 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-7d208290ea65548aa429aa701cba8cac",
+      "kind": "function",
+      "name": "kill",
+      "qualified_name": "SessionStdioLifecycleTests.test_close_timeout_escalates_to_terminate_then_kill_and_waits.TimeoutProcess.kill",
+      "language": "python",
+      "path": "tests/test_session_stdio.py",
+      "blob": "aac407451f6f7001bacf52c295c2bf474a082cf0",
+      "commit": "94bf2201524342c2c87f9835ad5391a03cb9a7d9",
+      "range": {
+        "start_byte": 21968,
+        "end_byte": 22026,
+        "start_line": 525,
+        "end_line": 526,
+        "name_line": 525,
+        "name_column_utf8": 16
+      },
+      "parent_id": "ent-72d3a67456ff547fac198985b010de10",
+      "candidate_classification": "appendix",
+      "classification_evidence": [
+        "public-or-exported",
+        "simple-attached-entity"
+      ],
+      "page_eligible": false,
+      "hard_exclusion": "single-return-or-call",
+      "is_public_or_exported": true,
+      "is_partial": false,
+      "classification": "appendix",
+      "owner_page_id": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "navigation_evidence": [
+        "public-or-exported",
+        "hard-exclusion:single-return-or-call"
+      ],
+      "chunk_id": "batch-0006",
+      "parse_batch_id": "batch-0006",
+      "description_zh": "`SessionStdioLifecycle...` 是第 525-526 行的函数，供所属页面定位实现。",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 525-526 行的源码摘录，文件、符号与行范围一致。",
+      "review_status": "agent-reviewed"
+    }
+  ],
+  "links": [
+    {
+      "id": "link-2b1190695cc85016a1a7305c44f94089",
+      "type": "references",
+      "source": "ent-6be5c9cdc7c159e0ab8ee5cc9f2db949",
+      "target": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "ScopeExtensionTest",
+        "source_path": "tests/test_knowledge_batch_migration.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-49f77d3af400561da16ada49751f3c26",
+      "type": "references",
+      "source": "ent-6be5c9cdc7c159e0ab8ee5cc9f2db949",
+      "target": "ent-b830b9c9260d572d915ece13dd28c63f",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "add_preserved_layers",
+        "source_path": "tests/test_knowledge_batch_migration.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-11b4840dbb0258d99b83743f9d29880d",
+      "type": "references",
+      "source": "ent-87b2c439fddc5ffabeab50ac22cf7a43",
+      "target": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "ScopeExtensionTest",
+        "source_path": "tests/test_knowledge_batch_migration.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-cd79d5df4a275e9fba048c525a75a777",
+      "type": "references",
+      "source": "ent-87b2c439fddc5ffabeab50ac22cf7a43",
+      "target": "ent-b830b9c9260d572d915ece13dd28c63f",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "add_preserved_layers",
+        "source_path": "tests/test_knowledge_batch_migration.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-5216c08bd30b53f4b92a6b4770ddb2f7",
+      "type": "references",
+      "source": "ent-5a6c3820e67b5f05aef2348a38f4daf8",
+      "target": "ent-87c92be52f6e53d6a6ec032aa61e7f27",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "build_chunk",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-7306bddfe2ca5c5595420e1d8d2c9fe6",
+      "type": "references",
+      "source": "ent-5a6c3820e67b5f05aef2348a38f4daf8",
+      "target": "ent-7f43be1b66375f54a08b49909d45f94c",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "review_pack",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-aaea8ca72f135411baeab91be082921a",
+      "type": "references",
+      "source": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "target": "ent-aac94347875d5595ab3cbb51e891b5b6",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "CkbError",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-1e3924a9859058ecb6fe34c3430f36fa",
+      "type": "references",
+      "source": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "target": "ent-77ad08383668589c9a29ad749c793288",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "_index_value",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-b7b2ecf516d0524eae9b54f4d7b476f7",
+      "type": "references",
+      "source": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "target": "ent-81368cf710e9500c93b07e01f736bd60",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "_render_reference_page",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-472b22b52d345534807a09342c94d1e1",
+      "type": "references",
+      "source": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "target": "ent-9d749478bb4252a9ad3048ffefab5a71",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "_tree_manifest",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-2b3ad9641ce15c5db6b74e6205419fd6",
+      "type": "references",
+      "source": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "target": "ent-b830b9c9260d572d915ece13dd28c63f",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "add_preserved_layers",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-63f88db7d78f5741840b0b74ca5ff623",
+      "type": "references",
+      "source": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "target": "ent-425ab917df07585c84c1fb4857119548",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "append",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-c849de2942585fb0b0f06a6bb71cda31",
+      "type": "references",
+      "source": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "target": "ent-2505683dae6b5160b7c09a4e50daea57",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "audit_scope_extension",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-75a48b0ab36b5b3793e75a681cf135c6",
+      "type": "references",
+      "source": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "target": "ent-b0aa4af2d4fe5ebca35b59aaab21f40d",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "cleanup",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-ca4cf7f5d9545d1dbfc5975d33c8798e",
+      "type": "references",
+      "source": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "target": "ent-d8a482d74041532e929b7d281fdd8f8d",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "close",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-9c50d975b2585c369fed96ca77f0b9af",
+      "type": "references",
+      "source": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "target": "ent-ba77724a1a7f5f4696809c99281cd074",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "config",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-264beb3b6ee654aea78c5a50cb641d00",
+      "type": "references",
+      "source": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "target": "ent-b2e18a53324c5b2a9e450e64f3341c4a",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "cutover_scope_extension",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-b689abae20a054c39ec4f0977d22d204",
+      "type": "references",
+      "source": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "target": "ent-7daca4be9c1e5d13b899f23659e01d4b",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "execute",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-b4cb95315b08544dac941042252e3d58",
+      "type": "references",
+      "source": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "target": "ent-d2ae4e960a165a52aeccaefc33569c30",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "extension_status",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-581961e4c9fb5b3f950ac32c6e47e92f",
+      "type": "references",
+      "source": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "target": "ent-9767c37cb03354bfbee0453c5657299a",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "finalize",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-56fa8832d5e3571d831a3f952f323376",
+      "type": "references",
+      "source": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "target": "ent-5df09427d1fa5da5ae171a6d9d5074f5",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "gap_records",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-f587fd33f4ad54b9808118bc95904593",
+      "type": "references",
+      "source": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "target": "ent-8acf3bf780fe5a47bdf7d701b204230f",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "initialize",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-e030f0e23cbc5cc88bcfca10dd4bc61c",
+      "type": "references",
+      "source": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "target": "ent-02ee9d22c5bf58abafb7d63bdff542ed",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "record_note",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-98928ed5eb0151c0a0fbd419a0c634b6",
+      "type": "references",
+      "source": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "target": "ent-ad46aaa58b0f548b95fe66992b03ce06",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "rollback",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-a55ca40cbf485b53b86ca780926df718",
+      "type": "references",
+      "source": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "target": "ent-97a8869560195eb888604a820e0f89fc",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "rollback_scope_extension",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-11c8d27de40c56e0bb5ac1dcc286bd9c",
+      "type": "references",
+      "source": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "target": "ent-3a2931f0215c53e5bc23b84a2322eab0",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "sha256_file",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-5ed030f58f005dd8b027f308d45ca918",
+      "type": "references",
+      "source": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "target": "ent-a2617ec78b3a5ff6892c33909af102db",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "stable_id",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-e2577e276331543bab2bf43b9b3202e8",
+      "type": "references",
+      "source": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "target": "ent-9cae2555d2535ae2bf9e67c4fe9ffae6",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "start_scope_extension",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-c544689553ba5798b231660b05bce434",
+      "type": "references",
+      "source": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "target": "ent-f13288dc20245672a6c0cd2831c3aae1",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "test_audit_drift_and_rollback_failure_are_recoverable",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-96e8c9d534da5840a46a2a5b1d23754e",
+      "type": "references",
+      "source": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "target": "ent-3da67509a5df5d149bc21b6d53ddd4d4",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "test_cutover_failure_restores_origin",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-c9dc20ed7ee45b8781c865ce745fa4d9",
+      "type": "references",
+      "source": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "target": "ent-2daacf03bdd95777b8dab22cf3079e06",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "test_fixed_failure_categories",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-e8eef0b7800552c5a1a246f756bd5d6e",
+      "type": "references",
+      "source": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "target": "ent-f794ab8fe53c5fc5abe4964a3269ab13",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "test_sequential_extensions_form_an_unwindable_active_chain",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-5e3599aafd1b5609b78fe3456f9f60c6",
+      "type": "references",
+      "source": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "target": "ent-0f88b37a0e1c5bd89179693fb0f408a9",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "test_union_delta_idempotence_cutover_and_byte_exact_rollback",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-1925ad21b52258689557feb20d54a3c3",
+      "type": "references",
+      "source": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "target": "ent-c576389256795547afc4c117fc712db1",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "utc_now",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-cda57a01b4cb50ec9b2e10743d008c6f",
+      "type": "references",
+      "source": "ent-e21979fa77f6544983f3eff4a21f1b42",
+      "target": "ent-ba77724a1a7f5f4696809c99281cd074",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "config",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-8537b5ff44875981bd516bcccfa94784",
+      "type": "references",
+      "source": "ent-e21979fa77f6544983f3eff4a21f1b42",
+      "target": "ent-9767c37cb03354bfbee0453c5657299a",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "finalize",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-0b6705b462eb5aea8c9435adb7132114",
+      "type": "references",
+      "source": "ent-e21979fa77f6544983f3eff4a21f1b42",
+      "target": "ent-8acf3bf780fe5a47bdf7d701b204230f",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "initialize",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-946345dfb9c05f01a2f2080b4dc7f685",
+      "type": "references",
+      "source": "ent-b830b9c9260d572d915ece13dd28c63f",
+      "target": "ent-77ad08383668589c9a29ad749c793288",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "_index_value",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-692dca98d2ee5855ac5245c325be0503",
+      "type": "references",
+      "source": "ent-b830b9c9260d572d915ece13dd28c63f",
+      "target": "ent-81368cf710e9500c93b07e01f736bd60",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "_render_reference_page",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-20c8c20230d75a21aa7da77fe1a739b5",
+      "type": "references",
+      "source": "ent-b830b9c9260d572d915ece13dd28c63f",
+      "target": "ent-425ab917df07585c84c1fb4857119548",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "append",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-ada649db5c895f4c96a1309bfe739615",
+      "type": "references",
+      "source": "ent-b830b9c9260d572d915ece13dd28c63f",
+      "target": "ent-5df09427d1fa5da5ae171a6d9d5074f5",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "gap_records",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-d227803b32535faba51b25b28fbf9c95",
+      "type": "references",
+      "source": "ent-b830b9c9260d572d915ece13dd28c63f",
+      "target": "ent-02ee9d22c5bf58abafb7d63bdff542ed",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "record_note",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-71e0791fb2ce5740a19d6c41743ec18c",
+      "type": "references",
+      "source": "ent-b830b9c9260d572d915ece13dd28c63f",
+      "target": "ent-3a2931f0215c53e5bc23b84a2322eab0",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "sha256_file",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-543c92646362595185203e42bb4b5769",
+      "type": "references",
+      "source": "ent-b830b9c9260d572d915ece13dd28c63f",
+      "target": "ent-a2617ec78b3a5ff6892c33909af102db",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "stable_id",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-9fbaa9958d0f53bd8b10ad50d1a32a50",
+      "type": "references",
+      "source": "ent-b830b9c9260d572d915ece13dd28c63f",
+      "target": "ent-c576389256795547afc4c117fc712db1",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "utc_now",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-b56a15a3e48352e3ae71cdd586c827bf",
+      "type": "references",
+      "source": "ent-3aa878246dd55fe395aae6aa341c164b",
+      "target": "ent-b0aa4af2d4fe5ebca35b59aaab21f40d",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "cleanup",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-0a248c1b08dd5d43b058201c1ed09b83",
+      "type": "references",
+      "source": "ent-0f88b37a0e1c5bd89179693fb0f408a9",
+      "target": "ent-9d749478bb4252a9ad3048ffefab5a71",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "_tree_manifest",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-e56c34d3a06d55d6b63fbf3daccab694",
+      "type": "references",
+      "source": "ent-0f88b37a0e1c5bd89179693fb0f408a9",
+      "target": "ent-b830b9c9260d572d915ece13dd28c63f",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "add_preserved_layers",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-abdf67b962d55efab4aa6b6233de272e",
+      "type": "references",
+      "source": "ent-0f88b37a0e1c5bd89179693fb0f408a9",
+      "target": "ent-2505683dae6b5160b7c09a4e50daea57",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "audit_scope_extension",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-6cbd786f0f7a5b3fa3f50ba9780fd51d",
+      "type": "references",
+      "source": "ent-0f88b37a0e1c5bd89179693fb0f408a9",
+      "target": "ent-d8a482d74041532e929b7d281fdd8f8d",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "close",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-a08d4c0feebf555bbb7b558ec0c4dc12",
+      "type": "references",
+      "source": "ent-0f88b37a0e1c5bd89179693fb0f408a9",
+      "target": "ent-b2e18a53324c5b2a9e450e64f3341c4a",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "cutover_scope_extension",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-c85f682cae48590e8e80a86afe1b4877",
+      "type": "references",
+      "source": "ent-0f88b37a0e1c5bd89179693fb0f408a9",
+      "target": "ent-7daca4be9c1e5d13b899f23659e01d4b",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "execute",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-155dfb807fc35fe58ff5e7db63205b60",
+      "type": "references",
+      "source": "ent-0f88b37a0e1c5bd89179693fb0f408a9",
+      "target": "ent-d2ae4e960a165a52aeccaefc33569c30",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "extension_status",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-336ea5a22c465c668c2255ffbbb01b65",
+      "type": "references",
+      "source": "ent-0f88b37a0e1c5bd89179693fb0f408a9",
+      "target": "ent-97a8869560195eb888604a820e0f89fc",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "rollback_scope_extension",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-13a84a7a1cd157b2ab7602daa09b1a47",
+      "type": "references",
+      "source": "ent-0f88b37a0e1c5bd89179693fb0f408a9",
+      "target": "ent-9cae2555d2535ae2bf9e67c4fe9ffae6",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "start_scope_extension",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-4f87af15713f53d1b9ccb6e038f9c415",
+      "type": "references",
+      "source": "ent-3da67509a5df5d149bc21b6d53ddd4d4",
+      "target": "ent-aac94347875d5595ab3cbb51e891b5b6",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "CkbError",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-a6658ad364d253978d3860d33b9f356b",
+      "type": "references",
+      "source": "ent-3da67509a5df5d149bc21b6d53ddd4d4",
+      "target": "ent-9d749478bb4252a9ad3048ffefab5a71",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "_tree_manifest",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-e82d8f84c8bd5915bf44f0d237b0c559",
+      "type": "references",
+      "source": "ent-3da67509a5df5d149bc21b6d53ddd4d4",
+      "target": "ent-2505683dae6b5160b7c09a4e50daea57",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "audit_scope_extension",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-490873d728d15bd2b857a67a25dad106",
+      "type": "references",
+      "source": "ent-3da67509a5df5d149bc21b6d53ddd4d4",
+      "target": "ent-b2e18a53324c5b2a9e450e64f3341c4a",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "cutover_scope_extension",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-247aad37b20155a18f17cccd335c48bc",
+      "type": "references",
+      "source": "ent-3da67509a5df5d149bc21b6d53ddd4d4",
+      "target": "ent-97a8869560195eb888604a820e0f89fc",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "rollback_scope_extension",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-e1e8a1d61db05097b8ec7b36e59a9a12",
+      "type": "references",
+      "source": "ent-3da67509a5df5d149bc21b6d53ddd4d4",
+      "target": "ent-9cae2555d2535ae2bf9e67c4fe9ffae6",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "start_scope_extension",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-5a3ff4f93dc85ffb95b900adb6381f34",
+      "type": "references",
+      "source": "ent-f13288dc20245672a6c0cd2831c3aae1",
+      "target": "ent-aac94347875d5595ab3cbb51e891b5b6",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "CkbError",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-3768305ae97859e4b7e9ae7ef251ada1",
+      "type": "references",
+      "source": "ent-f13288dc20245672a6c0cd2831c3aae1",
+      "target": "ent-9d749478bb4252a9ad3048ffefab5a71",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "_tree_manifest",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-88e16b163ee15124bab67f32fcc160a1",
+      "type": "references",
+      "source": "ent-f13288dc20245672a6c0cd2831c3aae1",
+      "target": "ent-425ab917df07585c84c1fb4857119548",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "append",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-a15577d4c3685a68ba5e1beb1acfe5bb",
+      "type": "references",
+      "source": "ent-f13288dc20245672a6c0cd2831c3aae1",
+      "target": "ent-2505683dae6b5160b7c09a4e50daea57",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "audit_scope_extension",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-be2b5a18c4085b6c831cbe7bc84c89c3",
+      "type": "references",
+      "source": "ent-f13288dc20245672a6c0cd2831c3aae1",
+      "target": "ent-b2e18a53324c5b2a9e450e64f3341c4a",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "cutover_scope_extension",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-5016697b979654488fc8e389200ae617",
+      "type": "references",
+      "source": "ent-f13288dc20245672a6c0cd2831c3aae1",
+      "target": "ent-ad46aaa58b0f548b95fe66992b03ce06",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "rollback",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-b9877bbd0b65561cb016a55b21285a0f",
+      "type": "references",
+      "source": "ent-f13288dc20245672a6c0cd2831c3aae1",
+      "target": "ent-97a8869560195eb888604a820e0f89fc",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "rollback_scope_extension",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-7483b412ecf55be4882c1cedae31c495",
+      "type": "references",
+      "source": "ent-f13288dc20245672a6c0cd2831c3aae1",
+      "target": "ent-9cae2555d2535ae2bf9e67c4fe9ffae6",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "start_scope_extension",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-87eb0bc09d56501ca6d084cbecb48562",
+      "type": "references",
+      "source": "ent-2daacf03bdd95777b8dab22cf3079e06",
+      "target": "ent-aac94347875d5595ab3cbb51e891b5b6",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "CkbError",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-7568f3ff2acd53159d6f2edfef65105e",
+      "type": "references",
+      "source": "ent-2daacf03bdd95777b8dab22cf3079e06",
+      "target": "ent-9cae2555d2535ae2bf9e67c4fe9ffae6",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "start_scope_extension",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-9d9fbb78f19a53bfa83c3d803f369ca1",
+      "type": "references",
+      "source": "ent-f794ab8fe53c5fc5abe4964a3269ab13",
+      "target": "ent-aac94347875d5595ab3cbb51e891b5b6",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "CkbError",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-ea2df655780b55daa7ebd7c3607874cf",
+      "type": "references",
+      "source": "ent-f794ab8fe53c5fc5abe4964a3269ab13",
+      "target": "ent-9d749478bb4252a9ad3048ffefab5a71",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "_tree_manifest",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-4bb13cd05fe652f395bbde6eeb84a721",
+      "type": "references",
+      "source": "ent-f794ab8fe53c5fc5abe4964a3269ab13",
+      "target": "ent-b830b9c9260d572d915ece13dd28c63f",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "add_preserved_layers",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-7fe657a7dbad5b5b94def89a6d9313b8",
+      "type": "references",
+      "source": "ent-f794ab8fe53c5fc5abe4964a3269ab13",
+      "target": "ent-2505683dae6b5160b7c09a4e50daea57",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "audit_scope_extension",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-237dc743a0805ffd89ff7fcc50bc2933",
+      "type": "references",
+      "source": "ent-f794ab8fe53c5fc5abe4964a3269ab13",
+      "target": "ent-d8a482d74041532e929b7d281fdd8f8d",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "close",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-75c8bd87fcb9522fb184a868c40ea592",
+      "type": "references",
+      "source": "ent-f794ab8fe53c5fc5abe4964a3269ab13",
+      "target": "ent-b2e18a53324c5b2a9e450e64f3341c4a",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "cutover_scope_extension",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-cc3a09dcee885d12ba4aaa70bfc74e3a",
+      "type": "references",
+      "source": "ent-f794ab8fe53c5fc5abe4964a3269ab13",
+      "target": "ent-7daca4be9c1e5d13b899f23659e01d4b",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "execute",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-82a46679fc7b5d358a51898a406b2996",
+      "type": "references",
+      "source": "ent-f794ab8fe53c5fc5abe4964a3269ab13",
+      "target": "ent-d2ae4e960a165a52aeccaefc33569c30",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "extension_status",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-cd66c4afab025b99af4e6bcdad577af3",
+      "type": "references",
+      "source": "ent-f794ab8fe53c5fc5abe4964a3269ab13",
+      "target": "ent-97a8869560195eb888604a820e0f89fc",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "rollback_scope_extension",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-083a664b97295af095175656f108356a",
+      "type": "references",
+      "source": "ent-f794ab8fe53c5fc5abe4964a3269ab13",
+      "target": "ent-9cae2555d2535ae2bf9e67c4fe9ffae6",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "start_scope_extension",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-6c6dd8b8574d5509a450d8d2659c161e",
+      "type": "references",
+      "source": "ent-992d26bdf4145f769b097a638507c6c5",
+      "target": "ent-d8a482d74041532e929b7d281fdd8f8d",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "close",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-025ede60fb2052e4a066c7958d0cc0e1",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-aac94347875d5595ab3cbb51e891b5b6",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "CkbError",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-48d866345b73519180c90fe3c3e0f246",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-df679bceb4c0578aa19b008efc0dfe07",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "FakeProcess",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-d650e40efab25003b42bfa35657132cb",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-72d3a67456ff547fac198985b010de10",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "TimeoutProcess",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-01267fa1d50559bdacb93b3597816d70",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-21bd878856db5e1ca5d0b22814c4ce1e",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "_Transport",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-7cf94269e6c456a6aee6ca8ff3039622",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-3d3ec3c3c070533898852c7c7ba7fc89",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "_force_terminate_pid",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-3bd5cb9c4abe554a96428c5089a07fa4",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-b0c8ebc70b8e51c3bc7b36e959f68ba8",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "activate_session_stdio",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-42b664e1d58c569593ff785826f0c3f7",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-461fb22ebd045f92b413b1906d12a283",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "activate_skill_session",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-ba1682e8971f540a806dfca6ee121270",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-425ab917df07585c84c1fb4857119548",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "append",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-09b19a46f6e55eca9e081fbed73dd46d",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-b1f7fe3511f55a379554f7544ee61238",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "audit_sessions",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-a0a5493222d657b3bc8ab66611afa241",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-b0aa4af2d4fe5ebca35b59aaab21f40d",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "cleanup",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-a18e060ec4a75517b339c0695862a291",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-ac1b9da5f25d56cb8734ae119e8e7831",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "cleanup_sessions",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-3be53459290c59b3990d767391b6dbe4",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-d8a482d74041532e929b7d281fdd8f8d",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "close",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-f6613e0a72d25509a794dee92aeab373",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-90dbf23c416f59199a0d5ce39404a54b",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "close_session",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-7babd7977e2e5bb09263df262732777b",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-8896b87caeb65a68927144b41b366804",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "command",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-e1ab9a77a58451ba8a66843feb60cbfc",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-7daca4be9c1e5d13b899f23659e01d4b",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "execute",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-b8f1fe76db665f1f9a6bf1d1504af9cb",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-c5e93fcb201a542b832b12d71e0adedc",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "exit_code",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-44b680b5663b5486bb9ce72fa21e3118",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-2ef58c567eab5fb9958d5a0ef6ac262e",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "ingest_event",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-99dac94a4d88525794e442331a84d908",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-e9ade303a82f5fe9a4eba375af45dde4",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "lifecycle_key",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-a99c2e9c04635d70ba5c5699d7c4c5f4",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-fcf49b91e7e756efa999da92f18b6212",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "list_sessions",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-162c7ee36e9655d18f48b90664500f48",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-992d26bdf4145f769b097a638507c6c5",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "make_output",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-d81b4a84cf835739a9f78fbec6647f14",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-a801cb88a9e05aeb9b51091bc91ed763",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "pid_exists",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-556cf2ee67a4590f989b7c63ef49dd91",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-88da246f29e457a0bb05891b4fe87ad8",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "register_project",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-4084b12a17515f5b8f8d11af87ffe9aa",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-7d67e1fa06a955369a8d00588c105361",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "request_session",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-7af9c5baccaa51b4a507edca911c8f1f",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-b066a1cffa3253df8e85530deb4e057e",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "stop",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-87cd10730eb85da58a6cdba1b3b0370f",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-c4b50a7d168758a198aa78d0b0a3ed73",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "test_close_timeout_escalates_to_terminate_then_kill_and_waits",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-5ff53b692afa52869ddaa2f314dc249e",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-c5681a7e875e5b2587382bdc81a6160a",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "test_compact_lease_temporary_supports_long_windows_root",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-2be4e201e78558d590b326f6de767fc9",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-087dab88756f52ffbb516e6550debf89",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "test_exact_skill_activation_reuses_pid_across_turn_stop_and_session_end_reaps",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-5bd40c26e6f950e4956350271327d3b8",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-311b7b1130a350a2b3380f535464f38a",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "test_over_budget_windows_root_returns_explicit_fallback",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-333eb2f16a8251119dbd116c7f273360",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-60172f63d3285a699ef0aa0226321121",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "test_parent_death_reaps_and_explicit_close_is_idempotent",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-e73ef69c3237529a8d88747e9ebd7413",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-c7f3d566480c54bb87eac359f57aa245",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "test_protocol_version_mismatch_fails_handshake_with_bounded_reason",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-0326fd683257537ea2489a926ffa276f",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-e49753ed698d5fe1a5f0d0ee8ade48e1",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "test_same_external_id_immediate_reactivation_uses_new_generation",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-1cb98286a78a5e38b55099021f0de376",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-3c999cf3a8445784b44feea8d5257aa6",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "test_server_crash_restarts_once_then_falls_back_to_per_command_cli",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-1047584463d6550b9742cd3d18a56195",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-0170e91c5cbb597b9ec50400008687dd",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "test_session_start_and_plain_prompt_do_not_start_stdio",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-650b132b9e0f59e788d44ac3e5bf7f8c",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-d9cac766b49f5c198cb8e723c81c2886",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "test_sixteen_concurrent_first_requests_singleflight_and_isolation",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-1ca825f8df6956f7a4c92d629fcf1590",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-1440d63074b655cc865f12e4eed9e667",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "test_start_failure_is_bounded_cli_fallback_not_resident",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-7dbc0af7082655c8b47a755693a27f7c",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-2b51bee8f24f570da840a3c43d9873a1",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "test_supervisor_crash_stale_lease_is_cleaned_before_reactivation",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-ab902e64fa6b5e7cb27bc4c15eae960c",
+      "type": "references",
+      "source": "ent-0ffa57e61e8b5032b2eeda8f75ca90a3",
+      "target": "ent-992d26bdf4145f769b097a638507c6c5",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "make_output",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-411f935512695452a4a3700c4aa16400",
+      "type": "references",
+      "source": "ent-0ffa57e61e8b5032b2eeda8f75ca90a3",
+      "target": "ent-88da246f29e457a0bb05891b4fe87ad8",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "register_project",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-372eb4e8ba7f5fba8e1f9df85365dd08",
+      "type": "references",
+      "source": "ent-ef7277fca2dc5dea8fa328d84b13eb73",
+      "target": "ent-b0aa4af2d4fe5ebca35b59aaab21f40d",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "cleanup",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-6e5d51db5f5a5233bb2235fe36ef3dbf",
+      "type": "references",
+      "source": "ent-ef7277fca2dc5dea8fa328d84b13eb73",
+      "target": "ent-ac1b9da5f25d56cb8734ae119e8e7831",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "cleanup_sessions",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-16bf13e50eeb5ea3b1ce4e96d104a928",
+      "type": "references",
+      "source": "ent-ef7277fca2dc5dea8fa328d84b13eb73",
+      "target": "ent-90dbf23c416f59199a0d5ce39404a54b",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "close_session",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-5c466af385da5bf39bdce4c5d777185d",
+      "type": "references",
+      "source": "ent-ef7277fca2dc5dea8fa328d84b13eb73",
+      "target": "ent-b066a1cffa3253df8e85530deb4e057e",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "stop",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-f31b27928f375fcd9e2aacd43f616771",
+      "type": "references",
+      "source": "ent-0170e91c5cbb597b9ec50400008687dd",
+      "target": "ent-2ef58c567eab5fb9958d5a0ef6ac262e",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "ingest_event",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-7a58bc65940351f0860e85f8b9d0bb9f",
+      "type": "references",
+      "source": "ent-0170e91c5cbb597b9ec50400008687dd",
+      "target": "ent-fcf49b91e7e756efa999da92f18b6212",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "list_sessions",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-9530928c94e75586bfe55f2f4c14703f",
+      "type": "references",
+      "source": "ent-087dab88756f52ffbb516e6550debf89",
+      "target": "ent-b1f7fe3511f55a379554f7544ee61238",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "audit_sessions",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-05ec5ec2c39153f9bc5a2f8090d76f59",
+      "type": "references",
+      "source": "ent-087dab88756f52ffbb516e6550debf89",
+      "target": "ent-2ef58c567eab5fb9958d5a0ef6ac262e",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "ingest_event",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-f4e23f50bbe65e0da67746c7112e56c3",
+      "type": "references",
+      "source": "ent-087dab88756f52ffbb516e6550debf89",
+      "target": "ent-a801cb88a9e05aeb9b51091bc91ed763",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "pid_exists",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-1ab1ba9a292352abadb1a422b07d5c8c",
+      "type": "references",
+      "source": "ent-087dab88756f52ffbb516e6550debf89",
+      "target": "ent-7d67e1fa06a955369a8d00588c105361",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "request_session",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-761410f7cbea5015a9db6b5aca03b38d",
+      "type": "references",
+      "source": "ent-087dab88756f52ffbb516e6550debf89",
+      "target": "ent-b066a1cffa3253df8e85530deb4e057e",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "stop",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-3b40b8ce58a550f2ab2111d346a4f530",
+      "type": "references",
+      "source": "ent-d9cac766b49f5c198cb8e723c81c2886",
+      "target": "ent-461fb22ebd045f92b413b1906d12a283",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "activate_skill_session",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-ddb3c0f943db5b769316cb874c3614fb",
+      "type": "references",
+      "source": "ent-d9cac766b49f5c198cb8e723c81c2886",
+      "target": "ent-d8a482d74041532e929b7d281fdd8f8d",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "close",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-c073d02f61b55d72baa4098a1363fd53",
+      "type": "references",
+      "source": "ent-d9cac766b49f5c198cb8e723c81c2886",
+      "target": "ent-90dbf23c416f59199a0d5ce39404a54b",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "close_session",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-c8fd987965d15b538f32ce0ab138256b",
+      "type": "references",
+      "source": "ent-d9cac766b49f5c198cb8e723c81c2886",
+      "target": "ent-7daca4be9c1e5d13b899f23659e01d4b",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "execute",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-e83611646dde57529097dd09c60e6ef9",
+      "type": "references",
+      "source": "ent-d9cac766b49f5c198cb8e723c81c2886",
+      "target": "ent-992d26bdf4145f769b097a638507c6c5",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "make_output",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-38a6df6af57857a6990ea65b47094c30",
+      "type": "references",
+      "source": "ent-d9cac766b49f5c198cb8e723c81c2886",
+      "target": "ent-88da246f29e457a0bb05891b4fe87ad8",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "register_project",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-2c8429f0cfe1530786b1aba594be7137",
+      "type": "references",
+      "source": "ent-d9cac766b49f5c198cb8e723c81c2886",
+      "target": "ent-7d67e1fa06a955369a8d00588c105361",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "request_session",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-959932f030cf51d78028d65d8ca16d5d",
+      "type": "references",
+      "source": "ent-0041414242c45d7189d4bc809b7c357e",
+      "target": "ent-7d67e1fa06a955369a8d00588c105361",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "request_session",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-bc84003272fa57bc908d462c278bec32",
+      "type": "references",
+      "source": "ent-60172f63d3285a699ef0aa0226321121",
+      "target": "ent-b1f7fe3511f55a379554f7544ee61238",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "audit_sessions",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-26bc1eede3205bf48bd920c02b641e3d",
+      "type": "references",
+      "source": "ent-60172f63d3285a699ef0aa0226321121",
+      "target": "ent-ac1b9da5f25d56cb8734ae119e8e7831",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "cleanup_sessions",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-f4c89c96408c516994511eb305d60021",
+      "type": "references",
+      "source": "ent-60172f63d3285a699ef0aa0226321121",
+      "target": "ent-90dbf23c416f59199a0d5ce39404a54b",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "close_session",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-9dd39924ee145c9e94da40adf845f208",
+      "type": "references",
+      "source": "ent-60172f63d3285a699ef0aa0226321121",
+      "target": "ent-8896b87caeb65a68927144b41b366804",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "command",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-dd4cfeeb67ef5404b8eb0b5d193b5dd2",
+      "type": "references",
+      "source": "ent-60172f63d3285a699ef0aa0226321121",
+      "target": "ent-a801cb88a9e05aeb9b51091bc91ed763",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "pid_exists",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-6e1e87d85cdc5e4ca2922028d5b3b424",
+      "type": "references",
+      "source": "ent-1440d63074b655cc865f12e4eed9e667",
+      "target": "ent-b0c8ebc70b8e51c3bc7b36e959f68ba8",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "activate_session_stdio",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-5a639d1a07fa56f6b866f3f640eb2195",
+      "type": "references",
+      "source": "ent-e49753ed698d5fe1a5f0d0ee8ade48e1",
+      "target": "ent-b0c8ebc70b8e51c3bc7b36e959f68ba8",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "activate_session_stdio",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-0925d50cb2a25bfab383230bc9c5e8bb",
+      "type": "references",
+      "source": "ent-e49753ed698d5fe1a5f0d0ee8ade48e1",
+      "target": "ent-425ab917df07585c84c1fb4857119548",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "append",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-7d1a5f9c65b1560180b93f1f42677f59",
+      "type": "references",
+      "source": "ent-e49753ed698d5fe1a5f0d0ee8ade48e1",
+      "target": "ent-b1f7fe3511f55a379554f7544ee61238",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "audit_sessions",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-f88e18b496fc5623a109134e8761726e",
+      "type": "references",
+      "source": "ent-e49753ed698d5fe1a5f0d0ee8ade48e1",
+      "target": "ent-d8a482d74041532e929b7d281fdd8f8d",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "close",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-1a78319807be5e91846d2c68732b26b5",
+      "type": "references",
+      "source": "ent-e49753ed698d5fe1a5f0d0ee8ade48e1",
+      "target": "ent-90dbf23c416f59199a0d5ce39404a54b",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "close_session",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-619678742e115236aadcbd464fd81a5a",
+      "type": "references",
+      "source": "ent-e49753ed698d5fe1a5f0d0ee8ade48e1",
+      "target": "ent-7d67e1fa06a955369a8d00588c105361",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "request_session",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-70b2a4b6fa0e53a9a90aee19c7e1c74b",
+      "type": "references",
+      "source": "ent-c5681a7e875e5b2587382bdc81a6160a",
+      "target": "ent-b0c8ebc70b8e51c3bc7b36e959f68ba8",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "activate_session_stdio",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-a1ee2148ab385211a02f1baa00b8cfb1",
+      "type": "references",
+      "source": "ent-c5681a7e875e5b2587382bdc81a6160a",
+      "target": "ent-b1f7fe3511f55a379554f7544ee61238",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "audit_sessions",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-df075a088f1a523192d13fa13fa25dac",
+      "type": "references",
+      "source": "ent-c5681a7e875e5b2587382bdc81a6160a",
+      "target": "ent-d8a482d74041532e929b7d281fdd8f8d",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "close",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-4f616fc0f20551bea1a7dae77ec9aa26",
+      "type": "references",
+      "source": "ent-c5681a7e875e5b2587382bdc81a6160a",
+      "target": "ent-90dbf23c416f59199a0d5ce39404a54b",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "close_session",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-52e29aaef4af509c8e40bbbcfca63580",
+      "type": "references",
+      "source": "ent-c5681a7e875e5b2587382bdc81a6160a",
+      "target": "ent-e9ade303a82f5fe9a4eba375af45dde4",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "lifecycle_key",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-e376872695535ca89fefd3e363cb20b4",
+      "type": "references",
+      "source": "ent-c5681a7e875e5b2587382bdc81a6160a",
+      "target": "ent-7d67e1fa06a955369a8d00588c105361",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "request_session",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-b97dbb53063053ab8c6f8ab499222758",
+      "type": "references",
+      "source": "ent-311b7b1130a350a2b3380f535464f38a",
+      "target": "ent-b0c8ebc70b8e51c3bc7b36e959f68ba8",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "activate_session_stdio",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-fb9ad5b62a0a54d2a80160abcbccfa84",
+      "type": "references",
+      "source": "ent-311b7b1130a350a2b3380f535464f38a",
+      "target": "ent-e9ade303a82f5fe9a4eba375af45dde4",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "lifecycle_key",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-e001ae54605c5dd499d1ca42e613fad2",
+      "type": "references",
+      "source": "ent-3c999cf3a8445784b44feea8d5257aa6",
+      "target": "ent-3d3ec3c3c070533898852c7c7ba7fc89",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "_force_terminate_pid",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-8ade543dba525b72bafa55aaee9fd305",
+      "type": "references",
+      "source": "ent-3c999cf3a8445784b44feea8d5257aa6",
+      "target": "ent-461fb22ebd045f92b413b1906d12a283",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "activate_skill_session",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-4ac9fb1bcead5550b3aa979233f95419",
+      "type": "references",
+      "source": "ent-3c999cf3a8445784b44feea8d5257aa6",
+      "target": "ent-b1f7fe3511f55a379554f7544ee61238",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "audit_sessions",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-aef81e9c3a6c576ebcd450fb9330ca4d",
+      "type": "references",
+      "source": "ent-3c999cf3a8445784b44feea8d5257aa6",
+      "target": "ent-ac1b9da5f25d56cb8734ae119e8e7831",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "cleanup_sessions",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-556e9fe7f624598ba513818f530478e4",
+      "type": "references",
+      "source": "ent-3c999cf3a8445784b44feea8d5257aa6",
+      "target": "ent-fcf49b91e7e756efa999da92f18b6212",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "list_sessions",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-0bd27bf2149b53b484c12edc60cc5d88",
+      "type": "references",
+      "source": "ent-3c999cf3a8445784b44feea8d5257aa6",
+      "target": "ent-7d67e1fa06a955369a8d00588c105361",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "request_session",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-bfa0c847e78b5384862aace301b40fd2",
+      "type": "references",
+      "source": "ent-2b51bee8f24f570da840a3c43d9873a1",
+      "target": "ent-3d3ec3c3c070533898852c7c7ba7fc89",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "_force_terminate_pid",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-280ef31cfe915ff0a74e83fd660871cf",
+      "type": "references",
+      "source": "ent-2b51bee8f24f570da840a3c43d9873a1",
+      "target": "ent-b0c8ebc70b8e51c3bc7b36e959f68ba8",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "activate_session_stdio",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-472f6dbbf7355d68b5f984ca8755758d",
+      "type": "references",
+      "source": "ent-2b51bee8f24f570da840a3c43d9873a1",
+      "target": "ent-b1f7fe3511f55a379554f7544ee61238",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "audit_sessions",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-ff85b00c282f5598bf6686693bbb896b",
+      "type": "references",
+      "source": "ent-2b51bee8f24f570da840a3c43d9873a1",
+      "target": "ent-ac1b9da5f25d56cb8734ae119e8e7831",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "cleanup_sessions",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-69f199f240435ada812d1d3cd55a4168",
+      "type": "references",
+      "source": "ent-2b51bee8f24f570da840a3c43d9873a1",
+      "target": "ent-90dbf23c416f59199a0d5ce39404a54b",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "close_session",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-db9d1ba3fa2053a896e38ff490ef5aff",
+      "type": "references",
+      "source": "ent-2b51bee8f24f570da840a3c43d9873a1",
+      "target": "ent-a801cb88a9e05aeb9b51091bc91ed763",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "pid_exists",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-d215c9bee93657a0a26c2c4c13301117",
+      "type": "references",
+      "source": "ent-c7f3d566480c54bb87eac359f57aa245",
+      "target": "ent-aac94347875d5595ab3cbb51e891b5b6",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "CkbError",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-43f90072d8ad553fb77596234ea0d1d5",
+      "type": "references",
+      "source": "ent-c7f3d566480c54bb87eac359f57aa245",
+      "target": "ent-df679bceb4c0578aa19b008efc0dfe07",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "FakeProcess",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-109bf171701a559bb31c3f4509c0325b",
+      "type": "references",
+      "source": "ent-c7f3d566480c54bb87eac359f57aa245",
+      "target": "ent-21bd878856db5e1ca5d0b22814c4ce1e",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "_Transport",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-f855dce3566359a8b7da439a1c310b5c",
+      "type": "references",
+      "source": "ent-c7f3d566480c54bb87eac359f57aa245",
+      "target": "ent-d8a482d74041532e929b7d281fdd8f8d",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "close",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-2dc07d7c91ed51f3b925f3d04891ff7d",
+      "type": "references",
+      "source": "ent-c7f3d566480c54bb87eac359f57aa245",
+      "target": "ent-c5e93fcb201a542b832b12d71e0adedc",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "exit_code",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-b317d0bed87256bcb0fb81162c220ef8",
+      "type": "references",
+      "source": "ent-c4b50a7d168758a198aa78d0b0a3ed73",
+      "target": "ent-aac94347875d5595ab3cbb51e891b5b6",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "CkbError",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-e49ea07fd85f5ac2912952d03548b43d",
+      "type": "references",
+      "source": "ent-c4b50a7d168758a198aa78d0b0a3ed73",
+      "target": "ent-72d3a67456ff547fac198985b010de10",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "TimeoutProcess",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-1356e2dd34b05fb8bc1c3a4510b8f72d",
+      "type": "references",
+      "source": "ent-c4b50a7d168758a198aa78d0b0a3ed73",
+      "target": "ent-21bd878856db5e1ca5d0b22814c4ce1e",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "_Transport",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-28eb6e06cfa1501f8e984d7efa44a1cf",
+      "type": "references",
+      "source": "ent-c4b50a7d168758a198aa78d0b0a3ed73",
+      "target": "ent-d8a482d74041532e929b7d281fdd8f8d",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "close",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-cfaa0874ebf85cae9396a5fb9d75ef9b",
+      "type": "references",
+      "source": "ent-c4b50a7d168758a198aa78d0b0a3ed73",
+      "target": "ent-c5e93fcb201a542b832b12d71e0adedc",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "exit_code",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-6d7b585b1f3353b7b330b1c4b1e9b863",
+      "type": "contains",
+      "source": "file-620d06607ecd50f5a39a330bbed0bf9b",
+      "target": "ent-a5167c4706045092ba79b03c238f25fa",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_scope_extension.py",
+        "range": {
+          "start_byte": 788,
+          "end_byte": 1060,
+          "start_line": 31,
+          "end_line": 35,
+          "name_line": 31,
+          "name_column_utf8": 4
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-edab1cc1780a50a28d3fea5073d661dd",
+      "type": "contains",
+      "source": "file-620d06607ecd50f5a39a330bbed0bf9b",
+      "target": "ent-5a6c3820e67b5f05aef2348a38f4daf8",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_scope_extension.py",
+        "range": {
+          "start_byte": 1063,
+          "end_byte": 2770,
+          "start_line": 38,
+          "end_line": 60,
+          "name_line": 38,
+          "name_column_utf8": 4
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-fa1e085e45ff5c2e802b3b12ddedf2a6",
+      "type": "contains",
+      "source": "file-620d06607ecd50f5a39a330bbed0bf9b",
+      "target": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_scope_extension.py",
+        "range": {
+          "start_byte": 2773,
+          "end_byte": 22986,
+          "start_line": 63,
+          "end_line": 418,
+          "name_line": 63,
+          "name_column_utf8": 6
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-7b0321d2c9d75cd2aea93a3fe310c80c",
+      "type": "contains",
+      "source": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "target": "ent-e21979fa77f6544983f3eff4a21f1b42",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_scope_extension.py",
+        "range": {
+          "start_byte": 2822,
+          "end_byte": 4732,
+          "start_line": 64,
+          "end_line": 91,
+          "name_line": 64,
+          "name_column_utf8": 8
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-dcbc7389875459609affb11612c6860d",
+      "type": "contains",
+      "source": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "target": "ent-b830b9c9260d572d915ece13dd28c63f",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_scope_extension.py",
+        "range": {
+          "start_byte": 4738,
+          "end_byte": 10082,
+          "start_line": 93,
+          "end_line": 192,
+          "name_line": 93,
+          "name_column_utf8": 8
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-75fb0db9bde358fb800957e43b8c43e5",
+      "type": "contains",
+      "source": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "target": "ent-3aa878246dd55fe395aae6aa341c164b",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_scope_extension.py",
+        "range": {
+          "start_byte": 10088,
+          "end_byte": 10318,
+          "start_line": 194,
+          "end_line": 199,
+          "name_line": 194,
+          "name_column_utf8": 8
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-e3a02c0b8e1b5fa2ae76d0b60c25f33d",
+      "type": "contains",
+      "source": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "target": "ent-0f88b37a0e1c5bd89179693fb0f408a9",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_scope_extension.py",
+        "range": {
+          "start_byte": 10324,
+          "end_byte": 13566,
+          "start_line": 201,
+          "end_line": 255,
+          "name_line": 201,
+          "name_column_utf8": 8
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-e0a477d3202b5183b5e5e54a47442263",
+      "type": "contains",
+      "source": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "target": "ent-3da67509a5df5d149bc21b6d53ddd4d4",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_scope_extension.py",
+        "range": {
+          "start_byte": 13572,
+          "end_byte": 14391,
+          "start_line": 257,
+          "end_line": 268,
+          "name_line": 257,
+          "name_column_utf8": 8
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-e52d521e75cc526fb7c6cae2e381c7dd",
+      "type": "contains",
+      "source": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "target": "ent-f13288dc20245672a6c0cd2831c3aae1",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_scope_extension.py",
+        "range": {
+          "start_byte": 14397,
+          "end_byte": 15976,
+          "start_line": 270,
+          "end_line": 294,
+          "name_line": 270,
+          "name_column_utf8": 8
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-8da36508a1a5552f945fdf406f5a750f",
+      "type": "contains",
+      "source": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "target": "ent-2daacf03bdd95777b8dab22cf3079e06",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_scope_extension.py",
+        "range": {
+          "start_byte": 15982,
+          "end_byte": 17276,
+          "start_line": 296,
+          "end_line": 316,
+          "name_line": 296,
+          "name_column_utf8": 8
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-531adf8903545434b329af0b1002d092",
+      "type": "contains",
+      "source": "ent-bd0290b222e958c9ab117b3a5028ae28",
+      "target": "ent-f794ab8fe53c5fc5abe4964a3269ab13",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_scope_extension.py",
+        "range": {
+          "start_byte": 17282,
+          "end_byte": 22986,
+          "start_line": 318,
+          "end_line": 418,
+          "name_line": 318,
+          "name_column_utf8": 8
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-2fba3c6a1da953bea66c3c4247c52882",
+      "type": "contains",
+      "source": "file-6abf8ca65dc8561eac5ae1281b9f5ed9",
+      "target": "ent-992d26bdf4145f769b097a638507c6c5",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_session_stdio.py",
+        "range": {
+          "start_byte": 777,
+          "end_byte": 2877,
+          "start_line": 38,
+          "end_line": 74,
+          "name_line": 38,
+          "name_column_utf8": 4
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-a0f06215e44753f892e95c444e532325",
+      "type": "contains",
+      "source": "file-6abf8ca65dc8561eac5ae1281b9f5ed9",
+      "target": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_session_stdio.py",
+        "range": {
+          "start_byte": 2880,
+          "end_byte": 22573,
+          "start_line": 77,
+          "end_line": 536,
+          "name_line": 77,
+          "name_column_utf8": 6
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-d23f6b78d1645ad0ac6a94839142e325",
+      "type": "contains",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-0ffa57e61e8b5032b2eeda8f75ca90a3",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_session_stdio.py",
+        "range": {
+          "start_byte": 2937,
+          "end_byte": 3630,
+          "start_line": 78,
+          "end_line": 93,
+          "name_line": 78,
+          "name_column_utf8": 8
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-919e956e74db50b6a12994c37c1705c7",
+      "type": "contains",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-ef7277fca2dc5dea8fa328d84b13eb73",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_session_stdio.py",
+        "range": {
+          "start_byte": 3636,
+          "end_byte": 4076,
+          "start_line": 95,
+          "end_line": 107,
+          "name_line": 95,
+          "name_column_utf8": 8
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-a643187173c25877bdf97fa6dadfd792",
+      "type": "contains",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-603d1d54fbb4593eb97b459cc655faf3",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_session_stdio.py",
+        "range": {
+          "start_byte": 4082,
+          "end_byte": 4416,
+          "start_line": 109,
+          "end_line": 116,
+          "name_line": 109,
+          "name_column_utf8": 8
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-03ac3aa878cd5b28a7ed01fe0f933f7d",
+      "type": "contains",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-0170e91c5cbb597b9ec50400008687dd",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_session_stdio.py",
+        "range": {
+          "start_byte": 4422,
+          "end_byte": 5161,
+          "start_line": 118,
+          "end_line": 129,
+          "name_line": 118,
+          "name_column_utf8": 8
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-6461707beab55c458b4dc71f23500b5c",
+      "type": "contains",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-087dab88756f52ffbb516e6550debf89",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_session_stdio.py",
+        "range": {
+          "start_byte": 5167,
+          "end_byte": 7580,
+          "start_line": 131,
+          "end_line": 184,
+          "name_line": 131,
+          "name_column_utf8": 8
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-09756afeb0d65f7882443ff3167f193d",
+      "type": "contains",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-d9cac766b49f5c198cb8e723c81c2886",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_session_stdio.py",
+        "range": {
+          "start_byte": 7586,
+          "end_byte": 10036,
+          "start_line": 186,
+          "end_line": 240,
+          "name_line": 186,
+          "name_column_utf8": 8
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-e43345059e1054b3895900a718f7e885",
+      "type": "contains",
+      "source": "ent-d9cac766b49f5c198cb8e723c81c2886",
+      "target": "ent-0041414242c45d7189d4bc809b7c357e",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_session_stdio.py",
+        "range": {
+          "start_byte": 8360,
+          "end_byte": 8680,
+          "start_line": 207,
+          "end_line": 214,
+          "name_line": 207,
+          "name_column_utf8": 12
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-1108b7a41922573c932bdccd153a5dd8",
+      "type": "contains",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-60172f63d3285a699ef0aa0226321121",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_session_stdio.py",
+        "range": {
+          "start_byte": 10042,
+          "end_byte": 11503,
+          "start_line": 242,
+          "end_line": 269,
+          "name_line": 242,
+          "name_column_utf8": 8
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-89da498ae3a757b586a575c0db484a15",
+      "type": "contains",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-1440d63074b655cc865f12e4eed9e667",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_session_stdio.py",
+        "range": {
+          "start_byte": 11509,
+          "end_byte": 12127,
+          "start_line": 271,
+          "end_line": 284,
+          "name_line": 271,
+          "name_column_utf8": 8
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-e0df62f6f2565ea086c40c78b59f30d5",
+      "type": "contains",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-e49753ed698d5fe1a5f0d0ee8ade48e1",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_session_stdio.py",
+        "range": {
+          "start_byte": 12133,
+          "end_byte": 13931,
+          "start_line": 286,
+          "end_line": 324,
+          "name_line": 286,
+          "name_column_utf8": 8
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-bdc73ec8d11f571c924de9d556ac42c7",
+      "type": "contains",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-c5681a7e875e5b2587382bdc81a6160a",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_session_stdio.py",
+        "range": {
+          "start_byte": 13937,
+          "end_byte": 15471,
+          "start_line": 326,
+          "end_line": 362,
+          "name_line": 326,
+          "name_column_utf8": 8
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-b3e4504aaa6853e4a9a35bb3e30ce5ad",
+      "type": "contains",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-311b7b1130a350a2b3380f535464f38a",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_session_stdio.py",
+        "range": {
+          "start_byte": 15563,
+          "end_byte": 16351,
+          "start_line": 365,
+          "end_line": 381,
+          "name_line": 365,
+          "name_column_utf8": 8
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-4615626bf6cf59a4ad3011e1d2874991",
+      "type": "contains",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-3c999cf3a8445784b44feea8d5257aa6",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_session_stdio.py",
+        "range": {
+          "start_byte": 16357,
+          "end_byte": 18119,
+          "start_line": 383,
+          "end_line": 421,
+          "name_line": 383,
+          "name_column_utf8": 8
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-d62c272c4abf5f78a9fa7178ec85e825",
+      "type": "contains",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-2b51bee8f24f570da840a3c43d9873a1",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_session_stdio.py",
+        "range": {
+          "start_byte": 18125,
+          "end_byte": 19507,
+          "start_line": 423,
+          "end_line": 454,
+          "name_line": 423,
+          "name_column_utf8": 8
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-9fd266a6b92a5c07a9cd66c723a8cdb0",
+      "type": "contains",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-c7f3d566480c54bb87eac359f57aa245",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_session_stdio.py",
+        "range": {
+          "start_byte": 19513,
+          "end_byte": 21033,
+          "start_line": 456,
+          "end_line": 497,
+          "name_line": 456,
+          "name_column_utf8": 8
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-a36547843e575a75aa88fe5cab5c325f",
+      "type": "contains",
+      "source": "ent-c7f3d566480c54bb87eac359f57aa245",
+      "target": "ent-df679bceb4c0578aa19b008efc0dfe07",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_session_stdio.py",
+        "range": {
+          "start_byte": 19607,
+          "end_byte": 20227,
+          "start_line": 457,
+          "end_line": 477,
+          "name_line": 457,
+          "name_column_utf8": 14
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-cbac08d8e75d5a0a882ec08891ce91fc",
+      "type": "contains",
+      "source": "ent-df679bceb4c0578aa19b008efc0dfe07",
+      "target": "ent-3e02161837d057deb4670a843f1a75fd",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_session_stdio.py",
+        "range": {
+          "start_byte": 19705,
+          "end_byte": 19863,
+          "start_line": 461,
+          "end_line": 464,
+          "name_line": 461,
+          "name_column_utf8": 16
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-5952e9af93505fe7a343d84268be280e",
+      "type": "contains",
+      "source": "ent-df679bceb4c0578aa19b008efc0dfe07",
+      "target": "ent-1361c0647b885e83bcf61677df4f3d11",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_session_stdio.py",
+        "range": {
+          "start_byte": 19877,
+          "end_byte": 19945,
+          "start_line": 466,
+          "end_line": 467,
+          "name_line": 466,
+          "name_column_utf8": 16
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-0fe6bba932975f6bb1ed8814d7118b37",
+      "type": "contains",
+      "source": "ent-df679bceb4c0578aa19b008efc0dfe07",
+      "target": "ent-66bed9200af052a2ab7478676ba7617a",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_session_stdio.py",
+        "range": {
+          "start_byte": 19959,
+          "end_byte": 20072,
+          "start_line": 469,
+          "end_line": 471,
+          "name_line": 469,
+          "name_column_utf8": 16
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-81b0a3085b51534fb6fc7235081e6f81",
+      "type": "contains",
+      "source": "ent-df679bceb4c0578aa19b008efc0dfe07",
+      "target": "ent-3aeb83dd891155c8bb177b444101a28c",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_session_stdio.py",
+        "range": {
+          "start_byte": 20086,
+          "end_byte": 20152,
+          "start_line": 473,
+          "end_line": 474,
+          "name_line": 473,
+          "name_column_utf8": 16
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-f82bfc7d30b958b5988fa21f9eb437f0",
+      "type": "contains",
+      "source": "ent-df679bceb4c0578aa19b008efc0dfe07",
+      "target": "ent-32625aeec2c65568875847e4867d08de",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_session_stdio.py",
+        "range": {
+          "start_byte": 20166,
+          "end_byte": 20227,
+          "start_line": 476,
+          "end_line": 477,
+          "name_line": 476,
+          "name_column_utf8": 16
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-8fc09247b6a552ec8fc8a02ab062a4bc",
+      "type": "contains",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-c4b50a7d168758a198aa78d0b0a3ed73",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_session_stdio.py",
+        "range": {
+          "start_byte": 21039,
+          "end_byte": 22573,
+          "start_line": 499,
+          "end_line": 536,
+          "name_line": 499,
+          "name_column_utf8": 8
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-5af62c38011f5660bf9c408e043b2285",
+      "type": "contains",
+      "source": "ent-c4b50a7d168758a198aa78d0b0a3ed73",
+      "target": "ent-72d3a67456ff547fac198985b010de10",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_session_stdio.py",
+        "range": {
+          "start_byte": 21128,
+          "end_byte": 22026,
+          "start_line": 500,
+          "end_line": 526,
+          "name_line": 500,
+          "name_column_utf8": 14
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-9df4889923835c7fa8a706ecb384385b",
+      "type": "contains",
+      "source": "ent-72d3a67456ff547fac198985b010de10",
+      "target": "ent-5f47f9df34c05e2d8fdfca2527891eed",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_session_stdio.py",
+        "range": {
+          "start_byte": 21229,
+          "end_byte": 21499,
+          "start_line": 504,
+          "end_line": 510,
+          "name_line": 504,
+          "name_column_utf8": 16
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-cbe2daf5e8df5c2bba87233a701db229",
+      "type": "contains",
+      "source": "ent-72d3a67456ff547fac198985b010de10",
+      "target": "ent-260c76f46aee5f62b2c615c50b376ef3",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_session_stdio.py",
+        "range": {
+          "start_byte": 21513,
+          "end_byte": 21581,
+          "start_line": 512,
+          "end_line": 513,
+          "name_line": 512,
+          "name_column_utf8": 16
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-38c833cfcd6852eab7a4a30d6d653c80",
+      "type": "contains",
+      "source": "ent-72d3a67456ff547fac198985b010de10",
+      "target": "ent-bd59a6bae9c153b390c5771704a21e02",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_session_stdio.py",
+        "range": {
+          "start_byte": 21595,
+          "end_byte": 21873,
+          "start_line": 515,
+          "end_line": 520,
+          "name_line": 515,
+          "name_column_utf8": 16
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-342e1367b94d56c2aab3ea180b28681c",
+      "type": "contains",
+      "source": "ent-72d3a67456ff547fac198985b010de10",
+      "target": "ent-d7d89b53aab95a8a80634e980b969157",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_session_stdio.py",
+        "range": {
+          "start_byte": 21887,
+          "end_byte": 21954,
+          "start_line": 522,
+          "end_line": 523,
+          "name_line": 522,
+          "name_column_utf8": 16
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-d69952b9d350556ab85e709d3efb6fbd",
+      "type": "contains",
+      "source": "ent-72d3a67456ff547fac198985b010de10",
+      "target": "ent-7d208290ea65548aa429aa701cba8cac",
+      "provider": "tree-sitter",
+      "evidence": {
+        "path": "tests/test_session_stdio.py",
+        "range": {
+          "start_byte": 21968,
+          "end_byte": 22026,
+          "start_line": 525,
+          "end_line": 526,
+          "name_line": 525,
+          "name_column_utf8": 16
+        }
+      },
+      "cross_chunk": false
+    },
+    {
+      "id": "link-b8f1fe76db665f1f9a6bf1d1504af9cb",
+      "type": "references",
+      "source": "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+      "target": "ent-c5e93fcb201a542b832b12d71e0adedc",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "exit_code",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true,
+      "boundary": true
+    },
+    {
+      "id": "link-2dc07d7c91ed51f3b925f3d04891ff7d",
+      "type": "references",
+      "source": "ent-c7f3d566480c54bb87eac359f57aa245",
+      "target": "ent-c5e93fcb201a542b832b12d71e0adedc",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "exit_code",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true,
+      "boundary": true
+    },
+    {
+      "id": "link-cfaa0874ebf85cae9396a5fb9d75ef9b",
+      "type": "references",
+      "source": "ent-c4b50a7d168758a198aa78d0b0a3ed73",
+      "target": "ent-c5e93fcb201a542b832b12d71e0adedc",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "exit_code",
+        "source_path": "tests/test_session_stdio.py"
+      },
+      "cross_chunk": true,
+      "boundary": true
+    }
+  ],
+  "providers": [
+    {
+      "name": "pyright-langserver.cmd",
+      "language": "python",
+      "command": [
+        "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.0.0\\bin\\pyright-langserver.cmd",
+        "--stdio"
+      ],
+      "initialization_options": {},
+      "server_cwd": "E:\\knowledge_builder\\self-workspace\\kb-stg-94bf220\\.source-snapshot\\worktree",
+      "document_root": "E:\\knowledge_builder\\self-workspace\\kb-stg-94bf220\\.source-snapshot\\worktree",
+      "precision": "exact",
+      "status": "passed",
+      "covered_entity_ids": [
+        "ent-0041414242c45d7189d4bc809b7c357e",
+        "ent-0170e91c5cbb597b9ec50400008687dd",
+        "ent-087dab88756f52ffbb516e6550debf89",
+        "ent-0f88b37a0e1c5bd89179693fb0f408a9",
+        "ent-0ffa57e61e8b5032b2eeda8f75ca90a3",
+        "ent-1361c0647b885e83bcf61677df4f3d11",
+        "ent-1440d63074b655cc865f12e4eed9e667",
+        "ent-260c76f46aee5f62b2c615c50b376ef3",
+        "ent-2b51bee8f24f570da840a3c43d9873a1",
+        "ent-2daacf03bdd95777b8dab22cf3079e06",
+        "ent-311b7b1130a350a2b3380f535464f38a",
+        "ent-32625aeec2c65568875847e4867d08de",
+        "ent-3aa878246dd55fe395aae6aa341c164b",
+        "ent-3aeb83dd891155c8bb177b444101a28c",
+        "ent-3c999cf3a8445784b44feea8d5257aa6",
+        "ent-3da67509a5df5d149bc21b6d53ddd4d4",
+        "ent-3e02161837d057deb4670a843f1a75fd",
+        "ent-5528fc53c73455b1a4c1c0b96e245fd3",
+        "ent-5a6c3820e67b5f05aef2348a38f4daf8",
+        "ent-5f47f9df34c05e2d8fdfca2527891eed",
+        "ent-60172f63d3285a699ef0aa0226321121",
+        "ent-603d1d54fbb4593eb97b459cc655faf3",
+        "ent-66bed9200af052a2ab7478676ba7617a",
+        "ent-72d3a67456ff547fac198985b010de10",
+        "ent-7d208290ea65548aa429aa701cba8cac",
+        "ent-992d26bdf4145f769b097a638507c6c5",
+        "ent-a5167c4706045092ba79b03c238f25fa",
+        "ent-b830b9c9260d572d915ece13dd28c63f",
+        "ent-bd0290b222e958c9ab117b3a5028ae28",
+        "ent-bd59a6bae9c153b390c5771704a21e02",
+        "ent-c4b50a7d168758a198aa78d0b0a3ed73",
+        "ent-c5681a7e875e5b2587382bdc81a6160a",
+        "ent-c7f3d566480c54bb87eac359f57aa245",
+        "ent-d7d89b53aab95a8a80634e980b969157",
+        "ent-d9cac766b49f5c198cb8e723c81c2886",
+        "ent-df679bceb4c0578aa19b008efc0dfe07",
+        "ent-e21979fa77f6544983f3eff4a21f1b42",
+        "ent-e49753ed698d5fe1a5f0d0ee8ade48e1",
+        "ent-ef7277fca2dc5dea8fa328d84b13eb73",
+        "ent-f13288dc20245672a6c0cd2831c3aae1",
+        "ent-f794ab8fe53c5fc5abe4964a3269ab13"
+      ],
+      "document_symbol_counts": {
+        "tests/test_scope_extension.py": 103,
+        "tests/test_session_stdio.py": 137
+      },
+      "diagnostic_count": 6,
+      "fatal_diagnostics": [],
+      "fatal_stderr": [],
+      "capabilities": {
+        "textDocumentSync": 2,
+        "definitionProvider": {
+          "workDoneProgress": true
+        },
+        "declarationProvider": {
+          "workDoneProgress": true
+        },
+        "typeDefinitionProvider": {
+          "workDoneProgress": true
+        },
+        "referencesProvider": {
+          "workDoneProgress": true
+        },
+        "documentSymbolProvider": {
+          "workDoneProgress": true
+        },
+        "workspaceSymbolProvider": {
+          "workDoneProgress": true
+        },
+        "hoverProvider": {
+          "workDoneProgress": true
+        },
+        "documentHighlightProvider": {
+          "workDoneProgress": true
+        },
+        "renameProvider": {
+          "prepareProvider": true,
+          "workDoneProgress": true
+        },
+        "completionProvider": {
+          "triggerCharacters": [
+            ".",
+            "[",
+            "\"",
+            "'"
+          ],
+          "resolveProvider": true,
+          "workDoneProgress": true,
+          "completionItem": {
+            "labelDetailsSupport": true
+          }
+        },
+        "signatureHelpProvider": {
+          "triggerCharacters": [
+            "(",
+            ",",
+            ")"
+          ],
+          "workDoneProgress": true
+        },
+        "codeActionProvider": {
+          "codeActionKinds": [
+            "quickfix",
+            "source.organizeImports"
+          ],
+          "workDoneProgress": true
+        },
+        "executeCommandProvider": {
+          "commands": [],
+          "workDoneProgress": true
+        },
+        "callHierarchyProvider": true,
+        "workspace": {
+          "workspaceFolders": {
+            "supported": true,
+            "changeNotifications": true
+          }
+        }
+      },
+      "exit_status": 0
+    }
+  ],
+  "built_at_utc": "2026-09-02T02:36:20Z"
+}

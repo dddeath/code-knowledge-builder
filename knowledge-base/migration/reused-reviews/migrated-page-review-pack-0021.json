@@ -1,0 +1,22 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0021",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-02T02:36:44Z",
+  "reviews": [
+    {
+      "entity_id": "ent-123bdc87979955148841d162acac2fbc",
+      "classification": "page",
+      "owner_page_id": "ent-123bdc87979955148841d162acac2fbc",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 1600,
+      "end_line": 1709,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/machine_knowledge.py` 第 1600-1709 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`retrieve_machine` 是 `scripts/ckb_core/machine_knowledge.py` 第 1600-1709 行定义的函数，本页绑定该固定源码范围。",
+      "role_zh": "负责机器知识 SQLite 的构建、FTS5 检索、实体邻接和源码定位。",
+      "change_when_zh": "当 `retrieve_machine` 的输入、输出、状态转换或失败返回变化时，应更新本页并重跑对应测试。"
+    }
+  ]
+}

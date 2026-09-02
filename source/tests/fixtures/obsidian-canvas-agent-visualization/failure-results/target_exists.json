@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "status": "failed",
+  "operation": "generate",
+  "reason": "target_exists",
+  "phase": "baseline",
+  "exit_code": 2,
+  "detail": "replace=false 且目标已存在",
+  "target_state": {
+    "path": "C:\\fixture\\交付\\暂存\\ckb-navigation.canvas",
+    "before": {
+      "state": "absent"
+    },
+    "after": {
+      "state": "absent"
+    },
+    "changed": false
+  },
+  "recovery": {
+    "action": "choose-new-target-or-pin-baseline",
+    "required_inputs": [
+      "new target or complete baseline"
+    ]
+  }
+}

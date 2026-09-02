@@ -24,7 +24,9 @@
 - [[_Transport.close]] 关联到这里的验证场景。
 - [[append]] 关联到这里的验证场景。
 - [[bind_conversation 与 default_management_registry_path 的协作实现]] 关联到这里的验证场景。
+- [[ckb_canvas 的协作边界]] 关联到这里的验证场景。
 - [[command]] 关联到这里的验证场景。
+- [[contracts 的协作边界]] 关联到这里的验证场景。
 - [[execute]] 关联到这里的验证场景。
 - [[ingest_event 与 default_registry_path 的协作实现]] 关联到这里的验证场景。
 - [[main（ckb 实现）]] 会使用这里提供的行为。
@@ -39,6 +41,6 @@
 - [[CodeKnowledgeBuilderTests 等测试场景]]
 - [[MigrationTest]]
 - [[ScopeExtensionTest]]
-- [[command 等测试场景]]
+- [[build_manual_index 等测试场景]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。

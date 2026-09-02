@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "status": "failed",
+  "operation": "generate",
+  "reason": "invalid_request",
+  "phase": "request",
+  "exit_code": 2,
+  "detail": "request 出现未知字段",
+  "target_state": {
+    "path": "C:\\fixture\\交付\\暂存\\ckb-navigation.canvas",
+    "before": {
+      "state": "absent"
+    },
+    "after": {
+      "state": "absent"
+    },
+    "changed": false
+  },
+  "recovery": {
+    "action": "correct-request",
+    "required_inputs": [
+      "canvas-request.json"
+    ]
+  }
+}

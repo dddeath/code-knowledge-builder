@@ -19,7 +19,7 @@
 ## 谁会来到这里
 
 - [[QueryTermsTests]] 会使用这里提供的行为。
-- [[normalize 等测试场景]] 会使用这里提供的行为。
+- [[build_manual_index 等测试场景]] 会使用这里提供的行为。
 - [[retrieve]] 会使用这里提供的行为。
 - [[retrieve_machine]] 会使用这里提供的行为。
 - [[retrieve_machine 与 estimated_tokens 的协作实现]] 会使用这里提供的行为。
@@ -32,6 +32,6 @@
 - [[AutomationTest.register 等测试场景]]
 - [[CodeKnowledgeBuilderTests]]
 - [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[KeywordFallbackRetrievalWiringTests]]
+- [[HumanPageTemplateValidationTests]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。

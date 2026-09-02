@@ -1,0 +1,35 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0028",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-02T02:37:11Z",
+  "reviews": [
+    {
+      "entity_id": "ent-cded4895259a51dda2061e3007f3432d",
+      "classification": "page",
+      "owner_page_id": "ent-cded4895259a51dda2061e3007f3432d",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2891,
+      "end_line": 3204,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `scripts/ckb_core/pipeline.py` 第 2891-3204 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "meaning_zh": "`audit_global` 位于 `scripts/ckb_core/pipeline.py` 第 2891-3204 行，本页用固定源码范围说明它如何校验输入、状态、证据或输出合同。",
+      "role_zh": "`audit_global` 负责在源码审阅 pack、提交、审计和生成流水线中校验输入、状态、证据或输出合同。",
+      "change_when_zh": "当 `scripts/ckb_core/pipeline.py` 中 `audit_global` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "file-291f5cb8c1825c64b98542e319662399",
+      "classification": "page",
+      "owner_page_id": "file-291f5cb8c1825c64b98542e319662399",
+      "source_path": "scripts/ckb_core/providers.py",
+      "start_line": 1,
+      "end_line": 619,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/providers.py` 第 1-619 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`scripts/ckb_core/providers.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
+      "role_zh": "负责语义提供器调用、结果校验和固定实体证据绑定。",
+      "change_when_zh": "当 `scripts/ckb_core/providers.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
+    }
+  ]
+}

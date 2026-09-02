@@ -26,7 +26,6 @@
 ## 谁会来到这里
 
 - [[CodeKnowledgeBuilderTests]] 会使用这里提供的行为。
-- [[KeywordFallbackRetrievalWiringTests]] 会使用这里提供的行为。
 - [[QueryTermsTests]] 会使用这里提供的行为。
 - [[_Transport.close 与 _StartGate 的协作实现]] 会使用这里提供的行为。
 - [[audit_agent_protocol 与 _default_python 的协作实现]] 会使用这里提供的行为。
@@ -46,6 +45,6 @@
 - [[AutomationTest.register 等测试场景]]
 - [[CodeKnowledgeBuilderTests]]
 - [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[KeywordFallbackRetrievalWiringTests]]
+- [[HumanPageTemplateValidationTests]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。

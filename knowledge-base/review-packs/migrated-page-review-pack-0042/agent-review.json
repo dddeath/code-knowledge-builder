@@ -1,0 +1,61 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0042",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-02T02:37:37Z",
+  "reviews": [
+    {
+      "entity_id": "file-b06019f1ad8451f4914d254295fce4cb",
+      "classification": "page",
+      "owner_page_id": "file-b06019f1ad8451f4914d254295fce4cb",
+      "source_path": "tests/test_automation.py",
+      "start_line": 1,
+      "end_line": 890,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_automation.py` 第 1-890 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`tests/test_automation.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
+      "role_zh": "负责以可执行样例验证 `test_automation.py` 覆盖的成功行为、失败边界和回归约束。",
+      "change_when_zh": "当 `tests/test_automation.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "ent-143db5446b8d522198e28745af85698d",
+      "classification": "page",
+      "owner_page_id": "ent-143db5446b8d522198e28745af85698d",
+      "source_path": "tests/test_automation.py",
+      "start_line": 78,
+      "end_line": 80,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_automation.py` 第 78-80 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`AutomationTest.register` 是 `tests/test_automation.py` 第 78-80 行定义的函数，本页绑定该固定源码范围。",
+      "role_zh": "该函数作为可执行验证入口，检查标识符 `register` 所指的行为与失败边界。",
+      "change_when_zh": "当被测行为、输入夹具、断言或失败条件变化时，应同步更新 `register` 的说明。"
+    },
+    {
+      "entity_id": "file-1446ff1ea0845cb39d63fb570cc32e26",
+      "classification": "page",
+      "owner_page_id": "file-1446ff1ea0845cb39d63fb570cc32e26",
+      "source_path": "tests/test_chinese_retrieval_fixture.py",
+      "start_line": 1,
+      "end_line": 47,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_chinese_retrieval_fixture.py` 第 1-47 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`tests/test_chinese_retrieval_fixture.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
+      "role_zh": "负责以可执行样例验证 `test_chinese_retrieval_fixture.py` 覆盖的成功行为、失败边界和回归约束。",
+      "change_when_zh": "当 `tests/test_chinese_retrieval_fixture.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "ent-8c6a8196ce7854b1aca45a3a7c0a0b7b",
+      "classification": "page",
+      "owner_page_id": "ent-8c6a8196ce7854b1aca45a3a7c0a0b7b",
+      "source_path": "tests/test_chinese_retrieval_fixture.py",
+      "start_line": 11,
+      "end_line": 42,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_chinese_retrieval_fixture.py` 第 11-42 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`ChineseRetrievalFixtu...` 是 `tests/test_chinese_retrieval_fixture.py` 第 11-42 行定义的类，本页绑定该固定源码范围。",
+      "role_zh": "该类作为可执行验证入口，检查标识符 `ChineseRetrievalFixtureTests` 所指的行为与失败边界。",
+      "change_when_zh": "当被测行为、输入夹具、断言或失败条件变化时，应同步更新 `ChineseRetrievalFixtureTests` 的说明。"
+    }
+  ]
+}

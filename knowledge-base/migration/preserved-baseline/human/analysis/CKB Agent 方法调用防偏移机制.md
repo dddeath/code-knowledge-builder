@@ -88,7 +88,7 @@ brief --profile fast
 
 - [[audit_agent_protocol 与 _default_python 的协作实现]]
 - [[maintenance_check 与 capability_matrix 的协作实现]]
-- [[refresh_work_record_index 与 _contains_chinese 的协作实现]]
+- [[audit_work_record_index 与 _contains_chinese 的协作实现]]
 - [[retrieve 与 _tokens 的协作实现]]
 - [[start_session 与 _session_directory 的协作实现]]
 - [[serve_stdio 与 _write_line 的协作实现]]

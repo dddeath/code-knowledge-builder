@@ -24,6 +24,7 @@
 - [[audit_gap_register 与 _root 的协作实现]] 会使用这里提供的行为。
 - [[audit_work_record_index]] 会使用这里提供的行为。
 - [[record_note]] 会使用这里提供的行为。
+- [[replace_note 与 RecordReplaceLockError 的协作实现]] 会使用这里提供的行为。
 - 可从 [[scripts 职责导览]] 进入本页。
 
 ## 相关测试
@@ -31,9 +32,9 @@
 - [[AgentProtocolBatchApplyTests]]
 - [[AutomationTest.register 等测试场景]]
 - [[CodeKnowledgeBuilderTests]]
+- [[HumanPageTemplateValidationTests]]
 - [[MigrationTest]]
-- [[ScopeExtensionTest]]
-- [[command 等测试场景]]
+- [[RecordReplaceTests]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 

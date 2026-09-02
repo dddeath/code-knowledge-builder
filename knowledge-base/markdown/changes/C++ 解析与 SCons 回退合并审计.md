@@ -30,7 +30,7 @@
 - [[execute 等测试场景]]
 - [[AutomationTest.register 等测试场景]]
 - [[CodeKnowledgeBuilderTests]]
-- [[initialize 与 _replace_output_prefix 的协作实现]]
+- [[audit_global 与 _replace_output_prefix 的协作实现]]
 - [[doctor_report 与 _version_matches 的协作实现]]
 
 ## 源码入口

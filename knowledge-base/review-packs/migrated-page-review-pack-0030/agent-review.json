@@ -1,0 +1,61 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0030",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-02T02:37:14Z",
+  "reviews": [
+    {
+      "entity_id": "file-2f14ae564d15566b883b436989188ecd",
+      "classification": "page",
+      "owner_page_id": "file-2f14ae564d15566b883b436989188ecd",
+      "source_path": "scripts/ckb_core/research_gaps.py",
+      "start_line": 1,
+      "end_line": 273,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/research_gaps.py` 第 1 至 273 行，核对 `scripts/ckb_core/research_gaps.py` 的签名、分支和数据流后写出本条简体中文说明。",
+      "meaning_zh": "`scripts/ckb_core/research_gaps.py` 是 `scripts/ckb_core/research_gaps.py` 中负责汇总并提供研究缺口的确定性登记、状态转换、聚合与审计的文件入口。",
+      "role_zh": "它按源码所示的参数、条件分支和数据结构完成汇总并提供研究缺口的确定性登记、状态转换、聚合与审计，并把确定结果交给调用方或后续审计、索引、投影阶段。",
+      "change_when_zh": "当研究缺口的确定性登记、状态转换、聚合与审计的输入格式、状态规则、错误处理或输出契约变化时，需要修改该代码单元并复核对应测试。"
+    },
+    {
+      "entity_id": "ent-a915da9a241558bcb34faf3be732eea8",
+      "classification": "page",
+      "owner_page_id": "ent-a915da9a241558bcb34faf3be732eea8",
+      "source_path": "scripts/ckb_core/research_gaps.py",
+      "start_line": 233,
+      "end_line": 272,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/research_gaps.py` 第 233-272 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`audit_gap_register` 是 `scripts/ckb_core/research_gaps.py` 第 233-272 行定义的函数，本页绑定该固定源码范围。",
+      "role_zh": "负责实现 `research_gaps.py` 中由固定源码定义的命令或知识库处理步骤。",
+      "change_when_zh": "当 `audit_gap_register` 的输入、输出、状态转换或失败返回变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "file-ea311e9d47155b24ad7f35177f83b1cb",
+      "classification": "page",
+      "owner_page_id": "file-ea311e9d47155b24ad7f35177f83b1cb",
+      "source_path": "scripts/ckb_core/runtime.py",
+      "start_line": 1,
+      "end_line": 153,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 源码中 scripts/ckb_core/runtime.py 第 1 至 153 行，核对名称、签名和局部实现后写出本条中文说明。",
+      "meaning_zh": "该文件集中实现私有离线运行时部署、复用检查和移除。",
+      "role_zh": "它是 Code Knowledge Builder 中承载私有离线运行时部署、复用检查和移除的源码边界，并连接相邻模块或测试。",
+      "change_when_zh": "当私有离线运行时部署、复用检查和移除的输入、输出、状态门或验证契约发生变化时，需要同步修改该文件并运行对应测试。"
+    },
+    {
+      "entity_id": "ent-c028505d7e565e658519cbf16521a2d6",
+      "classification": "page",
+      "owner_page_id": "ent-c028505d7e565e658519cbf16521a2d6",
+      "source_path": "scripts/ckb_core/runtime.py",
+      "start_line": 26,
+      "end_line": 67,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/runtime.py` 第 26 至 67 行，核对 `deployment_plan` 的签名、分支和数据流后写出本条简体中文说明。",
+      "meaning_zh": "`deployment_plan` 是 `scripts/ckb_core/runtime.py` 中负责根据锁定运行时清单生成所需组件、来源和部署动作的函数。",
+      "role_zh": "它按源码所示的参数、条件分支和数据结构完成根据锁定运行时清单生成所需组件、来源和部署动作，并把确定结果交给调用方或后续审计、索引、投影阶段。",
+      "change_when_zh": "当scripts/ckb_core/runtime.py 的职责的输入格式、状态规则、错误处理或输出契约变化时，需要修改该代码单元并复核对应测试。"
+    }
+  ]
+}

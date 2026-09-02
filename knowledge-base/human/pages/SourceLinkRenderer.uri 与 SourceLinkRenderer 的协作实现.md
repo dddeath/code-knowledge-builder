@@ -23,9 +23,12 @@
 ## 谁会来到这里
 
 - [[SourceLinkRenderer.uri]] 会使用这里提供的行为。
-- [[initialize 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
+- [[audit_global 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
+- [[freeze 的协作边界]] 会使用这里提供的行为。
+- [[graph 的协作边界]] 会使用这里提供的行为。
 - [[record_note]] 会使用这里提供的行为。
 - [[record_note 与 page_tag 的协作实现]] 会使用这里提供的行为。
+- [[replace_note 与 RecordReplaceLockError 的协作实现]] 会使用这里提供的行为。
 - [[retrieve 与 _tokens 的协作实现]] 会使用这里提供的行为。
 - [[retrieve_machine 与 estimated_tokens 的协作实现]] 会使用这里提供的行为。
 - 可从 [[scripts 职责导览]] 进入本页。
@@ -35,9 +38,9 @@
 - [[AgentProtocolBatchApplyTests]]
 - [[AgentProtocolBatchApplyTests 等测试场景]]
 - [[AutomationTest.register 等测试场景]]
-- [[CodeKnowledgeBuilderTests]]
-- [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[KeywordFallbackRetrievalWiringTests]]
+- [[CanvasBenchmarkContractTests]]
+- [[CanvasContractTests]]
+- [[CanvasContractTests 等测试场景]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 

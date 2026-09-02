@@ -1,0 +1,207 @@
+{
+  "document": [
+    [
+      "note:changes:Agent 会话级 stdio 生命周期合并审计",
+      "change",
+      "Agent 会话级 stdio 生命周期合并审计",
+      "#类型/变更",
+      "changes/Agent 会话级 stdio 生命周期合并审计.md",
+      null,
+      "# Agent 会话级 stdio 生命周期合并审计\n\n标签：#类型/变更\n\n## 修改内容\n\n本次修改让 CKB 的常驻 stdio 服务跟随 Agent 会话存在：会话第一次调用知识库 Skill 时创建，同一会话后续检索复用同一健康服务；会话结束、任务终止、取消、Harness 关闭或父进程退出时，释放进程、管道、监听器、计时器和缓存引用。\n\n服务启动或传输异常时，本次调用会明确记录未进入常驻状态，并回到逐命令检索，不把“进程存在”当作检索成功。\n\n## 修改时间\n\n2026 年 9 月 1 日完成源码合并；2026 年 9 月 2 日完成稳定知识库同步与页面重写。\n\n## 修改原因\n\n原有 stdio 只有服务端循环，没有会话所有者。Agent 的多次检索可能反复启动 Python 和 SQLite，也缺少在任务结束时统一释放内存与句柄的责任边界。\n\n## 修改方式\n\n实现集中在三个关键职责：\n\n- 会话监督器负责首次创建、健康检查和同会话复用；\n- generation lease 区分同一会话标识下的前后两代服务，避免读取旧状态；\n- 有界关闭流程依次请求正常退出、终止、强制结束并等待回收，最终核对活动对象计数。\n\n## 涉及的其他特性\n\n该修改与 Agent Policy、Harness 会话事件、管理 Agent 解绑、自动化 Hook、普通 CLI fallback 和知识库检索入口相连。它只改变服务生命周期，不改变检索排序、知识内容或查询结果合同。\n\n## 验证结果\n\n独立验证覆盖连续十轮创建、真实检索、关闭和立即重建，服务代次与进程均保持唯一；长路径、父进程死亡、传输失败、压力测试和 lite 包场景也通过。合并后的完整回归测试再次通过，关闭后活动进程、句柄和受管对象计数归零。\n\n## 当前边界\n\n常驻服务需要 Harness 提供稳定的会话开始与结束事件。Harness 没有接入会话事件时仍使用逐命令 CLI；该路径结果等价，但不具备进程复用收益。运行时是否按当前会话自动重建，应以真实 Harness 调用和进程状态为准。\n\n## 相关知识页\n\n- [[start_session 与 _session_directory 的协作实现]]\n\n## 源码入口\n\n- [打开源码：scripts/ckb_core/agent_maintenance.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_maintenance.py:1:1)  `scripts/ckb_core/agent_maintenance.py:1-255`\n",
+      817
+    ]
+  ],
+  "sections": [
+    [
+      "note:changes:Agent 会话级 stdio 生命周期合并审计:0",
+      "note:changes:Agent 会话级 stdio 生命周期合并审计",
+      0,
+      "Agent 会话级 stdio 生命周期合并审计",
+      "标签：#类型/变更",
+      8,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:Agent 会话级 stdio 生命周期合并审计:1",
+      "note:changes:Agent 会话级 stdio 生命周期合并审计",
+      1,
+      "修改内容",
+      "本次修改让 CKB 的常驻 stdio 服务跟随 Agent 会话存在：会话第一次调用知识库 Skill 时创建，同一会话后续检索复用同一健康服务；会话结束、任务终止、取消、Harness 关闭或父进程退出时，释放进程、管道、监听器、计时器和缓存引用。\n\n服务启动或传输异常时，本次调用会明确记录未进入常驻状态，并回到逐命令检索，不把“进程存在”当作检索成功。",
+      156,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:Agent 会话级 stdio 生命周期合并审计:2",
+      "note:changes:Agent 会话级 stdio 生命周期合并审计",
+      2,
+      "修改时间",
+      "2026 年 9 月 1 日完成源码合并；2026 年 9 月 2 日完成稳定知识库同步与页面重写。",
+      36,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:Agent 会话级 stdio 生命周期合并审计:3",
+      "note:changes:Agent 会话级 stdio 生命周期合并审计",
+      3,
+      "修改原因",
+      "原有 stdio 只有服务端循环，没有会话所有者。Agent 的多次检索可能反复启动 Python 和 SQLite，也缺少在任务结束时统一释放内存与句柄的责任边界。",
+      65,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:Agent 会话级 stdio 生命周期合并审计:4",
+      "note:changes:Agent 会话级 stdio 生命周期合并审计",
+      4,
+      "修改方式",
+      "实现集中在三个关键职责：\n\n- 会话监督器负责首次创建、健康检查和同会话复用；\n- generation lease 区分同一会话标识下的前后两代服务，避免读取旧状态；\n- 有界关闭流程依次请求正常退出、终止、强制结束并等待回收，最终核对活动对象计数。",
+      108,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:Agent 会话级 stdio 生命周期合并审计:5",
+      "note:changes:Agent 会话级 stdio 生命周期合并审计",
+      5,
+      "涉及的其他特性",
+      "该修改与 Agent Policy、Harness 会话事件、管理 Agent 解绑、自动化 Hook、普通 CLI fallback 和知识库检索入口相连。它只改变服务生命周期，不改变检索排序、知识内容或查询结果合同。",
+      79,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:Agent 会话级 stdio 生命周期合并审计:6",
+      "note:changes:Agent 会话级 stdio 生命周期合并审计",
+      6,
+      "验证结果",
+      "独立验证覆盖连续十轮创建、真实检索、关闭和立即重建，服务代次与进程均保持唯一；长路径、父进程死亡、传输失败、压力测试和 lite 包场景也通过。合并后的完整回归测试再次通过，关闭后活动进程、句柄和受管对象计数归零。",
+      103,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:Agent 会话级 stdio 生命周期合并审计:7",
+      "note:changes:Agent 会话级 stdio 生命周期合并审计",
+      7,
+      "当前边界",
+      "常驻服务需要 Harness 提供稳定的会话开始与结束事件。Harness 没有接入会话事件时仍使用逐命令 CLI；该路径结果等价，但不具备进程复用收益。运行时是否按当前会话自动重建，应以真实 Harness 调用和进程状态为准。",
+      95,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:Agent 会话级 stdio 生命周期合并审计:8",
+      "note:changes:Agent 会话级 stdio 生命周期合并审计",
+      8,
+      "相关知识页",
+      "- [[start_session 与 _session_directory 的协作实现]]",
+      20,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:Agent 会话级 stdio 生命周期合并审计:9",
+      "note:changes:Agent 会话级 stdio 生命周期合并审计",
+      9,
+      "源码入口",
+      "- [打开源码：scripts/ckb_core/agent_maintenance.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_maintenance.py:1:1)  `scripts/ckb_core/agent_maintenance.py:1-255`",
+      71,
+      null,
+      null,
+      null
+    ]
+  ],
+  "section_sources": [],
+  "links": [
+    [
+      "note:changes:Agent 会话级 stdio 生命周期合并审计",
+      null,
+      "start_session 与 _session_directory 的协作实现",
+      "wikilink"
+    ]
+  ],
+  "fts": [
+    [
+      "note:changes:Agent 会话级 stdio 生命周期合并审计:0",
+      "note:changes:Agent 会话级 stdio 生命周期合并审计",
+      "Agent 会话级 stdio 生命周期合并审计",
+      "标签：#类型/变更",
+      ""
+    ],
+    [
+      "note:changes:Agent 会话级 stdio 生命周期合并审计:1",
+      "note:changes:Agent 会话级 stdio 生命周期合并审计",
+      "修改内容",
+      "本次修改让 CKB 的常驻 stdio 服务跟随 Agent 会话存在：会话第一次调用知识库 Skill 时创建，同一会话后续检索复用同一健康服务；会话结束、任务终止、取消、Harness 关闭或父进程退出时，释放进程、管道、监听器、计时器和缓存引用。\n\n服务启动或传输异常时，本次调用会明确记录未进入常驻状态，并回到逐命令检索，不把“进程存在”当作检索成功。",
+      ""
+    ],
+    [
+      "note:changes:Agent 会话级 stdio 生命周期合并审计:2",
+      "note:changes:Agent 会话级 stdio 生命周期合并审计",
+      "修改时间",
+      "2026 年 9 月 1 日完成源码合并；2026 年 9 月 2 日完成稳定知识库同步与页面重写。",
+      ""
+    ],
+    [
+      "note:changes:Agent 会话级 stdio 生命周期合并审计:3",
+      "note:changes:Agent 会话级 stdio 生命周期合并审计",
+      "修改原因",
+      "原有 stdio 只有服务端循环，没有会话所有者。Agent 的多次检索可能反复启动 Python 和 SQLite，也缺少在任务结束时统一释放内存与句柄的责任边界。",
+      ""
+    ],
+    [
+      "note:changes:Agent 会话级 stdio 生命周期合并审计:4",
+      "note:changes:Agent 会话级 stdio 生命周期合并审计",
+      "修改方式",
+      "实现集中在三个关键职责：\n\n- 会话监督器负责首次创建、健康检查和同会话复用；\n- generation lease 区分同一会话标识下的前后两代服务，避免读取旧状态；\n- 有界关闭流程依次请求正常退出、终止、强制结束并等待回收，最终核对活动对象计数。",
+      ""
+    ],
+    [
+      "note:changes:Agent 会话级 stdio 生命周期合并审计:5",
+      "note:changes:Agent 会话级 stdio 生命周期合并审计",
+      "涉及的其他特性",
+      "该修改与 Agent Policy、Harness 会话事件、管理 Agent 解绑、自动化 Hook、普通 CLI fallback 和知识库检索入口相连。它只改变服务生命周期，不改变检索排序、知识内容或查询结果合同。",
+      ""
+    ],
+    [
+      "note:changes:Agent 会话级 stdio 生命周期合并审计:6",
+      "note:changes:Agent 会话级 stdio 生命周期合并审计",
+      "验证结果",
+      "独立验证覆盖连续十轮创建、真实检索、关闭和立即重建，服务代次与进程均保持唯一；长路径、父进程死亡、传输失败、压力测试和 lite 包场景也通过。合并后的完整回归测试再次通过，关闭后活动进程、句柄和受管对象计数归零。",
+      ""
+    ],
+    [
+      "note:changes:Agent 会话级 stdio 生命周期合并审计:7",
+      "note:changes:Agent 会话级 stdio 生命周期合并审计",
+      "当前边界",
+      "常驻服务需要 Harness 提供稳定的会话开始与结束事件。Harness 没有接入会话事件时仍使用逐命令 CLI；该路径结果等价，但不具备进程复用收益。运行时是否按当前会话自动重建，应以真实 Harness 调用和进程状态为准。",
+      ""
+    ],
+    [
+      "note:changes:Agent 会话级 stdio 生命周期合并审计:8",
+      "note:changes:Agent 会话级 stdio 生命周期合并审计",
+      "相关知识页",
+      "- [[start_session 与 _session_directory 的协作实现]]",
+      ""
+    ],
+    [
+      "note:changes:Agent 会话级 stdio 生命周期合并审计:9",
+      "note:changes:Agent 会话级 stdio 生命周期合并审计",
+      "源码入口",
+      "- [打开源码：scripts/ckb_core/agent_maintenance.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_maintenance.py:1:1)  `scripts/ckb_core/agent_maintenance.py:1-255`",
+      ""
+    ]
+  ]
+}

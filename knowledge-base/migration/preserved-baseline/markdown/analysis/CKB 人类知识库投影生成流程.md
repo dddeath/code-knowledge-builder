@@ -85,7 +85,7 @@ CKB 的人类知识库不是机器实体清单的 Markdown 导出，而是从完
 
 ## 相关知识页
 
-- [[refresh_work_record_index 与 _contains_chinese 的协作实现]]
+- [[audit_work_record_index 与 _contains_chinese 的协作实现]]
 - [[sync_human_layer]]
 - [[audit_agent_protocol]]
 - [[maintenance_check]]

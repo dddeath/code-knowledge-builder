@@ -1,0 +1,196 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-appendix-review-pack-0023",
+  "kind": "appendix-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-02T02:37:23Z",
+  "reviews": [
+    {
+      "entity_id": "ent-25b91ae6cd91556ebf224f40e05c3164",
+      "classification": "appendix",
+      "owner_page_id": "file-87b5fb9e14cf5d8c9c87a3e800594afe",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 1931,
+      "end_line": 1955,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/pipeline.py` 第 1931 至 1955 行，核对该代码单元的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "处理 `relation_sentences` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-f42f4b35c0995b47a1c98233e9ca7342",
+      "classification": "appendix",
+      "owner_page_id": "file-87b5fb9e14cf5d8c9c87a3e800594afe",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 1958,
+      "end_line": 2036,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/pipeline.py` 第 1958 至 2036 行，核对该代码单元的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "处理 `edn_document` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-cd6606de80b359348158f12ebf832111",
+      "classification": "appendix",
+      "owner_page_id": "file-87b5fb9e14cf5d8c9c87a3e800594afe",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2039,
+      "end_line": 2112,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/pipeline.py` 第 2039 至 2112 行，核对该代码单元的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "渲染 `markdown_page` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-3ee001ec95fb5b219d1db2c51cbe291e",
+      "classification": "appendix",
+      "owner_page_id": "file-87b5fb9e14cf5d8c9c87a3e800594afe",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2115,
+      "end_line": 2125,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/pipeline.py` 第 2115 至 2125 行，核对该代码单元的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "处理 `file_graph_config_bytes` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-a820ddf414e450f79e3d35767ecb6202",
+      "classification": "appendix",
+      "owner_page_id": "file-87b5fb9e14cf5d8c9c87a3e800594afe",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2128,
+      "end_line": 2141,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/pipeline.py` 第 2128 至 2141 行，核对该代码单元的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "安装 `logseq_file_graph_config` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-c385b72562aa5fa8a7460f54aa837993",
+      "classification": "appendix",
+      "owner_page_id": "file-87b5fb9e14cf5d8c9c87a3e800594afe",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2144,
+      "end_line": 2171,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/pipeline.py` 第 2144 至 2171 行，核对该代码单元的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "审计 `logseq_file_graph_config` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-452863e7f09c5303b37608aec224e4e3",
+      "classification": "appendix",
+      "owner_page_id": "file-87b5fb9e14cf5d8c9c87a3e800594afe",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2174,
+      "end_line": 2183,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/pipeline.py` 第 2174 至 2183 行，核对该代码单元的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "处理 `page_filenames` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-38d4f648c8f056b99b77230b420f7270",
+      "classification": "appendix",
+      "owner_page_id": "file-87b5fb9e14cf5d8c9c87a3e800594afe",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2186,
+      "end_line": 2228,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/pipeline.py` 第 2186 至 2228 行，核对该代码单元的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "处理 `document` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-fb8ed7ef5ddd55138fecbce0a4d3cbda",
+      "classification": "appendix",
+      "owner_page_id": "file-87b5fb9e14cf5d8c9c87a3e800594afe",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2231,
+      "end_line": 2321,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/pipeline.py` 第 2231 至 2321 行，核对该代码单元的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "处理 `document` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-e28676aac2a75f03b5dbdc86bb159888",
+      "classification": "appendix",
+      "owner_page_id": "file-87b5fb9e14cf5d8c9c87a3e800594afe",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2324,
+      "end_line": 2438,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/pipeline.py` 第 2324 至 2438 行，核对该代码单元的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "处理 `report` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-015554e84d1450ce8deb1e9a46cc8dd3",
+      "classification": "appendix",
+      "owner_page_id": "file-87b5fb9e14cf5d8c9c87a3e800594afe",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2441,
+      "end_line": 2521,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/pipeline.py` 第 2441 至 2521 行，核对该代码单元的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "投影 `markdown` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-d7a4f7d118d45fbe8eef7ab833a490f6",
+      "classification": "appendix",
+      "owner_page_id": "file-87b5fb9e14cf5d8c9c87a3e800594afe",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2524,
+      "end_line": 2533,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/pipeline.py` 第 2524 至 2533 行，核对该代码单元的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "处理 `human_bytes` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-52a08cedd69e5a7ab71d28923eee3f84",
+      "classification": "appendix",
+      "owner_page_id": "file-87b5fb9e14cf5d8c9c87a3e800594afe",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2536,
+      "end_line": 2622,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/pipeline.py` 第 2536 至 2622 行，核对该代码单元的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "刷新 `human_navigation` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-6684432a129e5501b8357aaa1df84ac1",
+      "classification": "appendix",
+      "owner_page_id": "file-87b5fb9e14cf5d8c9c87a3e800594afe",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2625,
+      "end_line": 2644,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/pipeline.py` 第 2625 至 2644 行，核对该代码单元的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "处理 `logseq` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-460f90d8ae965c1fab01386a2514e67f",
+      "classification": "appendix",
+      "owner_page_id": "file-87b5fb9e14cf5d8c9c87a3e800594afe",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2647,
+      "end_line": 2680,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/pipeline.py` 第 2647 至 2680 行，核对该代码单元的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "处理 `count` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-b86d26822a59592c9dcc295f910cd1db",
+      "classification": "appendix",
+      "owner_page_id": "file-87b5fb9e14cf5d8c9c87a3e800594afe",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2656,
+      "end_line": 2666,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/pipeline.py` 第 2656 至 2666 行，核对该代码单元的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "处理 `visit` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-9e965469e6ce51b09473b3d1f182331f",
+      "classification": "appendix",
+      "owner_page_id": "file-87b5fb9e14cf5d8c9c87a3e800594afe",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2669,
+      "end_line": 2674,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/pipeline.py` 第 2669 至 2674 行，核对该代码单元的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "判断 `contains_null_result` 所表达的条件。"
+    }
+  ]
+}

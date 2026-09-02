@@ -1,0 +1,336 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ckb.local/schemas/benchmark-summary.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "status": {
+      "enum": [
+        "passed",
+        "failed",
+        "insufficient-data",
+        "stopped"
+      ]
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sessions_by_sequence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sequence-1": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sequence-2": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "sequence-1",
+        "sequence-2"
+      ]
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "discoverability_success_rate": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "markdown": {
+              "type": "number",
+              "minimum": 0
+            },
+            "canvas": {
+              "type": "number",
+              "minimum": 0
+            },
+            "delta": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "markdown",
+            "canvas",
+            "delta"
+          ]
+        },
+        "median_first_correct_entry_seconds": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "markdown": {
+              "type": "number",
+              "minimum": 0
+            },
+            "canvas": {
+              "type": "number",
+              "minimum": 0
+            },
+            "delta": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "markdown",
+            "canvas",
+            "delta"
+          ]
+        },
+        "median_navigation_count": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "markdown": {
+              "type": "number",
+              "minimum": 0
+            },
+            "canvas": {
+              "type": "number",
+              "minimum": 0
+            },
+            "delta": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "markdown",
+            "canvas",
+            "delta"
+          ]
+        },
+        "mean_comprehension_percent": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "markdown": {
+              "type": "number",
+              "minimum": 0
+            },
+            "canvas": {
+              "type": "number",
+              "minimum": 0
+            },
+            "delta": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "markdown",
+            "canvas",
+            "delta"
+          ]
+        },
+        "source_verification_rate": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "markdown": {
+              "type": "number",
+              "minimum": 0
+            },
+            "canvas": {
+              "type": "number",
+              "minimum": 0
+            },
+            "delta": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "markdown",
+            "canvas",
+            "delta"
+          ]
+        },
+        "unsupported_assertions": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "markdown": {
+              "type": "number",
+              "minimum": 0
+            },
+            "canvas": {
+              "type": "number",
+              "minimum": 0
+            },
+            "delta": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "markdown",
+            "canvas",
+            "delta"
+          ]
+        }
+      },
+      "required": [
+        "discoverability_success_rate",
+        "median_first_correct_entry_seconds",
+        "median_navigation_count",
+        "mean_comprehension_percent",
+        "source_verification_rate",
+        "unsupported_assertions"
+      ]
+    },
+    "structure": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "node_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 12
+        },
+        "edge_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 16
+        },
+        "dangling_edges": {
+          "const": 0
+        },
+        "missing_backlinks": {
+          "const": 0
+        },
+        "machine_fields_exposed": {
+          "const": 0
+        },
+        "overlap_count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "node_count",
+        "edge_count",
+        "dangling_edges",
+        "missing_backlinks",
+        "machine_fields_exposed",
+        "overlap_count"
+      ]
+    },
+    "rollback_probes_passed": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 3
+    },
+    "deterministic_hashes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{64}$"
+      },
+      "minItems": 0,
+      "maxItems": 10
+    },
+    "gates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "gate": {
+            "enum": [
+              "structure",
+              "source",
+              "task",
+              "comprehension",
+              "efficiency",
+              "rollback",
+              "stability"
+            ]
+          },
+          "status": {
+            "enum": [
+              "passed",
+              "failed",
+              "not-run"
+            ]
+          },
+          "evidence": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          }
+        },
+        "required": [
+          "gate",
+          "status",
+          "evidence"
+        ]
+      },
+      "minItems": 7,
+      "maxItems": 7
+    },
+    "decision": {
+      "enum": [
+        "advance-to-product-decision",
+        "keep-markdown-default",
+        "return-to-design",
+        "collect-more-sessions"
+      ]
+    },
+    "valid_independent_sessions": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "valid_condition_blocks": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "blocks_by_assignment": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sequence-1/markdown": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sequence-1/canvas": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sequence-2/markdown": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sequence-2/canvas": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "sequence-1/markdown",
+        "sequence-1/canvas",
+        "sequence-2/markdown",
+        "sequence-2/canvas"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "status",
+    "run_id",
+    "sessions_by_sequence",
+    "metrics",
+    "structure",
+    "rollback_probes_passed",
+    "deterministic_hashes",
+    "gates",
+    "decision",
+    "valid_independent_sessions",
+    "valid_condition_blocks",
+    "blocks_by_assignment"
+  ]
+}

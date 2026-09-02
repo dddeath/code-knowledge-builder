@@ -1,0 +1,22 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0033",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-02T02:37:17Z",
+  "reviews": [
+    {
+      "entity_id": "file-acea35747e6954de9efcd51bbac1bf5f",
+      "classification": "page",
+      "owner_page_id": "file-acea35747e6954de9efcd51bbac1bf5f",
+      "source_path": "scripts/ckb_core/session_stdio.py",
+      "start_line": 1,
+      "end_line": 1459,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/session_stdio.py` 第 1-1459 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`scripts/ckb_core/session_stdio.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
+      "role_zh": "负责会话级 stdio 服务的首次激活、租约续用、关闭与资源释放。",
+      "change_when_zh": "当 `scripts/ckb_core/session_stdio.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
+    }
+  ]
+}

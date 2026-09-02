@@ -1,0 +1,35 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-appendix-review-pack-0019",
+  "kind": "appendix-review",
+  "reviewer": "Agent",
+  "reviewed_at_utc": null,
+  "reviews": [
+    {
+      "entity_id": "ent-8bbc19869deb579eaf412aa6d3f3f10d",
+      "classification": "appendix",
+      "owner_page_id": "file-50ba4ba20745503d977291b4c28045e8",
+      "source_path": "scripts/ckb_core/obsidian.py",
+      "start_line": 48,
+      "end_line": 108,
+      "source_blob": "3113783787c8ad5e2d29e99c86e1dc79fe69cc79",
+      "source_excerpt": "def install_obsidian(root: Path, output: Path | None = None) -> dict[str, Any]:\n    config = root / \".obsidian\"\n    snippets = config / \"snippets\"\n    snippets.mkdir(parents=True, exist_ok=True)\n    app = {\n        \"newLinkFormat\": \"shortest\",\n        \"useMarkdownLinks\": False,\n        \"alwaysUpdateLinks\": True,\n        \"attachmentFolderPath\": \"attachments\",\n        \"showUnsupportedFiles\": True,\n        \"defaultViewMode\": \"preview\",\n        \"userIgnoreFilters\": [\n            \"AGENTS.md\",\n            \"CLAUDE.md\",\n            \"GEMINI.md\",\n            \".github/\",\n            \".cursor/\",\n        ],\n    }\n    plugins = [\n        \"file-explorer\",\n        \"global-search\",\n        \"switcher\",\n        \"graph\",\n        \"backlink\",\n        \"outgoing-link\",\n        \"tag-pane\",\n        \"page-preview\",\n        \"outline\",\n        \"command-palette\",\n    ]\n    appearance = {\"enabledCssSnippets\": [\"ckb\"]}\n    css = \"\"\"/* Code Knowledge Builder: restrained source links and appendices. */\n/* Generated Markdown already has one portable H1.  Obsidian's filename-based\n   inline title would repeat that heading, so the vault shows only the H1. */\nbody .inline-title { display: none; }\n.external-link[href^=\"vscode://\"],\n.external-link[href^=\"vscode-insiders://\"] { color: var(--text-accent); }\n.markdown-rendered table { width: 100%; }\n.markdown-rendered details { border-left: 2px solid var(--background-modifier-border); padding-left: 0.8rem; }\n.nav-file-title[data-path=\"AGENTS.md\"],\n.nav-file-title[data-path=\"CLAUDE.md\"],\n.nav-file-title[data-path=\"GEMINI.md\"] { display: none; }\n\"\"\"\n    json_write(config / \"app.json\", app)\n    json_write(config / \"core-plugins.json\", plugins)\n    json_write(config / \"appearance.json\", appearance)\n    (snippets / \"ckb.css\").write_text(css, encoding=\"utf-8\", newline=\"\\n\")\n    from .obsidian_plugin import deploy_registered_plugin_if_available\n\n    companion = deploy_registered_plugin_if_available(root, output) if output is not None else {\"status\": \"not-requested\"}\n    return {\n        \"status\": \"ready\",\n        \"vault_root\": str(root.resolve()),\n        \"config_root\": str(config.resolve()),\n        \"core_plugins\": plugins,\n        \"home\": \"INDEX.md\",\n        \"note_directories\": list(NOTE_DIRECTORIES),\n        \"feedback_directories\": list(FEEDBACK_DIRECTORIES),\n        \"companion_plugin\": companion,\n    }",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-8dc1da79b39a5beba61b6d0da983932f",
+      "classification": "appendix",
+      "owner_page_id": "file-50ba4ba20745503d977291b4c28045e8",
+      "source_path": "scripts/ckb_core/obsidian.py",
+      "start_line": 111,
+      "end_line": 115,
+      "source_blob": "3113783787c8ad5e2d29e99c86e1dc79fe69cc79",
+      "source_excerpt": "def write_generated_ownership(root: Path, generated: list[Path]) -> dict[str, Any]:\n    files = sorted(path.relative_to(root).as_posix() for path in generated if path.is_file())\n    record = {\"schema_version\": 1, \"status\": \"ready\", \"files\": files}\n    json_write(root / \".ckb-generated-files.json\", record)\n    return record",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    }
+  ]
+}

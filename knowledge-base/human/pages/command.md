@@ -17,6 +17,9 @@
 - [[AutomationTest.register 等测试场景]] 会使用这里提供的行为。
 - [[CkbError 与 DependencyError 的协作实现]] 会使用这里提供的行为。
 - [[CodeKnowledgeBuilderTests 等测试场景]] 会使用这里提供的行为。
+- [[HumanMaintenancePromptRegistryTests]] 会使用这里提供的行为。
+- [[HumanMaintenancePromptRegistryTests 等测试场景]] 会使用这里提供的行为。
+- [[HumanPageAuthoringPackageTests]] 会使用这里提供的行为。
 - [[KeywordFallbackRetrievalWiringTests]] 会使用这里提供的行为。
 - [[KeywordFallbackRetrievalWiringTests 等测试场景]] 会使用这里提供的行为。
 - [[_Transport.close 与 _StartGate 的协作实现]] 会使用这里提供的行为。
@@ -25,6 +28,8 @@
 - [[audit_output_contract 与 _default_ckb 的协作实现]] 会使用这里提供的行为。
 - [[bind_conversation 与 default_management_registry_path 的协作实现]] 会使用这里提供的行为。
 - [[build 的协作边界]] 会使用这里提供的行为。
+- [[build_manual_index 等测试场景]] 会使用这里提供的行为。
+- [[ckb_canvas 的协作边界]] 会使用这里提供的行为。
 - [[command 等测试场景]] 汇总了本页。
 - [[create_batch_plan 与 ProtocolRelease 的协作实现]] 会使用这里提供的行为。
 - [[deploy 的协作边界]] 会使用这里提供的行为。
@@ -32,14 +37,17 @@
 - [[doctor_report 与 _version_matches 的协作实现]] 会使用这里提供的行为。
 - [[execute]] 会使用这里提供的行为。
 - [[execute 等测试场景]] 会使用这里提供的行为。
+- [[get_human_page_template 与 SectionContract 的协作实现]] 会使用这里提供的行为。
 - [[ingest_event 与 default_registry_path 的协作实现]] 会使用这里提供的行为。
 - [[keyword_provider_config]] 会使用这里提供的行为。
 - [[keyword_provider_config 与 parser 的协作实现]] 会使用这里提供的行为。
-- [[normalize 等测试场景]] 会使用这里提供的行为。
 - [[parser]] 会使用这里提供的行为。
 - [[preflight 与 git 的协作实现]] 会使用这里提供的行为。
+- [[render_human_maintenance_prompt]] 会使用这里提供的行为。
+- [[render_human_maintenance_prompt 与 ParameterSpec 的协作实现]] 会使用这里提供的行为。
 - [[render_integration]] 会使用这里提供的行为。
 - [[render_integration 与 _looks_windows 的协作实现]] 会使用这里提供的行为。
+- [[render_page_author 与 _error 的协作实现]] 会使用这里提供的行为。
 - [[run 等测试场景]] 会使用这里提供的行为。
 - [[run_keyword_provider]] 会使用这里提供的行为。
 - [[run_keyword_provider 与 KeywordProviderConfig 的协作实现]] 会使用这里提供的行为。
@@ -51,7 +59,7 @@
 - [[AgentProtocolBatchApplyTests 等测试场景]]
 - [[AutomationTest.register]]
 - [[AutomationTest.register 等测试场景]]
-- [[CodeKnowledgeBuilderTests]]
-- [[CodeKnowledgeBuilderTests 等测试场景]]
+- [[CanvasContractTests]]
+- [[CanvasContractTests 等测试场景]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。

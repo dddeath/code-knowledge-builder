@@ -14,12 +14,12 @@
 
 ## 相关代码
 
+- 实现时会用到 [[build_case 等测试场景]]。
 - 实现时会用到 [[source_files]]。
 
 ## 谁会来到这里
 
 - [[PackageReleaseTests 等测试场景]] 汇总了本页。
-- [[source_files]] 关联到这里的验证场景。
 
 ## 内部细节
 

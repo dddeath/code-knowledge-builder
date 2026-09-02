@@ -1,0 +1,22 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0011",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-02T02:36:33Z",
+  "reviews": [
+    {
+      "entity_id": "file-025194721d6a53c6889366de71959682",
+      "classification": "page",
+      "owner_page_id": "file-025194721d6a53c6889366de71959682",
+      "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
+      "start_line": 1,
+      "end_line": 1992,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `scripts/ckb_core/human_maintenance_prompts.py` 第 1-1992 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "meaning_zh": "`scripts/ckb_core/human_maintenance_prompts.py` 页面绑定固定源码第 1-1992 行，说明该文件在稳定维护 Prompt 的 action 映射、渲染和交付审计中的整体职责。",
+      "role_zh": "该文件负责稳定维护 Prompt 的 action 映射、渲染和交付审计，并为相关命令或测试提供可复查实现入口。",
+      "change_when_zh": "当 `scripts/ckb_core/human_maintenance_prompts.py` 中 `scripts/ckb_core/human_maintenance_prompts.py` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
+    }
+  ]
+}

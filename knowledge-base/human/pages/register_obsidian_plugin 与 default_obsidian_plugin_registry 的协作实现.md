@@ -25,12 +25,12 @@
 ## 谁会来到这里
 
 - [[CodeKnowledgeBuilderTests]] 会使用这里提供的行为。
+- [[audit_global]] 会使用这里提供的行为。
 - [[audit_obsidian]] 会使用这里提供的行为。
 - [[audit_obsidian 与 prepare_vault 的协作实现]] 会使用这里提供的行为。
 - [[audit_output_contract]] 会使用这里提供的行为。
 - [[audit_output_contract 与 _default_ckb 的协作实现]] 会使用这里提供的行为。
 - [[create_batch_plan 与 ProtocolRelease 的协作实现]] 会使用这里提供的行为。
-- [[initialize 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
 - [[register_obsidian_plugin]] 会使用这里提供的行为。
 - 可从 [[scripts 职责导览]] 进入本页。
 
@@ -39,9 +39,9 @@
 - [[AgentProtocolBatchApplyTests]]
 - [[CodeKnowledgeBuilderTests]]
 - [[CodeKnowledgeBuilderTests 等测试场景]]
+- [[HumanPageTemplateValidationTests]]
 - [[KeywordFallbackRetrievalWiringTests]]
 - [[MigrationTest]]
-- [[ScopeExtensionTest]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 
