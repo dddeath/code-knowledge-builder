@@ -1,7 +1,7 @@
 {
   "schema_version": 4,
   "status": "passed",
-  "old_output": "E:\\knowledge_builder\\self-workspace\\kb-stg-c533dd7-r3",
+  "old_output": "E:\\knowledge_builder\\self-workspace\\kb-stg-bdd4a66-overdefense",
   "new_output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
   "snapshot_root": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\.source-snapshot\\worktree",
   "rewritten_json_files": [
@@ -35,7 +35,7 @@
     "human/manifest.json",
     "human/projection.json",
     "local-openers.json",
-    "machine/agent-packs/pack-20260902-225148-363978-01.json",
+    "machine/agent-packs/pack-20260903-014710-228667-01.json",
     "machine/audit.json",
     "markdown/projection.json",
     "migration/audit.json",
@@ -45,6 +45,7 @@
     "syntax-warnings.json",
     "workspace-meta/agent-protocol-audit.json",
     "workspace-meta/agent-protocol.json",
+    "workspace-meta/freshness/plans/freshness-migration-eaa50a12a03e525dbc9ca3ac374ef418.json",
     "workspace-meta/freshness/state.json",
     "workspace-meta/maintenance/latest.json",
     "workspace-meta/notes/Agent 会话 20260826-124551-01.json",
@@ -94,6 +95,7 @@
     "workspace-meta/notes/修复 Obsidian Codex WSL 非交互启动路径.json",
     "workspace-meta/notes/单文档自动页面扩张对照实验.json",
     "workspace-meta/notes/双知识库与确定性检索改造记录.json",
+    "workspace-meta/notes/发布 GitHub 发展分支并同步稳定知识库.json",
     "workspace-meta/notes/发布 README 人类入口并迁移既有 Change 页.json",
     "workspace-meta/notes/增加受控的工作记录正文替换与回滚.json",
     "workspace-meta/notes/增加可追溯的 PDF 参考资料吸收.json",
@@ -113,6 +115,7 @@
     "workspace-meta/notes/第二开发波次任务派发.json",
     "workspace-meta/notes/自动同步与 LLM Wiki 后续待办.json",
     "workspace-meta/notes/调整 C++ 局部语法诊断的阻塞边界.json",
+    "workspace-meta/notes/调整管理对话绑定的阻塞边界.json",
     "workspace-meta/notes/跨 Harness 会话与修改自动同步实现.json",
     "workspace-meta/notes/验证 Obsidian Canvas 导航原型边界.json",
     "workspace-meta/record-replace/record-replace-0aaf584be1315d8695d9b609563fe370/backup/files/workspace-meta/notes/低版本 Agent Protocol 批量升级合并审计.json",
@@ -146,5 +149,5 @@
     "workspace-meta/record-replace/record-replace-fe636a7a65c35bfb903b63dfaa0fd68a/backup/files/workspace-meta/notes/对话绑定管理 Agent 合并审计.json",
     "workspace-meta/record-replace/record-replace-fe636a7a65c35bfb903b63dfaa0fd68a/staging/files/workspace-meta/notes/对话绑定管理 Agent 合并审计.json"
   ],
-  "relocated_at_utc": "2026-09-02T22:55:36Z"
+  "relocated_at_utc": "2026-09-03T01:49:10Z"
 }

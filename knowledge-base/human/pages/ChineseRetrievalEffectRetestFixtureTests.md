@@ -2,11 +2,11 @@
 
 标签：#类型/代码
 
-> 代码单元 `setUp`负责验证三臂协议、旧词项、相关性标注、排序指标和来源漂移失败门。 它属于中文检索效果测量的回归保护，说明只覆盖所列固定源码范围。
+> 该测试类核对三臂中文检索实验的协议、指标重算和来源漂移保护。 它区分确定性词项、旧实现和 LLM 回放结果，避免把回放数据当作真实调用。
 
 ## 什么时候需要修改
 
-当三臂合同、标注或效果门变化时，应同步复查本页及其直接测试。
+调整检索实验分组、固定指标、来源清单或回放证据时需要修改。
 
 ## 在代码中的位置
 
@@ -38,14 +38,14 @@
 
 | 代码单元 | 一句话作用 |
 |---|---|
-| `ChineseRetrievalEffectRetestFixtureTests.setUp` | `setUp` 完成中文检索合同测试所需的一个明确步骤。 |
-| `ChineseRetrievalEffectRetestFixtureTests.test_three_arm_protocol_is_frozen_at_the_fixed_knowledge_base_commit` | 该测试验证“three arm protocol is frozen …”场景，保护中文检索合同测试的结果与失败边界。 |
-| `ChineseRetrievalEffectRetestFixtureTests.test_questions_have_fixed_relevance_labels_and_replay_responses` | 该测试验证“questions have fixed relevanc…”场景，保护中文检索合同测试的结果与失败边界。 |
-| `ChineseRetrievalEffectRetestFixtureTests.test_replay_is_declared_separately_from_real_provider_evidence` | 该测试验证“replay is declared separately…”场景，保护中文检索合同测试的结果与失败边界。 |
-| `ChineseRetrievalEffectRetestFixtureTests.test_legacy_arm_preserves_the_exact_mechanical_fragments` | 该测试验证“legacy arm preserves the exac…”场景，保护中文检索合同测试的结果与失败边界。 |
-| `ChineseRetrievalEffectRetestFixtureTests.test_rank_metrics_are_computed_from_document_order_and_fixed_grades` | 该测试验证“rank metrics are computed fro…”场景，保护中文检索合同测试的结果与失败边界。 |
-| `ChineseRetrievalEffectRetestFixtureTests.test_source_corpus_drift_fails_without_damaging_copied_index` | 该测试验证“source corpus drift fails wit…”场景，保护中文检索合同测试的结果与失败边界。 |
-| `ChineseRetrievalEffectRetestFixtureTests.test_source_corpus_drift_fails_without_damaging_copied_index.fake_copy` | `fake_copy` 完成中文检索合同测试所需的一个明确步骤。 |
-| `ChineseRetrievalEffectRetestFixtureTests.test_source_corpus_drift_fails_without_damaging_copied_index.fake_row` | `fake_row` 完成中文检索合同测试所需的一个明确步骤。 |
+| `ChineseRetrievalEffectRetestFixtureTests.setUp` | `setUp` 完成中文检索固定协议、基线、回放和来源漂移回归验证中的一个明确步骤。 |
+| `ChineseRetrievalEffectRetestFixtureTests.test_three_arm_protocol_is_frozen_at_the_fixed_knowledge_base_commit` | 该测试验证中文检索固定协议、基线、回放或来源漂移中的一个明确行为。 |
+| `ChineseRetrievalEffectRetestFixtureTests.test_questions_have_fixed_relevance_labels_and_replay_responses` | 该测试验证中文检索固定协议、基线、回放或来源漂移中的一个明确行为。 |
+| `ChineseRetrievalEffectRetestFixtureTests.test_replay_is_declared_separately_from_real_provider_evidence` | 该测试验证中文检索固定协议、基线、回放或来源漂移中的一个明确行为。 |
+| `ChineseRetrievalEffectRetestFixtureTests.test_legacy_arm_preserves_the_exact_mechanical_fragments` | 该测试验证中文检索固定协议、基线、回放或来源漂移中的一个明确行为。 |
+| `ChineseRetrievalEffectRetestFixtureTests.test_rank_metrics_are_computed_from_document_order_and_fixed_grades` | 该测试验证中文检索固定协议、基线、回放或来源漂移中的一个明确行为。 |
+| `ChineseRetrievalEffectRetestFixtureTests.test_source_corpus_drift_fails_without_damaging_copied_index` | 验证检索基准发现来源漂移时停止测量且不改坏复制的索引。 |
+| `ChineseRetrievalEffectRetestFixtureTests.test_source_corpus_drift_fails_without_damaging_copied_index.fake_copy` | `fake_copy` 完成中文检索固定协议、基线、回放和来源漂移回归验证中的一个明确步骤。 |
+| `ChineseRetrievalEffectRetestFixtureTests.test_source_corpus_drift_fails_without_damaging_copied_index.fake_row` | `fake_row` 完成中文检索固定协议、基线、回放和来源漂移回归验证中的一个明确步骤。 |
 
 </details>

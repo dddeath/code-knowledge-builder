@@ -15,13 +15,13 @@
 ## 相关代码
 
 - 实现时会用到 [[append]]。
-- 实现时会用到 [[benchmark 的协作边界（9ee4d26d）]]。
-- 实现时会用到 [[contracts 的协作边界（623c049c）]]。
+- 实现时会用到 [[benchmark 的协作边界（10621f79）]]。
+- 实现时会用到 [[contracts 的协作边界（743c915d）]]。
 
 ## 谁会来到这里
 
 - [[TagNavigationBenchmarkTests 等测试场景]] 汇总了本页。
-- [[benchmark 的协作边界（9ee4d26d）]] 关联到这里的验证场景。
+- [[benchmark 的协作边界（10621f79）]] 关联到这里的验证场景。
 
 ## 内部细节
 

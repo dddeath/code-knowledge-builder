@@ -26,12 +26,12 @@
 - [[audit_obsidian 与 prepare_vault 的协作实现]] 会使用这里提供的行为。
 - [[audit_operation_journal 与 _root 的协作实现]] 会使用这里提供的行为。
 - [[audit_output_contract 与 _default_ckb 的协作实现]] 会使用这里提供的行为。
-- [[benchmark 的协作边界（prototypes）]] 会使用这里提供的行为。
+- [[benchmark 的协作边界（9fab5b96）]] 会使用这里提供的行为。
 - [[bind_conversation 与 default_management_registry_path 的协作实现]] 会使用这里提供的行为。
 - [[build 的协作边界]] 会使用这里提供的行为。
 - [[check_fact_freshness 与 _root 的协作实现]] 会使用这里提供的行为。
 - [[ckb_canvas 的协作边界]] 会使用这里提供的行为。
-- [[cli 的协作边界（51995ea5）]] 会使用这里提供的行为。
+- [[cli 的协作边界（20ef2cd4）]] 会使用这里提供的行为。
 - [[cli 的协作边界（prototypes）]] 会使用这里提供的行为。
 - [[command 等测试场景]] 汇总了本页。
 - [[create_batch_plan 与 ProtocolRelease 的协作实现]] 会使用这里提供的行为。

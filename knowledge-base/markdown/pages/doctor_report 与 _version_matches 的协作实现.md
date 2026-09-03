@@ -32,7 +32,7 @@
 - [[CodeKnowledgeBuilderTests 等测试场景]] 会使用这里提供的行为。
 - [[SessionStdioLifecycleTests]] 会使用这里提供的行为。
 - [[_Transport.close 与 _StartGate 的协作实现]] 会使用这里提供的行为。
-- [[benchmark 的协作边界（cbc71645）]] 会使用这里提供的行为。
+- [[benchmark 的协作边界（prototypes）]] 会使用这里提供的行为。
 - [[deployment_plan]] 会使用这里提供的行为。
 - [[deployment_plan 与 skill_root 的协作实现]] 会使用这里提供的行为。
 - [[doctor_report]] 会使用这里提供的行为。

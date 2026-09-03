@@ -16,7 +16,7 @@
 
 - 实现时会用到 [[CkbError]]。
 - 实现时会用到 [[ckb_canvas 的协作边界]]。
-- 实现时会用到 [[contracts 的协作边界（2ef5688e）]]。
+- 实现时会用到 [[contracts 的协作边界（36093e4a）]]。
 - 实现时会用到 [[finalize]]。
 - 实现时会用到 [[maintenance_check 与 capability_matrix 的协作实现]]。
 - 实现时会用到 [[retrieve]]。

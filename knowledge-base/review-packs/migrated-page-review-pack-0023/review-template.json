@@ -6,9 +6,24 @@
   "reviewed_at_utc": null,
   "reviews": [
     {
-      "entity_id": "file-d60defeafaa254978af9fa0a7b25aa24",
+      "entity_id": "ent-e48c39ba55215d33a30e531273f9bed9",
       "classification": "page",
-      "owner_page_id": "file-d60defeafaa254978af9fa0a7b25aa24",
+      "owner_page_id": "ent-e48c39ba55215d33a30e531273f9bed9",
+      "source_path": "scripts/ckb_core/human_page_templates.py",
+      "start_line": 674,
+      "end_line": 693,
+      "source_blob": "efddba7938e6db282d5b6882938e40c77608affc",
+      "source_excerpt": "def get_human_page_template(\n    page_type: str,\n    *,\n    contract_version: str = HUMAN_PAGE_TEMPLATE_CONTRACT_VERSION,\n    schema_version: int = HUMAN_PAGE_TEMPLATE_SCHEMA_VERSION,\n) -> HumanPageTemplateContract:\n    \"\"\"Read one immutable contract or fail with a stable Chinese diagnostic.\"\"\"\n\n    if not _compatible_version(contract_version, schema_version):\n        raise CkbError(\n            \"人类页面模板合同版本不兼容：\"\n            f\"schema_version={schema_version}, contract_version={contract_version}; \"\n            f\"当前要求 schema_version={HUMAN_PAGE_TEMPLATE_SCHEMA_VERSION}, \"\n            f\"contract_version={HUMAN_PAGE_TEMPLATE_CONTRACT_VERSION}；\"\n            \"旧 1.0.0 页面必须显式按 V3 章节重写，不静默迁移。\"\n        )\n    contract = _CONTRACT_BY_CASEFOLD.get(str(page_type).strip().casefold())\n    if contract is None:\n        raise CkbError(f\"未知人类页面类型：{page_type}；可用类型：{list(_PAGE_TYPE_ORDER)}\")\n    return contract",
+      "status": "draft",
+      "evidence_note": "",
+      "meaning_zh": "",
+      "role_zh": "",
+      "change_when_zh": ""
+    },
+    {
+      "entity_id": "file-d33ed5d3f6885c16adbefc3b20eabe70",
+      "classification": "page",
+      "owner_page_id": "file-d33ed5d3f6885c16adbefc3b20eabe70",
       "source_path": "scripts/ckb_core/keyword_benchmark.py",
       "start_line": 1,
       "end_line": 228,
@@ -21,9 +36,9 @@
       "change_when_zh": ""
     },
     {
-      "entity_id": "ent-8ab92c1907a858b398d54a97ccb6177b",
+      "entity_id": "ent-ba1bd23f89175c5bbadc710a21ff4863",
       "classification": "page",
-      "owner_page_id": "ent-8ab92c1907a858b398d54a97ccb6177b",
+      "owner_page_id": "ent-ba1bd23f89175c5bbadc710a21ff4863",
       "source_path": "scripts/ckb_core/keyword_benchmark.py",
       "start_line": 139,
       "end_line": 227,
@@ -36,9 +51,9 @@
       "change_when_zh": ""
     },
     {
-      "entity_id": "file-ad6befbe3aef5ba894bf3d059f8b0149",
+      "entity_id": "file-e31c2a1d30d0502a9619b08ae24254c4",
       "classification": "page",
-      "owner_page_id": "file-ad6befbe3aef5ba894bf3d059f8b0149",
+      "owner_page_id": "file-e31c2a1d30d0502a9619b08ae24254c4",
       "source_path": "scripts/ckb_core/keyword_fallback.py",
       "start_line": 1,
       "end_line": 633,
@@ -51,9 +66,9 @@
       "change_when_zh": ""
     },
     {
-      "entity_id": "ent-798d2a95ef185bc2828558073811f173",
+      "entity_id": "ent-876061a0d47950909ce7f446530aa2c2",
       "classification": "page",
-      "owner_page_id": "ent-798d2a95ef185bc2828558073811f173",
+      "owner_page_id": "ent-876061a0d47950909ce7f446530aa2c2",
       "source_path": "scripts/ckb_core/keyword_fallback.py",
       "start_line": 380,
       "end_line": 461,

@@ -3,12 +3,12 @@
   "pack_id": "migrated-appendix-review-pack-0012",
   "kind": "appendix-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T22:45:35Z",
+  "reviewed_at_utc": "2026-09-03T01:38:55Z",
   "reviews": [
     {
-      "entity_id": "ent-c2300c4a022356d5b29216b51e4c888d",
+      "entity_id": "ent-175f63a3fe045cc69d135deec9740b32",
       "classification": "appendix",
-      "owner_page_id": "file-23ab4e22c770538fbed7b95a6d62c35c",
+      "owner_page_id": "file-4b22509e15cf50228842138a30204288",
       "source_path": "scripts/ckb_core/human_page_template_proposals.py",
       "start_line": 313,
       "end_line": 374,
@@ -17,9 +17,9 @@
       "description_zh": "`_normalize_sections` 用于规范化输入字段并拒绝未知或越界值。"
     },
     {
-      "entity_id": "ent-6ffa6a2006335de7a10f7a02005b8d6e",
+      "entity_id": "ent-03a17104f7055336a6146d0728e29ffb",
       "classification": "appendix",
-      "owner_page_id": "file-23ab4e22c770538fbed7b95a6d62c35c",
+      "owner_page_id": "file-4b22509e15cf50228842138a30204288",
       "source_path": "scripts/ckb_core/human_page_template_proposals.py",
       "start_line": 377,
       "end_line": 403,
@@ -28,9 +28,9 @@
       "description_zh": "`_normalize_examples` 用于规范化输入字段并拒绝未知或越界值。"
     },
     {
-      "entity_id": "ent-4c2c206ef65e5c06afa32d55e5a2ec78",
+      "entity_id": "ent-526f572d68ef5394acccc3bb7fef2ebd",
       "classification": "appendix",
-      "owner_page_id": "file-23ab4e22c770538fbed7b95a6d62c35c",
+      "owner_page_id": "file-4b22509e15cf50228842138a30204288",
       "source_path": "scripts/ckb_core/human_page_template_proposals.py",
       "start_line": 406,
       "end_line": 504,
@@ -39,9 +39,9 @@
       "description_zh": "`normalize_template_proposal` 用于规范化输入字段并拒绝未知或越界值。"
     },
     {
-      "entity_id": "ent-d164cd1c147b5e4c8c63062ba9c9bec3",
+      "entity_id": "ent-20e24b0126f55bbb87d3acc7d17bfea9",
       "classification": "appendix",
-      "owner_page_id": "file-23ab4e22c770538fbed7b95a6d62c35c",
+      "owner_page_id": "file-4b22509e15cf50228842138a30204288",
       "source_path": "scripts/ckb_core/human_page_template_proposals.py",
       "start_line": 507,
       "end_line": 615,
@@ -50,9 +50,9 @@
       "description_zh": "`template_proposal_skeleton` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-ac97f63f35f353b89dd68e2c01daaccc",
+      "entity_id": "ent-6c2951a57f6c506295671046050966bf",
       "classification": "appendix",
-      "owner_page_id": "file-23ab4e22c770538fbed7b95a6d62c35c",
+      "owner_page_id": "file-4b22509e15cf50228842138a30204288",
       "source_path": "scripts/ckb_core/human_page_template_proposals.py",
       "start_line": 618,
       "end_line": 633,
@@ -61,9 +61,9 @@
       "description_zh": "`write_template_proposal_skeleton` 用于生成范围受控且可重新打开的输出。"
     },
     {
-      "entity_id": "ent-49b42ef2f5cd5c90be772eac068f7915",
+      "entity_id": "ent-c71705acfcee579db97cba9d28ccb8f3",
       "classification": "appendix",
-      "owner_page_id": "file-23ab4e22c770538fbed7b95a6d62c35c",
+      "owner_page_id": "file-4b22509e15cf50228842138a30204288",
       "source_path": "scripts/ckb_core/human_page_template_proposals.py",
       "start_line": 636,
       "end_line": 656,
@@ -72,9 +72,9 @@
       "description_zh": "`_store_schema_document` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-1c38e3a36c055863ab27741e7923a50f",
+      "entity_id": "ent-c94d625eee91549eada8ba2cbf9f13c2",
       "classification": "appendix",
-      "owner_page_id": "file-23ab4e22c770538fbed7b95a6d62c35c",
+      "owner_page_id": "file-4b22509e15cf50228842138a30204288",
       "source_path": "scripts/ckb_core/human_page_template_proposals.py",
       "start_line": 659,
       "end_line": 667,
@@ -83,9 +83,9 @@
       "description_zh": "`_validate_store_schema` 用于校验输入、状态、证据或输出合同。"
     },
     {
-      "entity_id": "ent-7cc35d1d46b159edbaeea52d81858b86",
+      "entity_id": "ent-b7313f641ae35ce3a77a4b3791c5bb40",
       "classification": "appendix",
-      "owner_page_id": "file-23ab4e22c770538fbed7b95a6d62c35c",
+      "owner_page_id": "file-4b22509e15cf50228842138a30204288",
       "source_path": "scripts/ckb_core/human_page_template_proposals.py",
       "start_line": 670,
       "end_line": 674,
@@ -94,9 +94,9 @@
       "description_zh": "`_prepare_store` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-339e9212c4b750958b3001a5af1d6938",
+      "entity_id": "ent-13e196b68b505d0497a44c1c08e3634f",
       "classification": "appendix",
-      "owner_page_id": "file-23ab4e22c770538fbed7b95a6d62c35c",
+      "owner_page_id": "file-4b22509e15cf50228842138a30204288",
       "source_path": "scripts/ckb_core/human_page_template_proposals.py",
       "start_line": 677,
       "end_line": 683,
@@ -105,9 +105,9 @@
       "description_zh": "`_initialize_store_locked` 用于创建受控候选状态而不越过后续确认边界。"
     },
     {
-      "entity_id": "ent-7a2b1fc3554855faa4bc92d869637e68",
+      "entity_id": "ent-eb92af718fba53459ac5829b2e7a7849",
       "classification": "appendix",
-      "owner_page_id": "file-23ab4e22c770538fbed7b95a6d62c35c",
+      "owner_page_id": "file-4b22509e15cf50228842138a30204288",
       "source_path": "scripts/ckb_core/human_page_template_proposals.py",
       "start_line": 687,
       "end_line": 709,
@@ -116,9 +116,9 @@
       "description_zh": "`_store_lock` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-83c0e8fa022558ad8f7961d5e475b155",
+      "entity_id": "ent-56843f08ad5a5eb49a015b89bfbdf439",
       "classification": "appendix",
-      "owner_page_id": "file-23ab4e22c770538fbed7b95a6d62c35c",
+      "owner_page_id": "file-4b22509e15cf50228842138a30204288",
       "source_path": "scripts/ckb_core/human_page_template_proposals.py",
       "start_line": 712,
       "end_line": 743,
@@ -127,9 +127,9 @@
       "description_zh": "`_proposal_event_errors` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-694a67e735675cfd8282ef04016dc6ed",
+      "entity_id": "ent-127cc585de7d5e55ae9b0c3dbb85b0bd",
       "classification": "appendix",
-      "owner_page_id": "file-23ab4e22c770538fbed7b95a6d62c35c",
+      "owner_page_id": "file-4b22509e15cf50228842138a30204288",
       "source_path": "scripts/ckb_core/human_page_template_proposals.py",
       "start_line": 746,
       "end_line": 752,
@@ -138,9 +138,9 @@
       "description_zh": "`_reviewer` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-7df52d86fa455c84ba9a55ab36abd4b4",
+      "entity_id": "ent-9ed5fe0d7cd957f485a976eda8c77303",
       "classification": "appendix",
-      "owner_page_id": "file-23ab4e22c770538fbed7b95a6d62c35c",
+      "owner_page_id": "file-4b22509e15cf50228842138a30204288",
       "source_path": "scripts/ckb_core/human_page_template_proposals.py",
       "start_line": 755,
       "end_line": 833,
@@ -149,9 +149,9 @@
       "description_zh": "`_audit_event_errors` 用于汇总并判断受控对象是否满足当前合同。"
     },
     {
-      "entity_id": "ent-ea5d286303cf51a28bf47c5a78913bc2",
+      "entity_id": "ent-ceeabc7fbfc05cf9b6f31d3fe3a453f2",
       "classification": "appendix",
-      "owner_page_id": "file-23ab4e22c770538fbed7b95a6d62c35c",
+      "owner_page_id": "file-4b22509e15cf50228842138a30204288",
       "source_path": "scripts/ckb_core/human_page_template_proposals.py",
       "start_line": 836,
       "end_line": 883,
@@ -160,9 +160,9 @@
       "description_zh": "`_rollback_event_errors` 用于执行范围受控的恢复或撤销。"
     },
     {
-      "entity_id": "ent-a458b75afc245bdfa1b7f3e25f4d481c",
+      "entity_id": "ent-687f11e14b2c5497b79ec884b5a8a9f8",
       "classification": "appendix",
-      "owner_page_id": "file-23ab4e22c770538fbed7b95a6d62c35c",
+      "owner_page_id": "file-4b22509e15cf50228842138a30204288",
       "source_path": "scripts/ckb_core/human_page_template_proposals.py",
       "start_line": 886,
       "end_line": 903,
@@ -171,9 +171,9 @@
       "description_zh": "`_load_events` 用于读取、定位并返回现有状态。"
     },
     {
-      "entity_id": "ent-d991b45b7d585549a3a05a912e5d4d30",
+      "entity_id": "ent-5f9bfbf786045649947a7a6b2dbf0fde",
       "classification": "appendix",
-      "owner_page_id": "file-23ab4e22c770538fbed7b95a6d62c35c",
+      "owner_page_id": "file-4b22509e15cf50228842138a30204288",
       "source_path": "scripts/ckb_core/human_page_template_proposals.py",
       "start_line": 906,
       "end_line": 922,
@@ -182,9 +182,9 @@
       "description_zh": "`_builtin_items` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-342b91fb76c658568ed7866813af5a73",
+      "entity_id": "ent-263023ce4f3859afac54cafab60f38b7",
       "classification": "appendix",
-      "owner_page_id": "file-23ab4e22c770538fbed7b95a6d62c35c",
+      "owner_page_id": "file-4b22509e15cf50228842138a30204288",
       "source_path": "scripts/ckb_core/human_page_template_proposals.py",
       "start_line": 925,
       "end_line": 934,
@@ -193,9 +193,9 @@
       "description_zh": "`_item_sort_key` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-31ae59d64fd850dc99238e4b96b3dc7c",
+      "entity_id": "ent-5eda4a18b38d5fc59b782422d9898050",
       "classification": "appendix",
-      "owner_page_id": "file-23ab4e22c770538fbed7b95a6d62c35c",
+      "owner_page_id": "file-4b22509e15cf50228842138a30204288",
       "source_path": "scripts/ckb_core/human_page_template_proposals.py",
       "start_line": 937,
       "end_line": 1031,
@@ -204,9 +204,9 @@
       "description_zh": "`_index_from_events` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-2563be87d85e5fb4a68f335d09b8d2f1",
+      "entity_id": "ent-d5b56b509fc6541185a76ab26aceea37",
       "classification": "appendix",
-      "owner_page_id": "file-23ab4e22c770538fbed7b95a6d62c35c",
+      "owner_page_id": "file-4b22509e15cf50228842138a30204288",
       "source_path": "scripts/ckb_core/human_page_template_proposals.py",
       "start_line": 1034,
       "end_line": 1035,
@@ -215,9 +215,9 @@
       "description_zh": "`_operation_log_bytes` 用于生成稳定序列化或内容摘要。"
     },
     {
-      "entity_id": "ent-906ed46f2b4f5e6396b402992c0d01f5",
+      "entity_id": "ent-fc13f2a287d15937bf17306b6be9cb3d",
       "classification": "appendix",
-      "owner_page_id": "file-23ab4e22c770538fbed7b95a6d62c35c",
+      "owner_page_id": "file-4b22509e15cf50228842138a30204288",
       "source_path": "scripts/ckb_core/human_page_template_proposals.py",
       "start_line": 1038,
       "end_line": 1042,
@@ -226,9 +226,9 @@
       "description_zh": "`_atomic_write_bytes` 用于生成稳定序列化或内容摘要。"
     },
     {
-      "entity_id": "ent-1e5e388fc8a95e9db929c3a34f76a589",
+      "entity_id": "ent-1b600d34f131553792e9db368988d544",
       "classification": "appendix",
-      "owner_page_id": "file-23ab4e22c770538fbed7b95a6d62c35c",
+      "owner_page_id": "file-4b22509e15cf50228842138a30204288",
       "source_path": "scripts/ckb_core/human_page_template_proposals.py",
       "start_line": 1045,
       "end_line": 1054,
@@ -237,9 +237,9 @@
       "description_zh": "`_rebuild_store` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-77689745401b50469f4713aac127970f",
+      "entity_id": "ent-9bf537482a4c59da83ee71414ca48dc0",
       "classification": "appendix",
-      "owner_page_id": "file-23ab4e22c770538fbed7b95a6d62c35c",
+      "owner_page_id": "file-4b22509e15cf50228842138a30204288",
       "source_path": "scripts/ckb_core/human_page_template_proposals.py",
       "start_line": 1057,
       "end_line": 1071,
@@ -248,9 +248,9 @@
       "description_zh": "`_load_verified_store` 用于读取、定位并返回现有状态。"
     },
     {
-      "entity_id": "ent-bdaaeead22b952e6b80d016450c5576d",
+      "entity_id": "ent-be017e35d6bb566297aa2cc02845ef05",
       "classification": "appendix",
-      "owner_page_id": "file-23ab4e22c770538fbed7b95a6d62c35c",
+      "owner_page_id": "file-4b22509e15cf50228842138a30204288",
       "source_path": "scripts/ckb_core/human_page_template_proposals.py",
       "start_line": 1074,
       "end_line": 1092,
@@ -259,9 +259,9 @@
       "description_zh": "`_validate_local_version` 用于校验输入、状态、证据或输出合同。"
     },
     {
-      "entity_id": "ent-7a4da91f3ffd58bea616d335376cfda4",
+      "entity_id": "ent-24716f13f39d5c7792e0cecdb4da14e3",
       "classification": "appendix",
-      "owner_page_id": "file-23ab4e22c770538fbed7b95a6d62c35c",
+      "owner_page_id": "file-4b22509e15cf50228842138a30204288",
       "source_path": "scripts/ckb_core/human_page_template_proposals.py",
       "start_line": 1095,
       "end_line": 1118,
@@ -270,9 +270,9 @@
       "description_zh": "`validate_template_proposal` 用于校验输入、状态、证据或输出合同。"
     },
     {
-      "entity_id": "ent-513d59812adc50bd88f540a149bf0b6b",
+      "entity_id": "ent-9eff3c494c55569c89a7d5d3abf349b0",
       "classification": "appendix",
-      "owner_page_id": "file-23ab4e22c770538fbed7b95a6d62c35c",
+      "owner_page_id": "file-4b22509e15cf50228842138a30204288",
       "source_path": "scripts/ckb_core/human_page_template_proposals.py",
       "start_line": 1181,
       "end_line": 1194,
@@ -281,9 +281,9 @@
       "description_zh": "`list_templates` 用于读取、定位并返回现有状态。"
     },
     {
-      "entity_id": "ent-db227b92d0de542db0b1db712e03e762",
+      "entity_id": "ent-35dbe8ed020c5e05b9353997f2d1bf15",
       "classification": "appendix",
-      "owner_page_id": "file-23ab4e22c770538fbed7b95a6d62c35c",
+      "owner_page_id": "file-4b22509e15cf50228842138a30204288",
       "source_path": "scripts/ckb_core/human_page_template_proposals.py",
       "start_line": 1197,
       "end_line": 1222,
@@ -292,9 +292,9 @@
       "description_zh": "`show_template` 用于读取、定位并返回现有状态。"
     },
     {
-      "entity_id": "ent-40df0b45a8ba5b0bb496fc1128143352",
+      "entity_id": "ent-c7f84c41c1c7585ea0cb705ecda9882a",
       "classification": "appendix",
-      "owner_page_id": "file-23ab4e22c770538fbed7b95a6d62c35c",
+      "owner_page_id": "file-4b22509e15cf50228842138a30204288",
       "source_path": "scripts/ckb_core/human_page_template_proposals.py",
       "start_line": 1225,
       "end_line": 1226,
@@ -303,9 +303,9 @@
       "description_zh": "`_event_by_id` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-c33a5de2030b5de0897858a5739a232d",
+      "entity_id": "ent-766b846dc4b159c897b445f4418c7d02",
       "classification": "appendix",
-      "owner_page_id": "file-23ab4e22c770538fbed7b95a6d62c35c",
+      "owner_page_id": "file-4b22509e15cf50228842138a30204288",
       "source_path": "scripts/ckb_core/human_page_template_proposals.py",
       "start_line": 1229,
       "end_line": 1240,

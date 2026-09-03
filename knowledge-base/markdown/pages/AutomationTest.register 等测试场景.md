@@ -45,7 +45,7 @@
 - [[check_fact_freshness 与 _root 的协作实现]] 关联到这里的验证场景。
 - [[ckb_canvas 的协作边界]] 关联到这里的验证场景。
 - [[command]] 关联到这里的验证场景。
-- [[contracts 的协作边界（2ef5688e）]] 关联到这里的验证场景。
+- [[contracts 的协作边界（36093e4a）]] 关联到这里的验证场景。
 - [[doctor_report 与 _version_matches 的协作实现]] 关联到这里的验证场景。
 - [[emit]] 关联到这里的验证场景。
 - [[finalize]] 关联到这里的验证场景。

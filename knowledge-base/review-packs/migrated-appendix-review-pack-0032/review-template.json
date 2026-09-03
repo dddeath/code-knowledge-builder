@@ -6,61 +6,9 @@
   "reviewed_at_utc": null,
   "reviews": [
     {
-      "entity_id": "ent-34ac2cb6f5295fd7ad0e4514c6c94dbb",
+      "entity_id": "ent-46fe4d45fd0e505c8a045faa162098ac",
       "classification": "appendix",
-      "owner_page_id": "file-8dace3b7da005eecbdd8e4332e51967c",
-      "source_path": "scripts/ckb_core/session_stdio.py",
-      "start_line": 908,
-      "end_line": 1004,
-      "source_blob": "fb959c8e0f51d96eda9f27b2c109b54e3975d2b4",
-      "source_excerpt": "def _start_supervisor_locked(\n    *,\n    directory: Path,\n    root: Path,\n    key: str,\n    harness: str,\n    opaque_session: str,\n    output: Path,\n    executable: Path,\n    ckb: Path,\n    parent_pid: int | None,\n    timeout: float,\n) -> dict[str, Any]:\n    _validate_lifecycle_path_budget(directory)\n    directory.mkdir(parents=True, exist_ok=True)\n    lock = _acquire_start_lock(directory, timeout)\n    if lock is None:\n        raise CkbError(\"session stdio single-flight start lock timeout\")\n    try:\n        active = _active_lease(directory)\n        if active:\n            return active\n        cleanup_sessions(root=root, only_key=key)\n        previous = _read_json(_lease_path(directory)) or {}\n        previous_pid = previous.get(\"supervisor_pid\")\n        previous_deadline = time.monotonic() + timeout\n        while pid_exists(previous_pid) and time.monotonic() < previous_deadline:\n            time.sleep(POLL_SECONDS)\n        if pid_exists(previous_pid):\n            raise CkbError(\"session stdio previous supervisor did not exit before restart\")\n        cleanup_sessions(root=root, only_key=key)\n        generation = uuid.uuid4().hex[:16]\n        log_root = directory / \"logs\"\n        log_root.mkdir(parents=True, exist_ok=True)\n        command = [\n            str(executable),\n            \"-X\",\n            \"utf8\",\n            str(ckb),\n            \"stdio-session\",\n            \"_controller\",\n            \"--root\",\n            str(root),\n            \"--key\",\n            key,\n            \"--harness\",\n            harness,\n            \"--session-digest\",\n            opaque_session,\n            \"--out\",\n            str(output),\n            \"--python\",\n            str(executable),\n            \"--ckb\",\n            str(ckb),\n            \"--generation\",\n            generation,\n        ]\n        if parent_pid:\n            command.extend([\"--parent-pid\", str(parent_pid)])\n        with (log_root / \"supervisor.stdout.log\").open(\"a\", encoding=\"utf-8\", newline=\"\\n\") as stdout_log, (\n            log_root / \"supervisor.stderr.log\"\n        ).open(\"a\", encoding=\"utf-8\", newline=\"\\n\") as stderr_log:\n            process = subprocess.Popen(\n                command,\n                stdin=subprocess.DEVNULL,\n                stdout=stdout_log,\n                stderr=stderr_log,\n                close_fds=True,\n                **_supervisor_process_options(),\n            )\n        threading.Thread(\n            target=_reap_supervisor,\n            args=(process,),\n            name=f\"ckb-stdio-reap-{process.pid}\",\n            daemon=True,\n        ).start()\n        deadline = time.monotonic() + timeout\n        while time.monotonic() < deadline:\n            lease = _read_json(_lease_path(directory))\n            current_generation = lease.get(\"generation\") if lease else None\n            if (\n                lease\n                and current_generation == generation\n                and lease.get(\"state\") == \"ready\"\n                and pid_exists(lease.get(\"server_pid\"))\n            ):\n                return lease\n            if lease and current_generation == generation and lease.get(\"state\") in {\"fallback\", \"closed\"}:\n                reason = (lease.get(\"fallback\") or {}).get(\"reason\") or lease.get(\"close_reason\") or \"startup-failed\"\n                raise CkbError(f\"session stdio supervisor did not become ready: {reason}\")\n            if process.poll() is not None:\n                raise CkbError(f\"session stdio supervisor exited during start: exit={process.returncode}\")\n            time.sleep(POLL_SECONDS)\n        raise CkbError(\"session stdio supervisor start timeout\")\n    finally:\n        _release_start_lock(lock)",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-9fe2ccf221005f5ab3fe23a48573fb79",
-      "classification": "appendix",
-      "owner_page_id": "file-8dace3b7da005eecbdd8e4332e51967c",
-      "source_path": "scripts/ckb_core/session_stdio.py",
-      "start_line": 1007,
-      "end_line": 1019,
-      "source_blob": "fb959c8e0f51d96eda9f27b2c109b54e3975d2b4",
-      "source_excerpt": "def _start_supervisor(**arguments: Any) -> dict[str, Any]:\n    key = str(arguments[\"key\"])\n    timeout = float(arguments[\"timeout\"])\n    gate = _retain_start_gate(key)\n    acquired = gate.lock.acquire(timeout=timeout)\n    if not acquired:\n        _release_start_gate(key, gate)\n        raise CkbError(\"session stdio in-process single-flight timeout\")\n    try:\n        return _start_supervisor_locked(**arguments)\n    finally:\n        gate.lock.release()\n        _release_start_gate(key, gate)",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-77324bebf56655498e500bce0e3718a3",
-      "classification": "appendix",
-      "owner_page_id": "file-8dace3b7da005eecbdd8e4332e51967c",
-      "source_path": "scripts/ckb_core/session_stdio.py",
-      "start_line": 1022,
-      "end_line": 1051,
-      "source_blob": "fb959c8e0f51d96eda9f27b2c109b54e3975d2b4",
-      "source_excerpt": "def _fallback_command(executable: Path, ckb: Path, output: Path, request: dict[str, Any]) -> tuple[list[str] | None, str | None]:\n    method = request.get(\"method\")\n    if method in {\"retrieve\", \"brief\"}:\n        question = request.get(\"question\")\n        if not isinstance(question, str) or not question.strip():\n            return None, \"fallback-retrieve-requires-question\"\n        command = [str(executable), \"-X\", \"utf8\", str(ckb), str(method), \"--out\", str(output), question]\n        command.extend([\"--budget\", str(request.get(\"budget\", 1800 if method == \"brief\" else 1500))])\n        command.extend([\"--max-pages\", str(request.get(\"max_pages\", 8)), \"--profile\", str(request.get(\"profile\", \"fast\"))])\n        return command, None\n    if method in {\"entity\", \"source\", \"neighbors\"}:\n        selector = request.get(\"selector\")\n        if not isinstance(selector, str) or not selector.strip():\n            return None, f\"fallback-{method}-requires-selector\"\n        command = [str(executable), \"-X\", \"utf8\", str(ckb), str(method), \"--out\", str(output), selector]\n        if method == \"source\":\n            command.extend([\"--context-lines\", str(request.get(\"context_lines\", 3))])\n        elif method == \"neighbors\":\n            command.extend([\"--depth\", str(request.get(\"depth\", 1)), \"--limit\", str(request.get(\"limit\", 50))])\n            if request.get(\"relation\"):\n                command.extend([\"--relation\", str(request[\"relation\"])])\n        return command, None\n    if method == \"changes\":\n        command = [str(executable), \"-X\", \"utf8\", str(ckb), \"changes\", \"--out\", str(output), \"--limit\", str(request.get(\"limit\", 20))]\n        if request.get(\"kind\"):\n            command.extend([\"--kind\", str(request[\"kind\"])])\n        return command, None\n    if method == \"ping\":\n        return [], None\n    return None, f\"fallback-unsupported-method:{method}\"",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-8314b80581b651c0a49ca812bb9422cd",
-      "classification": "appendix",
-      "owner_page_id": "file-8dace3b7da005eecbdd8e4332e51967c",
-      "source_path": "scripts/ckb_core/session_stdio.py",
-      "start_line": 1054,
-      "end_line": 1136,
-      "source_blob": "fb959c8e0f51d96eda9f27b2c109b54e3975d2b4",
-      "source_excerpt": "def _run_cli_fallback(\n    *,\n    executable: Path,\n    ckb: Path,\n    output: Path,\n    request: dict[str, Any],\n    reason: str,\n    timeout: float,\n) -> dict[str, Any]:\n    command, error = _fallback_command(executable, ckb, output, request)\n    if error:\n        return {\n            \"schema_version\": SESSION_STDIO_SCHEMA_VERSION,\n            \"status\": \"failed\",\n            \"mode\": \"cli-fallback\",\n            \"resident\": False,\n            \"fallback\": {\"active\": True, \"reason\": reason},\n            \"error\": {\"type\": \"CkbError\", \"message\": error, \"exit_code\": 2},\n        }\n    if command == []:\n        return {\n            \"schema_version\": SESSION_STDIO_SCHEMA_VERSION,\n            \"status\": \"passed\",\n            \"mode\": \"cli-fallback\",\n            \"resident\": False,\n            \"fallback\": {\"active\": True, \"reason\": reason},\n            \"response\": {\n                \"id\": request.get(\"id\"),\n                \"ok\": True,\n                \"method\": \"ping\",\n                \"result\": {\"status\": \"available-via-cli\", \"protocol\": None, \"protocol_version\": None},\n            },\n        }\n    environment = os.environ.copy()\n    environment[\"CKB_STDIO_FALLBACK\"] = \"1\"\n    try:\n        completed = subprocess.run(\n            command,\n            text=True,\n            encoding=\"utf-8\",\n            errors=\"replace\",\n            stdin=subprocess.DEVNULL,\n            stdout=subprocess.PIPE,\n            stderr=subprocess.PIPE,\n            timeout=timeout,\n            env=environment,\n            **background_process_options(),\n        )\n    except subprocess.TimeoutExpired:\n        return {\n            \"schema_version\": SESSION_STDIO_SCHEMA_VERSION,\n            \"status\": \"failed\",\n            \"mode\": \"cli-fallback\",\n            \"resident\": False,\n            \"fallback\": {\"active\": True, \"reason\": reason},\n            \"error\": {\"type\": \"TimeoutExpired\", \"message\": \"per-command CLI fallback timed out\", \"exit_code\": 2},\n        }\n    try:\n        value = json.loads(completed.stdout) if completed.stdout.strip() else None\n    except json.JSONDecodeError:\n        value = None\n    ok = completed.returncode == 0 and isinstance(value, dict)\n    return {\n        \"schema_version\": SESSION_STDIO_SCHEMA_VERSION,\n        \"status\": \"passed\" if ok else \"failed\",\n        \"mode\": \"cli-fallback\",\n        \"resident\": False,\n        \"fallback\": {\"active\": True, \"reason\": reason},\n        \"response\": {\n            \"id\": request.get(\"id\"),\n            \"ok\": ok,\n            \"method\": request.get(\"method\"),\n            \"result\": value if ok else None,\n            \"error\": None\n            if ok\n            else {\n                \"type\": \"CliFallbackError\",\n                \"message\": (completed.stderr or completed.stdout or \"fallback failed\").strip()[:1000],\n                \"exit_code\": completed.returncode,\n            },\n        },\n        \"cli_exit_status\": completed.returncode,\n    }",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-bf955abd7a605df992f0780d36fd07fc",
-      "classification": "appendix",
-      "owner_page_id": "file-8dace3b7da005eecbdd8e4332e51967c",
+      "owner_page_id": "file-350de2da9d115c8ba106be73a61708e0",
       "source_path": "scripts/ckb_core/session_stdio.py",
       "start_line": 1139,
       "end_line": 1255,
@@ -71,9 +19,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-0e7ab78388ba5f41ab7796258c042a5f",
+      "entity_id": "ent-8d45402cc7005ec189ca45e3aba6df01",
       "classification": "appendix",
-      "owner_page_id": "file-8dace3b7da005eecbdd8e4332e51967c",
+      "owner_page_id": "file-350de2da9d115c8ba106be73a61708e0",
       "source_path": "scripts/ckb_core/session_stdio.py",
       "start_line": 1258,
       "end_line": 1283,
@@ -84,9 +32,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-487359913ded541b92aabce71d3d4ab6",
+      "entity_id": "ent-714857543d2457dbacf839b1c30c7d4d",
       "classification": "appendix",
-      "owner_page_id": "file-8dace3b7da005eecbdd8e4332e51967c",
+      "owner_page_id": "file-350de2da9d115c8ba106be73a61708e0",
       "source_path": "scripts/ckb_core/session_stdio.py",
       "start_line": 1286,
       "end_line": 1303,
@@ -97,9 +45,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-b66e092c5ae852779923204fddd3a11b",
+      "entity_id": "ent-0793a6bedbaf5edda416d85bf7a67fca",
       "classification": "appendix",
-      "owner_page_id": "file-8dace3b7da005eecbdd8e4332e51967c",
+      "owner_page_id": "file-350de2da9d115c8ba106be73a61708e0",
       "source_path": "scripts/ckb_core/session_stdio.py",
       "start_line": 1306,
       "end_line": 1327,
@@ -110,9 +58,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-d5a6f5c915e35e5691508021ebfc1897",
+      "entity_id": "ent-79662b438cd85ae6bd9d2059173c38f7",
       "classification": "appendix",
-      "owner_page_id": "file-8dace3b7da005eecbdd8e4332e51967c",
+      "owner_page_id": "file-350de2da9d115c8ba106be73a61708e0",
       "source_path": "scripts/ckb_core/session_stdio.py",
       "start_line": 1330,
       "end_line": 1389,
@@ -123,9 +71,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-e64101627b505defab20e53252b239a7",
+      "entity_id": "ent-7b3d348556c15b63b6dfacb7b8fb9511",
       "classification": "appendix",
-      "owner_page_id": "file-8dace3b7da005eecbdd8e4332e51967c",
+      "owner_page_id": "file-350de2da9d115c8ba106be73a61708e0",
       "source_path": "scripts/ckb_core/session_stdio.py",
       "start_line": 1392,
       "end_line": 1431,
@@ -136,9 +84,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-7c11906b91c3563eb0eedd156ca012d3",
+      "entity_id": "ent-5b15230a9fc45f2599933f49bda80970",
       "classification": "appendix",
-      "owner_page_id": "file-8dace3b7da005eecbdd8e4332e51967c",
+      "owner_page_id": "file-350de2da9d115c8ba106be73a61708e0",
       "source_path": "scripts/ckb_core/session_stdio.py",
       "start_line": 1434,
       "end_line": 1458,
@@ -149,9 +97,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-9dcedee5c14c53eab01dd1b9a34749df",
+      "entity_id": "ent-71bd13d6e3bc5c1ab4128f8bdbfe76ef",
       "classification": "appendix",
-      "owner_page_id": "file-27a59ecb03895576b8648e3b851ffb86",
+      "owner_page_id": "file-aa1e4d7535f75b70a22861ad49c41698",
       "source_path": "scripts/ckb_core/showcase.py",
       "start_line": 19,
       "end_line": 26,
@@ -162,9 +110,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-51c9d0af89e15c538f42839fc5819d29",
+      "entity_id": "ent-c212e2035b6a51059fe74131566c685a",
       "classification": "appendix",
-      "owner_page_id": "file-27a59ecb03895576b8648e3b851ffb86",
+      "owner_page_id": "file-aa1e4d7535f75b70a22861ad49c41698",
       "source_path": "scripts/ckb_core/showcase.py",
       "start_line": 29,
       "end_line": 63,
@@ -175,9 +123,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-10f5fa8d104f54d1bfa95ad36d895526",
+      "entity_id": "ent-f49ccc200b1e5794a7f5e9877fa3063a",
       "classification": "appendix",
-      "owner_page_id": "file-99839434c7b355519745983ee91528a7",
+      "owner_page_id": "file-08da4789d0765e50b0d1ffeb7515718e",
       "source_path": "scripts/ckb_core/source_links.py",
       "start_line": 17,
       "end_line": 81,
@@ -188,9 +136,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-49f063cd67fc5e85b430708cac01a333",
+      "entity_id": "ent-5c04449daa0b5f14b1f656adbb2b78c1",
       "classification": "appendix",
-      "owner_page_id": "file-99839434c7b355519745983ee91528a7",
+      "owner_page_id": "file-08da4789d0765e50b0d1ffeb7515718e",
       "source_path": "scripts/ckb_core/source_links.py",
       "start_line": 26,
       "end_line": 33,
@@ -201,9 +149,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-ebdc1c912ab65bda907bcfdb230b6904",
+      "entity_id": "ent-c8c1f0bd90a35593b53a4670efead63c",
       "classification": "appendix",
-      "owner_page_id": "file-99839434c7b355519745983ee91528a7",
+      "owner_page_id": "file-08da4789d0765e50b0d1ffeb7515718e",
       "source_path": "scripts/ckb_core/source_links.py",
       "start_line": 36,
       "end_line": 37,
@@ -214,9 +162,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-cf148408cc83518a9e1ac029fe805d41",
+      "entity_id": "ent-354c8f0dbfec546b96de88ed877f9c16",
       "classification": "appendix",
-      "owner_page_id": "file-99839434c7b355519745983ee91528a7",
+      "owner_page_id": "file-08da4789d0765e50b0d1ffeb7515718e",
       "source_path": "scripts/ckb_core/source_links.py",
       "start_line": 39,
       "end_line": 58,
@@ -227,9 +175,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-2ad0aeb1956c5a58b1c1504ade89fa98",
+      "entity_id": "ent-6fbdd8920e315ae69e36b239e67f9c5b",
       "classification": "appendix",
-      "owner_page_id": "file-99839434c7b355519745983ee91528a7",
+      "owner_page_id": "file-08da4789d0765e50b0d1ffeb7515718e",
       "source_path": "scripts/ckb_core/source_links.py",
       "start_line": 77,
       "end_line": 81,
@@ -240,9 +188,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-34d9767289e6515298f39ce91a6f8dee",
+      "entity_id": "ent-bd900153cb9550d6bdcff6747b9c63b6",
       "classification": "appendix",
-      "owner_page_id": "file-99839434c7b355519745983ee91528a7",
+      "owner_page_id": "file-08da4789d0765e50b0d1ffeb7515718e",
       "source_path": "scripts/ckb_core/source_links.py",
       "start_line": 84,
       "end_line": 93,
@@ -253,9 +201,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-e710edcaca9c59b3a9f5173271e76694",
+      "entity_id": "ent-e3e2b7dc399e5146a5f1d0de7b83b3b0",
       "classification": "appendix",
-      "owner_page_id": "file-99839434c7b355519745983ee91528a7",
+      "owner_page_id": "file-08da4789d0765e50b0d1ffeb7515718e",
       "source_path": "scripts/ckb_core/source_links.py",
       "start_line": 96,
       "end_line": 102,
@@ -266,9 +214,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-5ce9db1d40715075ab41b6c4d7ca99fc",
+      "entity_id": "ent-a0121d84a2d850b787c4b7e61e524233",
       "classification": "appendix",
-      "owner_page_id": "file-99839434c7b355519745983ee91528a7",
+      "owner_page_id": "file-08da4789d0765e50b0d1ffeb7515718e",
       "source_path": "scripts/ckb_core/source_links.py",
       "start_line": 105,
       "end_line": 133,
@@ -279,9 +227,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-e241172cf67e59f1ad5d0692b63d2fec",
+      "entity_id": "ent-8308112e930c54239f9f33f60963116d",
       "classification": "appendix",
-      "owner_page_id": "file-99839434c7b355519745983ee91528a7",
+      "owner_page_id": "file-08da4789d0765e50b0d1ffeb7515718e",
       "source_path": "scripts/ckb_core/source_links.py",
       "start_line": 136,
       "end_line": 153,
@@ -292,9 +240,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-be43d7a2a94b577ebdc339d5395955e9",
+      "entity_id": "ent-79d5e507e93d5e68b306f8e06c58fa89",
       "classification": "appendix",
-      "owner_page_id": "file-99839434c7b355519745983ee91528a7",
+      "owner_page_id": "file-08da4789d0765e50b0d1ffeb7515718e",
       "source_path": "scripts/ckb_core/source_links.py",
       "start_line": 156,
       "end_line": 157,
@@ -305,9 +253,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-4dcfa26799675fa896575cc1564c68db",
+      "entity_id": "ent-fe87b6fd782c51b2a66890d59a0a128b",
       "classification": "appendix",
-      "owner_page_id": "file-99839434c7b355519745983ee91528a7",
+      "owner_page_id": "file-08da4789d0765e50b0d1ffeb7515718e",
       "source_path": "scripts/ckb_core/source_links.py",
       "start_line": 160,
       "end_line": 161,
@@ -318,9 +266,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-908eefb757325d42925fd645ab366a3d",
+      "entity_id": "ent-ff526eae15d657f995f8d4b10c8aa070",
       "classification": "appendix",
-      "owner_page_id": "file-99839434c7b355519745983ee91528a7",
+      "owner_page_id": "file-08da4789d0765e50b0d1ffeb7515718e",
       "source_path": "scripts/ckb_core/source_links.py",
       "start_line": 164,
       "end_line": 165,
@@ -331,9 +279,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-b8e41d6c24d9562a8fc860be3ecd64a7",
+      "entity_id": "ent-5bb662d70e4258128f1fa3f565f2c7ee",
       "classification": "appendix",
-      "owner_page_id": "file-99839434c7b355519745983ee91528a7",
+      "owner_page_id": "file-08da4789d0765e50b0d1ffeb7515718e",
       "source_path": "scripts/ckb_core/source_links.py",
       "start_line": 168,
       "end_line": 169,
@@ -344,9 +292,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-1d8fb89e9fbb5dc1bd2872c058bd1c39",
+      "entity_id": "ent-1d5e6af3f75254dcbef6fcf7bda4ef07",
       "classification": "appendix",
-      "owner_page_id": "file-99839434c7b355519745983ee91528a7",
+      "owner_page_id": "file-08da4789d0765e50b0d1ffeb7515718e",
       "source_path": "scripts/ckb_core/source_links.py",
       "start_line": 172,
       "end_line": 183,
@@ -357,9 +305,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-0e69343f3d6f57bcb9ed475341bd7777",
+      "entity_id": "ent-d24a653b4a365764862ee848657d43b8",
       "classification": "appendix",
-      "owner_page_id": "file-63ea20f070e05e09989a83483d373d81",
+      "owner_page_id": "file-4d4c3a33d98057ee8b11ad1afbf17d6e",
       "source_path": "scripts/ckb_core/stdio_server.py",
       "start_line": 25,
       "end_line": 29,
@@ -370,9 +318,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-d83f6f1102b75da2b081720dd42a5608",
+      "entity_id": "ent-59e9314b8ecd546390b6cd3fb2c31869",
       "classification": "appendix",
-      "owner_page_id": "file-63ea20f070e05e09989a83483d373d81",
+      "owner_page_id": "file-4d4c3a33d98057ee8b11ad1afbf17d6e",
       "source_path": "scripts/ckb_core/stdio_server.py",
       "start_line": 32,
       "end_line": 35,
@@ -383,9 +331,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-8b943ce78a295511a1afb59002a0ff36",
+      "entity_id": "ent-f5b49966fd85546c8d79c478d8e9d88b",
       "classification": "appendix",
-      "owner_page_id": "file-63ea20f070e05e09989a83483d373d81",
+      "owner_page_id": "file-4d4c3a33d98057ee8b11ad1afbf17d6e",
       "source_path": "scripts/ckb_core/stdio_server.py",
       "start_line": 38,
       "end_line": 40,
@@ -396,9 +344,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-6d5ed032e5845acea40d39785343e941",
+      "entity_id": "ent-3c4f94e95d875bdcb5bf5f3bcbd47c6c",
       "classification": "appendix",
-      "owner_page_id": "file-63ea20f070e05e09989a83483d373d81",
+      "owner_page_id": "file-4d4c3a33d98057ee8b11ad1afbf17d6e",
       "source_path": "scripts/ckb_core/stdio_server.py",
       "start_line": 43,
       "end_line": 50,
@@ -409,9 +357,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-e4d70ac9d7f857d3962e0da0bcd1d4fd",
+      "entity_id": "ent-c815e9b033cf50be94c98eb4a66263b1",
       "classification": "appendix",
-      "owner_page_id": "file-63ea20f070e05e09989a83483d373d81",
+      "owner_page_id": "file-4d4c3a33d98057ee8b11ad1afbf17d6e",
       "source_path": "scripts/ckb_core/stdio_server.py",
       "start_line": 53,
       "end_line": 104,
@@ -422,9 +370,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-1da5ff8c4da55b609eb8629bf5152c98",
+      "entity_id": "ent-83ffc6c8f5845e2299bf5345e40ffebc",
       "classification": "appendix",
-      "owner_page_id": "file-63ea20f070e05e09989a83483d373d81",
+      "owner_page_id": "file-4d4c3a33d98057ee8b11ad1afbf17d6e",
       "source_path": "scripts/ckb_core/stdio_server.py",
       "start_line": 107,
       "end_line": 199,
@@ -435,9 +383,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-a1531182fbd754fd90b2d60750934580",
+      "entity_id": "ent-9b64e574c5265117809406bfaf7951e5",
       "classification": "appendix",
-      "owner_page_id": "file-9a3a159b1bf65c6dbf3ffb915ba990ca",
+      "owner_page_id": "file-1acc283431ec59eb8f215040b7c55b59",
       "source_path": "scripts/ckb_core/work_record_index.py",
       "start_line": 32,
       "end_line": 33,
@@ -448,9 +396,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-ea2e38febe8c504cb3fdaad29f394ffc",
+      "entity_id": "ent-e57a3c5cef735593b0140e61e19496b4",
       "classification": "appendix",
-      "owner_page_id": "file-9a3a159b1bf65c6dbf3ffb915ba990ca",
+      "owner_page_id": "file-1acc283431ec59eb8f215040b7c55b59",
       "source_path": "scripts/ckb_core/work_record_index.py",
       "start_line": 36,
       "end_line": 38,
@@ -461,14 +409,118 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-f9a9a9fbfe675d86a5f2df27d6dd81a5",
+      "entity_id": "ent-7f85d04c649f5ea18a9b4e6ea3e95616",
       "classification": "appendix",
-      "owner_page_id": "file-9a3a159b1bf65c6dbf3ffb915ba990ca",
+      "owner_page_id": "file-1acc283431ec59eb8f215040b7c55b59",
       "source_path": "scripts/ckb_core/work_record_index.py",
       "start_line": 41,
       "end_line": 46,
       "source_blob": "146a323a6f8638903adc28ee465c44e697fee1b0",
       "source_excerpt": "def _plain_text(value: str) -> str:\n    value = re.sub(r\"!\\[[^\\]]*\\]\\([^)]*\\)\", \"\", value)\n    value = re.sub(r\"\\[([^\\]]+)\\]\\([^)]*\\)\", r\"\\1\", value)\n    value = re.sub(r\"\\[\\[([^\\]|#]+)(?:[|#][^\\]]*)?\\]\\]\", r\"\\1\", value)\n    value = re.sub(r\"[`*>#]\", \"\", value)\n    return re.sub(r\"\\s+\", \" \", value).strip()",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-bc7073fb93d65af78ff9f033bbb8fe5a",
+      "classification": "appendix",
+      "owner_page_id": "file-1acc283431ec59eb8f215040b7c55b59",
+      "source_path": "scripts/ckb_core/work_record_index.py",
+      "start_line": 49,
+      "end_line": 84,
+      "source_blob": "146a323a6f8638903adc28ee465c44e697fee1b0",
+      "source_excerpt": "def _first_narrative(text: str) -> str:\n    if \"\\n## 后续补充\\n\" in text:\n        text = text.rsplit(\"\\n## 后续补充\\n\", 1)[1]\n    paragraphs: list[str] = []\n    current: list[str] = []\n    fenced = False\n    for raw in text.splitlines()[1:]:\n        line = raw.strip()\n        if line.startswith(\"```\"):\n            fenced = not fenced\n            continue\n        if fenced:\n            continue\n        if not line:\n            if current:\n                paragraphs.append(\" \".join(current))\n                current = []\n            continue\n        if line.startswith((\"#\", \"标签：\", \"- [[\", \"- [打开源码：\", \"|\", \"<!--\")):\n            continue\n        if re.match(r\"^[-*+]\\s+\", line) or re.match(r\"^\\d+[.)]\\s+\", line):\n            continue\n        current.append(line)\n    if current:\n        paragraphs.append(\" \".join(current))\n    for paragraph in paragraphs:\n        value = _plain_text(paragraph)\n        if not _contains_chinese(value):\n            continue\n        sentence = re.match(r\"^(.{12,140}?[。！？；])(?:\\s|$)\", value)\n        if sentence:\n            return sentence.group(1)\n        if len(value) <= 120:\n            return value\n        return value[:117].rstrip(\"，、；： \") + \"……\"\n    return \"本记录保存一次经过审阅的任务结论、实现变化或验证结果。\"",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-0bd2f21a639f513a88e29032b6272c7d",
+      "classification": "appendix",
+      "owner_page_id": "file-1acc283431ec59eb8f215040b7c55b59",
+      "source_path": "scripts/ckb_core/work_record_index.py",
+      "start_line": 87,
+      "end_line": 107,
+      "source_blob": "146a323a6f8638903adc28ee465c44e697fee1b0",
+      "source_excerpt": "def collect_work_records(root: Path) -> list[dict[str, Any]]:\n    records: list[dict[str, Any]] = []\n    seen_titles: set[str] = set()\n    for directory in SECTION_ORDER:\n        for path in sorted((root / directory).glob(\"*.md\"), key=lambda item: item.name.casefold()):\n            text = path.read_text(encoding=\"utf-8-sig\")\n            title = _title(text, path.stem)\n            if title == \"工作记录导览\":\n                raise CkbError(\"work record title conflicts with generated navigation: 工作记录导览\")\n            if title in seen_titles:\n                raise CkbError(f\"work record title must be unique: {title}\")\n            seen_titles.add(title)\n            records.append(\n                {\n                    \"title\": title,\n                    \"directory\": directory,\n                    \"file\": path.relative_to(root).as_posix(),\n                    \"summary\": _first_narrative(text),\n                }\n            )\n    return records",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-6f6ee2823db553febace50af7653268a",
+      "classification": "appendix",
+      "owner_page_id": "file-1acc283431ec59eb8f215040b7c55b59",
+      "source_path": "scripts/ckb_core/work_record_index.py",
+      "start_line": 110,
+      "end_line": 158,
+      "source_blob": "146a323a6f8638903adc28ee465c44e697fee1b0",
+      "source_excerpt": "def render_work_record_index(root: Path) -> tuple[str, list[dict[str, Any]]]:\n    records = collect_work_records(root)\n    lines = [\n        \"# 工作记录导览\",\n        \"\",\n        f\"标签：{WORK_RECORD_TAG}\",\n        \"\",\n        \"> 这里按任务目的汇总全部分析、变更、实验、踩坑和会话记录；每条记录都使用同一套确定性规则进入导览。\",\n        \"\",\n        \"## 先按任务选择\",\n        \"\",\n        \"- 需要理解已有结论或设计边界时，查看“分析与决策”。\",\n        \"- 需要确认已经修改什么以及如何验证时，查看“实现与变更”。\",\n        \"- 需要比较性能、召回、上下文或其他量化结果时，查看“实验与量化结果”。\",\n        \"- 需要避开已知失败和环境差异时，查看“踩坑与限制”。\",\n        \"- 需要恢复一次任务的上下文时，查看“会话与任务过程”。\",\n        \"\",\n        \"## 快速查找\",\n        \"\",\n        \"在 Obsidian 中先使用本页标题浏览；记录较多时，再用核心搜索输入任务中的两个或三个稳定关键词。需要定位源码时，转到首页的确定性检索入口。\",\n        \"\",\n    ]\n    from .research_gaps import gap_navigation_counts\n\n    gap_counts = gap_navigation_counts(root)\n    if gap_counts is not None:\n        lines.extend(\n            [\n                \"## 研究缺口与待补来源\",\n                \"\",\n                \"这里仅汇总待验证主张，不把缺口写成已确认事实，也不为每个缺口创建页面。使用 `gaps list` 查看机器记录和证据路径。\",\n                \"\",\n                f\"- 当前共 {gap_counts['total']} 项：待补证据 {gap_counts['open']} 项，暂缓 {gap_counts['deferred']} 项，已关闭 {gap_counts['resolved']} 项。\",\n                \"\",\n            ]\n        )\n    by_directory = {directory: [] for directory in NOTE_DIRECTORIES}\n    for record in records:\n        by_directory[record[\"directory\"]].append(record)\n    for directory in SECTION_ORDER:\n        heading, description = SECTIONS[directory]\n        lines.extend([f\"## {heading}\", \"\", description, \"\"])\n        items = by_directory[directory]\n        if items:\n            lines.extend(f\"- [[{item['title']}]] — {item['summary']}\" for item in items)\n        else:\n            lines.append(\"- 当前没有这一类记录。\")\n        lines.append(\"\")\n    return \"\\n\".join(lines).rstrip() + \"\\n\", records",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-141f16fa92ba5d93b0b08b87c731fc5f",
+      "classification": "appendix",
+      "owner_page_id": "file-1acc283431ec59eb8f215040b7c55b59",
+      "source_path": "scripts/ckb_core/work_record_index.py",
+      "start_line": 161,
+      "end_line": 170,
+      "source_blob": "146a323a6f8638903adc28ee465c44e697fee1b0",
+      "source_excerpt": "def write_work_record_index(root: Path) -> dict[str, Any]:\n    text, records = render_work_record_index(root)\n    target = root / WORK_RECORD_INDEX\n    target.write_text(text, encoding=\"utf-8\", newline=\"\\n\")\n    return {\n        \"status\": \"ready\",\n        \"file\": str(target.resolve()),\n        \"record_count\": len(records),\n        \"sections\": {directory: sum(1 for item in records if item[\"directory\"] == directory) for directory in NOTE_DIRECTORIES},\n    }",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-0caaf1c86543569fa4cf134a0d12228e",
+      "classification": "appendix",
+      "owner_page_id": "file-1acc283431ec59eb8f215040b7c55b59",
+      "source_path": "scripts/ckb_core/work_record_index.py",
+      "start_line": 173,
+      "end_line": 185,
+      "source_blob": "146a323a6f8638903adc28ee465c44e697fee1b0",
+      "source_excerpt": "def refresh_work_record_index(output: Path) -> dict[str, Any]:\n    markdown = output / \"markdown\"\n    human = output / \"human\"\n    if not markdown.is_dir() or not human.is_dir():\n        raise CkbError(\"work record navigation requires human and markdown roots\")\n    text, records = render_work_record_index(markdown)\n    for root in (markdown, human):\n        (root / WORK_RECORD_INDEX).write_text(text, encoding=\"utf-8\", newline=\"\\n\")\n    audit = audit_work_record_index(output)\n    json_write(output / \"workspace-meta/work-record-index-audit.json\", audit)\n    if audit[\"status\"] != \"passed\":\n        raise CkbError(f\"work record navigation audit failed: {audit['errors'][:10]}\")\n    return {\"status\": \"passed\", \"record_count\": len(records), \"audit\": audit}",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-8f9c2913d2e85b30be7412a8d6e01780",
+      "classification": "appendix",
+      "owner_page_id": "file-1acc283431ec59eb8f215040b7c55b59",
+      "source_path": "scripts/ckb_core/work_record_index.py",
+      "start_line": 188,
+      "end_line": 227,
+      "source_blob": "146a323a6f8638903adc28ee465c44e697fee1b0",
+      "source_excerpt": "def audit_work_record_root(root: Path) -> dict[str, Any]:\n    errors: list[dict[str, Any]] = []\n    target = root / WORK_RECORD_INDEX\n    try:\n        expected, records = render_work_record_index(root)\n    except CkbError as exc:\n        return {\"status\": \"failed\", \"record_count\": 0, \"errors\": [{\"reason\": \"work-record-collection\", \"detail\": str(exc)}]}\n    if not target.is_file():\n        errors.append({\"reason\": \"work-record-index-missing\"})\n        actual = \"\"\n    else:\n        actual = target.read_text(encoding=\"utf-8-sig\")\n        if actual != expected:\n            errors.append({\"reason\": \"work-record-index-stale\"})\n        if actual.startswith(\"---\\n\"):\n            errors.append({\"reason\": \"work-record-index-frontmatter\"})\n        if actual.count(WORK_RECORD_TAG) != 1:\n            errors.append({\"reason\": \"work-record-index-tag\", \"count\": actual.count(WORK_RECORD_TAG)})\n        if LONG_HEX.search(actual):\n            errors.append({\"reason\": \"work-record-index-hash\"})\n    expected_titles = {item[\"title\"] for item in records}\n    linked_titles = set(re.findall(r\"\\[\\[([^\\]|#]+)\", actual))\n    if linked_titles != expected_titles:\n        errors.append(\n            {\n                \"reason\": \"work-record-index-link-set\",\n                \"missing\": sorted(expected_titles - linked_titles),\n                \"extra\": sorted(linked_titles - expected_titles),\n            }\n        )\n    missing_summaries = [item[\"title\"] for item in records if not _contains_chinese(item[\"summary\"])]\n    if missing_summaries:\n        errors.append({\"reason\": \"work-record-index-summary-not-chinese\", \"titles\": missing_summaries})\n    return {\n        \"status\": \"passed\" if not errors else \"failed\",\n        \"record_count\": len(records),\n        \"linked_record_count\": len(linked_titles & expected_titles),\n        \"section_counts\": {directory: sum(1 for item in records if item[\"directory\"] == directory) for directory in NOTE_DIRECTORIES},\n        \"errors\": errors,\n    }",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-574b7304446551ffb65ed0ae1ac19a49",
+      "classification": "appendix",
+      "owner_page_id": "file-538de85328ce5a63a4633e9bdf97288c",
+      "source_path": "scripts/ckb_core/workspace_notes.py",
+      "start_line": 29,
+      "end_line": 34,
+      "source_blob": "6f41f6a27c855c436535e2e7b67b6133c986714d",
+      "source_excerpt": "def page_tag(page_type: str) -> str:\n    if page_type == \"boundary\":\n        return \"#类型/边界\"\n    if page_type in {\"repository\", \"module\"}:\n        return \"#类型/职责\"\n    return \"#类型/代码\"",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-eb25fcd19e525a54ae7f9c4ce4018fe0",
+      "classification": "appendix",
+      "owner_page_id": "file-538de85328ce5a63a4633e9bdf97288c",
+      "source_path": "scripts/ckb_core/workspace_notes.py",
+      "start_line": 37,
+      "end_line": 41,
+      "source_blob": "6f41f6a27c855c436535e2e7b67b6133c986714d",
+      "source_excerpt": "def _markdown_root(output: Path) -> Path:\n    root = output / \"markdown\"\n    if not (root / \"projection.json\").is_file():\n        raise CkbError(f\"Markdown projection is required before recording knowledge notes: {root}\")\n    return root",
       "status": "draft",
       "evidence_note": "",
       "description_zh": ""

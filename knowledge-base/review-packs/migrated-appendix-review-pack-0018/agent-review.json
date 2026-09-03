@@ -3,12 +3,177 @@
   "pack_id": "migrated-appendix-review-pack-0018",
   "kind": "appendix-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T22:45:42Z",
+  "reviewed_at_utc": "2026-09-03T01:39:02Z",
   "reviews": [
     {
-      "entity_id": "ent-3f65892127945eba920c5fda92bc7e1a",
+      "entity_id": "ent-4f351379e38652e1ab6890418a18bcb2",
       "classification": "appendix",
-      "owner_page_id": "file-2270e5344d3d5d1cb68c9e28ce12ba2f",
+      "owner_page_id": "file-2869591ff924551fa7b6fb04703fbbf8",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 354,
+      "end_line": 630,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/machine_knowledge.py` 第 354 至 630 行；摘录与 Git blob 5f8b9b704513 一致。",
+      "description_zh": "`build_machine_knowledge` 创建并初始化机器索引与检索包生成所需的数据或状态。"
+    },
+    {
+      "entity_id": "ent-ff28925221325f2bb2485e7d4f315bdb",
+      "classification": "appendix",
+      "owner_page_id": "file-2869591ff924551fa7b6fb04703fbbf8",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 633,
+      "end_line": 651,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/machine_knowledge.py` 第 633 至 651 行；摘录与 Git blob 5f8b9b704513 一致。",
+      "description_zh": "`_markdown_sections` 完成机器索引与检索包生成中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-3006fa55d651576894d027ec839491cd",
+      "classification": "appendix",
+      "owner_page_id": "file-2869591ff924551fa7b6fb04703fbbf8",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 654,
+      "end_line": 735,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/machine_knowledge.py` 第 654 至 735 行；摘录与 Git blob 5f8b9b704513 一致。",
+      "description_zh": "`audit_machine_knowledge` 校验机器索引与检索包生成所需的数据或状态。"
+    },
+    {
+      "entity_id": "ent-b81b550003b05d8f918c86f0083eed54",
+      "classification": "appendix",
+      "owner_page_id": "file-2869591ff924551fa7b6fb04703fbbf8",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 738,
+      "end_line": 748,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/machine_knowledge.py` 第 738 至 748 行；摘录与 Git blob 5f8b9b704513 一致。",
+      "description_zh": "`_adjacency` 完成机器索引与检索包生成中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-6f2af9d3979d5b2e992a74b8f44dda72",
+      "classification": "appendix",
+      "owner_page_id": "file-2869591ff924551fa7b6fb04703fbbf8",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 751,
+      "end_line": 771,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/machine_knowledge.py` 第 751 至 771 行；摘录与 Git blob 5f8b9b704513 一致。",
+      "description_zh": "`_fast_graph_scores` 完成机器索引与检索包生成中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-50b1b58649155dde93056c8923847671",
+      "classification": "appendix",
+      "owner_page_id": "file-2869591ff924551fa7b6fb04703fbbf8",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 774,
+      "end_line": 806,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/machine_knowledge.py` 第 774 至 806 行；摘录与 Git blob 5f8b9b704513 一致。",
+      "description_zh": "`_deterministic_ppr` 完成机器索引与检索包生成中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-935b4b10db98591f9316afc24c827474",
+      "classification": "appendix",
+      "owner_page_id": "file-2869591ff924551fa7b6fb04703fbbf8",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 809,
+      "end_line": 818,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/machine_knowledge.py` 第 809 至 818 行；摘录与 Git blob 5f8b9b704513 一致。",
+      "description_zh": "`_next_pack_path` 完成机器索引与检索包生成中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-0b7814d9989c5273b67f69a4f8945141",
+      "classification": "appendix",
+      "owner_page_id": "file-2869591ff924551fa7b6fb04703fbbf8",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 821,
+      "end_line": 878,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/machine_knowledge.py` 第 821 至 878 行；摘录与 Git blob 5f8b9b704513 一致。",
+      "description_zh": "`_indexed_warning_summary` 完成机器索引与检索包生成中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-49f02d2779c85fd8b975780a292e31f3",
+      "classification": "appendix",
+      "owner_page_id": "file-2869591ff924551fa7b6fb04703fbbf8",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 881,
+      "end_line": 907,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/machine_knowledge.py` 第 881 至 907 行；摘录与 Git blob 5f8b9b704513 一致。",
+      "description_zh": "`_warning_pack_block` 完成机器索引与检索包生成中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-39346541eba154a183f2f289ea7a4d57",
+      "classification": "appendix",
+      "owner_page_id": "file-2869591ff924551fa7b6fb04703fbbf8",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 910,
+      "end_line": 914,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/machine_knowledge.py` 第 910 至 914 行；摘录与 Git blob 5f8b9b704513 一致。",
+      "description_zh": "该函数生成参数化 SQL 所需的占位符列表，并拒绝空输入。"
+    },
+    {
+      "entity_id": "ent-7c6eca734f435447acf69ac0d964cbd1",
+      "classification": "appendix",
+      "owner_page_id": "file-2869591ff924551fa7b6fb04703fbbf8",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 917,
+      "end_line": 926,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/machine_knowledge.py` 第 917 至 926 行；摘录与 Git blob 5f8b9b704513 一致。",
+      "description_zh": "`_utf8_prefix` 完成机器索引与检索包生成中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-1a4e66b36ccd52eaad35bf2a0fa455c7",
+      "classification": "appendix",
+      "owner_page_id": "file-2869591ff924551fa7b6fb04703fbbf8",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 929,
+      "end_line": 952,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/machine_knowledge.py` 第 929 至 952 行；摘录与 Git blob 5f8b9b704513 一致。",
+      "description_zh": "`_bulk_entity_context` 完成机器索引与检索包生成中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-060e54bd830d5fc19732b21c0d747c8e",
+      "classification": "appendix",
+      "owner_page_id": "file-2869591ff924551fa7b6fb04703fbbf8",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 955,
+      "end_line": 978,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/machine_knowledge.py` 第 955 至 978 行；摘录与 Git blob 5f8b9b704513 一致。",
+      "description_zh": "`_diverse_candidates` 完成机器索引与检索包生成中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-98abdedd7f365ebe9c27367f418f7a7d",
+      "classification": "appendix",
+      "owner_page_id": "file-2869591ff924551fa7b6fb04703fbbf8",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 981,
+      "end_line": 1037,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/machine_knowledge.py` 第 981 至 1037 行；摘录与 Git blob 5f8b9b704513 一致。",
+      "description_zh": "`_compact_entity_block` 完成机器索引与检索包生成中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-2d0e6537152156caa98a0ff6b1b17478",
+      "classification": "appendix",
+      "owner_page_id": "file-2869591ff924551fa7b6fb04703fbbf8",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 1040,
+      "end_line": 1052,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/machine_knowledge.py` 第 1040 至 1052 行；摘录与 Git blob 5f8b9b704513 一致。",
+      "description_zh": "`_static_retrieval_key` 完成机器索引与检索包生成中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-72a3e69bc26e5a8e803978f28dad5dcc",
+      "classification": "appendix",
+      "owner_page_id": "file-2869591ff924551fa7b6fb04703fbbf8",
       "source_path": "scripts/ckb_core/machine_knowledge.py",
       "start_line": 1055,
       "end_line": 1109,
@@ -17,9 +182,9 @@
       "description_zh": "`_static_retrieval_context` 完成机器索引与检索包生成中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-377d3e5a5da2511e8850219e0b28f68d",
+      "entity_id": "ent-f8e8db0d9a5a5444a8a1f6caae3dedbf",
       "classification": "appendix",
-      "owner_page_id": "file-2270e5344d3d5d1cb68c9e28ce12ba2f",
+      "owner_page_id": "file-2869591ff924551fa7b6fb04703fbbf8",
       "source_path": "scripts/ckb_core/machine_knowledge.py",
       "start_line": 1112,
       "end_line": 1124,
@@ -28,9 +193,9 @@
       "description_zh": "`_openers` 完成机器索引与检索包生成中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-1636886713c05bf58bc2c1f4ef9d4f65",
+      "entity_id": "ent-301004204cc05e7ca0d17fd0bd6140a4",
       "classification": "appendix",
-      "owner_page_id": "file-2270e5344d3d5d1cb68c9e28ce12ba2f",
+      "owner_page_id": "file-2869591ff924551fa7b6fb04703fbbf8",
       "source_path": "scripts/ckb_core/machine_knowledge.py",
       "start_line": 1127,
       "end_line": 1150,
@@ -39,9 +204,9 @@
       "description_zh": "`_matching_documents` 完成机器索引与检索包生成中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-36a878faf3c85cc7869f0baf3fa8c6a3",
+      "entity_id": "ent-09b97ce341bc56d8a10075dfe9314061",
       "classification": "appendix",
-      "owner_page_id": "file-2270e5344d3d5d1cb68c9e28ce12ba2f",
+      "owner_page_id": "file-2869591ff924551fa7b6fb04703fbbf8",
       "source_path": "scripts/ckb_core/machine_knowledge.py",
       "start_line": 1153,
       "end_line": 1164,
@@ -50,147 +215,15 @@
       "description_zh": "`_document_source_link` 完成机器索引与检索包生成中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-fdc9a4d8a8055b938e9f230d7f265467",
+      "entity_id": "ent-295393daf7165a4e9b97c0980ca16e6b",
       "classification": "appendix",
-      "owner_page_id": "file-2270e5344d3d5d1cb68c9e28ce12ba2f",
+      "owner_page_id": "file-2869591ff924551fa7b6fb04703fbbf8",
       "source_path": "scripts/ckb_core/machine_knowledge.py",
       "start_line": 1167,
       "end_line": 1180,
       "status": "agent-reviewed",
       "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/machine_knowledge.py` 第 1167 至 1180 行；摘录与 Git blob 5f8b9b704513 一致。",
       "description_zh": "`_document_block` 完成机器索引与检索包生成中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-f6ba9aeef5115a2782999d4db942d1da",
-      "classification": "appendix",
-      "owner_page_id": "file-2270e5344d3d5d1cb68c9e28ce12ba2f",
-      "source_path": "scripts/ckb_core/machine_knowledge.py",
-      "start_line": 1183,
-      "end_line": 1671,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/machine_knowledge.py` 第 1183 至 1671 行；摘录与 Git blob 5f8b9b704513 一致。",
-      "description_zh": "`_retrieve_machine_deterministic` 检索并组织机器索引与检索包生成所需的数据或状态。"
-    },
-    {
-      "entity_id": "ent-9a18dad422585687adaba6cc7dd5d7d4",
-      "classification": "appendix",
-      "owner_page_id": "file-2270e5344d3d5d1cb68c9e28ce12ba2f",
-      "source_path": "scripts/ckb_core/machine_knowledge.py",
-      "start_line": 1235,
-      "end_line": 1238,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/machine_knowledge.py` 第 1235 至 1238 行；摘录与 Git blob 5f8b9b704513 一致。",
-      "description_zh": "`add` 完成机器索引与检索包生成中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-bc3de8e44ff95465a1977a8bff4ee2e8",
-      "classification": "appendix",
-      "owner_page_id": "file-2270e5344d3d5d1cb68c9e28ce12ba2f",
-      "source_path": "scripts/ckb_core/machine_knowledge.py",
-      "start_line": 1310,
-      "end_line": 1311,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/machine_knowledge.py` 第 1310 至 1311 行；摘录与 Git blob 5f8b9b704513 一致。",
-      "description_zh": "`entity_column` 完成机器索引与检索包生成中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-dffd1cdd2e36505198838184e5876a52",
-      "classification": "appendix",
-      "owner_page_id": "file-2270e5344d3d5d1cb68c9e28ce12ba2f",
-      "source_path": "scripts/ckb_core/machine_knowledge.py",
-      "start_line": 1674,
-      "end_line": 1693,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/machine_knowledge.py` 第 1674 至 1693 行；摘录与 Git blob 5f8b9b704513 一致。",
-      "description_zh": "`_provider_record` 完成机器索引与检索包生成中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-622adb43aee15768b7ef36cacc09cd48",
-      "classification": "appendix",
-      "owner_page_id": "file-2270e5344d3d5d1cb68c9e28ce12ba2f",
-      "source_path": "scripts/ckb_core/machine_knowledge.py",
-      "start_line": 1696,
-      "end_line": 1712,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/machine_knowledge.py` 第 1696 至 1712 行；摘录与 Git blob 5f8b9b704513 一致。",
-      "description_zh": "`_attach_keyword_fallback` 完成机器索引与检索包生成中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-23c6fa42ebef52be8ace9c743f90a258",
-      "classification": "appendix",
-      "owner_page_id": "file-2270e5344d3d5d1cb68c9e28ce12ba2f",
-      "source_path": "scripts/ckb_core/machine_knowledge.py",
-      "start_line": 1715,
-      "end_line": 1824,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/machine_knowledge.py` 第 1715 至 1824 行；摘录与 Git blob 5f8b9b704513 一致。",
-      "description_zh": "`_retrieve_machine_without_freshness` 检索并组织机器索引与检索包生成所需的数据或状态。"
-    },
-    {
-      "entity_id": "ent-3c6c73d5903c5e6d8f2f09bc7a102e1a",
-      "classification": "appendix",
-      "owner_page_id": "file-2270e5344d3d5d1cb68c9e28ce12ba2f",
-      "source_path": "scripts/ckb_core/machine_knowledge.py",
-      "start_line": 1852,
-      "end_line": 1872,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/machine_knowledge.py` 第 1852 至 1872 行；摘录与 Git blob 5f8b9b704513 一致。",
-      "description_zh": "`coverage` 检索并组织机器索引与检索包生成所需的数据或状态。"
-    },
-    {
-      "entity_id": "ent-f8b3525ecc475b40bd2621767800d9e6",
-      "classification": "appendix",
-      "owner_page_id": "file-2270e5344d3d5d1cb68c9e28ce12ba2f",
-      "source_path": "scripts/ckb_core/machine_knowledge.py",
-      "start_line": 1875,
-      "end_line": 1886,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/machine_knowledge.py` 第 1875 至 1886 行；摘录与 Git blob 5f8b9b704513 一致。",
-      "description_zh": "`entity_lookup` 完成机器索引与检索包生成中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-30021f97c50d5e228d2f9afb9ec4263b",
-      "classification": "appendix",
-      "owner_page_id": "file-2270e5344d3d5d1cb68c9e28ce12ba2f",
-      "source_path": "scripts/ckb_core/machine_knowledge.py",
-      "start_line": 1889,
-      "end_line": 1928,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/machine_knowledge.py` 第 1889 至 1928 行；摘录与 Git blob 5f8b9b704513 一致。",
-      "description_zh": "`neighbor_lookup` 完成机器索引与检索包生成中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-cdd693d86db75596b8c192672ab7b367",
-      "classification": "appendix",
-      "owner_page_id": "file-2270e5344d3d5d1cb68c9e28ce12ba2f",
-      "source_path": "scripts/ckb_core/machine_knowledge.py",
-      "start_line": 1931,
-      "end_line": 1948,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/machine_knowledge.py` 第 1931 至 1948 行；摘录与 Git blob 5f8b9b704513 一致。",
-      "description_zh": "`source_lookup` 完成机器索引与检索包生成中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-d222e3242b025c0b92cdcc015175e7f4",
-      "classification": "appendix",
-      "owner_page_id": "file-2270e5344d3d5d1cb68c9e28ce12ba2f",
-      "source_path": "scripts/ckb_core/machine_knowledge.py",
-      "start_line": 1951,
-      "end_line": 1971,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/machine_knowledge.py` 第 1951 至 1971 行；摘录与 Git blob 5f8b9b704513 一致。",
-      "description_zh": "`change_documents` 完成机器索引与检索包生成中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-3a8392611be256e19f756edd972037f1",
-      "classification": "appendix",
-      "owner_page_id": "file-2270e5344d3d5d1cb68c9e28ce12ba2f",
-      "source_path": "scripts/ckb_core/machine_knowledge.py",
-      "start_line": 1974,
-      "end_line": 1991,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/machine_knowledge.py` 第 1974 至 1991 行；摘录与 Git blob 5f8b9b704513 一致。",
-      "description_zh": "`sync_workspace_changes` 完成机器索引与检索包生成中的一个明确步骤。"
     }
   ]
 }

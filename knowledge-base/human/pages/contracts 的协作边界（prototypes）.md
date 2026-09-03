@@ -17,6 +17,6 @@
 
 - [[PageFanoutBenchmarkTests]] 会使用这里提供的行为。
 - [[PageFanoutGeneratorTests]] 会使用这里提供的行为。
-- [[benchmark 的协作边界（7392bb03）]] 会使用这里提供的行为。
+- [[benchmark 的协作边界（92b0cf7f）]] 会使用这里提供的行为。
 - [[generator 的协作边界]] 会使用这里提供的行为。
 - [[judge 的协作边界]] 会使用这里提供的行为。

@@ -2,15 +2,15 @@
 
 标签：#类型/代码
 
-> 文件 `scripts/ckb_core/management_agent.py`负责把任意 Harness 对话绑定到源码仓库和知识库，并管理独立开发任务的创建与复查。 它属于跨 Harness 复现管理 Agent 行为的持久化控制面，当前说明只覆盖所列固定源码范围。
+> 该模块把 Harness 对话绑定到项目管理身份，并提供状态恢复、任务派发和复核入口。 它集中维护对话与仓库关系，确保开发任务从已确认的 integration HEAD 建立独立 worktree。
 
 ## 什么时候需要修改
 
-当绑定身份、隐私字段、仓库预检、任务交接或复查门变化时，应同步复查本页及其直接关联测试。
+调整绑定身份、Harness 能力、派发前提、管理 Prompt 或复核结构时需要修改。
 
 ## 在代码中的位置
 
-[打开源码：scripts/ckb_core/management_agent.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/management_agent.py:1:1)  `scripts/ckb_core/management_agent.py:1-1400`
+[打开源码：scripts/ckb_core/management_agent.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/management_agent.py:1:1)  `scripts/ckb_core/management_agent.py:1-1399`
 
 ## 相关代码
 
@@ -60,47 +60,47 @@
 
 | 代码单元 | 一句话作用 |
 |---|---|
-| `default_management_registry_path` | `default_management_registry_path` 完成跨 Harness 管理对话绑定中的一个明确步骤。 |
-| `management_human_maintenance_prompt_contract` | `management_human_maintenance_prompt…` 完成跨 Harness 管理对话绑定中的一个明确步骤。 |
-| `_path_key` | `_path_key` 完成跨 Harness 管理对话绑定中的一个明确步骤。 |
-| `_normalized_path` | `_normalized_path` 解析并归一化跨 Harness 管理对话绑定所需的数据或状态。 |
-| `_empty_registry` | `_empty_registry` 完成跨 Harness 管理对话绑定中的一个明确步骤。 |
-| `_read_registry` | `_read_registry` 读取并判定跨 Harness 管理对话绑定所需的数据或状态。 |
-| `_registry_lock` | `_registry_lock` 完成跨 Harness 管理对话绑定中的一个明确步骤。 |
-| `_locked_registry` | `_locked_registry` 完成跨 Harness 管理对话绑定中的一个明确步骤。 |
-| `_audit_event` | `_audit_event` 校验跨 Harness 管理对话绑定所需的数据或状态。 |
-| `_capability` | `_capability` 完成跨 Harness 管理对话绑定中的一个明确步骤。 |
-| `harness_capabilities` | `harness_capabilities` 完成跨 Harness 管理对话绑定中的一个明确步骤。 |
-| `binding_schema` | `binding_schema` 登记并持久化跨 Harness 管理对话绑定所需的数据或状态。 |
-| `canonical_binding_input` | `canonical_binding_input` 完成跨 Harness 管理对话绑定中的一个明确步骤。 |
-| `_privacy_errors` | `_privacy_errors` 完成跨 Harness 管理对话绑定中的一个明确步骤。 |
-| `audit_manager_registry` | `audit_manager_registry` 校验跨 Harness 管理对话绑定所需的数据或状态。 |
-| `_git` | `_git` 完成跨 Harness 管理对话绑定中的一个明确步骤。 |
-| `_is_within` | `_is_within` 完成跨 Harness 管理对话绑定中的一个明确步骤。 |
-| `_git_preflight` | `_git_preflight` 完成跨 Harness 管理对话绑定中的一个明确步骤。 |
-| `_binding_identity` | `_binding_identity` 登记并持久化跨 Harness 管理对话绑定所需的数据或状态。 |
-| `_binding_project` | `_binding_project` 登记并持久化跨 Harness 管理对话绑定所需的数据或状态。 |
-| `_binding_id` | `_binding_id` 登记并持久化跨 Harness 管理对话绑定所需的数据或状态。 |
-| `_find_binding` | `_find_binding` 读取并判定跨 Harness 管理对话绑定所需的数据或状态。 |
-| `_runtime_state` | `_runtime_state` 完成跨 Harness 管理对话绑定中的一个明确步骤。 |
-| `binding_status` | `binding_status` 登记并持久化跨 Harness 管理对话绑定所需的数据或状态。 |
-| `unbind_conversation` | `unbind_conversation` 受控释放或回滚跨 Harness 管理对话绑定所需的数据或状态。 |
-| `_sqlite_integrity` | `_sqlite_integrity` 完成跨 Harness 管理对话绑定中的一个明确步骤。 |
-| `_feedback_snapshot` | `_feedback_snapshot` 完成跨 Harness 管理对话绑定中的一个明确步骤。 |
-| `_knowledge_snapshot` | `_knowledge_snapshot` 完成跨 Harness 管理对话绑定中的一个明确步骤。 |
-| `_single_quote` | `_single_quote` 完成跨 Harness 管理对话绑定中的一个明确步骤。 |
-| `_manager_commands` | `_manager_commands` 完成跨 Harness 管理对话绑定中的一个明确步骤。 |
-| `_management_prompt` | `_management_prompt` 完成跨 Harness 管理对话绑定中的一个明确步骤。 |
-| `audit_management_prompt` | `audit_management_prompt` 校验跨 Harness 管理对话绑定所需的数据或状态。 |
-| `management_context` | `management_context` 完成跨 Harness 管理对话绑定中的一个明确步骤。 |
-| `_task_id` | `_task_id` 完成跨 Harness 管理对话绑定中的一个明确步骤。 |
-| `_task_artifact_root` | `_task_artifact_root` 完成跨 Harness 管理对话绑定中的一个明确步骤。 |
-| `_find_task` | `_find_task` 读取并判定跨 Harness 管理对话绑定所需的数据或状态。 |
-| `_record_task_collaboration` | `_record_task_collaboration` 登记并持久化跨 Harness 管理对话绑定所需的数据或状态。 |
-| `_bounded_values` | `_bounded_values` 完成跨 Harness 管理对话绑定中的一个明确步骤。 |
-| `_task_prompt` | `_task_prompt` 完成跨 Harness 管理对话绑定中的一个明确步骤。 |
-| `create_management_task` | `create_management_task` 创建并初始化跨 Harness 管理对话绑定所需的数据或状态。 |
-| `management_task_status` | `management_task_status` 完成跨 Harness 管理对话绑定中的一个明确步骤。 |
-| `review_management_task` | `review_management_task` 完成跨 Harness 管理对话绑定中的一个明确步骤。 |
+| `default_management_registry_path` | `default_management_registry_path` 完成跨 Harness 管理对话绑定、状态检查和独立开发任务派发中的一个明确步骤。 |
+| `management_human_maintenance_prompt_contract` | 该函数完成管理对话绑定、状态检查或独立开发任务控制中的一个明确步骤。 |
+| `_path_key` | `_path_key` 完成跨 Harness 管理对话绑定、状态检查和独立开发任务派发中的一个明确步骤。 |
+| `_normalized_path` | `_normalized_path` 完成跨 Harness 管理对话绑定、状态检查和独立开发任务派发中的一个明确步骤。 |
+| `_empty_registry` | `_empty_registry` 完成跨 Harness 管理对话绑定、状态检查和独立开发任务派发中的一个明确步骤。 |
+| `_read_registry` | `_read_registry` 完成跨 Harness 管理对话绑定、状态检查和独立开发任务派发中的一个明确步骤。 |
+| `_registry_lock` | `_registry_lock` 完成跨 Harness 管理对话绑定、状态检查和独立开发任务派发中的一个明确步骤。 |
+| `_locked_registry` | `_locked_registry` 完成跨 Harness 管理对话绑定、状态检查和独立开发任务派发中的一个明确步骤。 |
+| `_audit_event` | `_audit_event` 完成跨 Harness 管理对话绑定、状态检查和独立开发任务派发中的一个明确步骤。 |
+| `_capability` | `_capability` 完成跨 Harness 管理对话绑定、状态检查和独立开发任务派发中的一个明确步骤。 |
+| `harness_capabilities` | `harness_capabilities` 完成跨 Harness 管理对话绑定、状态检查和独立开发任务派发中的一个明确步骤。 |
+| `binding_schema` | `binding_schema` 完成跨 Harness 管理对话绑定、状态检查和独立开发任务派发中的一个明确步骤。 |
+| `canonical_binding_input` | `canonical_binding_input` 完成跨 Harness 管理对话绑定、状态检查和独立开发任务派发中的一个明确步骤。 |
+| `_privacy_errors` | `_privacy_errors` 完成跨 Harness 管理对话绑定、状态检查和独立开发任务派发中的一个明确步骤。 |
+| `audit_manager_registry` | `audit_manager_registry` 完成跨 Harness 管理对话绑定、状态检查和独立开发任务派发中的一个明确步骤。 |
+| `_git` | `_git` 完成跨 Harness 管理对话绑定、状态检查和独立开发任务派发中的一个明确步骤。 |
+| `_is_within` | `_is_within` 完成跨 Harness 管理对话绑定、状态检查和独立开发任务派发中的一个明确步骤。 |
+| `_git_preflight` | 核对管理 workspace、知识库、Git 根、integration branch 和 HEAD，并把工作树脏状态作为结果返回而不是阻止身份登记。 |
+| `_binding_identity` | `_binding_identity` 完成跨 Harness 管理对话绑定、状态检查和独立开发任务派发中的一个明确步骤。 |
+| `_binding_project` | `_binding_project` 完成跨 Harness 管理对话绑定、状态检查和独立开发任务派发中的一个明确步骤。 |
+| `_binding_id` | `_binding_id` 完成跨 Harness 管理对话绑定、状态检查和独立开发任务派发中的一个明确步骤。 |
+| `_find_binding` | `_find_binding` 完成跨 Harness 管理对话绑定、状态检查和独立开发任务派发中的一个明确步骤。 |
+| `_runtime_state` | `_runtime_state` 完成跨 Harness 管理对话绑定、状态检查和独立开发任务派发中的一个明确步骤。 |
+| `binding_status` | 重新读取绑定仓库的分支、HEAD、工作树和知识事实新鲜度，并据此报告 ready 或 blocked。 |
+| `unbind_conversation` | `unbind_conversation` 完成跨 Harness 管理对话绑定、状态检查和独立开发任务派发中的一个明确步骤。 |
+| `_sqlite_integrity` | `_sqlite_integrity` 完成跨 Harness 管理对话绑定、状态检查和独立开发任务派发中的一个明确步骤。 |
+| `_feedback_snapshot` | `_feedback_snapshot` 完成跨 Harness 管理对话绑定、状态检查和独立开发任务派发中的一个明确步骤。 |
+| `_knowledge_snapshot` | `_knowledge_snapshot` 完成跨 Harness 管理对话绑定、状态检查和独立开发任务派发中的一个明确步骤。 |
+| `_single_quote` | `_single_quote` 完成跨 Harness 管理对话绑定、状态检查和独立开发任务派发中的一个明确步骤。 |
+| `_manager_commands` | `_manager_commands` 完成跨 Harness 管理对话绑定、状态检查和独立开发任务派发中的一个明确步骤。 |
+| `_management_prompt` | `_management_prompt` 完成跨 Harness 管理对话绑定、状态检查和独立开发任务派发中的一个明确步骤。 |
+| `audit_management_prompt` | `audit_management_prompt` 完成跨 Harness 管理对话绑定、状态检查和独立开发任务派发中的一个明确步骤。 |
+| `management_context` | `management_context` 完成跨 Harness 管理对话绑定、状态检查和独立开发任务派发中的一个明确步骤。 |
+| `_task_id` | `_task_id` 完成跨 Harness 管理对话绑定、状态检查和独立开发任务派发中的一个明确步骤。 |
+| `_task_artifact_root` | `_task_artifact_root` 完成跨 Harness 管理对话绑定、状态检查和独立开发任务派发中的一个明确步骤。 |
+| `_find_task` | `_find_task` 完成跨 Harness 管理对话绑定、状态检查和独立开发任务派发中的一个明确步骤。 |
+| `_record_task_collaboration` | `_record_task_collaboration` 完成跨 Harness 管理对话绑定、状态检查和独立开发任务派发中的一个明确步骤。 |
+| `_bounded_values` | `_bounded_values` 完成跨 Harness 管理对话绑定、状态检查和独立开发任务派发中的一个明确步骤。 |
+| `_task_prompt` | `_task_prompt` 完成跨 Harness 管理对话绑定、状态检查和独立开发任务派发中的一个明确步骤。 |
+| `create_management_task` | 只在绑定状态、知识库状态和 Git 派发条件满足时，从固定 HEAD 创建独立开发 worktree。 |
+| `management_task_status` | 核对开发 worktree、提交、验证记录和 integration HEAD，计算是否达到合并就绪状态。 |
+| `review_management_task` | 执行任务约定的真实测试并把退出状态和输出摘要写入结构化复核记录。 |
 
 </details>

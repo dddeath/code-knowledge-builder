@@ -2,11 +2,11 @@
 
 标签：#类型/代码
 
-> 文件 `tests/test_chinese_retrieval_fixture.py`负责验证三臂协议、旧词项、相关性标注、排序指标和来源漂移失败门。 它属于中文检索效果测量的回归保护，说明只覆盖所列固定源码范围。
+> 该测试文件固定中文检索协议、基线、回放结果和来源漂移行为。 它保证检索效果比较可重复，并验证复制索引在来源漂移失败时保持完整。
 
 ## 什么时候需要修改
 
-当三臂合同、标注或效果门变化时，应同步复查本页及其直接测试。
+调整中文词项、固定问题集、评价指标、回放数据或基准入口时需要修改。
 
 ## 在代码中的位置
 
@@ -26,9 +26,9 @@
 
 | 代码单元 | 一句话作用 |
 |---|---|
-| `ChineseRetrievalFixtureTests` | 该测试验证“frozen protocol shape”场景，保护中文检索合同测试的结果与失败边界。 |
-| `ChineseRetrievalFixtureTests.test_frozen_protocol_shape` | 该测试验证“frozen protocol shape”场景，保护中文检索合同测试的结果与失败边界。 |
-| `ChineseRetrievalFixtureTests.test_baseline_records_all_mechanical_fragments` | 该测试验证“baseline records all mechanic…”场景，保护中文检索合同测试的结果与失败边界。 |
-| `ChineseRetrievalFixtureTests.test_baseline_corpus_and_recall_are_complete` | 该测试验证“baseline corpus and recall ar…”场景，保护中文检索合同测试的结果与失败边界。 |
+| `ChineseRetrievalFixtureTests` | `ChineseRetrievalFixtureTests` 完成中文检索固定协议、基线、回放和来源漂移回归验证中的一个明确步骤。 |
+| `ChineseRetrievalFixtureTests.test_frozen_protocol_shape` | `test_frozen_protocol_shape` 完成中文检索固定协议、基线、回放和来源漂移回归验证中的一个明确步骤。 |
+| `ChineseRetrievalFixtureTests.test_baseline_records_all_mechanical_fragments` | 该测试验证中文检索固定协议、基线、回放或来源漂移中的一个明确行为。 |
+| `ChineseRetrievalFixtureTests.test_baseline_corpus_and_recall_are_complete` | 该测试验证中文检索固定协议、基线、回放或来源漂移中的一个明确行为。 |
 
 </details>

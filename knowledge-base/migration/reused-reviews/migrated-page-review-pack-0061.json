@@ -3,33 +3,33 @@
   "pack_id": "migrated-page-review-pack-0061",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T22:46:57Z",
+  "reviewed_at_utc": "2026-09-03T01:40:15Z",
   "reviews": [
     {
-      "entity_id": "file-b89dbd51d33256aeafea7e880256efc0",
+      "entity_id": "file-50eba802e38e5dc2b1b8754d0cd6846d",
       "classification": "page",
-      "owner_page_id": "file-b89dbd51d33256aeafea7e880256efc0",
-      "source_path": "tests/test_human_maintenance_prompts.py",
+      "owner_page_id": "file-50eba802e38e5dc2b1b8754d0cd6846d",
+      "source_path": "tests/test_human_page_authoring.py",
       "start_line": 1,
-      "end_line": 478,
+      "end_line": 622,
       "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `tests/test_human_maintenance_prompts.py` 第 1-478 行，并核对 Git blob `2c68563d30c1`、分类与所有者。",
-      "meaning_zh": "`tests/test_human_maintenance_prompts.py` 页面绑定固定源码第 1-478 行，说明该文件如何承担人类维护 Prompt 注册、渲染和交付边界测试。",
-      "role_zh": "该文件负责人类维护 Prompt 注册、渲染和交付边界测试，并为相关命令、页面生成或测试提供源码入口。",
-      "change_when_zh": "当 `tests/test_human_maintenance_prompts.py` 的公开输入、生成结果、状态边界或与其他模块的协作关系变化时，应更新本页。"
+      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `tests/test_human_page_authoring.py` 第 1-622 行，并核对 Git blob `8d9bf128c828`、分类与所有者。",
+      "meaning_zh": "`tests/test_human_page_authoring.py` 页面绑定固定源码第 1-622 行，说明该文件如何承担V3 页面 authoring、证据分离和 package 行为测试。",
+      "role_zh": "该文件负责V3 页面 authoring、证据分离和 package 行为测试，并为相关命令、页面生成或测试提供源码入口。",
+      "change_when_zh": "当 `tests/test_human_page_authoring.py` 的公开输入、生成结果、状态边界或与其他模块的协作关系变化时，应更新本页。"
     },
     {
-      "entity_id": "ent-0b1b207ad45950648471211659e9755b",
+      "entity_id": "ent-e49549827d155e6c9bd10eb3ef1ed947",
       "classification": "page",
-      "owner_page_id": "ent-0b1b207ad45950648471211659e9755b",
-      "source_path": "tests/test_human_maintenance_prompts.py",
-      "start_line": 102,
-      "end_line": 184,
+      "owner_page_id": "ent-e49549827d155e6c9bd10eb3ef1ed947",
+      "source_path": "tests/test_human_page_authoring.py",
+      "start_line": 311,
+      "end_line": 494,
       "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `tests/test_human_maintenance_prompts.py` 第 102-184 行，并核对 Git blob `2c68563d30c1`、分类与所有者。",
-      "meaning_zh": "`HumanMaintenancePromptRegistryTests` 位于 `tests/test_human_maintenance_prompts.py` 第 102-184 行，用于覆盖维护 Prompt 注册表顺序、稳定序列化和管理入口复用。",
-      "role_zh": "`HumanMaintenancePromptRegistryTests` 在人类维护 Prompt 注册、渲染和交付边界测试中负责覆盖维护 Prompt 注册表顺序、稳定序列化和管理入口复用。",
-      "change_when_zh": "当 `HumanMaintenancePromptRegistryTests` 的输入、输出、状态转换或失败边界变化时，应更新对应说明和测试。"
+      "evidence_note": "已核对固定提交 bd8519583e3a 中 `tests/test_human_page_authoring.py` 第 311 至 494 行，摘录属于 Git blob 8d9bf128c828。",
+      "meaning_zh": "代码单元 `_validation_payload`负责验证 V3 人类页面结构、披露层级、证据和受控写入。",
+      "role_zh": "它属于人类页面生成协议的回归保护，说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当模板标题、信息预算或写入边界变化时，应同步复查本页及其直接测试。"
     }
   ]
 }

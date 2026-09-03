@@ -6,191 +6,9 @@
   "reviewed_at_utc": null,
   "reviews": [
     {
-      "entity_id": "ent-de80917ab3335eeba845cfddf7b87799",
+      "entity_id": "ent-572a2d3fdeb1565880b77894aeeb554f",
       "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
-      "source_path": "scripts/ckb_core/record_replace.py",
-      "start_line": 458,
-      "end_line": 477,
-      "source_blob": "6d8271c3e75fa4ea19d3c0e67b2a4b2ac911bd03",
-      "source_excerpt": "def _machine_candidate(baseline: dict[str, Any], text: str, links: list[str]) -> dict[str, Any]:\n    if len(baseline.get(\"document\", [])) != 1:\n        raise CkbError(\"machine/knowledge.sqlite must contain exactly one target work record\")\n    document = list(baseline[\"document\"][0])\n    document_id = str(document[0])\n    document[6] = text\n    document[7] = estimated_tokens(text)\n    sections: list[list[Any]] = []\n    fts: list[list[Any]] = []\n    for ordinal, (heading, content) in enumerate(_markdown_sections(text)):\n        section_id = f\"{document_id}:{ordinal}\"\n        sections.append([section_id, document_id, ordinal, heading, content, estimated_tokens(content), None, None, None])\n        fts.append([section_id, document_id, heading, content, \"\"])\n    return {\n        \"document\": [document],\n        \"sections\": sections,\n        \"section_sources\": [],\n        \"links\": [[document_id, None, value, \"wikilink\"] for value in sorted(set(links))],\n        \"fts\": fts,\n    }",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-da603a244cd25b29a79e7de1594c4b31",
-      "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
-      "source_path": "scripts/ckb_core/record_replace.py",
-      "start_line": 480,
-      "end_line": 499,
-      "source_blob": "6d8271c3e75fa4ea19d3c0e67b2a4b2ac911bd03",
-      "source_excerpt": "def _apply_machine_state(connection: sqlite3.Connection, document_id: str, state: dict[str, Any]) -> None:\n    if len(state.get(\"document\", [])) != 1:\n        raise CkbError(f\"invalid machine knowledge candidate for document: {document_id}\")\n    cursor = connection.execute(\n        \"UPDATE documents SET kind=?,title=?,tag=?,human_file=?,source_entity_id=?,content=?,token_estimate=? WHERE document_id=?\",\n        (*state[\"document\"][0][1:], document_id),\n    )\n    if cursor.rowcount != 1:\n        raise CkbError(f\"machine work record disappeared during replacement: {document_id}\")\n    existing_ids = [row[0] for row in connection.execute(\"SELECT section_id FROM sections WHERE document_id=?\", (document_id,))]\n    if existing_ids:\n        placeholders = \",\".join(\"?\" for _ in existing_ids)\n        connection.execute(f\"DELETE FROM section_sources WHERE section_id IN ({placeholders})\", existing_ids)\n    connection.execute(\"DELETE FROM section_fts WHERE document_id=?\", (document_id,))\n    connection.execute(\"DELETE FROM sections WHERE document_id=?\", (document_id,))\n    connection.execute(\"DELETE FROM document_links WHERE source_document_id=?\", (document_id,))\n    connection.executemany(\"INSERT INTO sections VALUES(?,?,?,?,?,?,?,?,?)\", state.get(\"sections\", []))\n    connection.executemany(\"INSERT INTO section_sources VALUES(?,?)\", state.get(\"section_sources\", []))\n    connection.executemany(\"INSERT INTO document_links VALUES(?,?,?,?)\", state.get(\"links\", []))\n    connection.executemany(\"INSERT INTO section_fts VALUES(?,?,?,?,?)\", state.get(\"fts\", []))",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-03a5b990a29053c8987ea375c0b879af",
-      "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
-      "source_path": "scripts/ckb_core/record_replace.py",
-      "start_line": 502,
-      "end_line": 506,
-      "source_blob": "6d8271c3e75fa4ea19d3c0e67b2a4b2ac911bd03",
-      "source_excerpt": "def _sqlite_integrity(connection: sqlite3.Connection, label: str) -> None:\n    integrity = connection.execute(\"PRAGMA integrity_check\").fetchone()[0]\n    foreign_keys = connection.execute(\"PRAGMA foreign_key_check\").fetchall()\n    if integrity != \"ok\" or foreign_keys:\n        raise CkbError(f\"{label} candidate integrity failed: integrity={integrity}; foreign_keys={foreign_keys[:10]}\")",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-2bb71bfff60f5f17bd19894236bf291b",
-      "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
-      "source_path": "scripts/ckb_core/record_replace.py",
-      "start_line": 509,
-      "end_line": 524,
-      "source_blob": "6d8271c3e75fa4ea19d3c0e67b2a4b2ac911bd03",
-      "source_excerpt": "def _trial_agent(path: Path, title: str, baseline: dict[str, Any], candidate: dict[str, Any]) -> None:\n    connection = sqlite3.connect(path, timeout=30)\n    try:\n        connection.execute(\"PRAGMA foreign_keys=ON\")\n        connection.execute(\"BEGIN IMMEDIATE\")\n        if _json_digest(_agent_snapshot(connection, title)) != _json_digest(baseline):\n            raise CkbError(f\"agent-index target drifted before candidate validation: {title}\")\n        _apply_agent_state(connection, title, candidate)\n        _sqlite_integrity(connection, \"agent-index.sqlite\")\n        if _json_digest(_agent_snapshot(connection, title)) != _json_digest(candidate):\n            raise CkbError(f\"agent-index candidate did not reopen exactly: {title}\")\n        connection.rollback()\n    finally:\n        if connection.in_transaction:\n            connection.rollback()\n        connection.close()",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-fdc592fd94d35e7490f5741538ceacc3",
-      "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
-      "source_path": "scripts/ckb_core/record_replace.py",
-      "start_line": 527,
-      "end_line": 542,
-      "source_blob": "6d8271c3e75fa4ea19d3c0e67b2a4b2ac911bd03",
-      "source_excerpt": "def _trial_machine(path: Path, document_id: str, baseline: dict[str, Any], candidate: dict[str, Any]) -> None:\n    connection = sqlite3.connect(path, timeout=30)\n    try:\n        connection.execute(\"PRAGMA foreign_keys=ON\")\n        connection.execute(\"BEGIN IMMEDIATE\")\n        if _json_digest(_machine_snapshot(connection, document_id)) != _json_digest(baseline):\n            raise CkbError(f\"machine knowledge target drifted before candidate validation: {document_id}\")\n        _apply_machine_state(connection, document_id, candidate)\n        _sqlite_integrity(connection, \"machine/knowledge.sqlite\")\n        if _json_digest(_machine_snapshot(connection, document_id)) != _json_digest(candidate):\n            raise CkbError(f\"machine knowledge candidate did not reopen exactly: {document_id}\")\n        connection.rollback()\n    finally:\n        if connection.in_transaction:\n            connection.rollback()\n        connection.close()",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-afa56780717d58d6be0497fc534d4bd9",
-      "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
-      "source_path": "scripts/ckb_core/record_replace.py",
-      "start_line": 545,
-      "end_line": 550,
-      "source_blob": "6d8271c3e75fa4ea19d3c0e67b2a4b2ac911bd03",
-      "source_excerpt": "def _current_agent(path: Path, title: str) -> dict[str, Any]:\n    connection = sqlite3.connect(f\"file:{path.as_posix()}?mode=ro\", uri=True)\n    try:\n        return _agent_snapshot(connection, title)\n    finally:\n        connection.close()",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-a8f006aa2ef659af9c324e2eb265a0a2",
-      "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
-      "source_path": "scripts/ckb_core/record_replace.py",
-      "start_line": 553,
-      "end_line": 558,
-      "source_blob": "6d8271c3e75fa4ea19d3c0e67b2a4b2ac911bd03",
-      "source_excerpt": "def _current_machine(path: Path, document_id: str) -> dict[str, Any]:\n    connection = sqlite3.connect(f\"file:{path.as_posix()}?mode=ro\", uri=True)\n    try:\n        return _machine_snapshot(connection, document_id)\n    finally:\n        connection.close()",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-7a066f31baf3548b828826caf4874215",
-      "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
-      "source_path": "scripts/ckb_core/record_replace.py",
-      "start_line": 561,
-      "end_line": 576,
-      "source_blob": "6d8271c3e75fa4ea19d3c0e67b2a4b2ac911bd03",
-      "source_excerpt": "def _commit_agent(path: Path, title: str, expected: dict[str, Any], state: dict[str, Any]) -> None:\n    connection = sqlite3.connect(path, timeout=30)\n    try:\n        connection.execute(\"PRAGMA foreign_keys=ON\")\n        connection.execute(\"BEGIN IMMEDIATE\")\n        if _json_digest(_agent_snapshot(connection, title)) != _json_digest(expected):\n            raise CkbError(f\"agent-index target drifted during promotion: {title}\")\n        _apply_agent_state(connection, title, state)\n        _sqlite_integrity(connection, \"agent-index.sqlite\")\n        if _json_digest(_agent_snapshot(connection, title)) != _json_digest(state):\n            raise CkbError(f\"agent-index promoted state did not reopen exactly: {title}\")\n        connection.commit()\n    finally:\n        if connection.in_transaction:\n            connection.rollback()\n        connection.close()",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-9dc0d6ed93fd51f6b396ab1d459a0775",
-      "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
-      "source_path": "scripts/ckb_core/record_replace.py",
-      "start_line": 579,
-      "end_line": 594,
-      "source_blob": "6d8271c3e75fa4ea19d3c0e67b2a4b2ac911bd03",
-      "source_excerpt": "def _commit_machine(path: Path, document_id: str, expected: dict[str, Any], state: dict[str, Any]) -> None:\n    connection = sqlite3.connect(path, timeout=30)\n    try:\n        connection.execute(\"PRAGMA foreign_keys=ON\")\n        connection.execute(\"BEGIN IMMEDIATE\")\n        if _json_digest(_machine_snapshot(connection, document_id)) != _json_digest(expected):\n            raise CkbError(f\"machine knowledge target drifted during promotion: {document_id}\")\n        _apply_machine_state(connection, document_id, state)\n        _sqlite_integrity(connection, \"machine/knowledge.sqlite\")\n        if _json_digest(_machine_snapshot(connection, document_id)) != _json_digest(state):\n            raise CkbError(f\"machine knowledge promoted state did not reopen exactly: {document_id}\")\n        connection.commit()\n    finally:\n        if connection.in_transaction:\n            connection.rollback()\n        connection.close()",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-07636ac769335549a4b44e72fc3fd13e",
-      "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
-      "source_path": "scripts/ckb_core/record_replace.py",
-      "start_line": 597,
-      "end_line": 601,
-      "source_blob": "6d8271c3e75fa4ea19d3c0e67b2a4b2ac911bd03",
-      "source_excerpt": "def _cleanup_new_sqlite_sidecars(path: Path, baseline: dict[str, bool]) -> None:\n    for suffix in (\"-wal\", \"-shm\", \"-journal\"):\n        sidecar = Path(str(path) + suffix)\n        if not baseline.get(suffix, False):\n            sidecar.unlink(missing_ok=True)",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-b6805fc2cf8b539784b28fae7d2b785d",
-      "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
-      "source_path": "scripts/ckb_core/record_replace.py",
-      "start_line": 604,
-      "end_line": 615,
-      "source_blob": "6d8271c3e75fa4ea19d3c0e67b2a4b2ac911bd03",
-      "source_excerpt": "def _promote_file(output: Path, role: dict[str, Any], expected: str | None) -> None:\n    target = output / role[\"path\"]\n    current = _file_state(target)\n    if current[\"exists\"] != role[\"baseline\"][\"exists\"] or current[\"sha256\"] != expected:\n        raise CkbError(f\"record replace file drifted during promotion: {role['path']}\")\n    candidate = Path(role[\"modified\"][\"candidate\"])\n    target.parent.mkdir(parents=True, exist_ok=True)\n    temporary = target.with_name(target.name + \".record-replace.tmp\")\n    shutil.copy2(candidate, temporary)\n    os.replace(temporary, target)\n    if sha256_file(target) != role[\"modified\"][\"sha256\"]:\n        raise CkbError(f\"record replace promoted file did not reopen exactly: {role['path']}\")",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-9ed59d30ce2e51b5a4b7cefebe3b734e",
-      "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
-      "source_path": "scripts/ckb_core/record_replace.py",
-      "start_line": 618,
-      "end_line": 626,
-      "source_blob": "6d8271c3e75fa4ea19d3c0e67b2a4b2ac911bd03",
-      "source_excerpt": "def _restore_file(output: Path, role: dict[str, Any]) -> None:\n    target = output / role[\"path\"]\n    if role[\"baseline\"][\"exists\"]:\n        backup = Path(role[\"baseline\"][\"backup\"])\n        temporary = target.with_name(target.name + \".record-rollback.tmp\")\n        shutil.copy2(backup, temporary)\n        os.replace(temporary, target)\n    else:\n        target.unlink(missing_ok=True)",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-2fba4771e9d85fbba5cdd592b3a0775e",
-      "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
-      "source_path": "scripts/ckb_core/record_replace.py",
-      "start_line": 629,
-      "end_line": 645,
-      "source_blob": "6d8271c3e75fa4ea19d3c0e67b2a4b2ac911bd03",
-      "source_excerpt": "def _verify_roles(output: Path, roles: list[dict[str, Any]], state_name: str) -> list[dict[str, Any]]:\n    errors: list[dict[str, Any]] = []\n    for role in roles:\n        expected = role[state_name]\n        if role[\"kind\"] == \"file\":\n            actual = _file_state(output / role[\"path\"])\n            if actual[\"exists\"] != expected[\"exists\"] or actual[\"sha256\"] != expected[\"sha256\"]:\n                errors.append({\"role\": role[\"name\"], \"expected\": expected[\"sha256\"], \"actual\": actual[\"sha256\"]})\n        elif role[\"name\"] == \"agent-index-note\":\n            actual_digest = _json_digest(_current_agent(output / role[\"path\"], role[\"selector\"]))\n            if actual_digest != expected[\"sha256\"]:\n                errors.append({\"role\": role[\"name\"], \"expected\": expected[\"sha256\"], \"actual\": actual_digest})\n        else:\n            actual_digest = _json_digest(_current_machine(output / role[\"path\"], role[\"selector\"]))\n            if actual_digest != expected[\"sha256\"]:\n                errors.append({\"role\": role[\"name\"], \"expected\": expected[\"sha256\"], \"actual\": actual_digest})\n    return errors",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-f4df723a7865533ab1307756b418359f",
-      "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
-      "source_path": "scripts/ckb_core/record_replace.py",
-      "start_line": 648,
-      "end_line": 663,
-      "source_blob": "6d8271c3e75fa4ea19d3c0e67b2a4b2ac911bd03",
-      "source_excerpt": "def _candidate_contract(candidate_output: Path, relative: Path) -> dict[str, Any]:\n    human = candidate_output / \"human\" / relative\n    markdown = candidate_output / \"markdown\" / relative\n    records_human = candidate_output / \"human/RECORDS.md\"\n    records_markdown = candidate_output / \"markdown/RECORDS.md\"\n    errors = audit_notes(candidate_output)\n    work_records = audit_work_record_index(candidate_output)\n    if human.read_bytes() != markdown.read_bytes():\n        errors.append({\"reason\": \"candidate-note-mirror-differs\", \"path\": relative.as_posix()})\n    if records_human.read_bytes() != records_markdown.read_bytes():\n        errors.append({\"reason\": \"candidate-record-index-mirror-differs\"})\n    if work_records[\"status\"] != \"passed\":\n        errors.extend(work_records[\"errors\"])\n    if errors:\n        raise CkbError(f\"record replace candidate audit failed: {errors[:10]}\")\n    return {\"status\": \"passed\", \"note_errors\": [], \"work_record_index\": work_records}",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-6df661a4cceb5654a08fae1cc9fa982e",
-      "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
       "source_path": "scripts/ckb_core/record_replace.py",
       "start_line": 666,
       "end_line": 825,
@@ -201,9 +19,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-1daead6a680d587a8de70530463cd9c2",
+      "entity_id": "ent-33e656382d0051968c670d82468d3af0",
       "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
       "source_path": "scripts/ckb_core/record_replace.py",
       "start_line": 828,
       "end_line": 845,
@@ -214,9 +32,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-cd85d5f3c3e45fe3bc0cdbc303392415",
+      "entity_id": "ent-ceb9ed0c69105738a4f61f9185e70425",
       "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
       "source_path": "scripts/ckb_core/record_replace.py",
       "start_line": 848,
       "end_line": 927,
@@ -227,9 +45,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-8a18ca00a289599fb4006116a14b2f51",
+      "entity_id": "ent-8ca049eb2e655140845f66cd4eb0ab1b",
       "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
       "source_path": "scripts/ckb_core/record_replace.py",
       "start_line": 994,
       "end_line": 1010,
@@ -240,9 +58,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-2f181799d4e35640abc2b9a7128dcdb6",
+      "entity_id": "ent-6d455ba4ca085a088554bfebeff3de3c",
       "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
       "source_path": "scripts/ckb_core/record_replace.py",
       "start_line": 1013,
       "end_line": 1155,
@@ -253,9 +71,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-a5dd14eb87f256569a9f13663368c476",
+      "entity_id": "ent-a9991668ed015ee3b9b8b74b3762f27c",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 39,
       "end_line": 40,
@@ -266,9 +84,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-573a1782335f50d1bc73868c0fdf7b3f",
+      "entity_id": "ent-d2da7577235f54bc86a7ff59cc9d78ad",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 43,
       "end_line": 45,
@@ -279,9 +97,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-b66c3ef642595041b21cf303d924d560",
+      "entity_id": "ent-303eb7f2a7fa50419c5c147d3b73cf79",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 48,
       "end_line": 52,
@@ -292,9 +110,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-98e01b2e913659b7b559ee43d77cddf2",
+      "entity_id": "ent-018cb671d97f5bf693d67546eb6af7bb",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 55,
       "end_line": 59,
@@ -305,9 +123,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-6c6cd1d51c5352c198ed80cd27c2c157",
+      "entity_id": "ent-b8e9e8e6fcdc5c3f844764b8133d6926",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 62,
       "end_line": 66,
@@ -318,9 +136,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-6df54420bc8458efb086b1998e3b036f",
+      "entity_id": "ent-739ece8151a550478e620e633147aae5",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 69,
       "end_line": 90,
@@ -331,9 +149,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-e5e8158b6fa55f59bbf66520d87eeeb3",
+      "entity_id": "ent-297e9753e2455440ac9a5533c00676a0",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 93,
       "end_line": 104,
@@ -344,9 +162,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-33863cf5c0cc5709acd39ea4c3398c29",
+      "entity_id": "ent-48c6f6d4dd4a589fa266bae9d8043cba",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 107,
       "end_line": 112,
@@ -357,9 +175,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-fbeb991cc9075582a7d1db420c949013",
+      "entity_id": "ent-17772bb547795474ad8840857669a122",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 115,
       "end_line": 153,
@@ -370,9 +188,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-5bcb9570a11558d297d7e39abb6ffbe7",
+      "entity_id": "ent-f0a62ba125215cd9bd86b908dc6bba1e",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 393,
       "end_line": 402,
@@ -383,9 +201,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-b752348ad48459efba540b2da9d0197f",
+      "entity_id": "ent-cd0e595ac4f25300b5a35ef69b425bb9",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 405,
       "end_line": 411,
@@ -396,9 +214,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-093c8a5a218d580d964f11ce38de96a3",
+      "entity_id": "ent-2511a980d2d05f70924d8dc622156f9e",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 414,
       "end_line": 440,
@@ -409,9 +227,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-b41ede97de5152ceadb5c4630d741e45",
+      "entity_id": "ent-48ebd6b6297c55748d6af46591d80948",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 443,
       "end_line": 470,
@@ -422,9 +240,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-f2ceb3790f6e5f4d9bdc8c4040063ded",
+      "entity_id": "ent-2fc272b91d35588a9015b5ff1b170977",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 473,
       "end_line": 475,
@@ -435,9 +253,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-db1a25e32d4351558dcedc08e75be816",
+      "entity_id": "ent-7d0df4bb852e5340bb446793069569b1",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 478,
       "end_line": 481,
@@ -448,9 +266,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-5b5b3f64eaa95326be3af67177b1ba72",
+      "entity_id": "ent-1b54002d0ed05bbfb3d2b20e8e57821f",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 484,
       "end_line": 524,
@@ -461,14 +279,66 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-06816205f185581897729cb82ebabd1d",
+      "entity_id": "ent-b955e2cdb88b522780b0fb6b0c6bfdc3",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 527,
       "end_line": 531,
       "source_blob": "cf6e0a068c33dfb6ea3b3dcbc3a7bc2f43ce28ec",
       "source_excerpt": "def _active_reviewed(manifests: list[dict[str, Any]]) -> list[dict[str, Any]]:\n    return sorted(\n        [item for item in manifests if item.get(\"status\") == \"agent-reviewed\"],\n        key=lambda item: (str(item[\"title\"]).casefold(), str(item[\"reference_id\"])),\n    )",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-ef979cccc3505d25b5f03b96924f5ee6",
+      "classification": "appendix",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
+      "source_path": "scripts/ckb_core/reference_documents.py",
+      "start_line": 534,
+      "end_line": 613,
+      "source_blob": "cf6e0a068c33dfb6ea3b3dcbc3a7bc2f43ce28ec",
+      "source_excerpt": "def project_references(output: Path) -> dict[str, Any]:\n    output = _validate_output(output)\n    root = _root(output)\n    manifests = _manifests(output)\n    active = _active_reviewed(manifests)\n    previous_path = root / \"projection.json\"\n    previous = json_load(previous_path) if previous_path.is_file() else {\"files\": []}\n    for vault_name in (\"human\", \"markdown\"):\n        vault = output / vault_name\n        for relative in previous.get(\"files\", []):\n            path = vault / str(relative)\n            if path.is_file():\n                path.unlink()\n        (vault / \"references\").mkdir(parents=True, exist_ok=True)\n    pages: list[dict[str, Any]] = []\n    seen_titles: set[str] = set()\n    for manifest in active:\n        title = str(manifest[\"title\"])\n        if title.casefold() in seen_titles:\n            raise CkbError(f\"active reference titles must be unique: {title}\")\n        seen_titles.add(title.casefold())\n        review = json_load(Path(str(manifest[\"review_file\"])))\n        _validate_review(output, manifest, review)\n        filename = safe_title(title) + \".md\"\n        relative = Path(\"references\") / filename\n        text = _render_reference_page(manifest, review)\n        for vault_name in (\"human\", \"markdown\"):\n            target = output / vault_name / relative\n            target.write_text(text, encoding=\"utf-8\", newline=\"\\n\")\n        manifest[\"human_file\"] = relative.as_posix()\n        json_write(root / \"manifests\" / f\"{manifest['reference_id']}.json\", manifest)\n        pages.append(\n            {\n                \"reference_id\": manifest[\"reference_id\"],\n                \"title\": title,\n                \"file\": relative.as_posix(),\n                \"summary_zh\": str(review[\"summary_zh\"]).strip(),\n                \"revision\": manifest[\"revision\"],\n            }\n        )\n    index_lines = [\n        \"# 参考资料导览\",\n        \"\",\n        \"标签：#类型/导览\",\n        \"\",\n        \"> 这里汇总经过来源、许可和逐项引用审阅的外部资料；参考资料不会被当作代码来源实体。\",\n        \"\",\n    ]\n    if pages:\n        index_lines.extend([\"## 已审阅资料\", \"\"])\n        for page in pages:\n            summary = re.split(r\"(?<=[。！？])\", page[\"summary_zh\"], maxsplit=1)[0].strip()\n            index_lines.append(f\"- [[{page['title']}]] — {summary}\")\n    index_text = \"\\n\".join(index_lines).rstrip() + \"\\n\"\n    for vault_name in (\"human\", \"markdown\"):\n        target = output / vault_name / REFERENCE_INDEX\n        if pages:\n            target.write_text(index_text, encoding=\"utf-8\", newline=\"\\n\")\n        else:\n            target.unlink(missing_ok=True)\n    files = [REFERENCE_INDEX, *[page[\"file\"] for page in pages]] if pages else []\n    projection = {\n        \"schema_version\": 1,\n        \"status\": \"ready\",\n        \"page_count\": len(pages),\n        \"page_limit_per_source\": 1,\n        \"pages\": pages,\n        \"files\": files,\n        \"projected_at_utc\": utc_now(),\n    }\n    json_write(previous_path, projection)\n    from .pipeline import refresh_human_navigation\n\n    refresh_human_navigation(output)\n    from .agent_index import build_agent_index\n    from .machine_knowledge import build_machine_knowledge\n\n    build_machine_knowledge(output)\n    build_agent_index(output)\n    return projection",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-116bc8bf1d525a439c0f28537cc7fd3d",
+      "classification": "appendix",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
+      "source_path": "scripts/ckb_core/reference_documents.py",
+      "start_line": 616,
+      "end_line": 647,
+      "source_blob": "cf6e0a068c33dfb6ea3b3dcbc3a7bc2f43ce28ec",
+      "source_excerpt": "def submit_reference_review(output: Path, review_path: Path) -> dict[str, Any]:\n    output = _validate_output(output)\n    review = json_load(review_path.resolve())\n    reference_id = str(review.get(\"reference_id\") or \"\")\n    manifest_path, manifest = _manifest(output, reference_id)\n    _validate_review(output, manifest, review)\n    target = _root(output) / \"reviews\" / f\"{reference_id}.json\"\n    json_write(target, review)\n    manifest[\"status\"] = \"agent-reviewed\"\n    manifest[\"review_file\"] = str(target.resolve())\n    manifest[\"reviewed_at_utc\"] = utc_now()\n    json_write(manifest_path, manifest)\n    if manifest.get(\"supersedes\"):\n        previous_path, previous = _manifest(output, str(manifest[\"supersedes\"]))\n        previous[\"status\"] = \"superseded\"\n        previous[\"superseded_by\"] = reference_id\n        json_write(previous_path, previous)\n    projection = project_references(output)\n    _projected_path, projected_manifest = _manifest(output, reference_id)\n    audit = audit_references(output)\n    if audit[\"status\"] != \"passed\":\n        raise CkbError(f\"reference audit failed after review: {audit['errors'][:10]}\")\n    _set_marker(output, \"passed\", {\"reference_ids\": [item[\"reference_id\"] for item in _active_reviewed(_manifests(output))], \"audit\": str((_root(output) / \"audit.json\").resolve())})\n    return {\n        \"schema_version\": REFERENCE_SCHEMA_VERSION,\n        \"status\": \"agent-reviewed\",\n        \"reference_id\": reference_id,\n        \"human_file\": str((output / \"human\" / str(projected_manifest[\"human_file\"])).resolve()),\n        \"compatibility_file\": str((output / \"markdown\" / str(projected_manifest[\"human_file\"])).resolve()),\n        \"projection\": projection,\n        \"audit\": audit,\n    }",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-19fc6093f99e5d6d991642ee5a52d767",
+      "classification": "appendix",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
+      "source_path": "scripts/ckb_core/reference_documents.py",
+      "start_line": 650,
+      "end_line": 696,
+      "source_blob": "cf6e0a068c33dfb6ea3b3dcbc3a7bc2f43ce28ec",
+      "source_excerpt": "def reference_machine_records(output: Path) -> dict[str, Any]:\n    manifests = _manifests(output)\n    sources = [dict(item) for item in manifests]\n    documents: list[dict[str, Any]] = []\n    for manifest in _active_reviewed(manifests):\n        review_path = Path(str(manifest.get(\"review_file\") or \"\"))\n        human_relative = str(manifest.get(\"human_file\") or \"\")\n        human_path = output / \"human\" / human_relative\n        if not review_path.is_file() or not human_path.is_file():\n            continue\n        review = json_load(review_path)\n        if manifest.get(\"source_type\") == \"pdf\":\n            extraction, extraction_errors = validate_pdf_extraction(output, manifest, require_ready=True)\n            if extraction_errors or extraction is None:\n                continue\n            sections = []\n            for page in extraction[\"pages\"]:\n                for fragment in page[\"fragments\"]:\n                    sections.append(\n                        {\n                            \"heading\": f\"原文第 {page['page_number']} 页 · {fragment['structure']}\",\n                            \"content\": fragment[\"text\"],\n                            \"start_line\": page[\"page_number\"],\n                            \"end_line\": page[\"page_number\"],\n                            \"page_number\": page[\"page_number\"],\n                            \"fragment_id\": fragment[\"fragment_id\"],\n                        }\n                    )\n        else:\n            lines = _source_lines(manifest)\n            sections = _reference_sections(lines, manifest[\"source_type\"])\n        documents.append(\n            {\n                \"document_id\": f\"reference:{manifest['reference_id']}\",\n                \"reference_id\": manifest[\"reference_id\"],\n                \"kind\": \"reference\",\n                \"title\": manifest[\"title\"],\n                \"tag\": REFERENCE_TAG,\n                \"human_file\": human_relative,\n                \"content\": human_path.read_text(encoding=\"utf-8\"),\n                \"links\": re.findall(r\"\\[\\[([^\\]|#]+)\", human_path.read_text(encoding=\"utf-8\")),\n                \"sections\": sections,\n                \"raw_file\": manifest[\"source_file\"],\n                \"summary_zh\": review[\"summary_zh\"],\n            }\n        )\n    return {\"sources\": sources, \"documents\": documents}",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-ba81ba8602e15761ae0bbfca411192c1",
+      "classification": "appendix",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
+      "source_path": "scripts/ckb_core/reference_documents.py",
+      "start_line": 699,
+      "end_line": 723,
+      "source_blob": "cf6e0a068c33dfb6ea3b3dcbc3a7bc2f43ce28ec",
+      "source_excerpt": "def _reference_sections(lines: list[str], source_type: str) -> list[dict[str, Any]]:\n    if source_type == \"text\":\n        result = []\n        for start in range(0, len(lines), 80):\n            content = \"\\n\".join(lines[start : start + 80]).strip()\n            if content:\n                result.append({\"heading\": f\"原文 {start + 1}–{min(len(lines), start + 80)} 行\", \"content\": content, \"start_line\": start + 1, \"end_line\": min(len(lines), start + 80)})\n        return result\n    headings: list[tuple[int, str]] = []\n    in_fence = False\n    for index, line in enumerate(lines, start=1):\n        if line.lstrip().startswith((\"```\", \"~~~\")):\n            in_fence = not in_fence\n        match = None if in_fence else re.match(r\"^#{1,6}\\s+(.+?)\\s*$\", line)\n        if match:\n            headings.append((index, match.group(1).strip()))\n    if not headings:\n        return _reference_sections(lines, \"text\")\n    result = []\n    for position, (start, heading) in enumerate(headings):\n        end = headings[position + 1][0] - 1 if position + 1 < len(headings) else len(lines)\n        content = \"\\n\".join(lines[start - 1 : end]).strip()\n        if content:\n            result.append({\"heading\": heading, \"content\": content, \"start_line\": start, \"end_line\": end})\n    return result",
       "status": "draft",
       "evidence_note": "",
       "description_zh": ""

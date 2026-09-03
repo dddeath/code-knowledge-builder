@@ -3,12 +3,199 @@
   "pack_id": "migrated-appendix-review-pack-0014",
   "kind": "appendix-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T22:45:37Z",
+  "reviewed_at_utc": "2026-09-03T01:38:57Z",
   "reviews": [
     {
-      "entity_id": "ent-49712f3c5589552492255e3527fd0876",
+      "entity_id": "ent-4af97832e91056c2951eba96d46181f4",
       "classification": "appendix",
-      "owner_page_id": "file-ad6befbe3aef5ba894bf3d059f8b0149",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
+      "source_path": "scripts/ckb_core/human_page_templates.py",
+      "start_line": 1045,
+      "end_line": 1441,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 c533dd7c5322 中 `scripts/ckb_core/human_page_templates.py` 第 1045 至 1441 行，摘录属于 Git blob efddba7938e6。",
+      "description_zh": "`validate_human_page` 校验人类页面模板校验所需的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-160312aecc665cb8ad8c846fd33d9eee",
+      "classification": "appendix",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
+      "source_path": "scripts/ckb_core/human_page_templates.py",
+      "start_line": 1443,
+      "end_line": 1452,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 1443-1452 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
+      "description_zh": "`_load_context` 用于读取、定位并返回现有状态。"
+    },
+    {
+      "entity_id": "ent-b7ec626933615c6c91d5561e8bdc7531",
+      "classification": "appendix",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
+      "source_path": "scripts/ckb_core/human_page_templates.py",
+      "start_line": 1455,
+      "end_line": 1471,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 1455-1471 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
+      "description_zh": "`_parser` 用于解析结构化输入并形成规范表示。"
+    },
+    {
+      "entity_id": "ent-35b74785b8615fcebeacddbd7d0267fd",
+      "classification": "appendix",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
+      "source_path": "scripts/ckb_core/human_page_templates.py",
+      "start_line": 1474,
+      "end_line": 1519,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 1474-1519 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
+      "description_zh": "`main` 用于根据已解析子命令调用对应 CKB 能力并返回稳定退出状态。"
+    },
+    {
+      "entity_id": "ent-2805725c70655cb8b97ca529276239b9",
+      "classification": "appendix",
+      "owner_page_id": "file-d33ed5d3f6885c16adbefc3b20eabe70",
+      "source_path": "scripts/ckb_core/keyword_benchmark.py",
+      "start_line": 26,
+      "end_line": 31,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_benchmark.py` 第 26-31 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_text_list` 是第 26-31 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-c2b6cf97e1fa5e5e96f754913f2f5fb8",
+      "classification": "appendix",
+      "owner_page_id": "file-d33ed5d3f6885c16adbefc3b20eabe70",
+      "source_path": "scripts/ckb_core/keyword_benchmark.py",
+      "start_line": 34,
+      "end_line": 78,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_benchmark.py` 第 34-78 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`load_keyword_benchmark` 是第 34-78 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-f194b98ccf6450deaa77998d0e7f401c",
+      "classification": "appendix",
+      "owner_page_id": "file-d33ed5d3f6885c16adbefc3b20eabe70",
+      "source_path": "scripts/ckb_core/keyword_benchmark.py",
+      "start_line": 81,
+      "end_line": 108,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_benchmark.py` 第 81-108 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_location` 是第 81-108 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-a07a8904c9f759e2af1dcaa5ce2480c8",
+      "classification": "appendix",
+      "owner_page_id": "file-d33ed5d3f6885c16adbefc3b20eabe70",
+      "source_path": "scripts/ckb_core/keyword_benchmark.py",
+      "start_line": 111,
+      "end_line": 126,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_benchmark.py` 第 111-126 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_timed_retrieval` 是第 111-126 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-7b8c314a02d553c7af67678f842b2378",
+      "classification": "appendix",
+      "owner_page_id": "file-d33ed5d3f6885c16adbefc3b20eabe70",
+      "source_path": "scripts/ckb_core/keyword_benchmark.py",
+      "start_line": 129,
+      "end_line": 136,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_benchmark.py` 第 129-136 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_restore_cache` 是第 129-136 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-f75423a44a185ce3bb9c129625c533b3",
+      "classification": "appendix",
+      "owner_page_id": "file-e31c2a1d30d0502a9619b08ae24254c4",
+      "source_path": "scripts/ckb_core/keyword_fallback.py",
+      "start_line": 81,
+      "end_line": 90,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_fallback.py` 第 81-90 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`KeywordProviderConfig` 是第 81-90 行的类，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-ba66dcb5895c5e1e942ac4a2c470b02e",
+      "classification": "appendix",
+      "owner_page_id": "file-e31c2a1d30d0502a9619b08ae24254c4",
+      "source_path": "scripts/ckb_core/keyword_fallback.py",
+      "start_line": 94,
+      "end_line": 99,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_fallback.py` 第 94-99 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`KeywordFallbackOptions` 是第 94-99 行的类，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-9b5d3a063b71587bbab7192147998716",
+      "classification": "appendix",
+      "owner_page_id": "file-e31c2a1d30d0502a9619b08ae24254c4",
+      "source_path": "scripts/ckb_core/keyword_fallback.py",
+      "start_line": 102,
+      "end_line": 103,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_fallback.py` 第 102-103 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`keyword_input_hash` 是第 102-103 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-d89c2edb0fd75dc081d55bc7f80380d7",
+      "classification": "appendix",
+      "owner_page_id": "file-e31c2a1d30d0502a9619b08ae24254c4",
+      "source_path": "scripts/ckb_core/keyword_fallback.py",
+      "start_line": 106,
+      "end_line": 107,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_fallback.py` 第 106-107 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`keyword_request_id` 是第 106-107 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-1563c34172fe567b80719d14a2db3db2",
+      "classification": "appendix",
+      "owner_page_id": "file-e31c2a1d30d0502a9619b08ae24254c4",
+      "source_path": "scripts/ckb_core/keyword_fallback.py",
+      "start_line": 110,
+      "end_line": 120,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_fallback.py` 第 110-120 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`keyword_cache_key` 是第 110-120 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-a746616894bb5f058b15cce52a1f9f64",
+      "classification": "appendix",
+      "owner_page_id": "file-e31c2a1d30d0502a9619b08ae24254c4",
+      "source_path": "scripts/ckb_core/keyword_fallback.py",
+      "start_line": 123,
+      "end_line": 140,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_fallback.py` 第 123-140 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`canonical_keyword_req...` 是第 123-140 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-1c1af357dca951da94bb0a328461e7b2",
+      "classification": "appendix",
+      "owner_page_id": "file-e31c2a1d30d0502a9619b08ae24254c4",
+      "source_path": "scripts/ckb_core/keyword_fallback.py",
+      "start_line": 143,
+      "end_line": 146,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_fallback.py` 第 143-146 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_machine_token` 是第 143-146 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-2a746eaf50035ae284eae76d3b1b7608",
+      "classification": "appendix",
+      "owner_page_id": "file-e31c2a1d30d0502a9619b08ae24254c4",
+      "source_path": "scripts/ckb_core/keyword_fallback.py",
+      "start_line": 149,
+      "end_line": 161,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_fallback.py` 第 149-161 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`validate_provider_config` 是第 149-161 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-0a31be755388508d82da296e64f3d742",
+      "classification": "appendix",
+      "owner_page_id": "file-e31c2a1d30d0502a9619b08ae24254c4",
       "source_path": "scripts/ckb_core/keyword_fallback.py",
       "start_line": 164,
       "end_line": 193,
@@ -17,9 +204,9 @@
       "description_zh": "`_bounded_strings` 是第 164-193 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-db1ff65b3b945ebab0aed5a3cce9fc64",
+      "entity_id": "ent-a80654d2a72f59cfbd8dfd769ec33c6b",
       "classification": "appendix",
-      "owner_page_id": "file-ad6befbe3aef5ba894bf3d059f8b0149",
+      "owner_page_id": "file-e31c2a1d30d0502a9619b08ae24254c4",
       "source_path": "scripts/ckb_core/keyword_fallback.py",
       "start_line": 196,
       "end_line": 216,
@@ -28,9 +215,9 @@
       "description_zh": "`_usage` 是第 196-216 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-d6018b81d46a5df6ae3c7471a1618cb9",
+      "entity_id": "ent-bb68f5754283578bae92fb6b450afc88",
       "classification": "appendix",
-      "owner_page_id": "file-ad6befbe3aef5ba894bf3d059f8b0149",
+      "owner_page_id": "file-e31c2a1d30d0502a9619b08ae24254c4",
       "source_path": "scripts/ckb_core/keyword_fallback.py",
       "start_line": 219,
       "end_line": 300,
@@ -39,9 +226,9 @@
       "description_zh": "`validate_provider_res...` 是第 219-300 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-5bae3d90293f5fa7acc3171862ffea16",
+      "entity_id": "ent-2e9c7856d27d56829e11223d22ed1598",
       "classification": "appendix",
-      "owner_page_id": "file-ad6befbe3aef5ba894bf3d059f8b0149",
+      "owner_page_id": "file-e31c2a1d30d0502a9619b08ae24254c4",
       "source_path": "scripts/ckb_core/keyword_fallback.py",
       "start_line": 303,
       "end_line": 307,
@@ -50,9 +237,9 @@
       "description_zh": "`parse_provider_json` 是第 303-307 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-1dc4640c26b55a1f9b0ff39e16d98af5",
+      "entity_id": "ent-f5a0b1cc85455abc82c8d677688298b0",
       "classification": "appendix",
-      "owner_page_id": "file-ad6befbe3aef5ba894bf3d059f8b0149",
+      "owner_page_id": "file-e31c2a1d30d0502a9619b08ae24254c4",
       "source_path": "scripts/ckb_core/keyword_fallback.py",
       "start_line": 310,
       "end_line": 323,
@@ -61,9 +248,9 @@
       "description_zh": "`_failure` 是第 310-323 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-22929e4e4411591ea2843d666308eeba",
+      "entity_id": "ent-08f738f2e7775125932684890cc9efed",
       "classification": "appendix",
-      "owner_page_id": "file-ad6befbe3aef5ba894bf3d059f8b0149",
+      "owner_page_id": "file-e31c2a1d30d0502a9619b08ae24254c4",
       "source_path": "scripts/ckb_core/keyword_fallback.py",
       "start_line": 326,
       "end_line": 327,
@@ -72,9 +259,9 @@
       "description_zh": "`keyword_cache_path` 是第 326-327 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-f9c82ee80dd350d99b253af5557d476b",
+      "entity_id": "ent-ccb52a574e915834bfebb47ce0863d48",
       "classification": "appendix",
-      "owner_page_id": "file-ad6befbe3aef5ba894bf3d059f8b0149",
+      "owner_page_id": "file-e31c2a1d30d0502a9619b08ae24254c4",
       "source_path": "scripts/ckb_core/keyword_fallback.py",
       "start_line": 330,
       "end_line": 331,
@@ -83,9 +270,9 @@
       "description_zh": "`_cache_path` 是第 330-331 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-979ca06493d15b6d94fd84de77895a7d",
+      "entity_id": "ent-0d99032f425d58bda9587787089b6f88",
       "classification": "appendix",
-      "owner_page_id": "file-ad6befbe3aef5ba894bf3d059f8b0149",
+      "owner_page_id": "file-e31c2a1d30d0502a9619b08ae24254c4",
       "source_path": "scripts/ckb_core/keyword_fallback.py",
       "start_line": 334,
       "end_line": 346,
@@ -94,9 +281,9 @@
       "description_zh": "`_cache_record` 是第 334-346 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-cdbb868870b75feb85c962b3b228ff11",
+      "entity_id": "ent-1d806d7e0f7450e7a595c057f91b8cbe",
       "classification": "appendix",
-      "owner_page_id": "file-ad6befbe3aef5ba894bf3d059f8b0149",
+      "owner_page_id": "file-e31c2a1d30d0502a9619b08ae24254c4",
       "source_path": "scripts/ckb_core/keyword_fallback.py",
       "start_line": 349,
       "end_line": 366,
@@ -105,9 +292,9 @@
       "description_zh": "`_read_cache` 是第 349-366 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-6a88e7f42e6a5c88a4ff83dd025d2dcb",
+      "entity_id": "ent-15b24872a0205c4b981b38835bd20d8f",
       "classification": "appendix",
-      "owner_page_id": "file-ad6befbe3aef5ba894bf3d059f8b0149",
+      "owner_page_id": "file-e31c2a1d30d0502a9619b08ae24254c4",
       "source_path": "scripts/ckb_core/keyword_fallback.py",
       "start_line": 369,
       "end_line": 373,
@@ -116,9 +303,9 @@
       "description_zh": "`_write_cache` 是第 369-373 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-ce599722ca8350ef9d6bfd9720e5cdca",
+      "entity_id": "ent-88d5937f071f58c9afc73afbfb326eea",
       "classification": "appendix",
-      "owner_page_id": "file-ad6befbe3aef5ba894bf3d059f8b0149",
+      "owner_page_id": "file-e31c2a1d30d0502a9619b08ae24254c4",
       "source_path": "scripts/ckb_core/keyword_fallback.py",
       "start_line": 376,
       "end_line": 377,
@@ -127,9 +314,9 @@
       "description_zh": "`_transient` 是第 376-377 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-5e80e619d16552b7bf4e05670324413f",
+      "entity_id": "ent-4dfa34cdf51a5327976c93534627b61c",
       "classification": "appendix",
-      "owner_page_id": "file-ad6befbe3aef5ba894bf3d059f8b0149",
+      "owner_page_id": "file-e31c2a1d30d0502a9619b08ae24254c4",
       "source_path": "scripts/ckb_core/keyword_fallback.py",
       "start_line": 464,
       "end_line": 507,
@@ -138,345 +325,15 @@
       "description_zh": "`audit_keyword_cache` 是第 464-507 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-de8fe753df8b5640aaf12240988c77f3",
+      "entity_id": "ent-29a8c4016bc05a7a98242b237c89f456",
       "classification": "appendix",
-      "owner_page_id": "file-ad6befbe3aef5ba894bf3d059f8b0149",
+      "owner_page_id": "file-e31c2a1d30d0502a9619b08ae24254c4",
       "source_path": "scripts/ckb_core/keyword_fallback.py",
       "start_line": 510,
       "end_line": 549,
       "status": "agent-reviewed",
       "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_fallback.py` 第 510-549 行的源码摘录，文件、符号与行范围一致。",
       "description_zh": "`write_keyword_fallbac...` 是第 510-549 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-be4e92d9507c5be89efabd64a2fc0dfe",
-      "classification": "appendix",
-      "owner_page_id": "file-ad6befbe3aef5ba894bf3d059f8b0149",
-      "source_path": "scripts/ckb_core/keyword_fallback.py",
-      "start_line": 552,
-      "end_line": 620,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_fallback.py` 第 552-620 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`audit_keyword_fallback` 是第 552-620 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-2b4de8b22d4152c48992302e35c3780c",
-      "classification": "appendix",
-      "owner_page_id": "file-ad6befbe3aef5ba894bf3d059f8b0149",
-      "source_path": "scripts/ckb_core/keyword_fallback.py",
-      "start_line": 623,
-      "end_line": 632,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_fallback.py` 第 623-632 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`unique_casefold` 是第 623-632 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-51f988fc596353d6a042502dfba744fd",
-      "classification": "appendix",
-      "owner_page_id": "file-207db2b062085b65b588d3a36b550aff",
-      "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
-      "start_line": 113,
-      "end_line": 121,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/knowledge_batch_migration.py` 第 113-121 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`KnowledgeRelease` 是第 113-121 行的类，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-f1509040e61750a49731017b8635d07b",
-      "classification": "appendix",
-      "owner_page_id": "file-207db2b062085b65b588d3a36b550aff",
-      "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
-      "start_line": 191,
-      "end_line": 192,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/knowledge_batch_migration.py` 第 191-192 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_canonical_bytes` 是第 191-192 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-4d7480b234855aac8a6327fd87b8e827",
-      "classification": "appendix",
-      "owner_page_id": "file-207db2b062085b65b588d3a36b550aff",
-      "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
-      "start_line": 195,
-      "end_line": 196,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/knowledge_batch_migration.py` 第 195-196 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_digest_value` 是第 195-196 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-d7f53995b1d352d3a81ded7a2d38cb91",
-      "classification": "appendix",
-      "owner_page_id": "file-207db2b062085b65b588d3a36b550aff",
-      "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
-      "start_line": 199,
-      "end_line": 202,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/knowledge_batch_migration.py` 第 199-202 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_reject_unknown` 是第 199-202 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-abae322469ea5955ac4a59b99c6fb457",
-      "classification": "appendix",
-      "owner_page_id": "file-207db2b062085b65b588d3a36b550aff",
-      "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
-      "start_line": 205,
-      "end_line": 208,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/knowledge_batch_migration.py` 第 205-208 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_object` 是第 205-208 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-e8666d9badb750749b11f34ede393c4d",
-      "classification": "appendix",
-      "owner_page_id": "file-207db2b062085b65b588d3a36b550aff",
-      "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
-      "start_line": 211,
-      "end_line": 217,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/knowledge_batch_migration.py` 第 211-217 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_absolute` 是第 211-217 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-2a22c8d11cb851f28cd6b8b65b3fe03a",
-      "classification": "appendix",
-      "owner_page_id": "file-207db2b062085b65b588d3a36b550aff",
-      "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
-      "start_line": 220,
-      "end_line": 221,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/knowledge_batch_migration.py` 第 220-221 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_within_any` 是第 220-221 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-22ad3b46b11753a2a092c73a0e74b366",
-      "classification": "appendix",
-      "owner_page_id": "file-207db2b062085b65b588d3a36b550aff",
-      "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
-      "start_line": 224,
-      "end_line": 227,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/knowledge_batch_migration.py` 第 224-227 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_normalized_protocol` 是第 224-227 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-da431b4679b55a6aa1478ddf17172647",
-      "classification": "appendix",
-      "owner_page_id": "file-207db2b062085b65b588d3a36b550aff",
-      "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
-      "start_line": 230,
-      "end_line": 240,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/knowledge_batch_migration.py` 第 230-240 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_release_for` 是第 230-240 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-ca5867f1ef1857909063132dc52dd878",
-      "classification": "appendix",
-      "owner_page_id": "file-207db2b062085b65b588d3a36b550aff",
-      "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
-      "start_line": 243,
-      "end_line": 252,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/knowledge_batch_migration.py` 第 243-252 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_release_chain` 是第 243-252 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-5157c96bd7a45b64be9e8da6d9a86274",
-      "classification": "appendix",
-      "owner_page_id": "file-207db2b062085b65b588d3a36b550aff",
-      "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
-      "start_line": 255,
-      "end_line": 287,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/knowledge_batch_migration.py` 第 255-287 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`knowledge_version_matrix` 是第 255-287 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-7855dd5841125488a9290ee2f812f75c",
-      "classification": "appendix",
-      "owner_page_id": "file-207db2b062085b65b588d3a36b550aff",
-      "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
-      "start_line": 290,
-      "end_line": 302,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/knowledge_batch_migration.py` 第 290-302 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_validate_version` 是第 290-302 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-0cf58cea3dd752db8a48eb938ffb5013",
-      "classification": "appendix",
-      "owner_page_id": "file-207db2b062085b65b588d3a36b550aff",
-      "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
-      "start_line": 305,
-      "end_line": 311,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/knowledge_batch_migration.py` 第 305-311 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_validate_snapshot` 是第 305-311 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-8bdb86202e6b57318253abf7c7e820dd",
-      "classification": "appendix",
-      "owner_page_id": "file-207db2b062085b65b588d3a36b550aff",
-      "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
-      "start_line": 314,
-      "end_line": 324,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/knowledge_batch_migration.py` 第 314-324 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_validate_tree_summary` 是第 314-324 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-63c48f6d9a35521c978b48b864a6a83c",
-      "classification": "appendix",
-      "owner_page_id": "file-207db2b062085b65b588d3a36b550aff",
-      "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
-      "start_line": 327,
-      "end_line": 373,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/knowledge_batch_migration.py` 第 327-373 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_validate_structural_...` 是第 327-373 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-6688ff892baf589dade9c6d8edbe0149",
-      "classification": "appendix",
-      "owner_page_id": "file-207db2b062085b65b588d3a36b550aff",
-      "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
-      "start_line": 376,
-      "end_line": 384,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/knowledge_batch_migration.py` 第 376-384 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`load_knowledge_batch_...` 是第 376-384 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-12d58e35764456eeac1315fb65a1cef1",
-      "classification": "appendix",
-      "owner_page_id": "file-207db2b062085b65b588d3a36b550aff",
-      "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
-      "start_line": 387,
-      "end_line": 394,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/knowledge_batch_migration.py` 第 387-394 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_file_record` 是第 387-394 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-e25dbc93703e5dd1b403fbac7e742857",
-      "classification": "appendix",
-      "owner_page_id": "file-207db2b062085b65b588d3a36b550aff",
-      "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
-      "start_line": 397,
-      "end_line": 491,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/knowledge_batch_migration.py` 第 397-491 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_origin_health` 是第 397-491 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-98ea8c3bce585d22b9bf2ca687df4fdb",
-      "classification": "appendix",
-      "owner_page_id": "file-207db2b062085b65b588d3a36b550aff",
-      "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
-      "start_line": 400,
-      "end_line": 401,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/knowledge_batch_migration.py` 第 400-401 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_origin_health.check` 是第 400-401 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-b5392fa297d45f23b28dd04a6a3846e8",
-      "classification": "appendix",
-      "owner_page_id": "file-207db2b062085b65b588d3a36b550aff",
-      "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
-      "start_line": 494,
-      "end_line": 523,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/knowledge_batch_migration.py` 第 494-523 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_complete_layer_inven...` 是第 494-523 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-9f97a775e83f5f7393cd1a0aa9ccf04e",
-      "classification": "appendix",
-      "owner_page_id": "file-207db2b062085b65b588d3a36b550aff",
-      "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
-      "start_line": 526,
-      "end_line": 542,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/knowledge_batch_migration.py` 第 526-542 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_sqlite_schema_versions` 是第 526-542 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-b4010c608a5156c28e68b60cf393152f",
-      "classification": "appendix",
-      "owner_page_id": "file-207db2b062085b65b588d3a36b550aff",
-      "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
-      "start_line": 545,
-      "end_line": 561,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/knowledge_batch_migration.py` 第 545-561 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_normalized_scope` 是第 545-561 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-34e1eaacef0b585fa9e0494f1e80713b",
-      "classification": "appendix",
-      "owner_page_id": "file-207db2b062085b65b588d3a36b550aff",
-      "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
-      "start_line": 564,
-      "end_line": 569,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/knowledge_batch_migration.py` 第 564-569 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_path_risks` 是第 564-569 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-18e6c0cc946a5be5b26faee3ed826ed1",
-      "classification": "appendix",
-      "owner_page_id": "file-207db2b062085b65b588d3a36b550aff",
-      "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
-      "start_line": 572,
-      "end_line": 573,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/knowledge_batch_migration.py` 第 572-573 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_operation_token` 是第 572-573 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-db88c2dcd25c5741a1ba6d1071af0bc1",
-      "classification": "appendix",
-      "owner_page_id": "file-207db2b062085b65b588d3a36b550aff",
-      "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
-      "start_line": 576,
-      "end_line": 586,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/knowledge_batch_migration.py` 第 576-586 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_project_operation_id` 是第 576-586 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-b9766ecb6eac5b5e9738e1d77341257f",
-      "classification": "appendix",
-      "owner_page_id": "file-207db2b062085b65b588d3a36b550aff",
-      "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
-      "start_line": 589,
-      "end_line": 590,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/knowledge_batch_migration.py` 第 589-590 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_paths_overlap` 是第 589-590 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-8d514d6d75a15c91a9906d35901c9b72",
-      "classification": "appendix",
-      "owner_page_id": "file-207db2b062085b65b588d3a36b550aff",
-      "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
-      "start_line": 593,
-      "end_line": 634,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/knowledge_batch_migration.py` 第 593-634 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_validate_recovery_to...` 是第 593-634 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-356115445a0057ada0fae9dbd58f5c96",
-      "classification": "appendix",
-      "owner_page_id": "file-207db2b062085b65b588d3a36b550aff",
-      "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
-      "start_line": 637,
-      "end_line": 660,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/knowledge_batch_migration.py` 第 637-660 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_validate_origin_reco...` 是第 637-660 行的函数，供所属页面定位实现。"
     }
   ]
 }

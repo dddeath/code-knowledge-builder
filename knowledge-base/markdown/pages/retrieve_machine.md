@@ -24,7 +24,7 @@
 - [[KeywordFallbackRetrievalWiringTests]] 会使用这里提供的行为。
 - [[KeywordFallbackRetrievalWiringTests 等测试场景]] 会使用这里提供的行为。
 - [[MigrationTest]] 会使用这里提供的行为。
-- [[benchmark 的协作边界（prototypes）]] 会使用这里提供的行为。
+- [[benchmark 的协作边界（9fab5b96）]] 会使用这里提供的行为。
 - [[bind_conversation 与 default_management_registry_path 的协作实现]] 会使用这里提供的行为。
 - [[command 等测试场景]] 会使用这里提供的行为。
 - [[retrieve_machine 与 estimated_tokens 的协作实现]] 汇总了本页。

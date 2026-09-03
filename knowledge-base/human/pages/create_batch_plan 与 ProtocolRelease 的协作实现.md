@@ -24,7 +24,7 @@
 - 实现时会用到 [[audit_output_contract 与 _default_ckb 的协作实现]]。
 - 实现时会用到 [[ckb_canvas 的协作边界]]。
 - 实现时会用到 [[command]]。
-- 实现时会用到 [[contracts 的协作边界（2ef5688e）]]。
+- 实现时会用到 [[contracts 的协作边界（36093e4a）]]。
 - 主要代码单元是 [[create_batch_plan]]。
 - 实现时会用到 [[ingest]]。
 - 实现时会用到 [[register_obsidian_plugin 与 default_obsidian_plugin_registry 的协作实现]]。

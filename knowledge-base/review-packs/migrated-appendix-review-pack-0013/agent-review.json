@@ -3,12 +3,12 @@
   "pack_id": "migrated-appendix-review-pack-0013",
   "kind": "appendix-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T22:45:36Z",
+  "reviewed_at_utc": "2026-09-03T01:38:56Z",
   "reviews": [
     {
-      "entity_id": "ent-b1df8050e59554d084016e180af38ee1",
+      "entity_id": "ent-113e9d3ec6325b4e98cfae317275d483",
       "classification": "appendix",
-      "owner_page_id": "file-23ab4e22c770538fbed7b95a6d62c35c",
+      "owner_page_id": "file-4b22509e15cf50228842138a30204288",
       "source_path": "scripts/ckb_core/human_page_template_proposals.py",
       "start_line": 1243,
       "end_line": 1360,
@@ -17,9 +17,9 @@
       "description_zh": "`audit_template_proposal` 用于汇总并判断受控对象是否满足当前合同。"
     },
     {
-      "entity_id": "ent-34a35993050a5bd082f83b707b3d1ce1",
+      "entity_id": "ent-997be9ea5b4d5d4d894268b26f993771",
       "classification": "appendix",
-      "owner_page_id": "file-23ab4e22c770538fbed7b95a6d62c35c",
+      "owner_page_id": "file-4b22509e15cf50228842138a30204288",
       "source_path": "scripts/ckb_core/human_page_template_proposals.py",
       "start_line": 1363,
       "end_line": 1451,
@@ -28,9 +28,9 @@
       "description_zh": "`rollback_template_extension` 用于执行范围受控的恢复或撤销。"
     },
     {
-      "entity_id": "ent-ed15ca62dc2c59efbeee87fde1a6858b",
+      "entity_id": "ent-21449a6ef2505075bc4c0a015bedad1b",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 29,
       "end_line": 47,
@@ -39,9 +39,9 @@
       "description_zh": "`SectionContract` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-23f6c41a707f57e1aaf4885ab596555e",
+      "entity_id": "ent-30ae94cbfaf953298dde530416cb8560",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 51,
       "end_line": 56,
@@ -50,9 +50,9 @@
       "description_zh": "`CountBudget` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-87ecebd3ac755570988b0914c0515a9e",
+      "entity_id": "ent-d92cd6c94aa95fb4afa68ccaa7f95194",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 60,
       "end_line": 67,
@@ -61,9 +61,9 @@
       "description_zh": "`LengthBudget` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-d109fe6a3b0e5dccab60d112f87dd124",
+      "entity_id": "ent-d28b8cfcf98e5288babaff63bb9f1f34",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 71,
       "end_line": 76,
@@ -72,9 +72,9 @@
       "description_zh": "`LinkBudget` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-22a02e9c8ec25d2da3fb1a4fe3cb8804",
+      "entity_id": "ent-01c4c19de0b85b1f8ec6aac66bc557b5",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 80,
       "end_line": 83,
@@ -83,9 +83,9 @@
       "description_zh": "`FirstScreenContract` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-c25ccc3b209d5d3bb08688fb4d347d25",
+      "entity_id": "ent-73613d50c3a0547aa4f8b97113fd0243",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 87,
       "end_line": 90,
@@ -94,9 +94,9 @@
       "description_zh": "`EvidenceContract` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-4fca24b9877c5e04957ed31db9f9791e",
+      "entity_id": "ent-4404d084b280534199e9cdbc2b5338de",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 94,
       "end_line": 107,
@@ -105,9 +105,9 @@
       "description_zh": "`HumanPageTemplateContract` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-ea88c91dff2f5889acdd6c36d8850fd6",
+      "entity_id": "ent-3bbd17f444425f1fa88b5dc2de369c25",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 110,
       "end_line": 199,
@@ -116,9 +116,9 @@
       "description_zh": "`_section` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-af2a809377615a88a10c8f7ca7d5dd47",
+      "entity_id": "ent-b629e903b86057cbbe1ee947bf10b3a1",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 202,
       "end_line": 216,
@@ -127,9 +127,9 @@
       "description_zh": "`_optional_section` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-f8d9127b77335b1a85eeb81f0ab87e39",
+      "entity_id": "ent-208485f6686954b5b8b3d494ac529e53",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 219,
       "end_line": 227,
@@ -138,9 +138,9 @@
       "description_zh": "`_budget` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-d3b98e3196c25782847bd4c8bea7eb0c",
+      "entity_id": "ent-49c6330d6cb5526c895224476a2eb3c5",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 230,
       "end_line": 231,
@@ -149,9 +149,9 @@
       "description_zh": "`_section_entity_budget` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-81160131e57458ab98aeefddde80abd1",
+      "entity_id": "ent-3f595831a3be5e498528367357ef01d0",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 234,
       "end_line": 248,
@@ -160,9 +160,9 @@
       "description_zh": "`_section_length_budget` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-49f6c850271b5df3be45fdaa15f7a85b",
+      "entity_id": "ent-2dc678ca5c165ef68212ccce163ae963",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 251,
       "end_line": 263,
@@ -171,9 +171,9 @@
       "description_zh": "`_section_link_budget` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-7ab39960869a5493b044bd78c302772b",
+      "entity_id": "ent-6b5b46da5a4e567997433b016db52cb5",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 266,
       "end_line": 267,
@@ -182,9 +182,9 @@
       "description_zh": "`_first` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-0eba7a05839757a09f2eba8284d7155c",
+      "entity_id": "ent-ace73ad10a0457a7a004a1d73c135f88",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 270,
       "end_line": 271,
@@ -193,9 +193,9 @@
       "description_zh": "`_evidence` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-6e299a52cfe656139275d8dc646ecde9",
+      "entity_id": "ent-cef46e56ce5a52d8a49e51ef1cb4c6cb",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 609,
       "end_line": 655,
@@ -204,9 +204,9 @@
       "description_zh": "`_check_registry` 用于检查内部不变量并拒绝不一致状态。"
     },
     {
-      "entity_id": "ent-10a3ebbffb765ee084fcfca40f536b9a",
+      "entity_id": "ent-38bafff053ac59b29dd7f4ce97c35db1",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 661,
       "end_line": 664,
@@ -215,9 +215,9 @@
       "description_zh": "`list_human_page_types` 用于读取、定位并返回现有状态。"
     },
     {
-      "entity_id": "ent-8e49f7e501fc53ce96f9cde1953896c6",
+      "entity_id": "ent-369a43a5de2a59be94be481b2d2a824a",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 667,
       "end_line": 671,
@@ -226,9 +226,9 @@
       "description_zh": "`_compatible_version` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-285e14ec98a159578c2c1b6df192fc4e",
+      "entity_id": "ent-198ea585797851369a22f168dc9de052",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 696,
       "end_line": 728,
@@ -237,9 +237,9 @@
       "description_zh": "`human_page_section_document` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-fd527af84f9257c68ffdef721de8402b",
+      "entity_id": "ent-78e629518da651d8b90d6a580db5ca70",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 731,
       "end_line": 738,
@@ -248,9 +248,9 @@
       "description_zh": "`_budget_document` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-42fd93fd717153d3809a750d4d7c8aef",
+      "entity_id": "ent-53db50cb5f4e580dabe24558a9cc0f90",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 741,
       "end_line": 766,
@@ -259,9 +259,9 @@
       "description_zh": "`human_page_template_document` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-e9a2205c0c9d504da464a840e7b54be4",
+      "entity_id": "ent-351a97ed38c85910b8c6e626dfdda405",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 769,
       "end_line": 785,
@@ -270,9 +270,9 @@
       "description_zh": "`human_page_template_registry_document` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-b4e7aeaaf751524e84a9cb4c139ce4a1",
+      "entity_id": "ent-35df15013c9b59d5a740f5db1eca1dc3",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 788,
       "end_line": 798,
@@ -281,9 +281,9 @@
       "description_zh": "`serialize_human_page_template_registry` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-3609c2dd3a90570abcd7534089ff208e",
+      "entity_id": "ent-f200b4c19e52515994b8e371073d271b",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 801,
       "end_line": 802,
@@ -292,9 +292,9 @@
       "description_zh": "`human_page_template_registry_sha256` 用于生成稳定序列化或内容摘要。"
     },
     {
-      "entity_id": "ent-ab25ac2443f55cbd86d7d043378557cd",
+      "entity_id": "ent-2eb1ddf76db25446994524e5d7601f0f",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 865,
       "end_line": 879,
@@ -303,9 +303,9 @@
       "description_zh": "`_visible_lines` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-0808b9fb317e5e6fa049a26e693881b0",
+      "entity_id": "ent-07df9de58f4657de834c1107ab802db1",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 882,
       "end_line": 888,
@@ -314,9 +314,9 @@
       "description_zh": "`_headings` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-72a8d2dfc8c85f7688d3ddde6107ab68",
+      "entity_id": "ent-f9a3850331f55bbbae26eb1b6a2267da",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 891,
       "end_line": 902,
@@ -325,9 +325,9 @@
       "description_zh": "`_section_bodies` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-4679c6902e535d759a99e69d0e4fccc5",
+      "entity_id": "ent-3491f92e07805e1b99e6ed3ae0066da5",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 905,
       "end_line": 911,
@@ -336,9 +336,9 @@
       "description_zh": "`_matches_section` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-8abf115f5f235d1c81729310d9bdbd97",
+      "entity_id": "ent-06200de8eab155829cdfbd5d164ec3c4",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 914,
       "end_line": 925,
@@ -347,9 +347,9 @@
       "description_zh": "`_effective_budget` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-e46215948d4b5cdd92467269a9181ba8",
+      "entity_id": "ent-3f360d4866b45336841b342c3ed7ef43",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 928,
       "end_line": 931,
@@ -358,9 +358,9 @@
       "description_zh": "`_normalize_fact_line` 用于规范化输入字段并拒绝未知或越界值。"
     },
     {
-      "entity_id": "ent-1748dfd075ad56568e8db05b0afc92ca",
+      "entity_id": "ent-68f872d88b7e50ef964eecd651cdff0b",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 934,
       "end_line": 935,
@@ -369,9 +369,9 @@
       "description_zh": "`_validation_error` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-2325158b01155ab283be6ccaf62878a9",
+      "entity_id": "ent-2630a81a69ee552aa815ad75aabf9aa2",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 938,
       "end_line": 943,
@@ -380,9 +380,9 @@
       "description_zh": "`_context_sequence` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-647553e3feb458f19afafe5a3476f4ac",
+      "entity_id": "ent-b91bd9e9b75252e5bbe4b1b190221eee",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 946,
       "end_line": 955,
@@ -391,9 +391,9 @@
       "description_zh": "`_link_occurrences` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-ff4a716267f45a56be19c63bd260db75",
+      "entity_id": "ent-f3a501662a815ed9818da6b7d97378e4",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 958,
       "end_line": 959,
@@ -402,9 +402,9 @@
       "description_zh": "`_paragraph_count` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-18ca20c811b85ae08d20a43225475b55",
+      "entity_id": "ent-5e48e45b9960584b8a912f21781823a4",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 962,
       "end_line": 963,
@@ -413,9 +413,9 @@
       "description_zh": "`_list_item_count` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-d125295523625d08a2923a6de359c1dc",
+      "entity_id": "ent-3e3b04d5a48c5ab68c3b87de074042d9",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 966,
       "end_line": 976,
@@ -424,191 +424,15 @@
       "description_zh": "`_normalized_text_list` 用于规范化输入字段并拒绝未知或越界值。"
     },
     {
-      "entity_id": "ent-a010672533605cd09f7de03377dcbf32",
+      "entity_id": "ent-80a48c0fa9a45993bda7a74005a43924",
       "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
+      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 979,
       "end_line": 1042,
       "status": "agent-reviewed",
       "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 979-1042 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
       "description_zh": "`_normalized_ref_list` 用于规范化输入字段并拒绝未知或越界值。"
-    },
-    {
-      "entity_id": "ent-8f10abef74fa5218bf92390ee74d29dd",
-      "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
-      "source_path": "scripts/ckb_core/human_page_templates.py",
-      "start_line": 1443,
-      "end_line": 1452,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 1443-1452 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
-      "description_zh": "`_load_context` 用于读取、定位并返回现有状态。"
-    },
-    {
-      "entity_id": "ent-3bd452059d335432b4db9200534bd9ee",
-      "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
-      "source_path": "scripts/ckb_core/human_page_templates.py",
-      "start_line": 1455,
-      "end_line": 1471,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 1455-1471 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
-      "description_zh": "`_parser` 用于解析结构化输入并形成规范表示。"
-    },
-    {
-      "entity_id": "ent-e29e982cae015f25913a9f9ab509789c",
-      "classification": "appendix",
-      "owner_page_id": "file-b558ac7774f0580eb964b4494cfe47c3",
-      "source_path": "scripts/ckb_core/human_page_templates.py",
-      "start_line": 1474,
-      "end_line": 1519,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 1474-1519 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
-      "description_zh": "`main` 用于根据已解析子命令调用对应 CKB 能力并返回稳定退出状态。"
-    },
-    {
-      "entity_id": "ent-34a61c8f38935e5dbb722f32437efe14",
-      "classification": "appendix",
-      "owner_page_id": "file-d60defeafaa254978af9fa0a7b25aa24",
-      "source_path": "scripts/ckb_core/keyword_benchmark.py",
-      "start_line": 26,
-      "end_line": 31,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_benchmark.py` 第 26-31 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_text_list` 是第 26-31 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-559a39e9d49554de9c8e27a0df8f7856",
-      "classification": "appendix",
-      "owner_page_id": "file-d60defeafaa254978af9fa0a7b25aa24",
-      "source_path": "scripts/ckb_core/keyword_benchmark.py",
-      "start_line": 34,
-      "end_line": 78,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_benchmark.py` 第 34-78 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`load_keyword_benchmark` 是第 34-78 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-6c4f0246d2d65d65ac751b1a8030ddc3",
-      "classification": "appendix",
-      "owner_page_id": "file-d60defeafaa254978af9fa0a7b25aa24",
-      "source_path": "scripts/ckb_core/keyword_benchmark.py",
-      "start_line": 81,
-      "end_line": 108,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_benchmark.py` 第 81-108 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_location` 是第 81-108 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-9b16dfcf51a0500c834dfa4e7f04fb88",
-      "classification": "appendix",
-      "owner_page_id": "file-d60defeafaa254978af9fa0a7b25aa24",
-      "source_path": "scripts/ckb_core/keyword_benchmark.py",
-      "start_line": 111,
-      "end_line": 126,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_benchmark.py` 第 111-126 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_timed_retrieval` 是第 111-126 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-e5ab754f247b56aa805330d4faadecc3",
-      "classification": "appendix",
-      "owner_page_id": "file-d60defeafaa254978af9fa0a7b25aa24",
-      "source_path": "scripts/ckb_core/keyword_benchmark.py",
-      "start_line": 129,
-      "end_line": 136,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_benchmark.py` 第 129-136 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_restore_cache` 是第 129-136 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-85b5d32354a4558e84bb28d47166556b",
-      "classification": "appendix",
-      "owner_page_id": "file-ad6befbe3aef5ba894bf3d059f8b0149",
-      "source_path": "scripts/ckb_core/keyword_fallback.py",
-      "start_line": 81,
-      "end_line": 90,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_fallback.py` 第 81-90 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`KeywordProviderConfig` 是第 81-90 行的类，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-1c253737744f55738dc566183f8f1857",
-      "classification": "appendix",
-      "owner_page_id": "file-ad6befbe3aef5ba894bf3d059f8b0149",
-      "source_path": "scripts/ckb_core/keyword_fallback.py",
-      "start_line": 94,
-      "end_line": 99,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_fallback.py` 第 94-99 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`KeywordFallbackOptions` 是第 94-99 行的类，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-9ef4a0b26aad5648aed93542f567f14f",
-      "classification": "appendix",
-      "owner_page_id": "file-ad6befbe3aef5ba894bf3d059f8b0149",
-      "source_path": "scripts/ckb_core/keyword_fallback.py",
-      "start_line": 102,
-      "end_line": 103,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_fallback.py` 第 102-103 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`keyword_input_hash` 是第 102-103 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-77e94e2dc5e550b68f8eeb3d04069090",
-      "classification": "appendix",
-      "owner_page_id": "file-ad6befbe3aef5ba894bf3d059f8b0149",
-      "source_path": "scripts/ckb_core/keyword_fallback.py",
-      "start_line": 106,
-      "end_line": 107,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_fallback.py` 第 106-107 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`keyword_request_id` 是第 106-107 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-db378ec20e6a56f7964170e9c996e57d",
-      "classification": "appendix",
-      "owner_page_id": "file-ad6befbe3aef5ba894bf3d059f8b0149",
-      "source_path": "scripts/ckb_core/keyword_fallback.py",
-      "start_line": 110,
-      "end_line": 120,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_fallback.py` 第 110-120 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`keyword_cache_key` 是第 110-120 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-54470bb0d0245c018eec27e6d430feda",
-      "classification": "appendix",
-      "owner_page_id": "file-ad6befbe3aef5ba894bf3d059f8b0149",
-      "source_path": "scripts/ckb_core/keyword_fallback.py",
-      "start_line": 123,
-      "end_line": 140,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_fallback.py` 第 123-140 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`canonical_keyword_req...` 是第 123-140 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-0d763db102355e5c8184099eb3e2c161",
-      "classification": "appendix",
-      "owner_page_id": "file-ad6befbe3aef5ba894bf3d059f8b0149",
-      "source_path": "scripts/ckb_core/keyword_fallback.py",
-      "start_line": 143,
-      "end_line": 146,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_fallback.py` 第 143-146 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_machine_token` 是第 143-146 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-9751c007f4715ba7a21576cc99d6393f",
-      "classification": "appendix",
-      "owner_page_id": "file-ad6befbe3aef5ba894bf3d059f8b0149",
-      "source_path": "scripts/ckb_core/keyword_fallback.py",
-      "start_line": 149,
-      "end_line": 161,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_fallback.py` 第 149-161 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`validate_provider_config` 是第 149-161 行的函数，供所属页面定位实现。"
     }
   ]
 }

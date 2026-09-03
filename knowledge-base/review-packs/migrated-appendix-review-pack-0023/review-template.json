@@ -6,100 +6,9 @@
   "reviewed_at_utc": null,
   "reviews": [
     {
-      "entity_id": "ent-9717b828d2e65e9c9456a395b9b393cb",
+      "entity_id": "ent-84cfd42363ed5910b6c362402feac9f0",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
-      "source_path": "scripts/ckb_core/pipeline.py",
-      "start_line": 429,
-      "end_line": 434,
-      "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
-      "source_excerpt": "def _normalize_repo_selector(repo: Path, value: str) -> str:\n    candidate = Path(value)\n    resolved = candidate.resolve() if candidate.is_absolute() else (repo / candidate).resolve()\n    if not path_inside(resolved, repo):\n        raise CkbError(f\"C# project selector is outside the repository: {value}\")\n    return resolved.relative_to(repo).as_posix()",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-bea96705c1335dbf80b793fd5abd3962",
-      "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
-      "source_path": "scripts/ckb_core/pipeline.py",
-      "start_line": 437,
-      "end_line": 479,
-      "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
-      "source_excerpt": "def _resolve_csharp_workspace(\n    repository: dict[str, Any],\n    project_files: list[dict[str, Any]],\n    csharp_solution: str | None,\n    csharp_project: str | None,\n) -> dict[str, Any]:\n    if csharp_solution and csharp_project:\n        raise CkbError(\"use only one of --csharp-solution or --csharp-project\")\n    repo = Path(repository[\"root\"]).resolve()\n    tracked = {item[\"path\"]: item for item in project_files}\n    solutions = sorted(path for path in tracked if PurePosixPath(path).suffix.lower() in {\".sln\", \".slnx\"})\n    projects = sorted(path for path in tracked if PurePosixPath(path).suffix.lower() == \".csproj\")\n    selected: str | None = None\n    kind = \"folder\"\n    selection = \"fallback-no-project-file\"\n    if csharp_solution:\n        selected = _normalize_repo_selector(repo, csharp_solution)\n        if selected not in solutions:\n            raise CkbError(f\"--csharp-solution is not a tracked .sln/.slnx file: {selected}; candidates={solutions}\")\n        kind, selection = \"solution\", \"explicit\"\n    elif csharp_project:\n        selected = _normalize_repo_selector(repo, csharp_project)\n        if selected not in projects:\n            raise CkbError(f\"--csharp-project is not a tracked .csproj file: {selected}; candidates={projects}\")\n        kind, selection = \"project\", \"explicit\"\n    elif len(solutions) == 1:\n        selected, kind, selection = solutions[0], \"solution\", \"unique-auto\"\n    elif len(solutions) > 1:\n        raise CkbError(f\"multiple tracked C# solutions require --csharp-solution: candidates={solutions}\")\n    elif len(projects) == 1:\n        selected, kind, selection = projects[0], \"project\", \"unique-auto\"\n    elif len(projects) > 1:\n        raise CkbError(f\"multiple tracked C# projects require --csharp-project: candidates={projects}\")\n    return {\n        \"kind\": kind,\n        \"path\": selected,\n        \"selection\": selection,\n        \"solution_candidates\": solutions,\n        \"project_candidates\": projects,\n        \"workspace_root\": str(repo),\n        \"precision\": \"exact\" if selected else \"bounded-approximate\",\n        \"restore\": {\"requested\": False, \"performed\": False, \"network_restore\": False},\n    }",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-1a179645df0d5070ab21395858b47182",
-      "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
-      "source_path": "scripts/ckb_core/pipeline.py",
-      "start_line": 482,
-      "end_line": 557,
-      "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
-      "source_excerpt": "def _prepare_csharp_restore(output: Path, repository: dict[str, Any], workspace: dict[str, Any]) -> dict[str, Any]:\n    dotnet = resolve_executable(\"dotnet\")\n    if not dotnet:\n        raise DependencyError(\"dotnet 10 SDK is required for --allow-dotnet-restore\")\n    runtime_root = output / \".csharp-runtime\"\n    existing_fallback = workspace.get(\"kind\") == \"fallback-project\" and workspace.get(\"workspace_root\")\n    worktree = Path(workspace[\"workspace_root\"]).resolve() if existing_fallback else runtime_root / \"worktree\"\n    packages = runtime_root / \"nuget-packages\"\n    cli_home = runtime_root / \"dotnet-home\"\n    runtime_root.mkdir(parents=True, exist_ok=True)\n    packages.mkdir()\n    cli_home.mkdir()\n    if not existing_fallback:\n        add = run([\"git\", \"-C\", repository[\"root\"], \"worktree\", \"add\", \"--detach\", \"--force\", str(worktree), repository[\"commit\"]], timeout=180)\n        if add.returncode:\n            raise CkbError(f\"isolated C# restore worktree creation failed: {(add.stderr or add.stdout).strip()}\")\n    target = workspace.get(\"path\") or \".\"\n    env = os.environ.copy()\n    env.update(\n        {\n            \"NUGET_PACKAGES\": str(packages.resolve()),\n            \"DOTNET_CLI_HOME\": str(cli_home.resolve()),\n            \"DOTNET_NOLOGO\": \"1\",\n            \"DOTNET_SKIP_FIRST_TIME_EXPERIENCE\": \"1\",\n            \"DOTNET_CLI_TELEMETRY_OPTOUT\": \"1\",\n        }\n    )\n    command = [dotnet, \"restore\", target, \"--packages\", str(packages.resolve()), \"--nologo\"]\n    restored = run(command, cwd=worktree, env=env, timeout=1800)\n    record_dir = output / \"audit\" / \"csharp-restore\"\n    record_dir.mkdir(parents=True, exist_ok=True)\n    command_record = {\n        \"command\": command,\n        \"cwd\": str(worktree.resolve()),\n        \"environment\": {key: env[key] for key in (\"NUGET_PACKAGES\", \"DOTNET_CLI_HOME\", \"DOTNET_NOLOGO\", \"DOTNET_SKIP_FIRST_TIME_EXPERIENCE\", \"DOTNET_CLI_TELEMETRY_OPTOUT\")},\n        \"exit_status\": restored.returncode,\n        \"stdout\": restored.stdout,\n        \"stderr\": restored.stderr,\n    }\n    json_write(record_dir / \"command.json\", command_record)\n    if restored.returncode:\n        raise CkbError(f\"explicit isolated dotnet restore failed; see {record_dir / 'command.json'}\")\n    manifests = []\n    restored_files = [value for value in packages.rglob(\"*\") if value.is_file()]\n    restored_files.extend(\n        value\n        for value in worktree.rglob(\"*\")\n        if value.is_file() and (value.name == \"project.assets.json\" or value.name.endswith((\".nuget.g.props\", \".nuget.g.targets\", \".nuget.cache\")))\n    )\n    for path in sorted(set(restored_files)):\n        manifests.append({\"path\": path.relative_to(runtime_root).as_posix(), \"size\": path.stat().st_size, \"sha256\": sha256_file(path)})\n    json_write(record_dir / \"files.json\", {\"files\": manifests})\n    rollback = record_dir / \"rollback.ps1\"\n    quoted_repo = str(repository[\"root\"]).replace(\"'\", \"''\")\n    quoted_worktree = str(worktree.resolve()).replace(\"'\", \"''\")\n    quoted_runtime = str(runtime_root.resolve()).replace(\"'\", \"''\")\n    rollback.write_text(\n        \"$ErrorActionPreference = 'Stop'\\n\"\n        f\"& git -C '{quoted_repo}' worktree remove --force '{quoted_worktree}'\\n\"\n        f\"if (Test-Path -LiteralPath '{quoted_runtime}') {{ Remove-Item -LiteralPath '{quoted_runtime}' -Recurse -Force }}\\n\",\n        encoding=\"utf-8\",\n        newline=\"\\n\",\n    )\n    return {\n        **workspace,\n        \"workspace_root\": str(worktree.resolve()),\n        \"restore\": {\n            \"requested\": True,\n            \"performed\": True,\n            \"network_restore\": True,\n            \"command_record\": str((record_dir / \"command.json\").resolve()),\n            \"file_manifest\": str((record_dir / \"files.json\").resolve()),\n            \"rollback\": str(rollback.resolve()),\n            \"worktree_commit\": repository[\"commit\"],\n        },\n    }",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-dc2869b0edf7503ebc998bf1c8db8b81",
-      "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
-      "source_path": "scripts/ckb_core/pipeline.py",
-      "start_line": 560,
-      "end_line": 623,
-      "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
-      "source_excerpt": "def _prepare_csharp_fallback_workspace(\n    output: Path,\n    repository: dict[str, Any],\n    workspace: dict[str, Any],\n    selected_paths: list[str],\n) -> dict[str, Any]:\n    \"\"\"Create a no-restore SDK fallback project in an isolated fixed-commit worktree.\"\"\"\n    runtime_root = output / \".csharp-runtime\"\n    worktree = runtime_root / \"fallback-worktree\"\n    runtime_root.mkdir(parents=True, exist_ok=True)\n    add = run([\"git\", \"-C\", repository[\"root\"], \"worktree\", \"add\", \"--detach\", \"--force\", str(worktree), repository[\"commit\"]], timeout=180)\n    if add.returncode:\n        raise CkbError(f\"isolated C# fallback worktree creation failed: {(add.stderr or add.stdout).strip()}\")\n    project_name = \".ckb-bounded-fallback.csproj\"\n    project = worktree / project_name\n    compile_items = \"\\n\".join(f'    <Compile Include=\"{xml_escape(path)}\" />' for path in sorted(selected_paths))\n    project_text = (\n        '<Project Sdk=\"Microsoft.NET.Sdk\">\\n'\n        \"  <PropertyGroup>\\n\"\n        \"    <TargetFramework>net10.0</TargetFramework>\\n\"\n        \"    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>\\n\"\n        \"    <ImplicitUsings>disable</ImplicitUsings>\\n\"\n        \"    <Nullable>disable</Nullable>\\n\"\n        \"    <RestoreIgnoreFailedSources>true</RestoreIgnoreFailedSources>\\n\"\n        \"  </PropertyGroup>\\n\"\n        \"  <ItemGroup>\\n\"\n        f\"{compile_items}\\n\"\n        \"  </ItemGroup>\\n\"\n        \"</Project>\\n\"\n    )\n    project.write_text(project_text, encoding=\"utf-8\", newline=\"\\n\")\n    record_dir = output / \"audit\" / \"csharp-fallback\"\n    record_dir.mkdir(parents=True, exist_ok=True)\n    record = {\n        \"status\": \"ready\",\n        \"precision\": \"bounded-approximate\",\n        \"network_restore\": False,\n        \"worktree\": str(worktree.resolve()),\n        \"worktree_commit\": repository[\"commit\"],\n        \"project\": project_name,\n        \"project_sha256\": sha256_file(project),\n        \"selected_source_paths\": sorted(selected_paths),\n        \"flags\": [\"TargetFramework=net10.0\", \"EnableDefaultCompileItems=false\", \"ImplicitUsings=disable\", \"Nullable=disable\"],\n    }\n    json_write(record_dir / \"record.json\", record)\n    quoted_repo = str(repository[\"root\"]).replace(\"'\", \"''\")\n    quoted_worktree = str(worktree.resolve()).replace(\"'\", \"''\")\n    quoted_runtime = str(runtime_root.resolve()).replace(\"'\", \"''\")\n    rollback = record_dir / \"rollback.ps1\"\n    rollback.write_text(\n        \"$ErrorActionPreference = 'Stop'\\n\"\n        f\"& git -C '{quoted_repo}' worktree remove --force '{quoted_worktree}'\\n\"\n        f\"if (Test-Path -LiteralPath '{quoted_runtime}') {{ Remove-Item -LiteralPath '{quoted_runtime}' -Recurse -Force }}\\n\",\n        encoding=\"utf-8\",\n        newline=\"\\n\",\n    )\n    return {\n        **workspace,\n        \"kind\": \"fallback-project\",\n        \"path\": project_name,\n        \"workspace_root\": str(worktree.resolve()),\n        \"precision\": \"bounded-approximate\",\n        \"fallback\": {**record, \"record\": str((record_dir / \"record.json\").resolve()), \"rollback\": str(rollback.resolve())},\n    }",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-3bdf44d766435eb09b0714ac3768631c",
-      "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
-      "source_path": "scripts/ckb_core/pipeline.py",
-      "start_line": 626,
-      "end_line": 698,
-      "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
-      "source_excerpt": "def _rekey_reused_file_parse(\n    repository: dict[str, Any],\n    file_entry: dict[str, Any],\n    previous: dict[str, Any],\n) -> dict[str, Any]:\n    \"\"\"Reuse an exact-blob parse while rebuilding every commit-sensitive ID.\"\"\"\n    old_file = previous.get(\"file\", {})\n    if old_file.get(\"path\") != file_entry.get(\"path\") or old_file.get(\"blob\") != file_entry.get(\"blob\"):\n        raise CkbError(f\"migration parse reuse mismatch: {file_entry.get('path')}\")\n    if previous.get(\"parse\", {}).get(\"status\") != \"passed\":\n        raise CkbError(f\"migration source parse did not pass: {file_entry.get('path')}\")\n    id_map: dict[str, str] = {}\n    for entity in previous.get(\"entities\", []):\n        if entity.get(\"kind\") == \"file\":\n            new_id = file_entry[\"id\"]\n        else:\n            source_range = entity.get(\"range\", {})\n            new_id = stable_id(\n                \"ent\",\n                repository[\"commit\"],\n                file_entry[\"blob\"],\n                file_entry[\"path\"],\n                source_range.get(\"start_byte\"),\n                source_range.get(\"end_byte\"),\n                entity.get(\"kind\"),\n                entity.get(\"name\"),\n            )\n        id_map[str(entity[\"id\"])] = new_id\n    parse_record = json.loads(json.dumps(previous[\"parse\"]))\n    warning_id_map: dict[str, str] = {}\n    for warning in parse_record.get(\"warnings\", []):\n        old_warning_id = str(warning.get(\"id\") or \"\")\n        if not old_warning_id:\n            raise CkbError(f\"migration source syntax warning has no ID: {file_entry.get('path')}\")\n        new_warning_id = syntax_warning_id(repository, file_entry, parse_record.get(\"diagnostics\", []))\n        warning_id_map[old_warning_id] = new_warning_id\n        warning[\"id\"] = new_warning_id\n        warning[\"file\"] = file_entry[\"path\"]\n        old_affected = [str(value) for value in warning.get(\"affected_entity_ids\", [])]\n        missing_affected = sorted(value for value in old_affected if value not in id_map)\n        if missing_affected:\n            raise CkbError(\n                f\"migration source syntax warning references unknown entities: {file_entry.get('path')} {missing_affected}\"\n            )\n        warning[\"affected_entity_ids\"] = [id_map[value] for value in old_affected]\n    entities: list[dict[str, Any]] = []\n    for entity in previous.get(\"entities\", []):\n        item = json.loads(json.dumps(entity))\n        item[\"id\"] = id_map[str(entity[\"id\"])]\n        item[\"commit\"] = repository[\"commit\"]\n        item[\"blob\"] = file_entry[\"blob\"]\n        item[\"path\"] = file_entry[\"path\"]\n        if entity.get(\"parent_id\"):\n            item[\"parent_id\"] = id_map[str(entity[\"parent_id\"])]\n        old_warning_ids = [str(value) for value in entity.get(\"syntax_warning_ids\", [])]\n        missing_warning_ids = sorted(value for value in old_warning_ids if value not in warning_id_map)\n        if missing_warning_ids:\n            raise CkbError(\n                f\"migration source entity references unknown syntax warnings: {file_entry.get('path')} {missing_warning_ids}\"\n            )\n        item[\"syntax_warning_ids\"] = [warning_id_map[value] for value in old_warning_ids]\n        entities.append(item)\n    return {\n        \"file\": dict(file_entry),\n        \"parse\": parse_record,\n        \"entities\": entities,\n        \"migration_reuse\": {\n            \"basis\": \"exact-path-language-blob-and-passed-parse\",\n            \"previous_file_id\": old_file.get(\"id\"),\n            \"rekeyed_entity_count\": len(entities),\n            \"rekeyed_syntax_warning_count\": len(warning_id_map),\n        },\n    }",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-f7ad3f50200e5d7b82a9c1c16ceee879",
-      "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
-      "source_path": "scripts/ckb_core/pipeline.py",
-      "start_line": 701,
-      "end_line": 728,
-      "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
-      "source_excerpt": "def _syntax_warning_summary(warnings: list[dict[str, Any]], record_path: Path) -> dict[str, Any]:\n    ordered = sorted(warnings, key=lambda item: (str(item.get(\"file\")), int(item.get(\"range\", {}).get(\"start_byte\", 0)), str(item.get(\"id\"))))\n    examples = [\n        {\n            \"id\": item.get(\"id\"),\n            \"file\": item.get(\"file\"),\n            \"range\": item.get(\"range\"),\n            \"diagnostic_categories\": item.get(\"diagnostic_categories\", []),\n            \"diagnostic_count\": int(item.get(\"diagnostic_count\", 0)),\n            \"coverage\": item.get(\"coverage\", {}),\n            \"affected_entity_count\": len(item.get(\"affected_entity_ids\", [])),\n            \"source_completeness\": item.get(\"source_completeness\"),\n            \"source_confidence\": item.get(\"source_confidence\"),\n            \"absence_inference_allowed\": False,\n        }\n        for item in ordered[:8]\n    ]\n    return {\n        \"status\": \"warning\" if ordered else \"complete\",\n        \"warning_count\": len(ordered),\n        \"file_count\": len({str(item.get(\"file\")) for item in ordered}),\n        \"affected_entity_count\": len({str(value) for item in ordered for value in item.get(\"affected_entity_ids\", [])}),\n        \"absence_inference_allowed\": not bool(ordered),\n        \"message_zh\": \"受影响范围的语法事实不完整且置信度较低，不可据此推断未检出事实在源码中不存在。\" if ordered else None,\n        \"examples\": examples,\n        \"omitted_warning_count\": max(0, len(ordered) - len(examples)),\n        \"record\": str(record_path.resolve()),\n    }",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-ec34cbce101f5c55b8f83efec416ba1d",
-      "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
-      "source_path": "scripts/ckb_core/pipeline.py",
-      "start_line": 731,
-      "end_line": 749,
-      "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
-      "source_excerpt": "def _semantic_warning_summary(warnings: list[dict[str, Any]]) -> dict[str, Any]:\n    unique: dict[tuple[str, str, str], dict[str, Any]] = {}\n    for warning in warnings:\n        key = (str(warning.get(\"kind\")), str(warning.get(\"language\")), str(warning.get(\"file\")))\n        unique[key] = {\n            \"kind\": warning.get(\"kind\"),\n            \"language\": warning.get(\"language\"),\n            \"file\": warning.get(\"file\"),\n            \"precision\": warning.get(\"precision\"),\n            \"build_evidence\": warning.get(\"build_evidence\", {}),\n            \"absence_inference_allowed\": bool(warning.get(\"absence_inference_allowed\", False)),\n        }\n    ordered = [unique[key] for key in sorted(unique)]\n    return {\n        \"status\": \"warning\" if ordered else \"complete\",\n        \"warning_count\": len(ordered),\n        \"warnings\": ordered[:8],\n        \"omitted_warning_count\": max(0, len(ordered) - 8),\n    }",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-252e22742e4e5a2b9750683b867788fd",
-      "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 752,
       "end_line": 1020,
@@ -110,9 +19,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-f255a4dade5f51028f8d08717edd77b3",
+      "entity_id": "ent-224c5880d16058e68dd970554becd9dd",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 1023,
       "end_line": 1031,
@@ -123,9 +32,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-4324438f68805cb68e1192bf430ced8d",
+      "entity_id": "ent-291ce4948c26578ba8ec20a177aed50a",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 1034,
       "end_line": 1038,
@@ -136,9 +45,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-f1f8f5c72dbd5485b89ef85d598f27f5",
+      "entity_id": "ent-30e23f18cda150608465dcafe760d372",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 1041,
       "end_line": 1045,
@@ -149,9 +58,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-ccc55bbfaece58a5a093a808c03a08cf",
+      "entity_id": "ent-17badc5a2d7f52828aaf35fa326efa26",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 1048,
       "end_line": 1060,
@@ -162,9 +71,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-058693aac42f56ffafba101acd82b735",
+      "entity_id": "ent-67a7ab99e0a855ba94784edd32f9a20b",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 1063,
       "end_line": 1211,
@@ -175,9 +84,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-d63e3d23a97f5d58a09d9614a80ca060",
+      "entity_id": "ent-343e1c95b9615e55af1e4555fe61b2a5",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 1214,
       "end_line": 1220,
@@ -188,9 +97,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-35da5fd88b8b51828bccd55fbb99d03c",
+      "entity_id": "ent-24cb59c249555ccd9f227d313df68c87",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 1223,
       "end_line": 1232,
@@ -201,9 +110,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-0fb5e31e098e5ca69a7b11233572d024",
+      "entity_id": "ent-3322593cc5975556aad5aa344463dac0",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 1235,
       "end_line": 1246,
@@ -214,14 +123,66 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-98b136284f15593eb9e880d72f96f9f7",
+      "entity_id": "ent-c1273243d2b5567aace36d2866db740a",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 1249,
       "end_line": 1267,
       "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
       "source_excerpt": "def _partial_fragment_source_errors(entity: dict[str, Any], sources: dict[str, bytes], file_by_path: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:\n    errors: list[dict[str, Any]] = []\n    for fragment in entity.get(\"fragments\", []):\n        source = sources.get(fragment[\"path\"])\n        manifest = file_by_path.get(fragment[\"path\"])\n        start = int(fragment[\"range\"][\"start_byte\"])\n        end = int(fragment[\"range\"][\"end_byte\"])\n        reason = None\n        if source is None or manifest is None:\n            reason = \"partial-fragment-blob-missing\"\n        elif manifest.get(\"blob\") != fragment.get(\"blob\"):\n            reason = \"partial-fragment-blob-mismatch\"\n        elif start < 0 or end > len(source) or start > end:\n            reason = \"partial-fragment-range-out-of-bounds\"\n        elif entity[\"name\"].encode(\"utf-8\") not in source[start:end]:\n            reason = \"partial-fragment-name-not-in-range\"\n        if reason:\n            errors.append({\"id\": entity[\"id\"], \"fragment\": fragment, \"reason\": reason})\n    return errors",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-8e74d2a612265b7099d69db21666891a",
+      "classification": "appendix",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 1270,
+      "end_line": 1379,
+      "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
+      "source_excerpt": "def audit_chunk(output: Path, chunk_id: str) -> dict[str, Any]:\n    state = _load_state(output)\n    (output / \".complete\").unlink(missing_ok=True)\n    if state.get(\"status\") == \"complete\":\n        state[\"status\"] = \"in-progress\"\n        json_write(output / \"state.json\", state)\n    chunk = _chunk(state, chunk_id)\n    chunk_dir = output / \"chunks\" / chunk_id\n    candidate_path = chunk_dir / \"candidate.json\"\n    review_path = chunk_dir / \"agent-review.json\"\n    if not candidate_path.is_file():\n        raise AuditError(\"candidate.json is missing\")\n    candidate = json_load(candidate_path)\n    review = json_load(review_path) if review_path.is_file() else {\"reviews\": []}\n    entities = candidate[\"entities\"]\n    entity_by_id = {entity[\"id\"]: entity for entity in entities}\n    review_by_id = {item.get(\"entity_id\"): item for item in review.get(\"reviews\", []) if isinstance(item, dict)}\n    gates: dict[str, dict[str, Any]] = {}\n\n    def gate(name: str, checks: list[dict[str, Any]]) -> None:\n        gates[name] = {\"status\": \"passed\" if all(item[\"passed\"] for item in checks) else \"failed\", \"checks\": checks}\n\n    scope_ids = set(chunk[\"entity_ids\"])\n    gate(\"scope\", [{\"name\": \"chunk-entity-set-exact\", \"passed\": set(entity_by_id) == scope_ids, \"detail\": {\"missing\": sorted(scope_ids - set(entity_by_id)), \"extra\": sorted(set(entity_by_id) - scope_ids)}}])\n    catalog, _scope_doc, _boundary_doc = _selected_catalog(output)\n    parse_by_path = {item[\"file\"][\"path\"]: item[\"parse\"] for item in catalog[\"files\"]}\n    gate(\"syntax\", [{\"name\": \"all-files-parse\", \"passed\": all(parse_by_path[path][\"status\"] == \"passed\" for path in chunk[\"file_paths\"]), \"detail\": {path: parse_by_path[path] for path in chunk[\"file_paths\"] if parse_by_path[path][\"status\"] != \"passed\"}}, {\"name\": \"entity-ids-unique\", \"passed\": len(entity_by_id) == len(entities), \"detail\": len(entities)}])\n    classification_errors = []\n    navigation_plan = json_load(output / \"navigation-plan.json\")\n    planned_by_id = {item[\"entity_id\"]: item for item in navigation_plan[\"decisions\"]}\n    global_page_ids = set(navigation_plan[\"page_entity_ids\"]) | set(navigation_plan[\"boundary_entity_ids\"])\n    for entity in entities:\n        item = review_by_id.get(entity[\"id\"], {})\n        classification = item.get(\"classification\")\n        owner = item.get(\"owner_page_id\")\n        planned = planned_by_id.get(entity[\"id\"])\n        if classification not in ALLOWED_CLASSIFICATIONS:\n            classification_errors.append({\"id\": entity[\"id\"], \"reason\": \"invalid-classification\"})\n        elif not planned or classification != planned[\"classification\"]:\n            classification_errors.append({\"id\": entity[\"id\"], \"reason\": \"classification-differs-from-deterministic-plan\", \"planned\": planned})\n        elif owner != planned[\"owner_page_id\"]:\n            classification_errors.append({\"id\": entity[\"id\"], \"reason\": \"owner-differs-from-deterministic-plan\", \"planned_owner\": planned[\"owner_page_id\"], \"actual_owner\": owner})\n        elif entity[\"kind\"] == \"file\" and classification != \"page\":\n            classification_errors.append({\"id\": entity[\"id\"], \"reason\": \"file-not-page\"})\n        elif entity[\"kind\"] == \"boundary\" and classification != \"boundary\":\n            classification_errors.append({\"id\": entity[\"id\"], \"reason\": \"boundary-mismatch\"})\n        elif classification == \"appendix\" and owner not in global_page_ids:\n            classification_errors.append({\"id\": entity[\"id\"], \"reason\": \"appendix-owner-not-page\", \"owner\": owner})\n    gate(\"classification\", [{\"name\": \"classification-and-owner-valid\", \"passed\": not classification_errors, \"detail\": classification_errors}])\n    provider_errors = []\n    covered: set[str] = set()\n    for provider in candidate.get(\"providers\", []):\n        if provider.get(\"status\") != \"passed\":\n            provider_errors.append(provider)\n        covered.update(provider.get(\"covered_entity_ids\", []))\n    key_ids = {entity[\"id\"] for entity in entities if entity[\"kind\"] != \"boundary\" and review_by_id.get(entity[\"id\"], {}).get(\"classification\") == \"page\" and entity[\"kind\"] != \"file\"}\n    if os.environ.get(\"CKB_TEST_PROVIDER\") != \"deterministic-fixture\":\n        missing_key = sorted(key_ids - covered)\n    else:\n        missing_key = []\n    gate(\"semantics\", [{\"name\": \"providers-passed\", \"passed\": not provider_errors, \"detail\": provider_errors}, {\"name\": \"key-entity-coverage\", \"passed\": not missing_key, \"detail\": missing_key}])\n    file_by_path = {item[\"file\"][\"path\"]: item[\"file\"] for item in catalog[\"files\"]}\n    audit_paths = {entity[\"path\"] for entity in entities}\n    audit_paths.update(fragment[\"path\"] for entity in entities for fragment in entity.get(\"fragments\", []))\n    audit_files = [file_by_path[path] for path in sorted(audit_paths)]\n    audit_sources = blob_bytes_many(state[\"repository\"], audit_files)\n    source_errors = [\n        {\"id\": entity[\"id\"], \"reason\": reason}\n        for entity in entities\n        if (reason := _source_check(entity, audit_sources.get(entity[\"path\"]), file_by_path.get(entity[\"path\"], {}).get(\"blob\")))\n    ]\n    source_errors.extend(error for entity in entities for error in _partial_fragment_source_errors(entity, audit_sources, file_by_path))\n    gate(\"source\", [{\"name\": \"git-source-authentic\", \"passed\": not source_errors, \"detail\": source_errors}])\n    description_errors = []\n    if set(review_by_id) != set(entity_by_id):\n        description_errors.append({\"reason\": \"review-entity-set-mismatch\", \"missing\": sorted(set(entity_by_id) - set(review_by_id)), \"extra\": sorted(set(review_by_id) - set(entity_by_id))})\n    for entity_id, item in review_by_id.items():\n        entity = entity_by_id.get(entity_id)\n        if not entity:\n            continue\n        if item.get(\"status\") != \"agent-reviewed\":\n            description_errors.append({\"id\": entity_id, \"reason\": \"status-not-agent-reviewed\"})\n        if item.get(\"classification\") == \"appendix\":\n            if not _single_chinese_sentence(item.get(\"description_zh\")):\n                description_errors.append({\"id\": entity_id, \"reason\": \"description_zh-not-one-useful-sentence\"})\n            if not _substantive_chinese(item.get(\"evidence_note\")):\n                description_errors.append({\"id\": entity_id, \"reason\": \"evidence_note-not-substantive\"})\n        else:\n            for field in (\"meaning_zh\", \"role_zh\", \"change_when_zh\", \"evidence_note\"):\n                if not _substantive_chinese(item.get(field)):\n                    description_errors.append({\"id\": entity_id, \"reason\": f\"{field}-not-substantive\"})\n        if item.get(\"source_path\") != entity[\"path\"] or item.get(\"start_line\") != entity[\"range\"][\"start_line\"] or item.get(\"end_line\") != entity[\"range\"][\"end_line\"]:\n            description_errors.append({\"id\": entity_id, \"reason\": \"source-basis-mismatch\"})\n    gate(\"descriptions\", [{\"name\": \"pages-and-appendix-sentences-agent-reviewed\", \"passed\": not description_errors, \"detail\": description_errors}])\n    scope = _scope_doc\n    global_ids = set(scope[\"selected_entity_ids\"])\n    link_errors = []\n    for link in candidate.get(\"links\", []):\n        if link[\"source\"] not in global_ids or link[\"target\"] not in global_ids:\n            link_errors.append({\"id\": link[\"id\"], \"reason\": \"endpoint-outside-selected-or-boundary\"})\n    gate(\"links\", [{\"name\": \"link-endpoints-valid\", \"passed\": not link_errors, \"detail\": link_errors}])\n    status = \"passed\" if all(item[\"status\"] == \"passed\" for item in gates.values()) else \"failed\"\n    result = {\"schema_version\": SCHEMA_VERSION, \"chunk_id\": chunk_id, \"status\": status, \"gates\": gates, \"audited_at_utc\": utc_now()}\n    json_write(chunk_dir / \"audit.json\", result)\n    write_marker(\n        output,\n        \".pending-agent-review\" if status == \"passed\" else \".failed\",\n        {\"status\": \"audit-passed-finalize-required\" if status == \"passed\" else \"failed\", \"chunk_id\": chunk_id, \"audit\": str((chunk_dir / \"audit.json\").resolve())},\n    )\n    return result",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-7ecbdf3d505453aca12dbfc4f82e20e2",
+      "classification": "appendix",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 1289,
+      "end_line": 1290,
+      "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
+      "source_excerpt": "def gate(name: str, checks: list[dict[str, Any]]) -> None:\n        gates[name] = {\"status\": \"passed\" if all(item[\"passed\"] for item in checks) else \"failed\", \"checks\": checks}",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-ed9c3a0115375cb58bf0ca28a2a79d52",
+      "classification": "appendix",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 1382,
+      "end_line": 1439,
+      "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
+      "source_excerpt": "def review_chunk(output: Path, chunk_id: str, review_file: Path) -> dict[str, Any]:\n    state = _load_state(output)\n    chunk = _chunk(state, chunk_id)\n    candidate_path = output / \"chunks\" / chunk_id / \"candidate.json\"\n    if not candidate_path.is_file():\n        raise CkbError(\"build the chunk before submitting a review\")\n    review = json_load(review_file)\n    review[\"reviewed_at_utc\"] = review.get(\"reviewed_at_utc\") or utc_now()\n    review[\"chunk_id\"] = chunk_id\n    destination = output / \"chunks\" / chunk_id / \"agent-review.json\"\n    json_write(destination, review)\n    audit = audit_chunk(output, chunk_id)\n    if audit[\"status\"] != \"passed\":\n        chunk[\"status\"] = \"failed\"\n        state[\"status\"] = \"failed\"\n        json_write(output / \"state.json\", state)\n        write_marker(output, \".failed\", {\"status\": \"failed\", \"chunk_id\": chunk_id, \"audit\": str((output / \"chunks\" / chunk_id / \"audit.json\").resolve())})\n        raise AuditError(f\"chunk review failed: {output / 'chunks' / chunk_id / 'audit.json'}\")\n    candidate = json_load(candidate_path)\n    review_by_id = {item[\"entity_id\"]: item for item in review[\"reviews\"]}\n    for entity in candidate[\"entities\"]:\n        item = review_by_id[entity[\"id\"]]\n        entity[\"classification\"] = item[\"classification\"]\n        entity[\"owner_page_id\"] = item[\"owner_page_id\"]\n        if item[\"classification\"] == \"appendix\":\n            entity[\"description_zh\"] = item[\"description_zh\"]\n        else:\n            entity[\"meaning_zh\"] = item[\"meaning_zh\"]\n            entity[\"role_zh\"] = item[\"role_zh\"]\n            entity[\"change_when_zh\"] = item[\"change_when_zh\"]\n        entity[\"evidence_note\"] = item[\"evidence_note\"]\n        entity[\"review_status\"] = \"agent-reviewed\"\n    json_write(candidate_path, candidate)\n    chunk[\"status\"] = \"passed\"\n    chunk[\"review_path\"] = str(destination.resolve())\n    chunk[\"audit_path\"] = str((output / \"chunks\" / chunk_id / \"audit.json\").resolve())\n    state[\"status\"] = \"in-progress\"\n    review_items = {item[\"entity_id\"]: item for item in review[\"reviews\"]}\n    for pack in state.get(\"review_packs\", []):\n        if chunk_id not in pack.get(\"parse_batch_ids\", []):\n            continue\n        subset = [review_items[value] for value in pack[\"entity_ids\"] if value in review_items]\n        if len(subset) != len(pack[\"entity_ids\"]):\n            continue\n        pack_dir = output / \"review-packs\" / pack[\"id\"]\n        pack_dir.mkdir(parents=True, exist_ok=True)\n        json_write(pack_dir / \"agent-review.json\", {\"schema_version\": SCHEMA_VERSION, \"pack_id\": pack[\"id\"], \"kind\": pack[\"kind\"], \"reviewer\": review.get(\"reviewer\", \"Agent\"), \"reviewed_at_utc\": review[\"reviewed_at_utc\"], \"reviews\": subset})\n        json_write(pack_dir / \"audit.json\", {\"schema_version\": SCHEMA_VERSION, \"pack_id\": pack[\"id\"], \"status\": \"passed\", \"basis\": \"legacy-combined-batch-review\", \"audited_at_utc\": utc_now()})\n        pack[\"status\"] = \"passed\"\n        pack[\"review_path\"] = str((pack_dir / \"agent-review.json\").resolve())\n        pack[\"audit_path\"] = str((pack_dir / \"audit.json\").resolve())\n    json_write(output / \"state.json\", state)\n    next_chunk = next((item for item in state[\"chunks\"] if item[\"status\"] != \"passed\"), None)\n    if next_chunk:\n        write_marker(output, \".pending-agent-review\", {\"status\": \"next-chunk\", \"next_chunk\": next_chunk[\"id\"]})\n    else:\n        write_marker(output, \".pending-agent-review\", {\"status\": \"ready-to-merge\"})\n    return audit",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-49b4fd3555a9584a80eaa0bc9b2c0816",
+      "classification": "appendix",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 1442,
+      "end_line": 1545,
+      "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
+      "source_excerpt": "def review_pack(output: Path, pack_id: str, review_file: Path) -> dict[str, Any]:\n    \"\"\"Validate one page/appendix Agent review unit independently of parsing.\"\"\"\n    state = _load_state(output)\n    pack = _review_pack(state, pack_id)\n    required_batches = [_chunk(state, value) for value in pack[\"parse_batch_ids\"]]\n    if any(not (output / \"chunks\" / batch[\"id\"] / \"candidate.json\").is_file() for batch in required_batches):\n        raise CkbError(\"build every parse batch referenced by the review pack before submitting it\")\n    review = json_load(review_file)\n    items = [item for item in review.get(\"reviews\", []) if isinstance(item, dict)]\n    by_id = {item.get(\"entity_id\"): item for item in items}\n    catalog, scope_doc, boundary_doc = _selected_catalog(output)\n    entity_by_id = {entity[\"id\"]: entity for entity in catalog[\"entities\"]}\n    entity_by_id.update({entity[\"id\"]: entity for entity in boundary_doc.get(\"entities\", [])})\n    planned = {item[\"entity_id\"]: item for item in json_load(output / \"navigation-plan.json\")[\"decisions\"]}\n    errors: list[dict[str, Any]] = []\n    expected_ids = set(pack[\"entity_ids\"])\n    if set(by_id) != expected_ids:\n        errors.append({\"reason\": \"review-pack-entity-set-mismatch\", \"missing\": sorted(expected_ids - set(by_id)), \"extra\": sorted(set(by_id) - expected_ids)})\n    file_by_path = {item[\"file\"][\"path\"]: item[\"file\"] for item in catalog[\"files\"]}\n    files = [file_by_path[path] for path in sorted({entity_by_id[value][\"path\"] for value in expected_ids if value in entity_by_id})]\n    sources = blob_bytes_many(state[\"repository\"], files)\n    for entity_id in sorted(expected_ids & set(by_id)):\n        item = by_id[entity_id]\n        entity = entity_by_id[entity_id]\n        decision = planned[entity_id]\n        if item.get(\"status\") != \"agent-reviewed\":\n            errors.append({\"id\": entity_id, \"reason\": \"status-not-agent-reviewed\"})\n        if item.get(\"classification\") != decision[\"classification\"] or item.get(\"owner_page_id\") != decision[\"owner_page_id\"]:\n            errors.append({\"id\": entity_id, \"reason\": \"deterministic-classification-or-owner-changed\"})\n        if item.get(\"source_path\") != entity[\"path\"] or item.get(\"start_line\") != entity[\"range\"][\"start_line\"] or item.get(\"end_line\") != entity[\"range\"][\"end_line\"]:\n            errors.append({\"id\": entity_id, \"reason\": \"source-basis-mismatch\"})\n        reason = _source_check(entity, sources.get(entity[\"path\"]), file_by_path.get(entity[\"path\"], {}).get(\"blob\"))\n        if reason:\n            errors.append({\"id\": entity_id, \"reason\": reason})\n        if pack[\"kind\"] == \"appendix-review\":\n            if not _single_chinese_sentence(item.get(\"description_zh\")):\n                errors.append({\"id\": entity_id, \"reason\": \"description_zh-not-one-useful-sentence\"})\n        else:\n            for field in (\"meaning_zh\", \"role_zh\", \"change_when_zh\"):\n                if not _substantive_chinese(item.get(field)):\n                    errors.append({\"id\": entity_id, \"reason\": f\"{field}-not-substantive\"})\n        if not _substantive_chinese(item.get(\"evidence_note\")):\n            errors.append({\"id\": entity_id, \"reason\": \"evidence_note-not-substantive\"})\n    status_value = \"passed\" if not errors else \"failed\"\n    pack_dir = output / \"review-packs\" / pack_id\n    destination = pack_dir / \"agent-review.json\"\n    review[\"pack_id\"] = pack_id\n    review[\"kind\"] = pack[\"kind\"]\n    review[\"reviewed_at_utc\"] = review.get(\"reviewed_at_utc\") or utc_now()\n    json_write(destination, review)\n    audit = {\"schema_version\": SCHEMA_VERSION, \"pack_id\": pack_id, \"kind\": pack[\"kind\"], \"status\": status_value, \"errors\": errors, \"audited_at_utc\": utc_now()}\n    json_write(pack_dir / \"audit.json\", audit)\n    pack[\"status\"] = status_value\n    pack[\"review_path\"] = str(destination.resolve())\n    pack[\"audit_path\"] = str((pack_dir / \"audit.json\").resolve())\n    state[\"status\"] = \"in-progress\" if status_value == \"passed\" else \"failed\"\n    json_write(output / \"state.json\", state)\n    if errors:\n        write_marker(output, \".failed\", {\"status\": \"failed\", \"review_pack\": pack_id, \"audit\": pack[\"audit_path\"]})\n        raise AuditError(f\"review pack failed: {pack_dir / 'audit.json'}\")\n\n    # When all review packs for a parse batch pass, materialize the combined\n    # review expected by the existing deterministic batch audit and close it.\n    state = _load_state(output)\n    for batch in required_batches:\n        batch_packs = [value for value in state[\"review_packs\"] if batch[\"id\"] in value.get(\"parse_batch_ids\", [])]\n        if not batch_packs or any(value[\"status\"] != \"passed\" for value in batch_packs):\n            continue\n        combined_items: list[dict[str, Any]] = []\n        for value in batch_packs:\n            combined_items.extend(json_load(output / \"review-packs\" / value[\"id\"] / \"agent-review.json\")[\"reviews\"])\n        combined = {\"schema_version\": SCHEMA_VERSION, \"chunk_id\": batch[\"id\"], \"reviewer\": \"Agent\", \"reviewed_at_utc\": utc_now(), \"reviews\": combined_items}\n        json_write(output / \"chunks\" / batch[\"id\"] / \"agent-review.json\", combined)\n        batch_audit = audit_chunk(output, batch[\"id\"])\n        if batch_audit[\"status\"] != \"passed\":\n            raise AuditError(f\"parse batch audit failed after review packs: {batch['id']}\")\n        candidate_path = output / \"chunks\" / batch[\"id\"] / \"candidate.json\"\n        candidate = json_load(candidate_path)\n        combined_by_id = {item[\"entity_id\"]: item for item in combined_items}\n        for entity in candidate[\"entities\"]:\n            item = combined_by_id[entity[\"id\"]]\n            entity[\"classification\"] = item[\"classification\"]\n            entity[\"owner_page_id\"] = item[\"owner_page_id\"]\n            if item[\"classification\"] == \"appendix\":\n                entity[\"description_zh\"] = item[\"description_zh\"]\n            else:\n                entity[\"meaning_zh\"] = item[\"meaning_zh\"]\n                entity[\"role_zh\"] = item[\"role_zh\"]\n                entity[\"change_when_zh\"] = item[\"change_when_zh\"]\n            entity[\"evidence_note\"] = item[\"evidence_note\"]\n            entity[\"review_status\"] = \"agent-reviewed\"\n        json_write(candidate_path, candidate)\n        refreshed = _load_state(output)\n        refreshed_batch = _chunk(refreshed, batch[\"id\"])\n        refreshed_batch[\"status\"] = \"passed\"\n        refreshed[\"status\"] = \"in-progress\"\n        json_write(output / \"state.json\", refreshed)\n    state = _load_state(output)\n    remaining = next((value for value in state[\"review_packs\"] if value[\"status\"] != \"passed\"), None)\n    if remaining:\n        write_marker(output, \".pending-agent-review\", {\"status\": \"next-review-pack\", \"next_review_pack\": remaining[\"id\"], \"review_template\": remaining.get(\"review_template_path\")})\n    else:\n        write_marker(output, \".pending-agent-review\", {\"status\": \"ready-to-merge\"})\n    return audit",
       "status": "draft",
       "evidence_note": "",
       "description_zh": ""

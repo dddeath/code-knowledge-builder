@@ -3,100 +3,12 @@
   "pack_id": "migrated-appendix-review-pack-0025",
   "kind": "appendix-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T22:46:11Z",
+  "reviewed_at_utc": "2026-09-03T01:39:29Z",
   "reviews": [
     {
-      "entity_id": "ent-f5c57e4567825117bcd66fdb7ae3a303",
+      "entity_id": "ent-9a3f404cdd3c5a04acea6e2cf36a846b",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
-      "source_path": "scripts/ckb_core/pipeline.py",
-      "start_line": 2050,
-      "end_line": 2074,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/pipeline.py` 第 2050 至 2074 行；摘录与 Git blob 06869d8b1045 一致。",
-      "description_zh": "`_human_relation_sentences` 完成知识库构建与投影主流程中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-a15d9f4bd11d5afaa09fd0dd992ca8e0",
-      "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
-      "source_path": "scripts/ckb_core/pipeline.py",
-      "start_line": 2077,
-      "end_line": 2155,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/pipeline.py` 第 2077 至 2155 行；摘录与 Git blob 06869d8b1045 一致。",
-      "description_zh": "`_normalized_edn_document` 解析并归一化知识库构建与投影主流程所需的数据或状态。"
-    },
-    {
-      "entity_id": "ent-d71d3a2e844a575887fe79edd8247b99",
-      "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
-      "source_path": "scripts/ckb_core/pipeline.py",
-      "start_line": 2158,
-      "end_line": 2231,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/pipeline.py` 第 2158 至 2231 行；摘录与 Git blob 06869d8b1045 一致。",
-      "description_zh": "`_render_markdown_page` 生成并写入知识库构建与投影主流程所需的数据或状态。"
-    },
-    {
-      "entity_id": "ent-7aba321be51456efb96132d61a1aba49",
-      "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
-      "source_path": "scripts/ckb_core/pipeline.py",
-      "start_line": 2234,
-      "end_line": 2244,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/pipeline.py` 第 2234 至 2244 行；摘录与 Git blob 06869d8b1045 一致。",
-      "description_zh": "`_logseq_file_graph_config_bytes` 完成知识库构建与投影主流程中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-a8be2e836890587f850126404d114f46",
-      "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
-      "source_path": "scripts/ckb_core/pipeline.py",
-      "start_line": 2247,
-      "end_line": 2260,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/pipeline.py` 第 2247 至 2260 行；摘录与 Git blob 06869d8b1045 一致。",
-      "description_zh": "`_install_logseq_file_graph_config` 完成知识库构建与投影主流程中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-5c680922e09a5a9da5de561bb1dba2d1",
-      "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
-      "source_path": "scripts/ckb_core/pipeline.py",
-      "start_line": 2263,
-      "end_line": 2290,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/pipeline.py` 第 2263 至 2290 行；摘录与 Git blob 06869d8b1045 一致。",
-      "description_zh": "`_audit_logseq_file_graph_config` 校验知识库构建与投影主流程所需的数据或状态。"
-    },
-    {
-      "entity_id": "ent-5765e2d2ff1d5000924e07a3a02543ab",
-      "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
-      "source_path": "scripts/ckb_core/pipeline.py",
-      "start_line": 2293,
-      "end_line": 2302,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/pipeline.py` 第 2293 至 2302 行；摘录与 Git blob 06869d8b1045 一致。",
-      "description_zh": "`_human_page_filenames` 完成知识库构建与投影主流程中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-cc00eb481fef56a6bb8341baf4d3c521",
-      "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
-      "source_path": "scripts/ckb_core/pipeline.py",
-      "start_line": 2305,
-      "end_line": 2347,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/pipeline.py` 第 2305 至 2347 行；摘录与 Git blob 06869d8b1045 一致。",
-      "description_zh": "`_index_document` 完成知识库构建与投影主流程中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-b6e205353cb3503d8223b4651c5a39d5",
-      "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 2350,
       "end_line": 2440,
@@ -105,9 +17,9 @@
       "description_zh": "`_wiki_document` 完成知识库构建与投影主流程中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-f84c67cdb420591ca51f55c18cdd1cbc",
+      "entity_id": "ent-f10a500c72f75937aac1795aa17cff3a",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 2443,
       "end_line": 2557,
@@ -116,9 +28,9 @@
       "description_zh": "`_readability_report` 读取并判定知识库构建与投影主流程所需的数据或状态。"
     },
     {
-      "entity_id": "ent-b5e2965eb8a256f19e6b7ade407c8562",
+      "entity_id": "ent-87762f256ab0507cbb1030daa4d7987e",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 2560,
       "end_line": 2640,
@@ -127,9 +39,9 @@
       "description_zh": "`project_markdown` 生成并写入知识库构建与投影主流程所需的数据或状态。"
     },
     {
-      "entity_id": "ent-f9a34afcb0175cd0b5b3c6da18078cd6",
+      "entity_id": "ent-976c85603531559baf85978ccabfc0f4",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 2643,
       "end_line": 2652,
@@ -138,9 +50,9 @@
       "description_zh": "`_preserved_human_bytes` 完成知识库构建与投影主流程中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-93fe1ac048dd568fb9813b11a4c51244",
+      "entity_id": "ent-8127644b57405521b1baccbfa110c40d",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 2655,
       "end_line": 2741,
@@ -149,9 +61,9 @@
       "description_zh": "`refresh_human_navigation` 完成知识库构建与投影主流程中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-7de672f718da5139876620fad0a51e35",
+      "entity_id": "ent-1945e1ca68ad5a7a9bb3e29a8e97c6fe",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 2744,
       "end_line": 2763,
@@ -160,9 +72,9 @@
       "description_zh": "`_logseq` 完成知识库构建与投影主流程中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-a34377e8d4035e8586843c661cc86930",
+      "entity_id": "ent-5994000f059554eb913f8159ec5718dc",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 2766,
       "end_line": 2799,
@@ -171,9 +83,9 @@
       "description_zh": "`_logseq_count` 完成知识库构建与投影主流程中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-c1a389ba7146577ca372520498645e71",
+      "entity_id": "ent-aca753d17de153918bda102dd98bdd45",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 2775,
       "end_line": 2785,
@@ -182,15 +94,37 @@
       "description_zh": "`visit` 完成知识库构建与投影主流程中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-9bad23634f9e5b20b5166e8f0c4659c1",
+      "entity_id": "ent-232491bb93235c61b94f9ef98f2cd668",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 2788,
       "end_line": 2793,
       "status": "agent-reviewed",
       "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/pipeline.py` 第 2788 至 2793 行；摘录与 Git blob 06869d8b1045 一致。",
       "description_zh": "`contains_null_result` 完成知识库构建与投影主流程中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-596aeeff850c599aa26f53bff8e6b9f6",
+      "classification": "appendix",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2802,
+      "end_line": 2935,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/pipeline.py` 第 2802 至 2935 行；摘录与 Git blob 06869d8b1045 一致。",
+      "description_zh": "`project_logseq` 生成并写入知识库构建与投影主流程所需的数据或状态。"
+    },
+    {
+      "entity_id": "ent-96c041bb2c585fec82334847289a9f04",
+      "classification": "appendix",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2938,
+      "end_line": 3007,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/pipeline.py` 第 2938 至 3007 行；摘录与 Git blob 06869d8b1045 一致。",
+      "description_zh": "`_audit_markdown` 校验知识库构建与投影主流程所需的数据或状态。"
     }
   ]
 }

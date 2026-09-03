@@ -1,15 +1,15 @@
 {
   "schema_version": 1,
-  "status": "failed",
-  "checked_at_utc": "2026-09-02T22:42:31Z",
-  "output": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7",
+  "status": "passed",
+  "checked_at_utc": "2026-09-03T00:49:10Z",
+  "output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
   "page_writes": 0,
   "checks": {
     "agent_protocol": {
       "schema_version": 1,
       "protocol_version": "1.5.0",
-      "status": "failed",
-      "output": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7",
+      "status": "passed",
+      "output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
       "internal_roots": [
         "output",
         "markdown",
@@ -38,113 +38,43 @@
           "schema_version": 1,
           "status": "not-required",
           "required": false,
-          "vault": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\markdown",
-          "path": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\markdown\\.ckb\\output-contract.json",
+          "vault": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown",
+          "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown\\.ckb\\output-contract.json",
           "errors": []
         },
         "human": {
           "schema_version": 1,
-          "status": "failed",
+          "status": "passed",
           "required": true,
-          "vault": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\human",
-          "path": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\human\\.ckb\\output-contract.json",
-          "errors": [
-            {
-              "reason": "plugin-output-contract-drift",
-              "path": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\human\\.ckb\\output-contract.json"
-            }
-          ]
+          "vault": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human",
+          "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human\\.ckb\\output-contract.json",
+          "errors": []
         }
       },
       "work_record_index": {
         "status": "passed",
-        "record_count": 66,
-        "linked_record_count": 66,
+        "record_count": 69,
+        "linked_record_count": 69,
         "section_counts": {
           "analysis": 18,
-          "changes": 36,
+          "changes": 37,
           "pitfalls": 0,
-          "experiments": 5,
+          "experiments": 7,
           "sessions": 7
         },
         "errors": []
       },
-      "errors": [
-        {
-          "reason": "agent-protocol-adapter-drift",
-          "root": "output",
-          "path": "AGENTS.md"
-        },
-        {
-          "reason": "agent-protocol-adapter-drift",
-          "root": "output",
-          "path": ".github/copilot-instructions.md"
-        },
-        {
-          "reason": "agent-protocol-adapter-drift",
-          "root": "output",
-          "path": ".cursor/rules/code-knowledge-builder.mdc"
-        },
-        {
-          "reason": "agent-protocol-adapter-drift",
-          "root": "markdown",
-          "path": "AGENTS.md"
-        },
-        {
-          "reason": "agent-protocol-adapter-drift",
-          "root": "markdown",
-          "path": ".github/copilot-instructions.md"
-        },
-        {
-          "reason": "agent-protocol-adapter-drift",
-          "root": "markdown",
-          "path": ".cursor/rules/code-knowledge-builder.mdc"
-        },
-        {
-          "reason": "agent-protocol-adapter-drift",
-          "root": "human",
-          "path": "AGENTS.md"
-        },
-        {
-          "reason": "agent-protocol-adapter-drift",
-          "root": "human",
-          "path": ".github/copilot-instructions.md"
-        },
-        {
-          "reason": "agent-protocol-adapter-drift",
-          "root": "human",
-          "path": ".cursor/rules/code-knowledge-builder.mdc"
-        },
-        {
-          "reason": "agent-protocol-workspace-adapter-drift",
-          "root": "E:\\knowledge_builder",
-          "path": "AGENTS.md"
-        },
-        {
-          "reason": "agent-protocol-workspace-adapter-drift",
-          "root": "E:\\knowledge_builder",
-          "path": ".github/copilot-instructions.md"
-        },
-        {
-          "reason": "agent-protocol-workspace-adapter-drift",
-          "root": "E:\\knowledge_builder",
-          "path": ".cursor/rules/code-knowledge-builder.mdc"
-        },
-        {
-          "reason": "plugin-output-contract-drift",
-          "path": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\human\\.ckb\\output-contract.json"
-        }
-      ]
+      "errors": []
     },
     "work_record_index": {
       "status": "passed",
-      "record_count": 66,
-      "linked_record_count": 66,
+      "record_count": 69,
+      "linked_record_count": 69,
       "section_counts": {
         "analysis": 18,
-        "changes": 36,
+        "changes": 37,
         "pitfalls": 0,
-        "experiments": 5,
+        "experiments": 7,
         "sessions": 7
       },
       "errors": []
@@ -152,14 +82,14 @@
     "agent_index": {
       "schema_version": 1,
       "status": "passed",
-      "path": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\agent-index.sqlite",
+      "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\agent-index.sqlite",
       "integrity": "ok",
       "counts": {
-        "pages": 230,
-        "symbols": 1937,
-        "edges": 1876,
-        "terms": 26813,
-        "notes": 66
+        "pages": 243,
+        "symbols": 2029,
+        "edges": 1902,
+        "terms": 28198,
+        "notes": 69
       },
       "projection_format": "markdown",
       "errors": []
@@ -167,25 +97,25 @@
     "machine_knowledge": {
       "schema_version": 3,
       "status": "passed",
-      "path": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\machine\\knowledge.sqlite",
+      "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\knowledge.sqlite",
       "integrity": "ok",
       "counts": {
-        "files": 106,
-        "entities": 1937,
-        "source_ranges": 1937,
-        "relations": 7666,
-        "reviews": 1937,
-        "documents": 2011,
-        "sections": 7077,
-        "human_projection": 1937,
+        "files": 109,
+        "entities": 2029,
+        "source_ranges": 2029,
+        "relations": 7895,
+        "reviews": 2029,
+        "documents": 2106,
+        "sections": 7477,
+        "human_projection": 2029,
         "workspace_changes": 0,
         "reference_sources": 1,
         "research_gaps": 7
       },
       "fts_counts": {
-        "entity_fts": 1937,
-        "section_fts": 7077,
-        "source_fts": 106
+        "entity_fts": 2029,
+        "section_fts": 7477,
+        "source_fts": 109
       },
       "language_contract": "所有说明使用简体中文，允许英文专有名词和代码标识符",
       "retrieval": "sqlite-exact-fts5-sections-deterministic-weighted-graph",
@@ -201,8 +131,8 @@
     "human_layer": {
       "schema_version": 1,
       "status": "passed",
-      "root": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\human",
-      "compatibility_root": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\markdown",
+      "root": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human",
+      "compatibility_root": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown",
       "language": "zh-CN",
       "ignored_user_state_differences": [],
       "errors": []
@@ -227,10 +157,10 @@
     "operations": {
       "schema_version": 1,
       "status": "passed",
-      "records": 266,
-      "shards": 3,
+      "records": 274,
+      "shards": 4,
       "initialized": true,
-      "latest": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\operations\\latest.json",
+      "latest": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\operations\\latest.json",
       "errors": []
     },
     "research_gaps": {
@@ -239,17 +169,17 @@
       "initialized": true,
       "counts": {
         "total": 7,
-        "open": 6,
+        "open": 5,
         "deferred": 0,
-        "resolved": 1
+        "resolved": 2
       },
-      "index": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\workspace-meta\\gaps\\index.json",
+      "index": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\gaps\\index.json",
       "errors": []
     }
   },
   "human_readability": {
     "status": "passed",
-    "path": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\human\\readability-audit.json",
+    "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human\\readability-audit.json",
     "errors": []
   },
   "capability_counts": {
@@ -258,7 +188,5 @@
     "明确排除": 3,
     "需要 benchmark": 3
   },
-  "failed_checks": [
-    "agent_protocol"
-  ]
+  "failed_checks": []
 }

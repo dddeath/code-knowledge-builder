@@ -14,12 +14,12 @@
 
 ## 相关代码
 
-- 实现时会用到 [[benchmark 的协作边界（prototypes）]]。
+- 实现时会用到 [[benchmark 的协作边界（9fab5b96）]]。
 
 ## 谁会来到这里
 
 - [[DriftAndAvailabilityTests 等测试场景]] 汇总了本页。
-- [[benchmark 的协作边界（prototypes）]] 关联到这里的验证场景。
+- [[benchmark 的协作边界（9fab5b96）]] 关联到这里的验证场景。
 
 ## 内部细节
 

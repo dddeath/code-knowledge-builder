@@ -21,4 +21,4 @@
 
 - [[PageFanoutBenchmarkTests]] 会使用这里提供的行为。
 - [[PageFanoutGeneratorTests]] 会使用这里提供的行为。
-- [[cli 的协作边界（prototypes）]] 会使用这里提供的行为。
+- [[cli 的协作边界（20ef2cd4）]] 会使用这里提供的行为。

@@ -7,7 +7,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-from tests import benchmark_chinese_retrieval as effect_benchmark
+import benchmark_chinese_retrieval as effect_benchmark
 
 
 FIXTURES = Path(__file__).with_name("fixtures")

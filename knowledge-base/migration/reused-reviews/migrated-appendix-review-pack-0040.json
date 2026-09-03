@@ -3,12 +3,122 @@
   "pack_id": "migrated-appendix-review-pack-0040",
   "kind": "appendix-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T22:46:48Z",
+  "reviewed_at_utc": "2026-09-03T01:40:03Z",
   "reviews": [
     {
-      "entity_id": "ent-95261946391f5df0b9eeed74f6c2bd27",
+      "entity_id": "ent-ad3abbd811cd521d865dc016d163bd11",
       "classification": "appendix",
-      "owner_page_id": "ent-0289d68e396f5ee58549f2e43a3ca385",
+      "owner_page_id": "ent-604cf4be8f9f59ac8a63fd7614b95138",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 224,
+      "end_line": 276,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_ckb.py` 第 224 至 276 行；摘录与 Git blob ee9f78028022 一致。",
+      "description_zh": "该测试验证“bounded machine operation jou…”场景，保护CKB 核心合同回归验证的预期结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-548d4c8d6fbf5f7fbf9c6876a21cccb7",
+      "classification": "appendix",
+      "owner_page_id": "ent-604cf4be8f9f59ac8a63fd7614b95138",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 278,
+      "end_line": 326,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_ckb.py` 第 278 至 326 行；摘录与 Git blob ee9f78028022 一致。",
+      "description_zh": "该测试验证“research gap register is mach…”场景，保护CKB 核心合同回归验证的预期结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-327dfb2970bf52d9aac5b4ca652e349d",
+      "classification": "appendix",
+      "owner_page_id": "ent-604cf4be8f9f59ac8a63fd7614b95138",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 328,
+      "end_line": 342,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_ckb.py` 第 328 至 342 行；摘录与 Git blob ee9f78028022 一致。",
+      "description_zh": "该测试验证“llm wiki capability matrix ha…”场景，保护CKB 核心合同回归验证的预期结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-2ead9861d18b543689b7c97cdf6a6ecd",
+      "classification": "appendix",
+      "owner_page_id": "ent-604cf4be8f9f59ac8a63fd7614b95138",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 344,
+      "end_line": 553,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_ckb.py` 第 344 至 553 行；摘录与 Git blob ee9f78028022 一致。",
+      "description_zh": "该测试验证“reviewed text reference is se…”场景，保护CKB 核心合同回归验证的预期结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-d4b4120443b85bc9a2ce3ec224172bca",
+      "classification": "appendix",
+      "owner_page_id": "ent-604cf4be8f9f59ac8a63fd7614b95138",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 555,
+      "end_line": 562,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_ckb.py` 第 555 至 562 行；摘录与 Git blob ee9f78028022 一致。",
+      "description_zh": "该测试验证“empty document symbols are no…”场景，保护CKB 核心合同回归验证的预期结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-f7a0ed5873f052a5b3b76c31d388384e",
+      "classification": "appendix",
+      "owner_page_id": "ent-604cf4be8f9f59ac8a63fd7614b95138",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 564,
+      "end_line": 598,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_ckb.py` 第 564 至 598 行；摘录与 Git blob ee9f78028022 一致。",
+      "description_zh": "该测试验证“python attribute accessors st…”场景，保护CKB 核心合同回归验证的预期结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-2839d9d21fdc5829a535dd5c86c395ab",
+      "classification": "appendix",
+      "owner_page_id": "ent-604cf4be8f9f59ac8a63fd7614b95138",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 600,
+      "end_line": 687,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_ckb.py` 第 600 至 687 行；摘录与 Git blob ee9f78028022 一致。",
+      "description_zh": "该测试验证“stdio retrieval protocol is j…”场景，保护CKB 核心合同回归验证的预期结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-053e4ae13962503db07fc96d0271f9c3",
+      "classification": "appendix",
+      "owner_page_id": "ent-604cf4be8f9f59ac8a63fd7614b95138",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 607,
+      "end_line": 617,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_ckb.py` 第 607 至 617 行；摘录与 Git blob ee9f78028022 一致。",
+      "description_zh": "`fake_retrieve` 完成CKB 核心合同回归验证中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-aeca8375800e5414a8d41ed7bea7efe3",
+      "classification": "appendix",
+      "owner_page_id": "ent-604cf4be8f9f59ac8a63fd7614b95138",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 619,
+      "end_line": 621,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_ckb.py` 第 619 至 621 行；摘录与 Git blob ee9f78028022 一致。",
+      "description_zh": "`fake_record` 完成CKB 核心合同回归验证中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-d7b75db4e2c353fba5a44220711dea0b",
+      "classification": "appendix",
+      "owner_page_id": "ent-604cf4be8f9f59ac8a63fd7614b95138",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 689,
+      "end_line": 729,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_ckb.py` 第 689 至 729 行；摘录与 Git blob ee9f78028022 一致。",
+      "description_zh": "该测试验证“record explanation writes utf…”场景，保护CKB 核心合同回归验证的预期结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-541b6e67b25959bfa08012c4a1c98e29",
+      "classification": "appendix",
+      "owner_page_id": "ent-604cf4be8f9f59ac8a63fd7614b95138",
       "source_path": "tests/test_ckb.py",
       "start_line": 731,
       "end_line": 773,
@@ -17,9 +127,9 @@
       "description_zh": "该测试验证“obsidian plugin package can b…”场景，保护CKB 核心合同回归验证的预期结果与失败边界。"
     },
     {
-      "entity_id": "ent-a59a526701955603a078ef250abc4b46",
+      "entity_id": "ent-8d74efa7a6ba5dd289e31e6567cc0758",
       "classification": "appendix",
-      "owner_page_id": "ent-0289d68e396f5ee58549f2e43a3ca385",
+      "owner_page_id": "ent-604cf4be8f9f59ac8a63fd7614b95138",
       "source_path": "tests/test_ckb.py",
       "start_line": 775,
       "end_line": 802,
@@ -28,9 +138,9 @@
       "description_zh": "该测试验证“obsidian plugin deploy falls …”场景，保护CKB 核心合同回归验证的预期结果与失败边界。"
     },
     {
-      "entity_id": "ent-c977eaa9652e542689196e832ca7c5c3",
+      "entity_id": "ent-f6afb4a1e2e4549fbc85280805deffd5",
       "classification": "appendix",
-      "owner_page_id": "ent-0289d68e396f5ee58549f2e43a3ca385",
+      "owner_page_id": "ent-604cf4be8f9f59ac8a63fd7614b95138",
       "source_path": "tests/test_ckb.py",
       "start_line": 804,
       "end_line": 815,
@@ -39,9 +149,9 @@
       "description_zh": "该测试验证“obsidian output contract is n…”场景，保护CKB 核心合同回归验证的预期结果与失败边界。"
     },
     {
-      "entity_id": "ent-ccf21d00a4a056b5b4b0bc933167f639",
+      "entity_id": "ent-eebd3fc446d0532891dea0395d08d1f6",
       "classification": "appendix",
-      "owner_page_id": "ent-0289d68e396f5ee58549f2e43a3ca385",
+      "owner_page_id": "ent-604cf4be8f9f59ac8a63fd7614b95138",
       "source_path": "tests/test_ckb.py",
       "start_line": 817,
       "end_line": 917,
@@ -50,9 +160,9 @@
       "description_zh": "该测试验证“non git path reminds then opt…”场景，保护CKB 核心合同回归验证的预期结果与失败边界。"
     },
     {
-      "entity_id": "ent-bb08ec13370250fe89d2a71adca6ff3c",
+      "entity_id": "ent-20a5e57198eb53a8892f449f5aaa9265",
       "classification": "appendix",
-      "owner_page_id": "ent-0289d68e396f5ee58549f2e43a3ca385",
+      "owner_page_id": "ent-604cf4be8f9f59ac8a63fd7614b95138",
       "source_path": "tests/test_ckb.py",
       "start_line": 919,
       "end_line": 968,
@@ -61,9 +171,9 @@
       "description_zh": "该测试验证“unborn git repo requires opt …”场景，保护CKB 核心合同回归验证的预期结果与失败边界。"
     },
     {
-      "entity_id": "ent-728227205bee552f9ff91a1fea5b655e",
+      "entity_id": "ent-b97a071ad5425710a3634c8b551cb934",
       "classification": "appendix",
-      "owner_page_id": "ent-0289d68e396f5ee58549f2e43a3ca385",
+      "owner_page_id": "ent-604cf4be8f9f59ac8a63fd7614b95138",
       "source_path": "tests/test_ckb.py",
       "start_line": 970,
       "end_line": 1001,
@@ -72,26 +182,15 @@
       "description_zh": "该测试验证“fast run can bootstrap non gi…”场景，保护CKB 核心合同回归验证的预期结果与失败边界。"
     },
     {
-      "entity_id": "ent-cf9c1c0b4d3e5b958ca580d5abc19eb0",
+      "entity_id": "ent-c502ea3f9b505a1aacdfc8da3794dd2c",
       "classification": "appendix",
-      "owner_page_id": "ent-0289d68e396f5ee58549f2e43a3ca385",
+      "owner_page_id": "ent-604cf4be8f9f59ac8a63fd7614b95138",
       "source_path": "tests/test_ckb.py",
       "start_line": 1003,
       "end_line": 1101,
       "status": "agent-reviewed",
       "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_ckb.py` 第 1003 至 1101 行；摘录与 Git blob ee9f78028022 一致。",
       "description_zh": "该测试验证“feedback anchor mirroring aud…”场景，保护CKB 核心合同回归验证的预期结果与失败边界。"
-    },
-    {
-      "entity_id": "ent-bfd6b0ecb01d55299ab956f7fca05e9b",
-      "classification": "appendix",
-      "owner_page_id": "ent-0289d68e396f5ee58549f2e43a3ca385",
-      "source_path": "tests/test_ckb.py",
-      "start_line": 1103,
-      "end_line": 1143,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_ckb.py` 第 1103 至 1143 行；摘录与 Git blob ee9f78028022 一致。",
-      "description_zh": "该测试验证“work record index covers ever…”场景，保护CKB 核心合同回归验证的预期结果与失败边界。"
     }
   ]
 }

@@ -3,12 +3,89 @@
   "pack_id": "migrated-appendix-review-pack-0035",
   "kind": "appendix-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T22:46:42Z",
+  "reviewed_at_utc": "2026-09-03T01:39:57Z",
   "reviews": [
     {
-      "entity_id": "ent-d7567ab6c38859638009cd94cf733f1a",
+      "entity_id": "ent-60b96442085158c19ecf2467cedee1c0",
       "classification": "appendix",
-      "owner_page_id": "file-035c262b7c0b5e0c92fbf985e4aefc95",
+      "owner_page_id": "file-fd729861d3b15866b837c38376cb5b1f",
+      "source_path": "tests/fixtures/chinese-retrieval-effects/recompute.py",
+      "start_line": 64,
+      "end_line": 102,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 c533dd7c5322 中 `tests/fixtures/chinese-retrieval-effects/recompute.py` 第 64 至 102 行，摘录属于 Git blob 85b16b372456。",
+      "description_zh": "`aggregate` 解析并归一化中文检索独立重算所需的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-d0554294757f5ae3874ccf4dc90bd68f",
+      "classification": "appendix",
+      "owner_page_id": "file-e4a34fccf350528f8edc12102c608747",
+      "source_path": "tests/fixtures/cpp-parser-scons/conditional-valid.cpp",
+      "start_line": 2,
+      "end_line": 4,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/fixtures/cpp-parser-scons/conditional-valid.cpp` 第 2-4 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`debug_value` 是第 2-4 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-128b1fad8d505c4ebbd82ee9d0778c2c",
+      "classification": "appendix",
+      "owner_page_id": "file-46951d0b25d455c89ba17c80d31ec37e",
+      "source_path": "tests/fixtures/cpp-parser-scons/explicit-instantiation-valid.cpp",
+      "start_line": 3,
+      "end_line": 3,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/fixtures/cpp-parser-scons/explicit-instantiation-valid.cpp` 第 3-3 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`run` 是第 3-3 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-8d3b3a00412e55a8889d1344640c0bf0",
+      "classification": "appendix",
+      "owner_page_id": "file-08efeee451d154eca60fda0b149b27db",
+      "source_path": "tests/fixtures/cpp-parser-scons/reference-direct-init-valid.cpp",
+      "start_line": 1,
+      "end_line": 1,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/fixtures/cpp-parser-scons/reference-direct-init-valid.cpp` 第 1-1 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`T` 是第 1-1 行的类，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-f28f1998122a56a7996e6a6026c62ff6",
+      "classification": "appendix",
+      "owner_page_id": "file-08efeee451d154eca60fda0b149b27db",
+      "source_path": "tests/fixtures/cpp-parser-scons/reference-direct-init-valid.cpp",
+      "start_line": 1,
+      "end_line": 1,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/fixtures/cpp-parser-scons/reference-direct-init-valid.cpp` 第 1-1 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`T.T` 是第 1-1 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-efd770bcd5b05f3ab45373c6cd08f36d",
+      "classification": "appendix",
+      "owner_page_id": "file-08efeee451d154eca60fda0b149b27db",
+      "source_path": "tests/fixtures/cpp-parser-scons/reference-direct-init-valid.cpp",
+      "start_line": 3,
+      "end_line": 6,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 c533dd7c5322 中 `tests/fixtures/cpp-parser-scons/reference-direct-init-valid.cpp` 第 3 至 6 行，摘录属于 Git blob e6c31d08f684。",
+      "description_zh": "`bind_reference` 完成C++ 引用声明样例所需的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-1d3a03d1dbe859fdb25970e5fe5d16ec",
+      "classification": "appendix",
+      "owner_page_id": "file-08efeee451d154eca60fda0b149b27db",
+      "source_path": "tests/fixtures/cpp-parser-scons/reference-direct-init-valid.cpp",
+      "start_line": 5,
+      "end_line": 5,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/fixtures/cpp-parser-scons/reference-direct-init-valid.cpp` 第 5-5 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`bind_reference.x` 是第 5-5 行的源码实体，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-19e30fa8ead0579c96828e06bbd741ca",
+      "classification": "appendix",
+      "owner_page_id": "file-ac22df12aaf3546ba3d5c5d259eede27",
       "source_path": "tests/fixtures/cpp-parser-scons/scons-project/src/main.cpp",
       "start_line": 6,
       "end_line": 8,
@@ -17,9 +94,9 @@
       "description_zh": "`public_service` 是第 6-8 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-92108597ab43584ebfe8efacdb3b15e1",
+      "entity_id": "ent-39e73b604c7c56b4b1f1a91ad6716038",
       "classification": "appendix",
-      "owner_page_id": "file-f4daac1e9a935074bd184cadfa52e78e",
+      "owner_page_id": "file-7c9cb9aa3d795335ba64e25b0dc1e531",
       "source_path": "tests/fixtures/obsidian-canvas-agent-visualization/runtime_builder.py",
       "start_line": 22,
       "end_line": 23,
@@ -28,9 +105,9 @@
       "description_zh": "`canonical` 在 `runtime_builder.py` 中用于验证目标行为、失败分类和回归边界。"
     },
     {
-      "entity_id": "ent-78646016d9f55aa097d2c2d43333e149",
+      "entity_id": "ent-46cc5f68ea9757b392621e3492ed0818",
       "classification": "appendix",
-      "owner_page_id": "file-f4daac1e9a935074bd184cadfa52e78e",
+      "owner_page_id": "file-7c9cb9aa3d795335ba64e25b0dc1e531",
       "source_path": "tests/fixtures/obsidian-canvas-agent-visualization/runtime_builder.py",
       "start_line": 26,
       "end_line": 28,
@@ -39,9 +116,9 @@
       "description_zh": "`write_json` 在 `runtime_builder.py` 中用于验证目标行为、失败分类和回归边界。"
     },
     {
-      "entity_id": "ent-b0f1a133c7185e8a9a3dad76652bea80",
+      "entity_id": "ent-96281d6ea7d759c1a19429f15bccc480",
       "classification": "appendix",
-      "owner_page_id": "file-f4daac1e9a935074bd184cadfa52e78e",
+      "owner_page_id": "file-7c9cb9aa3d795335ba64e25b0dc1e531",
       "source_path": "tests/fixtures/obsidian-canvas-agent-visualization/runtime_builder.py",
       "start_line": 31,
       "end_line": 32,
@@ -50,9 +127,9 @@
       "description_zh": "`sha256` 在 `runtime_builder.py` 中用于验证目标行为、失败分类和回归边界。"
     },
     {
-      "entity_id": "ent-c7f5a1fe508b51028fab58d73a306ff2",
+      "entity_id": "ent-38283f59ae3153fe90699c9d34f0727e",
       "classification": "appendix",
-      "owner_page_id": "file-f4daac1e9a935074bd184cadfa52e78e",
+      "owner_page_id": "file-7c9cb9aa3d795335ba64e25b0dc1e531",
       "source_path": "tests/fixtures/obsidian-canvas-agent-visualization/runtime_builder.py",
       "start_line": 35,
       "end_line": 40,
@@ -61,9 +138,9 @@
       "description_zh": "`remove_tree` 在 `runtime_builder.py` 中用于验证目标行为、失败分类和回归边界。"
     },
     {
-      "entity_id": "ent-1fd0b260dd985e3482282739b34aaee7",
+      "entity_id": "ent-0e5f499d9a8c59f9895b3f3d51149111",
       "classification": "appendix",
-      "owner_page_id": "file-f4daac1e9a935074bd184cadfa52e78e",
+      "owner_page_id": "file-7c9cb9aa3d795335ba64e25b0dc1e531",
       "source_path": "tests/fixtures/obsidian-canvas-agent-visualization/runtime_builder.py",
       "start_line": 43,
       "end_line": 60,
@@ -72,9 +149,9 @@
       "description_zh": "`_link_directory` 在 `runtime_builder.py` 中用于验证目标行为、失败分类和回归边界。"
     },
     {
-      "entity_id": "ent-d06970fb161f54fea4798d5eee33cd83",
+      "entity_id": "ent-8a3a58e1e849507c9e2e5615142716f3",
       "classification": "appendix",
-      "owner_page_id": "file-f4daac1e9a935074bd184cadfa52e78e",
+      "owner_page_id": "file-7c9cb9aa3d795335ba64e25b0dc1e531",
       "source_path": "tests/fixtures/obsidian-canvas-agent-visualization/runtime_builder.py",
       "start_line": 64,
       "end_line": 92,
@@ -83,9 +160,9 @@
       "description_zh": "`FixtureCase` 在 `runtime_builder.py` 中用于验证目标行为、失败分类和回归边界。"
     },
     {
-      "entity_id": "ent-38831c07994e57999e64f91c08c97ef1",
+      "entity_id": "ent-beeeb0155c895d0dbc07ee442416e9ed",
       "classification": "appendix",
-      "owner_page_id": "file-f4daac1e9a935074bd184cadfa52e78e",
+      "owner_page_id": "file-7c9cb9aa3d795335ba64e25b0dc1e531",
       "source_path": "tests/fixtures/obsidian-canvas-agent-visualization/runtime_builder.py",
       "start_line": 78,
       "end_line": 79,
@@ -94,9 +171,9 @@
       "description_zh": "`validation` 在 `runtime_builder.py` 中用于验证目标行为、失败分类和回归边界。"
     },
     {
-      "entity_id": "ent-1698b8c53bd556268673909804f3449f",
+      "entity_id": "ent-7b73ec4ce15d5591ba417dd98f994050",
       "classification": "appendix",
-      "owner_page_id": "file-f4daac1e9a935074bd184cadfa52e78e",
+      "owner_page_id": "file-7c9cb9aa3d795335ba64e25b0dc1e531",
       "source_path": "tests/fixtures/obsidian-canvas-agent-visualization/runtime_builder.py",
       "start_line": 82,
       "end_line": 83,
@@ -105,9 +182,9 @@
       "description_zh": "`rollback_manifest` 在 `runtime_builder.py` 中用于验证目标行为、失败分类和回归边界。"
     },
     {
-      "entity_id": "ent-aefbe8eb23bd5cd7be75d9d43c14135d",
+      "entity_id": "ent-0f36fc47f5f953048a4c5d4df790046d",
       "classification": "appendix",
-      "owner_page_id": "file-f4daac1e9a935074bd184cadfa52e78e",
+      "owner_page_id": "file-7c9cb9aa3d795335ba64e25b0dc1e531",
       "source_path": "tests/fixtures/obsidian-canvas-agent-visualization/runtime_builder.py",
       "start_line": 85,
       "end_line": 86,
@@ -116,9 +193,9 @@
       "description_zh": "`request_value` 在 `runtime_builder.py` 中用于验证目标行为、失败分类和回归边界。"
     },
     {
-      "entity_id": "ent-f2cad7a07c5652a887f9f976aed4103f",
+      "entity_id": "ent-c9b4cd9095a4545395324dc9e75fe183",
       "classification": "appendix",
-      "owner_page_id": "file-f4daac1e9a935074bd184cadfa52e78e",
+      "owner_page_id": "file-7c9cb9aa3d795335ba64e25b0dc1e531",
       "source_path": "tests/fixtures/obsidian-canvas-agent-visualization/runtime_builder.py",
       "start_line": 88,
       "end_line": 89,
@@ -127,9 +204,9 @@
       "description_zh": "`write_request` 在 `runtime_builder.py` 中用于验证目标行为、失败分类和回归边界。"
     },
     {
-      "entity_id": "ent-429e1ec12d655a898edcd2fc7206ea03",
+      "entity_id": "ent-dae599dd084d5174976709c490073e1e",
       "classification": "appendix",
-      "owner_page_id": "file-f4daac1e9a935074bd184cadfa52e78e",
+      "owner_page_id": "file-7c9cb9aa3d795335ba64e25b0dc1e531",
       "source_path": "tests/fixtures/obsidian-canvas-agent-visualization/runtime_builder.py",
       "start_line": 91,
       "end_line": 92,
@@ -138,9 +215,9 @@
       "description_zh": "`cleanup` 在 `runtime_builder.py` 中用于验证目标行为、失败分类和回归边界。"
     },
     {
-      "entity_id": "ent-1ac92371fe6f58d5a1c53df666cfe3af",
+      "entity_id": "ent-e7e6d0d772cd5d47b91e71d0a8c6ec15",
       "classification": "appendix",
-      "owner_page_id": "file-f4daac1e9a935074bd184cadfa52e78e",
+      "owner_page_id": "file-7c9cb9aa3d795335ba64e25b0dc1e531",
       "source_path": "tests/fixtures/obsidian-canvas-agent-visualization/runtime_builder.py",
       "start_line": 95,
       "end_line": 98,
@@ -149,9 +226,9 @@
       "description_zh": "`_case_root` 在 `runtime_builder.py` 中用于验证目标行为、失败分类和回归边界。"
     },
     {
-      "entity_id": "ent-9bc49c29d3975e81bec4a75eeb7f6ddf",
+      "entity_id": "ent-426721178c195ecfaede0e11726c3780",
       "classification": "appendix",
-      "owner_page_id": "file-f4daac1e9a935074bd184cadfa52e78e",
+      "owner_page_id": "file-7c9cb9aa3d795335ba64e25b0dc1e531",
       "source_path": "tests/fixtures/obsidian-canvas-agent-visualization/runtime_builder.py",
       "start_line": 369,
       "end_line": 370,
@@ -160,9 +237,9 @@
       "description_zh": "`build_acceptance_runtime` 在 `runtime_builder.py` 中用于验证目标行为、失败分类和回归边界。"
     },
     {
-      "entity_id": "ent-54047352ecc45628a50d334c4b21c4c0",
+      "entity_id": "ent-e29c50e0a59e5bedaca092b94d160262",
       "classification": "appendix",
-      "owner_page_id": "file-3b2ff7b3a4685584aecbbd67ae7a13d1",
+      "owner_page_id": "file-fc984f63403d5131ac4e931e3540f24b",
       "source_path": "tests/fixtures/obsidian-canvas-agent-visualization/template/source/scripts/sample.py",
       "start_line": 1,
       "end_line": 2,
@@ -171,9 +248,9 @@
       "description_zh": "`sample` 在 `sample.py` 中用于验证目标行为、失败分类和回归边界。"
     },
     {
-      "entity_id": "ent-ca3e3e07023a58afb5e72ea294ed5a5d",
+      "entity_id": "ent-5418bf91ba6f56eca311bbedb7d38edb",
       "classification": "appendix",
-      "owner_page_id": "file-4c3e65a4c37f54d18396438384eba70e",
+      "owner_page_id": "file-80b3c15275e4592a82fc8f7b959fcb55",
       "source_path": "tests/git_checkout.py",
       "start_line": 9,
       "end_line": 17,
@@ -182,290 +259,15 @@
       "description_zh": "`_host_path` 是第 9-17 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-6bca7eff624e5fdcb20326e5186c1860",
+      "entity_id": "ent-4e8d256ef39b598494f57113583812ef",
       "classification": "appendix",
-      "owner_page_id": "file-4c3e65a4c37f54d18396438384eba70e",
+      "owner_page_id": "file-80b3c15275e4592a82fc8f7b959fcb55",
       "source_path": "tests/git_checkout.py",
       "start_line": 35,
       "end_line": 63,
       "status": "agent-reviewed",
       "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/git_checkout.py` 第 35-63 行的源码摘录，文件、符号与行范围一致。",
       "description_zh": "`resolve_git_common_dir` 是第 35-63 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-ab460f8db54a51d285eaa845376b2046",
-      "classification": "appendix",
-      "owner_page_id": "file-b467e5627ba35357b6903fe4816adeb2",
-      "source_path": "tests/pdf_fixture_factory.py",
-      "start_line": 9,
-      "end_line": 12,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/pdf_fixture_factory.py` 第 9 至 12 行；摘录与 Git blob 5508aa6f7684 一致。",
-      "description_zh": "`_pdf_string` 完成PDF 离线样例生成中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-51e32e2a24d255c38d01bc078f00586a",
-      "classification": "appendix",
-      "owner_page_id": "file-b467e5627ba35357b6903fe4816adeb2",
-      "source_path": "tests/pdf_fixture_factory.py",
-      "start_line": 15,
-      "end_line": 35,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/pdf_fixture_factory.py` 第 15 至 35 行；摘录与 Git blob 5508aa6f7684 一致。",
-      "description_zh": "`_write_objects` 生成并写入PDF 离线样例生成所需的数据或状态。"
-    },
-    {
-      "entity_id": "ent-4caa8d87b31f52fa83a0ac33423318b1",
-      "classification": "appendix",
-      "owner_page_id": "file-b467e5627ba35357b6903fe4816adeb2",
-      "source_path": "tests/pdf_fixture_factory.py",
-      "start_line": 66,
-      "end_line": 67,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/pdf_fixture_factory.py` 第 66 至 67 行；摘录与 Git blob 5508aa6f7684 一致。",
-      "description_zh": "`blank_pdf` 完成PDF 离线样例生成中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-1ccf90ff2c8e5e84b326f85d3589ae84",
-      "classification": "appendix",
-      "owner_page_id": "file-b467e5627ba35357b6903fe4816adeb2",
-      "source_path": "tests/pdf_fixture_factory.py",
-      "start_line": 70,
-      "end_line": 106,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/pdf_fixture_factory.py` 第 70 至 106 行；摘录与 Git blob 5508aa6f7684 一致。",
-      "description_zh": "`chinese_pdf` 完成PDF 离线样例生成中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-d0cdc14537ba5c97b5f7bbb28367adc6",
-      "classification": "appendix",
-      "owner_page_id": "file-b467e5627ba35357b6903fe4816adeb2",
-      "source_path": "tests/pdf_fixture_factory.py",
-      "start_line": 109,
-      "end_line": 117,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/pdf_fixture_factory.py` 第 109 至 117 行；摘录与 Git blob 5508aa6f7684 一致。",
-      "description_zh": "`encrypt_pdf` 完成PDF 离线样例生成中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-718cc05f94885b76af1c6abadb21ef1e",
-      "classification": "appendix",
-      "owner_page_id": "file-23cf2901f6235967a03d6dcc06f9f9a3",
-      "source_path": "tests/provider_integration.py",
-      "start_line": 19,
-      "end_line": 24,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 bd8519583e3a 中 `tests/provider_integration.py` 第 19 至 24 行，摘录属于 Git blob 962bf727c718。",
-      "description_zh": "`execute` 完成语言 Provider 集成所需的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-5f1fc341b345524591877180942b47b2",
-      "classification": "appendix",
-      "owner_page_id": "file-23cf2901f6235967a03d6dcc06f9f9a3",
-      "source_path": "tests/provider_integration.py",
-      "start_line": 27,
-      "end_line": 30,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/provider_integration.py` 第 27 至 30 行；摘录与 Git blob 962bf727c718 一致。",
-      "description_zh": "`git` 完成真实语言服务器集成验证中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-f5fd1078f2b45efdbd88b3e864fc83b5",
-      "classification": "appendix",
-      "owner_page_id": "file-23cf2901f6235967a03d6dcc06f9f9a3",
-      "source_path": "tests/provider_integration.py",
-      "start_line": 33,
-      "end_line": 65,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/provider_integration.py` 第 33 至 65 行；摘录与 Git blob 962bf727c718 一致。",
-      "description_zh": "`provider_case` 完成真实语言服务器集成验证中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-73418604b9bc54a99a6048a24cfd341a",
-      "classification": "appendix",
-      "owner_page_id": "file-23cf2901f6235967a03d6dcc06f9f9a3",
-      "source_path": "tests/provider_integration.py",
-      "start_line": 68,
-      "end_line": 170,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/provider_integration.py` 第 68 至 170 行；摘录与 Git blob 962bf727c718 一致。",
-      "description_zh": "`clangd_case` 完成真实语言服务器集成验证中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-256cc93dffcc51a482eaf45fdc36f4c4",
-      "classification": "appendix",
-      "owner_page_id": "file-23cf2901f6235967a03d6dcc06f9f9a3",
-      "source_path": "tests/provider_integration.py",
-      "start_line": 173,
-      "end_line": 221,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/provider_integration.py` 第 173 至 221 行；摘录与 Git blob 962bf727c718 一致。",
-      "description_zh": "`csharp_case` 完成真实语言服务器集成验证中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-dc942ae5db9d5b97895d4d491651af52",
-      "classification": "appendix",
-      "owner_page_id": "file-33dcfe235fec544d90aa8a9cb867890e",
-      "source_path": "tests/session_stdio_stress.py",
-      "start_line": 48,
-      "end_line": 90,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/session_stdio_stress.py` 第 48-90 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`main` 是第 48-90 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-d59ee787fa485b488904f0b14172bbf5",
-      "classification": "appendix",
-      "owner_page_id": "file-0255678032f65a4abc4d9e0733f5fdbb",
-      "source_path": "tests/test_agent_protocol_batch.py",
-      "start_line": 38,
-      "end_line": 44,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_agent_protocol_batch.py` 第 38-44 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`tree_digest` 是第 38-44 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-7dd2f8ccda26542fb03c391447b6792c",
-      "classification": "appendix",
-      "owner_page_id": "file-0255678032f65a4abc4d9e0733f5fdbb",
-      "source_path": "tests/test_agent_protocol_batch.py",
-      "start_line": 47,
-      "end_line": 118,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_agent_protocol_batch.py` 第 47-118 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`create_protocol_fixture` 是第 47-118 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-e62de4069f3151be82c20cc02fde6c6b",
-      "classification": "appendix",
-      "owner_page_id": "file-0255678032f65a4abc4d9e0733f5fdbb",
-      "source_path": "tests/test_agent_protocol_batch.py",
-      "start_line": 121,
-      "end_line": 126,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_agent_protocol_batch.py` 第 121-126 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`install_fake_plugin` 是第 121-126 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-20f121383ddb55fb8092a9418663a172",
-      "classification": "appendix",
-      "owner_page_id": "file-0255678032f65a4abc4d9e0733f5fdbb",
-      "source_path": "tests/test_agent_protocol_batch.py",
-      "start_line": 129,
-      "end_line": 132,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_agent_protocol_batch.py` 第 129-132 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`outside_managed_bytes` 是第 129-132 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-31beb9b4ca5d5966b98f70586c65f9ff",
-      "classification": "appendix",
-      "owner_page_id": "file-0255678032f65a4abc4d9e0733f5fdbb",
-      "source_path": "tests/test_agent_protocol_batch.py",
-      "start_line": 135,
-      "end_line": 158,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_agent_protocol_batch.py` 第 135-158 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`AgentProtocolBatchMat...` 是第 135-158 行的类，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-b32e175d59435af0a782babdbf17440b",
-      "classification": "appendix",
-      "owner_page_id": "file-0255678032f65a4abc4d9e0733f5fdbb",
-      "source_path": "tests/test_agent_protocol_batch.py",
-      "start_line": 136,
-      "end_line": 151,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_agent_protocol_batch.py` 第 136-151 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`AgentProtocolBatchMat...` 是第 136-151 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-69acd27a37055467b108a4f788bafc01",
-      "classification": "appendix",
-      "owner_page_id": "file-0255678032f65a4abc4d9e0733f5fdbb",
-      "source_path": "tests/test_agent_protocol_batch.py",
-      "start_line": 153,
-      "end_line": 158,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_agent_protocol_batch.py` 第 153-158 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`AgentProtocolBatchMat...` 是第 153-158 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-936a9d4f9ffa5beeaef0c914f1332207",
-      "classification": "appendix",
-      "owner_page_id": "file-0255678032f65a4abc4d9e0733f5fdbb",
-      "source_path": "tests/test_agent_protocol_batch.py",
-      "start_line": 161,
-      "end_line": 269,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_agent_protocol_batch.py` 第 161-269 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`AgentProtocolBatchPla...` 是第 161-269 行的类，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-367bd0da63145c5b9308994d8c343575",
-      "classification": "appendix",
-      "owner_page_id": "file-0255678032f65a4abc4d9e0733f5fdbb",
-      "source_path": "tests/test_agent_protocol_batch.py",
-      "start_line": 162,
-      "end_line": 178,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_agent_protocol_batch.py` 第 162-178 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`AgentProtocolBatchPla...` 是第 162-178 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-3f71c28ff8b45c5abb4d4b2584a4be98",
-      "classification": "appendix",
-      "owner_page_id": "file-0255678032f65a4abc4d9e0733f5fdbb",
-      "source_path": "tests/test_agent_protocol_batch.py",
-      "start_line": 180,
-      "end_line": 202,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_agent_protocol_batch.py` 第 180-202 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`AgentProtocolBatchPla...` 是第 180-202 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-1427fd1e063b53f8a4ac5aa731e27ebf",
-      "classification": "appendix",
-      "owner_page_id": "file-0255678032f65a4abc4d9e0733f5fdbb",
-      "source_path": "tests/test_agent_protocol_batch.py",
-      "start_line": 204,
-      "end_line": 253,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_agent_protocol_batch.py` 第 204-253 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`AgentProtocolBatchPla...` 是第 204-253 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-c8e9bf7b385c5693b397fc7750f001cb",
-      "classification": "appendix",
-      "owner_page_id": "file-0255678032f65a4abc4d9e0733f5fdbb",
-      "source_path": "tests/test_agent_protocol_batch.py",
-      "start_line": 255,
-      "end_line": 269,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_agent_protocol_batch.py` 第 255-269 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`AgentProtocolBatchPla...` 是第 255-269 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-e06447c367a85a4c84ba683199f1da66",
-      "classification": "appendix",
-      "owner_page_id": "ent-61dc70a38d6e581f9269d4e203a2e28b",
-      "source_path": "tests/test_agent_protocol_batch.py",
-      "start_line": 273,
-      "end_line": 284,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_agent_protocol_batch.py` 第 273-284 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`AgentProtocolBatchApp...` 是第 273-284 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-e4862159d621511bb5ad6cf304b36219",
-      "classification": "appendix",
-      "owner_page_id": "ent-61dc70a38d6e581f9269d4e203a2e28b",
-      "source_path": "tests/test_agent_protocol_batch.py",
-      "start_line": 286,
-      "end_line": 300,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_agent_protocol_batch.py` 第 286-300 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`AgentProtocolBatchApp...` 是第 286-300 行的函数，供所属页面定位实现。"
     }
   ]
 }

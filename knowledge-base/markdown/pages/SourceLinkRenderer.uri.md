@@ -26,7 +26,7 @@
 - [[audit_agent_protocol 与 _default_python 的协作实现]] 会使用这里提供的行为。
 - [[audit_migration]] 会使用这里提供的行为。
 - [[audit_migration 与 _entity_key 的协作实现]] 会使用这里提供的行为。
-- [[benchmark 的协作边界（prototypes）]] 会使用这里提供的行为。
+- [[benchmark 的协作边界（9fab5b96）]] 会使用这里提供的行为。
 - [[bind_conversation 与 default_management_registry_path 的协作实现]] 会使用这里提供的行为。
 - [[build_case]] 会使用这里提供的行为。
 - [[create_knowledge_batch_plan 与 KnowledgeRelease 的协作实现]] 会使用这里提供的行为。

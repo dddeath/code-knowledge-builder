@@ -2,13 +2,15 @@
   "schema_version": 1,
   "gap_id": "gap-da2148a026de59c2b09fbf2cf3c1eb0b",
   "kind": "insufficient-evidence",
-  "status": "open",
+  "status": "resolved",
   "summary_zh": "单文档自动扩散概念页面尚缺少人类查找收益、页面增量上限和中文引用真实性的对照任务证据。",
   "evidence_paths": [
     "machine/agent-packs/pack-20260831-004447-281364-01.json"
   ],
   "created_at_utc": "2026-08-31T01:18:15Z",
-  "updated_at_utc": "2026-08-31T01:18:15Z",
-  "resolution_zh": null,
-  "resolution_evidence_paths": []
+  "updated_at_utc": "2026-09-02T22:50:45Z",
+  "resolution_zh": "固定三类文档和九个导航任务已完成保守投影与自动扩张对照。扩张策略新增九页，回答正确率和来源蕴含率不变，导航步数中位数由二增至三，因此当前结论是保留保守投影，不接入生产页面生成。",
+  "resolution_evidence_paths": [
+    "human/experiments/单文档自动页面扩张对照实验.md"
+  ]
 }

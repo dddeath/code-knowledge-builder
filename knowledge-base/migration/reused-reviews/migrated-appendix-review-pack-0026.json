@@ -3,34 +3,12 @@
   "pack_id": "migrated-appendix-review-pack-0026",
   "kind": "appendix-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T22:46:12Z",
+  "reviewed_at_utc": "2026-09-03T01:39:30Z",
   "reviews": [
     {
-      "entity_id": "ent-09132547bc935b03860867e8d3b1a9fa",
+      "entity_id": "ent-1253d37bd6105842932e7ff0372f1d1c",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
-      "source_path": "scripts/ckb_core/pipeline.py",
-      "start_line": 2802,
-      "end_line": 2935,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/pipeline.py` 第 2802 至 2935 行；摘录与 Git blob 06869d8b1045 一致。",
-      "description_zh": "`project_logseq` 生成并写入知识库构建与投影主流程所需的数据或状态。"
-    },
-    {
-      "entity_id": "ent-a297edb4877655a393eb24bbc770fd58",
-      "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
-      "source_path": "scripts/ckb_core/pipeline.py",
-      "start_line": 2938,
-      "end_line": 3007,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/pipeline.py` 第 2938 至 3007 行；摘录与 Git blob 06869d8b1045 一致。",
-      "description_zh": "`_audit_markdown` 校验知识库构建与投影主流程所需的数据或状态。"
-    },
-    {
-      "entity_id": "ent-23e05a0861da5c089eab21bf0fcb7104",
-      "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 3010,
       "end_line": 3323,
@@ -39,9 +17,9 @@
       "description_zh": "`audit_global` 校验知识库构建与投影主流程所需的数据或状态。"
     },
     {
-      "entity_id": "ent-de878428d59b51deb3d56396fb083e0e",
+      "entity_id": "ent-50fca1d5165957f0806dd9d10e4ab42f",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 3408,
       "end_line": 3426,
@@ -50,9 +28,9 @@
       "description_zh": "`relink_sources` 完成知识库构建与投影主流程中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-ceba347b3bbf582987fca08efb03a007",
+      "entity_id": "ent-625bc3a1b5ad5205807b0ceb1c5f7555",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 3429,
       "end_line": 3534,
@@ -61,9 +39,9 @@
       "description_zh": "`build_context` 创建并初始化知识库构建与投影主流程所需的数据或状态。"
     },
     {
-      "entity_id": "ent-57dd65a6583c5183bb0599bcf2934b83",
+      "entity_id": "ent-2a527e9604fe5467b6305eeeeb6c5b51",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 3537,
       "end_line": 3547,
@@ -72,9 +50,9 @@
       "description_zh": "`status` 读取并判定知识库构建与投影主流程所需的数据或状态。"
     },
     {
-      "entity_id": "ent-255300210dbf5f4084af2b5828968076",
+      "entity_id": "ent-cf9f0ff1166c5294950c696afd409678",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 3550,
       "end_line": 3604,
@@ -83,9 +61,9 @@
       "description_zh": "`run_fast` 完成知识库构建与投影主流程中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-01b10253f6555ae39e61c3e2c7a138a7",
+      "entity_id": "ent-05c024acbb625673b94c7de0488564b5",
       "classification": "appendix",
-      "owner_page_id": "file-e3ed830a7fb159ea9e601dbe1f8cd3ff",
+      "owner_page_id": "file-b2cc9989d2395a44afa4e06b6bb015a0",
       "source_path": "scripts/ckb_core/providers.py",
       "start_line": 32,
       "end_line": 34,
@@ -94,9 +72,9 @@
       "description_zh": "`_version_matches` 完成语言服务器语义采集中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-9f4af983870f543ab158ac7457347e5e",
+      "entity_id": "ent-4e6cd95999515bfda13b7a2a00fbe44f",
       "classification": "appendix",
-      "owner_page_id": "file-e3ed830a7fb159ea9e601dbe1f8cd3ff",
+      "owner_page_id": "file-b2cc9989d2395a44afa4e06b6bb015a0",
       "source_path": "scripts/ckb_core/providers.py",
       "start_line": 37,
       "end_line": 41,
@@ -105,9 +83,9 @@
       "description_zh": "`private_runtime_root` 完成语言服务器语义采集中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-500ad3ce0d1650c68be960a651267355",
+      "entity_id": "ent-fea749ca7403563ba27010fe0e0b9dd1",
       "classification": "appendix",
-      "owner_page_id": "file-e3ed830a7fb159ea9e601dbe1f8cd3ff",
+      "owner_page_id": "file-b2cc9989d2395a44afa4e06b6bb015a0",
       "source_path": "scripts/ckb_core/providers.py",
       "start_line": 44,
       "end_line": 54,
@@ -116,9 +94,9 @@
       "description_zh": "`_runtime_bin_candidates` 完成语言服务器语义采集中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-5bb73bcf845357ba8d4107c0601808a0",
+      "entity_id": "ent-2ec8acd0e48552838420e7dc26a18248",
       "classification": "appendix",
-      "owner_page_id": "file-e3ed830a7fb159ea9e601dbe1f8cd3ff",
+      "owner_page_id": "file-b2cc9989d2395a44afa4e06b6bb015a0",
       "source_path": "scripts/ckb_core/providers.py",
       "start_line": 57,
       "end_line": 73,
@@ -127,9 +105,9 @@
       "description_zh": "`resolve_executable` 完成语言服务器语义采集中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-800c4f598d6752fc8cd7faaf5f6a63cf",
+      "entity_id": "ent-572273dc59265e06b4f7aae55dd7cfcb",
       "classification": "appendix",
-      "owner_page_id": "file-e3ed830a7fb159ea9e601dbe1f8cd3ff",
+      "owner_page_id": "file-b2cc9989d2395a44afa4e06b6bb015a0",
       "source_path": "scripts/ckb_core/providers.py",
       "start_line": 243,
       "end_line": 247,
@@ -138,15 +116,125 @@
       "description_zh": "`path_to_uri` 完成语言服务器语义采集中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-3c9e166ffd8c5b94ad79d7ae090c716e",
+      "entity_id": "ent-ec5362fc5a475e15b0f1b4b19ffcfaf6",
       "classification": "appendix",
-      "owner_page_id": "file-e3ed830a7fb159ea9e601dbe1f8cd3ff",
+      "owner_page_id": "file-b2cc9989d2395a44afa4e06b6bb015a0",
       "source_path": "scripts/ckb_core/providers.py",
       "start_line": 250,
       "end_line": 255,
       "status": "agent-reviewed",
       "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/providers.py` 第 250 至 255 行；摘录与 Git blob 1a3ba3c53783 一致。",
       "description_zh": "`uri_to_path` 完成语言服务器语义采集中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-191dc849aa81505b810d4625724b8551",
+      "classification": "appendix",
+      "owner_page_id": "file-b2cc9989d2395a44afa4e06b6bb015a0",
+      "source_path": "scripts/ckb_core/providers.py",
+      "start_line": 258,
+      "end_line": 368,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/providers.py` 第 258 至 368 行；摘录与 Git blob 1a3ba3c53783 一致。",
+      "description_zh": "`__init__` 完成语言服务器语义采集中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-51e49f83131b55eaa7bfd0601cdc1574",
+      "classification": "appendix",
+      "owner_page_id": "file-b2cc9989d2395a44afa4e06b6bb015a0",
+      "source_path": "scripts/ckb_core/providers.py",
+      "start_line": 259,
+      "end_line": 268,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/providers.py` 第 259 至 268 行；摘录与 Git blob 1a3ba3c53783 一致。",
+      "description_zh": "`__init__` 完成语言服务器语义采集中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-44fb9e9ca8aa526bbf508c2f301f4a80",
+      "classification": "appendix",
+      "owner_page_id": "file-b2cc9989d2395a44afa4e06b6bb015a0",
+      "source_path": "scripts/ckb_core/providers.py",
+      "start_line": 270,
+      "end_line": 281,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/providers.py` 第 270 至 281 行；摘录与 Git blob 1a3ba3c53783 一致。",
+      "description_zh": "`start` 完成语言服务器语义采集中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-e487611332515aa9a1ff234961a122d2",
+      "classification": "appendix",
+      "owner_page_id": "file-b2cc9989d2395a44afa4e06b6bb015a0",
+      "source_path": "scripts/ckb_core/providers.py",
+      "start_line": 283,
+      "end_line": 302,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/providers.py` 第 283 至 302 行；摘录与 Git blob 1a3ba3c53783 一致。",
+      "description_zh": "`_read_stdout` 读取并判定语言服务器语义采集所需的数据或状态。"
+    },
+    {
+      "entity_id": "ent-ea20865059295c36853bb33dd6948177",
+      "classification": "appendix",
+      "owner_page_id": "file-b2cc9989d2395a44afa4e06b6bb015a0",
+      "source_path": "scripts/ckb_core/providers.py",
+      "start_line": 304,
+      "end_line": 307,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/providers.py` 第 304 至 307 行；摘录与 Git blob 1a3ba3c53783 一致。",
+      "description_zh": "`_read_stderr` 读取并判定语言服务器语义采集所需的数据或状态。"
+    },
+    {
+      "entity_id": "ent-ae6c7630e718506c8a661b84823cd809",
+      "classification": "appendix",
+      "owner_page_id": "file-b2cc9989d2395a44afa4e06b6bb015a0",
+      "source_path": "scripts/ckb_core/providers.py",
+      "start_line": 309,
+      "end_line": 315,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/providers.py` 第 309 至 315 行；摘录与 Git blob 1a3ba3c53783 一致。",
+      "description_zh": "`send` 完成语言服务器语义采集中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-72a5c8f544945f349c6095332387f7b3",
+      "classification": "appendix",
+      "owner_page_id": "file-b2cc9989d2395a44afa4e06b6bb015a0",
+      "source_path": "scripts/ckb_core/providers.py",
+      "start_line": 317,
+      "end_line": 318,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/providers.py` 第 317 至 318 行；摘录与 Git blob 1a3ba3c53783 一致。",
+      "description_zh": "`notify` 完成语言服务器语义采集中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-76276bf27d915025b436678f24e6a984",
+      "classification": "appendix",
+      "owner_page_id": "file-b2cc9989d2395a44afa4e06b6bb015a0",
+      "source_path": "scripts/ckb_core/providers.py",
+      "start_line": 320,
+      "end_line": 350,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/providers.py` 第 320 至 350 行；摘录与 Git blob 1a3ba3c53783 一致。",
+      "description_zh": "`request` 完成语言服务器语义采集中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-d243fc7f672f53279c78bdb83254a24f",
+      "classification": "appendix",
+      "owner_page_id": "file-b2cc9989d2395a44afa4e06b6bb015a0",
+      "source_path": "scripts/ckb_core/providers.py",
+      "start_line": 352,
+      "end_line": 368,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/providers.py` 第 352 至 368 行；摘录与 Git blob 1a3ba3c53783 一致。",
+      "description_zh": "`stop` 受控释放或回滚语言服务器语义采集所需的数据或状态。"
+    },
+    {
+      "entity_id": "ent-5b5c1ae6324f596e9aadf7632785d2fb",
+      "classification": "appendix",
+      "owner_page_id": "file-b2cc9989d2395a44afa4e06b6bb015a0",
+      "source_path": "scripts/ckb_core/providers.py",
+      "start_line": 371,
+      "end_line": 430,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/providers.py` 第 371 至 430 行；摘录与 Git blob 1a3ba3c53783 一致。",
+      "description_zh": "`_provider_spec` 完成语言服务器语义采集中的一个明确步骤。"
     }
   ]
 }

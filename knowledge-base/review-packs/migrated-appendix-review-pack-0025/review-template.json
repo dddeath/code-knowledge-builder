@@ -6,113 +6,9 @@
   "reviewed_at_utc": null,
   "reviews": [
     {
-      "entity_id": "ent-f5c57e4567825117bcd66fdb7ae3a303",
+      "entity_id": "ent-9a3f404cdd3c5a04acea6e2cf36a846b",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
-      "source_path": "scripts/ckb_core/pipeline.py",
-      "start_line": 2050,
-      "end_line": 2074,
-      "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
-      "source_excerpt": "def _human_relation_sentences(\n    links: list[dict[str, Any]], title_by_id: dict[str, str], incoming: bool = False\n) -> list[str]:\n    \"\"\"Keep one best sentence per neighboring page, hiding machine-type duplicates.\"\"\"\n    priorities = {\n        \"contains\": 0,\n        \"contains-module\": 0,\n        \"contains-file\": 0,\n        \"partial-fragment\": 1,\n        \"tested-by\": 1,\n        \"calls\": 2,\n        \"invokes\": 2,\n        \"imports\": 3,\n        \"depends-on\": 3,\n        \"uses\": 3,\n        \"references\": 4,\n    }\n    selected: dict[str, dict[str, Any]] = {}\n    endpoint = \"source\" if incoming else \"target\"\n    for link in sorted(links, key=lambda value: (priorities.get(value[\"type\"], 5), title_by_id[value[endpoint]], value[\"id\"])):\n        selected.setdefault(link[endpoint], link)\n    return [\n        _relation_phrase(link, title_by_id[link[endpoint]], incoming=incoming)\n        for _neighbor, link in sorted(selected.items(), key=lambda item: title_by_id[item[0]])\n    ]",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-a15d9f4bd11d5afaa09fd0dd992ca8e0",
-      "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
-      "source_path": "scripts/ckb_core/pipeline.py",
-      "start_line": 2077,
-      "end_line": 2155,
-      "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
-      "source_excerpt": "def _normalized_edn_document(\n    graph: dict[str, Any],\n    logical: dict[str, Any],\n    local_openers: dict[str, Any] | None = None,\n) -> tuple[str, dict[str, int]]:\n    \"\"\"Render the same minimal narrative used by Markdown into Logseq EDN.\"\"\"\n    page_config = logical.get(\"page_config\", DEFAULT_PAGE_CONFIG)\n    title_by_id = {page[\"id\"]: page[\"title\"] for page in logical[\"pages\"]}\n    edn_pages: list[str] = []\n    expected_relation_blocks = 0\n    expected_page_entity_blocks = 0\n    expected_appendix_blocks = 0\n    expected_boundary_blocks = 0\n    for page in logical[\"pages\"]:\n        entity = page[\"entity\"]\n        blocks: list[str] = [f\"标签：{page.get('tag') or page_tag(page['page_type'])}\"]\n        sections = _page_sections(page, page_config)\n        if page[\"page_type\"] in {\"file\", \"entity\"}:\n            for section in sections:\n                if section == \"overview\":\n                    blocks.append(f\"页面说明：{_overview_text(entity, page_config)}\")\n                elif section == \"change_when\":\n                    blocks.append(f\"需要修改时：{entity['change_when_zh']}\")\n                elif section == \"source_location\":\n                    if local_openers:\n                        blocks.append(\n                            \"源码入口：\"\n                            + source_markdown_link(\n                                local_openers,\n                                entity[\"path\"],\n                                int(entity[\"range\"][\"start_line\"]),\n                                int(entity[\"range\"][\"end_line\"]),\n                            )\n                        )\n                    else:\n                        blocks.append(f\"代码位置：{entity['path']}:{entity['range']['start_line']}-{entity['range']['end_line']}\")\n                    expected_page_entity_blocks += 1\n                elif section == \"partial_fragments\" and entity.get(\"partial\"):\n                    for fragment in entity.get(\"fragments\", []):\n                        blocks.append(f\"组成位置：{fragment['path']}:{fragment['range']['start_line']}-{fragment['range']['end_line']}\")\n                elif section == \"appendix\":\n                    for appendix in page[\"appendix_entities\"]:\n                        blocks.append(f\"内部实现：{appendix['qualified_name']} — {appendix['description_zh']}\")\n                        expected_appendix_blocks += 1\n        elif page[\"page_type\"] == \"boundary\":\n            for section in sections:\n                if section == \"overview\":\n                    blocks.append(\"页面说明：这里汇集当前扫描范围之外、但与所选功能直接协作的代码。\")\n                elif section == \"boundary_details\":\n                    for boundary in page[\"boundary_entities\"]:\n                        blocks.append(f\"边界协作：{boundary['qualified_name']} — 位于 {boundary['path']}:{boundary['range']['start_line']}-{boundary['range']['end_line']}，本次未继续展开。\")\n                        expected_boundary_blocks += 1\n        else:\n            if \"overview\" in sections:\n                blocks.append(f\"页面说明：{_aggregate_overview(page)}\")\n        relation_blocks: list[str] = []\n        outgoing = sorted(page[\"outgoing\"], key=lambda link: (title_by_id[link[\"target\"]], link[\"type\"], link[\"id\"]))\n        tested_by = [link for link in outgoing if link[\"type\"] == \"tested-by\"]\n        collaboration = [link for link in outgoing if link[\"type\"] != \"tested-by\"]\n        if \"related_code\" in sections:\n            relation_blocks.extend(f\"协作：{sentence}\" for sentence in _human_relation_sentences(collaboration, title_by_id))\n        if \"tests\" in sections:\n            relation_blocks.extend(f\"协作：{sentence}\" for sentence in _human_relation_sentences(tested_by, title_by_id))\n        if \"backlinks\" in sections:\n            relation_blocks.extend(f\"协作：{sentence}\" for sentence in _human_relation_sentences(page[\"backlinks\"], title_by_id, incoming=True))\n        expected_relation_blocks += len(relation_blocks)\n        blocks.extend(relation_blocks)\n        block_edn = \" \".join(f\"{{:block/title {json.dumps(content, ensure_ascii=False)}}}\" for content in blocks)\n        edn_pages.append(f\"{{:page {{:block/title {json.dumps(page['title'], ensure_ascii=False)}}} :blocks [{block_edn}]}}\")\n    document = \"{:pages-and-blocks [\\n\" + \"\\n\".join(edn_pages) + \"\\n]}\\n\"\n    counts = {\n        \"pages\": len(logical[\"pages\"]),\n        \"page_entities\": expected_page_entity_blocks,\n        \"appendix_entities\": expected_appendix_blocks,\n        \"boundary_entities\": expected_boundary_blocks,\n        \"entities\": expected_page_entity_blocks + expected_appendix_blocks + expected_boundary_blocks,\n        \"relations\": expected_relation_blocks,\n    }\n    return document, counts",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-d71d3a2e844a575887fe79edd8247b99",
-      "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
-      "source_path": "scripts/ckb_core/pipeline.py",
-      "start_line": 2158,
-      "end_line": 2231,
-      "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
-      "source_excerpt": "def _render_markdown_page(\n    page: dict[str, Any],\n    title_by_id: dict[str, str],\n    page_config: dict[str, Any],\n    local_openers: dict[str, Any],\n) -> str:\n    content = page_config[\"content\"]\n    headings = content[\"headings\"]\n    sections = _page_sections(page, page_config)\n    entity = page.get(\"entity\")\n    lines = [f\"# {page['title']}\", \"\", f\"标签：{page.get('tag') or page_tag(page['page_type'])}\", \"\"]\n    outgoing = sorted(page[\"outgoing\"], key=lambda link: (title_by_id[link[\"target\"]], link[\"type\"], link[\"id\"]))\n    tested_by = [link for link in outgoing if link[\"type\"] == \"tested-by\"]\n    collaboration = [link for link in outgoing if link[\"type\"] != \"tested-by\"]\n    backlinks = sorted(page[\"backlinks\"], key=lambda link: (title_by_id[link[\"source\"]], link[\"type\"], link[\"id\"]))\n\n    for section in sections:\n        if section == \"overview\":\n            if entity:\n                lines.append(f\"> {_overview_text(entity, page_config)}\")\n            elif page[\"page_type\"] == \"boundary\":\n                lines.append(\"> 这里汇集当前扫描范围之外、但与所选功能直接协作的代码。\")\n            else:\n                lines.append(f\"> {_aggregate_overview(page)}\")\n        elif section == \"change_when\" and entity:\n            lines.extend([\"\", f\"## {headings['change_when']}\", \"\", str(entity[\"change_when_zh\"])])\n        elif section == \"source_location\" and entity:\n            lines.extend(\n                [\n                    \"\",\n                    f\"## {headings['source_location']}\",\n                    \"\",\n                    source_markdown_link(\n                        local_openers,\n                        entity[\"path\"],\n                        int(entity[\"range\"][\"start_line\"]),\n                        int(entity[\"range\"][\"end_line\"]),\n                    ),\n                ]\n            )\n        elif section == \"partial_fragments\" and entity and entity.get(\"partial\"):\n            lines.extend([\"\", \"这个类型由下面几段代码共同组成：\"])\n            lines.extend(f\"- `{item['path']}:{item['range']['start_line']}-{item['range']['end_line']}`\" for item in entity.get(\"fragments\", []))\n        elif section == \"boundary_details\" and page.get(\"boundary_entities\"):\n            lines.extend([\"\", f\"## {headings['boundary_details']}\", \"\"])\n            lines.extend(\n                f\"- **{boundary['qualified_name']}**：位于 `{boundary['path']}:{boundary['range']['start_line']}-{boundary['range']['end_line']}`。\"\n                for boundary in page[\"boundary_entities\"]\n            )\n        elif section == \"related_code\" and collaboration:\n            lines.extend([\"\", f\"## {headings['related_code']}\", \"\"])\n            lines.extend(f\"- {sentence}\" for sentence in _human_relation_sentences(collaboration, title_by_id))\n        elif section == \"backlinks\" and backlinks:\n            lines.extend([\"\", f\"## {headings['backlinks']}\", \"\"])\n            lines.extend(f\"- {sentence}\" for sentence in _human_relation_sentences(backlinks, title_by_id, incoming=True))\n        elif section == \"tests\" and tested_by:\n            lines.extend([\"\", f\"## {headings['tests']}\", \"\"])\n            lines.extend(f\"- [[{title_by_id[link['target']]}]]\" for link in tested_by)\n        elif section == \"hidden_relation_hint\":\n            hidden = sum(int(value[\"hidden_groups\"]) for value in page[\"relation_summary\"].values())\n            if hidden:\n                lines.extend([\"\", \"> 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。\"])\n        elif section == \"appendix\" and page.get(\"appendix_entities\"):\n            lines.extend([\"\", f\"## {headings['appendix']}\", \"\"])\n            if content[\"appendix_mode\"] == \"collapsed\":\n                lines.extend([f\"<details><summary>查看本页收纳的 {len(page['appendix_entities'])} 个辅助实现</summary>\", \"\"])\n            lines.extend([\"| 代码单元 | 一句话作用 |\", \"|---|---|\"])\n            for appendix in page[\"appendix_entities\"]:\n                symbol = str(appendix[\"qualified_name\"]).replace(\"|\", \"\\\\|\").replace(\"\\n\", \" \")\n                description = str(appendix[\"description_zh\"]).replace(\"|\", \"\\\\|\").replace(\"\\n\", \" \")\n                lines.append(f\"| `{symbol}` | {description} |\")\n            if content[\"appendix_mode\"] == \"collapsed\":\n                lines.extend([\"\", \"</details>\"])\n    return \"\\n\".join(lines).rstrip() + \"\\n\"",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-7aba321be51456efb96132d61a1aba49",
-      "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
-      "source_path": "scripts/ckb_core/pipeline.py",
-      "start_line": 2234,
-      "end_line": 2244,
-      "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
-      "source_excerpt": "def _logseq_file_graph_config_bytes() -> bytes:\n    \"\"\"Load the pinned Logseq file-graph config and enforce its source hash.\"\"\"\n    template = Path(__file__).resolve().parents[2] / \"references\" / \"logseq-config.edn\"\n    if not template.is_file():\n        raise AuditError(f\"pinned Logseq file-graph config is absent: {template}\")\n    if sha256_file(template) != LOGSEQ_FILE_GRAPH_CONFIG_SHA256:\n        raise AuditError(\n            \"pinned Logseq file-graph config differs from the locked upstream template: \"\n            f\"{template}\"\n        )\n    return template.read_bytes()",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-a8be2e836890587f850126404d114f46",
-      "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
-      "source_path": "scripts/ckb_core/pipeline.py",
-      "start_line": 2247,
-      "end_line": 2260,
-      "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
-      "source_excerpt": "def _install_logseq_file_graph_config(root: Path) -> dict[str, str]:\n    \"\"\"Make a Markdown projection directly openable as a Logseq file graph.\"\"\"\n    content = _logseq_file_graph_config_bytes()\n    config = root / \"logseq\" / \"config.edn\"\n    config.parent.mkdir(parents=True, exist_ok=True)\n    config.write_bytes(content)\n    return {\n        \"graph_root\": str(root.resolve()),\n        \"config\": str(config.resolve()),\n        \"config_relative_path\": \"logseq/config.edn\",\n        \"config_sha256\": sha256_file(config),\n        \"source_commit\": LOGSEQ_FILE_GRAPH_CONFIG_COMMIT,\n        \"source_url\": LOGSEQ_FILE_GRAPH_CONFIG_URL,\n    }",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-5c680922e09a5a9da5de561bb1dba2d1",
-      "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
-      "source_path": "scripts/ckb_core/pipeline.py",
-      "start_line": 2263,
-      "end_line": 2290,
-      "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
-      "source_excerpt": "def _audit_logseq_file_graph_config(\n    graph_root: Path,\n    config_record: dict[str, Any],\n    reason_prefix: str,\n) -> list[dict[str, Any]]:\n    \"\"\"Audit one selectable Logseq file-graph root against the pinned template.\"\"\"\n    config = graph_root / \"logseq\" / \"config.edn\"\n    expected_config = _logseq_file_graph_config_bytes()\n    errors: list[dict[str, Any]] = []\n    if not config.is_file():\n        errors.append({\"reason\": f\"{reason_prefix}-config-missing\", \"path\": \"logseq/config.edn\"})\n    else:\n        if config.read_bytes() != expected_config:\n            errors.append({\"reason\": f\"{reason_prefix}-config-content-mismatch\", \"path\": \"logseq/config.edn\"})\n        actual_config_hash = sha256_file(config)\n        if config_record.get(\"config_sha256\") != actual_config_hash:\n            errors.append({\"reason\": f\"{reason_prefix}-config-hash-mismatch\", \"path\": \"logseq/config.edn\"})\n        if Path(config_record.get(\"config\", \"\")).resolve() != config.resolve():\n            errors.append({\"reason\": f\"{reason_prefix}-config-path-mismatch\", \"path\": \"logseq/config.edn\"})\n    if Path(config_record.get(\"graph_root\", \"\")).resolve() != graph_root.resolve():\n        errors.append({\"reason\": f\"{reason_prefix}-graph-root-mismatch\"})\n    if config_record.get(\"config_relative_path\") != \"logseq/config.edn\":\n        errors.append({\"reason\": f\"{reason_prefix}-config-relative-path-mismatch\"})\n    if config_record.get(\"source_commit\") != LOGSEQ_FILE_GRAPH_CONFIG_COMMIT:\n        errors.append({\"reason\": f\"{reason_prefix}-config-source-commit-mismatch\"})\n    if config_record.get(\"source_url\") != LOGSEQ_FILE_GRAPH_CONFIG_URL:\n        errors.append({\"reason\": f\"{reason_prefix}-config-source-url-mismatch\"})\n    return errors",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-5765e2d2ff1d5000924e07a3a02543ab",
-      "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
-      "source_path": "scripts/ckb_core/pipeline.py",
-      "start_line": 2293,
-      "end_line": 2302,
-      "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
-      "source_excerpt": "def _human_page_filenames(logical: dict[str, Any]) -> dict[str, str]:\n    \"\"\"Create readable filenames; use a numeric suffix only after sanitization collisions.\"\"\"\n    result: dict[str, str] = {}\n    counts: dict[str, int] = defaultdict(int)\n    for page in logical[\"pages\"]:\n        base = safe_title(page[\"title\"], 105)\n        counts[base] += 1\n        suffix = f\"（{counts[base]}）\" if counts[base] > 1 else \"\"\n        result[page[\"id\"]] = f\"{base}{suffix}.md\"\n    return result",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-cc00eb481fef56a6bb8341baf4d3c521",
-      "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
-      "source_path": "scripts/ckb_core/pipeline.py",
-      "start_line": 2305,
-      "end_line": 2347,
-      "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
-      "source_excerpt": "def _index_document(graph: dict[str, Any], logical: dict[str, Any], output: Path) -> str:\n    repository_title = next(page[\"title\"] for page in logical[\"pages\"] if page[\"id\"] == logical[\"repository_page_id\"])\n    project = _repository_name(graph[\"repository\"][\"root\"])\n    module_ids = set(logical[\"module_page_ids\"].values())\n    module_titles = [page[\"title\"] for page in logical[\"pages\"] if page[\"id\"] in module_ids]\n    reference_projection = output / \"references/projection.json\"\n    reference_pages = json_load(reference_projection).get(\"pages\", []) if reference_projection.is_file() else []\n    reference_entry = [\"- **查找已审阅外部资料**：打开 [参考资料导览](REFERENCES.md)，摘要中的每项主张都链接到归档原文范围。\"] if reference_pages else []\n    lines = [\n        f\"# {project} 知识库\",\n        \"\",\n        \"> 先按任务选择入口：理解代码进入职责导览，查找已有结论进入工作记录，精确定位交给确定性检索。\",\n        \"\",\n        \"## 按任务选择入口\",\n        \"\",\n        f\"- **理解或修改代码**：从 [[{repository_title}]] 进入，再按职责缩小到类、函数或聚合页。\",\n        f\"- **查找已有分析、变更和实验**：打开 [工作记录导览]({WORK_RECORD_INDEX})，按任务目的浏览全部记录。\",\n        *reference_entry,\n        \"- **精确定位类、函数或源码范围**：使用 `brief --profile fast`，复杂问题再使用完整 `retrieve --profile precise`。\",\n        \"- **了解页面规则和阅读顺序**：打开 [阅读这套知识库的方法](WIKI.md)。\",\n        \"\",\n        \"## 按职责浏览代码\",\n        \"\",\n        *[f\"- [[{title}]]\" for title in module_titles],\n        \"\",\n        \"## 工作记录\",\n        \"\",\n        f\"[工作记录导览]({WORK_RECORD_INDEX}) 为每条分析、变更、实验、踩坑和会话记录提供一句中文说明，并按任务目的分组。导览由脚本从全部现有记录统一生成，不依赖手工挑选。\",\n        \"\",\n        \"## 精确定位\",\n        \"\",\n        \"遇到具体修改任务时，优先使用 `brief --profile fast` 获取预算内机器阅读包；复杂问题再使用完整 `retrieve --profile precise`。只在索引要求源码回退时读取最窄源码范围。两种档位都不调用向量模型。\",\n        \"\",\n        \"## 在 Obsidian 中打开\",\n        \"\",\n        f\"把 `{(output / 'human').resolve()}` 作为 Obsidian vault 打开；从本页、工作记录导览、标签或反向链接进入。`{(output / 'markdown').resolve()}` 是兼容镜像。\",\n        \"\",\n        \"## 在 Logseq 中打开\",\n        \"\",\n        f\"选择输出目录 `{output.resolve()}`；配置文件位于 [logseq/config.edn](logseq/config.edn)。\",\n        \"\",\n    ]\n    return \"\\n\".join(lines)",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-b6e205353cb3503d8223b4651c5a39d5",
-      "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 2350,
       "end_line": 2440,
@@ -123,9 +19,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-f84c67cdb420591ca51f55c18cdd1cbc",
+      "entity_id": "ent-f10a500c72f75937aac1795aa17cff3a",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 2443,
       "end_line": 2557,
@@ -136,9 +32,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-b5e2965eb8a256f19e6b7ade407c8562",
+      "entity_id": "ent-87762f256ab0507cbb1030daa4d7987e",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 2560,
       "end_line": 2640,
@@ -149,9 +45,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-f9a34afcb0175cd0b5b3c6da18078cd6",
+      "entity_id": "ent-976c85603531559baf85978ccabfc0f4",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 2643,
       "end_line": 2652,
@@ -162,9 +58,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-93fe1ac048dd568fb9813b11a4c51244",
+      "entity_id": "ent-8127644b57405521b1baccbfa110c40d",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 2655,
       "end_line": 2741,
@@ -175,9 +71,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-7de672f718da5139876620fad0a51e35",
+      "entity_id": "ent-1945e1ca68ad5a7a9bb3e29a8e97c6fe",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 2744,
       "end_line": 2763,
@@ -188,9 +84,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-a34377e8d4035e8586843c661cc86930",
+      "entity_id": "ent-5994000f059554eb913f8159ec5718dc",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 2766,
       "end_line": 2799,
@@ -201,9 +97,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-c1a389ba7146577ca372520498645e71",
+      "entity_id": "ent-aca753d17de153918bda102dd98bdd45",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 2775,
       "end_line": 2785,
@@ -214,14 +110,40 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-9bad23634f9e5b20b5166e8f0c4659c1",
+      "entity_id": "ent-232491bb93235c61b94f9ef98f2cd668",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 2788,
       "end_line": 2793,
       "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
       "source_excerpt": "def contains_null_result(item: Any) -> bool:\n        if isinstance(item, dict):\n            return any((key == \"result\" and child is None) or contains_null_result(child) for key, child in item.items())\n        if isinstance(item, list):\n            return any(contains_null_result(child) for child in item)\n        return False",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-596aeeff850c599aa26f53bff8e6b9f6",
+      "classification": "appendix",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2802,
+      "end_line": 2935,
+      "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
+      "source_excerpt": "def project_logseq(output: Path, graph: dict[str, Any], logical: dict[str, Any]) -> dict[str, Any]:\n    command = resolve_executable(\"logseq\")\n    if not command:\n        raise DependencyError(\"Logseq CLI is required for logseq-db or both output\")\n    graph_slug = re.sub(r\"[^A-Za-z0-9._-]+\", \"-\", _repository_name(graph[\"repository\"][\"root\"])).strip(\"-.\") or \"project\"\n    graph_name = \"code-knowledge-\" + graph_slug\n    root = output / \".logseq-runtime\"\n    if root.exists():\n        # An interrupted CLI call can leave its owned db-worker alive. Stop only\n        # the worker scoped to this output root and graph before deleting the\n        # disposable runtime. The normal command path also stops after every\n        # operation so repeated finalize remains deterministic.\n        run([command, \"--root-dir\", str(root), \"server\", \"stop\", \"--graph\", graph_name], timeout=60)\n        for attempt in range(5):\n            try:\n                safe_rmtree(root, output)\n                break\n            except PermissionError:\n                if attempt == 4:\n                    raise\n                time.sleep(0.5 * (attempt + 1))\n    root.mkdir()\n    logs: list[dict[str, Any]] = []\n    db_dir = output / \"logseq-db\"\n    if db_dir.exists():\n        safe_rmtree(db_dir, output)\n    db_dir.mkdir()\n    state = json_load(output / \"state.json\")\n    snapshot = state.get(\"source_snapshot\") or {}\n    local_openers = ensure_local_openers(\n        output,\n        Path(state[\"repository\"][\"root\"]),\n        Path(snapshot[\"root\"]) if snapshot.get(\"root\") else None,\n    )\n    edn_text, expected_counts = _normalized_edn_document(graph, logical, local_openers)\n    normalized_edn = db_dir / \"normalized.edn\"\n    normalized_edn.write_text(edn_text, encoding=\"utf-8\", newline=\"\\n\")\n    logseq_readability_errors: list[dict[str, Any]] = []\n    if any(page[\"title\"].startswith(HUMAN_TITLE_PREFIXES) for page in logical[\"pages\"]):\n        logseq_readability_errors.append({\"reason\": \"technical-title-prefix\"})\n    if any(\n        page[\"page_type\"] == \"entity\" and page[\"entity\"].get(\"kind\") not in HUMAN_CODE_UNIT_KINDS\n        for page in logical[\"pages\"]\n    ):\n        logseq_readability_errors.append({\"reason\": \"standalone-page-is-not-class-or-function\"})\n    if re.search(r\"(?<![0-9a-f])[0-9a-f]{40}(?![0-9a-f])\", edn_text, flags=re.IGNORECASE):\n        logseq_readability_errors.append({\"reason\": \"visible-commit-identifier\"})\n    if any(marker in edn_text for marker in HUMAN_VISIBLE_FORBIDDEN):\n        logseq_readability_errors.append({\"reason\": \"machine-marker-visible\"})\n    json_write(db_dir / \"context-budget.json\", _logical_context_budgets(logical))\n    code, text = _logseq(command, root, \"graph\", \"import\", \"--type\", \"edn\", \"--input\", str(normalized_edn), \"--graph\", graph_name)\n    logs.append({\"command\": \"graph import --type edn\", \"input\": str(normalized_edn.resolve()), \"exit_status\": code, \"output\": text})\n    if code:\n        raise AuditError(f\"Logseq normalized EDN import failed: {text}\")\n    code, text = _logseq(command, root, \"graph\", \"validate\", \"--graph\", graph_name)\n    logs.append({\"command\": \"graph validate\", \"exit_status\": code, \"output\": text})\n    if code:\n        raise AuditError(f\"Logseq graph validation failed: {text}\")\n    validate_text = text\n    query_outputs: dict[str, dict[str, Any]] = {}\n    queries = {\n        \"pages\": '[:find (count ?b) . :where [?b :block/title ?title] [(clojure.string/starts-with? ?title \"页面说明：\")]]',\n        \"page_entities\": '[:find (count ?b) . :where [?b :block/title ?title] [(clojure.string/starts-with? ?title \"源码入口：\")]]',\n        \"appendix_entities\": '[:find (count ?b) . :where [?b :block/title ?title] [(clojure.string/starts-with? ?title \"内部实现：\")]]',\n        \"boundary_entities\": '[:find (count ?b) . :where [?b :block/title ?title] [(clojure.string/starts-with? ?title \"边界协作：\")]]',\n        \"relations\": '[:find (count ?b) . :where [?b :block/title ?title] [(clojure.string/starts-with? ?title \"协作：\")]]',\n    }\n    for name, query in queries.items():\n        code, query_text = _logseq(command, root, \"--output\", \"json\", \"query\", \"--query\", query, \"--graph\", graph_name)\n        logs.append({\"command\": f\"query {name}\", \"query\": query, \"exit_status\": code, \"output\": query_text})\n        query_outputs[name] = {\"exit_status\": code, \"output\": query_text}\n        if code:\n            raise AuditError(f\"Logseq {name} count query failed: {query_text}\")\n        actual_count = _logseq_count(query_text, name)\n        query_outputs[name][\"actual_count\"] = actual_count\n        query_outputs[name][\"expected_count\"] = expected_counts[name]\n        if actual_count != expected_counts[name]:\n            raise AuditError(f\"Logseq {name} count mismatch: expected {expected_counts[name]}, got {actual_count}\")\n    query_outputs[\"entities\"] = {\n        \"actual_count\": sum(int(query_outputs[name][\"actual_count\"]) for name in (\"page_entities\", \"appendix_entities\", \"boundary_entities\")),\n        \"expected_count\": expected_counts[\"entities\"],\n        \"basis\": [\"page_entities\", \"appendix_entities\", \"boundary_entities\"],\n    }\n    if query_outputs[\"entities\"][\"actual_count\"] != expected_counts[\"entities\"]:\n        raise AuditError(f\"Logseq total entity count mismatch: expected {expected_counts['entities']}, got {query_outputs['entities']['actual_count']}\")\n    db_path = db_dir / \"db.sqlite\"\n    code, text = _logseq(command, root, \"graph\", \"export\", \"--type\", \"sqlite\", \"--file\", str(db_path), \"--graph\", graph_name)\n    logs.append({\"command\": \"graph export sqlite\", \"exit_status\": code, \"output\": text})\n    if code or not db_path.is_file() or db_path.read_bytes()[:16] != b\"SQLite format 3\\x00\":\n        raise AuditError(f\"Logseq SQLite export failed: {text}\")\n    with sqlite3.connect(db_path) as connection:\n        integrity = connection.execute(\"PRAGMA integrity_check\").fetchone()[0]\n    if integrity != \"ok\":\n        raise AuditError(f\"exported Logseq SQLite integrity check failed: {integrity}\")\n    cleanup_path = root / \"worker-cleanup.jsonl\"\n    cleanup_records = [\n        json.loads(line)\n        for line in cleanup_path.read_text(encoding=\"utf-8\").splitlines()\n        if line.strip()\n    ]\n    projection = {\n        \"format\": \"logseq-db\",\n        \"graph_name\": graph_name,\n        \"db_path\": str(db_path.resolve()),\n        \"normalized_edn\": str(normalized_edn.resolve()),\n        \"normalized_edn_sha256\": sha256_file(normalized_edn),\n        \"pages\": [{\"id\": page[\"id\"], \"title\": page[\"title\"], \"page_type\": page[\"page_type\"], \"human_page_kind\": page[\"human_page_kind\"], \"tag\": page.get(\"tag\")} for page in logical[\"pages\"]],\n        \"links\": logical[\"links\"],\n        \"entity_owner_pages\": logical[\"entity_owner_pages\"],\n        \"source_manifest\": _source_manifest(graph),\n        \"expected_counts\": expected_counts,\n        \"context_budget\": str((db_dir / \"context-budget.json\").resolve()),\n        \"relation_limits\": logical[\"relation_limits\"],\n        \"hidden_relation_group_count\": logical[\"hidden_relation_group_count\"],\n        \"page_config\": logical[\"page_config\"],\n        \"page_config_sha256\": logical.get(\"page_config_sha256\"),\n        \"source_links\": {\n            \"editor\": local_openers[\"source_editor\"],\n            \"source_view\": local_openers[\"source_view\"],\n            \"config\": str((output / \"local-openers.json\").resolve()),\n        },\n        \"human_readability\": {\"status\": \"passed\" if not logseq_readability_errors else \"failed\", \"errors\": logseq_readability_errors},\n        \"cli_queries\": query_outputs,\n        \"validation\": {\"exit_status\": 0, \"graph_validate_output\": validate_text, \"sqlite_integrity\": integrity, \"sqlite_header\": \"SQLite format 3\\\\0\"},\n        \"worker_cleanup\": {\n            \"path\": str(cleanup_path.resolve()),\n            \"operation_count\": len(logs),\n            \"stop_count\": len(cleanup_records),\n            \"all_stopped\": len(cleanup_records) == len(logs) and all(item.get(\"exit_status\") == 0 for item in cleanup_records),\n        },\n    }\n    json_write(db_dir / \"projection.json\", projection)\n    json_write(db_dir / \"commands.json\", logs)\n    return projection",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-96c041bb2c585fec82334847289a9f04",
+      "classification": "appendix",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2938,
+      "end_line": 3007,
+      "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
+      "source_excerpt": "def _audit_markdown(output: Path, graph: dict[str, Any], logical: dict[str, Any]) -> list[dict[str, Any]]:\n    root = output / \"markdown\"\n    projection = json_load(root / \"projection.json\")\n    state = json_load(output / \"state.json\")\n    snapshot = state.get(\"source_snapshot\") or {}\n    local_openers = ensure_local_openers(\n        output,\n        Path(state[\"repository\"][\"root\"]),\n        Path(snapshot[\"root\"]) if snapshot.get(\"root\") else None,\n    )\n    titles = {item[\"title\"] for item in projection[\"pages\"]}\n    errors = []\n    if projection.get(\"page_config\") != logical.get(\"page_config\"):\n        errors.append({\"reason\": \"page-config-projection-mismatch\"})\n    if projection.get(\"page_config_sha256\") != logical.get(\"page_config_sha256\"):\n        errors.append({\"reason\": \"page-config-hash-mismatch\"})\n    logical_by_id = {page[\"id\"]: page for page in logical[\"pages\"]}\n    for page in projection[\"pages\"]:\n        text = (root / page[\"file\"]).read_text(encoding=\"utf-8\")\n        for target in re.findall(r\"\\[\\[([^\\]]+)\\]\\]\", text):\n            if target not in titles:\n                errors.append({\"page\": page[\"id\"], \"target\": target, \"reason\": \"dangling-wikilink\"})\n        for appendix in logical_by_id[page[\"id\"]].get(\"appendix_entities\", []):\n            if appendix[\"id\"] in text:\n                errors.append({\"page\": page[\"id\"], \"entity\": appendix[\"id\"], \"reason\": \"appendix-stable-id-exposed\"})\n            if appendix.get(\"description_zh\") not in text:\n                errors.append({\"page\": page[\"id\"], \"entity\": appendix[\"id\"], \"reason\": \"appendix-description-missing\"})\n    for document_name in (\"INDEX.md\", \"WIKI.md\"):\n        document = root / document_name\n        if not document.is_file():\n            errors.append({\"reason\": \"human-document-missing\", \"path\": document_name})\n            continue\n        for target in re.findall(r\"\\[\\[([^\\]]+)\\]\\]\", document.read_text(encoding=\"utf-8\")):\n            if target not in titles:\n                errors.append({\"path\": document_name, \"target\": target, \"reason\": \"dangling-wikilink\"})\n    readability_path = root / \"readability-audit.json\"\n    if not readability_path.is_file():\n        errors.append({\"reason\": \"readability-audit-missing\"})\n    else:\n        readability = json_load(readability_path)\n        if readability.get(\"status\") != \"passed\" or readability.get(\"errors\"):\n            errors.append({\"reason\": \"human-readability-failed\", \"detail\": readability})\n        if Path(projection.get(\"readability_audit\", \"\")).resolve() != readability_path.resolve():\n            errors.append({\"reason\": \"readability-audit-path-mismatch\"})\n        if projection.get(\"readability_status\") != \"passed\":\n            errors.append({\"reason\": \"readability-status-mismatch\"})\n    logical_pairs = {(link[\"source\"], link[\"target\"], link[\"type\"]) for link in logical[\"links\"]}\n    projected_pairs = {(link[\"source\"], link[\"target\"], link[\"type\"]) for link in projection[\"links\"]}\n    if logical_pairs != projected_pairs:\n        errors.append({\"reason\": \"projection-link-set-mismatch\"})\n    normalized_edn = root / \"normalized.edn\"\n    expected_edn, expected_counts = _normalized_edn_document(graph, logical, local_openers)\n    if not normalized_edn.is_file():\n        errors.append({\"reason\": \"normalized-edn-missing\"})\n    else:\n        actual_edn = normalized_edn.read_text(encoding=\"utf-8\")\n        if actual_edn != expected_edn:\n            errors.append({\"reason\": \"normalized-edn-content-mismatch\"})\n        actual_hash = sha256_file(normalized_edn)\n        if projection.get(\"normalized_edn_sha256\") != actual_hash:\n            errors.append({\"reason\": \"normalized-edn-hash-mismatch\"})\n        if Path(projection.get(\"normalized_edn\", \"\")).resolve() != normalized_edn.resolve():\n            errors.append({\"reason\": \"normalized-edn-path-mismatch\"})\n    if projection.get(\"expected_counts\") != expected_counts:\n        errors.append({\"reason\": \"normalized-edn-count-contract-mismatch\"})\n    errors.extend(_audit_logseq_file_graph_config(root, projection.get(\"logseq_file_graph\", {}), \"logseq-markdown-root\"))\n    errors.extend(_audit_logseq_file_graph_config(output, projection.get(\"logseq_import_root\", {}), \"logseq-import-root\"))\n    errors.extend(audit_obsidian(root))\n    errors.extend(audit_notes(output))\n    return errors",
       "status": "draft",
       "evidence_note": "",
       "description_zh": ""

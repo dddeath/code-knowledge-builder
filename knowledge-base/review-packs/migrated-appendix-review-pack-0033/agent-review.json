@@ -3,100 +3,12 @@
   "pack_id": "migrated-appendix-review-pack-0033",
   "kind": "appendix-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T22:46:21Z",
+  "reviewed_at_utc": "2026-09-03T01:39:38Z",
   "reviews": [
     {
-      "entity_id": "ent-dc1fa5134236561fa0b27cc7a9261bec",
+      "entity_id": "ent-c2d443089fd25212ab2ec7611715c8bc",
       "classification": "appendix",
-      "owner_page_id": "file-9a3a159b1bf65c6dbf3ffb915ba990ca",
-      "source_path": "scripts/ckb_core/work_record_index.py",
-      "start_line": 49,
-      "end_line": 84,
-      "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/work_record_index.py` 第 49 至 84 行，核对该代码单元的签名、分支和数据流后写出本条简体中文说明。",
-      "description_zh": "处理 `narrative` 对应的数据与约束。"
-    },
-    {
-      "entity_id": "ent-cd66e52cf8775f009cd37829662c082a",
-      "classification": "appendix",
-      "owner_page_id": "file-9a3a159b1bf65c6dbf3ffb915ba990ca",
-      "source_path": "scripts/ckb_core/work_record_index.py",
-      "start_line": 87,
-      "end_line": 107,
-      "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/work_record_index.py` 第 87 至 107 行，核对该代码单元的签名、分支和数据流后写出本条简体中文说明。",
-      "description_zh": "处理 `work_records` 对应的数据与约束。"
-    },
-    {
-      "entity_id": "ent-af5774c15ba650ea84b8a71bf9326dc2",
-      "classification": "appendix",
-      "owner_page_id": "file-9a3a159b1bf65c6dbf3ffb915ba990ca",
-      "source_path": "scripts/ckb_core/work_record_index.py",
-      "start_line": 110,
-      "end_line": 158,
-      "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/work_record_index.py` 第 110 至 158 行，核对该代码单元的签名、分支和数据流后写出本条简体中文说明。",
-      "description_zh": "渲染 `work_record_index` 对应的数据与约束。"
-    },
-    {
-      "entity_id": "ent-16a7c6735a7d5727ae6830e68ff1c0ad",
-      "classification": "appendix",
-      "owner_page_id": "file-9a3a159b1bf65c6dbf3ffb915ba990ca",
-      "source_path": "scripts/ckb_core/work_record_index.py",
-      "start_line": 161,
-      "end_line": 170,
-      "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/work_record_index.py` 第 161 至 170 行，核对该代码单元的签名、分支和数据流后写出本条简体中文说明。",
-      "description_zh": "写入 `work_record_index` 对应的数据与约束。"
-    },
-    {
-      "entity_id": "ent-53b706a78a1858bead4803a26cb44bb7",
-      "classification": "appendix",
-      "owner_page_id": "file-9a3a159b1bf65c6dbf3ffb915ba990ca",
-      "source_path": "scripts/ckb_core/work_record_index.py",
-      "start_line": 173,
-      "end_line": 185,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/work_record_index.py` 第 173-185 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`refresh_work_record_i...` 是第 173-185 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-aa4e691fd12351cd8310c270725d4a7a",
-      "classification": "appendix",
-      "owner_page_id": "file-9a3a159b1bf65c6dbf3ffb915ba990ca",
-      "source_path": "scripts/ckb_core/work_record_index.py",
-      "start_line": 188,
-      "end_line": 227,
-      "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/work_record_index.py` 第 188 至 227 行，核对该代码单元的签名、分支和数据流后写出本条简体中文说明。",
-      "description_zh": "审计 `work_record_root` 对应的数据与约束。"
-    },
-    {
-      "entity_id": "ent-b58d8244fe5957a08ce6e4962690a482",
-      "classification": "appendix",
-      "owner_page_id": "file-a04c00d1cf6156eeafebf18a031bc570",
-      "source_path": "scripts/ckb_core/workspace_notes.py",
-      "start_line": 29,
-      "end_line": 34,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `94bf22015243` 中 `scripts/ckb_core/workspace_notes.py` 第 29-34 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
-      "description_zh": "`page_tag` 在 `workspace_notes.py` 中用于完成该文件所属能力的输入、状态、输出和失败边界中的局部职责。"
-    },
-    {
-      "entity_id": "ent-b294817f8e655cc980b94a51adbc4d39",
-      "classification": "appendix",
-      "owner_page_id": "file-a04c00d1cf6156eeafebf18a031bc570",
-      "source_path": "scripts/ckb_core/workspace_notes.py",
-      "start_line": 37,
-      "end_line": 41,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `94bf22015243` 中 `scripts/ckb_core/workspace_notes.py` 第 37-41 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
-      "description_zh": "`_markdown_root` 在 `workspace_notes.py` 中用于完成该文件所属能力的输入、状态、输出和失败边界中的局部职责。"
-    },
-    {
-      "entity_id": "ent-ad0fd08007da50fbb4cd6b44efc28682",
-      "classification": "appendix",
-      "owner_page_id": "file-a04c00d1cf6156eeafebf18a031bc570",
+      "owner_page_id": "file-538de85328ce5a63a4633e9bdf97288c",
       "source_path": "scripts/ckb_core/workspace_notes.py",
       "start_line": 44,
       "end_line": 76,
@@ -105,9 +17,9 @@
       "description_zh": "`_resolve_page_titles` 在 `workspace_notes.py` 中用于完成该文件所属能力的输入、状态、输出和失败边界中的局部职责。"
     },
     {
-      "entity_id": "ent-ecfcd90ed72056809670295d050c2f94",
+      "entity_id": "ent-825e3fe303f55bdd88a4023050b84946",
       "classification": "appendix",
-      "owner_page_id": "file-a04c00d1cf6156eeafebf18a031bc570",
+      "owner_page_id": "file-538de85328ce5a63a4633e9bdf97288c",
       "source_path": "scripts/ckb_core/workspace_notes.py",
       "start_line": 79,
       "end_line": 105,
@@ -116,9 +28,9 @@
       "description_zh": "`_source_links_for_titles` 用于完成局部输入校验、转换或状态更新。"
     },
     {
-      "entity_id": "ent-4667524849e65c54bcd082d758a9e438",
+      "entity_id": "ent-eb3d6ca0b36c53dfa4ef05184f5e7924",
       "classification": "appendix",
-      "owner_page_id": "file-a04c00d1cf6156eeafebf18a031bc570",
+      "owner_page_id": "file-538de85328ce5a63a4633e9bdf97288c",
       "source_path": "scripts/ckb_core/workspace_notes.py",
       "start_line": 108,
       "end_line": 123,
@@ -127,9 +39,9 @@
       "description_zh": "`read_note_body` 在 `workspace_notes.py` 中用于读取、规范化并返回既有状态。"
     },
     {
-      "entity_id": "ent-6630f4dac42e511fbe4224e28bdbed5c",
+      "entity_id": "ent-c3eef191739e5964bd66a26cbbaad27e",
       "classification": "appendix",
-      "owner_page_id": "file-a04c00d1cf6156eeafebf18a031bc570",
+      "owner_page_id": "file-538de85328ce5a63a4633e9bdf97288c",
       "source_path": "scripts/ckb_core/workspace_notes.py",
       "start_line": 126,
       "end_line": 135,
@@ -138,9 +50,9 @@
       "description_zh": "`render_note_text` 在 `workspace_notes.py` 中用于生成稳定排序的结构化表示或人类输出。"
     },
     {
-      "entity_id": "ent-eab23f4daa0e53cb9e1038bd0695c3c4",
+      "entity_id": "ent-7526759f1b4359a88ab3b05dc9ebd3df",
       "classification": "appendix",
-      "owner_page_id": "file-a04c00d1cf6156eeafebf18a031bc570",
+      "owner_page_id": "file-538de85328ce5a63a4633e9bdf97288c",
       "source_path": "scripts/ckb_core/workspace_notes.py",
       "start_line": 213,
       "end_line": 247,
@@ -149,9 +61,9 @@
       "description_zh": "`queue_pending_note` 在 `workspace_notes.py` 中用于完成该文件所属能力的输入、状态、输出和失败边界中的局部职责。"
     },
     {
-      "entity_id": "ent-e1e8827263635c049faab4550f7c9c4f",
+      "entity_id": "ent-bd4861537c9a5b3990fe2125c7b3373f",
       "classification": "appendix",
-      "owner_page_id": "file-a04c00d1cf6156eeafebf18a031bc570",
+      "owner_page_id": "file-538de85328ce5a63a4633e9bdf97288c",
       "source_path": "scripts/ckb_core/workspace_notes.py",
       "start_line": 250,
       "end_line": 273,
@@ -160,9 +72,9 @@
       "description_zh": "`selectors_for_changed_paths` 用于完成局部输入校验、转换或状态更新。"
     },
     {
-      "entity_id": "ent-7ad1d64242e25152a0f80d3d237fb0bc",
+      "entity_id": "ent-25b4aeb9db215e5fa14bae57b04c1a19",
       "classification": "appendix",
-      "owner_page_id": "file-a04c00d1cf6156eeafebf18a031bc570",
+      "owner_page_id": "file-538de85328ce5a63a4633e9bdf97288c",
       "source_path": "scripts/ckb_core/workspace_notes.py",
       "start_line": 276,
       "end_line": 304,
@@ -171,9 +83,9 @@
       "description_zh": "`materialize_pending_notes` 用于完成局部输入校验、转换或状态更新。"
     },
     {
-      "entity_id": "ent-f298c26912ca50669b77f6eed4f812b9",
+      "entity_id": "ent-96702410a61351ea9fd9a21339ffbeb8",
       "classification": "appendix",
-      "owner_page_id": "file-a04c00d1cf6156eeafebf18a031bc570",
+      "owner_page_id": "file-538de85328ce5a63a4633e9bdf97288c",
       "source_path": "scripts/ckb_core/workspace_notes.py",
       "start_line": 307,
       "end_line": 346,
@@ -182,9 +94,9 @@
       "description_zh": "`audit_notes` 在 `workspace_notes.py` 中用于校验输入、状态、证据或输出合同。"
     },
     {
-      "entity_id": "ent-3866063ada355840b7d3f64d67379737",
+      "entity_id": "ent-24b02c7d33d95eefb7272d0c9c00b37f",
       "classification": "appendix",
-      "owner_page_id": "file-a04c00d1cf6156eeafebf18a031bc570",
+      "owner_page_id": "file-538de85328ce5a63a4633e9bdf97288c",
       "source_path": "scripts/ckb_core/workspace_notes.py",
       "start_line": 349,
       "end_line": 384,
@@ -193,9 +105,9 @@
       "description_zh": "`sync_workspace` 在 `workspace_notes.py` 中用于完成该文件所属能力的输入、状态、输出和失败边界中的局部职责。"
     },
     {
-      "entity_id": "ent-1fd02eb98f0f5afebe9e66cdefac2fab",
+      "entity_id": "ent-535ab14c7c5d50f1b35f26fb264cee3d",
       "classification": "appendix",
-      "owner_page_id": "file-a04c00d1cf6156eeafebf18a031bc570",
+      "owner_page_id": "file-538de85328ce5a63a4633e9bdf97288c",
       "source_path": "scripts/ckb_core/workspace_notes.py",
       "start_line": 387,
       "end_line": 400,
@@ -204,9 +116,9 @@
       "description_zh": "`workspace_status` 在 `workspace_notes.py` 中用于完成该文件所属能力的输入、状态、输出和失败边界中的局部职责。"
     },
     {
-      "entity_id": "ent-e03c6f3e167a538989f0c440c2310a95",
+      "entity_id": "ent-a237e088d979562cb9b6ef8b60b45490",
       "classification": "appendix",
-      "owner_page_id": "file-c67496aa79cf522b81ee22a91208db25",
+      "owner_page_id": "file-82cd628343605c8c921c22d8e1245508",
       "source_path": "scripts/package_release.py",
       "start_line": 34,
       "end_line": 39,
@@ -215,9 +127,9 @@
       "description_zh": "`sha256` 是第 34-39 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-c334a74052c65fd1b0379a906564d2e5",
+      "entity_id": "ent-cdf83e4e38f1573d942a6ab608717227",
       "classification": "appendix",
-      "owner_page_id": "file-c67496aa79cf522b81ee22a91208db25",
+      "owner_page_id": "file-82cd628343605c8c921c22d8e1245508",
       "source_path": "scripts/package_release.py",
       "start_line": 66,
       "end_line": 79,
@@ -226,9 +138,9 @@
       "description_zh": "`core_capabilities` 是第 66-79 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-aa238fcea7415043a7ba3f6a50a33a46",
+      "entity_id": "ent-283e79b64d955a6095ec11eabd078338",
       "classification": "appendix",
-      "owner_page_id": "file-c67496aa79cf522b81ee22a91208db25",
+      "owner_page_id": "file-82cd628343605c8c921c22d8e1245508",
       "source_path": "scripts/package_release.py",
       "start_line": 82,
       "end_line": 97,
@@ -237,9 +149,9 @@
       "description_zh": "`validate_core_boundary` 是第 82-97 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-206917a5e3e95f1783a023f2967d05c3",
+      "entity_id": "ent-caff9e7725f9503aa1f91b2e1d9a6302",
       "classification": "appendix",
-      "owner_page_id": "file-c67496aa79cf522b81ee22a91208db25",
+      "owner_page_id": "file-82cd628343605c8c921c22d8e1245508",
       "source_path": "scripts/package_release.py",
       "start_line": 100,
       "end_line": 119,
@@ -248,9 +160,9 @@
       "description_zh": "`validate_full_payload` 是第 100-119 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-8da39960197b56a38018c3237760cd8d",
+      "entity_id": "ent-a3a1576dfeca5190ab8236e09366146f",
       "classification": "appendix",
-      "owner_page_id": "file-c67496aa79cf522b81ee22a91208db25",
+      "owner_page_id": "file-82cd628343605c8c921c22d8e1245508",
       "source_path": "scripts/package_release.py",
       "start_line": 122,
       "end_line": 185,
@@ -259,9 +171,9 @@
       "description_zh": "`build_core` 是第 122-185 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-8a09bb802614574f9a48cdaa095578b3",
+      "entity_id": "ent-8c526e4691155cd9a91be509a6f7a642",
       "classification": "appendix",
-      "owner_page_id": "file-c67496aa79cf522b81ee22a91208db25",
+      "owner_page_id": "file-82cd628343605c8c921c22d8e1245508",
       "source_path": "scripts/package_release.py",
       "start_line": 188,
       "end_line": 210,
@@ -270,9 +182,9 @@
       "description_zh": "`validate_plugin_dist` 是第 188-210 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-d2561e87d6d7554da736a4d6b830fa24",
+      "entity_id": "ent-e22a45d721235d9eaf3a9b01185e294a",
       "classification": "appendix",
-      "owner_page_id": "file-c67496aa79cf522b81ee22a91208db25",
+      "owner_page_id": "file-82cd628343605c8c921c22d8e1245508",
       "source_path": "scripts/package_release.py",
       "start_line": 213,
       "end_line": 270,
@@ -281,9 +193,9 @@
       "description_zh": "`build_plugin` 是第 213-270 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-820361cccbaa5d34adeffabae94af9f6",
+      "entity_id": "ent-7f9db1a0fcf75f238c63abf6005f0450",
       "classification": "appendix",
-      "owner_page_id": "file-c67496aa79cf522b81ee22a91208db25",
+      "owner_page_id": "file-82cd628343605c8c921c22d8e1245508",
       "source_path": "scripts/package_release.py",
       "start_line": 273,
       "end_line": 276,
@@ -292,9 +204,9 @@
       "description_zh": "`build` 是第 273-276 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-0d9d9deba0f85b73a1dba380ecf83a70",
+      "entity_id": "ent-cbc947462fc55f62b0b814b4de9c986d",
       "classification": "appendix",
-      "owner_page_id": "file-c67496aa79cf522b81ee22a91208db25",
+      "owner_page_id": "file-82cd628343605c8c921c22d8e1245508",
       "source_path": "scripts/package_release.py",
       "start_line": 279,
       "end_line": 302,

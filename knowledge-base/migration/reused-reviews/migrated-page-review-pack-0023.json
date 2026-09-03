@@ -3,12 +3,25 @@
   "pack_id": "migrated-page-review-pack-0023",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T22:45:17Z",
+  "reviewed_at_utc": "2026-09-03T01:38:38Z",
   "reviews": [
     {
-      "entity_id": "file-d60defeafaa254978af9fa0a7b25aa24",
+      "entity_id": "ent-e48c39ba55215d33a30e531273f9bed9",
       "classification": "page",
-      "owner_page_id": "file-d60defeafaa254978af9fa0a7b25aa24",
+      "owner_page_id": "ent-e48c39ba55215d33a30e531273f9bed9",
+      "source_path": "scripts/ckb_core/human_page_templates.py",
+      "start_line": 674,
+      "end_line": 693,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 c533dd7c5322 中 `scripts/ckb_core/human_page_templates.py` 第 674 至 693 行，摘录属于 Git blob efddba7938e6。",
+      "meaning_zh": "代码单元 `get_human_page_template`负责校验 V3 人类页面的章节、信息预算、链接和事实来源合同。",
+      "role_zh": "它属于人类页面可读性约束；实验代码不改变生产检索或稳定页面生成默认行为。",
+      "change_when_zh": "当页面类型、章节合同、披露层级或事实登记规则变化时，应同步复查本页、固定实验协议及直接测试。"
+    },
+    {
+      "entity_id": "file-d33ed5d3f6885c16adbefc3b20eabe70",
+      "classification": "page",
+      "owner_page_id": "file-d33ed5d3f6885c16adbefc3b20eabe70",
       "source_path": "scripts/ckb_core/keyword_benchmark.py",
       "start_line": 1,
       "end_line": 228,
@@ -19,9 +32,9 @@
       "change_when_zh": "当 `scripts/ckb_core/keyword_benchmark.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
     },
     {
-      "entity_id": "ent-8ab92c1907a858b398d54a97ccb6177b",
+      "entity_id": "ent-ba1bd23f89175c5bbadc710a21ff4863",
       "classification": "page",
-      "owner_page_id": "ent-8ab92c1907a858b398d54a97ccb6177b",
+      "owner_page_id": "ent-ba1bd23f89175c5bbadc710a21ff4863",
       "source_path": "scripts/ckb_core/keyword_benchmark.py",
       "start_line": 139,
       "end_line": 227,
@@ -32,9 +45,9 @@
       "change_when_zh": "当 `run_keyword_benchmark` 的输入、输出、状态转换或失败返回变化时，应更新本页并重跑对应测试。"
     },
     {
-      "entity_id": "file-ad6befbe3aef5ba894bf3d059f8b0149",
+      "entity_id": "file-e31c2a1d30d0502a9619b08ae24254c4",
       "classification": "page",
-      "owner_page_id": "file-ad6befbe3aef5ba894bf3d059f8b0149",
+      "owner_page_id": "file-e31c2a1d30d0502a9619b08ae24254c4",
       "source_path": "scripts/ckb_core/keyword_fallback.py",
       "start_line": 1,
       "end_line": 633,
@@ -45,9 +58,9 @@
       "change_when_zh": "当 `scripts/ckb_core/keyword_fallback.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
     },
     {
-      "entity_id": "ent-798d2a95ef185bc2828558073811f173",
+      "entity_id": "ent-876061a0d47950909ce7f446530aa2c2",
       "classification": "page",
-      "owner_page_id": "ent-798d2a95ef185bc2828558073811f173",
+      "owner_page_id": "ent-876061a0d47950909ce7f446530aa2c2",
       "source_path": "scripts/ckb_core/keyword_fallback.py",
       "start_line": 380,
       "end_line": 461,

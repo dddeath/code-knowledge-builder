@@ -6,87 +6,9 @@
   "reviewed_at_utc": null,
   "reviews": [
     {
-      "entity_id": "ent-343d09984eab5c09833c66445a75c363",
+      "entity_id": "ent-92cedf603d575dd494d4468fb4d85c4e",
       "classification": "appendix",
-      "owner_page_id": "file-fee9a6a220845c7c85b6eafeb0bee83a",
-      "source_path": "tests/test_record_replace.py",
-      "start_line": 375,
-      "end_line": 525,
-      "source_blob": "b1fd37ca3064a379a8e1de9fddbd5e4196aa774b",
-      "source_excerpt": "class RecordReplaceLockTests(unittest.TestCase):\n    def _wait_for(self, path: Path, process: subprocess.Popen[str]) -> None:\n        deadline = time.monotonic() + 10.0\n        while not path.is_file() and process.poll() is None and time.monotonic() < deadline:\n            time.sleep(0.02)\n        self.assertTrue(path.is_file(), f\"process={process.poll()}\")\n\n    def test_cross_process_owner_liveness_recovery_and_release_token_drift(self) -> None:\n        with tempfile.TemporaryDirectory(prefix=\"ckb-record-replace-owner-lock-\") as value:\n            root = Path(value)\n            output = root / \"output\"\n            ready = root / \"live-ready.json\"\n            release = root / \"live-release\"\n            holder_code = r\"\"\"\nfrom pathlib import Path\nimport json,sys,time\nsys.path.insert(0, sys.argv[1])\nimport ckb_core.record_replace as replace\nwith replace._replace_lock(Path(sys.argv[2])) as acquired:\n    Path(sys.argv[3]).write_text(json.dumps({'pid': acquired['owner_pid'], 'token': acquired['owner_token']}), encoding='utf-8')\n    while not Path(sys.argv[4]).exists():\n        time.sleep(0.02)\n\"\"\"\n            holder = subprocess.Popen(\n                [\n                    sys.executable,\n                    \"-X\",\n                    \"utf8\",\n                    \"-c\",\n                    holder_code,\n                    str((SKILL_ROOT / \"scripts\").resolve()),\n                    str(output),\n                    str(ready),\n                    str(release),\n                ],\n                stdout=subprocess.PIPE,\n                stderr=subprocess.PIPE,\n                text=True,\n                encoding=\"utf-8\",\n            )\n            try:\n                self._wait_for(ready, holder)\n                owner = json.loads(ready.read_text(encoding=\"utf-8\"))\n                self.assertNotEqual(owner[\"pid\"], os.getpid())\n                lock = output / \"workspace-meta/record-replace/.lock\"\n                old = time.time() - 10.0\n                os.utime(lock, (old, old))\n                before = lock.stat()\n                with (\n                    patch.object(record_replace_module, \"REPLACE_LOCK_STALE_SECONDS\", 0.05),\n                    patch.object(record_replace_module, \"REPLACE_LOCK_TIMEOUT_SECONDS\", 0.10),\n                ):\n                    with self.assertRaises(record_replace_module.RecordReplaceLockError) as live:\n                        with record_replace_module._replace_lock(output):\n                            self.fail(\"aged live record replacement owner was stolen\")\n                self.assertIn(\n                    live.exception.category,\n                    {\"concurrent-record-replace-lock\", \"record-replace-lock-owner-live\"},\n                )\n                after = lock.stat()\n                self.assertEqual((after.st_ino, after.st_size, after.st_mtime_ns), (before.st_ino, before.st_size, before.st_mtime_ns))\n            finally:\n                release.write_text(\"release\", encoding=\"ascii\")\n                stdout, stderr = holder.communicate(timeout=15)\n                self.assertEqual(holder.returncode, 0, stdout + stderr)\n            self.assertFalse((output / \"workspace-meta/record-replace/.lock\").exists())\n\n            dead_ready = root / \"dead-ready\"\n            dead_code = r\"\"\"\nfrom pathlib import Path\nimport os,sys\nsys.path.insert(0, sys.argv[1])\nimport ckb_core.record_replace as replace\nwith replace._replace_lock(Path(sys.argv[2])):\n    Path(sys.argv[3]).write_text('ready', encoding='ascii')\n    os._exit(0)\n\"\"\"\n            dead = subprocess.Popen(\n                [\n                    sys.executable,\n                    \"-X\",\n                    \"utf8\",\n                    \"-c\",\n                    dead_code,\n                    str((SKILL_ROOT / \"scripts\").resolve()),\n                    str(output),\n                    str(dead_ready),\n                ],\n                stdout=subprocess.PIPE,\n                stderr=subprocess.PIPE,\n                text=True,\n                encoding=\"utf-8\",\n            )\n            stdout, stderr = dead.communicate(timeout=15)\n            self.assertEqual(dead.returncode, 0, stdout + stderr)\n            lock = output / \"workspace-meta/record-replace/.lock\"\n            self.assertTrue(lock.is_file())\n            old = time.time() - 10.0\n            os.utime(lock, (old, old))\n            with (\n                patch.object(record_replace_module, \"REPLACE_LOCK_STALE_SECONDS\", 0.05),\n                patch.object(record_replace_module, \"REPLACE_LOCK_TIMEOUT_SECONDS\", 1.0),\n            ):\n                with record_replace_module._replace_lock(output) as recovered:\n                    self.assertEqual(recovered[\"recovered_category\"], \"record-replace-lock-owner-dead\")\n            self.assertFalse(lock.exists())\n\n            lock.parent.mkdir(parents=True, exist_ok=True)\n            lock.write_text(\"{unverifiable-owner\", encoding=\"utf-8\")\n            os.utime(lock, (old, old))\n            with (\n                patch.object(record_replace_module, \"REPLACE_LOCK_STALE_SECONDS\", 0.05),\n                patch.object(record_replace_module, \"REPLACE_LOCK_TIMEOUT_SECONDS\", 0.05),\n            ):\n                with self.assertRaises(record_replace_module.RecordReplaceLockError) as unverifiable:\n                    with record_replace_module._replace_lock(output):\n                        self.fail(\"unverifiable stale record replacement lock was recovered\")\n            self.assertEqual(unverifiable.exception.category, \"record-replace-lock-record-invalid\")\n            self.assertEqual(lock.read_text(encoding=\"utf-8\"), \"{unverifiable-owner\")\n            lock.unlink()\n\n            drift_code = r\"\"\"\nfrom pathlib import Path\nimport os,sys\npath = Path(sys.argv[1])\noffset = int(sys.argv[2])\nwith path.open('r+b', buffering=0) as handle:\n    handle.seek(offset)\n    handle.write(b'f' * 32)\n    os.fsync(handle.fileno())\n\"\"\"\n            with self.assertRaises(record_replace_module.RecordReplaceLockError) as drift:\n                with record_replace_module._replace_lock(output) as acquired:\n                    lock = output / \"workspace-meta/record-replace/.lock\"\n                    value = record_replace_module._owner_descriptor_bytes(acquired[\"_descriptor\"])\n                    offset = value.index(acquired[\"owner_token\"].encode(\"ascii\"))\n                    if os.name == \"nt\":\n                        offset += value[:offset].count(b\"\\n\")\n                    changed = subprocess.run(\n                        [sys.executable, \"-X\", \"utf8\", \"-c\", drift_code, str(lock), str(offset)],\n                        stdout=subprocess.PIPE,\n                        stderr=subprocess.PIPE,\n                        text=True,\n                        encoding=\"utf-8\",\n                    )\n                    self.assertEqual(changed.returncode, 0, changed.stdout + changed.stderr)\n            self.assertEqual(drift.exception.category, \"record-replace-lock-release-owner-token-drift\")\n            self.assertTrue(lock.is_file())\n            drifted_record = json.loads(lock.read_text(encoding=\"utf-8\"))\n            self.assertEqual(drifted_record[\"owner_token\"], \"f\" * 32)\n            lock.unlink()",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-1a0d57b27854509ba60676e7f781d491",
-      "classification": "appendix",
-      "owner_page_id": "file-fee9a6a220845c7c85b6eafeb0bee83a",
-      "source_path": "tests/test_record_replace.py",
-      "start_line": 376,
-      "end_line": 380,
-      "source_blob": "b1fd37ca3064a379a8e1de9fddbd5e4196aa774b",
-      "source_excerpt": "def _wait_for(self, path: Path, process: subprocess.Popen[str]) -> None:\n        deadline = time.monotonic() + 10.0\n        while not path.is_file() and process.poll() is None and time.monotonic() < deadline:\n            time.sleep(0.02)\n        self.assertTrue(path.is_file(), f\"process={process.poll()}\")",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-73deed4c01ea57349326ea5dbead84d9",
-      "classification": "appendix",
-      "owner_page_id": "file-fee9a6a220845c7c85b6eafeb0bee83a",
-      "source_path": "tests/test_record_replace.py",
-      "start_line": 382,
-      "end_line": 525,
-      "source_blob": "b1fd37ca3064a379a8e1de9fddbd5e4196aa774b",
-      "source_excerpt": "def test_cross_process_owner_liveness_recovery_and_release_token_drift(self) -> None:\n        with tempfile.TemporaryDirectory(prefix=\"ckb-record-replace-owner-lock-\") as value:\n            root = Path(value)\n            output = root / \"output\"\n            ready = root / \"live-ready.json\"\n            release = root / \"live-release\"\n            holder_code = r\"\"\"\nfrom pathlib import Path\nimport json,sys,time\nsys.path.insert(0, sys.argv[1])\nimport ckb_core.record_replace as replace\nwith replace._replace_lock(Path(sys.argv[2])) as acquired:\n    Path(sys.argv[3]).write_text(json.dumps({'pid': acquired['owner_pid'], 'token': acquired['owner_token']}), encoding='utf-8')\n    while not Path(sys.argv[4]).exists():\n        time.sleep(0.02)\n\"\"\"\n            holder = subprocess.Popen(\n                [\n                    sys.executable,\n                    \"-X\",\n                    \"utf8\",\n                    \"-c\",\n                    holder_code,\n                    str((SKILL_ROOT / \"scripts\").resolve()),\n                    str(output),\n                    str(ready),\n                    str(release),\n                ],\n                stdout=subprocess.PIPE,\n                stderr=subprocess.PIPE,\n                text=True,\n                encoding=\"utf-8\",\n            )\n            try:\n                self._wait_for(ready, holder)\n                owner = json.loads(ready.read_text(encoding=\"utf-8\"))\n                self.assertNotEqual(owner[\"pid\"], os.getpid())\n                lock = output / \"workspace-meta/record-replace/.lock\"\n                old = time.time() - 10.0\n                os.utime(lock, (old, old))\n                before = lock.stat()\n                with (\n                    patch.object(record_replace_module, \"REPLACE_LOCK_STALE_SECONDS\", 0.05),\n                    patch.object(record_replace_module, \"REPLACE_LOCK_TIMEOUT_SECONDS\", 0.10),\n                ):\n                    with self.assertRaises(record_replace_module.RecordReplaceLockError) as live:\n                        with record_replace_module._replace_lock(output):\n                            self.fail(\"aged live record replacement owner was stolen\")\n                self.assertIn(\n                    live.exception.category,\n                    {\"concurrent-record-replace-lock\", \"record-replace-lock-owner-live\"},\n                )\n                after = lock.stat()\n                self.assertEqual((after.st_ino, after.st_size, after.st_mtime_ns), (before.st_ino, before.st_size, before.st_mtime_ns))\n            finally:\n                release.write_text(\"release\", encoding=\"ascii\")\n                stdout, stderr = holder.communicate(timeout=15)\n                self.assertEqual(holder.returncode, 0, stdout + stderr)\n            self.assertFalse((output / \"workspace-meta/record-replace/.lock\").exists())\n\n            dead_ready = root / \"dead-ready\"\n            dead_code = r\"\"\"\nfrom pathlib import Path\nimport os,sys\nsys.path.insert(0, sys.argv[1])\nimport ckb_core.record_replace as replace\nwith replace._replace_lock(Path(sys.argv[2])):\n    Path(sys.argv[3]).write_text('ready', encoding='ascii')\n    os._exit(0)\n\"\"\"\n            dead = subprocess.Popen(\n                [\n                    sys.executable,\n                    \"-X\",\n                    \"utf8\",\n                    \"-c\",\n                    dead_code,\n                    str((SKILL_ROOT / \"scripts\").resolve()),\n                    str(output),\n                    str(dead_ready),\n                ],\n                stdout=subprocess.PIPE,\n                stderr=subprocess.PIPE,\n                text=True,\n                encoding=\"utf-8\",\n            )\n            stdout, stderr = dead.communicate(timeout=15)\n            self.assertEqual(dead.returncode, 0, stdout + stderr)\n            lock = output / \"workspace-meta/record-replace/.lock\"\n            self.assertTrue(lock.is_file())\n            old = time.time() - 10.0\n            os.utime(lock, (old, old))\n            with (\n                patch.object(record_replace_module, \"REPLACE_LOCK_STALE_SECONDS\", 0.05),\n                patch.object(record_replace_module, \"REPLACE_LOCK_TIMEOUT_SECONDS\", 1.0),\n            ):\n                with record_replace_module._replace_lock(output) as recovered:\n                    self.assertEqual(recovered[\"recovered_category\"], \"record-replace-lock-owner-dead\")\n            self.assertFalse(lock.exists())\n\n            lock.parent.mkdir(parents=True, exist_ok=True)\n            lock.write_text(\"{unverifiable-owner\", encoding=\"utf-8\")\n            os.utime(lock, (old, old))\n            with (\n                patch.object(record_replace_module, \"REPLACE_LOCK_STALE_SECONDS\", 0.05),\n                patch.object(record_replace_module, \"REPLACE_LOCK_TIMEOUT_SECONDS\", 0.05),\n            ):\n                with self.assertRaises(record_replace_module.RecordReplaceLockError) as unverifiable:\n                    with record_replace_module._replace_lock(output):\n                        self.fail(\"unverifiable stale record replacement lock was recovered\")\n            self.assertEqual(unverifiable.exception.category, \"record-replace-lock-record-invalid\")\n            self.assertEqual(lock.read_text(encoding=\"utf-8\"), \"{unverifiable-owner\")\n            lock.unlink()\n\n            drift_code = r\"\"\"\nfrom pathlib import Path\nimport os,sys\npath = Path(sys.argv[1])\noffset = int(sys.argv[2])\nwith path.open('r+b', buffering=0) as handle:\n    handle.seek(offset)\n    handle.write(b'f' * 32)\n    os.fsync(handle.fileno())\n\"\"\"\n            with self.assertRaises(record_replace_module.RecordReplaceLockError) as drift:\n                with record_replace_module._replace_lock(output) as acquired:\n                    lock = output / \"workspace-meta/record-replace/.lock\"\n                    value = record_replace_module._owner_descriptor_bytes(acquired[\"_descriptor\"])\n                    offset = value.index(acquired[\"owner_token\"].encode(\"ascii\"))\n                    if os.name == \"nt\":\n                        offset += value[:offset].count(b\"\\n\")\n                    changed = subprocess.run(\n                        [sys.executable, \"-X\", \"utf8\", \"-c\", drift_code, str(lock), str(offset)],\n                        stdout=subprocess.PIPE,\n                        stderr=subprocess.PIPE,\n                        text=True,\n                        encoding=\"utf-8\",\n                    )\n                    self.assertEqual(changed.returncode, 0, changed.stdout + changed.stderr)\n            self.assertEqual(drift.exception.category, \"record-replace-lock-release-owner-token-drift\")\n            self.assertTrue(lock.is_file())\n            drifted_record = json.loads(lock.read_text(encoding=\"utf-8\"))\n            self.assertEqual(drifted_record[\"owner_token\"], \"f\" * 32)\n            lock.unlink()",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-dc6731eede905bd2b90533ae77f565fe",
-      "classification": "appendix",
-      "owner_page_id": "file-0c7566bd81d856718da2718811989ce7",
-      "source_path": "tests/test_reference_pdf.py",
-      "start_line": 21,
-      "end_line": 22,
-      "source_blob": "0fbf3a9d83ee7d28bc5d8826eb7eac31f1e56b50",
-      "source_excerpt": "def _commands(*lines: tuple[float, float, str]) -> list[tuple[float, float, str]]:\n    return list(lines)",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-2ff703a6bc105d128e88be4c56bc8762",
-      "classification": "appendix",
-      "owner_page_id": "ent-b79180f16321549b9db8b1d733b5650f",
-      "source_path": "tests/test_reference_pdf.py",
-      "start_line": 26,
-      "end_line": 28,
-      "source_blob": "0fbf3a9d83ee7d28bc5d8826eb7eac31f1e56b50",
-      "source_excerpt": "def setUp(self) -> None:\n        self.temp = tempfile.TemporaryDirectory(prefix=\"ckb-pdf-test-\")\n        self.root = Path(self.temp.name)",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-86107fca536a532d8eb9efca7a1b97db",
-      "classification": "appendix",
-      "owner_page_id": "ent-b79180f16321549b9db8b1d733b5650f",
-      "source_path": "tests/test_reference_pdf.py",
-      "start_line": 30,
-      "end_line": 31,
-      "source_blob": "0fbf3a9d83ee7d28bc5d8826eb7eac31f1e56b50",
-      "source_excerpt": "def tearDown(self) -> None:\n        self.temp.cleanup()",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-03b7d558009a5f99904d02d20ffbf79f",
-      "classification": "appendix",
-      "owner_page_id": "ent-b79180f16321549b9db8b1d733b5650f",
+      "owner_page_id": "ent-f972a6ba78b9553d98a7cfda54161f8d",
       "source_path": "tests/test_reference_pdf.py",
       "start_line": 33,
       "end_line": 82,
@@ -97,9 +19,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-3b5b9dd6066c51c59a7c643e47b5d9a3",
+      "entity_id": "ent-17462711c75a53e4983ee7665c22be69",
       "classification": "appendix",
-      "owner_page_id": "ent-b79180f16321549b9db8b1d733b5650f",
+      "owner_page_id": "ent-f972a6ba78b9553d98a7cfda54161f8d",
       "source_path": "tests/test_reference_pdf.py",
       "start_line": 84,
       "end_line": 135,
@@ -110,9 +32,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-ab0e4df8538550b19934328c0b313cbb",
+      "entity_id": "ent-f7b1440bc3455a869cfea9aee7faccac",
       "classification": "appendix",
-      "owner_page_id": "ent-b79180f16321549b9db8b1d733b5650f",
+      "owner_page_id": "ent-f972a6ba78b9553d98a7cfda54161f8d",
       "source_path": "tests/test_reference_pdf.py",
       "start_line": 137,
       "end_line": 146,
@@ -123,9 +45,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-7e3704d9273b597d93c614dd640a5dfd",
+      "entity_id": "ent-dc3ec7b160f557daa40bdab8b2d987af",
       "classification": "appendix",
-      "owner_page_id": "ent-b79180f16321549b9db8b1d733b5650f",
+      "owner_page_id": "ent-f972a6ba78b9553d98a7cfda54161f8d",
       "source_path": "tests/test_reference_pdf.py",
       "start_line": 148,
       "end_line": 270,
@@ -136,9 +58,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-3a98cc438d6a5bbc920b422ac8cd72aa",
+      "entity_id": "ent-bb738995e88654f39bc2991b4ac3a4be",
       "classification": "appendix",
-      "owner_page_id": "ent-b79180f16321549b9db8b1d733b5650f",
+      "owner_page_id": "ent-f972a6ba78b9553d98a7cfda54161f8d",
       "source_path": "tests/test_reference_pdf.py",
       "start_line": 272,
       "end_line": 305,
@@ -149,9 +71,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-8da992ff6c8c57ec9106b647725ef5c1",
+      "entity_id": "ent-4822dec8c62a5a95b8cefd6d00fc530d",
       "classification": "appendix",
-      "owner_page_id": "ent-b79180f16321549b9db8b1d733b5650f",
+      "owner_page_id": "ent-f972a6ba78b9553d98a7cfda54161f8d",
       "source_path": "tests/test_reference_pdf.py",
       "start_line": 307,
       "end_line": 311,
@@ -162,9 +84,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-0d9a14b3ecb35bd0a5a7aea6aa551046",
+      "entity_id": "ent-8b2bb549d2c952419e0b810e96298595",
       "classification": "appendix",
-      "owner_page_id": "file-0c7566bd81d856718da2718811989ce7",
+      "owner_page_id": "file-1763fc1497275a02a182f29d897776c7",
       "source_path": "tests/test_reference_pdf.py",
       "start_line": 314,
       "end_line": 582,
@@ -175,9 +97,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-4c330e51326a57b68c0471167cf0c7fe",
+      "entity_id": "ent-03767a3ef9ba52f082d09af848e81438",
       "classification": "appendix",
-      "owner_page_id": "file-0c7566bd81d856718da2718811989ce7",
+      "owner_page_id": "file-1763fc1497275a02a182f29d897776c7",
       "source_path": "tests/test_reference_pdf.py",
       "start_line": 315,
       "end_line": 318,
@@ -188,9 +110,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-d68701393cbd57f99d6b137d712fc204",
+      "entity_id": "ent-5a6b1c3048f35a9f8c2e24fe52c3beeb",
       "classification": "appendix",
-      "owner_page_id": "file-0c7566bd81d856718da2718811989ce7",
+      "owner_page_id": "file-1763fc1497275a02a182f29d897776c7",
       "source_path": "tests/test_reference_pdf.py",
       "start_line": 320,
       "end_line": 321,
@@ -201,14 +123,53 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-938f774f0a455f7eaa53392bf994ea26",
+      "entity_id": "ent-d6ed61179fca5c489545f8ea570fc37d",
       "classification": "appendix",
-      "owner_page_id": "file-0c7566bd81d856718da2718811989ce7",
+      "owner_page_id": "file-1763fc1497275a02a182f29d897776c7",
       "source_path": "tests/test_reference_pdf.py",
       "start_line": 323,
       "end_line": 332,
       "source_blob": "0fbf3a9d83ee7d28bc5d8826eb7eac31f1e56b50",
       "source_excerpt": "def _completed_output(self) -> Path:\n        output = self.root / \"output\"\n        initialized = invoke(\"init\", \"--repo\", str(self.repo), \"--out\", str(output), \"--format\", \"markdown\")\n        self.assertEqual(initialized.returncode, 0, initialized.stderr)\n        review_all(output)\n        merged = invoke(\"merge\", \"--out\", str(output))\n        self.assertEqual(merged.returncode, 0, merged.stderr)\n        finalized = invoke(\"finalize\", \"--out\", str(output))\n        self.assertEqual(finalized.returncode, 0, finalized.stderr)\n        return output",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-41da1cec81345444ba703b4e7ad9890f",
+      "classification": "appendix",
+      "owner_page_id": "file-1763fc1497275a02a182f29d897776c7",
+      "source_path": "tests/test_reference_pdf.py",
+      "start_line": 334,
+      "end_line": 582,
+      "source_blob": "0fbf3a9d83ee7d28bc5d8826eb7eac31f1e56b50",
+      "source_excerpt": "def test_pdf_ingest_review_audit_indexes_and_rollback(self) -> None:\n        output = self._completed_output()\n        baseline_connection = sqlite3.connect(output / \"machine/knowledge.sqlite\")\n        try:\n            baseline_entity_count = baseline_connection.execute(\"SELECT count(*) FROM entities\").fetchone()[0]\n        finally:\n            baseline_connection.close()\n        scanned = blank_pdf(self.root / \"pending-scan.pdf\")\n        pending_ingest = invoke(\n            \"reference\", \"ingest\", \"--out\", str(output), \"--source\", str(scanned),\n            \"--title\", \"待 OCR 扫描资料\", \"--origin\", \"本地扫描 fixture\", \"--license\", \"CC0-1.0\",\n            \"--pdf-ocr\",\n        )\n        self.assertEqual(pending_ingest.returncode, 4, pending_ingest.stderr)\n        pending_result = json.loads(pending_ingest.stdout)\n        self.assertEqual(pending_result[\"extraction\"][\"status\"], \"pending\")\n        self.assertEqual(pending_result[\"next\"], \"reference rollback -> reference ingest --pdf-ocr\")\n        self.assertEqual(pending_result[\"next_steps\"][0][\"command\"], \"reference rollback\")\n        self.assertEqual(\n            pending_result[\"next_steps\"][0][\"arguments\"][\"reference\"],\n            pending_result[\"reference_id\"],\n        )\n        e2e_adapter = self.root / \"e2e_ocr_adapter.py\"\n        e2e_adapter.write_text(\n            \"import argparse, json\\n\"\n            \"parser=argparse.ArgumentParser(); parser.add_argument('--source'); parser.add_argument('--page',type=int); \"\n            \"parser.add_argument('--output'); parser.add_argument('--schema-version',type=int); parser.add_argument('--cancel-file')\\n\"\n            \"args=parser.parse_args(); value={'schema_version':args.schema_version,'status':'extracted','page_number':args.page,\"\n            \"'text':'OCR page text is now long enough for deterministic review.','confidence':0.97}\\n\"\n            \"open(args.output,'w',encoding='utf-8').write(json.dumps(value))\\n\",\n            encoding=\"utf-8\",\n        )\n        repeated_with_ocr = invoke(\n            \"reference\", \"ingest\", \"--out\", str(output), \"--source\", str(scanned),\n            \"--title\", \"待 OCR 扫描资料\", \"--origin\", \"本地扫描 fixture\", \"--license\", \"CC0-1.0\",\n            \"--pdf-ocr\", \"--pdf-ocr-adapter\", str(e2e_adapter),\n        )\n        self.assertEqual(repeated_with_ocr.returncode, 4, repeated_with_ocr.stderr)\n        repeated_result = json.loads(repeated_with_ocr.stdout)\n        self.assertTrue(repeated_result[\"idempotent\"])\n        self.assertEqual(repeated_result[\"reference_id\"], pending_result[\"reference_id\"])\n        self.assertEqual(repeated_result[\"next_steps\"][0][\"command\"], \"reference rollback\")\n        self.assertEqual(repeated_result[\"next_steps\"][1][\"command\"], \"reference ingest\")\n        self.assertTrue(repeated_result[\"next_steps\"][1][\"arguments\"][\"pdf_ocr\"])\n        self.assertEqual(repeated_result[\"next_steps\"][1][\"arguments\"][\"pdf_ocr_adapter\"], str(e2e_adapter.resolve()))\n        pending_review = json.loads(Path(pending_result[\"review_template\"]).read_text(encoding=\"utf-8\"))\n        pending_review.update(\n            {\n                \"status\": \"agent-reviewed\",\n                \"summary_zh\": \"该扫描资料仍缺少可复核的页级文本，因此当前保持待处理状态。\",\n                \"claims\": [\n                    {\n                        \"claim_zh\": \"该项主张没有可核对的页级片段。\",\n                        \"page_number\": 1,\n                        \"fragment_id\": \"missing-fragment\",\n                        \"start_offset\": 0,\n                        \"end_offset\": 1,\n                        \"source_text\": \"x\",\n                        \"evidence_note\": \"扫描页仍待 OCR，当前没有可用于事实确认的原文片段。\",\n                    }\n                ],\n            }\n        )\n        pending_review_path = self.root / \"pending-review.json\"\n        pending_review_path.write_text(json.dumps(pending_review, ensure_ascii=False, indent=2), encoding=\"utf-8\")\n        rejected = invoke(\"reference\", \"review\", \"--out\", str(output), \"--review\", str(pending_review_path))\n        self.assertEqual(rejected.returncode, 2)\n        self.assertIn(\"not reviewable\", rejected.stderr)\n        self.assertFalse((output / \"human/references/待 OCR 扫描资料.md\").exists())\n        pending_rollback = invoke(\n            \"reference\", \"rollback\", \"--out\", str(output), \"--reference\", pending_result[\"reference_id\"]\n        )\n        self.assertEqual(pending_rollback.returncode, 0, pending_rollback.stderr)\n        reingested_with_ocr = invoke(\n            \"reference\", \"ingest\", \"--out\", str(output), \"--source\", str(scanned),\n            \"--title\", \"待 OCR 扫描资料\", \"--origin\", \"本地扫描 fixture\", \"--license\", \"CC0-1.0\",\n            \"--pdf-ocr\", \"--pdf-ocr-adapter\", str(e2e_adapter),\n        )\n        self.assertEqual(reingested_with_ocr.returncode, 4, reingested_with_ocr.stderr)\n        reingested_result = json.loads(reingested_with_ocr.stdout)\n        self.assertFalse(reingested_result[\"idempotent\"])\n        self.assertEqual(reingested_result[\"extraction\"][\"status\"], \"ready\")\n        reingested_manifest = json.loads(Path(reingested_result[\"extraction\"][\"manifest\"]).read_text(encoding=\"utf-8\"))\n        self.assertEqual(reingested_manifest[\"pages\"][0][\"method\"], \"ocr\")\n        reingested_rollback = invoke(\n            \"reference\", \"rollback\", \"--out\", str(output), \"--reference\", reingested_result[\"reference_id\"]\n        )\n        self.assertEqual(reingested_rollback.returncode, 0, reingested_rollback.stderr)\n\n        source = ascii_pdf(\n            self.root / \"reviewable.pdf\",\n            [\n                _commands(\n                    (72, 740, \"PAGE LEVEL PROVENANCE\"),\n                    (72, 710, \"The archived page keeps an exact fragment for later human review.\"),\n                ),\n                _commands(\n                    (72, 740, \"SECOND PAGE EVIDENCE\"),\n                    (72, 710, \"The second page proves that page numbering remains one based.\"),\n                ),\n            ],\n        )\n        ingested = invoke(\n            \"reference\",\n            \"ingest\",\n            \"--out\",\n            str(output),\n            \"--source\",\n            str(source),\n            \"--source-root\",\n            str(self.root),\n            \"--title\",\n            \"PDF 页级证据资料\",\n            \"--origin\",\n            \"本地 PDF fixture\",\n            \"--license\",\n            \"CC0-1.0\",\n        )\n        self.assertEqual(ingested.returncode, 4, ingested.stderr)\n        result = json.loads(ingested.stdout)\n        self.assertEqual(result[\"extraction\"][\"status\"], \"ready\")\n        reference_id = result[\"reference_id\"]\n        archived = Path(result[\"source\"])\n        self.assertEqual(archived.read_bytes(), source.read_bytes())\n        manifest_path = Path(result[\"manifest\"])\n        manifest = json.loads(manifest_path.read_text(encoding=\"utf-8\"))\n        extraction_path = Path(manifest[\"extraction_file\"])\n        extraction = json.loads(extraction_path.read_text(encoding=\"utf-8\"))\n        self.assertEqual(extraction[\"page_count\"], 2)\n        self.assertEqual(extraction[\"pending_pages\"], [])\n\n        review = json.loads(Path(result[\"review_template\"]).read_text(encoding=\"utf-8\"))\n        page = extraction[\"pages\"][1]\n        fragment = next(item for item in page[\"fragments\"] if \"second page proves\" in item[\"text\"].casefold())\n        start, end = fragment[\"text_range\"][\"start\"], fragment[\"text_range\"][\"end\"]\n        review.update(\n            {\n                \"status\": \"agent-reviewed\",\n                \"summary_zh\": \"这份 PDF 用两个原生文本页面验证可回到页码的片段证据，并保留逐页审阅边界。\",\n                \"claims\": [\n                    {\n                        \"claim_zh\": \"资料第二页明确说明页码保持从一开始编号。\",\n                        \"page_number\": 2,\n                        \"fragment_id\": fragment[\"fragment_id\"],\n                        \"start_offset\": start,\n                        \"end_offset\": end,\n                        \"source_text\": fragment[\"text\"],\n                        \"evidence_note\": \"已重新打开归档 PDF 第二页，并逐字核对提取片段和页码。\",\n                    }\n                ],\n            }\n        )\n        review_path = self.root / \"pdf-review.json\"\n        review_path.write_text(json.dumps(review, ensure_ascii=False, indent=2), encoding=\"utf-8\")\n        invalid_review = json.loads(review_path.read_text(encoding=\"utf-8\"))\n        invalid_review[\"claims\"][0][\"page_number\"] = 1\n        review_path.write_text(json.dumps(invalid_review, ensure_ascii=False, indent=2), encoding=\"utf-8\")\n        rejected_locator = invoke(\"reference\", \"review\", \"--out\", str(output), \"--review\", str(review_path))\n        self.assertEqual(rejected_locator.returncode, 2)\n        self.assertIn(\"page does not match\", rejected_locator.stderr)\n        review_path.write_text(json.dumps(review, ensure_ascii=False, indent=2), encoding=\"utf-8\")\n        reviewed = invoke(\"reference\", \"review\", \"--out\", str(output), \"--review\", str(review_path))\n        self.assertEqual(reviewed.returncode, 0, reviewed.stderr)\n        reviewed_result = json.loads(reviewed.stdout)\n        self.assertEqual(reviewed_result[\"audit\"][\"status\"], \"passed\")\n        human = Path(reviewed_result[\"human_file\"])\n        markdown = Path(reviewed_result[\"compatibility_file\"])\n        self.assertEqual(human.read_bytes(), markdown.read_bytes())\n        human_text = human.read_text(encoding=\"utf-8\")\n        self.assertIn(\"原文第 2 页\", human_text)\n        self.assertIn(\"#page=2\", human_text)\n        self.assertIn(\"资料第二页明确说明页码保持从一开始编号。（[原文第 2 页]\", human_text)\n        self.assertNotIn(\"））\", human_text)\n\n        connection = sqlite3.connect(output / \"machine/knowledge.sqlite\")\n        try:\n            self.assertEqual(connection.execute(\"PRAGMA integrity_check\").fetchone()[0], \"ok\")\n            self.assertEqual(connection.execute(\"SELECT count(*) FROM entities\").fetchone()[0], baseline_entity_count)\n            rows = connection.execute(\n                \"SELECT start_line,end_line,source_path,content FROM sections WHERE document_id=? ORDER BY ordinal\",\n                (f\"reference:{reference_id}\",),\n            ).fetchall()\n            self.assertTrue(any(row[0] == 2 and row[1] == 2 and \"one based\" in row[3] for row in rows))\n            self.assertTrue(all(row[2] == str(archived) for row in rows))\n        finally:\n            connection.close()\n        agent = sqlite3.connect(output / \"agent-index.sqlite\")\n        try:\n            self.assertEqual(agent.execute(\"PRAGMA integrity_check\").fetchone()[0], \"ok\")\n        finally:\n            agent.close()\n        maintained = invoke(\"maintain\", \"--out\", str(output))\n        self.assertEqual(maintained.returncode, 0, maintained.stdout + maintained.stderr)\n\n        unrelated_source = self.root / \"unrelated.txt\"\n        unrelated_source.write_text(\n            \"Unrelated reference remains after targeted PDF rollback.\\n\",\n            encoding=\"utf-8\",\n        )\n        unrelated_ingest = invoke(\n            \"reference\", \"ingest\", \"--out\", str(output), \"--source\", str(unrelated_source),\n            \"--title\", \"不相关文本资料\", \"--origin\", \"本地文本 fixture\", \"--license\", \"CC0-1.0\",\n        )\n        self.assertEqual(unrelated_ingest.returncode, 4, unrelated_ingest.stderr)\n        unrelated_result = json.loads(unrelated_ingest.stdout)\n        unrelated_review = json.loads(Path(unrelated_result[\"review_template\"]).read_text(encoding=\"utf-8\"))\n        unrelated_review.update(\n            {\n                \"status\": \"agent-reviewed\",\n                \"summary_zh\": \"这份独立文本资料用于证明 PDF 定向回滚不会删除其他参考来源。\",\n                \"claims\": [\n                    {\n                        \"claim_zh\": \"资料明确说明定向 PDF 回滚后该来源仍然保留。\",\n                        \"start_line\": 1,\n                        \"end_line\": 1,\n                        \"source_text\": \"Unrelated reference remains after targeted PDF rollback.\",\n                        \"evidence_note\": \"已重新打开归档文本第一行并逐字核对该回滚边界。\",\n                    }\n                ],\n            }\n        )\n        unrelated_review_path = self.root / \"unrelated-review.json\"\n        unrelated_review_path.write_text(json.dumps(unrelated_review, ensure_ascii=False, indent=2), encoding=\"utf-8\")\n        unrelated_reviewed = invoke(\n            \"reference\", \"review\", \"--out\", str(output), \"--review\", str(unrelated_review_path)\n        )\n        self.assertEqual(unrelated_reviewed.returncode, 0, unrelated_reviewed.stderr)\n        unrelated_human = output / \"human/references/不相关文本资料.md\"\n        self.assertTrue(unrelated_human.is_file())\n\n        extraction_root = extraction_path.parent\n        rolled = invoke(\"reference\", \"rollback\", \"--out\", str(output), \"--reference\", reference_id)\n        self.assertEqual(rolled.returncode, 0, rolled.stderr)\n        self.assertFalse(archived.exists())\n        self.assertFalse(manifest_path.exists())\n        self.assertFalse(extraction_root.exists())\n        self.assertFalse(human.exists())\n        self.assertFalse(markdown.exists())\n        self.assertTrue(unrelated_human.is_file())\n        final_audit = json.loads(invoke(\"reference\", \"audit\", \"--out\", str(output)).stdout)\n        self.assertEqual(final_audit[\"status\"], \"passed\")\n        self.assertEqual(final_audit[\"counts\"][\"total\"], 1)\n        self.assertEqual(final_audit[\"counts\"][\"active\"], 1)\n        final_connection = sqlite3.connect(output / \"machine/knowledge.sqlite\")\n        try:\n            self.assertEqual(final_connection.execute(\"SELECT count(*) FROM entities\").fetchone()[0], baseline_entity_count)\n            self.assertEqual(final_connection.execute(\"SELECT count(*) FROM reference_sources\").fetchone()[0], 1)\n        finally:\n            final_connection.close()",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-e182b1a7c5c15e75bff11d9cba278fed",
+      "classification": "appendix",
+      "owner_page_id": "file-5a3a38643f065d5f8902c6f24a45d65a",
+      "source_path": "tests/test_scope_extension.py",
+      "start_line": 31,
+      "end_line": 35,
+      "source_blob": "27b2937d148147c03556b90f4a087207f5c8b291",
+      "source_excerpt": "def git(repo: Path, *args: str) -> str:\n    completed = subprocess.run([\"git\", \"-C\", str(repo), *args], text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n    if completed.returncode:\n        raise RuntimeError(completed.stderr)\n    return completed.stdout.strip()",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-2dd8dadf0fdf50159c777ddfb0937333",
+      "classification": "appendix",
+      "owner_page_id": "file-5a3a38643f065d5f8902c6f24a45d65a",
+      "source_path": "tests/test_scope_extension.py",
+      "start_line": 38,
+      "end_line": 60,
+      "source_blob": "27b2937d148147c03556b90f4a087207f5c8b291",
+      "source_excerpt": "def review_all(output: Path) -> None:\n    state = json.loads((output / \"state.json\").read_text(encoding=\"utf-8\"))\n    for batch in state[\"parse_batches\"]:\n        if not (output / \"chunks\" / batch[\"id\"] / \"candidate.json\").is_file():\n            build_chunk(output, batch[\"id\"], \"all\")\n    state = json.loads((output / \"state.json\").read_text(encoding=\"utf-8\"))\n    for pack in state[\"review_packs\"]:\n        if pack[\"status\"] == \"passed\":\n            continue\n        template = json.loads(Path(pack[\"review_template_path\"]).read_text(encoding=\"utf-8\"))\n        for item in template[\"reviews\"]:\n            item[\"status\"] = \"agent-reviewed\"\n            item[\"evidence_note\"] = \"Agent 已重新打开固定 Git 源码范围，逐项核对名称、范围、分支和调用关系后确认说明。\"\n            if pack[\"kind\"] == \"appendix-review\":\n                item[\"description_zh\"] = \"该局部代码负责完成所属流程中的辅助步骤，并把确定结果交给主流程继续使用。\"\n            else:\n                item[\"meaning_zh\"] = \"该代码页说明固定源码范围内的主要实现、输入条件和输出结果。\"\n                item[\"role_zh\"] = \"它负责组织当前代码单元的执行步骤，并与相邻函数形成可追踪的调用关系。\"\n                item[\"change_when_zh\"] = \"当输入约定、执行步骤、返回结果或调用关系变化时，需要修改并重新核对该代码单元。\"\n        path = output / \"test-reviews\" / f\"{pack['id']}.json\"\n        path.parent.mkdir(parents=True, exist_ok=True)\n        path.write_text(json.dumps(template, ensure_ascii=False, indent=2) + \"\\n\", encoding=\"utf-8\")\n        review_pack(output, pack[\"id\"], path)",
       "status": "draft",
       "evidence_note": "",
       "description_zh": ""

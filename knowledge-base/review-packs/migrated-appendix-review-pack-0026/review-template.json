@@ -6,35 +6,9 @@
   "reviewed_at_utc": null,
   "reviews": [
     {
-      "entity_id": "ent-09132547bc935b03860867e8d3b1a9fa",
+      "entity_id": "ent-1253d37bd6105842932e7ff0372f1d1c",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
-      "source_path": "scripts/ckb_core/pipeline.py",
-      "start_line": 2802,
-      "end_line": 2935,
-      "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
-      "source_excerpt": "def project_logseq(output: Path, graph: dict[str, Any], logical: dict[str, Any]) -> dict[str, Any]:\n    command = resolve_executable(\"logseq\")\n    if not command:\n        raise DependencyError(\"Logseq CLI is required for logseq-db or both output\")\n    graph_slug = re.sub(r\"[^A-Za-z0-9._-]+\", \"-\", _repository_name(graph[\"repository\"][\"root\"])).strip(\"-.\") or \"project\"\n    graph_name = \"code-knowledge-\" + graph_slug\n    root = output / \".logseq-runtime\"\n    if root.exists():\n        # An interrupted CLI call can leave its owned db-worker alive. Stop only\n        # the worker scoped to this output root and graph before deleting the\n        # disposable runtime. The normal command path also stops after every\n        # operation so repeated finalize remains deterministic.\n        run([command, \"--root-dir\", str(root), \"server\", \"stop\", \"--graph\", graph_name], timeout=60)\n        for attempt in range(5):\n            try:\n                safe_rmtree(root, output)\n                break\n            except PermissionError:\n                if attempt == 4:\n                    raise\n                time.sleep(0.5 * (attempt + 1))\n    root.mkdir()\n    logs: list[dict[str, Any]] = []\n    db_dir = output / \"logseq-db\"\n    if db_dir.exists():\n        safe_rmtree(db_dir, output)\n    db_dir.mkdir()\n    state = json_load(output / \"state.json\")\n    snapshot = state.get(\"source_snapshot\") or {}\n    local_openers = ensure_local_openers(\n        output,\n        Path(state[\"repository\"][\"root\"]),\n        Path(snapshot[\"root\"]) if snapshot.get(\"root\") else None,\n    )\n    edn_text, expected_counts = _normalized_edn_document(graph, logical, local_openers)\n    normalized_edn = db_dir / \"normalized.edn\"\n    normalized_edn.write_text(edn_text, encoding=\"utf-8\", newline=\"\\n\")\n    logseq_readability_errors: list[dict[str, Any]] = []\n    if any(page[\"title\"].startswith(HUMAN_TITLE_PREFIXES) for page in logical[\"pages\"]):\n        logseq_readability_errors.append({\"reason\": \"technical-title-prefix\"})\n    if any(\n        page[\"page_type\"] == \"entity\" and page[\"entity\"].get(\"kind\") not in HUMAN_CODE_UNIT_KINDS\n        for page in logical[\"pages\"]\n    ):\n        logseq_readability_errors.append({\"reason\": \"standalone-page-is-not-class-or-function\"})\n    if re.search(r\"(?<![0-9a-f])[0-9a-f]{40}(?![0-9a-f])\", edn_text, flags=re.IGNORECASE):\n        logseq_readability_errors.append({\"reason\": \"visible-commit-identifier\"})\n    if any(marker in edn_text for marker in HUMAN_VISIBLE_FORBIDDEN):\n        logseq_readability_errors.append({\"reason\": \"machine-marker-visible\"})\n    json_write(db_dir / \"context-budget.json\", _logical_context_budgets(logical))\n    code, text = _logseq(command, root, \"graph\", \"import\", \"--type\", \"edn\", \"--input\", str(normalized_edn), \"--graph\", graph_name)\n    logs.append({\"command\": \"graph import --type edn\", \"input\": str(normalized_edn.resolve()), \"exit_status\": code, \"output\": text})\n    if code:\n        raise AuditError(f\"Logseq normalized EDN import failed: {text}\")\n    code, text = _logseq(command, root, \"graph\", \"validate\", \"--graph\", graph_name)\n    logs.append({\"command\": \"graph validate\", \"exit_status\": code, \"output\": text})\n    if code:\n        raise AuditError(f\"Logseq graph validation failed: {text}\")\n    validate_text = text\n    query_outputs: dict[str, dict[str, Any]] = {}\n    queries = {\n        \"pages\": '[:find (count ?b) . :where [?b :block/title ?title] [(clojure.string/starts-with? ?title \"页面说明：\")]]',\n        \"page_entities\": '[:find (count ?b) . :where [?b :block/title ?title] [(clojure.string/starts-with? ?title \"源码入口：\")]]',\n        \"appendix_entities\": '[:find (count ?b) . :where [?b :block/title ?title] [(clojure.string/starts-with? ?title \"内部实现：\")]]',\n        \"boundary_entities\": '[:find (count ?b) . :where [?b :block/title ?title] [(clojure.string/starts-with? ?title \"边界协作：\")]]',\n        \"relations\": '[:find (count ?b) . :where [?b :block/title ?title] [(clojure.string/starts-with? ?title \"协作：\")]]',\n    }\n    for name, query in queries.items():\n        code, query_text = _logseq(command, root, \"--output\", \"json\", \"query\", \"--query\", query, \"--graph\", graph_name)\n        logs.append({\"command\": f\"query {name}\", \"query\": query, \"exit_status\": code, \"output\": query_text})\n        query_outputs[name] = {\"exit_status\": code, \"output\": query_text}\n        if code:\n            raise AuditError(f\"Logseq {name} count query failed: {query_text}\")\n        actual_count = _logseq_count(query_text, name)\n        query_outputs[name][\"actual_count\"] = actual_count\n        query_outputs[name][\"expected_count\"] = expected_counts[name]\n        if actual_count != expected_counts[name]:\n            raise AuditError(f\"Logseq {name} count mismatch: expected {expected_counts[name]}, got {actual_count}\")\n    query_outputs[\"entities\"] = {\n        \"actual_count\": sum(int(query_outputs[name][\"actual_count\"]) for name in (\"page_entities\", \"appendix_entities\", \"boundary_entities\")),\n        \"expected_count\": expected_counts[\"entities\"],\n        \"basis\": [\"page_entities\", \"appendix_entities\", \"boundary_entities\"],\n    }\n    if query_outputs[\"entities\"][\"actual_count\"] != expected_counts[\"entities\"]:\n        raise AuditError(f\"Logseq total entity count mismatch: expected {expected_counts['entities']}, got {query_outputs['entities']['actual_count']}\")\n    db_path = db_dir / \"db.sqlite\"\n    code, text = _logseq(command, root, \"graph\", \"export\", \"--type\", \"sqlite\", \"--file\", str(db_path), \"--graph\", graph_name)\n    logs.append({\"command\": \"graph export sqlite\", \"exit_status\": code, \"output\": text})\n    if code or not db_path.is_file() or db_path.read_bytes()[:16] != b\"SQLite format 3\\x00\":\n        raise AuditError(f\"Logseq SQLite export failed: {text}\")\n    with sqlite3.connect(db_path) as connection:\n        integrity = connection.execute(\"PRAGMA integrity_check\").fetchone()[0]\n    if integrity != \"ok\":\n        raise AuditError(f\"exported Logseq SQLite integrity check failed: {integrity}\")\n    cleanup_path = root / \"worker-cleanup.jsonl\"\n    cleanup_records = [\n        json.loads(line)\n        for line in cleanup_path.read_text(encoding=\"utf-8\").splitlines()\n        if line.strip()\n    ]\n    projection = {\n        \"format\": \"logseq-db\",\n        \"graph_name\": graph_name,\n        \"db_path\": str(db_path.resolve()),\n        \"normalized_edn\": str(normalized_edn.resolve()),\n        \"normalized_edn_sha256\": sha256_file(normalized_edn),\n        \"pages\": [{\"id\": page[\"id\"], \"title\": page[\"title\"], \"page_type\": page[\"page_type\"], \"human_page_kind\": page[\"human_page_kind\"], \"tag\": page.get(\"tag\")} for page in logical[\"pages\"]],\n        \"links\": logical[\"links\"],\n        \"entity_owner_pages\": logical[\"entity_owner_pages\"],\n        \"source_manifest\": _source_manifest(graph),\n        \"expected_counts\": expected_counts,\n        \"context_budget\": str((db_dir / \"context-budget.json\").resolve()),\n        \"relation_limits\": logical[\"relation_limits\"],\n        \"hidden_relation_group_count\": logical[\"hidden_relation_group_count\"],\n        \"page_config\": logical[\"page_config\"],\n        \"page_config_sha256\": logical.get(\"page_config_sha256\"),\n        \"source_links\": {\n            \"editor\": local_openers[\"source_editor\"],\n            \"source_view\": local_openers[\"source_view\"],\n            \"config\": str((output / \"local-openers.json\").resolve()),\n        },\n        \"human_readability\": {\"status\": \"passed\" if not logseq_readability_errors else \"failed\", \"errors\": logseq_readability_errors},\n        \"cli_queries\": query_outputs,\n        \"validation\": {\"exit_status\": 0, \"graph_validate_output\": validate_text, \"sqlite_integrity\": integrity, \"sqlite_header\": \"SQLite format 3\\\\0\"},\n        \"worker_cleanup\": {\n            \"path\": str(cleanup_path.resolve()),\n            \"operation_count\": len(logs),\n            \"stop_count\": len(cleanup_records),\n            \"all_stopped\": len(cleanup_records) == len(logs) and all(item.get(\"exit_status\") == 0 for item in cleanup_records),\n        },\n    }\n    json_write(db_dir / \"projection.json\", projection)\n    json_write(db_dir / \"commands.json\", logs)\n    return projection",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-a297edb4877655a393eb24bbc770fd58",
-      "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
-      "source_path": "scripts/ckb_core/pipeline.py",
-      "start_line": 2938,
-      "end_line": 3007,
-      "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
-      "source_excerpt": "def _audit_markdown(output: Path, graph: dict[str, Any], logical: dict[str, Any]) -> list[dict[str, Any]]:\n    root = output / \"markdown\"\n    projection = json_load(root / \"projection.json\")\n    state = json_load(output / \"state.json\")\n    snapshot = state.get(\"source_snapshot\") or {}\n    local_openers = ensure_local_openers(\n        output,\n        Path(state[\"repository\"][\"root\"]),\n        Path(snapshot[\"root\"]) if snapshot.get(\"root\") else None,\n    )\n    titles = {item[\"title\"] for item in projection[\"pages\"]}\n    errors = []\n    if projection.get(\"page_config\") != logical.get(\"page_config\"):\n        errors.append({\"reason\": \"page-config-projection-mismatch\"})\n    if projection.get(\"page_config_sha256\") != logical.get(\"page_config_sha256\"):\n        errors.append({\"reason\": \"page-config-hash-mismatch\"})\n    logical_by_id = {page[\"id\"]: page for page in logical[\"pages\"]}\n    for page in projection[\"pages\"]:\n        text = (root / page[\"file\"]).read_text(encoding=\"utf-8\")\n        for target in re.findall(r\"\\[\\[([^\\]]+)\\]\\]\", text):\n            if target not in titles:\n                errors.append({\"page\": page[\"id\"], \"target\": target, \"reason\": \"dangling-wikilink\"})\n        for appendix in logical_by_id[page[\"id\"]].get(\"appendix_entities\", []):\n            if appendix[\"id\"] in text:\n                errors.append({\"page\": page[\"id\"], \"entity\": appendix[\"id\"], \"reason\": \"appendix-stable-id-exposed\"})\n            if appendix.get(\"description_zh\") not in text:\n                errors.append({\"page\": page[\"id\"], \"entity\": appendix[\"id\"], \"reason\": \"appendix-description-missing\"})\n    for document_name in (\"INDEX.md\", \"WIKI.md\"):\n        document = root / document_name\n        if not document.is_file():\n            errors.append({\"reason\": \"human-document-missing\", \"path\": document_name})\n            continue\n        for target in re.findall(r\"\\[\\[([^\\]]+)\\]\\]\", document.read_text(encoding=\"utf-8\")):\n            if target not in titles:\n                errors.append({\"path\": document_name, \"target\": target, \"reason\": \"dangling-wikilink\"})\n    readability_path = root / \"readability-audit.json\"\n    if not readability_path.is_file():\n        errors.append({\"reason\": \"readability-audit-missing\"})\n    else:\n        readability = json_load(readability_path)\n        if readability.get(\"status\") != \"passed\" or readability.get(\"errors\"):\n            errors.append({\"reason\": \"human-readability-failed\", \"detail\": readability})\n        if Path(projection.get(\"readability_audit\", \"\")).resolve() != readability_path.resolve():\n            errors.append({\"reason\": \"readability-audit-path-mismatch\"})\n        if projection.get(\"readability_status\") != \"passed\":\n            errors.append({\"reason\": \"readability-status-mismatch\"})\n    logical_pairs = {(link[\"source\"], link[\"target\"], link[\"type\"]) for link in logical[\"links\"]}\n    projected_pairs = {(link[\"source\"], link[\"target\"], link[\"type\"]) for link in projection[\"links\"]}\n    if logical_pairs != projected_pairs:\n        errors.append({\"reason\": \"projection-link-set-mismatch\"})\n    normalized_edn = root / \"normalized.edn\"\n    expected_edn, expected_counts = _normalized_edn_document(graph, logical, local_openers)\n    if not normalized_edn.is_file():\n        errors.append({\"reason\": \"normalized-edn-missing\"})\n    else:\n        actual_edn = normalized_edn.read_text(encoding=\"utf-8\")\n        if actual_edn != expected_edn:\n            errors.append({\"reason\": \"normalized-edn-content-mismatch\"})\n        actual_hash = sha256_file(normalized_edn)\n        if projection.get(\"normalized_edn_sha256\") != actual_hash:\n            errors.append({\"reason\": \"normalized-edn-hash-mismatch\"})\n        if Path(projection.get(\"normalized_edn\", \"\")).resolve() != normalized_edn.resolve():\n            errors.append({\"reason\": \"normalized-edn-path-mismatch\"})\n    if projection.get(\"expected_counts\") != expected_counts:\n        errors.append({\"reason\": \"normalized-edn-count-contract-mismatch\"})\n    errors.extend(_audit_logseq_file_graph_config(root, projection.get(\"logseq_file_graph\", {}), \"logseq-markdown-root\"))\n    errors.extend(_audit_logseq_file_graph_config(output, projection.get(\"logseq_import_root\", {}), \"logseq-import-root\"))\n    errors.extend(audit_obsidian(root))\n    errors.extend(audit_notes(output))\n    return errors",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-23e05a0861da5c089eab21bf0fcb7104",
-      "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 3010,
       "end_line": 3323,
@@ -45,9 +19,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-de878428d59b51deb3d56396fb083e0e",
+      "entity_id": "ent-50fca1d5165957f0806dd9d10e4ab42f",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 3408,
       "end_line": 3426,
@@ -58,9 +32,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-ceba347b3bbf582987fca08efb03a007",
+      "entity_id": "ent-625bc3a1b5ad5205807b0ceb1c5f7555",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 3429,
       "end_line": 3534,
@@ -71,9 +45,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-57dd65a6583c5183bb0599bcf2934b83",
+      "entity_id": "ent-2a527e9604fe5467b6305eeeeb6c5b51",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 3537,
       "end_line": 3547,
@@ -84,9 +58,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-255300210dbf5f4084af2b5828968076",
+      "entity_id": "ent-cf9f0ff1166c5294950c696afd409678",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 3550,
       "end_line": 3604,
@@ -97,9 +71,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-01b10253f6555ae39e61c3e2c7a138a7",
+      "entity_id": "ent-05c024acbb625673b94c7de0488564b5",
       "classification": "appendix",
-      "owner_page_id": "file-e3ed830a7fb159ea9e601dbe1f8cd3ff",
+      "owner_page_id": "file-b2cc9989d2395a44afa4e06b6bb015a0",
       "source_path": "scripts/ckb_core/providers.py",
       "start_line": 32,
       "end_line": 34,
@@ -110,9 +84,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-9f4af983870f543ab158ac7457347e5e",
+      "entity_id": "ent-4e6cd95999515bfda13b7a2a00fbe44f",
       "classification": "appendix",
-      "owner_page_id": "file-e3ed830a7fb159ea9e601dbe1f8cd3ff",
+      "owner_page_id": "file-b2cc9989d2395a44afa4e06b6bb015a0",
       "source_path": "scripts/ckb_core/providers.py",
       "start_line": 37,
       "end_line": 41,
@@ -123,9 +97,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-500ad3ce0d1650c68be960a651267355",
+      "entity_id": "ent-fea749ca7403563ba27010fe0e0b9dd1",
       "classification": "appendix",
-      "owner_page_id": "file-e3ed830a7fb159ea9e601dbe1f8cd3ff",
+      "owner_page_id": "file-b2cc9989d2395a44afa4e06b6bb015a0",
       "source_path": "scripts/ckb_core/providers.py",
       "start_line": 44,
       "end_line": 54,
@@ -136,9 +110,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-5bb73bcf845357ba8d4107c0601808a0",
+      "entity_id": "ent-2ec8acd0e48552838420e7dc26a18248",
       "classification": "appendix",
-      "owner_page_id": "file-e3ed830a7fb159ea9e601dbe1f8cd3ff",
+      "owner_page_id": "file-b2cc9989d2395a44afa4e06b6bb015a0",
       "source_path": "scripts/ckb_core/providers.py",
       "start_line": 57,
       "end_line": 73,
@@ -149,9 +123,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-800c4f598d6752fc8cd7faaf5f6a63cf",
+      "entity_id": "ent-572273dc59265e06b4f7aae55dd7cfcb",
       "classification": "appendix",
-      "owner_page_id": "file-e3ed830a7fb159ea9e601dbe1f8cd3ff",
+      "owner_page_id": "file-b2cc9989d2395a44afa4e06b6bb015a0",
       "source_path": "scripts/ckb_core/providers.py",
       "start_line": 243,
       "end_line": 247,
@@ -162,14 +136,144 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-3c9e166ffd8c5b94ad79d7ae090c716e",
+      "entity_id": "ent-ec5362fc5a475e15b0f1b4b19ffcfaf6",
       "classification": "appendix",
-      "owner_page_id": "file-e3ed830a7fb159ea9e601dbe1f8cd3ff",
+      "owner_page_id": "file-b2cc9989d2395a44afa4e06b6bb015a0",
       "source_path": "scripts/ckb_core/providers.py",
       "start_line": 250,
       "end_line": 255,
       "source_blob": "1a3ba3c537833b40a417b2c6282fbd3e35e67aa2",
       "source_excerpt": "def uri_to_path(uri: str) -> Path:\n    parsed = urlparse(uri)\n    value = unquote(parsed.path)\n    if os.name == \"nt\" and value.startswith(\"/\") and len(value) > 2 and value[2] == \":\":\n        value = value[1:]\n    return Path(value).resolve()",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-191dc849aa81505b810d4625724b8551",
+      "classification": "appendix",
+      "owner_page_id": "file-b2cc9989d2395a44afa4e06b6bb015a0",
+      "source_path": "scripts/ckb_core/providers.py",
+      "start_line": 258,
+      "end_line": 368,
+      "source_blob": "1a3ba3c537833b40a417b2c6282fbd3e35e67aa2",
+      "source_excerpt": "class LspClient:\n    def __init__(self, command: list[str], cwd: Path, env: dict[str, str] | None = None):\n        self.command = command\n        self.cwd = cwd\n        self.env = env\n        self.process: subprocess.Popen[bytes] | None = None\n        self._id = 0\n        self._messages: \"queue.Queue[dict[str, Any]]\" = queue.Queue()\n        self._pending: dict[int, dict[str, Any]] = {}\n        self.transcript: list[dict[str, Any]] = []\n        self.stderr: list[str] = []\n\n    def start(self) -> None:\n        self.process = subprocess.Popen(\n            self.command,\n            cwd=str(self.cwd),\n            env=self.env,\n            stdin=subprocess.PIPE,\n            stdout=subprocess.PIPE,\n            stderr=subprocess.PIPE,\n            **background_process_options(),\n        )\n        threading.Thread(target=self._read_stdout, daemon=True).start()\n        threading.Thread(target=self._read_stderr, daemon=True).start()\n\n    def _read_stdout(self) -> None:\n        assert self.process and self.process.stdout\n        stream = self.process.stdout\n        while True:\n            headers: dict[str, str] = {}\n            while True:\n                line = stream.readline()\n                if not line:\n                    return\n                if line in (b\"\\r\\n\", b\"\\n\"):\n                    break\n                key, value = line.decode(\"ascii\", errors=\"replace\").split(\":\", 1)\n                headers[key.lower()] = value.strip()\n            length = int(headers.get(\"content-length\", \"0\"))\n            body = stream.read(length)\n            if not body:\n                return\n            message = json.loads(body.decode(\"utf-8\"))\n            self.transcript.append({\"direction\": \"in\", \"message\": message})\n            self._messages.put(message)\n\n    def _read_stderr(self) -> None:\n        assert self.process and self.process.stderr\n        for line in iter(self.process.stderr.readline, b\"\"):\n            self.stderr.append(line.decode(\"utf-8\", errors=\"replace\").rstrip())\n\n    def send(self, message: dict[str, Any]) -> None:\n        assert self.process and self.process.stdin\n        body = json.dumps(message, separators=(\",\", \":\")).encode(\"utf-8\")\n        header = f\"Content-Length: {len(body)}\\r\\n\\r\\n\".encode(\"ascii\")\n        self.transcript.append({\"direction\": \"out\", \"message\": message})\n        self.process.stdin.write(header + body)\n        self.process.stdin.flush()\n\n    def notify(self, method: str, params: Any) -> None:\n        self.send({\"jsonrpc\": \"2.0\", \"method\": method, \"params\": params})\n\n    def request(self, method: str, params: Any, timeout: int = 60) -> Any:\n        self._id += 1\n        request_id = self._id\n        self.send({\"jsonrpc\": \"2.0\", \"id\": request_id, \"method\": method, \"params\": params})\n        deadline = time.monotonic() + timeout\n        while time.monotonic() < deadline:\n            if request_id in self._pending:\n                message = self._pending.pop(request_id)\n            else:\n                try:\n                    message = self._messages.get(timeout=min(0.5, max(0.01, deadline - time.monotonic())))\n                except queue.Empty:\n                    continue\n            if message.get(\"method\") and \"id\" in message:\n                server_method = message.get(\"method\")\n                if server_method == \"workspace/configuration\":\n                    items = (message.get(\"params\") or {}).get(\"items\") or []\n                    server_result: Any = [{} for _ in items]\n                elif server_method in {\"client/registerCapability\", \"client/unregisterCapability\", \"window/workDoneProgress/create\"}:\n                    server_result = None\n                else:\n                    server_result = None\n                self.send({\"jsonrpc\": \"2.0\", \"id\": message[\"id\"], \"result\": server_result})\n                continue\n            if message.get(\"id\") == request_id:\n                if \"error\" in message:\n                    raise CkbError(f\"LSP {method} failed: {message['error']}\")\n                return message.get(\"result\")\n            if \"id\" in message:\n                self._pending[int(message[\"id\"])] = message\n        raise CkbError(f\"LSP request timed out: {method}\")\n\n    def stop(self) -> int | None:\n        if not self.process:\n            return None\n        try:\n            self.request(\"shutdown\", None, timeout=10)\n            self.notify(\"exit\", None)\n        except Exception:\n            pass\n        try:\n            return self.process.wait(timeout=5)\n        except subprocess.TimeoutExpired:\n            self.process.terminate()\n        try:\n            return self.process.wait(timeout=5)\n        except subprocess.TimeoutExpired:\n            self.process.kill()\n            return self.process.wait(timeout=5)",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-51e49f83131b55eaa7bfd0601cdc1574",
+      "classification": "appendix",
+      "owner_page_id": "file-b2cc9989d2395a44afa4e06b6bb015a0",
+      "source_path": "scripts/ckb_core/providers.py",
+      "start_line": 259,
+      "end_line": 268,
+      "source_blob": "1a3ba3c537833b40a417b2c6282fbd3e35e67aa2",
+      "source_excerpt": "def __init__(self, command: list[str], cwd: Path, env: dict[str, str] | None = None):\n        self.command = command\n        self.cwd = cwd\n        self.env = env\n        self.process: subprocess.Popen[bytes] | None = None\n        self._id = 0\n        self._messages: \"queue.Queue[dict[str, Any]]\" = queue.Queue()\n        self._pending: dict[int, dict[str, Any]] = {}\n        self.transcript: list[dict[str, Any]] = []\n        self.stderr: list[str] = []",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-44fb9e9ca8aa526bbf508c2f301f4a80",
+      "classification": "appendix",
+      "owner_page_id": "file-b2cc9989d2395a44afa4e06b6bb015a0",
+      "source_path": "scripts/ckb_core/providers.py",
+      "start_line": 270,
+      "end_line": 281,
+      "source_blob": "1a3ba3c537833b40a417b2c6282fbd3e35e67aa2",
+      "source_excerpt": "def start(self) -> None:\n        self.process = subprocess.Popen(\n            self.command,\n            cwd=str(self.cwd),\n            env=self.env,\n            stdin=subprocess.PIPE,\n            stdout=subprocess.PIPE,\n            stderr=subprocess.PIPE,\n            **background_process_options(),\n        )\n        threading.Thread(target=self._read_stdout, daemon=True).start()\n        threading.Thread(target=self._read_stderr, daemon=True).start()",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-e487611332515aa9a1ff234961a122d2",
+      "classification": "appendix",
+      "owner_page_id": "file-b2cc9989d2395a44afa4e06b6bb015a0",
+      "source_path": "scripts/ckb_core/providers.py",
+      "start_line": 283,
+      "end_line": 302,
+      "source_blob": "1a3ba3c537833b40a417b2c6282fbd3e35e67aa2",
+      "source_excerpt": "def _read_stdout(self) -> None:\n        assert self.process and self.process.stdout\n        stream = self.process.stdout\n        while True:\n            headers: dict[str, str] = {}\n            while True:\n                line = stream.readline()\n                if not line:\n                    return\n                if line in (b\"\\r\\n\", b\"\\n\"):\n                    break\n                key, value = line.decode(\"ascii\", errors=\"replace\").split(\":\", 1)\n                headers[key.lower()] = value.strip()\n            length = int(headers.get(\"content-length\", \"0\"))\n            body = stream.read(length)\n            if not body:\n                return\n            message = json.loads(body.decode(\"utf-8\"))\n            self.transcript.append({\"direction\": \"in\", \"message\": message})\n            self._messages.put(message)",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-ea20865059295c36853bb33dd6948177",
+      "classification": "appendix",
+      "owner_page_id": "file-b2cc9989d2395a44afa4e06b6bb015a0",
+      "source_path": "scripts/ckb_core/providers.py",
+      "start_line": 304,
+      "end_line": 307,
+      "source_blob": "1a3ba3c537833b40a417b2c6282fbd3e35e67aa2",
+      "source_excerpt": "def _read_stderr(self) -> None:\n        assert self.process and self.process.stderr\n        for line in iter(self.process.stderr.readline, b\"\"):\n            self.stderr.append(line.decode(\"utf-8\", errors=\"replace\").rstrip())",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-ae6c7630e718506c8a661b84823cd809",
+      "classification": "appendix",
+      "owner_page_id": "file-b2cc9989d2395a44afa4e06b6bb015a0",
+      "source_path": "scripts/ckb_core/providers.py",
+      "start_line": 309,
+      "end_line": 315,
+      "source_blob": "1a3ba3c537833b40a417b2c6282fbd3e35e67aa2",
+      "source_excerpt": "def send(self, message: dict[str, Any]) -> None:\n        assert self.process and self.process.stdin\n        body = json.dumps(message, separators=(\",\", \":\")).encode(\"utf-8\")\n        header = f\"Content-Length: {len(body)}\\r\\n\\r\\n\".encode(\"ascii\")\n        self.transcript.append({\"direction\": \"out\", \"message\": message})\n        self.process.stdin.write(header + body)\n        self.process.stdin.flush()",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-72a5c8f544945f349c6095332387f7b3",
+      "classification": "appendix",
+      "owner_page_id": "file-b2cc9989d2395a44afa4e06b6bb015a0",
+      "source_path": "scripts/ckb_core/providers.py",
+      "start_line": 317,
+      "end_line": 318,
+      "source_blob": "1a3ba3c537833b40a417b2c6282fbd3e35e67aa2",
+      "source_excerpt": "def notify(self, method: str, params: Any) -> None:\n        self.send({\"jsonrpc\": \"2.0\", \"method\": method, \"params\": params})",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-76276bf27d915025b436678f24e6a984",
+      "classification": "appendix",
+      "owner_page_id": "file-b2cc9989d2395a44afa4e06b6bb015a0",
+      "source_path": "scripts/ckb_core/providers.py",
+      "start_line": 320,
+      "end_line": 350,
+      "source_blob": "1a3ba3c537833b40a417b2c6282fbd3e35e67aa2",
+      "source_excerpt": "def request(self, method: str, params: Any, timeout: int = 60) -> Any:\n        self._id += 1\n        request_id = self._id\n        self.send({\"jsonrpc\": \"2.0\", \"id\": request_id, \"method\": method, \"params\": params})\n        deadline = time.monotonic() + timeout\n        while time.monotonic() < deadline:\n            if request_id in self._pending:\n                message = self._pending.pop(request_id)\n            else:\n                try:\n                    message = self._messages.get(timeout=min(0.5, max(0.01, deadline - time.monotonic())))\n                except queue.Empty:\n                    continue\n            if message.get(\"method\") and \"id\" in message:\n                server_method = message.get(\"method\")\n                if server_method == \"workspace/configuration\":\n                    items = (message.get(\"params\") or {}).get(\"items\") or []\n                    server_result: Any = [{} for _ in items]\n                elif server_method in {\"client/registerCapability\", \"client/unregisterCapability\", \"window/workDoneProgress/create\"}:\n                    server_result = None\n                else:\n                    server_result = None\n                self.send({\"jsonrpc\": \"2.0\", \"id\": message[\"id\"], \"result\": server_result})\n                continue\n            if message.get(\"id\") == request_id:\n                if \"error\" in message:\n                    raise CkbError(f\"LSP {method} failed: {message['error']}\")\n                return message.get(\"result\")\n            if \"id\" in message:\n                self._pending[int(message[\"id\"])] = message\n        raise CkbError(f\"LSP request timed out: {method}\")",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-d243fc7f672f53279c78bdb83254a24f",
+      "classification": "appendix",
+      "owner_page_id": "file-b2cc9989d2395a44afa4e06b6bb015a0",
+      "source_path": "scripts/ckb_core/providers.py",
+      "start_line": 352,
+      "end_line": 368,
+      "source_blob": "1a3ba3c537833b40a417b2c6282fbd3e35e67aa2",
+      "source_excerpt": "def stop(self) -> int | None:\n        if not self.process:\n            return None\n        try:\n            self.request(\"shutdown\", None, timeout=10)\n            self.notify(\"exit\", None)\n        except Exception:\n            pass\n        try:\n            return self.process.wait(timeout=5)\n        except subprocess.TimeoutExpired:\n            self.process.terminate()\n        try:\n            return self.process.wait(timeout=5)\n        except subprocess.TimeoutExpired:\n            self.process.kill()\n            return self.process.wait(timeout=5)",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-5b5c1ae6324f596e9aadf7632785d2fb",
+      "classification": "appendix",
+      "owner_page_id": "file-b2cc9989d2395a44afa4e06b6bb015a0",
+      "source_path": "scripts/ckb_core/providers.py",
+      "start_line": 371,
+      "end_line": 430,
+      "source_blob": "1a3ba3c537833b40a417b2c6282fbd3e35e67aa2",
+      "source_excerpt": "def _provider_spec(language: str, repo: Path, options: dict[str, Any] | None = None) -> tuple[list[str], str, dict[str, Any], str, Path, dict[str, str]]:\n    environment = os.environ.copy()\n    if language == \"python\":\n        command = resolve_executable(\"pyright-langserver\")\n        if not command:\n            raise DependencyError(\"pyright-langserver is required for Python semantic evidence\")\n        return [command, \"--stdio\"], \"python\", {}, \"exact\", repo, environment\n    if language == \"javascript\":\n        command = resolve_executable(\"typescript-language-server\")\n        if not command:\n            raise DependencyError(\"typescript-language-server is required for JavaScript semantic evidence\")\n        command_path = Path(command).resolve()\n        node_modules = command_path.parent.parent\n        explicit_tsserver = os.environ.get(\"CKB_TYPESCRIPT_TSSERVER_PATH\")\n        candidates = [\n            Path(explicit_tsserver).expanduser() if explicit_tsserver else None,\n            node_modules / \"typescript\" / \"lib\" / \"tsserver.js\",\n            command_path.parent / \"tsserver\" / \"node_modules\" / \"typescript\" / \"lib\" / \"tsserver.js\",\n        ]\n        tsserver_path = next((item.resolve() for item in candidates if item and item.is_file()), None)\n        initialization = {\"tsserver\": {\"path\": str(tsserver_path)}} if tsserver_path else {}\n        return [command, \"--stdio\"], \"javascript\", initialization, \"exact\", repo, environment\n    if language == \"csharp\":\n        command = resolve_executable(\"csharp-ls\")\n        dotnet = resolve_executable(\"dotnet\")\n        if not command or not dotnet:\n            raise DependencyError(\"csharp-ls 0.26.0 and .NET 10 SDK are required for C# semantic evidence\")\n        workspace = (options or {}).get(\"csharp_workspace\") or {}\n        workspace_root = Path(workspace.get(\"workspace_root\") or repo).resolve()\n        kind = workspace.get(\"kind\", \"folder\")\n        selected = workspace.get(\"path\")\n        server_cwd = workspace_root\n        command_line = [command, \"--loglevel\", \"warning\", \"--locale\", \"en-US\"]\n        if kind == \"solution\" and selected:\n            command_line.extend([\"--solution\", selected])\n        elif kind in {\"project\", \"fallback-project\"} and selected:\n            server_cwd = (workspace_root / Path(*PurePosixPath(selected).parent.parts)).resolve()\n        dotnet_path = Path(dotnet).resolve()\n        if dotnet_path.parent.name.lower() == \"dotnet\" or (dotnet_path.parent / \"host\").is_dir():\n            environment[\"DOTNET_ROOT\"] = str(dotnet_path.parent)\n        restore = workspace.get(\"restore\") or {}\n        if restore.get(\"performed\"):\n            runtime_root = workspace_root.parent\n            environment[\"NUGET_PACKAGES\"] = str((runtime_root / \"nuget-packages\").resolve())\n            environment[\"DOTNET_CLI_HOME\"] = str((runtime_root / \"dotnet-home\").resolve())\n        environment.update({\"DOTNET_NOLOGO\": \"1\", \"DOTNET_SKIP_FIRST_TIME_EXPERIENCE\": \"1\", \"DOTNET_CLI_TELEMETRY_OPTOUT\": \"1\", \"DOTNET_CLI_UI_LANGUAGE\": \"en-US\"})\n        initialization = {\"workspace\": workspace, \"restoreAllowed\": bool(restore.get(\"requested\")), \"networkRestorePerformed\": bool(restore.get(\"network_restore\"))}\n        return command_line, \"csharp\", initialization, workspace.get(\"precision\", \"bounded-approximate\"), server_cwd, environment\n    command = resolve_executable(\"clangd\")\n    if not command:\n        raise DependencyError(\"clangd is required for C/C++ semantic evidence\")\n    compile_db = None\n    for candidate in (repo / \"compile_commands.json\", repo / \"build\" / \"compile_commands.json\"):\n        if candidate.is_file():\n            compile_db = candidate.parent\n            break\n    if compile_db:\n        return [command, f\"--compile-commands-dir={compile_db}\", \"--log=verbose\"], \"c\" if language == \"c\" else \"cpp\", {\"compilationDatabasePath\": str(compile_db)}, \"exact\", repo, environment\n    flags, evidence = _fallback_flags(repo, language)\n    return [command, \"--log=verbose\"], \"c\" if language == \"c\" else \"cpp\", {\"fallbackFlags\": flags, \"fallbackEvidence\": evidence}, \"bounded-approximate\", repo, environment",
       "status": "draft",
       "evidence_note": "",
       "description_zh": ""

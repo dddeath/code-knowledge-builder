@@ -12,15 +12,15 @@
     "precision": "exact",
     "status": "passed",
     "covered_entity_ids": [
-      "ent-0fd95f62059d525ebbe10b20eaec36a3",
-      "ent-22115054ce9e5c00af66b6797ffeeae6",
-      "ent-55d70dc326005eda8939b4137f9a4b36",
-      "ent-7a21da1ea29059868af7c154a2a0f365",
-      "ent-85148630f6625350a47b24a368bc6fc2",
-      "ent-c393f32d139d5ab39c981755ce140e48",
-      "ent-d201cd6d597c5d76903beae5f777b42f",
-      "ent-df0756acfae45b8f9cbaf8f93ab95df0",
-      "ent-e7d9a5c754765e4197b2cbef6b1b25f4"
+      "ent-0616db5dcb4650d491ffcf6f8a90b50b",
+      "ent-11d4c8d4a34f5dcd828c5a16dee8ad7e",
+      "ent-32298d9138215c8b9ec47d6a13594e0c",
+      "ent-374fc791ab2d5d92b35e997b2665b189",
+      "ent-399421baa8ed5e29b11573d10083905d",
+      "ent-7cccbee186a951cc8d1196798dec4854",
+      "ent-b6cc9faeed325e858f7951ec0fa37ada",
+      "ent-d679d55cc8275ddeb9799bd18bdc7dae",
+      "ent-e74773a5f6e454d1860d40a6e6bcd44a"
     ],
     "document_symbol_counts": {
       "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py": 79
@@ -111,7 +111,7 @@
         "id": 1,
         "method": "initialize",
         "params": {
-          "processId": 68148,
+          "processId": 79640,
           "rootUri": "file:///E:/knowledge_builder/self-workspace/knowledge-base/.source-snapshot/worktree",
           "workspaceFolders": [
             {
@@ -277,7 +277,7 @@
         "params": {
           "items": [
             {
-              "scopeUri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-c533dd7-r3/.source-snapshot/worktree",
+              "scopeUri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-bdd4a66-overdefense/.source-snapshot/worktree",
               "section": "python"
             }
           ]
@@ -316,7 +316,7 @@
         "params": {
           "items": [
             {
-              "scopeUri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-c533dd7-r3/.source-snapshot/worktree",
+              "scopeUri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-bdd4a66-overdefense/.source-snapshot/worktree",
               "section": "pyright"
             }
           ]
@@ -340,7 +340,7 @@
         "method": "window/logMessage",
         "params": {
           "type": 3,
-          "message": "No include entries specified; assuming e:\\knowledge_builder\\self-workspace\\kb-stg-c533dd7-r3\\.source-snapshot\\worktree"
+          "message": "No include entries specified; assuming e:\\knowledge_builder\\self-workspace\\kb-stg-bdd4a66-overdefense\\.source-snapshot\\worktree"
         }
       }
     },
@@ -2382,29 +2382,6 @@
       }
     },
     {
-      "direction": "in",
-      "message": {
-        "jsonrpc": "2.0",
-        "method": "window/logMessage",
-        "params": {
-          "type": 3,
-          "message": "Found 710 source files"
-        }
-      }
-    },
-    {
-      "direction": "in",
-      "message": {
-        "jsonrpc": "2.0",
-        "method": "textDocument/publishDiagnostics",
-        "params": {
-          "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-c533dd7-r3/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
-          "version": 1,
-          "diagnostics": []
-        }
-      }
-    },
-    {
       "direction": "out",
       "message": {
         "jsonrpc": "2.0",
@@ -2425,10 +2402,33 @@
       "direction": "in",
       "message": {
         "jsonrpc": "2.0",
+        "method": "window/logMessage",
+        "params": {
+          "type": 3,
+          "message": "Found 710 source files"
+        }
+      }
+    },
+    {
+      "direction": "in",
+      "message": {
+        "jsonrpc": "2.0",
+        "method": "textDocument/publishDiagnostics",
+        "params": {
+          "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-bdd4a66-overdefense/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
+          "version": 1,
+          "diagnostics": []
+        }
+      }
+    },
+    {
+      "direction": "in",
+      "message": {
+        "jsonrpc": "2.0",
         "id": 3,
         "result": [
           {
-            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-c533dd7-r3/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
+            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-bdd4a66-overdefense/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
             "range": {
               "start": {
                 "line": 30,
@@ -2470,7 +2470,7 @@
         "id": 4,
         "result": [
           {
-            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-c533dd7-r3/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
+            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-bdd4a66-overdefense/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
             "range": {
               "start": {
                 "line": 33,
@@ -2483,7 +2483,7 @@
             }
           },
           {
-            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-c533dd7-r3/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
+            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-bdd4a66-overdefense/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
             "range": {
               "start": {
                 "line": 35,
@@ -2496,7 +2496,7 @@
             }
           },
           {
-            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-c533dd7-r3/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
+            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-bdd4a66-overdefense/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
             "range": {
               "start": {
                 "line": 38,
@@ -2509,7 +2509,7 @@
             }
           },
           {
-            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-c533dd7-r3/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
+            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-bdd4a66-overdefense/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
             "range": {
               "start": {
                 "line": 39,
@@ -2522,7 +2522,7 @@
             }
           },
           {
-            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-c533dd7-r3/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
+            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-bdd4a66-overdefense/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
             "range": {
               "start": {
                 "line": 52,
@@ -2535,7 +2535,7 @@
             }
           },
           {
-            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-c533dd7-r3/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
+            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-bdd4a66-overdefense/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
             "range": {
               "start": {
                 "line": 60,
@@ -2548,7 +2548,7 @@
             }
           },
           {
-            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-c533dd7-r3/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
+            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-bdd4a66-overdefense/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
             "range": {
               "start": {
                 "line": 74,
@@ -2561,7 +2561,7 @@
             }
           },
           {
-            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-c533dd7-r3/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
+            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-bdd4a66-overdefense/.source-snapshot/worktree/references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
             "range": {
               "start": {
                 "line": 125,

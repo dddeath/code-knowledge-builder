@@ -148,6 +148,6 @@ workspace 指令文件必须含一对规范 marker。重复 marker、破损 mark
   --question "QUESTION" --registry MANAGER_REGISTRY --format prompt
 ```
 
-绑定前必须满足：workspace、repo 与 output 存在；repo 是所给 Git worktree 的根；当前分支就是 integration branch；该分支有 HEAD；integration worktree 干净。相同 Harness + conversation + project 重复绑定返回同一个 `binding_id`；同一身份指向另一项目时结构化失败。解绑只停止后续管理上下文获取，保留绑定和审计历史。
+绑定前必须满足：workspace、repo 与 output 存在；repo 是所给 Git worktree 的根；当前分支就是 integration branch；该分支有 HEAD。工作树存在未提交修改时仍可登记管理身份，绑定结果会返回 `clean=false` 和有限的 `dirty_paths`；后续状态保持 `blocked`，直到工作树恢复干净，因此不会绕过任务派发与合并前的干净工作树要求。相同 Harness + conversation + project 重复绑定返回同一个 `binding_id`；同一身份指向另一项目时结构化失败。解绑只停止后续管理上下文获取，保留绑定和审计历史。
 
 完整管理 Prompt 会列出 `brief`、feedback、gaps、reference、record、maintain 的精确入口，并重新报告 HEAD drift、dirty tree、开放 error feedback、两个 SQLite 完整性和 maintain 失败项。Prompt 审计缺少任一固定职责或命令时，context 增加 `management-prompt-audit-failed` 阻断项。

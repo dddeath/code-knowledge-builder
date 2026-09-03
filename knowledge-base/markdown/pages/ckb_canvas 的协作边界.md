@@ -12,10 +12,10 @@
 
 ## 相关代码
 
-- 实现时会用到 [[benchmark 的协作边界（cbc71645）]]。
+- 实现时会用到 [[benchmark 的协作边界（prototypes）]]。
 - 实现时会用到 [[command]]。
 - 实现时会用到 [[commands 的协作边界]]。
-- 实现时会用到 [[contracts 的协作边界（2ef5688e）]]。
+- 实现时会用到 [[contracts 的协作边界（36093e4a）]]。
 - 实现时会用到 [[parser]]。
 - 实现时会用到 [[validate]]。
 
@@ -31,7 +31,7 @@
 - [[append 等测试场景]] 会使用这里提供的行为。
 - [[audit_agent_protocol 与 _default_python 的协作实现]] 会使用这里提供的行为。
 - [[audit_feedback 与 _contains_chinese 的协作实现]] 会使用这里提供的行为。
-- [[benchmark 的协作边界（prototypes）]] 会使用这里提供的行为。
+- [[benchmark 的协作边界（9fab5b96）]] 会使用这里提供的行为。
 - [[bind_conversation]] 会使用这里提供的行为。
 - [[bind_conversation 与 default_management_registry_path 的协作实现]] 会使用这里提供的行为。
 - [[check_fact_freshness]] 会使用这里提供的行为。

@@ -35,7 +35,7 @@
 - [[audit_migration]] 关联到这里的验证场景。
 - [[audit_migration 与 _entity_key 的协作实现]] 关联到这里的验证场景。
 - [[bind_conversation]] 关联到这里的验证场景。
-- [[contracts 的协作边界（623c049c）]] 关联到这里的验证场景。
+- [[contracts 的协作边界（743c915d）]] 关联到这里的验证场景。
 - [[extract_pdf]] 关联到这里的验证场景。
 - [[ingest]] 关联到这里的验证场景。
 - [[ingest_reference]] 关联到这里的验证场景。

@@ -38,7 +38,7 @@
 - [[audit_obsidian 与 prepare_vault 的协作实现]] 关联到这里的验证场景。
 - [[audit_output_contract 与 _default_ckb 的协作实现]] 关联到这里的验证场景。
 - [[bind_conversation]] 关联到这里的验证场景。
-- [[contracts 的协作边界（623c049c）]] 关联到这里的验证场景。
+- [[contracts 的协作边界（743c915d）]] 关联到这里的验证场景。
 - [[ingest]] 关联到这里的验证场景。
 - [[keyword_provider_config 与 parser 的协作实现]] 关联到这里的验证场景。
 - [[module_name]] 关联到这里的验证场景。

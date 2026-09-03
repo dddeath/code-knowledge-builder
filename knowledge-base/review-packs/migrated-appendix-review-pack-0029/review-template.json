@@ -6,61 +6,9 @@
   "reviewed_at_utc": null,
   "reviews": [
     {
-      "entity_id": "ent-df34db71db985d578e5357613c3377bb",
+      "entity_id": "ent-3de09fa80eea553a9dcf5303f015e73b",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
-      "source_path": "scripts/ckb_core/reference_documents.py",
-      "start_line": 534,
-      "end_line": 613,
-      "source_blob": "cf6e0a068c33dfb6ea3b3dcbc3a7bc2f43ce28ec",
-      "source_excerpt": "def project_references(output: Path) -> dict[str, Any]:\n    output = _validate_output(output)\n    root = _root(output)\n    manifests = _manifests(output)\n    active = _active_reviewed(manifests)\n    previous_path = root / \"projection.json\"\n    previous = json_load(previous_path) if previous_path.is_file() else {\"files\": []}\n    for vault_name in (\"human\", \"markdown\"):\n        vault = output / vault_name\n        for relative in previous.get(\"files\", []):\n            path = vault / str(relative)\n            if path.is_file():\n                path.unlink()\n        (vault / \"references\").mkdir(parents=True, exist_ok=True)\n    pages: list[dict[str, Any]] = []\n    seen_titles: set[str] = set()\n    for manifest in active:\n        title = str(manifest[\"title\"])\n        if title.casefold() in seen_titles:\n            raise CkbError(f\"active reference titles must be unique: {title}\")\n        seen_titles.add(title.casefold())\n        review = json_load(Path(str(manifest[\"review_file\"])))\n        _validate_review(output, manifest, review)\n        filename = safe_title(title) + \".md\"\n        relative = Path(\"references\") / filename\n        text = _render_reference_page(manifest, review)\n        for vault_name in (\"human\", \"markdown\"):\n            target = output / vault_name / relative\n            target.write_text(text, encoding=\"utf-8\", newline=\"\\n\")\n        manifest[\"human_file\"] = relative.as_posix()\n        json_write(root / \"manifests\" / f\"{manifest['reference_id']}.json\", manifest)\n        pages.append(\n            {\n                \"reference_id\": manifest[\"reference_id\"],\n                \"title\": title,\n                \"file\": relative.as_posix(),\n                \"summary_zh\": str(review[\"summary_zh\"]).strip(),\n                \"revision\": manifest[\"revision\"],\n            }\n        )\n    index_lines = [\n        \"# 参考资料导览\",\n        \"\",\n        \"标签：#类型/导览\",\n        \"\",\n        \"> 这里汇总经过来源、许可和逐项引用审阅的外部资料；参考资料不会被当作代码来源实体。\",\n        \"\",\n    ]\n    if pages:\n        index_lines.extend([\"## 已审阅资料\", \"\"])\n        for page in pages:\n            summary = re.split(r\"(?<=[。！？])\", page[\"summary_zh\"], maxsplit=1)[0].strip()\n            index_lines.append(f\"- [[{page['title']}]] — {summary}\")\n    index_text = \"\\n\".join(index_lines).rstrip() + \"\\n\"\n    for vault_name in (\"human\", \"markdown\"):\n        target = output / vault_name / REFERENCE_INDEX\n        if pages:\n            target.write_text(index_text, encoding=\"utf-8\", newline=\"\\n\")\n        else:\n            target.unlink(missing_ok=True)\n    files = [REFERENCE_INDEX, *[page[\"file\"] for page in pages]] if pages else []\n    projection = {\n        \"schema_version\": 1,\n        \"status\": \"ready\",\n        \"page_count\": len(pages),\n        \"page_limit_per_source\": 1,\n        \"pages\": pages,\n        \"files\": files,\n        \"projected_at_utc\": utc_now(),\n    }\n    json_write(previous_path, projection)\n    from .pipeline import refresh_human_navigation\n\n    refresh_human_navigation(output)\n    from .agent_index import build_agent_index\n    from .machine_knowledge import build_machine_knowledge\n\n    build_machine_knowledge(output)\n    build_agent_index(output)\n    return projection",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-c20871ca9fcd57e78230cf0008ea7d19",
-      "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
-      "source_path": "scripts/ckb_core/reference_documents.py",
-      "start_line": 616,
-      "end_line": 647,
-      "source_blob": "cf6e0a068c33dfb6ea3b3dcbc3a7bc2f43ce28ec",
-      "source_excerpt": "def submit_reference_review(output: Path, review_path: Path) -> dict[str, Any]:\n    output = _validate_output(output)\n    review = json_load(review_path.resolve())\n    reference_id = str(review.get(\"reference_id\") or \"\")\n    manifest_path, manifest = _manifest(output, reference_id)\n    _validate_review(output, manifest, review)\n    target = _root(output) / \"reviews\" / f\"{reference_id}.json\"\n    json_write(target, review)\n    manifest[\"status\"] = \"agent-reviewed\"\n    manifest[\"review_file\"] = str(target.resolve())\n    manifest[\"reviewed_at_utc\"] = utc_now()\n    json_write(manifest_path, manifest)\n    if manifest.get(\"supersedes\"):\n        previous_path, previous = _manifest(output, str(manifest[\"supersedes\"]))\n        previous[\"status\"] = \"superseded\"\n        previous[\"superseded_by\"] = reference_id\n        json_write(previous_path, previous)\n    projection = project_references(output)\n    _projected_path, projected_manifest = _manifest(output, reference_id)\n    audit = audit_references(output)\n    if audit[\"status\"] != \"passed\":\n        raise CkbError(f\"reference audit failed after review: {audit['errors'][:10]}\")\n    _set_marker(output, \"passed\", {\"reference_ids\": [item[\"reference_id\"] for item in _active_reviewed(_manifests(output))], \"audit\": str((_root(output) / \"audit.json\").resolve())})\n    return {\n        \"schema_version\": REFERENCE_SCHEMA_VERSION,\n        \"status\": \"agent-reviewed\",\n        \"reference_id\": reference_id,\n        \"human_file\": str((output / \"human\" / str(projected_manifest[\"human_file\"])).resolve()),\n        \"compatibility_file\": str((output / \"markdown\" / str(projected_manifest[\"human_file\"])).resolve()),\n        \"projection\": projection,\n        \"audit\": audit,\n    }",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-5c39b7f041b958ae8db34b9e31b524e4",
-      "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
-      "source_path": "scripts/ckb_core/reference_documents.py",
-      "start_line": 650,
-      "end_line": 696,
-      "source_blob": "cf6e0a068c33dfb6ea3b3dcbc3a7bc2f43ce28ec",
-      "source_excerpt": "def reference_machine_records(output: Path) -> dict[str, Any]:\n    manifests = _manifests(output)\n    sources = [dict(item) for item in manifests]\n    documents: list[dict[str, Any]] = []\n    for manifest in _active_reviewed(manifests):\n        review_path = Path(str(manifest.get(\"review_file\") or \"\"))\n        human_relative = str(manifest.get(\"human_file\") or \"\")\n        human_path = output / \"human\" / human_relative\n        if not review_path.is_file() or not human_path.is_file():\n            continue\n        review = json_load(review_path)\n        if manifest.get(\"source_type\") == \"pdf\":\n            extraction, extraction_errors = validate_pdf_extraction(output, manifest, require_ready=True)\n            if extraction_errors or extraction is None:\n                continue\n            sections = []\n            for page in extraction[\"pages\"]:\n                for fragment in page[\"fragments\"]:\n                    sections.append(\n                        {\n                            \"heading\": f\"原文第 {page['page_number']} 页 · {fragment['structure']}\",\n                            \"content\": fragment[\"text\"],\n                            \"start_line\": page[\"page_number\"],\n                            \"end_line\": page[\"page_number\"],\n                            \"page_number\": page[\"page_number\"],\n                            \"fragment_id\": fragment[\"fragment_id\"],\n                        }\n                    )\n        else:\n            lines = _source_lines(manifest)\n            sections = _reference_sections(lines, manifest[\"source_type\"])\n        documents.append(\n            {\n                \"document_id\": f\"reference:{manifest['reference_id']}\",\n                \"reference_id\": manifest[\"reference_id\"],\n                \"kind\": \"reference\",\n                \"title\": manifest[\"title\"],\n                \"tag\": REFERENCE_TAG,\n                \"human_file\": human_relative,\n                \"content\": human_path.read_text(encoding=\"utf-8\"),\n                \"links\": re.findall(r\"\\[\\[([^\\]|#]+)\", human_path.read_text(encoding=\"utf-8\")),\n                \"sections\": sections,\n                \"raw_file\": manifest[\"source_file\"],\n                \"summary_zh\": review[\"summary_zh\"],\n            }\n        )\n    return {\"sources\": sources, \"documents\": documents}",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-8486a70c9e9251a1bef530a3ad4c2744",
-      "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
-      "source_path": "scripts/ckb_core/reference_documents.py",
-      "start_line": 699,
-      "end_line": 723,
-      "source_blob": "cf6e0a068c33dfb6ea3b3dcbc3a7bc2f43ce28ec",
-      "source_excerpt": "def _reference_sections(lines: list[str], source_type: str) -> list[dict[str, Any]]:\n    if source_type == \"text\":\n        result = []\n        for start in range(0, len(lines), 80):\n            content = \"\\n\".join(lines[start : start + 80]).strip()\n            if content:\n                result.append({\"heading\": f\"原文 {start + 1}–{min(len(lines), start + 80)} 行\", \"content\": content, \"start_line\": start + 1, \"end_line\": min(len(lines), start + 80)})\n        return result\n    headings: list[tuple[int, str]] = []\n    in_fence = False\n    for index, line in enumerate(lines, start=1):\n        if line.lstrip().startswith((\"```\", \"~~~\")):\n            in_fence = not in_fence\n        match = None if in_fence else re.match(r\"^#{1,6}\\s+(.+?)\\s*$\", line)\n        if match:\n            headings.append((index, match.group(1).strip()))\n    if not headings:\n        return _reference_sections(lines, \"text\")\n    result = []\n    for position, (start, heading) in enumerate(headings):\n        end = headings[position + 1][0] - 1 if position + 1 < len(headings) else len(lines)\n        content = \"\\n\".join(lines[start - 1 : end]).strip()\n        if content:\n            result.append({\"heading\": heading, \"content\": content, \"start_line\": start, \"end_line\": end})\n    return result",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-72eb76f590d45963964f62b4f40f5980",
-      "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 726,
       "end_line": 840,
@@ -71,9 +19,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-31acab566a8a5f43a7e78db801548ef8",
+      "entity_id": "ent-169d06cf418d5bfda9dcae4077b570ee",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 843,
       "end_line": 862,
@@ -84,9 +32,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-7533913cfc575d3294198b72ca2ff73a",
+      "entity_id": "ent-5e5330e02d205969beeea9125975fcb8",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 865,
       "end_line": 902,
@@ -97,9 +45,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-a030143b906b5a279063f0f1d5c697ab",
+      "entity_id": "ent-8537f901cf5058b6a9f017488d55d0eb",
       "classification": "appendix",
-      "owner_page_id": "file-349b3f088fd45bc5bda95014a764df37",
+      "owner_page_id": "file-7e3cf01cafb05e36982824ab80083d7f",
       "source_path": "scripts/ckb_core/reference_inputs.py",
       "start_line": 15,
       "end_line": 22,
@@ -110,9 +58,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-857afc85f1ea589bbf1bb49728863b77",
+      "entity_id": "ent-03b6038e1b9453fbb99894ecf7814b48",
       "classification": "appendix",
-      "owner_page_id": "file-349b3f088fd45bc5bda95014a764df37",
+      "owner_page_id": "file-7e3cf01cafb05e36982824ab80083d7f",
       "source_path": "scripts/ckb_core/reference_inputs.py",
       "start_line": 26,
       "end_line": 32,
@@ -123,9 +71,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-66dd89cdf97c56a2af01ee1d7e859cbf",
+      "entity_id": "ent-64779c0ffe5552aa8ff0a111095b777c",
       "classification": "appendix",
-      "owner_page_id": "file-349b3f088fd45bc5bda95014a764df37",
+      "owner_page_id": "file-7e3cf01cafb05e36982824ab80083d7f",
       "source_path": "scripts/ckb_core/reference_inputs.py",
       "start_line": 35,
       "end_line": 41,
@@ -136,9 +84,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-0a9bdd0eb407539c8132be091c30fef9",
+      "entity_id": "ent-07a3959b995c5ee0b8409916cc8d3dcd",
       "classification": "appendix",
-      "owner_page_id": "file-349b3f088fd45bc5bda95014a764df37",
+      "owner_page_id": "file-7e3cf01cafb05e36982824ab80083d7f",
       "source_path": "scripts/ckb_core/reference_inputs.py",
       "start_line": 40,
       "end_line": 41,
@@ -149,9 +97,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-c5ab5d7d755a5aa1b2cb4d7beba5570e",
+      "entity_id": "ent-62f6d71c21bb53c0a1ad8e27904a5392",
       "classification": "appendix",
-      "owner_page_id": "file-71f9807fb25b56b2a5b777c478304d38",
+      "owner_page_id": "file-a848c75f383556a683126a00c4a40d93",
       "source_path": "scripts/ckb_core/reference_pdf.py",
       "start_line": 40,
       "end_line": 41,
@@ -162,9 +110,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-2a57e3bde9c55c14b0aba2bb98e15c59",
+      "entity_id": "ent-8910c7bd5504537bbe06e3bc0adcb44b",
       "classification": "appendix",
-      "owner_page_id": "file-71f9807fb25b56b2a5b777c478304d38",
+      "owner_page_id": "file-a848c75f383556a683126a00c4a40d93",
       "source_path": "scripts/ckb_core/reference_pdf.py",
       "start_line": 44,
       "end_line": 66,
@@ -175,9 +123,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-1af250ac88d45da99a7a706acd35a77a",
+      "entity_id": "ent-97a0af9961505f61b0c7d4b131d79b58",
       "classification": "appendix",
-      "owner_page_id": "file-71f9807fb25b56b2a5b777c478304d38",
+      "owner_page_id": "file-a848c75f383556a683126a00c4a40d93",
       "source_path": "scripts/ckb_core/reference_pdf.py",
       "start_line": 69,
       "end_line": 72,
@@ -188,9 +136,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-23f7e9ccd4a25c5e8f2eb98660dce847",
+      "entity_id": "ent-57a8bf7d95de5aea858920147c26efc9",
       "classification": "appendix",
-      "owner_page_id": "file-71f9807fb25b56b2a5b777c478304d38",
+      "owner_page_id": "file-a848c75f383556a683126a00c4a40d93",
       "source_path": "scripts/ckb_core/reference_pdf.py",
       "start_line": 75,
       "end_line": 79,
@@ -201,9 +149,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-ab1e5fa9469d55f2b474fc3c6469e96d",
+      "entity_id": "ent-cafd0d2bb01c56898587530fe3988798",
       "classification": "appendix",
-      "owner_page_id": "file-71f9807fb25b56b2a5b777c478304d38",
+      "owner_page_id": "file-a848c75f383556a683126a00c4a40d93",
       "source_path": "scripts/ckb_core/reference_pdf.py",
       "start_line": 82,
       "end_line": 87,
@@ -214,9 +162,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-f38da473f49c5b52bce279c107865dea",
+      "entity_id": "ent-2289f0910f7a5a17aa0b7dfeba4534f4",
       "classification": "appendix",
-      "owner_page_id": "file-71f9807fb25b56b2a5b777c478304d38",
+      "owner_page_id": "file-a848c75f383556a683126a00c4a40d93",
       "source_path": "scripts/ckb_core/reference_pdf.py",
       "start_line": 90,
       "end_line": 97,
@@ -227,9 +175,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-dbe134c67d115f7d9fbd130953fba4b1",
+      "entity_id": "ent-1ceed41bd29d55d89544ea537c48d258",
       "classification": "appendix",
-      "owner_page_id": "file-71f9807fb25b56b2a5b777c478304d38",
+      "owner_page_id": "file-a848c75f383556a683126a00c4a40d93",
       "source_path": "scripts/ckb_core/reference_pdf.py",
       "start_line": 100,
       "end_line": 110,
@@ -240,9 +188,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-32e17122cfed5c38be8ee5566d420554",
+      "entity_id": "ent-0db9a9cc9ec456078f41d423c2f58515",
       "classification": "appendix",
-      "owner_page_id": "file-71f9807fb25b56b2a5b777c478304d38",
+      "owner_page_id": "file-a848c75f383556a683126a00c4a40d93",
       "source_path": "scripts/ckb_core/reference_pdf.py",
       "start_line": 113,
       "end_line": 118,
@@ -253,9 +201,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-3d579942f18c5edcbb80095005bea87a",
+      "entity_id": "ent-05488a4e2521572092519a8e0e32a43b",
       "classification": "appendix",
-      "owner_page_id": "file-71f9807fb25b56b2a5b777c478304d38",
+      "owner_page_id": "file-a848c75f383556a683126a00c4a40d93",
       "source_path": "scripts/ckb_core/reference_pdf.py",
       "start_line": 121,
       "end_line": 124,
@@ -266,9 +214,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-d6a26315773d5c8a86e06d5d1177618d",
+      "entity_id": "ent-2a1d27dcedd65d56afe06ae681c331c2",
       "classification": "appendix",
-      "owner_page_id": "file-71f9807fb25b56b2a5b777c478304d38",
+      "owner_page_id": "file-a848c75f383556a683126a00c4a40d93",
       "source_path": "scripts/ckb_core/reference_pdf.py",
       "start_line": 133,
       "end_line": 156,
@@ -279,9 +227,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-0235e403b15158269ffe1e88a651f75c",
+      "entity_id": "ent-22713d90bbb55836b2e383a418586b03",
       "classification": "appendix",
-      "owner_page_id": "file-71f9807fb25b56b2a5b777c478304d38",
+      "owner_page_id": "file-a848c75f383556a683126a00c4a40d93",
       "source_path": "scripts/ckb_core/reference_pdf.py",
       "start_line": 159,
       "end_line": 208,
@@ -292,9 +240,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-2f725d416d9f5fce9f846cdc6818d2ec",
+      "entity_id": "ent-e48494f5cab65e7abf280cb6b00a559c",
       "classification": "appendix",
-      "owner_page_id": "file-71f9807fb25b56b2a5b777c478304d38",
+      "owner_page_id": "file-a848c75f383556a683126a00c4a40d93",
       "source_path": "scripts/ckb_core/reference_pdf.py",
       "start_line": 211,
       "end_line": 217,
@@ -305,9 +253,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-be5662af418e548c876363e03db2cf6c",
+      "entity_id": "ent-1220d90fffad5dcebada372b17d3672a",
       "classification": "appendix",
-      "owner_page_id": "file-71f9807fb25b56b2a5b777c478304d38",
+      "owner_page_id": "file-a848c75f383556a683126a00c4a40d93",
       "source_path": "scripts/ckb_core/reference_pdf.py",
       "start_line": 220,
       "end_line": 308,
@@ -318,9 +266,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-9b8bdf751997564996cf7d48cdfa404f",
+      "entity_id": "ent-05ae42213a8057f1b4a72b9490e6020b",
       "classification": "appendix",
-      "owner_page_id": "file-71f9807fb25b56b2a5b777c478304d38",
+      "owner_page_id": "file-a848c75f383556a683126a00c4a40d93",
       "source_path": "scripts/ckb_core/reference_pdf.py",
       "start_line": 311,
       "end_line": 342,
@@ -331,9 +279,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-6fbf39f925cb5e1c9ae5672f13e3f236",
+      "entity_id": "ent-1c601bcebe955293b529d8b7bad22d0f",
       "classification": "appendix",
-      "owner_page_id": "file-71f9807fb25b56b2a5b777c478304d38",
+      "owner_page_id": "file-a848c75f383556a683126a00c4a40d93",
       "source_path": "scripts/ckb_core/reference_pdf.py",
       "start_line": 525,
       "end_line": 676,
@@ -344,9 +292,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-2a12b7b8d1ea56a3b24d0a8bbf9bedf6",
+      "entity_id": "ent-990fa1ea1e925ea493a5a8f19eb96e99",
       "classification": "appendix",
-      "owner_page_id": "file-71f9807fb25b56b2a5b777c478304d38",
+      "owner_page_id": "file-a848c75f383556a683126a00c4a40d93",
       "source_path": "scripts/ckb_core/reference_pdf.py",
       "start_line": 679,
       "end_line": 684,
@@ -357,9 +305,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-27e2f53e1722553fa15d654a13ea1477",
+      "entity_id": "ent-a712dcfedc265065807d00bd38870d0c",
       "classification": "appendix",
-      "owner_page_id": "file-c0af9b871eaf5511aa3cabbd140c6d84",
+      "owner_page_id": "file-26f2401e5d37575a825fe362af4a977e",
       "source_path": "scripts/ckb_core/research_gaps.py",
       "start_line": 24,
       "end_line": 25,
@@ -370,9 +318,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-057b2e7fe1735b90b82f5b25c4e27916",
+      "entity_id": "ent-3ffa77c23d6957f4a849a5bcfeb41b96",
       "classification": "appendix",
-      "owner_page_id": "file-c0af9b871eaf5511aa3cabbd140c6d84",
+      "owner_page_id": "file-26f2401e5d37575a825fe362af4a977e",
       "source_path": "scripts/ckb_core/research_gaps.py",
       "start_line": 28,
       "end_line": 29,
@@ -383,9 +331,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-da89677a54265d7ba83c2cbf58b7d5b4",
+      "entity_id": "ent-0a54ffbab7a25ef19973988376eb4007",
       "classification": "appendix",
-      "owner_page_id": "file-c0af9b871eaf5511aa3cabbd140c6d84",
+      "owner_page_id": "file-26f2401e5d37575a825fe362af4a977e",
       "source_path": "scripts/ckb_core/research_gaps.py",
       "start_line": 32,
       "end_line": 38,
@@ -396,9 +344,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-934041f7dc5c54a7a8de901b43ea1d86",
+      "entity_id": "ent-9a3fa0cd195a551f8e5445897de073a1",
       "classification": "appendix",
-      "owner_page_id": "file-c0af9b871eaf5511aa3cabbd140c6d84",
+      "owner_page_id": "file-26f2401e5d37575a825fe362af4a977e",
       "source_path": "scripts/ckb_core/research_gaps.py",
       "start_line": 41,
       "end_line": 55,
@@ -409,9 +357,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-0d7a34f0c4475dd68d5ee08f402eaad1",
+      "entity_id": "ent-db5b71c5a5575b74a58e78225321bd57",
       "classification": "appendix",
-      "owner_page_id": "file-c0af9b871eaf5511aa3cabbd140c6d84",
+      "owner_page_id": "file-26f2401e5d37575a825fe362af4a977e",
       "source_path": "scripts/ckb_core/research_gaps.py",
       "start_line": 58,
       "end_line": 59,
@@ -422,9 +370,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-5b6fab330b0d50e7a1f520d6e6348b9e",
+      "entity_id": "ent-0d2786438cf053aa84bda69bd87c6c8b",
       "classification": "appendix",
-      "owner_page_id": "file-c0af9b871eaf5511aa3cabbd140c6d84",
+      "owner_page_id": "file-26f2401e5d37575a825fe362af4a977e",
       "source_path": "scripts/ckb_core/research_gaps.py",
       "start_line": 62,
       "end_line": 71,
@@ -435,9 +383,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-6ec91192fa205c2487f01c8e1c80509f",
+      "entity_id": "ent-cb4d445c79085fbc8a3201fcc07deeae",
       "classification": "appendix",
-      "owner_page_id": "file-c0af9b871eaf5511aa3cabbd140c6d84",
+      "owner_page_id": "file-26f2401e5d37575a825fe362af4a977e",
       "source_path": "scripts/ckb_core/research_gaps.py",
       "start_line": 74,
       "end_line": 91,
@@ -448,9 +396,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-7480f18c52a05e18a44229ef76317575",
+      "entity_id": "ent-00e9b7450ca55eef9f3e5706354acd53",
       "classification": "appendix",
-      "owner_page_id": "file-c0af9b871eaf5511aa3cabbd140c6d84",
+      "owner_page_id": "file-26f2401e5d37575a825fe362af4a977e",
       "source_path": "scripts/ckb_core/research_gaps.py",
       "start_line": 94,
       "end_line": 97,
@@ -461,14 +409,131 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-b120d6a752825274847709a5c2c97bfe",
+      "entity_id": "ent-e8774679d9db56b494faf689d8c5fc03",
       "classification": "appendix",
-      "owner_page_id": "file-c0af9b871eaf5511aa3cabbd140c6d84",
+      "owner_page_id": "file-26f2401e5d37575a825fe362af4a977e",
       "source_path": "scripts/ckb_core/research_gaps.py",
       "start_line": 100,
       "end_line": 108,
       "source_blob": "455e32b82d49b3ce5935ba86c16939f32e0797ee",
       "source_excerpt": "def gap_navigation_counts(root: Path) -> dict[str, int] | None:\n    path = root.parent / \"workspace-meta/gaps/index.json\"\n    if not path.is_file():\n        return None\n    value = json_load(path)\n    counts = value.get(\"counts\") if isinstance(value, dict) else None\n    if not isinstance(counts, dict):\n        return None\n    return {name: int(counts.get(name, 0)) for name in (\"total\", *GAP_STATUSES)}",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-0c8c92e1b4105787908e2c31c4cf43a1",
+      "classification": "appendix",
+      "owner_page_id": "file-26f2401e5d37575a825fe362af4a977e",
+      "source_path": "scripts/ckb_core/research_gaps.py",
+      "start_line": 111,
+      "end_line": 120,
+      "source_blob": "455e32b82d49b3ce5935ba86c16939f32e0797ee",
+      "source_excerpt": "def _sync_indexes(output: Path) -> None:\n    if (output / \"human\").is_dir() and (output / \"markdown\").is_dir():\n        from .work_record_index import refresh_work_record_index\n        refresh_work_record_index(output)\n    if (output / \"agent-index.sqlite\").is_file():\n        from .agent_index import build_agent_index\n        build_agent_index(output)\n    if (output / \"machine/knowledge.sqlite\").is_file():\n        from .machine_knowledge import build_machine_knowledge\n        build_machine_knowledge(output)",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-046c04ebc71a5500999b7c83cff2b345",
+      "classification": "appendix",
+      "owner_page_id": "file-26f2401e5d37575a825fe362af4a977e",
+      "source_path": "scripts/ckb_core/research_gaps.py",
+      "start_line": 123,
+      "end_line": 149,
+      "source_blob": "455e32b82d49b3ce5935ba86c16939f32e0797ee",
+      "source_excerpt": "def create_gap(output: Path, kind: str, summary_path: Path, evidence_paths: list[str]) -> dict[str, Any]:\n    output = output.resolve()\n    if not (output / \"state.json\").is_file():\n        raise CkbError(f\"CKB output is required: {output}\")\n    if kind not in GAP_KINDS:\n        raise CkbError(f\"gap kind must be one of: {list(GAP_KINDS)}\")\n    summary = _narrative(summary_path.resolve(), \"gap summary\")\n    evidence = _evidence(output, evidence_paths, \"gap\")\n    gap_id = stable_id(\"gap\", kind, summary, *evidence)\n    path = _record_path(output, gap_id)\n    if path.is_file():\n        value = json_load(path)\n        return {**value, \"idempotent\": True, \"record\": str(path.resolve()), \"index\": str((_root(output) / \"index.json\").resolve())}\n    stamp = utc_now()\n    value = {\n        \"schema_version\": GAP_SCHEMA_VERSION, \"gap_id\": gap_id, \"kind\": kind,\n        \"status\": \"deferred\" if kind == \"deferred-feedback\" else \"open\",\n        \"summary_zh\": summary, \"evidence_paths\": evidence, \"created_at_utc\": stamp,\n        \"updated_at_utc\": stamp, \"resolution_zh\": None, \"resolution_evidence_paths\": [],\n    }\n    json_write(path, value)\n    _write_index(output)\n    _sync_indexes(output)\n    audit = audit_gap_register(output)\n    if audit[\"status\"] != \"passed\":\n        raise CkbError(f\"research gap audit failed: {audit['errors'][:10]}\")\n    return {**value, \"idempotent\": False, \"record\": str(path.resolve()), \"index\": str((_root(output) / \"index.json\").resolve()), \"audit\": audit}",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-a4c1d712a46353b891d4b976354d440b",
+      "classification": "appendix",
+      "owner_page_id": "file-26f2401e5d37575a825fe362af4a977e",
+      "source_path": "scripts/ckb_core/research_gaps.py",
+      "start_line": 152,
+      "end_line": 170,
+      "source_blob": "455e32b82d49b3ce5935ba86c16939f32e0797ee",
+      "source_excerpt": "def resolve_gap(output: Path, gap_id: str, resolution_path: Path, evidence_paths: list[str]) -> dict[str, Any]:\n    output = output.resolve()\n    path = _record_path(output, gap_id)\n    if not path.is_file():\n        raise CkbError(f\"research gap does not exist: {gap_id}\")\n    value = json_load(path)\n    if value.get(\"status\") == \"resolved\":\n        raise CkbError(f\"research gap is already resolved: {gap_id}\")\n    value[\"status\"] = \"resolved\"\n    value[\"resolution_zh\"] = _narrative(resolution_path.resolve(), \"gap resolution\")\n    value[\"resolution_evidence_paths\"] = _evidence(output, evidence_paths, \"gap resolution\")\n    value[\"updated_at_utc\"] = utc_now()\n    json_write(path, value)\n    _write_index(output)\n    _sync_indexes(output)\n    audit = audit_gap_register(output)\n    if audit[\"status\"] != \"passed\":\n        raise CkbError(f\"research gap audit failed: {audit['errors'][:10]}\")\n    return {**value, \"record\": str(path.resolve()), \"index\": str((_root(output) / \"index.json\").resolve()), \"audit\": audit}",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-f25c7cc2605b5b1eb07e2913895a352c",
+      "classification": "appendix",
+      "owner_page_id": "file-26f2401e5d37575a825fe362af4a977e",
+      "source_path": "scripts/ckb_core/research_gaps.py",
+      "start_line": 173,
+      "end_line": 179,
+      "source_blob": "455e32b82d49b3ce5935ba86c16939f32e0797ee",
+      "source_excerpt": "def list_gaps(output: Path, status: str | None = None, kind: str | None = None) -> dict[str, Any]:\n    if status is not None and status not in GAP_STATUSES:\n        raise CkbError(f\"gap status must be one of: {list(GAP_STATUSES)}\")\n    if kind is not None and kind not in GAP_KINDS:\n        raise CkbError(f\"gap kind must be one of: {list(GAP_KINDS)}\")\n    selected = [item for item in gap_records(output.resolve()) if (status is None or item.get(\"status\") == status) and (kind is None or item.get(\"kind\") == kind)]\n    return {\"schema_version\": GAP_SCHEMA_VERSION, \"status\": \"ready\", \"filters\": {\"status\": status, \"kind\": kind}, \"count\": len(selected), \"gaps\": selected}",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-dbc96b48864f5275b4ccff3028a1e80a",
+      "classification": "appendix",
+      "owner_page_id": "file-26f2401e5d37575a825fe362af4a977e",
+      "source_path": "scripts/ckb_core/research_gaps.py",
+      "start_line": 182,
+      "end_line": 193,
+      "source_blob": "455e32b82d49b3ce5935ba86c16939f32e0797ee",
+      "source_excerpt": "def gap_machine_records(output: Path) -> dict[str, Any]:\n    records = gap_records(output)\n    documents = []\n    for item in records:\n        status_zh = {\"open\": \"待补证据\", \"deferred\": \"暂缓处理\", \"resolved\": \"已关闭\"}[item[\"status\"]]\n        kind_zh = {\"insufficient-evidence\": \"证据不足\", \"conflicting-sources\": \"来源冲突\", \"deferred-feedback\": \"暂缓反馈\"}[item[\"kind\"]]\n        lines = [f\"状态：{status_zh}\", f\"类型：{kind_zh}\", f\"待验证说明：{item['summary_zh']}\", \"证据路径：\" + \"；\".join(item[\"evidence_paths\"])]\n        if item.get(\"resolution_zh\"):\n            lines.extend([f\"关闭说明：{item['resolution_zh']}\", \"关闭证据：\" + \"；\".join(item.get(\"resolution_evidence_paths\", []))])\n        content = \"\\n\".join(lines)\n        documents.append({\"document_id\": f\"gap:{item['gap_id']}\", \"gap_id\": item[\"gap_id\"], \"kind\": \"gap\", \"title\": \"研究缺口：\" + item[\"summary_zh\"][:80], \"tag\": \"#类型/缺口\", \"human_file\": None, \"content\": content, \"section_heading\": \"待验证研究缺口\" if item[\"status\"] != \"resolved\" else \"已关闭研究缺口\", \"record\": item})\n    return {\"records\": records, \"documents\": documents}",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-c6b39b24215356ae9ac04f3164fc02ae",
+      "classification": "appendix",
+      "owner_page_id": "file-26f2401e5d37575a825fe362af4a977e",
+      "source_path": "scripts/ckb_core/research_gaps.py",
+      "start_line": 196,
+      "end_line": 230,
+      "source_blob": "455e32b82d49b3ce5935ba86c16939f32e0797ee",
+      "source_excerpt": "def _record_errors(output: Path, path: Path, item: dict[str, Any]) -> list[str]:\n    if set(item) != _RECORD_FIELDS:\n        return [f\"{path.name}: fields differ from the fixed gap schema\"]\n    errors = []\n    if item.get(\"schema_version\") != GAP_SCHEMA_VERSION or item.get(\"kind\") not in GAP_KINDS or item.get(\"status\") not in GAP_STATUSES:\n        errors.append(f\"{path.name}: schema, kind, or status is invalid\")\n    summary = item.get(\"summary_zh\")\n    if not isinstance(summary, str) or len(_CHINESE.findall(summary)) < 4:\n        errors.append(f\"{path.name}: summary must use Simplified Chinese\")\n    evidence = item.get(\"evidence_paths\")\n    if not isinstance(evidence, list) or not evidence or len(evidence) > 12:\n        errors.append(f\"{path.name}: evidence_paths must contain one to twelve files\")\n    else:\n        for value in evidence:\n            relative = PurePosixPath(str(value))\n            if relative.is_absolute() or \"..\" in relative.parts or not (output / Path(str(value))).is_file():\n                errors.append(f\"{path.name}: invalid or missing evidence path: {value}\")\n    expected_id = stable_id(\"gap\", item.get(\"kind\"), item.get(\"summary_zh\"), *(item.get(\"evidence_paths\") or []))\n    if item.get(\"gap_id\") != expected_id or path.stem != expected_id:\n        errors.append(f\"{path.name}: stable gap id mismatch\")\n    if item.get(\"status\") == \"resolved\":\n        resolution = item.get(\"resolution_zh\")\n        resolution_evidence = item.get(\"resolution_evidence_paths\")\n        if not isinstance(resolution, str) or len(_CHINESE.findall(resolution)) < 4:\n            errors.append(f\"{path.name}: resolved gap requires a Chinese resolution\")\n        if not isinstance(resolution_evidence, list) or not resolution_evidence:\n            errors.append(f\"{path.name}: resolved gap requires closure evidence\")\n        else:\n            for value in resolution_evidence:\n                relative = PurePosixPath(str(value))\n                if relative.is_absolute() or \"..\" in relative.parts or not (output / Path(str(value))).is_file():\n                    errors.append(f\"{path.name}: invalid or missing closure evidence: {value}\")\n    elif item.get(\"resolution_zh\") is not None or item.get(\"resolution_evidence_paths\") != []:\n        errors.append(f\"{path.name}: unresolved gap must not contain resolution fields\")\n    return errors",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-e08a6715482a58b296805d7f2352243e",
+      "classification": "appendix",
+      "owner_page_id": "file-07d843fca71f5bb2b3b60a9da1d7838a",
+      "source_path": "scripts/ckb_core/runtime.py",
+      "start_line": 14,
+      "end_line": 15,
+      "source_blob": "4c28e9f1e9122a63fc98c3e69b6b26db4164c5bc",
+      "source_excerpt": "def skill_root() -> Path:\n    return Path(__file__).resolve().parents[2]",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-056aa7a5c5e457b4b8d51d85f7038626",
+      "classification": "appendix",
+      "owner_page_id": "file-07d843fca71f5bb2b3b60a9da1d7838a",
+      "source_path": "scripts/ckb_core/runtime.py",
+      "start_line": 18,
+      "end_line": 19,
+      "source_blob": "4c28e9f1e9122a63fc98c3e69b6b26db4164c5bc",
+      "source_excerpt": "def lock_document() -> dict[str, Any]:\n    return json_load(skill_root() / \"toolchain.lock.json\")",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-168b92914aaa501b9c14cdc30ad8a226",
+      "classification": "appendix",
+      "owner_page_id": "file-07d843fca71f5bb2b3b60a9da1d7838a",
+      "source_path": "scripts/ckb_core/runtime.py",
+      "start_line": 22,
+      "end_line": 23,
+      "source_blob": "4c28e9f1e9122a63fc98c3e69b6b26db4164c5bc",
+      "source_excerpt": "def payload_path() -> Path:\n    return skill_root() / \"assets\" / \"runtime\" / \"win-x64\" / \"payload.zip\"",
       "status": "draft",
       "evidence_note": "",
       "description_zh": ""

@@ -2,12 +2,64 @@
   "schema_version": 4,
   "chunk_id": "batch-0001",
   "reviewer": "Agent",
-  "reviewed_at_utc": "2026-09-02T22:47:44Z",
+  "reviewed_at_utc": "2026-09-03T01:38:10Z",
   "reviews": [
     {
-      "entity_id": "ent-5dcaa2b140a656debf265524a307f9ef",
+      "entity_id": "ent-f0db7f75205454099887e30829c13b29",
       "classification": "boundary",
-      "owner_page_id": "ent-5dcaa2b140a656debf265524a307f9ef",
+      "owner_page_id": "ent-f0db7f75205454099887e30829c13b29",
+      "source_path": "prototypes/ckb-semantic-vector-benchmark/benchmark.py",
+      "start_line": 80,
+      "end_line": 81,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 c533dd7c5322 中 `prototypes/ckb-semantic-vector-benchmark/benchmark.py` 第 80 至 81 行，摘录属于 Git blob 215255cc9edf。",
+      "meaning_zh": "代码单元 `_readonly_connection`负责用固定本地模型比较当前 SQLite、语义向量和混合检索，并测量质量与资源。",
+      "role_zh": "它属于语义向量隔离实验的执行与判定层；实验代码不改变生产检索或稳定页面生成默认行为。",
+      "change_when_zh": "当模型身份、向量文档、排序、测量或资源门变化时，应同步复查本页、固定实验协议及直接测试。"
+    },
+    {
+      "entity_id": "ent-baee95b1eb5d5e53a91ef9c7970dc9f2",
+      "classification": "boundary",
+      "owner_page_id": "ent-baee95b1eb5d5e53a91ef9c7970dc9f2",
+      "source_path": "prototypes/ckb-semantic-vector-benchmark/benchmark.py",
+      "start_line": 84,
+      "end_line": 87,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 c533dd7c5322 中 `prototypes/ckb-semantic-vector-benchmark/benchmark.py` 第 84 至 87 行，摘录属于 Git blob 215255cc9edf。",
+      "meaning_zh": "代码单元 `_sqlite_backup`负责用固定本地模型比较当前 SQLite、语义向量和混合检索，并测量质量与资源。",
+      "role_zh": "它属于语义向量隔离实验的执行与判定层；实验代码不改变生产检索或稳定页面生成默认行为。",
+      "change_when_zh": "当模型身份、向量文档、排序、测量或资源门变化时，应同步复查本页、固定实验协议及直接测试。"
+    },
+    {
+      "entity_id": "ent-f73f70e3f9d35a4080af76d8663bc14f",
+      "classification": "boundary",
+      "owner_page_id": "ent-f73f70e3f9d35a4080af76d8663bc14f",
+      "source_path": "prototypes/ckb-semantic-vector-benchmark/benchmark.py",
+      "start_line": 90,
+      "end_line": 120,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 c533dd7c5322 中 `prototypes/ckb-semantic-vector-benchmark/benchmark.py` 第 90 至 120 行，摘录属于 Git blob 215255cc9edf。",
+      "meaning_zh": "代码单元 `copy_corpus`负责用固定本地模型比较当前 SQLite、语义向量和混合检索，并测量质量与资源。",
+      "role_zh": "它属于语义向量隔离实验的执行与判定层；实验代码不改变生产检索或稳定页面生成默认行为。",
+      "change_when_zh": "当模型身份、向量文档、排序、测量或资源门变化时，应同步复查本页、固定实验协议及直接测试。"
+    },
+    {
+      "entity_id": "ent-2dad6a91f0ac59728d6b7052a5f4bbdb",
+      "classification": "boundary",
+      "owner_page_id": "ent-2dad6a91f0ac59728d6b7052a5f4bbdb",
+      "source_path": "prototypes/ckb-semantic-vector-benchmark/benchmark.py",
+      "start_line": 182,
+      "end_line": 248,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 c533dd7c5322 中 `prototypes/ckb-semantic-vector-benchmark/benchmark.py` 第 182 至 248 行，摘录属于 Git blob 215255cc9edf。",
+      "meaning_zh": "代码单元 `validate_protocol`负责用固定本地模型比较当前 SQLite、语义向量和混合检索，并测量质量与资源。",
+      "role_zh": "它属于语义向量隔离实验的执行与判定层；实验代码不改变生产检索或稳定页面生成默认行为。",
+      "change_when_zh": "当模型身份、向量文档、排序、测量或资源门变化时，应同步复查本页、固定实验协议及直接测试。"
+    },
+    {
+      "entity_id": "ent-ac8d3036bf315831aeb47714341e005d",
+      "classification": "boundary",
+      "owner_page_id": "ent-ac8d3036bf315831aeb47714341e005d",
       "source_path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/contracts.py",
       "start_line": 25,
       "end_line": 29,
@@ -18,9 +70,9 @@
       "change_when_zh": "当tag 数据结构、隐私字段或路径规则变化时，应同步复查本页及其直接测试。"
     },
     {
-      "entity_id": "ent-9f7761fddc715d71afb4198878c5c6a4",
+      "entity_id": "ent-4c3f988a498a58c384b66ae54f52ff23",
       "classification": "boundary",
-      "owner_page_id": "ent-9f7761fddc715d71afb4198878c5c6a4",
+      "owner_page_id": "ent-4c3f988a498a58c384b66ae54f52ff23",
       "source_path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/contracts.py",
       "start_line": 36,
       "end_line": 37,
@@ -31,9 +83,9 @@
       "change_when_zh": "当tag 数据结构、隐私字段或路径规则变化时，应同步复查本页及其直接测试。"
     },
     {
-      "entity_id": "ent-a3d0acbd97105dda9f3e93634650966f",
+      "entity_id": "ent-7117857bb5f2577b83372cedcc942c3b",
       "classification": "boundary",
-      "owner_page_id": "ent-a3d0acbd97105dda9f3e93634650966f",
+      "owner_page_id": "ent-7117857bb5f2577b83372cedcc942c3b",
       "source_path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/contracts.py",
       "start_line": 145,
       "end_line": 194,
@@ -44,9 +96,9 @@
       "change_when_zh": "当tag 数据结构、隐私字段或路径规则变化时，应同步复查本页及其直接测试。"
     },
     {
-      "entity_id": "file-88e591716a8b51e581d1d48270be2fdd",
+      "entity_id": "file-2349240c49965442bfce7862be06b74f",
       "classification": "page",
-      "owner_page_id": "file-88e591716a8b51e581d1d48270be2fdd",
+      "owner_page_id": "file-2349240c49965442bfce7862be06b74f",
       "source_path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
       "start_line": 1,
       "end_line": 269,
@@ -57,9 +109,9 @@
       "change_when_zh": "当事件写入、事务、备份或回滚变化时，应同步复查本页及其直接测试。"
     },
     {
-      "entity_id": "ent-583339b6b6d75f2aadd31a16cd8be862",
+      "entity_id": "ent-c510843bd3975c688af425a9c6f315cb",
       "classification": "page",
-      "owner_page_id": "ent-583339b6b6d75f2aadd31a16cd8be862",
+      "owner_page_id": "ent-c510843bd3975c688af425a9c6f315cb",
       "source_path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
       "start_line": 68,
       "end_line": 104,
@@ -70,9 +122,9 @@
       "change_when_zh": "当事件写入、事务、备份或回滚变化时，应同步复查本页及其直接测试。"
     },
     {
-      "entity_id": "ent-e90815f78c015f90bd42428ee2e9e9ee",
+      "entity_id": "ent-38658ad457665d50bace9927953fe256",
       "classification": "appendix",
-      "owner_page_id": "file-88e591716a8b51e581d1d48270be2fdd",
+      "owner_page_id": "file-2349240c49965442bfce7862be06b74f",
       "source_path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
       "start_line": 36,
       "end_line": 41,
@@ -81,9 +133,9 @@
       "description_zh": "`connect` 完成tag 事务与回滚所需的一个明确步骤。"
     },
     {
-      "entity_id": "ent-549832a781c75a9189e3dc6ccb5b3232",
+      "entity_id": "ent-4414e71c248358cb8c9db5985840df2b",
       "classification": "appendix",
-      "owner_page_id": "file-88e591716a8b51e581d1d48270be2fdd",
+      "owner_page_id": "file-2349240c49965442bfce7862be06b74f",
       "source_path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
       "start_line": 44,
       "end_line": 47,
@@ -92,9 +144,9 @@
       "description_zh": "`initialize` 创建并初始化tag 事务与回滚所需的一个明确步骤。"
     },
     {
-      "entity_id": "ent-2d8e852c0eca5b30b02efac87a37b846",
+      "entity_id": "ent-2e62405e408459b5b64ecd35fda746b6",
       "classification": "appendix",
-      "owner_page_id": "file-88e591716a8b51e581d1d48270be2fdd",
+      "owner_page_id": "file-2349240c49965442bfce7862be06b74f",
       "source_path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
       "start_line": 50,
       "end_line": 65,
@@ -103,9 +155,9 @@
       "description_zh": "`read_assertion_jsonl` 读取并判定tag 事务与回滚所需的一个明确步骤。"
     },
     {
-      "entity_id": "ent-5c62104ccd425119a7bbca97e8603523",
+      "entity_id": "ent-bdd7195536fe5802a9631bb3643f6f6c",
       "classification": "appendix",
-      "owner_page_id": "file-88e591716a8b51e581d1d48270be2fdd",
+      "owner_page_id": "file-2349240c49965442bfce7862be06b74f",
       "source_path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
       "start_line": 107,
       "end_line": 111,
@@ -114,9 +166,9 @@
       "description_zh": "`load_assertions` 读取并判定tag 事务与回滚所需的一个明确步骤。"
     },
     {
-      "entity_id": "ent-4ceab153754856de9e4ab88ec7540cb5",
+      "entity_id": "ent-2e8c1accd1155d939568ef5e66fb4b1d",
       "classification": "appendix",
-      "owner_page_id": "file-88e591716a8b51e581d1d48270be2fdd",
+      "owner_page_id": "file-2349240c49965442bfce7862be06b74f",
       "source_path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
       "start_line": 114,
       "end_line": 116,
@@ -125,9 +177,9 @@
       "description_zh": "`integrity` 完成tag 事务与回滚所需的一个明确步骤。"
     },
     {
-      "entity_id": "ent-4bd22b811b01591190921bf60eb3a999",
+      "entity_id": "ent-6dbc486adca05df8a165e33e3b6387f7",
       "classification": "appendix",
-      "owner_page_id": "file-88e591716a8b51e581d1d48270be2fdd",
+      "owner_page_id": "file-2349240c49965442bfce7862be06b74f",
       "source_path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
       "start_line": 119,
       "end_line": 210,
@@ -136,9 +188,9 @@
       "description_zh": "`replay_with_rollback` 完成tag 事务与回滚所需的一个明确步骤。"
     },
     {
-      "entity_id": "ent-ca143252c60b575ea4f267d6a7dedcea",
+      "entity_id": "ent-dd6136ae2fed593e8fb24222456a2377",
       "classification": "appendix",
-      "owner_page_id": "file-88e591716a8b51e581d1d48270be2fdd",
+      "owner_page_id": "file-2349240c49965442bfce7862be06b74f",
       "source_path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
       "start_line": 213,
       "end_line": 217,
@@ -147,75 +199,15 @@
       "description_zh": "`_rollback_path_within` 受控回滚tag 事务与回滚所需的一个明确步骤。"
     },
     {
-      "entity_id": "ent-61edd6d4f2ab50d6bc71eac13ca4f8d0",
+      "entity_id": "ent-fc8a89ec071e59d5aaa836d70bf8e90b",
       "classification": "appendix",
-      "owner_page_id": "file-88e591716a8b51e581d1d48270be2fdd",
+      "owner_page_id": "file-2349240c49965442bfce7862be06b74f",
       "source_path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
       "start_line": 220,
       "end_line": 268,
       "status": "agent-reviewed",
       "evidence_note": "已核对固定提交 bd8519583e3a 中 `prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py` 第 220 至 268 行，摘录属于 Git blob e0583a6869eb。",
       "description_zh": "`rollback` 受控回滚tag 事务与回滚所需的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-626c59fca9d552b7aaf6d8f6661b6d14",
-      "classification": "boundary",
-      "owner_page_id": "ent-626c59fca9d552b7aaf6d8f6661b6d14",
-      "source_path": "prototypes/ckb-semantic-vector-benchmark/benchmark.py",
-      "start_line": 80,
-      "end_line": 81,
-      "source_blob": "215255cc9edf0ba8e5492d50c525168420aa36eb",
-      "source_excerpt": "def _readonly_connection(path: Path) -> sqlite3.Connection:\n    return sqlite3.connect(f\"file:{path.as_posix()}?mode=ro\", uri=True)",
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 c533dd7c5322 中 `prototypes/ckb-semantic-vector-benchmark/benchmark.py` 第 80 至 81 行，摘录属于 Git blob 215255cc9edf。",
-      "meaning_zh": "代码单元 `_readonly_connection`负责用固定本地模型比较当前 SQLite、语义向量和混合检索，并测量质量与资源。",
-      "role_zh": "它属于语义向量隔离实验的执行与判定层；实验代码不改变生产检索或稳定页面生成默认行为。",
-      "change_when_zh": "当模型身份、向量文档、排序、测量或资源门变化时，应同步复查本页、固定实验协议及直接测试。"
-    },
-    {
-      "entity_id": "ent-07599c4c426150d1814eaa96ff81b15f",
-      "classification": "boundary",
-      "owner_page_id": "ent-07599c4c426150d1814eaa96ff81b15f",
-      "source_path": "prototypes/ckb-semantic-vector-benchmark/benchmark.py",
-      "start_line": 84,
-      "end_line": 87,
-      "source_blob": "215255cc9edf0ba8e5492d50c525168420aa36eb",
-      "source_excerpt": "def _sqlite_backup(source: Path, target: Path) -> None:\n    target.parent.mkdir(parents=True, exist_ok=True)\n    with _readonly_connection(source) as left, sqlite3.connect(target) as right:\n        left.backup(right)",
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 c533dd7c5322 中 `prototypes/ckb-semantic-vector-benchmark/benchmark.py` 第 84 至 87 行，摘录属于 Git blob 215255cc9edf。",
-      "meaning_zh": "代码单元 `_sqlite_backup`负责用固定本地模型比较当前 SQLite、语义向量和混合检索，并测量质量与资源。",
-      "role_zh": "它属于语义向量隔离实验的执行与判定层；实验代码不改变生产检索或稳定页面生成默认行为。",
-      "change_when_zh": "当模型身份、向量文档、排序、测量或资源门变化时，应同步复查本页、固定实验协议及直接测试。"
-    },
-    {
-      "entity_id": "ent-54ba445f07ce5e4aa2d0f427ae5b1ce4",
-      "classification": "boundary",
-      "owner_page_id": "ent-54ba445f07ce5e4aa2d0f427ae5b1ce4",
-      "source_path": "prototypes/ckb-semantic-vector-benchmark/benchmark.py",
-      "start_line": 90,
-      "end_line": 120,
-      "source_blob": "215255cc9edf0ba8e5492d50c525168420aa36eb",
-      "source_excerpt": "def copy_corpus(source: Path, target: Path) -> dict[str, Any]:\n    if target.exists():\n        raise ValueError(f\"benchmark corpus target already exists: {target}\")\n    target.mkdir(parents=True)\n    source_machine = source / \"machine/knowledge.sqlite\"\n    source_legacy = source / \"agent-index.sqlite\"\n    _sqlite_backup(source_machine, target / \"machine/knowledge.sqlite\")\n    _sqlite_backup(source_legacy, target / \"agent-index.sqlite\")\n    for name in (\"state.json\", \"local-openers.json\"):\n        if (source / name).is_file():\n            shutil.copy2(source / name, target / name)\n    shutil.copytree(source / \"human\", target / \"human\")\n    shutil.copytree(source / \"human\", target / \"markdown\")\n    integrity: dict[str, str] = {}\n    for name, path in (\n        (\"machine\", target / \"machine/knowledge.sqlite\"),\n        (\"legacy\", target / \"agent-index.sqlite\"),\n    ):\n        with _readonly_connection(path) as connection:\n            integrity[name] = str(connection.execute(\"PRAGMA integrity_check\").fetchone()[0])\n    with _readonly_connection(target / \"machine/knowledge.sqlite\") as connection:\n        meta = dict(connection.execute(\"SELECT key,value FROM meta\").fetchall())\n    return {\n        \"source\": str(source.resolve()),\n        \"repository_commit\": meta.get(\"repository_commit\"),\n        \"source_machine_sha256_before\": sha256(source_machine),\n        \"source_legacy_sha256_before\": sha256(source_legacy),\n        \"copied_machine_sha256\": sha256(target / \"machine/knowledge.sqlite\"),\n        \"copied_legacy_sha256\": sha256(target / \"agent-index.sqlite\"),\n        \"integrity\": integrity,\n    }",
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 c533dd7c5322 中 `prototypes/ckb-semantic-vector-benchmark/benchmark.py` 第 90 至 120 行，摘录属于 Git blob 215255cc9edf。",
-      "meaning_zh": "代码单元 `copy_corpus`负责用固定本地模型比较当前 SQLite、语义向量和混合检索，并测量质量与资源。",
-      "role_zh": "它属于语义向量隔离实验的执行与判定层；实验代码不改变生产检索或稳定页面生成默认行为。",
-      "change_when_zh": "当模型身份、向量文档、排序、测量或资源门变化时，应同步复查本页、固定实验协议及直接测试。"
-    },
-    {
-      "entity_id": "ent-b50c1bf4f80f58939f684da06ec6e695",
-      "classification": "boundary",
-      "owner_page_id": "ent-b50c1bf4f80f58939f684da06ec6e695",
-      "source_path": "prototypes/ckb-semantic-vector-benchmark/benchmark.py",
-      "start_line": 182,
-      "end_line": 248,
-      "source_blob": "215255cc9edf0ba8e5492d50c525168420aa36eb",
-      "source_excerpt": "def validate_protocol(\n    protocol_path: Path,\n    source_corpus: Path,\n    model_manifest: Path,\n    model_dir: Path,\n) -> dict[str, Any]:\n    protocol = json_load(protocol_path)\n    if protocol.get(\"schema_version\") != SCHEMA_VERSION:\n        raise ValueError(\"protocol schema version mismatch\")\n    if protocol.get(\"status\") != \"frozen\" or protocol.get(\"frozen_before_effect_run\") is not True:\n        raise ValueError(\"protocol must be frozen before the effect run\")\n    if tuple(item.get(\"id\") for item in protocol.get(\"arms\", [])) != ARM_IDS:\n        raise ValueError(\"protocol arm identities or order differ from the fixed contract\")\n    execution = protocol.get(\"execution\") or {}\n    if execution.get(\"cold_runs\") != 1 or execution.get(\"hot_runs\") != 5:\n        raise ValueError(\"protocol requires one cold and five hot runs\")\n    if execution.get(\"max_results\") != 8 or execution.get(\"profile\") != \"fast\":\n        raise ValueError(\"protocol requires fast profile and top 8\")\n    questions = protocol.get(\"questions\")\n    if not isinstance(questions, list) or len(questions) != 12:\n        raise ValueError(\"protocol requires exactly twelve fixed questions\")\n    if len({item.get(\"id\") for item in questions}) != 12:\n        raise ValueError(\"protocol question ids must be unique\")\n    for item in questions:\n        if not isinstance(item.get(\"question\"), str) or not item[\"question\"]:\n            raise ValueError(\"each protocol question requires text\")\n        labels = item.get(\"relevance\")\n        if not isinstance(labels, list) or not labels:\n            raise ValueError(f\"question {item.get('id')} has no relevance labels\")\n        if any(label.get(\"grade\") not in {1, 2, 3} for label in labels):\n            raise ValueError(f\"question {item.get('id')} has an invalid relevance grade\")\n    source_questions = REPOSITORY_ROOT / protocol[\"questions_source\"][\"path\"]\n    if sha256(source_questions) != protocol[\"questions_source\"][\"sha256\"]:\n        raise ValueError(\"source question fixture digest drift\")\n    source_value = json_load(source_questions)\n    if source_value.get(\"questions\") != questions:\n        raise ValueError(\"copied questions or relevance labels drifted from the fixed source\")\n    expected = protocol[\"corpus\"]\n    machine_path = source_corpus / \"machine/knowledge.sqlite\"\n    legacy_path = source_corpus / \"agent-index.sqlite\"\n    if sha256(machine_path) != expected[\"machine_sqlite_sha256\"]:\n        raise ValueError(\"source machine SQLite digest differs from the frozen protocol\")\n    if sha256(legacy_path) != expected[\"agent_index_sqlite_sha256\"]:\n        raise ValueError(\"source agent-index SQLite digest differs from the frozen protocol\")\n    with _readonly_connection(machine_path) as connection:\n        if connection.execute(\"PRAGMA integrity_check\").fetchone()[0] != \"ok\":\n            raise ValueError(\"source machine SQLite integrity check failed\")\n        meta = dict(connection.execute(\"SELECT key,value FROM meta\").fetchall())\n        required = protocol[\"document_contract\"][\"fields_in_order\"]\n        columns = _schema_columns(connection, \"entities\")\n        if any(name not in columns for name in [\"entity_id\", *required]):\n            raise ValueError(\"source entities schema differs from the document contract\")\n        entity_count = int(\n            connection.execute(\"SELECT count(*) FROM entities WHERE source_path <> ''\").fetchone()[0]\n        )\n    with _readonly_connection(legacy_path) as connection:\n        if connection.execute(\"PRAGMA integrity_check\").fetchone()[0] != \"ok\":\n            raise ValueError(\"source agent-index SQLite integrity check failed\")\n    if meta.get(\"repository_commit\") != expected[\"bound_repository_commit\"]:\n        raise ValueError(\"source repository commit differs from the frozen protocol\")\n    if entity_count != expected[\"entity_rows_with_source_path\"]:\n        raise ValueError(\"source entity count differs from the frozen protocol\")\n    if protocol[\"model\"][\"artifact_revision\"] != json_load(model_manifest).get(\"revision\"):\n        raise ModelUnavailable(\"protocol and model artifact manifest revisions differ\")\n    model = validate_model_artifacts(model_dir, model_manifest)\n    engine = engine_identity(protocol[\"model\"][\"engine_version\"])\n    return {\"protocol\": protocol, \"model\": model, \"engine\": engine, \"entity_count\": entity_count}",
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 c533dd7c5322 中 `prototypes/ckb-semantic-vector-benchmark/benchmark.py` 第 182 至 248 行，摘录属于 Git blob 215255cc9edf。",
-      "meaning_zh": "代码单元 `validate_protocol`负责用固定本地模型比较当前 SQLite、语义向量和混合检索，并测量质量与资源。",
-      "role_zh": "它属于语义向量隔离实验的执行与判定层；实验代码不改变生产检索或稳定页面生成默认行为。",
-      "change_when_zh": "当模型身份、向量文档、排序、测量或资源门变化时，应同步复查本页、固定实验协议及直接测试。"
     }
   ]
 }

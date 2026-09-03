@@ -3,12 +3,12 @@
   "pack_id": "migrated-page-review-pack-0025",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T22:45:20Z",
+  "reviewed_at_utc": "2026-09-03T01:38:41Z",
   "reviews": [
     {
-      "entity_id": "ent-8dbd028169a75a35a35414b7c3351029",
+      "entity_id": "ent-908f66639f145acd85368f1195c3df62",
       "classification": "page",
-      "owner_page_id": "ent-8dbd028169a75a35a35414b7c3351029",
+      "owner_page_id": "ent-908f66639f145acd85368f1195c3df62",
       "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
       "start_line": 888,
       "end_line": 956,
@@ -19,9 +19,9 @@
       "change_when_zh": "当 `create_knowledge_batch_plan` 的输入、输出、状态转换或失败返回变化时，应更新本页并重跑对应测试。"
     },
     {
-      "entity_id": "file-deebe799a7ba5cd180032c1ce5341fe8",
+      "entity_id": "file-d1dc36c135fc568f8d76a58b1ff7525f",
       "classification": "page",
-      "owner_page_id": "file-deebe799a7ba5cd180032c1ce5341fe8",
+      "owner_page_id": "file-d1dc36c135fc568f8d76a58b1ff7525f",
       "source_path": "scripts/ckb_core/knowledge_layers.py",
       "start_line": 1,
       "end_line": 262,
@@ -32,9 +32,9 @@
       "change_when_zh": "当机器事实到 human/markdown 双层投影和镜像审计的输入格式、状态规则、错误处理或输出契约变化时，需要修改该代码单元并复核对应测试。"
     },
     {
-      "entity_id": "ent-d05f41bad92c5d19b0bd596bb540b322",
+      "entity_id": "ent-12788f15fbbe5406a50e2cfa5a18c687",
       "classification": "page",
-      "owner_page_id": "ent-d05f41bad92c5d19b0bd596bb540b322",
+      "owner_page_id": "ent-12788f15fbbe5406a50e2cfa5a18c687",
       "source_path": "scripts/ckb_core/knowledge_layers.py",
       "start_line": 126,
       "end_line": 192,
@@ -45,9 +45,9 @@
       "change_when_zh": "当机器事实到 human/markdown 双层投影和镜像审计的输入格式、状态规则、错误处理或输出契约变化时，需要修改该代码单元并复核对应测试。"
     },
     {
-      "entity_id": "file-b7bd0b6ccd5255819fb9f5158146576e",
+      "entity_id": "file-03ab41c67ac35db48a00d4ea0acdd2ce",
       "classification": "page",
-      "owner_page_id": "file-b7bd0b6ccd5255819fb9f5158146576e",
+      "owner_page_id": "file-03ab41c67ac35db48a00d4ea0acdd2ce",
       "source_path": "scripts/ckb_core/llm_wiki_capabilities.py",
       "start_line": 1,
       "end_line": 478,
@@ -58,9 +58,9 @@
       "change_when_zh": "当能力状态、证据链接、维护检查或紧凑说明格式变化时，应同步复查本页及其直接关联测试。"
     },
     {
-      "entity_id": "ent-48ad5f4c645851a3b417fdd3e4cc032f",
+      "entity_id": "ent-e49fe98113f15c2ca74bc49726e47a82",
       "classification": "page",
-      "owner_page_id": "ent-48ad5f4c645851a3b417fdd3e4cc032f",
+      "owner_page_id": "ent-e49fe98113f15c2ca74bc49726e47a82",
       "source_path": "scripts/ckb_core/llm_wiki_capabilities.py",
       "start_line": 427,
       "end_line": 477,

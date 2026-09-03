@@ -3,12 +3,12 @@
   "pack_id": "migrated-appendix-review-pack-0004",
   "kind": "appendix-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T22:45:25Z",
+  "reviewed_at_utc": "2026-09-03T01:38:45Z",
   "reviews": [
     {
-      "entity_id": "ent-4e140b2b849451c5abcdeabcb9d1bbd9",
+      "entity_id": "ent-2c123806575c51479f514e67ed98b108",
       "classification": "appendix",
-      "owner_page_id": "file-79c27d44cdea5ecbbe6731dd00bc5d72",
+      "owner_page_id": "file-6c9f2bb84b875e11814a85497a1c4f95",
       "source_path": "scripts/ckb_core/agent_protocol.py",
       "start_line": 258,
       "end_line": 305,
@@ -17,9 +17,9 @@
       "description_zh": "投影 `agent_protocol` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-44628ddd6f6b59d49edf572a487d1677",
+      "entity_id": "ent-7c565f43a6c051f5b979ee84f014a3b7",
       "classification": "appendix",
-      "owner_page_id": "file-79c27d44cdea5ecbbe6731dd00bc5d72",
+      "owner_page_id": "file-6c9f2bb84b875e11814a85497a1c4f95",
       "source_path": "scripts/ckb_core/agent_protocol.py",
       "start_line": 308,
       "end_line": 334,
@@ -28,9 +28,9 @@
       "description_zh": "安装 `agent_protocol` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-707be5d333f45d00a7a0460768eda9d9",
+      "entity_id": "ent-7f869813956e5e3e8824b3ddd85e7bd4",
       "classification": "appendix",
-      "owner_page_id": "file-79c27d44cdea5ecbbe6731dd00bc5d72",
+      "owner_page_id": "file-6c9f2bb84b875e11814a85497a1c4f95",
       "source_path": "scripts/ckb_core/agent_protocol.py",
       "start_line": 337,
       "end_line": 339,
@@ -39,9 +39,9 @@
       "description_zh": "处理 `internal` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-e29204e48a3956689c4e0e614f1c06f2",
+      "entity_id": "ent-7c64c7ceddf75857acfc6cf5d7672e0e",
       "classification": "appendix",
-      "owner_page_id": "file-79c27d44cdea5ecbbe6731dd00bc5d72",
+      "owner_page_id": "file-6c9f2bb84b875e11814a85497a1c4f95",
       "source_path": "scripts/ckb_core/agent_protocol.py",
       "start_line": 342,
       "end_line": 417,
@@ -50,9 +50,9 @@
       "description_zh": "审计 `note_storage` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-b6a000d8e47252939dd6712d5389e8f7",
+      "entity_id": "ent-20127cdbc57f59c2b350f4b3447c2fec",
       "classification": "appendix",
-      "owner_page_id": "file-79c27d44cdea5ecbbe6731dd00bc5d72",
+      "owner_page_id": "file-6c9f2bb84b875e11814a85497a1c4f95",
       "source_path": "scripts/ckb_core/agent_protocol.py",
       "start_line": 499,
       "end_line": 506,
@@ -61,9 +61,9 @@
       "description_zh": "汇总 `agent_protocol_status` 状态与计数。"
     },
     {
-      "entity_id": "ent-7a4b2b346d8c574793fce0d50999c533",
+      "entity_id": "ent-37f1ccdebd915409bd40854c7ed951d0",
       "classification": "appendix",
-      "owner_page_id": "file-3167febfd9395d1e9217b7f2b6ed20d2",
+      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 68,
       "end_line": 73,
@@ -72,9 +72,9 @@
       "description_zh": "`ProtocolRelease` 是第 68-73 行的类，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-4c0f2ab8079c5972a83f71cff4253a6e",
+      "entity_id": "ent-53f0299272e55c94b39d102fd339c1e1",
       "classification": "appendix",
-      "owner_page_id": "file-3167febfd9395d1e9217b7f2b6ed20d2",
+      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 112,
       "end_line": 126,
@@ -83,9 +83,9 @@
       "description_zh": "`supported_upgrade_path` 是第 112-126 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-84388afd6614570da8006bc187435a79",
+      "entity_id": "ent-c9a6fbabc0b55d809325a9bf188d4d30",
       "classification": "appendix",
-      "owner_page_id": "file-3167febfd9395d1e9217b7f2b6ed20d2",
+      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 129,
       "end_line": 143,
@@ -94,9 +94,9 @@
       "description_zh": "`version_matrix` 是第 129-143 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-009d0dd369a4568895b0dd41b04c4110",
+      "entity_id": "ent-c2eaf91ec52e5492b390112704794e71",
       "classification": "appendix",
-      "owner_page_id": "file-3167febfd9395d1e9217b7f2b6ed20d2",
+      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 146,
       "end_line": 149,
@@ -105,9 +105,9 @@
       "description_zh": "`reject_unknown_fields` 是第 146-149 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-df2c576fbd115a5cb6a7fc90c59a3d69",
+      "entity_id": "ent-809c81893cf553bfa96d2264113d65ea",
       "classification": "appendix",
-      "owner_page_id": "file-3167febfd9395d1e9217b7f2b6ed20d2",
+      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 152,
       "end_line": 158,
@@ -116,9 +116,9 @@
       "description_zh": "`require_absolute_path` 是第 152-158 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-208479e6df835b6cb8df8a065cfc8219",
+      "entity_id": "ent-1e58922d21f758c189b2962728bf2f82",
       "classification": "appendix",
-      "owner_page_id": "file-3167febfd9395d1e9217b7f2b6ed20d2",
+      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 161,
       "end_line": 164,
@@ -127,9 +127,9 @@
       "description_zh": "`BatchProjectError` 是第 161-164 行的类，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-66edeeedcada5642a48ed9cc9eff44a0",
+      "entity_id": "ent-9d4cb21e954b59d5906110e8aa753b87",
       "classification": "appendix",
-      "owner_page_id": "file-3167febfd9395d1e9217b7f2b6ed20d2",
+      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 162,
       "end_line": 164,
@@ -138,9 +138,9 @@
       "description_zh": "`BatchProjectError.__i...` 是第 162-164 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-bea5dfec4f62565ba38ecc5e5d8c58b1",
+      "entity_id": "ent-057d8ee9448b5504987008931d4ee634",
       "classification": "appendix",
-      "owner_page_id": "file-3167febfd9395d1e9217b7f2b6ed20d2",
+      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 167,
       "end_line": 170,
@@ -149,9 +149,9 @@
       "description_zh": "`_canonical_bytes` 是第 167-170 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-aab971b7f15452458d65580ac565e621",
+      "entity_id": "ent-565f627327b651bda6a6896df73a1ff1",
       "classification": "appendix",
-      "owner_page_id": "file-3167febfd9395d1e9217b7f2b6ed20d2",
+      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 173,
       "end_line": 174,
@@ -160,9 +160,9 @@
       "description_zh": "`_digest_value` 是第 173-174 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-48abf09a4def5e599d45c330896c521a",
+      "entity_id": "ent-7e9666d709445108b4c1cdd80938b5fa",
       "classification": "appendix",
-      "owner_page_id": "file-3167febfd9395d1e9217b7f2b6ed20d2",
+      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 177,
       "end_line": 178,
@@ -171,9 +171,9 @@
       "description_zh": "`_sha256_bytes` 是第 177-178 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-e63fbdb41926529795243939ba56788c",
+      "entity_id": "ent-282c301f072a5822986dd788a4a5f6fc",
       "classification": "appendix",
-      "owner_page_id": "file-3167febfd9395d1e9217b7f2b6ed20d2",
+      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 181,
       "end_line": 182,
@@ -182,9 +182,9 @@
       "description_zh": "`_single_quote` 是第 181-182 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-80ea4e1230ac57bb82cfac28b8912468",
+      "entity_id": "ent-62f432e7c2bb57438139fece496c20c9",
       "classification": "appendix",
-      "owner_page_id": "file-3167febfd9395d1e9217b7f2b6ed20d2",
+      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 185,
       "end_line": 224,
@@ -193,9 +193,9 @@
       "description_zh": "`command_examples_for_...` 是第 185-224 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-789d308f44eb5f7baccee3fa71e6b4a4",
+      "entity_id": "ent-611be53baa0550b78389c6b5e4907508",
       "classification": "appendix",
-      "owner_page_id": "file-3167febfd9395d1e9217b7f2b6ed20d2",
+      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 227,
       "end_line": 378,
@@ -204,9 +204,9 @@
       "description_zh": "`protocol_text_for_ver...` 是第 227-378 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-33c080565c315960a4b69524d5fbf040",
+      "entity_id": "ent-17c534fca0eb571ba80630fc4ea5a5b2",
       "classification": "appendix",
-      "owner_page_id": "file-3167febfd9395d1e9217b7f2b6ed20d2",
+      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 381,
       "end_line": 382,
@@ -215,9 +215,9 @@
       "description_zh": "`adapter_texts_for_ver...` 是第 381-382 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-e8d321439b4b53bc8c1ebd47b12de086",
+      "entity_id": "ent-db88cceff41e5b9ca3cf972e49e83c77",
       "classification": "appendix",
-      "owner_page_id": "file-3167febfd9395d1e9217b7f2b6ed20d2",
+      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 385,
       "end_line": 391,
@@ -226,9 +226,9 @@
       "description_zh": "`_record_roots` 是第 385-391 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-102f3172c9955b16bcb304bdfd7ab007",
+      "entity_id": "ent-cdbc82c644d1508b8064eefa991d79e8",
       "classification": "appendix",
-      "owner_page_id": "file-3167febfd9395d1e9217b7f2b6ed20d2",
+      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 394,
       "end_line": 419,
@@ -237,9 +237,9 @@
       "description_zh": "`_tracked_paths` 是第 394-419 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-51d862b9b23c5e16a9809825b6440735",
+      "entity_id": "ent-9361bc9008c85d1c9d45c550d410a678",
       "classification": "appendix",
-      "owner_page_id": "file-3167febfd9395d1e9217b7f2b6ed20d2",
+      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 422,
       "end_line": 435,
@@ -248,9 +248,9 @@
       "description_zh": "`snapshot_files` 是第 422-435 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-8f5f42f76d3b5b988713205df20293cf",
+      "entity_id": "ent-c68380693b1250d1b9ee9a535961a5c1",
       "classification": "appendix",
-      "owner_page_id": "file-3167febfd9395d1e9217b7f2b6ed20d2",
+      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 438,
       "end_line": 439,
@@ -259,9 +259,9 @@
       "description_zh": "`snapshot_digest` 是第 438-439 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-e73e6bd6e8295344b635d439ca04d83b",
+      "entity_id": "ent-40306178889f5730b4525d7ae2aa163f",
       "classification": "appendix",
-      "owner_page_id": "file-3167febfd9395d1e9217b7f2b6ed20d2",
+      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 442,
       "end_line": 447,
@@ -270,9 +270,9 @@
       "description_zh": "`_normalized_managed_b...` 是第 442-447 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-6510e68785d15568b21e253f074979c0",
+      "entity_id": "ent-052bd1f32e48544985e82b16c2796d78",
       "classification": "appendix",
-      "owner_page_id": "file-3167febfd9395d1e9217b7f2b6ed20d2",
+      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 450,
       "end_line": 465,
@@ -281,9 +281,9 @@
       "description_zh": "`_validate_workspace_m...` 是第 450-465 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-293fca17db765e7f89b6ecc8a71e99ab",
+      "entity_id": "ent-36a81fce471859cd89cc036d995c4a3c",
       "classification": "appendix",
-      "owner_page_id": "file-3167febfd9395d1e9217b7f2b6ed20d2",
+      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 468,
       "end_line": 482,
@@ -292,9 +292,9 @@
       "description_zh": "`_validate_internal_ad...` 是第 468-482 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-66615d404b4156c7a090d9300770d12a",
+      "entity_id": "ent-34d3407d36dd5641b6caff80639dde3a",
       "classification": "appendix",
-      "owner_page_id": "file-3167febfd9395d1e9217b7f2b6ed20d2",
+      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 485,
       "end_line": 486,
@@ -303,9 +303,9 @@
       "description_zh": "`_within_any` 是第 485-486 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-5917576585c158148874712e4fd610c7",
+      "entity_id": "ent-5cd8bce9794b53049244c057b7e56238",
       "classification": "appendix",
-      "owner_page_id": "file-3167febfd9395d1e9217b7f2b6ed20d2",
+      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 489,
       "end_line": 527,
@@ -314,9 +314,9 @@
       "description_zh": "`_validate_structural_...` 是第 489-527 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-a7ff5278f4585a02afc806ee71edf198",
+      "entity_id": "ent-0edd587cf00853898502ab5e69343a07",
       "classification": "appendix",
-      "owner_page_id": "file-3167febfd9395d1e9217b7f2b6ed20d2",
+      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 530,
       "end_line": 538,
@@ -325,9 +325,9 @@
       "description_zh": "`load_batch_manifest` 是第 530-538 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-7cdb9d151a185304b60217ecd81405a0",
+      "entity_id": "ent-580dd49ef0d256bfb957211c3522c515",
       "classification": "appendix",
-      "owner_page_id": "file-3167febfd9395d1e9217b7f2b6ed20d2",
+      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 541,
       "end_line": 654,
@@ -336,9 +336,9 @@
       "description_zh": "`_inspect_project` 是第 541-654 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-ab73b18434b85913ae07ee4c399184fe",
+      "entity_id": "ent-52989c8f0c855957b8252c73918631cb",
       "classification": "appendix",
-      "owner_page_id": "file-3167febfd9395d1e9217b7f2b6ed20d2",
+      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 717,
       "end_line": 732,
@@ -347,9 +347,9 @@
       "description_zh": "`_load_batch_plan` 是第 717-732 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-edf77dcbce615d728bd9e1fc1f789dd3",
+      "entity_id": "ent-4761f3146f4e5f4ea03121b077aa9f34",
       "classification": "appendix",
-      "owner_page_id": "file-3167febfd9395d1e9217b7f2b6ed20d2",
+      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 735,
       "end_line": 736,
@@ -358,9 +358,9 @@
       "description_zh": "`_json_bytes` 是第 735-736 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-5e7038ceb75153ba969bce3b83629eeb",
+      "entity_id": "ent-d006986f6e475d7ea1a4ffddf28b1fdf",
       "classification": "appendix",
-      "owner_page_id": "file-3167febfd9395d1e9217b7f2b6ed20d2",
+      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 739,
       "end_line": 759,
@@ -369,9 +369,9 @@
       "description_zh": "`_replace_workspace_bl...` 是第 739-759 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-28b5452e710f564c8f82997352b242e1",
+      "entity_id": "ent-f9f8aaabe0a25dada10ad0ecd703bc9c",
       "classification": "appendix",
-      "owner_page_id": "file-3167febfd9395d1e9217b7f2b6ed20d2",
+      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 762,
       "end_line": 811,
@@ -380,9 +380,9 @@
       "description_zh": "`_target_record` 是第 762-811 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-02e216e70075518db7f9258bc08068a1",
+      "entity_id": "ent-b40bcd30fa5758aea6680284c422c85f",
       "classification": "appendix",
-      "owner_page_id": "file-3167febfd9395d1e9217b7f2b6ed20d2",
+      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 814,
       "end_line": 863,
@@ -391,9 +391,9 @@
       "description_zh": "`_desired_project_files` 是第 814-863 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-a5cd5187ed44520d8e6de842f4467d3c",
+      "entity_id": "ent-317ec854a27d56d3ac44e54df581085d",
       "classification": "appendix",
-      "owner_page_id": "file-3167febfd9395d1e9217b7f2b6ed20d2",
+      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 866,
       "end_line": 873,

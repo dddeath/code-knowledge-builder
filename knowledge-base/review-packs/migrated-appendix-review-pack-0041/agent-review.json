@@ -3,12 +3,23 @@
   "pack_id": "migrated-appendix-review-pack-0041",
   "kind": "appendix-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T22:46:49Z",
+  "reviewed_at_utc": "2026-09-03T01:40:05Z",
   "reviews": [
     {
-      "entity_id": "ent-7270b306f8c751b88dc2b89c135e92fb",
+      "entity_id": "ent-2cee0b8140535809beb8fa28cc73cede",
       "classification": "appendix",
-      "owner_page_id": "ent-0289d68e396f5ee58549f2e43a3ca385",
+      "owner_page_id": "ent-604cf4be8f9f59ac8a63fd7614b95138",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 1103,
+      "end_line": 1143,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_ckb.py` 第 1103 至 1143 行；摘录与 Git blob ee9f78028022 一致。",
+      "description_zh": "该测试验证“work record index covers ever…”场景，保护CKB 核心合同回归验证的预期结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-4dfa16bcb78f5b8180608e508e3c4ad3",
+      "classification": "appendix",
+      "owner_page_id": "ent-604cf4be8f9f59ac8a63fd7614b95138",
       "source_path": "tests/test_ckb.py",
       "start_line": 1145,
       "end_line": 1689,
@@ -17,9 +28,9 @@
       "description_zh": "该测试验证“markdown whole repository and…”场景，保护CKB 核心合同回归验证的预期结果与失败边界。"
     },
     {
-      "entity_id": "ent-a43402084ea45823a2c45f2a67ae7154",
+      "entity_id": "ent-1690bf60faa955bfb5e7ada95a544f39",
       "classification": "appendix",
-      "owner_page_id": "ent-0289d68e396f5ee58549f2e43a3ca385",
+      "owner_page_id": "ent-604cf4be8f9f59ac8a63fd7614b95138",
       "source_path": "tests/test_ckb.py",
       "start_line": 1691,
       "end_line": 1707,
@@ -28,9 +39,9 @@
       "description_zh": "该测试验证“local scope has one hop bound…”场景，保护CKB 核心合同回归验证的预期结果与失败边界。"
     },
     {
-      "entity_id": "ent-897673c32bba57bc86a3c20a880ee048",
+      "entity_id": "ent-58bcb2aa388051b8bb5f6e0dbd98ff04",
       "classification": "appendix",
-      "owner_page_id": "ent-0289d68e396f5ee58549f2e43a3ca385",
+      "owner_page_id": "ent-604cf4be8f9f59ac8a63fd7614b95138",
       "source_path": "tests/test_ckb.py",
       "start_line": 1709,
       "end_line": 1768,
@@ -39,9 +50,9 @@
       "description_zh": "该测试验证“entry scope uses fixed snapsh…”场景，保护CKB 核心合同回归验证的预期结果与失败边界。"
     },
     {
-      "entity_id": "ent-5bd93b13d367524fb47f3149760e34d3",
+      "entity_id": "ent-121df702afb55f578e263c1880d3532b",
       "classification": "appendix",
-      "owner_page_id": "ent-0289d68e396f5ee58549f2e43a3ca385",
+      "owner_page_id": "ent-604cf4be8f9f59ac8a63fd7614b95138",
       "source_path": "tests/test_ckb.py",
       "start_line": 1770,
       "end_line": 1782,
@@ -50,9 +61,9 @@
       "description_zh": "该测试验证“review set mismatch fails”场景，保护CKB 核心合同回归验证的预期结果与失败边界。"
     },
     {
-      "entity_id": "ent-9943b3550c5f5de6b74d554539fd022b",
+      "entity_id": "ent-0aede367fb135ad49aac58375d5473ed",
       "classification": "appendix",
-      "owner_page_id": "ent-0289d68e396f5ee58549f2e43a3ca385",
+      "owner_page_id": "ent-604cf4be8f9f59ac8a63fd7614b95138",
       "source_path": "tests/test_ckb.py",
       "start_line": 1784,
       "end_line": 1794,

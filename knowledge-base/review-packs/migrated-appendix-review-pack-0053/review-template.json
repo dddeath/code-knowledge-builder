@@ -6,48 +6,9 @@
   "reviewed_at_utc": null,
   "reviews": [
     {
-      "entity_id": "ent-d364afce1be757e59a5ef186e3fa6f17",
+      "entity_id": "ent-60ff63d0340058d58adae5771964cacc",
       "classification": "appendix",
-      "owner_page_id": "ent-2526f216650e53cabfa44f49aa9d2779",
-      "source_path": "tests/test_migration.py",
-      "start_line": 86,
-      "end_line": 190,
-      "source_blob": "50ccee44e7039e5dfbcade479814e6a833698901",
-      "source_excerpt": "def test_exact_blob_facts_and_agent_reviews_are_reused(self) -> None:\n        initialize(self.repo, self.old, \"markdown\", [], [], 1, \"both\", [])\n        review_all(self.old)\n        finalize(self.old)\n        old_state_path = self.old / \"state.json\"\n        old_state = json.loads(old_state_path.read_text(encoding=\"utf-8\"))\n        old_state[\"version\"] = \"5.0.0\"\n        old_state_path.write_text(json.dumps(old_state, ensure_ascii=False, indent=2) + \"\\n\", encoding=\"utf-8\")\n        old_graph = json.loads((self.old / \"graph.json\").read_text(encoding=\"utf-8\"))\n        old_projection = json.loads((self.old / \"markdown/projection.json\").read_text(encoding=\"utf-8\"))\n        old_entity_by_id = {item[\"id\"]: item for item in old_graph[\"entities\"]}\n        old_app_title = next(\n            page[\"title\"]\n            for page in old_projection[\"pages\"]\n            if old_entity_by_id[page[\"id\"]][\"kind\"] == \"file\" and old_entity_by_id[page[\"id\"]][\"path\"] == \"app.py\"\n        )\n        for vault in (\"human\", \"markdown\"):\n            user_page = self.old / vault / \"user\" / \"人工保留页.md\"\n            user_page.parent.mkdir(parents=True, exist_ok=True)\n            user_page.write_text(f\"# 人工保留页\\n\\n这是一份迁移期间必须保留的中文用户笔记，原链接为 [[{old_app_title}]]。\\n\", encoding=\"utf-8\")\n\n        (self.repo / \"app.py\").write_text(\n            \"from helper import double\\n\\ndef calculate_v2(value):\\n    return double(value) + 1\\n\",\n            encoding=\"utf-8\",\n        )\n        (self.repo / \"automation.py\").write_text(\"def capture(event):\\n    return event.get('type')\\n\", encoding=\"utf-8\")\n        git(self.repo, \"add\", \".\")\n        git(self.repo, \"commit\", \"-m\", \"version 5.1 fixture\")\n\n        result = migrate_output(self.old, self.repo, self.new)\n        self.assertEqual(result[\"status\"], \"pending-agent-review\")\n        plan = json.loads((self.new / \"migration/plan.json\").read_text(encoding=\"utf-8\"))\n        self.assertIn(\"helper.py\", plan[\"files\"][\"reused\"])\n        self.assertGreater(plan[\"entities\"][\"reused_review_count\"], 0)\n        self.assertGreater(plan[\"entities\"][\"delta_review_count\"], 0)\n        catalog = json.loads((self.new / \"catalog.json\").read_text(encoding=\"utf-8\"))\n        helper = next(item for item in catalog[\"files\"] if item[\"file\"][\"path\"] == \"helper.py\")\n        self.assertEqual(helper[\"migration_reuse\"][\"basis\"], \"exact-path-language-blob-and-passed-parse\")\n        self.assertTrue((self.new / \"human/user/人工保留页.md\").is_file())\n\n        review_all(self.new)\n        complete = finalize(self.new)\n        self.assertEqual(complete[\"status\"], \"complete\")\n        relocated = self.root / \"promoted-output\"\n        self.new.rename(relocated)\n        self.new = relocated\n        promoted = finalize(self.new)\n        self.assertEqual(promoted[\"status\"], \"complete\")\n        promoted_state = json.loads((self.new / \"state.json\").read_text(encoding=\"utf-8\"))\n        self.assertEqual(\n            Path(promoted_state[\"source_snapshot\"][\"root\"]).resolve(),\n            (self.new / \".source-snapshot/worktree\").resolve(),\n        )\n        relocation = json.loads((self.new / \"audit/output-relocation.json\").read_text(encoding=\"utf-8\"))\n        self.assertEqual(relocation[\"status\"], \"passed\")\n        self.assertTrue(relocation[\"rewritten_json_files\"])\n        migration_audit = audit_migration(self.new)\n        self.assertEqual(migration_audit[\"status\"], \"passed\")\n        self.assertEqual(migration_status(self.new)[\"status\"], \"complete\")\n        finalized_plan = json.loads((self.new / \"migration/plan.json\").read_text(encoding=\"utf-8\"))\n        finalized_state = json.loads((self.new / \"state.json\").read_text(encoding=\"utf-8\"))\n        self.assertEqual(finalized_plan[\"status\"], \"passed\")\n        self.assertEqual(finalized_state[\"migration\"][\"status\"], \"passed\")\n        self.assertTrue(finalized_plan[\"mutable_files\"])\n        for mutable in finalized_plan[\"mutable_files\"]:\n            baseline = self.new / mutable[\"baseline_relative_target\"]\n            self.assertTrue(baseline.is_file())\n\n        # Hook ingestion and Agent edits legitimately mutate the live layer.\n        # The immutable migration baseline must remain the proof of preserved\n        # input while the live note/database only needs to stay readable.\n        migrated_human_note = self.new / \"human/user/人工保留页.md\"\n        migrated_human_note.write_text(\n            migrated_human_note.read_text(encoding=\"utf-8\") + \"\\n后续 Hook 已追加一条会话说明。\\n\",\n            encoding=\"utf-8\",\n        )\n        automation_database = self.new / \"machine/automation.sqlite\"\n        connection = sqlite3.connect(automation_database)\n        try:\n            connection.execute(\"PRAGMA application_id = 1129001521\")\n            connection.commit()\n        finally:\n            connection.close()\n        post_hook_audit = audit_migration(self.new)\n        self.assertEqual(post_hook_audit[\"status\"], \"passed\")\n        self.assertEqual(migration_status(self.new)[\"status\"], \"complete\")\n\n        first_baseline = self.new / finalized_plan[\"mutable_files\"][0][\"baseline_relative_target\"]\n        baseline_bytes = first_baseline.read_bytes()\n        first_baseline.write_bytes(b\"changed\")\n        self.assertEqual(audit_migration(self.new)[\"status\"], \"failed\")\n        first_baseline.write_bytes(baseline_bytes)\n        self.assertEqual(audit_migration(self.new)[\"status\"], \"passed\")\n        new_graph = json.loads((self.new / \"graph.json\").read_text(encoding=\"utf-8\"))\n        new_projection = json.loads((self.new / \"markdown/projection.json\").read_text(encoding=\"utf-8\"))\n        new_entity_by_id = {item[\"id\"]: item for item in new_graph[\"entities\"]}\n        new_app_title = next(\n            page[\"title\"]\n            for page in new_projection[\"pages\"]\n            if new_entity_by_id[page[\"id\"]][\"kind\"] == \"file\" and new_entity_by_id[page[\"id\"]][\"path\"] == \"app.py\"\n        )\n        migrated_note = (self.new / \"human/user/人工保留页.md\").read_text(encoding=\"utf-8\")\n        self.assertNotEqual(old_app_title, new_app_title)\n        self.assertIn(f\"[[{new_app_title}]]\", migrated_note)\n        self.assertNotIn(f\"[[{old_app_title}]]\", migrated_note)",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-631e6908e7475eed8f65e5613fbbf030",
-      "classification": "appendix",
-      "owner_page_id": "ent-2526f216650e53cabfa44f49aa9d2779",
-      "source_path": "tests/test_migration.py",
-      "start_line": 192,
-      "end_line": 245,
-      "source_blob": "50ccee44e7039e5dfbcade479814e6a833698901",
-      "source_excerpt": "def test_exact_blob_local_syntax_warning_reuse_rekeys_every_reference(self) -> None:\n        warning_source = (\n            \"int before(int value) { return value + 1; }\\n\\n\"\n            \"int conditional_value(int value) {\\n\"\n            \"  if (value > 0 {\\n\"\n            \"    return value;\\n\"\n            \"  }\\n\"\n            \"  return 0;\\n\"\n            \"}\\n\\n\"\n            \"int after(int value) { return value - 1; }\\n\"\n        )\n        (self.repo / \"warning.cpp\").write_text(warning_source, encoding=\"utf-8\", newline=\"\\n\")\n        git(self.repo, \"add\", \".\")\n        git(self.repo, \"commit\", \"-m\", \"add local syntax warning fixture\")\n        initialize(self.repo, self.old, \"markdown\", [], [], 1, \"both\", [])\n        review_all(self.old)\n        finalize(self.old)\n        old_catalog = json.loads((self.old / \"catalog.json\").read_text(encoding=\"utf-8\"))\n        old_file = next(item for item in old_catalog[\"files\"] if item[\"file\"][\"path\"] == \"warning.cpp\")\n        old_warning = old_file[\"parse\"][\"warnings\"][0]\n        old_entity_ids = {item[\"id\"] for item in old_file[\"entities\"]}\n        self.assertTrue(set(old_warning[\"affected_entity_ids\"]) <= old_entity_ids)\n\n        (self.repo / \"app.py\").write_text(\n            \"from helper import double\\n\\ndef calculate_v2(value):\\n    return double(value) + 1\\n\",\n            encoding=\"utf-8\",\n            newline=\"\\n\",\n        )\n        git(self.repo, \"add\", \".\")\n        git(self.repo, \"commit\", \"-m\", \"advance commit without changing warning blob\")\n        result = migrate_output(self.old, self.repo, self.new)\n        self.assertEqual(result[\"status\"], \"pending-agent-review\")\n        new_catalog = json.loads((self.new / \"catalog.json\").read_text(encoding=\"utf-8\"))\n        new_file = next(item for item in new_catalog[\"files\"] if item[\"file\"][\"path\"] == \"warning.cpp\")\n        self.assertEqual(new_file[\"migration_reuse\"][\"rekeyed_syntax_warning_count\"], 1)\n        new_warning = new_file[\"parse\"][\"warnings\"][0]\n        new_entity_ids = {item[\"id\"] for item in new_file[\"entities\"]}\n        self.assertNotEqual(new_warning[\"id\"], old_warning[\"id\"])\n        self.assertTrue(set(new_warning[\"affected_entity_ids\"]) <= new_entity_ids)\n        self.assertFalse(set(new_warning[\"affected_entity_ids\"]) & old_entity_ids)\n        affected = next(item for item in new_file[\"entities\"] if item[\"qualified_name\"] == \"conditional_value\")\n        self.assertEqual(affected[\"syntax_warning_ids\"], [new_warning[\"id\"]])\n        self.assertEqual((affected[\"source_completeness\"], affected[\"source_confidence\"]), (\"incomplete\", \"low\"))\n        self.assertFalse(affected[\"absence_inference_allowed\"])\n\n        review_all(self.new)\n        finalized = finalize(self.new)\n        self.assertEqual(finalized[\"status\"], \"complete\")\n        retrieval = retrieve_machine(self.new, \"conditional_value\", 1200, 8, \"fast\")\n        selected = next(item for item in retrieval[\"selected_entities\"] if item[\"qualified_name\"] == \"conditional_value\")\n        self.assertEqual((selected[\"source_completeness\"], selected[\"source_confidence\"]), (\"incomplete\", \"low\"))\n        self.assertFalse(selected[\"absence_inference_allowed\"])\n        indexed_warning = retrieval[\"warnings\"][\"examples\"][0]\n        self.assertEqual(indexed_warning[\"affected_entity_count\"], len(new_warning[\"affected_entity_ids\"]))",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-587ae6df5b285f85a7d9b7566453da74",
-      "classification": "appendix",
-      "owner_page_id": "ent-39360bed4b1c53a780a6a57b48d9365d",
-      "source_path": "tests/test_package_release.py",
-      "start_line": 31,
-      "end_line": 37,
-      "source_blob": "f69eaadade86287946b0a4235aa11af3a4146eeb",
-      "source_excerpt": "def test_core_packages_exclude_plugins_and_full_only_adds_runtime(self) -> None:\n        lite = {path.relative_to(ROOT).as_posix() for path in PACKAGE_RELEASE.source_files(False)}\n        full = {path.relative_to(ROOT).as_posix() for path in PACKAGE_RELEASE.source_files(True)}\n        self.assertTrue(set(PACKAGE_RELEASE.CORE_REQUIRED_FILES) <= lite)\n        self.assertFalse(any(path == \"plugins\" or path.startswith(\"plugins/\") for path in lite | full))\n        self.assertLess(lite, full)\n        self.assertTrue(all(path.startswith(\"assets/runtime/win-x64/\") for path in full - lite))",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-2bbdebb5c655513f9c30366cdf9ed351",
-      "classification": "appendix",
-      "owner_page_id": "ent-39360bed4b1c53a780a6a57b48d9365d",
+      "owner_page_id": "ent-c36d668355cc59d3b2115795b9334bad",
       "source_path": "tests/test_package_release.py",
       "start_line": 39,
       "end_line": 67,
@@ -58,9 +19,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-537f4f7741d05cef977bcba2530bbb5e",
+      "entity_id": "ent-8b70e4da3bf7519d940c12f8c98256e8",
       "classification": "appendix",
-      "owner_page_id": "ent-39360bed4b1c53a780a6a57b48d9365d",
+      "owner_page_id": "ent-c36d668355cc59d3b2115795b9334bad",
       "source_path": "tests/test_package_release.py",
       "start_line": 69,
       "end_line": 104,
@@ -71,9 +32,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-2208b8e165b55a009d94ab8e14d463cd",
+      "entity_id": "ent-d183a8d5386154a2ad93a591396e9b64",
       "classification": "appendix",
-      "owner_page_id": "ent-39360bed4b1c53a780a6a57b48d9365d",
+      "owner_page_id": "ent-c36d668355cc59d3b2115795b9334bad",
       "source_path": "tests/test_package_release.py",
       "start_line": 106,
       "end_line": 116,
@@ -84,9 +45,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-060a6e610f4257a0be853427454290ea",
+      "entity_id": "ent-f263140682be5844b858e7a3e3903eba",
       "classification": "appendix",
-      "owner_page_id": "ent-fa497922c99c5677befa2d3701ce5d20",
+      "owner_page_id": "ent-0c4ad3e824bb5676ad31261fe88d5173",
       "source_path": "tests/test_query_terms.py",
       "start_line": 26,
       "end_line": 34,
@@ -97,9 +58,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-2a1339d64ed35e19ad96ad1139983bf3",
+      "entity_id": "ent-2ff355dd0aad5fc3affbf47ae1cbb8dd",
       "classification": "appendix",
-      "owner_page_id": "ent-fa497922c99c5677befa2d3701ce5d20",
+      "owner_page_id": "ent-0c4ad3e824bb5676ad31261fe88d5173",
       "source_path": "tests/test_query_terms.py",
       "start_line": 36,
       "end_line": 40,
@@ -110,9 +71,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-24b2d1d0211b56e89246ecec1c2a3b36",
+      "entity_id": "ent-b6e97c322d3a5ec4b4a3cb1e1babdd4b",
       "classification": "appendix",
-      "owner_page_id": "ent-fa497922c99c5677befa2d3701ce5d20",
+      "owner_page_id": "ent-0c4ad3e824bb5676ad31261fe88d5173",
       "source_path": "tests/test_query_terms.py",
       "start_line": 42,
       "end_line": 47,
@@ -123,9 +84,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-75a382e218fd5cd09413c1c768d83108",
+      "entity_id": "ent-93f8689eb1bb52f48e609f825ac4f039",
       "classification": "appendix",
-      "owner_page_id": "ent-fa497922c99c5677befa2d3701ce5d20",
+      "owner_page_id": "ent-0c4ad3e824bb5676ad31261fe88d5173",
       "source_path": "tests/test_query_terms.py",
       "start_line": 49,
       "end_line": 57,
@@ -136,9 +97,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-364c3bfde6745b86a2eb8c069e5befc8",
+      "entity_id": "ent-92a127379c20556dab5ff0ae149fc819",
       "classification": "appendix",
-      "owner_page_id": "ent-fa497922c99c5677befa2d3701ce5d20",
+      "owner_page_id": "ent-0c4ad3e824bb5676ad31261fe88d5173",
       "source_path": "tests/test_query_terms.py",
       "start_line": 59,
       "end_line": 63,
@@ -149,9 +110,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-2e4c8c578e325fd9adcf870337df90ae",
+      "entity_id": "ent-ea0528eac47952d499a6e41f59945308",
       "classification": "appendix",
-      "owner_page_id": "ent-fa497922c99c5677befa2d3701ce5d20",
+      "owner_page_id": "ent-0c4ad3e824bb5676ad31261fe88d5173",
       "source_path": "tests/test_query_terms.py",
       "start_line": 65,
       "end_line": 72,
@@ -162,9 +123,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-5f1532085ffb52cdbc6f46e37aa6dc46",
+      "entity_id": "ent-5fe1857183d450abae7a5501c37ee76f",
       "classification": "appendix",
-      "owner_page_id": "ent-fa497922c99c5677befa2d3701ce5d20",
+      "owner_page_id": "ent-0c4ad3e824bb5676ad31261fe88d5173",
       "source_path": "tests/test_query_terms.py",
       "start_line": 74,
       "end_line": 81,
@@ -175,9 +136,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-bad05e0f7ba85903aacd7b67ee537a05",
+      "entity_id": "ent-3335205e8f695ddd93f6c797be5a23b1",
       "classification": "appendix",
-      "owner_page_id": "ent-fa497922c99c5677befa2d3701ce5d20",
+      "owner_page_id": "ent-0c4ad3e824bb5676ad31261fe88d5173",
       "source_path": "tests/test_query_terms.py",
       "start_line": 83,
       "end_line": 86,
@@ -188,9 +149,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-253be7fb0b2c564c90cc9bcef2a88eb3",
+      "entity_id": "ent-4a377ecfd3225e50a25ed85fc949a40e",
       "classification": "appendix",
-      "owner_page_id": "ent-fa497922c99c5677befa2d3701ce5d20",
+      "owner_page_id": "ent-0c4ad3e824bb5676ad31261fe88d5173",
       "source_path": "tests/test_query_terms.py",
       "start_line": 88,
       "end_line": 89,
@@ -201,9 +162,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-c58a719cb2f45beb930090ec47c446f3",
+      "entity_id": "ent-35717ae65f6d5ed7bec503df239605f8",
       "classification": "appendix",
-      "owner_page_id": "ent-fa497922c99c5677befa2d3701ce5d20",
+      "owner_page_id": "ent-0c4ad3e824bb5676ad31261fe88d5173",
       "source_path": "tests/test_query_terms.py",
       "start_line": 91,
       "end_line": 94,
@@ -214,9 +175,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-299bf618f4445c22bf3c3945103ac826",
+      "entity_id": "ent-21f7002a9cf95fbcadf169fa34788121",
       "classification": "appendix",
-      "owner_page_id": "ent-fa497922c99c5677befa2d3701ce5d20",
+      "owner_page_id": "ent-0c4ad3e824bb5676ad31261fe88d5173",
       "source_path": "tests/test_query_terms.py",
       "start_line": 96,
       "end_line": 101,
@@ -227,9 +188,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-a850710f150e53c28a5cdd83d87d6218",
+      "entity_id": "ent-eaa0afab980a527183a632bb3281c49a",
       "classification": "appendix",
-      "owner_page_id": "ent-fa497922c99c5677befa2d3701ce5d20",
+      "owner_page_id": "ent-0c4ad3e824bb5676ad31261fe88d5173",
       "source_path": "tests/test_query_terms.py",
       "start_line": 103,
       "end_line": 107,
@@ -240,9 +201,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-9cce5e8f5f015117ab0e9b9f8592569f",
+      "entity_id": "ent-25dfbb5112ff543382325fc5e1740454",
       "classification": "appendix",
-      "owner_page_id": "file-7a2ecf3a4caf5aee84e9db6fc95ab522",
+      "owner_page_id": "file-79bdd9c431f254d4933d540d36ab5dae",
       "source_path": "tests/test_readme_human_entry.py",
       "start_line": 14,
       "end_line": 17,
@@ -253,9 +214,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-d04497d0b74b5b17a5d1f8b45bdc3c03",
+      "entity_id": "ent-3ea7696862cc5b94990fa82da2bf8abc",
       "classification": "appendix",
-      "owner_page_id": "ent-14a37d024db559ef96aa2958131ad1d2",
+      "owner_page_id": "ent-75284c7823a8539e97eaf547b458fda3",
       "source_path": "tests/test_readme_human_entry.py",
       "start_line": 22,
       "end_line": 24,
@@ -266,9 +227,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-e234e9bbf6db582a844fe3849e3cedcc",
+      "entity_id": "ent-3879c7d328bb5f068e05fcb465d7e0ec",
       "classification": "appendix",
-      "owner_page_id": "ent-14a37d024db559ef96aa2958131ad1d2",
+      "owner_page_id": "ent-75284c7823a8539e97eaf547b458fda3",
       "source_path": "tests/test_readme_human_entry.py",
       "start_line": 26,
       "end_line": 33,
@@ -279,9 +240,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-e9a2ebe274bb5f30b41ac60bf476e235",
+      "entity_id": "ent-17ceff135aec574887adeced05598e76",
       "classification": "appendix",
-      "owner_page_id": "ent-14a37d024db559ef96aa2958131ad1d2",
+      "owner_page_id": "ent-75284c7823a8539e97eaf547b458fda3",
       "source_path": "tests/test_readme_human_entry.py",
       "start_line": 35,
       "end_line": 37,
@@ -292,9 +253,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-47d9c8773ef65211a404fe56c9c0422a",
+      "entity_id": "ent-801e01c36e7055bf9928a0f3e513551e",
       "classification": "appendix",
-      "owner_page_id": "ent-14a37d024db559ef96aa2958131ad1d2",
+      "owner_page_id": "ent-75284c7823a8539e97eaf547b458fda3",
       "source_path": "tests/test_readme_human_entry.py",
       "start_line": 39,
       "end_line": 53,
@@ -305,9 +266,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-80797c2102035e42b6f259b0eb2dedbf",
+      "entity_id": "ent-751d684bc3e95f8198dda6ac9a72b99b",
       "classification": "appendix",
-      "owner_page_id": "ent-14a37d024db559ef96aa2958131ad1d2",
+      "owner_page_id": "ent-75284c7823a8539e97eaf547b458fda3",
       "source_path": "tests/test_readme_human_entry.py",
       "start_line": 55,
       "end_line": 64,
@@ -318,9 +279,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-2f8efcad6b5d52a19a31aa16367694d4",
+      "entity_id": "ent-c9debfa348615c52833a0f4004cb263a",
       "classification": "appendix",
-      "owner_page_id": "ent-14a37d024db559ef96aa2958131ad1d2",
+      "owner_page_id": "ent-75284c7823a8539e97eaf547b458fda3",
       "source_path": "tests/test_readme_human_entry.py",
       "start_line": 66,
       "end_line": 73,
@@ -331,9 +292,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-79588f09f1875f0d8a7ba5e701f6e7e6",
+      "entity_id": "ent-aaecaf3c2eef5fd4abd33862a47447ec",
       "classification": "appendix",
-      "owner_page_id": "file-fee9a6a220845c7c85b6eafeb0bee83a",
+      "owner_page_id": "file-7edac001996359839a0be3ada3c027ca",
       "source_path": "tests/test_record_replace.py",
       "start_line": 28,
       "end_line": 29,
@@ -344,9 +305,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-f2c00888bb435dcd8d3521e58f118b53",
+      "entity_id": "ent-b3326349c9275d1c964e634173f6f534",
       "classification": "appendix",
-      "owner_page_id": "file-fee9a6a220845c7c85b6eafeb0bee83a",
+      "owner_page_id": "file-7edac001996359839a0be3ada3c027ca",
       "source_path": "tests/test_record_replace.py",
       "start_line": 32,
       "end_line": 66,
@@ -357,9 +318,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-ceae6a5249725ba683b131d5e34df8ca",
+      "entity_id": "ent-dc0b97ad3f715b42af1410ddfeb90868",
       "classification": "appendix",
-      "owner_page_id": "ent-70a9be087a2451a5948be910ad310685",
+      "owner_page_id": "ent-696ac9f252305ad0a959765a8c8c2e45",
       "source_path": "tests/test_record_replace.py",
       "start_line": 73,
       "end_line": 87,
@@ -370,9 +331,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-34158e3f64185b2e80e634652e0f391a",
+      "entity_id": "ent-ccd4c2c4f8e45e82a236eec90a49e4b9",
       "classification": "appendix",
-      "owner_page_id": "ent-70a9be087a2451a5948be910ad310685",
+      "owner_page_id": "ent-696ac9f252305ad0a959765a8c8c2e45",
       "source_path": "tests/test_record_replace.py",
       "start_line": 90,
       "end_line": 91,
@@ -383,9 +344,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-f8504abe296a5c0596903051441c36f9",
+      "entity_id": "ent-68355bf8e2645d22963d50a6cbbd86af",
       "classification": "appendix",
-      "owner_page_id": "ent-70a9be087a2451a5948be910ad310685",
+      "owner_page_id": "ent-696ac9f252305ad0a959765a8c8c2e45",
       "source_path": "tests/test_record_replace.py",
       "start_line": 93,
       "end_line": 128,
@@ -396,9 +357,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-6e6800d326c15891b82998002690b047",
+      "entity_id": "ent-cfd19e82087654b892f4a12a4821c35d",
       "classification": "appendix",
-      "owner_page_id": "ent-70a9be087a2451a5948be910ad310685",
+      "owner_page_id": "ent-696ac9f252305ad0a959765a8c8c2e45",
       "source_path": "tests/test_record_replace.py",
       "start_line": 130,
       "end_line": 131,
@@ -409,9 +370,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-ccd7ec635e3c50999db298ed0a1eed00",
+      "entity_id": "ent-e1e8dd2df83f507fb092a0cc10ed9d58",
       "classification": "appendix",
-      "owner_page_id": "ent-70a9be087a2451a5948be910ad310685",
+      "owner_page_id": "ent-696ac9f252305ad0a959765a8c8c2e45",
       "source_path": "tests/test_record_replace.py",
       "start_line": 133,
       "end_line": 146,
@@ -422,9 +383,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-dd87969d48675f6d8ad5d4b323c4344c",
+      "entity_id": "ent-c72aa44d5f5b5e718b0a8643900632bd",
       "classification": "appendix",
-      "owner_page_id": "ent-70a9be087a2451a5948be910ad310685",
+      "owner_page_id": "ent-696ac9f252305ad0a959765a8c8c2e45",
       "source_path": "tests/test_record_replace.py",
       "start_line": 148,
       "end_line": 189,
@@ -435,9 +396,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-4a9726492d1759da8644d3a83c80539f",
+      "entity_id": "ent-d3f8d2ca1c1d5331a151510dc56c8a29",
       "classification": "appendix",
-      "owner_page_id": "ent-70a9be087a2451a5948be910ad310685",
+      "owner_page_id": "ent-696ac9f252305ad0a959765a8c8c2e45",
       "source_path": "tests/test_record_replace.py",
       "start_line": 191,
       "end_line": 263,
@@ -448,9 +409,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-d8c0b36d32765e80813577532ed36452",
+      "entity_id": "ent-6f636b5513b95254bff8e580f0baca5e",
       "classification": "appendix",
-      "owner_page_id": "ent-70a9be087a2451a5948be910ad310685",
+      "owner_page_id": "ent-696ac9f252305ad0a959765a8c8c2e45",
       "source_path": "tests/test_record_replace.py",
       "start_line": 265,
       "end_line": 296,
@@ -461,9 +422,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-a37c42b67a8e558a82c1d3bcd8d51986",
+      "entity_id": "ent-fdc25e6f9aea58778ba09e2bc3aa10dc",
       "classification": "appendix",
-      "owner_page_id": "ent-70a9be087a2451a5948be910ad310685",
+      "owner_page_id": "ent-696ac9f252305ad0a959765a8c8c2e45",
       "source_path": "tests/test_record_replace.py",
       "start_line": 298,
       "end_line": 311,
@@ -474,9 +435,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-3eb2ac2b2fb85c559b9d238ee2b250ef",
+      "entity_id": "ent-3936cab7a9ba5922a71fdec692aafe1d",
       "classification": "appendix",
-      "owner_page_id": "ent-70a9be087a2451a5948be910ad310685",
+      "owner_page_id": "ent-696ac9f252305ad0a959765a8c8c2e45",
       "source_path": "tests/test_record_replace.py",
       "start_line": 313,
       "end_line": 316,
@@ -487,9 +448,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-75064fe77e4551619a6a410fbe44a81e",
+      "entity_id": "ent-cf39992c19e152649b290879c1a05097",
       "classification": "appendix",
-      "owner_page_id": "ent-70a9be087a2451a5948be910ad310685",
+      "owner_page_id": "ent-696ac9f252305ad0a959765a8c8c2e45",
       "source_path": "tests/test_record_replace.py",
       "start_line": 318,
       "end_line": 328,
@@ -500,14 +461,92 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-ab810d13dcb7510987ef655dc2db018c",
+      "entity_id": "ent-b496897314025b88bed5c343f3143c72",
       "classification": "appendix",
-      "owner_page_id": "ent-70a9be087a2451a5948be910ad310685",
+      "owner_page_id": "ent-696ac9f252305ad0a959765a8c8c2e45",
       "source_path": "tests/test_record_replace.py",
       "start_line": 330,
       "end_line": 372,
       "source_blob": "b1fd37ca3064a379a8e1de9fddbd5e4196aa774b",
       "source_excerpt": "def test_explicit_evidence_replaces_old_links_and_create_append_remain_compatible(self) -> None:\n        projection = json.loads((self.output / \"markdown/projection.json\").read_text(encoding=\"utf-8\"))\n        old_links = list(self.baseline[\"metadata\"][\"linked_pages\"])\n        replacement_title = next(page[\"title\"] for page in projection[\"pages\"] if page[\"title\"] not in old_links)\n        replaced = self._replace(\"--link\", replacement_title)\n        self.assertEqual(replaced.returncode, 0, replaced.stderr)\n        metadata = json.loads((self.output / \"workspace-meta/notes\" / f\"{self.title}.json\").read_text(encoding=\"utf-8\"))\n        self.assertEqual(metadata[\"linked_pages\"], [replacement_title])\n        self.assertNotEqual(metadata[\"linked_pages\"], old_links)\n        second_body = self.root / \"second.md\"\n        second_body.write_text(\"## 新建记录\\n\\n普通新建仍然通过受控入口写入完整角色。\\n\", encoding=\"utf-8\")\n        created = invoke(\n            \"record\",\n            \"--out\",\n            str(self.output),\n            \"--kind\",\n            \"analysis\",\n            \"--title\",\n            \"普通新建兼容记录\",\n            \"--body\",\n            str(second_body),\n            \"--link\",\n            replacement_title,\n        )\n        self.assertEqual(created.returncode, 0, created.stderr)\n        append_body = self.root / \"append.md\"\n        append_body.write_text(\"追加内容继续使用既有语义，并进入相同索引。\\n\", encoding=\"utf-8\")\n        appended = invoke(\n            \"record\",\n            \"--out\",\n            str(self.output),\n            \"--kind\",\n            \"analysis\",\n            \"--title\",\n            \"普通新建兼容记录\",\n            \"--body\",\n            str(append_body),\n            \"--link\",\n            replacement_title,\n            \"--append\",\n        )\n        self.assertEqual(appended.returncode, 0, appended.stderr)\n        self.assertIn(\"追加内容继续使用既有语义\", Path(json.loads(appended.stdout)[\"file\"]).read_text(encoding=\"utf-8\"))",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-6510d1c7a5b3556ea06ae700b9171ba8",
+      "classification": "appendix",
+      "owner_page_id": "file-7edac001996359839a0be3ada3c027ca",
+      "source_path": "tests/test_record_replace.py",
+      "start_line": 375,
+      "end_line": 525,
+      "source_blob": "b1fd37ca3064a379a8e1de9fddbd5e4196aa774b",
+      "source_excerpt": "class RecordReplaceLockTests(unittest.TestCase):\n    def _wait_for(self, path: Path, process: subprocess.Popen[str]) -> None:\n        deadline = time.monotonic() + 10.0\n        while not path.is_file() and process.poll() is None and time.monotonic() < deadline:\n            time.sleep(0.02)\n        self.assertTrue(path.is_file(), f\"process={process.poll()}\")\n\n    def test_cross_process_owner_liveness_recovery_and_release_token_drift(self) -> None:\n        with tempfile.TemporaryDirectory(prefix=\"ckb-record-replace-owner-lock-\") as value:\n            root = Path(value)\n            output = root / \"output\"\n            ready = root / \"live-ready.json\"\n            release = root / \"live-release\"\n            holder_code = r\"\"\"\nfrom pathlib import Path\nimport json,sys,time\nsys.path.insert(0, sys.argv[1])\nimport ckb_core.record_replace as replace\nwith replace._replace_lock(Path(sys.argv[2])) as acquired:\n    Path(sys.argv[3]).write_text(json.dumps({'pid': acquired['owner_pid'], 'token': acquired['owner_token']}), encoding='utf-8')\n    while not Path(sys.argv[4]).exists():\n        time.sleep(0.02)\n\"\"\"\n            holder = subprocess.Popen(\n                [\n                    sys.executable,\n                    \"-X\",\n                    \"utf8\",\n                    \"-c\",\n                    holder_code,\n                    str((SKILL_ROOT / \"scripts\").resolve()),\n                    str(output),\n                    str(ready),\n                    str(release),\n                ],\n                stdout=subprocess.PIPE,\n                stderr=subprocess.PIPE,\n                text=True,\n                encoding=\"utf-8\",\n            )\n            try:\n                self._wait_for(ready, holder)\n                owner = json.loads(ready.read_text(encoding=\"utf-8\"))\n                self.assertNotEqual(owner[\"pid\"], os.getpid())\n                lock = output / \"workspace-meta/record-replace/.lock\"\n                old = time.time() - 10.0\n                os.utime(lock, (old, old))\n                before = lock.stat()\n                with (\n                    patch.object(record_replace_module, \"REPLACE_LOCK_STALE_SECONDS\", 0.05),\n                    patch.object(record_replace_module, \"REPLACE_LOCK_TIMEOUT_SECONDS\", 0.10),\n                ):\n                    with self.assertRaises(record_replace_module.RecordReplaceLockError) as live:\n                        with record_replace_module._replace_lock(output):\n                            self.fail(\"aged live record replacement owner was stolen\")\n                self.assertIn(\n                    live.exception.category,\n                    {\"concurrent-record-replace-lock\", \"record-replace-lock-owner-live\"},\n                )\n                after = lock.stat()\n                self.assertEqual((after.st_ino, after.st_size, after.st_mtime_ns), (before.st_ino, before.st_size, before.st_mtime_ns))\n            finally:\n                release.write_text(\"release\", encoding=\"ascii\")\n                stdout, stderr = holder.communicate(timeout=15)\n                self.assertEqual(holder.returncode, 0, stdout + stderr)\n            self.assertFalse((output / \"workspace-meta/record-replace/.lock\").exists())\n\n            dead_ready = root / \"dead-ready\"\n            dead_code = r\"\"\"\nfrom pathlib import Path\nimport os,sys\nsys.path.insert(0, sys.argv[1])\nimport ckb_core.record_replace as replace\nwith replace._replace_lock(Path(sys.argv[2])):\n    Path(sys.argv[3]).write_text('ready', encoding='ascii')\n    os._exit(0)\n\"\"\"\n            dead = subprocess.Popen(\n                [\n                    sys.executable,\n                    \"-X\",\n                    \"utf8\",\n                    \"-c\",\n                    dead_code,\n                    str((SKILL_ROOT / \"scripts\").resolve()),\n                    str(output),\n                    str(dead_ready),\n                ],\n                stdout=subprocess.PIPE,\n                stderr=subprocess.PIPE,\n                text=True,\n                encoding=\"utf-8\",\n            )\n            stdout, stderr = dead.communicate(timeout=15)\n            self.assertEqual(dead.returncode, 0, stdout + stderr)\n            lock = output / \"workspace-meta/record-replace/.lock\"\n            self.assertTrue(lock.is_file())\n            old = time.time() - 10.0\n            os.utime(lock, (old, old))\n            with (\n                patch.object(record_replace_module, \"REPLACE_LOCK_STALE_SECONDS\", 0.05),\n                patch.object(record_replace_module, \"REPLACE_LOCK_TIMEOUT_SECONDS\", 1.0),\n            ):\n                with record_replace_module._replace_lock(output) as recovered:\n                    self.assertEqual(recovered[\"recovered_category\"], \"record-replace-lock-owner-dead\")\n            self.assertFalse(lock.exists())\n\n            lock.parent.mkdir(parents=True, exist_ok=True)\n            lock.write_text(\"{unverifiable-owner\", encoding=\"utf-8\")\n            os.utime(lock, (old, old))\n            with (\n                patch.object(record_replace_module, \"REPLACE_LOCK_STALE_SECONDS\", 0.05),\n                patch.object(record_replace_module, \"REPLACE_LOCK_TIMEOUT_SECONDS\", 0.05),\n            ):\n                with self.assertRaises(record_replace_module.RecordReplaceLockError) as unverifiable:\n                    with record_replace_module._replace_lock(output):\n                        self.fail(\"unverifiable stale record replacement lock was recovered\")\n            self.assertEqual(unverifiable.exception.category, \"record-replace-lock-record-invalid\")\n            self.assertEqual(lock.read_text(encoding=\"utf-8\"), \"{unverifiable-owner\")\n            lock.unlink()\n\n            drift_code = r\"\"\"\nfrom pathlib import Path\nimport os,sys\npath = Path(sys.argv[1])\noffset = int(sys.argv[2])\nwith path.open('r+b', buffering=0) as handle:\n    handle.seek(offset)\n    handle.write(b'f' * 32)\n    os.fsync(handle.fileno())\n\"\"\"\n            with self.assertRaises(record_replace_module.RecordReplaceLockError) as drift:\n                with record_replace_module._replace_lock(output) as acquired:\n                    lock = output / \"workspace-meta/record-replace/.lock\"\n                    value = record_replace_module._owner_descriptor_bytes(acquired[\"_descriptor\"])\n                    offset = value.index(acquired[\"owner_token\"].encode(\"ascii\"))\n                    if os.name == \"nt\":\n                        offset += value[:offset].count(b\"\\n\")\n                    changed = subprocess.run(\n                        [sys.executable, \"-X\", \"utf8\", \"-c\", drift_code, str(lock), str(offset)],\n                        stdout=subprocess.PIPE,\n                        stderr=subprocess.PIPE,\n                        text=True,\n                        encoding=\"utf-8\",\n                    )\n                    self.assertEqual(changed.returncode, 0, changed.stdout + changed.stderr)\n            self.assertEqual(drift.exception.category, \"record-replace-lock-release-owner-token-drift\")\n            self.assertTrue(lock.is_file())\n            drifted_record = json.loads(lock.read_text(encoding=\"utf-8\"))\n            self.assertEqual(drifted_record[\"owner_token\"], \"f\" * 32)\n            lock.unlink()",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-5d80f8a6f6fe5d0f8be581aa9e0f3ea4",
+      "classification": "appendix",
+      "owner_page_id": "file-7edac001996359839a0be3ada3c027ca",
+      "source_path": "tests/test_record_replace.py",
+      "start_line": 376,
+      "end_line": 380,
+      "source_blob": "b1fd37ca3064a379a8e1de9fddbd5e4196aa774b",
+      "source_excerpt": "def _wait_for(self, path: Path, process: subprocess.Popen[str]) -> None:\n        deadline = time.monotonic() + 10.0\n        while not path.is_file() and process.poll() is None and time.monotonic() < deadline:\n            time.sleep(0.02)\n        self.assertTrue(path.is_file(), f\"process={process.poll()}\")",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-ccc144373801587288c11452d6ed1143",
+      "classification": "appendix",
+      "owner_page_id": "file-7edac001996359839a0be3ada3c027ca",
+      "source_path": "tests/test_record_replace.py",
+      "start_line": 382,
+      "end_line": 525,
+      "source_blob": "b1fd37ca3064a379a8e1de9fddbd5e4196aa774b",
+      "source_excerpt": "def test_cross_process_owner_liveness_recovery_and_release_token_drift(self) -> None:\n        with tempfile.TemporaryDirectory(prefix=\"ckb-record-replace-owner-lock-\") as value:\n            root = Path(value)\n            output = root / \"output\"\n            ready = root / \"live-ready.json\"\n            release = root / \"live-release\"\n            holder_code = r\"\"\"\nfrom pathlib import Path\nimport json,sys,time\nsys.path.insert(0, sys.argv[1])\nimport ckb_core.record_replace as replace\nwith replace._replace_lock(Path(sys.argv[2])) as acquired:\n    Path(sys.argv[3]).write_text(json.dumps({'pid': acquired['owner_pid'], 'token': acquired['owner_token']}), encoding='utf-8')\n    while not Path(sys.argv[4]).exists():\n        time.sleep(0.02)\n\"\"\"\n            holder = subprocess.Popen(\n                [\n                    sys.executable,\n                    \"-X\",\n                    \"utf8\",\n                    \"-c\",\n                    holder_code,\n                    str((SKILL_ROOT / \"scripts\").resolve()),\n                    str(output),\n                    str(ready),\n                    str(release),\n                ],\n                stdout=subprocess.PIPE,\n                stderr=subprocess.PIPE,\n                text=True,\n                encoding=\"utf-8\",\n            )\n            try:\n                self._wait_for(ready, holder)\n                owner = json.loads(ready.read_text(encoding=\"utf-8\"))\n                self.assertNotEqual(owner[\"pid\"], os.getpid())\n                lock = output / \"workspace-meta/record-replace/.lock\"\n                old = time.time() - 10.0\n                os.utime(lock, (old, old))\n                before = lock.stat()\n                with (\n                    patch.object(record_replace_module, \"REPLACE_LOCK_STALE_SECONDS\", 0.05),\n                    patch.object(record_replace_module, \"REPLACE_LOCK_TIMEOUT_SECONDS\", 0.10),\n                ):\n                    with self.assertRaises(record_replace_module.RecordReplaceLockError) as live:\n                        with record_replace_module._replace_lock(output):\n                            self.fail(\"aged live record replacement owner was stolen\")\n                self.assertIn(\n                    live.exception.category,\n                    {\"concurrent-record-replace-lock\", \"record-replace-lock-owner-live\"},\n                )\n                after = lock.stat()\n                self.assertEqual((after.st_ino, after.st_size, after.st_mtime_ns), (before.st_ino, before.st_size, before.st_mtime_ns))\n            finally:\n                release.write_text(\"release\", encoding=\"ascii\")\n                stdout, stderr = holder.communicate(timeout=15)\n                self.assertEqual(holder.returncode, 0, stdout + stderr)\n            self.assertFalse((output / \"workspace-meta/record-replace/.lock\").exists())\n\n            dead_ready = root / \"dead-ready\"\n            dead_code = r\"\"\"\nfrom pathlib import Path\nimport os,sys\nsys.path.insert(0, sys.argv[1])\nimport ckb_core.record_replace as replace\nwith replace._replace_lock(Path(sys.argv[2])):\n    Path(sys.argv[3]).write_text('ready', encoding='ascii')\n    os._exit(0)\n\"\"\"\n            dead = subprocess.Popen(\n                [\n                    sys.executable,\n                    \"-X\",\n                    \"utf8\",\n                    \"-c\",\n                    dead_code,\n                    str((SKILL_ROOT / \"scripts\").resolve()),\n                    str(output),\n                    str(dead_ready),\n                ],\n                stdout=subprocess.PIPE,\n                stderr=subprocess.PIPE,\n                text=True,\n                encoding=\"utf-8\",\n            )\n            stdout, stderr = dead.communicate(timeout=15)\n            self.assertEqual(dead.returncode, 0, stdout + stderr)\n            lock = output / \"workspace-meta/record-replace/.lock\"\n            self.assertTrue(lock.is_file())\n            old = time.time() - 10.0\n            os.utime(lock, (old, old))\n            with (\n                patch.object(record_replace_module, \"REPLACE_LOCK_STALE_SECONDS\", 0.05),\n                patch.object(record_replace_module, \"REPLACE_LOCK_TIMEOUT_SECONDS\", 1.0),\n            ):\n                with record_replace_module._replace_lock(output) as recovered:\n                    self.assertEqual(recovered[\"recovered_category\"], \"record-replace-lock-owner-dead\")\n            self.assertFalse(lock.exists())\n\n            lock.parent.mkdir(parents=True, exist_ok=True)\n            lock.write_text(\"{unverifiable-owner\", encoding=\"utf-8\")\n            os.utime(lock, (old, old))\n            with (\n                patch.object(record_replace_module, \"REPLACE_LOCK_STALE_SECONDS\", 0.05),\n                patch.object(record_replace_module, \"REPLACE_LOCK_TIMEOUT_SECONDS\", 0.05),\n            ):\n                with self.assertRaises(record_replace_module.RecordReplaceLockError) as unverifiable:\n                    with record_replace_module._replace_lock(output):\n                        self.fail(\"unverifiable stale record replacement lock was recovered\")\n            self.assertEqual(unverifiable.exception.category, \"record-replace-lock-record-invalid\")\n            self.assertEqual(lock.read_text(encoding=\"utf-8\"), \"{unverifiable-owner\")\n            lock.unlink()\n\n            drift_code = r\"\"\"\nfrom pathlib import Path\nimport os,sys\npath = Path(sys.argv[1])\noffset = int(sys.argv[2])\nwith path.open('r+b', buffering=0) as handle:\n    handle.seek(offset)\n    handle.write(b'f' * 32)\n    os.fsync(handle.fileno())\n\"\"\"\n            with self.assertRaises(record_replace_module.RecordReplaceLockError) as drift:\n                with record_replace_module._replace_lock(output) as acquired:\n                    lock = output / \"workspace-meta/record-replace/.lock\"\n                    value = record_replace_module._owner_descriptor_bytes(acquired[\"_descriptor\"])\n                    offset = value.index(acquired[\"owner_token\"].encode(\"ascii\"))\n                    if os.name == \"nt\":\n                        offset += value[:offset].count(b\"\\n\")\n                    changed = subprocess.run(\n                        [sys.executable, \"-X\", \"utf8\", \"-c\", drift_code, str(lock), str(offset)],\n                        stdout=subprocess.PIPE,\n                        stderr=subprocess.PIPE,\n                        text=True,\n                        encoding=\"utf-8\",\n                    )\n                    self.assertEqual(changed.returncode, 0, changed.stdout + changed.stderr)\n            self.assertEqual(drift.exception.category, \"record-replace-lock-release-owner-token-drift\")\n            self.assertTrue(lock.is_file())\n            drifted_record = json.loads(lock.read_text(encoding=\"utf-8\"))\n            self.assertEqual(drifted_record[\"owner_token\"], \"f\" * 32)\n            lock.unlink()",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-ba55b56e629b5f0c98ec7b50833c5734",
+      "classification": "appendix",
+      "owner_page_id": "file-1763fc1497275a02a182f29d897776c7",
+      "source_path": "tests/test_reference_pdf.py",
+      "start_line": 21,
+      "end_line": 22,
+      "source_blob": "0fbf3a9d83ee7d28bc5d8826eb7eac31f1e56b50",
+      "source_excerpt": "def _commands(*lines: tuple[float, float, str]) -> list[tuple[float, float, str]]:\n    return list(lines)",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-de1fb4eee55f500cb3c12d467904e98d",
+      "classification": "appendix",
+      "owner_page_id": "ent-f972a6ba78b9553d98a7cfda54161f8d",
+      "source_path": "tests/test_reference_pdf.py",
+      "start_line": 26,
+      "end_line": 28,
+      "source_blob": "0fbf3a9d83ee7d28bc5d8826eb7eac31f1e56b50",
+      "source_excerpt": "def setUp(self) -> None:\n        self.temp = tempfile.TemporaryDirectory(prefix=\"ckb-pdf-test-\")\n        self.root = Path(self.temp.name)",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-9700f2a432815e758f7c7f24f7ca65ce",
+      "classification": "appendix",
+      "owner_page_id": "ent-f972a6ba78b9553d98a7cfda54161f8d",
+      "source_path": "tests/test_reference_pdf.py",
+      "start_line": 30,
+      "end_line": 31,
+      "source_blob": "0fbf3a9d83ee7d28bc5d8826eb7eac31f1e56b50",
+      "source_excerpt": "def tearDown(self) -> None:\n        self.temp.cleanup()",
       "status": "draft",
       "evidence_note": "",
       "description_zh": ""

@@ -3,12 +3,12 @@
   "pack_id": "migrated-page-review-pack-0003",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T22:44:52Z",
+  "reviewed_at_utc": "2026-09-03T01:38:15Z",
   "reviews": [
     {
-      "entity_id": "ent-9fd16ca314fe5e3b91456fbb73a3429a",
+      "entity_id": "ent-6b422910038751a98cfc4d6233f69345",
       "classification": "boundary",
-      "owner_page_id": "ent-9fd16ca314fe5e3b91456fbb73a3429a",
+      "owner_page_id": "ent-6b422910038751a98cfc4d6233f69345",
       "source_path": "plugins/obsidian-code-knowledge-builder/scripts/build.py",
       "start_line": 58,
       "end_line": 180,
@@ -19,9 +19,9 @@
       "change_when_zh": "当固定 Claudian 上游、补丁应用、聚焦测试和发行资产构建的输入格式、状态规则、错误处理或输出契约变化时，需要修改该代码单元并复核对应测试。"
     },
     {
-      "entity_id": "ent-6b38428b1c5a57658a3b80bc324e2c8d",
+      "entity_id": "ent-5b97c03a27475e0cb63eb013d037d102",
       "classification": "boundary",
-      "owner_page_id": "ent-6b38428b1c5a57658a3b80bc324e2c8d",
+      "owner_page_id": "ent-5b97c03a27475e0cb63eb013d037d102",
       "source_path": "prototypes/ckb-canvas-skill/ckb_canvas/contracts.py",
       "start_line": 239,
       "end_line": 240,
@@ -32,9 +32,9 @@
       "change_when_zh": "当 `prototypes/ckb-canvas-skill/ckb_canvas/contracts.py` 中 `exit_code` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
     },
     {
-      "entity_id": "ent-3b646c93448e5300aa58a5b62677a276",
+      "entity_id": "ent-32279ee8bfa854f3970f521064389511",
       "classification": "boundary",
-      "owner_page_id": "ent-3b646c93448e5300aa58a5b62677a276",
+      "owner_page_id": "ent-32279ee8bfa854f3970f521064389511",
       "source_path": "prototypes/ckb-canvas-skill/ckb_canvas/graph.py",
       "start_line": 59,
       "end_line": 66,
@@ -45,9 +45,9 @@
       "change_when_zh": "当节点、边、排序或配额变化时，应同步复查本页及其直接测试。"
     },
     {
-      "entity_id": "ent-965da4432d8954038a3fc4e0945387f1",
+      "entity_id": "ent-f33353eca4665c2196f840b35945e203",
       "classification": "boundary",
-      "owner_page_id": "ent-965da4432d8954038a3fc4e0945387f1",
+      "owner_page_id": "ent-f33353eca4665c2196f840b35945e203",
       "source_path": "prototypes/ckb-canvas-skill/scripts/ckb_canvas.py",
       "start_line": 24,
       "end_line": 25,
@@ -58,9 +58,35 @@
       "change_when_zh": "当 `prototypes/ckb-canvas-skill/scripts/ckb_canvas.py` 中 `error` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
     },
     {
-      "entity_id": "file-ca4e31565256504ca7d985a82707e3d0",
+      "entity_id": "ent-f238b99ccabb56caba3e82d46e0f3821",
+      "classification": "boundary",
+      "owner_page_id": "ent-f238b99ccabb56caba3e82d46e0f3821",
+      "source_path": "prototypes/ckb-semantic-vector-benchmark/benchmark.py",
+      "start_line": 667,
+      "end_line": 699,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 c533dd7c5322 中 `prototypes/ckb-semantic-vector-benchmark/benchmark.py` 第 667 至 699 行，摘录属于 Git blob 215255cc9edf。",
+      "meaning_zh": "代码单元 `invoke`负责用固定本地模型比较当前 SQLite、语义向量和混合检索，并测量质量与资源。",
+      "role_zh": "它属于语义向量隔离实验的执行与判定层；实验代码不改变生产检索或稳定页面生成默认行为。",
+      "change_when_zh": "当模型身份、向量文档、排序、测量或资源门变化时，应同步复查本页、固定实验协议及直接测试。"
+    },
+    {
+      "entity_id": "ent-3c212127dc6e58d7bcb954a016380fe5",
+      "classification": "boundary",
+      "owner_page_id": "ent-3c212127dc6e58d7bcb954a016380fe5",
+      "source_path": "prototypes/ckb-semantic-vector-benchmark/recompute.py",
+      "start_line": 115,
+      "end_line": 179,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 c533dd7c5322 中 `prototypes/ckb-semantic-vector-benchmark/recompute.py` 第 115 至 179 行，摘录属于 Git blob 7ba7f9e87fab。",
+      "meaning_zh": "代码单元 `main`负责不导入模型与生产检索源码，独立重算三臂排序质量和延迟聚合。",
+      "role_zh": "它属于语义向量实验的独立复核层；实验代码不改变生产检索或稳定页面生成默认行为。",
+      "change_when_zh": "当原始记录结构或指标口径变化时，应同步复查本页、固定实验协议及直接测试。"
+    },
+    {
+      "entity_id": "file-cfc82227b39e5d7baea9a463c08b72f3",
       "classification": "page",
-      "owner_page_id": "file-ca4e31565256504ca7d985a82707e3d0",
+      "owner_page_id": "file-cfc82227b39e5d7baea9a463c08b72f3",
       "source_path": "scripts/build_runtime_payload.py",
       "start_line": 1,
       "end_line": 158,
@@ -71,9 +97,9 @@
       "change_when_zh": "当运行时依赖、归档成员、锁版本或完整性规则变化时，应同步复查本页及其直接关联测试。"
     },
     {
-      "entity_id": "ent-81ce7e633ac75541be3885b1ceeb4d41",
+      "entity_id": "ent-8d59c254fa1c55ea93c70c866c681a28",
       "classification": "page",
-      "owner_page_id": "ent-81ce7e633ac75541be3885b1ceeb4d41",
+      "owner_page_id": "ent-8d59c254fa1c55ea93c70c866c681a28",
       "source_path": "scripts/build_runtime_payload.py",
       "start_line": 142,
       "end_line": 153,

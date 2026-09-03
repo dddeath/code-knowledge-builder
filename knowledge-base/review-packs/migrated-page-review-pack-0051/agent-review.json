@@ -3,20 +3,20 @@
   "pack_id": "migrated-page-review-pack-0051",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T22:46:31Z",
+  "reviewed_at_utc": "2026-09-03T01:39:49Z",
   "reviews": [
     {
-      "entity_id": "ent-61dc70a38d6e581f9269d4e203a2e28b",
+      "entity_id": "file-0e8ec80646505d09b8fc1e527efc6a8c",
       "classification": "page",
-      "owner_page_id": "ent-61dc70a38d6e581f9269d4e203a2e28b",
-      "source_path": "tests/test_agent_protocol_batch.py",
-      "start_line": 272,
-      "end_line": 685,
+      "owner_page_id": "file-0e8ec80646505d09b8fc1e527efc6a8c",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 1,
+      "end_line": 2467,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_agent_protocol_batch.py` 第 272-685 行的源码摘录，文件、符号与行范围一致。",
-      "meaning_zh": "`AgentProtocolBatchApp...` 是 `tests/test_agent_protocol_batch.py` 第 272-685 行定义的类，本页绑定该固定源码范围。",
-      "role_zh": "该类作为可执行验证入口，检查标识符 `AgentProtocolBatchApplyTests` 所指的行为与失败边界。",
-      "change_when_zh": "当被测行为、输入夹具、断言或失败条件变化时，应同步更新 `AgentProtocolBatchApplyTests` 的说明。"
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_ckb.py` 第 1 至 2467 行；摘录与 Git blob ee9f78028022 一致。",
+      "meaning_zh": "文件 `tests/test_ckb.py`负责验证 CKB 核心构建、检索、投影、参考资料、运行时和 C++ 语法边界。",
+      "role_zh": "它属于项目主要公开合同的综合回归保护，当前说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当任何核心命令、生成协议、运行时边界或跨模块行为变化时，应同步复查本页及其直接关联测试。"
     }
   ]
 }

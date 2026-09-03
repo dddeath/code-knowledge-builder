@@ -15,7 +15,7 @@
 ## 相关代码
 
 - 实现时会用到 [[FactFreshnessStateMachineTest]]。
-- 实现时会用到 [[benchmark 的协作边界（7392bb03）]]。
+- 实现时会用到 [[benchmark 的协作边界（92b0cf7f）]]。
 - 实现时会用到 [[build_case 等测试场景]]。
 - 实现时会用到 [[contracts 的协作边界（prototypes）]]。
 - 实现时会用到 [[generator 的协作边界]]。
@@ -33,7 +33,7 @@
 - [[audit_output_contract]] 关联到这里的验证场景。
 - [[audit_output_contract 与 _default_ckb 的协作实现]] 关联到这里的验证场景。
 - [[audit_work_record_index 与 _contains_chinese 的协作实现]] 关联到这里的验证场景。
-- [[benchmark 的协作边界（7392bb03）]] 关联到这里的验证场景。
+- [[benchmark 的协作边界（92b0cf7f）]] 关联到这里的验证场景。
 - [[contracts 的协作边界（prototypes）]] 关联到这里的验证场景。
 - [[extract_pdf 与 PdfExtractionError 的协作实现]] 关联到这里的验证场景。
 - [[generator 的协作边界]] 关联到这里的验证场景。

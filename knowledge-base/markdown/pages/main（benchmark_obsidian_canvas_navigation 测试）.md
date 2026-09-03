@@ -14,13 +14,13 @@
 
 ## 相关代码
 
-- 实现时会用到 [[benchmark 的协作边界（cbc71645）]]。
+- 实现时会用到 [[benchmark 的协作边界（prototypes）]]。
 - 实现时会用到 [[parser]]。
 
 ## 谁会来到这里
 
 - [[append 等测试场景]] 关联到这里的验证场景。
-- [[benchmark 的协作边界（cbc71645）]] 关联到这里的验证场景。
+- [[benchmark 的协作边界（prototypes）]] 关联到这里的验证场景。
 - [[bind_conversation]] 关联到这里的验证场景。
 - [[keyword_provider_config 与 parser 的协作实现]] 关联到这里的验证场景。
 - [[main 等测试场景（benchmark_obsidian_canvas_navigation 测试）]] 汇总了本页。

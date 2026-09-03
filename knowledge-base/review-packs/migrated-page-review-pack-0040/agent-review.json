@@ -3,20 +3,20 @@
   "pack_id": "migrated-page-review-pack-0040",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T22:45:58Z",
+  "reviewed_at_utc": "2026-09-03T01:39:19Z",
   "reviews": [
     {
-      "entity_id": "file-d0dd9ae7f5cd52de9f408c944f8dfeea",
+      "entity_id": "file-350de2da9d115c8ba106be73a61708e0",
       "classification": "page",
-      "owner_page_id": "file-d0dd9ae7f5cd52de9f408c944f8dfeea",
-      "source_path": "scripts/ckb_core/scope_extension.py",
+      "owner_page_id": "file-350de2da9d115c8ba106be73a61708e0",
+      "source_path": "scripts/ckb_core/session_stdio.py",
       "start_line": 1,
-      "end_line": 909,
+      "end_line": 1459,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/scope_extension.py` 第 1-909 行的源码摘录，文件、符号与行范围一致。",
-      "meaning_zh": "`scripts/ckb_core/scope_extension.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
-      "role_zh": "负责实现 `scope_extension.py` 中由固定源码定义的命令或知识库处理步骤。",
-      "change_when_zh": "当 `scripts/ckb_core/scope_extension.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/session_stdio.py` 第 1-1459 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`scripts/ckb_core/session_stdio.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
+      "role_zh": "负责会话级 stdio 服务的首次激活、租约续用、关闭与资源释放。",
+      "change_when_zh": "当 `scripts/ckb_core/session_stdio.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
     }
   ]
 }

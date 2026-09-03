@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "protocol_version": "1.5.0",
-  "status": "failed",
-  "output": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7",
+  "status": "passed",
+  "output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
   "internal_roots": [
     "output",
     "markdown",
@@ -31,101 +31,31 @@
       "schema_version": 1,
       "status": "not-required",
       "required": false,
-      "vault": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\markdown",
-      "path": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\markdown\\.ckb\\output-contract.json",
+      "vault": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown",
+      "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown\\.ckb\\output-contract.json",
       "errors": []
     },
     "human": {
       "schema_version": 1,
-      "status": "failed",
+      "status": "passed",
       "required": true,
-      "vault": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\human",
-      "path": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\human\\.ckb\\output-contract.json",
-      "errors": [
-        {
-          "reason": "plugin-output-contract-drift",
-          "path": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\human\\.ckb\\output-contract.json"
-        }
-      ]
+      "vault": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human",
+      "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human\\.ckb\\output-contract.json",
+      "errors": []
     }
   },
   "work_record_index": {
     "status": "passed",
-    "record_count": 66,
-    "linked_record_count": 66,
+    "record_count": 69,
+    "linked_record_count": 69,
     "section_counts": {
       "analysis": 18,
-      "changes": 36,
+      "changes": 37,
       "pitfalls": 0,
-      "experiments": 5,
+      "experiments": 7,
       "sessions": 7
     },
     "errors": []
   },
-  "errors": [
-    {
-      "reason": "agent-protocol-adapter-drift",
-      "root": "output",
-      "path": "AGENTS.md"
-    },
-    {
-      "reason": "agent-protocol-adapter-drift",
-      "root": "output",
-      "path": ".github/copilot-instructions.md"
-    },
-    {
-      "reason": "agent-protocol-adapter-drift",
-      "root": "output",
-      "path": ".cursor/rules/code-knowledge-builder.mdc"
-    },
-    {
-      "reason": "agent-protocol-adapter-drift",
-      "root": "markdown",
-      "path": "AGENTS.md"
-    },
-    {
-      "reason": "agent-protocol-adapter-drift",
-      "root": "markdown",
-      "path": ".github/copilot-instructions.md"
-    },
-    {
-      "reason": "agent-protocol-adapter-drift",
-      "root": "markdown",
-      "path": ".cursor/rules/code-knowledge-builder.mdc"
-    },
-    {
-      "reason": "agent-protocol-adapter-drift",
-      "root": "human",
-      "path": "AGENTS.md"
-    },
-    {
-      "reason": "agent-protocol-adapter-drift",
-      "root": "human",
-      "path": ".github/copilot-instructions.md"
-    },
-    {
-      "reason": "agent-protocol-adapter-drift",
-      "root": "human",
-      "path": ".cursor/rules/code-knowledge-builder.mdc"
-    },
-    {
-      "reason": "agent-protocol-workspace-adapter-drift",
-      "root": "E:\\knowledge_builder",
-      "path": "AGENTS.md"
-    },
-    {
-      "reason": "agent-protocol-workspace-adapter-drift",
-      "root": "E:\\knowledge_builder",
-      "path": ".github/copilot-instructions.md"
-    },
-    {
-      "reason": "agent-protocol-workspace-adapter-drift",
-      "root": "E:\\knowledge_builder",
-      "path": ".cursor/rules/code-knowledge-builder.mdc"
-    },
-    {
-      "reason": "plugin-output-contract-drift",
-      "path": "E:\\knowledge_builder\\self-workspace\\kb-prep-c533dd7\\human\\.ckb\\output-contract.json"
-    }
-  ]
+  "errors": []
 }

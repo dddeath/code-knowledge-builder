@@ -12,15 +12,15 @@
     "precision": "exact",
     "status": "passed",
     "covered_entity_ids": [
-      "ent-2d8e852c0eca5b30b02efac87a37b846",
-      "ent-4bd22b811b01591190921bf60eb3a999",
-      "ent-4ceab153754856de9e4ab88ec7540cb5",
-      "ent-549832a781c75a9189e3dc6ccb5b3232",
-      "ent-583339b6b6d75f2aadd31a16cd8be862",
-      "ent-5c62104ccd425119a7bbca97e8603523",
-      "ent-61edd6d4f2ab50d6bc71eac13ca4f8d0",
-      "ent-ca143252c60b575ea4f267d6a7dedcea",
-      "ent-e90815f78c015f90bd42428ee2e9e9ee"
+      "ent-2e62405e408459b5b64ecd35fda746b6",
+      "ent-2e8c1accd1155d939568ef5e66fb4b1d",
+      "ent-38658ad457665d50bace9927953fe256",
+      "ent-4414e71c248358cb8c9db5985840df2b",
+      "ent-6dbc486adca05df8a165e33e3b6387f7",
+      "ent-bdd7195536fe5802a9631bb3643f6f6c",
+      "ent-c510843bd3975c688af425a9c6f315cb",
+      "ent-dd6136ae2fed593e8fb24222456a2377",
+      "ent-fc8a89ec071e59d5aaa836d70bf8e90b"
     ],
     "document_symbol_counts": {
       "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py": 67
@@ -111,7 +111,7 @@
         "id": 1,
         "method": "initialize",
         "params": {
-          "processId": 68148,
+          "processId": 79640,
           "rootUri": "file:///E:/knowledge_builder/self-workspace/knowledge-base/.source-snapshot/worktree",
           "workspaceFolders": [
             {
@@ -262,7 +262,7 @@
         "params": {
           "items": [
             {
-              "scopeUri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-c533dd7-r3/.source-snapshot/worktree",
+              "scopeUri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-bdd4a66-overdefense/.source-snapshot/worktree",
               "section": "python"
             }
           ]
@@ -316,7 +316,7 @@
         "params": {
           "items": [
             {
-              "scopeUri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-c533dd7-r3/.source-snapshot/worktree",
+              "scopeUri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-bdd4a66-overdefense/.source-snapshot/worktree",
               "section": "pyright"
             }
           ]
@@ -340,7 +340,7 @@
         "method": "window/logMessage",
         "params": {
           "type": 3,
-          "message": "No include entries specified; assuming e:\\knowledge_builder\\self-workspace\\kb-stg-c533dd7-r3\\.source-snapshot\\worktree"
+          "message": "No include entries specified; assuming e:\\knowledge_builder\\self-workspace\\kb-stg-bdd4a66-overdefense\\.source-snapshot\\worktree"
         }
       }
     },
@@ -2098,7 +2098,7 @@
         "jsonrpc": "2.0",
         "method": "textDocument/publishDiagnostics",
         "params": {
-          "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-c533dd7-r3/.source-snapshot/worktree/prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
+          "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-bdd4a66-overdefense/.source-snapshot/worktree/prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
           "version": 1,
           "diagnostics": []
         }
@@ -2128,7 +2128,7 @@
         "id": 3,
         "result": [
           {
-            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-c533dd7-r3/.source-snapshot/worktree/prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
+            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-bdd4a66-overdefense/.source-snapshot/worktree/prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
             "range": {
               "start": {
                 "line": 67,
@@ -2170,7 +2170,7 @@
         "id": 4,
         "result": [
           {
-            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-c533dd7-r3/.source-snapshot/worktree/prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
+            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-bdd4a66-overdefense/.source-snapshot/worktree/prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
             "range": {
               "start": {
                 "line": 144,

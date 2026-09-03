@@ -5,7 +5,7 @@ param(
 $ErrorActionPreference = 'Stop'
 $GitPath = 'C:\Program Files\Git\cmd\git.exe'
 $Branch = 'codex/development-knowledge-builder'
-$Baseline = 'e864d84c361e1d871ca43f535f8ff85cb1eaa117'
+$Baseline = '6cf8377dda82081e417fa058ea0fe660912b625c'
 $GitDirectory = Split-Path -Parent $GitPath
 if (-not (($env:PATH -split ';') -contains $GitDirectory)) {
   $env:PATH = "$GitDirectory;$env:PATH"

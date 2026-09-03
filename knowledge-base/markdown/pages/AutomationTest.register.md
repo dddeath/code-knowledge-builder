@@ -25,7 +25,7 @@
 - [[append]] 关联到这里的验证场景。
 - [[bind_conversation 与 default_management_registry_path 的协作实现]] 关联到这里的验证场景。
 - [[ckb_canvas 的协作边界]] 关联到这里的验证场景。
-- [[contracts 的协作边界（2ef5688e）]] 关联到这里的验证场景。
+- [[contracts 的协作边界（36093e4a）]] 关联到这里的验证场景。
 - [[ingest 与 connect 的协作实现]] 关联到这里的验证场景。
 - [[ingest_event 与 default_registry_path 的协作实现]] 关联到这里的验证场景。
 - [[main（ckb 实现）]] 会使用这里提供的行为。

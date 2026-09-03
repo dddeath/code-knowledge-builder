@@ -3,166 +3,12 @@
   "pack_id": "migrated-appendix-review-pack-0028",
   "kind": "appendix-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T22:46:15Z",
+  "reviewed_at_utc": "2026-09-03T01:39:32Z",
   "reviews": [
     {
-      "entity_id": "ent-de80917ab3335eeba845cfddf7b87799",
+      "entity_id": "ent-572a2d3fdeb1565880b77894aeeb554f",
       "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
-      "source_path": "scripts/ckb_core/record_replace.py",
-      "start_line": 458,
-      "end_line": 477,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `94bf22015243` 中 `scripts/ckb_core/record_replace.py` 第 458-477 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
-      "description_zh": "`_machine_candidate` 用于完成局部输入校验、转换或状态更新。"
-    },
-    {
-      "entity_id": "ent-da603a244cd25b29a79e7de1594c4b31",
-      "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
-      "source_path": "scripts/ckb_core/record_replace.py",
-      "start_line": 480,
-      "end_line": 499,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `94bf22015243` 中 `scripts/ckb_core/record_replace.py` 第 480-499 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
-      "description_zh": "`_apply_machine_state` 用于完成局部输入校验、转换或状态更新。"
-    },
-    {
-      "entity_id": "ent-03a5b990a29053c8987ea375c0b879af",
-      "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
-      "source_path": "scripts/ckb_core/record_replace.py",
-      "start_line": 502,
-      "end_line": 506,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `94bf22015243` 中 `scripts/ckb_core/record_replace.py` 第 502-506 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
-      "description_zh": "`_sqlite_integrity` 用于完成局部输入校验、转换或状态更新。"
-    },
-    {
-      "entity_id": "ent-2bb71bfff60f5f17bd19894236bf291b",
-      "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
-      "source_path": "scripts/ckb_core/record_replace.py",
-      "start_line": 509,
-      "end_line": 524,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `94bf22015243` 中 `scripts/ckb_core/record_replace.py` 第 509-524 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
-      "description_zh": "`_trial_agent` 在 `record_replace.py` 中用于完成工作记录正文替换、候选验证、原子 promotion 和回滚中的局部职责。"
-    },
-    {
-      "entity_id": "ent-fdc592fd94d35e7490f5741538ceacc3",
-      "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
-      "source_path": "scripts/ckb_core/record_replace.py",
-      "start_line": 527,
-      "end_line": 542,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `94bf22015243` 中 `scripts/ckb_core/record_replace.py` 第 527-542 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
-      "description_zh": "`_trial_machine` 用于完成局部输入校验、转换或状态更新。"
-    },
-    {
-      "entity_id": "ent-afa56780717d58d6be0497fc534d4bd9",
-      "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
-      "source_path": "scripts/ckb_core/record_replace.py",
-      "start_line": 545,
-      "end_line": 550,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `94bf22015243` 中 `scripts/ckb_core/record_replace.py` 第 545-550 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
-      "description_zh": "`_current_agent` 用于完成局部输入校验、转换或状态更新。"
-    },
-    {
-      "entity_id": "ent-a8f006aa2ef659af9c324e2eb265a0a2",
-      "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
-      "source_path": "scripts/ckb_core/record_replace.py",
-      "start_line": 553,
-      "end_line": 558,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `94bf22015243` 中 `scripts/ckb_core/record_replace.py` 第 553-558 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
-      "description_zh": "`_current_machine` 用于完成局部输入校验、转换或状态更新。"
-    },
-    {
-      "entity_id": "ent-7a066f31baf3548b828826caf4874215",
-      "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
-      "source_path": "scripts/ckb_core/record_replace.py",
-      "start_line": 561,
-      "end_line": 576,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `94bf22015243` 中 `scripts/ckb_core/record_replace.py` 第 561-576 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
-      "description_zh": "`_commit_agent` 在 `record_replace.py` 中用于完成工作记录正文替换、候选验证、原子 promotion 和回滚中的局部职责。"
-    },
-    {
-      "entity_id": "ent-9dc0d6ed93fd51f6b396ab1d459a0775",
-      "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
-      "source_path": "scripts/ckb_core/record_replace.py",
-      "start_line": 579,
-      "end_line": 594,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `94bf22015243` 中 `scripts/ckb_core/record_replace.py` 第 579-594 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
-      "description_zh": "`_commit_machine` 用于完成局部输入校验、转换或状态更新。"
-    },
-    {
-      "entity_id": "ent-07636ac769335549a4b44e72fc3fd13e",
-      "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
-      "source_path": "scripts/ckb_core/record_replace.py",
-      "start_line": 597,
-      "end_line": 601,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `94bf22015243` 中 `scripts/ckb_core/record_replace.py` 第 597-601 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
-      "description_zh": "`_cleanup_new_sqlite_sidecars` 在 `record_replace.py` 中用于执行范围受控的恢复、撤销或清理。"
-    },
-    {
-      "entity_id": "ent-b6805fc2cf8b539784b28fae7d2b785d",
-      "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
-      "source_path": "scripts/ckb_core/record_replace.py",
-      "start_line": 604,
-      "end_line": 615,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `94bf22015243` 中 `scripts/ckb_core/record_replace.py` 第 604-615 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
-      "description_zh": "`_promote_file` 在 `record_replace.py` 中用于写入受控 staging 并重开核对结果。"
-    },
-    {
-      "entity_id": "ent-9ed59d30ce2e51b5a4b7cefebe3b734e",
-      "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
-      "source_path": "scripts/ckb_core/record_replace.py",
-      "start_line": 618,
-      "end_line": 626,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `94bf22015243` 中 `scripts/ckb_core/record_replace.py` 第 618-626 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
-      "description_zh": "`_restore_file` 在 `record_replace.py` 中用于执行范围受控的恢复、撤销或清理。"
-    },
-    {
-      "entity_id": "ent-2fba4771e9d85fbba5cdd592b3a0775e",
-      "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
-      "source_path": "scripts/ckb_core/record_replace.py",
-      "start_line": 629,
-      "end_line": 645,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `94bf22015243` 中 `scripts/ckb_core/record_replace.py` 第 629-645 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
-      "description_zh": "`_verify_roles` 在 `record_replace.py` 中用于完成工作记录正文替换、候选验证、原子 promotion 和回滚中的局部职责。"
-    },
-    {
-      "entity_id": "ent-f4df723a7865533ab1307756b418359f",
-      "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
-      "source_path": "scripts/ckb_core/record_replace.py",
-      "start_line": 648,
-      "end_line": 663,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `94bf22015243` 中 `scripts/ckb_core/record_replace.py` 第 648-663 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
-      "description_zh": "`_candidate_contract` 用于完成局部输入校验、转换或状态更新。"
-    },
-    {
-      "entity_id": "ent-6df661a4cceb5654a08fae1cc9fa982e",
-      "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
       "source_path": "scripts/ckb_core/record_replace.py",
       "start_line": 666,
       "end_line": 825,
@@ -171,9 +17,9 @@
       "description_zh": "`_prepare_replacement` 用于完成局部输入校验、转换或状态更新。"
     },
     {
-      "entity_id": "ent-1daead6a680d587a8de70530463cd9c2",
+      "entity_id": "ent-33e656382d0051968c670d82468d3af0",
       "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
       "source_path": "scripts/ckb_core/record_replace.py",
       "start_line": 828,
       "end_line": 845,
@@ -182,9 +28,9 @@
       "description_zh": "`_restore_promoted` 在 `record_replace.py` 中用于执行范围受控的恢复、撤销或清理。"
     },
     {
-      "entity_id": "ent-cd85d5f3c3e45fe3bc0cdbc303392415",
+      "entity_id": "ent-ceb9ed0c69105738a4f61f9185e70425",
       "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
       "source_path": "scripts/ckb_core/record_replace.py",
       "start_line": 848,
       "end_line": 927,
@@ -193,9 +39,9 @@
       "description_zh": "`_promotion` 在 `record_replace.py` 中用于完成工作记录正文替换、候选验证、原子 promotion 和回滚中的局部职责。"
     },
     {
-      "entity_id": "ent-8a18ca00a289599fb4006116a14b2f51",
+      "entity_id": "ent-8ca049eb2e655140845f66cd4eb0ab1b",
       "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
       "source_path": "scripts/ckb_core/record_replace.py",
       "start_line": 994,
       "end_line": 1010,
@@ -204,9 +50,9 @@
       "description_zh": "`_load_rollback_manifest` 在 `record_replace.py` 中用于执行范围受控的恢复、撤销或清理。"
     },
     {
-      "entity_id": "ent-2f181799d4e35640abc2b9a7128dcdb6",
+      "entity_id": "ent-6d455ba4ca085a088554bfebeff3de3c",
       "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
       "source_path": "scripts/ckb_core/record_replace.py",
       "start_line": 1013,
       "end_line": 1155,
@@ -215,9 +61,9 @@
       "description_zh": "`rollback_replacement` 在 `record_replace.py` 中用于执行范围受控的恢复、撤销或清理。"
     },
     {
-      "entity_id": "ent-a5dd14eb87f256569a9f13663368c476",
+      "entity_id": "ent-a9991668ed015ee3b9b8b74b3762f27c",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 39,
       "end_line": 40,
@@ -226,9 +72,9 @@
       "description_zh": "`_root` 完成参考资料生命周期中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-573a1782335f50d1bc73868c0fdf7b3f",
+      "entity_id": "ent-d2da7577235f54bc86a7ff59cc9d78ad",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 43,
       "end_line": 45,
@@ -237,9 +83,9 @@
       "description_zh": "`_manifests` 完成参考资料生命周期中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-b66c3ef642595041b21cf303d924d560",
+      "entity_id": "ent-303eb7f2a7fa50419c5c147d3b73cf79",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 48,
       "end_line": 52,
@@ -248,9 +94,9 @@
       "description_zh": "`_manifest` 完成参考资料生命周期中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-98e01b2e913659b7b559ee43d77cddf2",
+      "entity_id": "ent-018cb671d97f5bf693d67546eb6af7bb",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 55,
       "end_line": 59,
@@ -259,9 +105,9 @@
       "description_zh": "`_validate_output` 校验参考资料生命周期所需的数据或状态。"
     },
     {
-      "entity_id": "ent-6c6cd1d51c5352c198ed80cd27c2c157",
+      "entity_id": "ent-b8e9e8e6fcdc5c3f844764b8133d6926",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 62,
       "end_line": 66,
@@ -270,9 +116,9 @@
       "description_zh": "`_validate_license` 校验参考资料生命周期所需的数据或状态。"
     },
     {
-      "entity_id": "ent-6df54420bc8458efb086b1998e3b036f",
+      "entity_id": "ent-739ece8151a550478e620e633147aae5",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 69,
       "end_line": 90,
@@ -281,9 +127,9 @@
       "description_zh": "`_decode_source` 完成参考资料生命周期中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-e5e8158b6fa55f59bbf66520d87eeeb3",
+      "entity_id": "ent-297e9753e2455440ac9a5533c00676a0",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 93,
       "end_line": 104,
@@ -292,9 +138,9 @@
       "description_zh": "`_managed_path` 完成参考资料生命周期中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-33863cf5c0cc5709acd39ea4c3398c29",
+      "entity_id": "ent-48c6f6d4dd4a589fa266bae9d8043cba",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 107,
       "end_line": 112,
@@ -303,9 +149,9 @@
       "description_zh": "`_set_marker` 完成参考资料生命周期中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-fbeb991cc9075582a7d1db420c949013",
+      "entity_id": "ent-17772bb547795474ad8840857669a122",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 115,
       "end_line": 153,
@@ -314,9 +160,9 @@
       "description_zh": "`_pending_pdf_next_steps` 完成参考资料生命周期中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-5bcb9570a11558d297d7e39abb6ffbe7",
+      "entity_id": "ent-f0a62ba125215cd9bd86b908dc6bba1e",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 393,
       "end_line": 402,
@@ -325,9 +171,9 @@
       "description_zh": "`write_reference_review_template` 生成并写入参考资料生命周期所需的数据或状态。"
     },
     {
-      "entity_id": "ent-b752348ad48459efba540b2da9d0197f",
+      "entity_id": "ent-cd0e595ac4f25300b5a35ef69b425bb9",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 405,
       "end_line": 411,
@@ -336,9 +182,9 @@
       "description_zh": "`_source_lines` 完成参考资料生命周期中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-093c8a5a218d580d964f11ce38de96a3",
+      "entity_id": "ent-2511a980d2d05f70924d8dc622156f9e",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 414,
       "end_line": 440,
@@ -347,9 +193,9 @@
       "description_zh": "`_validate_pdf_claims` 校验参考资料生命周期所需的数据或状态。"
     },
     {
-      "entity_id": "ent-b41ede97de5152ceadb5c4630d741e45",
+      "entity_id": "ent-48ebd6b6297c55748d6af46591d80948",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 443,
       "end_line": 470,
@@ -358,9 +204,9 @@
       "description_zh": "`_validate_review` 校验参考资料生命周期所需的数据或状态。"
     },
     {
-      "entity_id": "ent-f2ceb3790f6e5f4d9bdc8c4040063ded",
+      "entity_id": "ent-2fc272b91d35588a9015b5ff1b170977",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 473,
       "end_line": 475,
@@ -369,9 +215,9 @@
       "description_zh": "`_source_uri` 完成参考资料生命周期中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-db1a25e32d4351558dcedc08e75be816",
+      "entity_id": "ent-7d0df4bb852e5340bb446793069569b1",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 478,
       "end_line": 481,
@@ -380,9 +226,9 @@
       "description_zh": "`_pdf_source_uri` 完成参考资料生命周期中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-5b5b3f64eaa95326be3af67177b1ba72",
+      "entity_id": "ent-1b54002d0ed05bbfb3d2b20e8e57821f",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 484,
       "end_line": 524,
@@ -391,15 +237,59 @@
       "description_zh": "`_render_reference_page` 生成并写入参考资料生命周期所需的数据或状态。"
     },
     {
-      "entity_id": "ent-06816205f185581897729cb82ebabd1d",
+      "entity_id": "ent-b955e2cdb88b522780b0fb6b0c6bfdc3",
       "classification": "appendix",
-      "owner_page_id": "file-00e38d450e5f531fb783569cc4236e89",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
       "source_path": "scripts/ckb_core/reference_documents.py",
       "start_line": 527,
       "end_line": 531,
       "status": "agent-reviewed",
       "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/reference_documents.py` 第 527 至 531 行；摘录与 Git blob cf6e0a068c33 一致。",
       "description_zh": "`_active_reviewed` 完成参考资料生命周期中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-ef979cccc3505d25b5f03b96924f5ee6",
+      "classification": "appendix",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
+      "source_path": "scripts/ckb_core/reference_documents.py",
+      "start_line": 534,
+      "end_line": 613,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/reference_documents.py` 第 534 至 613 行；摘录与 Git blob cf6e0a068c33 一致。",
+      "description_zh": "`project_references` 生成并写入参考资料生命周期所需的数据或状态。"
+    },
+    {
+      "entity_id": "ent-116bc8bf1d525a439c0f28537cc7fd3d",
+      "classification": "appendix",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
+      "source_path": "scripts/ckb_core/reference_documents.py",
+      "start_line": 616,
+      "end_line": 647,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/reference_documents.py` 第 616 至 647 行；摘录与 Git blob cf6e0a068c33 一致。",
+      "description_zh": "`submit_reference_review` 完成参考资料生命周期中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-19fc6093f99e5d6d991642ee5a52d767",
+      "classification": "appendix",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
+      "source_path": "scripts/ckb_core/reference_documents.py",
+      "start_line": 650,
+      "end_line": 696,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/reference_documents.py` 第 650 至 696 行；摘录与 Git blob cf6e0a068c33 一致。",
+      "description_zh": "`reference_machine_records` 完成参考资料生命周期中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-ba81ba8602e15761ae0bbfca411192c1",
+      "classification": "appendix",
+      "owner_page_id": "file-eec71a711d4254a1bc4ab7e7fa7eeeee",
+      "source_path": "scripts/ckb_core/reference_documents.py",
+      "start_line": 699,
+      "end_line": 723,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/reference_documents.py` 第 699 至 723 行；摘录与 Git blob cf6e0a068c33 一致。",
+      "description_zh": "`_reference_sections` 完成参考资料生命周期中的一个明确步骤。"
     }
   ]
 }

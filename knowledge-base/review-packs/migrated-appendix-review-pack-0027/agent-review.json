@@ -3,122 +3,12 @@
   "pack_id": "migrated-appendix-review-pack-0027",
   "kind": "appendix-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T22:46:14Z",
+  "reviewed_at_utc": "2026-09-03T01:39:31Z",
   "reviews": [
     {
-      "entity_id": "ent-44d508015b1059538328831939fc863c",
+      "entity_id": "ent-f1cabc1ee74959dab05deafa7d3aabbc",
       "classification": "appendix",
-      "owner_page_id": "file-e3ed830a7fb159ea9e601dbe1f8cd3ff",
-      "source_path": "scripts/ckb_core/providers.py",
-      "start_line": 258,
-      "end_line": 368,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/providers.py` 第 258 至 368 行；摘录与 Git blob 1a3ba3c53783 一致。",
-      "description_zh": "`__init__` 完成语言服务器语义采集中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-4c3310848509522397ca36fa1ed38791",
-      "classification": "appendix",
-      "owner_page_id": "file-e3ed830a7fb159ea9e601dbe1f8cd3ff",
-      "source_path": "scripts/ckb_core/providers.py",
-      "start_line": 259,
-      "end_line": 268,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/providers.py` 第 259 至 268 行；摘录与 Git blob 1a3ba3c53783 一致。",
-      "description_zh": "`__init__` 完成语言服务器语义采集中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-ced750ed43e05cae82fb2d506015c55d",
-      "classification": "appendix",
-      "owner_page_id": "file-e3ed830a7fb159ea9e601dbe1f8cd3ff",
-      "source_path": "scripts/ckb_core/providers.py",
-      "start_line": 270,
-      "end_line": 281,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/providers.py` 第 270 至 281 行；摘录与 Git blob 1a3ba3c53783 一致。",
-      "description_zh": "`start` 完成语言服务器语义采集中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-a0a869980a6150c38abe4d0c34a5f75c",
-      "classification": "appendix",
-      "owner_page_id": "file-e3ed830a7fb159ea9e601dbe1f8cd3ff",
-      "source_path": "scripts/ckb_core/providers.py",
-      "start_line": 283,
-      "end_line": 302,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/providers.py` 第 283 至 302 行；摘录与 Git blob 1a3ba3c53783 一致。",
-      "description_zh": "`_read_stdout` 读取并判定语言服务器语义采集所需的数据或状态。"
-    },
-    {
-      "entity_id": "ent-557d729f03865fd9bf2befad622cc916",
-      "classification": "appendix",
-      "owner_page_id": "file-e3ed830a7fb159ea9e601dbe1f8cd3ff",
-      "source_path": "scripts/ckb_core/providers.py",
-      "start_line": 304,
-      "end_line": 307,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/providers.py` 第 304 至 307 行；摘录与 Git blob 1a3ba3c53783 一致。",
-      "description_zh": "`_read_stderr` 读取并判定语言服务器语义采集所需的数据或状态。"
-    },
-    {
-      "entity_id": "ent-347d1918bd335f40aad9a2412c582f5b",
-      "classification": "appendix",
-      "owner_page_id": "file-e3ed830a7fb159ea9e601dbe1f8cd3ff",
-      "source_path": "scripts/ckb_core/providers.py",
-      "start_line": 309,
-      "end_line": 315,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/providers.py` 第 309 至 315 行；摘录与 Git blob 1a3ba3c53783 一致。",
-      "description_zh": "`send` 完成语言服务器语义采集中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-32347d0e36fe57ec9cc3f8db8502bf94",
-      "classification": "appendix",
-      "owner_page_id": "file-e3ed830a7fb159ea9e601dbe1f8cd3ff",
-      "source_path": "scripts/ckb_core/providers.py",
-      "start_line": 317,
-      "end_line": 318,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/providers.py` 第 317 至 318 行；摘录与 Git blob 1a3ba3c53783 一致。",
-      "description_zh": "`notify` 完成语言服务器语义采集中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-c18bd51691a65c29baf09d7977759a76",
-      "classification": "appendix",
-      "owner_page_id": "file-e3ed830a7fb159ea9e601dbe1f8cd3ff",
-      "source_path": "scripts/ckb_core/providers.py",
-      "start_line": 320,
-      "end_line": 350,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/providers.py` 第 320 至 350 行；摘录与 Git blob 1a3ba3c53783 一致。",
-      "description_zh": "`request` 完成语言服务器语义采集中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-1043e83864ca5c4c871fb8c005b6dedc",
-      "classification": "appendix",
-      "owner_page_id": "file-e3ed830a7fb159ea9e601dbe1f8cd3ff",
-      "source_path": "scripts/ckb_core/providers.py",
-      "start_line": 352,
-      "end_line": 368,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/providers.py` 第 352 至 368 行；摘录与 Git blob 1a3ba3c53783 一致。",
-      "description_zh": "`stop` 受控释放或回滚语言服务器语义采集所需的数据或状态。"
-    },
-    {
-      "entity_id": "ent-c676298180bf506e83fa9d5254d50bf1",
-      "classification": "appendix",
-      "owner_page_id": "file-e3ed830a7fb159ea9e601dbe1f8cd3ff",
-      "source_path": "scripts/ckb_core/providers.py",
-      "start_line": 371,
-      "end_line": 430,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/providers.py` 第 371 至 430 行；摘录与 Git blob 1a3ba3c53783 一致。",
-      "description_zh": "`_provider_spec` 完成语言服务器语义采集中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-dab36b9bac6a5827950f361fd98dc87e",
-      "classification": "appendix",
-      "owner_page_id": "file-e3ed830a7fb159ea9e601dbe1f8cd3ff",
+      "owner_page_id": "file-b2cc9989d2395a44afa4e06b6bb015a0",
       "source_path": "scripts/ckb_core/providers.py",
       "start_line": 433,
       "end_line": 460,
@@ -127,9 +17,9 @@
       "description_zh": "`_fallback_flags` 完成语言服务器语义采集中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-c299b820b2295bfc8d002799c2068dd7",
+      "entity_id": "ent-5f1f9d4c9c615698b1ec2576caf9f455",
       "classification": "appendix",
-      "owner_page_id": "file-e3ed830a7fb159ea9e601dbe1f8cd3ff",
+      "owner_page_id": "file-b2cc9989d2395a44afa4e06b6bb015a0",
       "source_path": "scripts/ckb_core/providers.py",
       "start_line": 463,
       "end_line": 472,
@@ -138,9 +28,9 @@
       "description_zh": "`_flatten_symbols` 完成语言服务器语义采集中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-58f5380a15ce5480943e4de56120a9df",
+      "entity_id": "ent-6f42cc0f7ddb5adfa07036ab9d3762bd",
       "classification": "appendix",
-      "owner_page_id": "file-e3ed830a7fb159ea9e601dbe1f8cd3ff",
+      "owner_page_id": "file-b2cc9989d2395a44afa4e06b6bb015a0",
       "source_path": "scripts/ckb_core/providers.py",
       "start_line": 475,
       "end_line": 486,
@@ -149,9 +39,9 @@
       "description_zh": "`_provider_status` 完成语言服务器语义采集中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-ccf7c80d5d7b5af98b8591c367f5f8e9",
+      "entity_id": "ent-0d33600f215256e6952d58d43ae806cb",
       "classification": "appendix",
-      "owner_page_id": "file-e3ed830a7fb159ea9e601dbe1f8cd3ff",
+      "owner_page_id": "file-b2cc9989d2395a44afa4e06b6bb015a0",
       "source_path": "scripts/ckb_core/providers.py",
       "start_line": 489,
       "end_line": 637,
@@ -160,9 +50,9 @@
       "description_zh": "`collect_semantics` 完成语言服务器语义采集中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-ec5385faff905fb5b65fd6047575ce62",
+      "entity_id": "ent-dfbfbac49bc356f5bf1d91d37891c64a",
       "classification": "appendix",
-      "owner_page_id": "file-bd3fb4dc01a15a03bc9bd6c4c284e2e5",
+      "owner_page_id": "file-ffc2ae9bdd2e5d4ab46f48758d09c221",
       "source_path": "scripts/ckb_core/query_terms.py",
       "start_line": 23,
       "end_line": 28,
@@ -171,9 +61,9 @@
       "description_zh": "`_split_camel` 是第 23-28 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-f98a2d51ee825d8aa372fdc0ca2dca18",
+      "entity_id": "ent-06325fa121e55d1abdd345ccb677d42e",
       "classification": "appendix",
-      "owner_page_id": "file-bd3fb4dc01a15a03bc9bd6c4c284e2e5",
+      "owner_page_id": "file-ffc2ae9bdd2e5d4ab46f48758d09c221",
       "source_path": "scripts/ckb_core/query_terms.py",
       "start_line": 31,
       "end_line": 62,
@@ -182,9 +72,9 @@
       "description_zh": "`_ranked_terms` 是第 31-62 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-dfa1a70c7fe654aab69b03b5c64596de",
+      "entity_id": "ent-b9dc1377c14e5f2fa831854a11ac584f",
       "classification": "appendix",
-      "owner_page_id": "file-bd3fb4dc01a15a03bc9bd6c4c284e2e5",
+      "owner_page_id": "file-ffc2ae9bdd2e5d4ab46f48758d09c221",
       "source_path": "scripts/ckb_core/query_terms.py",
       "start_line": 35,
       "end_line": 37,
@@ -193,9 +83,9 @@
       "description_zh": "`_ranked_terms.add` 是第 35-37 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-5eacff2038555cf9aa3d9face6fd2cbc",
+      "entity_id": "ent-a23029e856755f57a45dc6f7d782eace",
       "classification": "appendix",
-      "owner_page_id": "file-bd3fb4dc01a15a03bc9bd6c4c284e2e5",
+      "owner_page_id": "file-ffc2ae9bdd2e5d4ab46f48758d09c221",
       "source_path": "scripts/ckb_core/query_terms.py",
       "start_line": 72,
       "end_line": 74,
@@ -204,9 +94,9 @@
       "description_zh": "`index_terms` 是第 72-74 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-26485c0b42455de2a50639eba5781bca",
+      "entity_id": "ent-16eb73080a405e4b9fa08266e2e698d6",
       "classification": "appendix",
-      "owner_page_id": "file-bd3fb4dc01a15a03bc9bd6c4c284e2e5",
+      "owner_page_id": "file-ffc2ae9bdd2e5d4ab46f48758d09c221",
       "source_path": "scripts/ckb_core/query_terms.py",
       "start_line": 77,
       "end_line": 81,
@@ -215,9 +105,9 @@
       "description_zh": "`fts_query_terms` 是第 77-81 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-109fbcba392a5b098f4eb5b7b4cbfa38",
+      "entity_id": "ent-ebfd46954df85d258d02ff54a0a09718",
       "classification": "appendix",
-      "owner_page_id": "file-bd3fb4dc01a15a03bc9bd6c4c284e2e5",
+      "owner_page_id": "file-ffc2ae9bdd2e5d4ab46f48758d09c221",
       "source_path": "scripts/ckb_core/query_terms.py",
       "start_line": 84,
       "end_line": 88,
@@ -226,9 +116,9 @@
       "description_zh": "`build_fts_query` 是第 84-88 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-b1b4ddb79a2f508098d6072ce0ff820a",
+      "entity_id": "ent-74d16248f6665b27bf8d29d3487036de",
       "classification": "appendix",
-      "owner_page_id": "file-bd3fb4dc01a15a03bc9bd6c4c284e2e5",
+      "owner_page_id": "file-ffc2ae9bdd2e5d4ab46f48758d09c221",
       "source_path": "scripts/ckb_core/query_terms.py",
       "start_line": 91,
       "end_line": 105,
@@ -237,9 +127,9 @@
       "description_zh": "`explicit_anchors` 是第 91-105 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-50361a81545750e6ac50873b097ef47f",
+      "entity_id": "ent-7866fb6e1d6a5631b7ff6af91ee0489e",
       "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
       "source_path": "scripts/ckb_core/record_replace.py",
       "start_line": 65,
       "end_line": 68,
@@ -248,9 +138,9 @@
       "description_zh": "`RecordReplaceLockError` 用于完成局部输入校验、转换或状态更新。"
     },
     {
-      "entity_id": "ent-8df9109a0622535b9e96d31b2f7bab05",
+      "entity_id": "ent-a152d1b930a85ad0922db56f4dc07115",
       "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
       "source_path": "scripts/ckb_core/record_replace.py",
       "start_line": 66,
       "end_line": 68,
@@ -259,9 +149,9 @@
       "description_zh": "`__init__` 在 `record_replace.py` 中用于完成工作记录正文替换、候选验证、原子 promotion 和回滚中的局部职责。"
     },
     {
-      "entity_id": "ent-e772e6d5c1eb53b1bd6d5645b57f0449",
+      "entity_id": "ent-0b53138bd41559cea70c4a32bfb317bf",
       "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
       "source_path": "scripts/ckb_core/record_replace.py",
       "start_line": 71,
       "end_line": 73,
@@ -270,9 +160,9 @@
       "description_zh": "`_json_digest` 在 `record_replace.py` 中用于生成稳定标识或字节校验值。"
     },
     {
-      "entity_id": "ent-4b8f8150f176547fb8ae7675df40b83e",
+      "entity_id": "ent-b9895c51a70752919d323180735adc6c",
       "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
       "source_path": "scripts/ckb_core/record_replace.py",
       "start_line": 76,
       "end_line": 77,
@@ -281,9 +171,9 @@
       "description_zh": "`_body_digest` 在 `record_replace.py` 中用于生成稳定标识或字节校验值。"
     },
     {
-      "entity_id": "ent-1d7a599079f8528f9f98bde1f838537f",
+      "entity_id": "ent-b20e06aeb61351e19d9ca84e36411362",
       "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
       "source_path": "scripts/ckb_core/record_replace.py",
       "start_line": 80,
       "end_line": 81,
@@ -292,9 +182,9 @@
       "description_zh": "`_token_estimate` 用于完成局部输入校验、转换或状态更新。"
     },
     {
-      "entity_id": "ent-dca89a328a655f3abd6d07e8c965b1f0",
+      "entity_id": "ent-65cdc0e221675a348608a8890bd6fe1b",
       "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
       "source_path": "scripts/ckb_core/record_replace.py",
       "start_line": 84,
       "end_line": 85,
@@ -303,9 +193,9 @@
       "description_zh": "`_operation_root` 用于完成局部输入校验、转换或状态更新。"
     },
     {
-      "entity_id": "ent-82077ee5c17151f9ae83c1ff432a8d56",
+      "entity_id": "ent-24b922dfd5835664b436c08778d0cbe7",
       "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
       "source_path": "scripts/ckb_core/record_replace.py",
       "start_line": 88,
       "end_line": 89,
@@ -314,9 +204,9 @@
       "description_zh": "`_journal_evidence` 用于完成局部输入校验、转换或状态更新。"
     },
     {
-      "entity_id": "ent-07a10f48038255e4a3472d361911d1a6",
+      "entity_id": "ent-58e634b6f15a543eb4cf6a5dd18e2543",
       "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
       "source_path": "scripts/ckb_core/record_replace.py",
       "start_line": 92,
       "end_line": 106,
@@ -325,9 +215,9 @@
       "description_zh": "`_new_replace_lock_record` 用于完成局部输入校验、转换或状态更新。"
     },
     {
-      "entity_id": "ent-b2426a9de2f25195b1d2755696d78591",
+      "entity_id": "ent-d949460a84b75a71a48b3dfebaad07a7",
       "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
       "source_path": "scripts/ckb_core/record_replace.py",
       "start_line": 109,
       "end_line": 125,
@@ -336,9 +226,9 @@
       "description_zh": "`_parse_replace_lock` 在 `record_replace.py` 中用于解析、规范化并冻结调用输入。"
     },
     {
-      "entity_id": "ent-e21e802bdc845ad09771bdade4078e3b",
+      "entity_id": "ent-dfc9d40285e5599c8dd79eb2ceccac78",
       "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
       "source_path": "scripts/ckb_core/record_replace.py",
       "start_line": 128,
       "end_line": 138,
@@ -347,9 +237,9 @@
       "description_zh": "`_replace_lock_owner_state` 用于完成局部输入校验、转换或状态更新。"
     },
     {
-      "entity_id": "ent-d0d5e537ea8a5632afc327df7d4e7e79",
+      "entity_id": "ent-72e99f79be245c309bed0cfd02dcc12b",
       "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
       "source_path": "scripts/ckb_core/record_replace.py",
       "start_line": 141,
       "end_line": 164,
@@ -358,9 +248,9 @@
       "description_zh": "`_release_replace_lock` 用于完成局部输入校验、转换或状态更新。"
     },
     {
-      "entity_id": "ent-1b0a7552050c5726b0a5438c2625c487",
+      "entity_id": "ent-2ed7ce0ad6025a209b126edca5e7ea97",
       "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
       "source_path": "scripts/ckb_core/record_replace.py",
       "start_line": 168,
       "end_line": 238,
@@ -369,9 +259,9 @@
       "description_zh": "`_replace_lock` 在 `record_replace.py` 中用于完成工作记录正文替换、候选验证、原子 promotion 和回滚中的局部职责。"
     },
     {
-      "entity_id": "ent-47ce997d39265f29afb96bc5201f92e4",
+      "entity_id": "ent-82eb759f879855dd9b30e5381da9b0dc",
       "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
       "source_path": "scripts/ckb_core/record_replace.py",
       "start_line": 241,
       "end_line": 250,
@@ -380,9 +270,9 @@
       "description_zh": "`_rollback_argv` 在 `record_replace.py` 中用于执行范围受控的恢复、撤销或清理。"
     },
     {
-      "entity_id": "ent-9e43641971975f4083fe134e6b019600",
+      "entity_id": "ent-4c7065297c615dc4935d4b746341ef1e",
       "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
       "source_path": "scripts/ckb_core/record_replace.py",
       "start_line": 253,
       "end_line": 255,
@@ -391,9 +281,9 @@
       "description_zh": "`_powershell_command` 在 `record_replace.py` 中用于编排命令入口、执行顺序和退出结果。"
     },
     {
-      "entity_id": "ent-69bdf2178cc95830a9a52edd4c1abcb3",
+      "entity_id": "ent-6a39bb3e2ec05e9aa0af4cdda78956dc",
       "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
       "source_path": "scripts/ckb_core/record_replace.py",
       "start_line": 258,
       "end_line": 279,
@@ -402,9 +292,9 @@
       "description_zh": "`_new_operation` 用于完成局部输入校验、转换或状态更新。"
     },
     {
-      "entity_id": "ent-a878a650e36a55d1a461eb3c7dcc0b38",
+      "entity_id": "ent-541dbdf72a525d0383e2de967aa3c105",
       "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
       "source_path": "scripts/ckb_core/record_replace.py",
       "start_line": 282,
       "end_line": 287,
@@ -413,9 +303,9 @@
       "description_zh": "`_read_title` 在 `record_replace.py` 中用于读取、规范化并返回既有状态。"
     },
     {
-      "entity_id": "ent-3fc5de355a835813878b3ba99d2a4d96",
+      "entity_id": "ent-2d21a142c8f952a48a382472772a1859",
       "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
       "source_path": "scripts/ckb_core/record_replace.py",
       "start_line": 290,
       "end_line": 319,
@@ -424,9 +314,9 @@
       "description_zh": "`_locate_existing` 用于完成局部输入校验、转换或状态更新。"
     },
     {
-      "entity_id": "ent-ab08399f51b25f719bab0853ebd3bac7",
+      "entity_id": "ent-d52c2d3eb67f5866b2ee3c8947a6017b",
       "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
       "source_path": "scripts/ckb_core/record_replace.py",
       "start_line": 322,
       "end_line": 339,
@@ -435,9 +325,9 @@
       "description_zh": "`_copy_candidate_note_roots` 用于完成局部输入校验、转换或状态更新。"
     },
     {
-      "entity_id": "ent-ee469f5ad3255b4b90d18653d35985a0",
+      "entity_id": "ent-0cc4e3994aa951a49822ce2ba7939a89",
       "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
       "source_path": "scripts/ckb_core/record_replace.py",
       "start_line": 342,
       "end_line": 347,
@@ -446,9 +336,9 @@
       "description_zh": "`_file_state` 在 `record_replace.py` 中用于完成工作记录正文替换、候选验证、原子 promotion 和回滚中的局部职责。"
     },
     {
-      "entity_id": "ent-fc34ec7291d75384b867509a1fcba466",
+      "entity_id": "ent-6789a83f1ec3551e9066d1052d5840ec",
       "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
       "source_path": "scripts/ckb_core/record_replace.py",
       "start_line": 350,
       "end_line": 371,
@@ -457,9 +347,9 @@
       "description_zh": "`_stage_file_role` 在 `record_replace.py` 中用于写入受控 staging 并重开核对结果。"
     },
     {
-      "entity_id": "ent-9ae5abcd80255c6f9e4c1b48d038930e",
+      "entity_id": "ent-c8ec5f18a8e8559793866d6a6054c9d8",
       "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
       "source_path": "scripts/ckb_core/record_replace.py",
       "start_line": 374,
       "end_line": 387,
@@ -468,9 +358,9 @@
       "description_zh": "`_agent_snapshot` 用于完成局部输入校验、转换或状态更新。"
     },
     {
-      "entity_id": "ent-08846a594312570983f30ec7f88595ee",
+      "entity_id": "ent-ba8435485fd55a75b9ce863a710f3b7e",
       "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
       "source_path": "scripts/ckb_core/record_replace.py",
       "start_line": 390,
       "end_line": 400,
@@ -479,9 +369,9 @@
       "description_zh": "`_agent_candidate` 用于完成局部输入校验、转换或状态更新。"
     },
     {
-      "entity_id": "ent-ad607bc4b06b59c3b50aec0668f13a70",
+      "entity_id": "ent-6beb219b96af545d912bc17ffaa45581",
       "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
       "source_path": "scripts/ckb_core/record_replace.py",
       "start_line": 403,
       "end_line": 415,
@@ -490,15 +380,169 @@
       "description_zh": "`_apply_agent_state` 用于完成局部输入校验、转换或状态更新。"
     },
     {
-      "entity_id": "ent-661b4a264b635d698c7277526415cbfa",
+      "entity_id": "ent-c88eb28168b05882be1e4ff3bfd50774",
       "classification": "appendix",
-      "owner_page_id": "file-d72c8f79a9205ff1bc7f6e05b2c9944c",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
       "source_path": "scripts/ckb_core/record_replace.py",
       "start_line": 418,
       "end_line": 455,
       "status": "agent-reviewed",
       "evidence_note": "已核对固定提交 `94bf22015243` 中 `scripts/ckb_core/record_replace.py` 第 418-455 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
       "description_zh": "`_machine_snapshot` 用于完成局部输入校验、转换或状态更新。"
+    },
+    {
+      "entity_id": "ent-5e9eb29962fe522ba4b403aad04492d0",
+      "classification": "appendix",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
+      "source_path": "scripts/ckb_core/record_replace.py",
+      "start_line": 458,
+      "end_line": 477,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `94bf22015243` 中 `scripts/ckb_core/record_replace.py` 第 458-477 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`_machine_candidate` 用于完成局部输入校验、转换或状态更新。"
+    },
+    {
+      "entity_id": "ent-8d8f1a2a881d5912b87bdc2330ac245c",
+      "classification": "appendix",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
+      "source_path": "scripts/ckb_core/record_replace.py",
+      "start_line": 480,
+      "end_line": 499,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `94bf22015243` 中 `scripts/ckb_core/record_replace.py` 第 480-499 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`_apply_machine_state` 用于完成局部输入校验、转换或状态更新。"
+    },
+    {
+      "entity_id": "ent-55e671406169502b92ac0451990821ce",
+      "classification": "appendix",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
+      "source_path": "scripts/ckb_core/record_replace.py",
+      "start_line": 502,
+      "end_line": 506,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `94bf22015243` 中 `scripts/ckb_core/record_replace.py` 第 502-506 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`_sqlite_integrity` 用于完成局部输入校验、转换或状态更新。"
+    },
+    {
+      "entity_id": "ent-55d9ac0a740c5ed09e1dccb01d535763",
+      "classification": "appendix",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
+      "source_path": "scripts/ckb_core/record_replace.py",
+      "start_line": 509,
+      "end_line": 524,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `94bf22015243` 中 `scripts/ckb_core/record_replace.py` 第 509-524 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`_trial_agent` 在 `record_replace.py` 中用于完成工作记录正文替换、候选验证、原子 promotion 和回滚中的局部职责。"
+    },
+    {
+      "entity_id": "ent-21559ff4a21c5ee2a36e6ad52ec2f3a8",
+      "classification": "appendix",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
+      "source_path": "scripts/ckb_core/record_replace.py",
+      "start_line": 527,
+      "end_line": 542,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `94bf22015243` 中 `scripts/ckb_core/record_replace.py` 第 527-542 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`_trial_machine` 用于完成局部输入校验、转换或状态更新。"
+    },
+    {
+      "entity_id": "ent-fd493895df7e5314bf9de1f4e5421ff0",
+      "classification": "appendix",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
+      "source_path": "scripts/ckb_core/record_replace.py",
+      "start_line": 545,
+      "end_line": 550,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `94bf22015243` 中 `scripts/ckb_core/record_replace.py` 第 545-550 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`_current_agent` 用于完成局部输入校验、转换或状态更新。"
+    },
+    {
+      "entity_id": "ent-96feefe745b35423b13532fdb00b1c10",
+      "classification": "appendix",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
+      "source_path": "scripts/ckb_core/record_replace.py",
+      "start_line": 553,
+      "end_line": 558,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `94bf22015243` 中 `scripts/ckb_core/record_replace.py` 第 553-558 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`_current_machine` 用于完成局部输入校验、转换或状态更新。"
+    },
+    {
+      "entity_id": "ent-7b3b79be15a25770ad4155049b1867b3",
+      "classification": "appendix",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
+      "source_path": "scripts/ckb_core/record_replace.py",
+      "start_line": 561,
+      "end_line": 576,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `94bf22015243` 中 `scripts/ckb_core/record_replace.py` 第 561-576 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`_commit_agent` 在 `record_replace.py` 中用于完成工作记录正文替换、候选验证、原子 promotion 和回滚中的局部职责。"
+    },
+    {
+      "entity_id": "ent-40e3cd7cf37f503080af76fef3d5a43f",
+      "classification": "appendix",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
+      "source_path": "scripts/ckb_core/record_replace.py",
+      "start_line": 579,
+      "end_line": 594,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `94bf22015243` 中 `scripts/ckb_core/record_replace.py` 第 579-594 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`_commit_machine` 用于完成局部输入校验、转换或状态更新。"
+    },
+    {
+      "entity_id": "ent-a878835f116c58f6980c5480b14db3cb",
+      "classification": "appendix",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
+      "source_path": "scripts/ckb_core/record_replace.py",
+      "start_line": 597,
+      "end_line": 601,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `94bf22015243` 中 `scripts/ckb_core/record_replace.py` 第 597-601 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`_cleanup_new_sqlite_sidecars` 在 `record_replace.py` 中用于执行范围受控的恢复、撤销或清理。"
+    },
+    {
+      "entity_id": "ent-50301493d8b55d9e809ef6559cbdc5e4",
+      "classification": "appendix",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
+      "source_path": "scripts/ckb_core/record_replace.py",
+      "start_line": 604,
+      "end_line": 615,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `94bf22015243` 中 `scripts/ckb_core/record_replace.py` 第 604-615 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`_promote_file` 在 `record_replace.py` 中用于写入受控 staging 并重开核对结果。"
+    },
+    {
+      "entity_id": "ent-da2f2054a78752b6839c372ab56c167d",
+      "classification": "appendix",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
+      "source_path": "scripts/ckb_core/record_replace.py",
+      "start_line": 618,
+      "end_line": 626,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `94bf22015243` 中 `scripts/ckb_core/record_replace.py` 第 618-626 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`_restore_file` 在 `record_replace.py` 中用于执行范围受控的恢复、撤销或清理。"
+    },
+    {
+      "entity_id": "ent-a42c0cd7d4cf52be8b817366d5ecb3fc",
+      "classification": "appendix",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
+      "source_path": "scripts/ckb_core/record_replace.py",
+      "start_line": 629,
+      "end_line": 645,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `94bf22015243` 中 `scripts/ckb_core/record_replace.py` 第 629-645 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`_verify_roles` 在 `record_replace.py` 中用于完成工作记录正文替换、候选验证、原子 promotion 和回滚中的局部职责。"
+    },
+    {
+      "entity_id": "ent-304538e1ecbc5e398a7f60287269abd6",
+      "classification": "appendix",
+      "owner_page_id": "file-938adca71a0a5eb18b5fbefe85c72686",
+      "source_path": "scripts/ckb_core/record_replace.py",
+      "start_line": 648,
+      "end_line": 663,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `94bf22015243` 中 `scripts/ckb_core/record_replace.py` 第 648-663 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`_candidate_contract` 用于完成局部输入校验、转换或状态更新。"
     }
   ]
 }

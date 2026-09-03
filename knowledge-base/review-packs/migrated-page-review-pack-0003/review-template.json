@@ -6,9 +6,9 @@
   "reviewed_at_utc": null,
   "reviews": [
     {
-      "entity_id": "ent-9fd16ca314fe5e3b91456fbb73a3429a",
+      "entity_id": "ent-6b422910038751a98cfc4d6233f69345",
       "classification": "boundary",
-      "owner_page_id": "ent-9fd16ca314fe5e3b91456fbb73a3429a",
+      "owner_page_id": "ent-6b422910038751a98cfc4d6233f69345",
       "source_path": "plugins/obsidian-code-knowledge-builder/scripts/build.py",
       "start_line": 58,
       "end_line": 180,
@@ -21,9 +21,9 @@
       "change_when_zh": ""
     },
     {
-      "entity_id": "ent-6b38428b1c5a57658a3b80bc324e2c8d",
+      "entity_id": "ent-5b97c03a27475e0cb63eb013d037d102",
       "classification": "boundary",
-      "owner_page_id": "ent-6b38428b1c5a57658a3b80bc324e2c8d",
+      "owner_page_id": "ent-5b97c03a27475e0cb63eb013d037d102",
       "source_path": "prototypes/ckb-canvas-skill/ckb_canvas/contracts.py",
       "start_line": 239,
       "end_line": 240,
@@ -36,9 +36,9 @@
       "change_when_zh": ""
     },
     {
-      "entity_id": "ent-3b646c93448e5300aa58a5b62677a276",
+      "entity_id": "ent-32279ee8bfa854f3970f521064389511",
       "classification": "boundary",
-      "owner_page_id": "ent-3b646c93448e5300aa58a5b62677a276",
+      "owner_page_id": "ent-32279ee8bfa854f3970f521064389511",
       "source_path": "prototypes/ckb-canvas-skill/ckb_canvas/graph.py",
       "start_line": 59,
       "end_line": 66,
@@ -51,9 +51,9 @@
       "change_when_zh": ""
     },
     {
-      "entity_id": "ent-965da4432d8954038a3fc4e0945387f1",
+      "entity_id": "ent-f33353eca4665c2196f840b35945e203",
       "classification": "boundary",
-      "owner_page_id": "ent-965da4432d8954038a3fc4e0945387f1",
+      "owner_page_id": "ent-f33353eca4665c2196f840b35945e203",
       "source_path": "prototypes/ckb-canvas-skill/scripts/ckb_canvas.py",
       "start_line": 24,
       "end_line": 25,
@@ -66,9 +66,39 @@
       "change_when_zh": ""
     },
     {
-      "entity_id": "file-ca4e31565256504ca7d985a82707e3d0",
+      "entity_id": "ent-f238b99ccabb56caba3e82d46e0f3821",
+      "classification": "boundary",
+      "owner_page_id": "ent-f238b99ccabb56caba3e82d46e0f3821",
+      "source_path": "prototypes/ckb-semantic-vector-benchmark/benchmark.py",
+      "start_line": 667,
+      "end_line": 699,
+      "source_blob": "215255cc9edf0ba8e5492d50c525168420aa36eb",
+      "source_excerpt": "def invoke() -> tuple[list[dict[str, Any]], int]:\n            sqlite_hits: list[dict[str, Any]] = []\n            vector_hits: list[dict[str, Any]] = []\n            sqlite_tokens = 0\n            if machine is not None:\n                result = machine.retrieve_machine(\n                    corpus,\n                    question[\"question\"],\n                    int(protocol[\"execution\"][\"budget_tokens\"]),\n                    top_k,\n                    protocol[\"execution\"][\"profile\"],\n                )\n                sqlite_hits = unique_sqlite_documents(result)\n                sqlite_tokens = int(result.get(\"estimated_tokens\") or 0)\n            if model is not None and vectors is not None:\n                vector_hits = _vector_ranking(\n                    vectors,\n                    documents,\n                    query_vector(model, protocol, question[\"question\"]),\n                    top_k,\n                )\n            if arm == \"sqlite-current\":\n                return sqlite_hits, sqlite_tokens\n            if arm == \"semantic-vector\":\n                return vector_hits, _visible_tokens(vector_hits)\n            hybrid = _hybrid_ranking(\n                sqlite_hits,\n                vector_hits,\n                documents,\n                int(next(item[\"rrf_k\"] for item in protocol[\"arms\"] if item[\"id\"] == arm)),\n                top_k,\n            )\n            return hybrid, _visible_tokens(hybrid)",
+      "status": "draft",
+      "evidence_note": "",
+      "meaning_zh": "",
+      "role_zh": "",
+      "change_when_zh": ""
+    },
+    {
+      "entity_id": "ent-3c212127dc6e58d7bcb954a016380fe5",
+      "classification": "boundary",
+      "owner_page_id": "ent-3c212127dc6e58d7bcb954a016380fe5",
+      "source_path": "prototypes/ckb-semantic-vector-benchmark/recompute.py",
+      "start_line": 115,
+      "end_line": 179,
+      "source_blob": "7ba7f9e87fab3d1c0648276ad3ae67f86369eb55",
+      "source_excerpt": "def main() -> int:\n    parser = argparse.ArgumentParser()\n    parser.add_argument(\"--protocol\", type=Path, required=True)\n    parser.add_argument(\"--raw\", type=Path, required=True)\n    parser.add_argument(\"--reported\", type=Path, required=True)\n    parser.add_argument(\"--output\", type=Path, required=True)\n    arguments = parser.parse_args()\n    protocol = load(arguments.protocol)\n    raw = load(arguments.raw)\n    reported = load(arguments.reported)\n    recomputed = {arm: aggregate(protocol, raw, arm) for arm in ARM_IDS}\n    comparisons = {}\n    for arm in ARM_IDS:\n        expected = {name: reported[\"arms\"][arm][name] for name in SUMMARY_FIELDS}\n        comparisons[arm] = {\n            \"exact\": recomputed[arm] == expected,\n            \"recomputed\": recomputed[arm],\n            \"reported\": expected,\n        }\n    expected_rows = len(protocol[\"questions\"]) * len(ARM_IDS) * (\n        int(protocol[\"execution\"][\"cold_runs\"]) + int(protocol[\"execution\"][\"hot_runs\"])\n    )\n    checks = {\n        \"raw_row_count_exact\": len(raw[\"rows\"]) == expected_rows,\n        \"all_aggregate_fields_exact\": all(item[\"exact\"] for item in comparisons.values()),\n        \"question_ids_exact\": {item[\"question_id\"] for item in raw[\"rows\"]}\n        == {item[\"id\"] for item in protocol[\"questions\"]},\n        \"arm_ids_exact\": {item[\"arm\"] for item in raw[\"rows\"]} == set(ARM_IDS),\n        \"one_cold_five_hot_per_arm_question\": all(\n            len(\n                [\n                    row\n                    for row in raw[\"rows\"]\n                    if row[\"arm\"] == arm\n                    and row[\"question_id\"] == question[\"id\"]\n                    and row[\"cache_state\"] == \"cold\"\n                ]\n            )\n            == 1\n            and len(\n                [\n                    row\n                    for row in raw[\"rows\"]\n                    if row[\"arm\"] == arm\n                    and row[\"question_id\"] == question[\"id\"]\n                    and row[\"cache_state\"] == \"hot\"\n                ]\n            )\n            == 5\n            for arm in ARM_IDS\n            for question in protocol[\"questions\"]\n        ),\n    }\n    result = {\n        \"schema_version\": 1,\n        \"status\": \"passed\" if all(checks.values()) else \"failed\",\n        \"checks\": checks,\n        \"comparisons\": comparisons,\n    }\n    arguments.output.parent.mkdir(parents=True, exist_ok=True)\n    arguments.output.write_bytes(\n        (json.dumps(result, ensure_ascii=False, indent=2) + \"\\n\").encode(\"utf-8\")\n    )\n    print(json.dumps(result, ensure_ascii=False, indent=2))\n    return 0 if result[\"status\"] == \"passed\" else 1",
+      "status": "draft",
+      "evidence_note": "",
+      "meaning_zh": "",
+      "role_zh": "",
+      "change_when_zh": ""
+    },
+    {
+      "entity_id": "file-cfc82227b39e5d7baea9a463c08b72f3",
       "classification": "page",
-      "owner_page_id": "file-ca4e31565256504ca7d985a82707e3d0",
+      "owner_page_id": "file-cfc82227b39e5d7baea9a463c08b72f3",
       "source_path": "scripts/build_runtime_payload.py",
       "start_line": 1,
       "end_line": 158,
@@ -81,9 +111,9 @@
       "change_when_zh": ""
     },
     {
-      "entity_id": "ent-81ce7e633ac75541be3885b1ceeb4d41",
+      "entity_id": "ent-8d59c254fa1c55ea93c70c866c681a28",
       "classification": "page",
-      "owner_page_id": "ent-81ce7e633ac75541be3885b1ceeb4d41",
+      "owner_page_id": "ent-8d59c254fa1c55ea93c70c866c681a28",
       "source_path": "scripts/build_runtime_payload.py",
       "start_line": 142,
       "end_line": 153,

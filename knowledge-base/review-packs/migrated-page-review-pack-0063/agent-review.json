@@ -3,33 +3,46 @@
   "pack_id": "migrated-page-review-pack-0063",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T22:46:59Z",
+  "reviewed_at_utc": "2026-09-03T01:40:17Z",
   "reviews": [
     {
-      "entity_id": "file-2888e1caa1685f9f8f98210ad2c9577e",
+      "entity_id": "file-59b3f1a36f2850659101d29fc9d11802",
       "classification": "page",
-      "owner_page_id": "file-2888e1caa1685f9f8f98210ad2c9577e",
-      "source_path": "tests/test_human_page_template_proposals.py",
+      "owner_page_id": "file-59b3f1a36f2850659101d29fc9d11802",
+      "source_path": "tests/test_human_page_templates.py",
       "start_line": 1,
-      "end_line": 375,
+      "end_line": 636,
       "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `tests/test_human_page_template_proposals.py` 第 1-375 行，并核对 Git blob `6375a3ee0be9`、分类与所有者。",
-      "meaning_zh": "`tests/test_human_page_template_proposals.py` 页面绑定固定源码第 1-375 行，说明该文件如何承担模板提议状态机和 V3 字段兼容测试。",
-      "role_zh": "该文件负责模板提议状态机和 V3 字段兼容测试，并为相关命令、页面生成或测试提供源码入口。",
-      "change_when_zh": "当 `tests/test_human_page_template_proposals.py` 的公开输入、生成结果、状态边界或与其他模块的协作关系变化时，应更新本页。"
+      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `tests/test_human_page_templates.py` 第 1-636 行，并核对 Git blob `343b688a0c55`、分类与所有者。",
+      "meaning_zh": "`tests/test_human_page_templates.py` 页面绑定固定源码第 1-636 行，说明该文件如何承担V3 页面标题、章节预算、链接和披露边界测试。",
+      "role_zh": "该文件负责V3 页面标题、章节预算、链接和披露边界测试，并为相关命令、页面生成或测试提供源码入口。",
+      "change_when_zh": "当 `tests/test_human_page_templates.py` 的公开输入、生成结果、状态边界或与其他模块的协作关系变化时，应更新本页。"
     },
     {
-      "entity_id": "ent-f44fd110c21754db9ac99c5bb97ef671",
+      "entity_id": "ent-31ba48459a3d5009bc1d13f0f2f11242",
       "classification": "page",
-      "owner_page_id": "ent-f44fd110c21754db9ac99c5bb97ef671",
-      "source_path": "tests/test_human_page_template_proposals.py",
-      "start_line": 39,
-      "end_line": 370,
+      "owner_page_id": "ent-31ba48459a3d5009bc1d13f0f2f11242",
+      "source_path": "tests/test_human_page_templates.py",
+      "start_line": 63,
+      "end_line": 174,
       "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `tests/test_human_page_template_proposals.py` 第 39-370 行，并核对 Git blob `6375a3ee0be9`、分类与所有者。",
-      "meaning_zh": "`TemplateProposalStoreTests` 位于 `tests/test_human_page_template_proposals.py` 第 39-370 行，用于覆盖模板提议的待审、批准、退回、撤销和并发安全状态。",
-      "role_zh": "`TemplateProposalStoreTests` 在模板提议状态机和 V3 字段兼容测试中负责覆盖模板提议的待审、批准、退回、撤销和并发安全状态。",
-      "change_when_zh": "当 `TemplateProposalStoreTests` 的输入、输出、状态转换或失败边界变化时，应更新对应说明和测试。"
+      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `tests/test_human_page_templates.py` 第 63-174 行，并核对 Git blob `343b688a0c55`、分类与所有者。",
+      "meaning_zh": "`HumanPageTemplateRegistryTests` 位于 `tests/test_human_page_templates.py` 第 63-174 行，用于覆盖 14 类 V3 页面合同、书面标题和稳定注册表。",
+      "role_zh": "`HumanPageTemplateRegistryTests` 在V3 页面标题、章节预算、链接和披露边界测试中负责覆盖 14 类 V3 页面合同、书面标题和稳定注册表。",
+      "change_when_zh": "当 `HumanPageTemplateRegistryTests` 的输入、输出、状态转换或失败边界变化时，应更新对应说明和测试。"
+    },
+    {
+      "entity_id": "file-506b549a1981586f97d2314aabec1fdc",
+      "classification": "page",
+      "owner_page_id": "file-506b549a1981586f97d2314aabec1fdc",
+      "source_path": "tests/test_keyword_fallback.py",
+      "start_line": 1,
+      "end_line": 469,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 bd8519583e3a 中 `tests/test_keyword_fallback.py` 第 1 至 469 行，摘录属于 Git blob b7d3f189afb0。",
+      "meaning_zh": "文件 `tests/test_keyword_fallback.py`负责验证显式关键词慢路径的校验、缓存、失败回退和检索接线。",
+      "role_zh": "它属于LLM 关键词备选能力的回归保护，说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当Provider 输入、触发、缓存或回退规则变化时，应同步复查本页及其直接测试。"
     }
   ]
 }

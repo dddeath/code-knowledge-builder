@@ -3,12 +3,12 @@
   "pack_id": "migrated-page-review-pack-0015",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T22:45:07Z",
+  "reviewed_at_utc": "2026-09-03T01:38:29Z",
   "reviews": [
     {
-      "entity_id": "file-727604b8b9365de2823abc24cb474af9",
+      "entity_id": "file-88121fbcffef56288ad4d42feeae9d55",
       "classification": "page",
-      "owner_page_id": "file-727604b8b9365de2823abc24cb474af9",
+      "owner_page_id": "file-88121fbcffef56288ad4d42feeae9d55",
       "source_path": "scripts/ckb_core/gitrepo.py",
       "start_line": 1,
       "end_line": 419,
@@ -19,9 +19,9 @@
       "change_when_zh": "当固定 Git 提交、blob、工作树与源码快照读取的输入格式、状态规则、错误处理或输出契约变化时，需要修改该代码单元并复核对应测试。"
     },
     {
-      "entity_id": "ent-b1b7081361815611b1119d5b8519e575",
+      "entity_id": "ent-6da0594f88c653c9b2f76c28493bb5bb",
       "classification": "page",
-      "owner_page_id": "ent-b1b7081361815611b1119d5b8519e575",
+      "owner_page_id": "ent-6da0594f88c653c9b2f76c28493bb5bb",
       "source_path": "scripts/ckb_core/gitrepo.py",
       "start_line": 194,
       "end_line": 217,
@@ -32,9 +32,9 @@
       "change_when_zh": "当 `preflight` 的输入、输出、状态转换或失败返回变化时，应更新本页并重跑对应测试。"
     },
     {
-      "entity_id": "file-0a79c5fe5d025835bd23ebc7f47d7d9a",
+      "entity_id": "file-7c16b13794a05efe89de1d522d4ad083",
       "classification": "page",
-      "owner_page_id": "file-0a79c5fe5d025835bd23ebc7f47d7d9a",
+      "owner_page_id": "file-7c16b13794a05efe89de1d522d4ad083",
       "source_path": "scripts/ckb_core/graphify_core.py",
       "start_line": 1,
       "end_line": 676,
@@ -45,9 +45,9 @@
       "change_when_zh": "当Graphify 兼容图、确定性职责群、路径查询和关系报告的输入、输出、状态门或验证契约发生变化时，需要同步修改该文件并运行对应测试。"
     },
     {
-      "entity_id": "ent-8c87e96f1da6574abb763e925846cef3",
+      "entity_id": "ent-e6f6b67093da5bff965fa89da5b0ba18",
       "classification": "page",
-      "owner_page_id": "ent-8c87e96f1da6574abb763e925846cef3",
+      "owner_page_id": "ent-e6f6b67093da5bff965fa89da5b0ba18",
       "source_path": "scripts/ckb_core/graphify_core.py",
       "start_line": 526,
       "end_line": 583,

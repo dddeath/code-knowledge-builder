@@ -3,12 +3,12 @@
   "pack_id": "migrated-appendix-review-pack-0003",
   "kind": "appendix-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T22:45:23Z",
+  "reviewed_at_utc": "2026-09-03T01:38:44Z",
   "reviews": [
     {
-      "entity_id": "ent-06ebdb3ec06a50e0be5e4890648681a3",
+      "entity_id": "ent-f0a08d6b5c5553d08fa5d8a3d8d2cf49",
       "classification": "appendix",
-      "owner_page_id": "file-ca4e31565256504ca7d985a82707e3d0",
+      "owner_page_id": "file-cfc82227b39e5d7baea9a463c08b72f3",
       "source_path": "scripts/build_runtime_payload.py",
       "start_line": 29,
       "end_line": 34,
@@ -17,9 +17,9 @@
       "description_zh": "`sha256` 完成完整运行时归档校验中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-07dc9a64efd35478baaa37eb3ec2704f",
+      "entity_id": "ent-e463c65c7fd455b5b6526f029c5a1b13",
       "classification": "appendix",
-      "owner_page_id": "file-ca4e31565256504ca7d985a82707e3d0",
+      "owner_page_id": "file-cfc82227b39e5d7baea9a463c08b72f3",
       "source_path": "scripts/build_runtime_payload.py",
       "start_line": 37,
       "end_line": 41,
@@ -28,9 +28,9 @@
       "description_zh": "`relative_files` 完成完整运行时归档校验中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-86e5c9dd11c75242b7d82dc53beaaa2f",
+      "entity_id": "ent-d2f79f04a9e05127acafa3c7dc448f5f",
       "classification": "appendix",
-      "owner_page_id": "file-ca4e31565256504ca7d985a82707e3d0",
+      "owner_page_id": "file-cfc82227b39e5d7baea9a463c08b72f3",
       "source_path": "scripts/build_runtime_payload.py",
       "start_line": 44,
       "end_line": 68,
@@ -39,9 +39,9 @@
       "description_zh": "`validate_pdf_runtime` 校验完整运行时归档校验所需的数据或状态。"
     },
     {
-      "entity_id": "ent-93562790c2a954fa9902daecd62b471d",
+      "entity_id": "ent-7810c1ba3a5f550f959ea295bf03c951",
       "classification": "appendix",
-      "owner_page_id": "file-ca4e31565256504ca7d985a82707e3d0",
+      "owner_page_id": "file-cfc82227b39e5d7baea9a463c08b72f3",
       "source_path": "scripts/build_runtime_payload.py",
       "start_line": 71,
       "end_line": 139,
@@ -50,9 +50,9 @@
       "description_zh": "`build` 创建并初始化完整运行时归档校验所需的数据或状态。"
     },
     {
-      "entity_id": "ent-0bdb97cd6a585aa3bbddf93a98fe0036",
+      "entity_id": "ent-342ab1e162d854bb81698f1c97cd5805",
       "classification": "appendix",
-      "owner_page_id": "file-54b40bc7d677540ca04f6f707878ef21",
+      "owner_page_id": "file-3c7b3dceba0551f28b276940ab6aa0cb",
       "source_path": "scripts/ckb.py",
       "start_line": 237,
       "end_line": 252,
@@ -61,9 +61,9 @@
       "description_zh": "`add_initial_arguments` 完成CKB 公开命令分派中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-5e21d4810bae57c2bfb1921df709dbfc",
+      "entity_id": "ent-273d6efb68205f93a86d826dac1bc91e",
       "classification": "appendix",
-      "owner_page_id": "file-54b40bc7d677540ca04f6f707878ef21",
+      "owner_page_id": "file-3c7b3dceba0551f28b276940ab6aa0cb",
       "source_path": "scripts/ckb.py",
       "start_line": 255,
       "end_line": 258,
@@ -72,9 +72,9 @@
       "description_zh": "`add_csharp_arguments` 完成CKB 公开命令分派中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-4461ee87215b5170a1dc821172e536c0",
+      "entity_id": "ent-c16fb856b3f45eca93d51c4fb0cc03d8",
       "classification": "appendix",
-      "owner_page_id": "file-54b40bc7d677540ca04f6f707878ef21",
+      "owner_page_id": "file-3c7b3dceba0551f28b276940ab6aa0cb",
       "source_path": "scripts/ckb.py",
       "start_line": 261,
       "end_line": 269,
@@ -83,9 +83,9 @@
       "description_zh": "`add_git_bootstrap_arguments` 完成CKB 公开命令分派中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-7ab5d6bfd5c85248b229591b18a689b8",
+      "entity_id": "ent-ad524407342653ddb438341b1dfcd250",
       "classification": "appendix",
-      "owner_page_id": "file-54b40bc7d677540ca04f6f707878ef21",
+      "owner_page_id": "file-3c7b3dceba0551f28b276940ab6aa0cb",
       "source_path": "scripts/ckb.py",
       "start_line": 272,
       "end_line": 281,
@@ -94,9 +94,9 @@
       "description_zh": "`add_keyword_provider_arguments` 完成CKB 公开命令分派中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-9cac75ad4df052a7b17a18239b8ae459",
+      "entity_id": "ent-c7bbaa37b5645ed6b10cb83cbb0b7044",
       "classification": "appendix",
-      "owner_page_id": "file-54b40bc7d677540ca04f6f707878ef21",
+      "owner_page_id": "file-3c7b3dceba0551f28b276940ab6aa0cb",
       "source_path": "scripts/ckb.py",
       "start_line": 284,
       "end_line": 287,
@@ -105,9 +105,9 @@
       "description_zh": "`add_keyword_fallback_arguments` 完成CKB 公开命令分派中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-8ef547cfb3735988beb2f63ceda5a6ad",
+      "entity_id": "ent-95d59dbfc5365a5281abd1e7c5db44e6",
       "classification": "appendix",
-      "owner_page_id": "file-54b40bc7d677540ca04f6f707878ef21",
+      "owner_page_id": "file-3c7b3dceba0551f28b276940ab6aa0cb",
       "source_path": "scripts/ckb.py",
       "start_line": 313,
       "end_line": 320,
@@ -116,9 +116,9 @@
       "description_zh": "`keyword_fallback_options` 完成CKB 公开命令分派中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-18ed17d20fd65c42900f8bb39613c3b4",
+      "entity_id": "ent-153e0f5808dc5365a246267f77d6eb96",
       "classification": "appendix",
-      "owner_page_id": "file-54b40bc7d677540ca04f6f707878ef21",
+      "owner_page_id": "file-3c7b3dceba0551f28b276940ab6aa0cb",
       "source_path": "scripts/ckb.py",
       "start_line": 931,
       "end_line": 934,
@@ -127,9 +127,9 @@
       "description_zh": "`emit_prompt_json` 生成并写入CKB 公开命令分派所需的数据或状态。"
     },
     {
-      "entity_id": "ent-698960c1951156f0824b1442937fe108",
+      "entity_id": "ent-0a3a3071082753fa9fe470b1bb453b31",
       "classification": "appendix",
-      "owner_page_id": "file-54b40bc7d677540ca04f6f707878ef21",
+      "owner_page_id": "file-3c7b3dceba0551f28b276940ab6aa0cb",
       "source_path": "scripts/ckb.py",
       "start_line": 937,
       "end_line": 938,
@@ -138,9 +138,9 @@
       "description_zh": "`emit_prompt_text` 生成并写入CKB 公开命令分派所需的数据或状态。"
     },
     {
-      "entity_id": "ent-db90c6bcc63c5305b2c01162dd3b4de6",
+      "entity_id": "ent-e58004376e3a5c43b08e13bc5324f349",
       "classification": "appendix",
-      "owner_page_id": "file-54b40bc7d677540ca04f6f707878ef21",
+      "owner_page_id": "file-3c7b3dceba0551f28b276940ab6aa0cb",
       "source_path": "scripts/ckb.py",
       "start_line": 941,
       "end_line": 963,
@@ -149,9 +149,9 @@
       "description_zh": "`_session_query` 完成CKB 公开命令分派中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-9b4eed436a0953be915aedb7d8a0abf3",
+      "entity_id": "ent-81df9e46d0d457c8b99a57d2e0f5ce86",
       "classification": "appendix",
-      "owner_page_id": "file-f6b91cd9488f5867858b7b5cad44391f",
+      "owner_page_id": "file-f434916549e8505ca97f3d123f0635c3",
       "source_path": "scripts/ckb_core/agent_index.py",
       "start_line": 24,
       "end_line": 25,
@@ -160,9 +160,9 @@
       "description_zh": "`_tokens` 是第 24-25 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-01fa0eeedebd54a4940eef89d96697f6",
+      "entity_id": "ent-6eccc76b3dd05386830fea123b2b28f6",
       "classification": "appendix",
-      "owner_page_id": "file-f6b91cd9488f5867858b7b5cad44391f",
+      "owner_page_id": "file-f434916549e8505ca97f3d123f0635c3",
       "source_path": "scripts/ckb_core/agent_index.py",
       "start_line": 28,
       "end_line": 44,
@@ -171,9 +171,9 @@
       "description_zh": "`_note_documents` 是第 28-44 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-93b833b5eb3657028be0953a222ef4a7",
+      "entity_id": "ent-ab7a58e2924c5634acec80ba755e3357",
       "classification": "appendix",
-      "owner_page_id": "file-f6b91cd9488f5867858b7b5cad44391f",
+      "owner_page_id": "file-f434916549e8505ca97f3d123f0635c3",
       "source_path": "scripts/ckb_core/agent_index.py",
       "start_line": 47,
       "end_line": 60,
@@ -182,9 +182,9 @@
       "description_zh": "`_projection` 是第 47-60 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-6341be8a289f5d5fbbaf22532810917d",
+      "entity_id": "ent-462013d7243f5b8fb7fa7b5aee70f1b5",
       "classification": "appendix",
-      "owner_page_id": "file-f6b91cd9488f5867858b7b5cad44391f",
+      "owner_page_id": "file-f434916549e8505ca97f3d123f0635c3",
       "source_path": "scripts/ckb_core/agent_index.py",
       "start_line": 63,
       "end_line": 160,
@@ -193,9 +193,9 @@
       "description_zh": "`_page_documents` 是第 63-160 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-adbdd07611045ee5893bc0f8baa5b556",
+      "entity_id": "ent-90560b10ba2b5ad18c8067675ea2f919",
       "classification": "appendix",
-      "owner_page_id": "file-f6b91cd9488f5867858b7b5cad44391f",
+      "owner_page_id": "file-f434916549e8505ca97f3d123f0635c3",
       "source_path": "scripts/ckb_core/agent_index.py",
       "start_line": 163,
       "end_line": 341,
@@ -204,9 +204,9 @@
       "description_zh": "`build_agent_index` 是第 163-341 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-d6384017cde15595afaeec6f83d50701",
+      "entity_id": "ent-63adccc452675ee593de479fc5482a27",
       "classification": "appendix",
-      "owner_page_id": "file-f6b91cd9488f5867858b7b5cad44391f",
+      "owner_page_id": "file-f434916549e8505ca97f3d123f0635c3",
       "source_path": "scripts/ckb_core/agent_index.py",
       "start_line": 344,
       "end_line": 390,
@@ -215,9 +215,9 @@
       "description_zh": "`audit_agent_index` 是第 344-390 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-1d8a94c02d7759849be47aa7d1856ec6",
+      "entity_id": "ent-10c466e720da5e028e52767bb26c10d4",
       "classification": "appendix",
-      "owner_page_id": "file-f6b91cd9488f5867858b7b5cad44391f",
+      "owner_page_id": "file-f434916549e8505ca97f3d123f0635c3",
       "source_path": "scripts/ckb_core/agent_index.py",
       "start_line": 393,
       "end_line": 405,
@@ -226,9 +226,9 @@
       "description_zh": "`_agent_index_ready` 是第 393-405 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-27493fdbc6205e31b63915438b899fb3",
+      "entity_id": "ent-99316f2f219353ccb8acec0ddc290b38",
       "classification": "appendix",
-      "owner_page_id": "file-f6b91cd9488f5867858b7b5cad44391f",
+      "owner_page_id": "file-f434916549e8505ca97f3d123f0635c3",
       "source_path": "scripts/ckb_core/agent_index.py",
       "start_line": 408,
       "end_line": 409,
@@ -237,9 +237,9 @@
       "description_zh": "`_fts_query` 是第 408-409 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-05107310c79d51808888bd69bf10a3bf",
+      "entity_id": "ent-15f2fc874b955e4c9abf37cd819c5792",
       "classification": "appendix",
-      "owner_page_id": "file-f6b91cd9488f5867858b7b5cad44391f",
+      "owner_page_id": "file-f434916549e8505ca97f3d123f0635c3",
       "source_path": "scripts/ckb_core/agent_index.py",
       "start_line": 412,
       "end_line": 423,
@@ -248,9 +248,9 @@
       "description_zh": "`_next_pack_path` 是第 412-423 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-c7a8af7da68050a1afc7f508ea2649e5",
+      "entity_id": "ent-b92bfd3aa0ec52b6a1309e585d7b5431",
       "classification": "appendix",
-      "owner_page_id": "file-74fabe1658225e9f88d90968fed30ef5",
+      "owner_page_id": "file-31aa1d158e8a5002a8121895094d6880",
       "source_path": "scripts/ckb_core/agent_maintenance.py",
       "start_line": 22,
       "end_line": 25,
@@ -259,9 +259,9 @@
       "description_zh": "该附属代码负责管理 Agent 会话、构建中记录和修改总结落页，并把结果交给所属页面中的主流程使用。"
     },
     {
-      "entity_id": "ent-3c091e43f2885b8e8e2cb4aed182269e",
+      "entity_id": "ent-34497e8ebf2f553e9d0e964bfc7e0de7",
       "classification": "appendix",
-      "owner_page_id": "file-74fabe1658225e9f88d90968fed30ef5",
+      "owner_page_id": "file-31aa1d158e8a5002a8121895094d6880",
       "source_path": "scripts/ckb_core/agent_maintenance.py",
       "start_line": 28,
       "end_line": 34,
@@ -270,9 +270,9 @@
       "description_zh": "该附属代码负责管理 Agent 会话、构建中记录和修改总结落页，并把结果交给所属页面中的主流程使用。"
     },
     {
-      "entity_id": "ent-454e9c1129b25229a276974b90aa03e2",
+      "entity_id": "ent-b8f6bf761eb45226bcf8562834c3d710",
       "classification": "appendix",
-      "owner_page_id": "file-74fabe1658225e9f88d90968fed30ef5",
+      "owner_page_id": "file-31aa1d158e8a5002a8121895094d6880",
       "source_path": "scripts/ckb_core/agent_maintenance.py",
       "start_line": 37,
       "end_line": 67,
@@ -281,9 +281,9 @@
       "description_zh": "该附属代码负责Agent 任务会话、构建中笔记排队、修改总结和生命周期状态，并把结果交给所属页面中的主流程使用。"
     },
     {
-      "entity_id": "ent-1d72eca77fd150e7a329ce3251ed0da8",
+      "entity_id": "ent-2c35e899e2605b1698335fae4d47ea1e",
       "classification": "appendix",
-      "owner_page_id": "file-74fabe1658225e9f88d90968fed30ef5",
+      "owner_page_id": "file-31aa1d158e8a5002a8121895094d6880",
       "source_path": "scripts/ckb_core/agent_maintenance.py",
       "start_line": 145,
       "end_line": 153,
@@ -292,9 +292,9 @@
       "description_zh": "该附属代码负责Agent 任务会话、构建中笔记排队、修改总结和生命周期状态，并把结果交给所属页面中的主流程使用。"
     },
     {
-      "entity_id": "ent-bf297642c53c5342a7115eeecb0efe66",
+      "entity_id": "ent-dbf6d2ad82335a009923fba56601d159",
       "classification": "appendix",
-      "owner_page_id": "file-74fabe1658225e9f88d90968fed30ef5",
+      "owner_page_id": "file-31aa1d158e8a5002a8121895094d6880",
       "source_path": "scripts/ckb_core/agent_maintenance.py",
       "start_line": 156,
       "end_line": 228,
@@ -303,9 +303,9 @@
       "description_zh": "该附属代码负责管理 Agent 会话、构建中记录和修改总结落页，并把结果交给所属页面中的主流程使用。"
     },
     {
-      "entity_id": "ent-d24877f558c059c1850bedb7fd3669f7",
+      "entity_id": "ent-dd7bdc4f97925838a49ff0850b80af55",
       "classification": "appendix",
-      "owner_page_id": "file-74fabe1658225e9f88d90968fed30ef5",
+      "owner_page_id": "file-31aa1d158e8a5002a8121895094d6880",
       "source_path": "scripts/ckb_core/agent_maintenance.py",
       "start_line": 231,
       "end_line": 254,
@@ -314,9 +314,9 @@
       "description_zh": "该附属代码负责管理 Agent 会话、构建中记录和修改总结落页，并把结果交给所属页面中的主流程使用。"
     },
     {
-      "entity_id": "ent-aa8b2784015954b69fff14c12c676552",
+      "entity_id": "ent-e05f4b3a45d15655b6f8bb608c64dc49",
       "classification": "appendix",
-      "owner_page_id": "file-79c27d44cdea5ecbbe6731dd00bc5d72",
+      "owner_page_id": "file-6c9f2bb84b875e11814a85497a1c4f95",
       "source_path": "scripts/ckb_core/agent_protocol.py",
       "start_line": 36,
       "end_line": 37,
@@ -325,9 +325,9 @@
       "description_zh": "返回默认 `python` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-4404045351b35be38b79d0bd728fc66b",
+      "entity_id": "ent-409b2f875ea5539a8312a51c5a9ceb1b",
       "classification": "appendix",
-      "owner_page_id": "file-79c27d44cdea5ecbbe6731dd00bc5d72",
+      "owner_page_id": "file-6c9f2bb84b875e11814a85497a1c4f95",
       "source_path": "scripts/ckb_core/agent_protocol.py",
       "start_line": 40,
       "end_line": 41,
@@ -336,9 +336,9 @@
       "description_zh": "返回默认 `ckb` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-efe478bb09ba5f239dcf052f251b3b72",
+      "entity_id": "ent-6ec146f2c90c59c4ab8480ea0decdc56",
       "classification": "appendix",
-      "owner_page_id": "file-79c27d44cdea5ecbbe6731dd00bc5d72",
+      "owner_page_id": "file-6c9f2bb84b875e11814a85497a1c4f95",
       "source_path": "scripts/ckb_core/agent_protocol.py",
       "start_line": 44,
       "end_line": 45,
@@ -347,9 +347,9 @@
       "description_zh": "处理 `quote` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-e38decbff0a75d52b0da3b69721bed7b",
+      "entity_id": "ent-124d8fc60c445723bdf9f580f0e54d10",
       "classification": "appendix",
-      "owner_page_id": "file-79c27d44cdea5ecbbe6731dd00bc5d72",
+      "owner_page_id": "file-6c9f2bb84b875e11814a85497a1c4f95",
       "source_path": "scripts/ckb_core/agent_protocol.py",
       "start_line": 48,
       "end_line": 72,
@@ -358,9 +358,9 @@
       "description_zh": "处理 `examples` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-f467b54bb0135c479e70bc95a54d36ba",
+      "entity_id": "ent-f9e44d2fe269579c82743a928922d4b0",
       "classification": "appendix",
-      "owner_page_id": "file-79c27d44cdea5ecbbe6731dd00bc5d72",
+      "owner_page_id": "file-6c9f2bb84b875e11814a85497a1c4f95",
       "source_path": "scripts/ckb_core/agent_protocol.py",
       "start_line": 75,
       "end_line": 143,
@@ -369,9 +369,9 @@
       "description_zh": "处理 `text` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-d841b75dc8be52df8a90d034470960fe",
+      "entity_id": "ent-f578ea6143515b48b1a658cb9c50a731",
       "classification": "appendix",
-      "owner_page_id": "file-79c27d44cdea5ecbbe6731dd00bc5d72",
+      "owner_page_id": "file-6c9f2bb84b875e11814a85497a1c4f95",
       "source_path": "scripts/ckb_core/agent_protocol.py",
       "start_line": 146,
       "end_line": 160,
@@ -380,9 +380,9 @@
       "description_zh": "处理 `texts` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-1943c1f79d0f5f0b8623d47466ebecf9",
+      "entity_id": "ent-3572a3e7ef77591891b9e2599f51c4c8",
       "classification": "appendix",
-      "owner_page_id": "file-79c27d44cdea5ecbbe6731dd00bc5d72",
+      "owner_page_id": "file-6c9f2bb84b875e11814a85497a1c4f95",
       "source_path": "scripts/ckb_core/agent_protocol.py",
       "start_line": 163,
       "end_line": 164,
@@ -391,9 +391,9 @@
       "description_zh": "处理 `block` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-5172e631ada7559bb82c97a835f6fee1",
+      "entity_id": "ent-c2d6ba5899e7541a822b53dfb6d63e1c",
       "classification": "appendix",
-      "owner_page_id": "file-79c27d44cdea5ecbbe6731dd00bc5d72",
+      "owner_page_id": "file-6c9f2bb84b875e11814a85497a1c4f95",
       "source_path": "scripts/ckb_core/agent_protocol.py",
       "start_line": 167,
       "end_line": 176,
@@ -402,9 +402,9 @@
       "description_zh": "替换 `managed_block` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-eef5b168adac5eea975cb35f6dfe4ec1",
+      "entity_id": "ent-53571017eb6b5e7b9570864d048e6b70",
       "classification": "appendix",
-      "owner_page_id": "file-79c27d44cdea5ecbbe6731dd00bc5d72",
+      "owner_page_id": "file-6c9f2bb84b875e11814a85497a1c4f95",
       "source_path": "scripts/ckb_core/agent_protocol.py",
       "start_line": 179,
       "end_line": 185,
@@ -413,9 +413,9 @@
       "description_zh": "处理 `roots` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-8d583b4b82ea540ca897c8cd37f750a4",
+      "entity_id": "ent-364e4fd4fc3b56e2a6a4303a0afaaf0d",
       "classification": "appendix",
-      "owner_page_id": "file-79c27d44cdea5ecbbe6731dd00bc5d72",
+      "owner_page_id": "file-6c9f2bb84b875e11814a85497a1c4f95",
       "source_path": "scripts/ckb_core/agent_protocol.py",
       "start_line": 188,
       "end_line": 195,
@@ -424,9 +424,9 @@
       "description_zh": "写入 `exact_root` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-6292ca353dcb531385a6282ccded7455",
+      "entity_id": "ent-4764020b71975dbf9d918d6d2cdeb741",
       "classification": "appendix",
-      "owner_page_id": "file-79c27d44cdea5ecbbe6731dd00bc5d72",
+      "owner_page_id": "file-6c9f2bb84b875e11814a85497a1c4f95",
       "source_path": "scripts/ckb_core/agent_protocol.py",
       "start_line": 198,
       "end_line": 204,
@@ -435,9 +435,9 @@
       "description_zh": "更新 `markdown_ownership` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-a696f85faef858f4a48dd76190295aac",
+      "entity_id": "ent-e295d5047d6551ec932b53bc53a463a0",
       "classification": "appendix",
-      "owner_page_id": "file-79c27d44cdea5ecbbe6731dd00bc5d72",
+      "owner_page_id": "file-6c9f2bb84b875e11814a85497a1c4f95",
       "source_path": "scripts/ckb_core/agent_protocol.py",
       "start_line": 207,
       "end_line": 220,
@@ -446,9 +446,9 @@
       "description_zh": "隐藏 `protocol_files` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-f27cfa9833ed5896a57d4e697156f061",
+      "entity_id": "ent-f87a9b736d7e58be9e8c06a72fc42a1e",
       "classification": "appendix",
-      "owner_page_id": "file-79c27d44cdea5ecbbe6731dd00bc5d72",
+      "owner_page_id": "file-6c9f2bb84b875e11814a85497a1c4f95",
       "source_path": "scripts/ckb_core/agent_protocol.py",
       "start_line": 223,
       "end_line": 225,
@@ -457,9 +457,9 @@
       "description_zh": "加载 `record` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-5dd4cd03452b501793958bff19545d1a",
+      "entity_id": "ent-e9251e84e33757c0845349b486af9b26",
       "classification": "appendix",
-      "owner_page_id": "file-79c27d44cdea5ecbbe6731dd00bc5d72",
+      "owner_page_id": "file-6c9f2bb84b875e11814a85497a1c4f95",
       "source_path": "scripts/ckb_core/agent_protocol.py",
       "start_line": 228,
       "end_line": 235,
@@ -468,9 +468,9 @@
       "description_zh": "解析并确定 `runtime` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-d8951fc20ea85e96beafefcc9340f823",
+      "entity_id": "ent-7ff59c89f0f55d64bc811f86383590ee",
       "classification": "appendix",
-      "owner_page_id": "file-79c27d44cdea5ecbbe6731dd00bc5d72",
+      "owner_page_id": "file-6c9f2bb84b875e11814a85497a1c4f95",
       "source_path": "scripts/ckb_core/agent_protocol.py",
       "start_line": 238,
       "end_line": 242,
@@ -479,9 +479,9 @@
       "description_zh": "判断 `workspace_root_allowed` 所表达的条件。"
     },
     {
-      "entity_id": "ent-35258998cd1a54d1a49d7966fbaf171f",
+      "entity_id": "ent-c76f1d5de995540a8a0e5dfcb3b5187f",
       "classification": "appendix",
-      "owner_page_id": "file-79c27d44cdea5ecbbe6731dd00bc5d72",
+      "owner_page_id": "file-6c9f2bb84b875e11814a85497a1c4f95",
       "source_path": "scripts/ckb_core/agent_protocol.py",
       "start_line": 245,
       "end_line": 255,

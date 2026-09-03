@@ -1,26 +1,26 @@
 {
   "schema_version": 1,
   "status": "passed",
-  "updated_at_utc": "2026-09-02T22:42:31Z",
+  "updated_at_utc": "2026-09-03T00:51:30Z",
   "retention_days": 30,
   "max_records_per_shard": 2000,
   "max_shard_bytes": 1048576,
-  "records": 266,
+  "records": 277,
   "counts_by_operation": {
     "compile": 23,
-    "query": 170,
-    "record": 58,
-    "audit": 9,
-    "maintenance": 6
+    "query": 176,
+    "record": 61,
+    "audit": 10,
+    "maintenance": 7
   },
   "counts_by_status": {
-    "agent-reviewed": 32,
+    "agent-reviewed": 35,
     "complete": 6,
     "completed": 3,
     "failed": 5,
     "not-found": 5,
     "open": 8,
-    "passed": 179,
+    "passed": 187,
     "pending-agent-review": 5,
     "ready": 3,
     "ready-to-finalize": 3,
@@ -44,139 +44,17 @@
     {
       "date": "2026-09-02",
       "path": "2026-09-02.jsonl",
-      "records": 95,
-      "bytes": 28051
+      "records": 102,
+      "bytes": 30270
+    },
+    {
+      "date": "2026-09-03",
+      "path": "2026-09-03.jsonl",
+      "records": 4,
+      "bytes": 1081
     }
   ],
   "latest": [
-    {
-      "schema_version": 1,
-      "event_id": "operation-cef04de0be7f5714b7e1f0f0d44dac09",
-      "recorded_at_utc": "2026-09-02T20:01:33Z",
-      "operation": "record",
-      "command": "record:replace",
-      "result_status": "replaced",
-      "evidence_paths": [
-        "workspace-meta/record-replace/record-replace-6a5dac2064e95982ba671a4a7413a3af/manifest.json"
-      ]
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-4f404b91482250839b80bf125d74596e",
-      "recorded_at_utc": "2026-09-02T20:01:36Z",
-      "operation": "record",
-      "command": "record:replace",
-      "result_status": "replaced",
-      "evidence_paths": [
-        "workspace-meta/record-replace/record-replace-5080ef3fbc39580e8a8eae6a6395ac04/manifest.json"
-      ]
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-5b59fd87f1735b96baad9ec07d52000f",
-      "recorded_at_utc": "2026-09-02T20:11:30Z",
-      "operation": "query",
-      "command": "brief",
-      "result_status": "passed",
-      "evidence_paths": [
-        "machine/agent-packs/pack-20260902-201129-909007-01.json",
-        "machine/agent-packs/pack-20260902-201129-909007-01.md"
-      ]
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-e8f0749599f95c24bd0469d9d397e5bf",
-      "recorded_at_utc": "2026-09-02T20:18:20Z",
-      "operation": "query",
-      "command": "brief",
-      "result_status": "passed",
-      "evidence_paths": [
-        "machine/agent-packs/pack-20260902-201819-966215-01.json",
-        "machine/agent-packs/pack-20260902-201819-966215-01.md"
-      ]
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-a54f3bf2f08855a8ad6255cf465321d9",
-      "recorded_at_utc": "2026-09-02T21:03:21Z",
-      "operation": "record",
-      "command": "record:change",
-      "result_status": "agent-reviewed",
-      "evidence_paths": [
-        "human/changes/发布 README 人类入口并迁移既有 Change 页.md",
-        "markdown/changes/发布 README 人类入口并迁移既有 Change 页.md"
-      ]
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-3dc2dc11f75f595a9936a5c321fdaff6",
-      "recorded_at_utc": "2026-09-02T21:03:27Z",
-      "operation": "record",
-      "command": "record:experiment",
-      "result_status": "agent-reviewed",
-      "evidence_paths": [
-        "human/experiments/中文检索三臂效果复测.md",
-        "markdown/experiments/中文检索三臂效果复测.md"
-      ]
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-f88fbfd88ba05a7b95b19980681c9b65",
-      "recorded_at_utc": "2026-09-02T21:03:32Z",
-      "operation": "record",
-      "command": "record:experiment",
-      "result_status": "agent-reviewed",
-      "evidence_paths": [
-        "human/experiments/机器 Tag 导航隔离实验.md",
-        "markdown/experiments/机器 Tag 导航隔离实验.md"
-      ]
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-02fd33602b3555b6a20f66baabb096f3",
-      "recorded_at_utc": "2026-09-02T21:04:23Z",
-      "operation": "record",
-      "command": "gaps:create",
-      "result_status": "open",
-      "evidence_paths": [
-        "workspace-meta/gaps/records/gap-6c6eb1a7982550999213f764e115e7ad.json"
-      ]
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-7fd0240cada65cc5b33deeec8cce7037",
-      "recorded_at_utc": "2026-09-02T21:04:29Z",
-      "operation": "record",
-      "command": "gaps:create",
-      "result_status": "open",
-      "evidence_paths": [
-        "workspace-meta/gaps/records/gap-8c436abb192752cb90c955c0158d611e.json"
-      ]
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-bd0f0c81facd5049bf456073ca251211",
-      "recorded_at_utc": "2026-09-02T21:05:09Z",
-      "operation": "query",
-      "command": "brief",
-      "result_status": "passed",
-      "evidence_paths": [
-        "machine/agent-packs/pack-20260902-210508-528520-01.json",
-        "machine/agent-packs/pack-20260902-210508-528520-01.md"
-      ]
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-f893b116e3775a79a299c9c96f613505",
-      "recorded_at_utc": "2026-09-02T21:06:39Z",
-      "operation": "query",
-      "command": "brief",
-      "result_status": "passed",
-      "evidence_paths": [
-        "machine/agent-packs/pack-20260902-210639-532261-01.json",
-        "machine/agent-packs/pack-20260902-210639-532261-01.md"
-      ]
-    },
     {
       "schema_version": 1,
       "event_id": "operation-28ffe498eef7506891d0cfdc63568573",
@@ -282,11 +160,136 @@
       "evidence_paths": [
         "workspace-meta/record-replace/record-replace-faf783d910c859c88237e10e271680f9/manifest.json"
       ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-0cf746a359905475a19742652e0d89c0",
+      "recorded_at_utc": "2026-09-02T22:50:19Z",
+      "operation": "record",
+      "command": "record:experiment",
+      "result_status": "agent-reviewed",
+      "evidence_paths": [
+        "human/experiments/单文档自动页面扩张对照实验.md",
+        "markdown/experiments/单文档自动页面扩张对照实验.md"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-065300c843ff556a8a84ce360d3d4c6c",
+      "recorded_at_utc": "2026-09-02T22:50:25Z",
+      "operation": "record",
+      "command": "record:experiment",
+      "result_status": "agent-reviewed",
+      "evidence_paths": [
+        "human/experiments/真实语义向量检索三臂对照实验.md",
+        "markdown/experiments/真实语义向量检索三臂对照实验.md"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-a75c1ed2f6cd59ecada2eb58b3886716",
+      "recorded_at_utc": "2026-09-02T22:51:31Z",
+      "operation": "audit",
+      "command": "reference:audit",
+      "result_status": "passed",
+      "evidence_paths": []
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-68f4889287835b98b46393beaeea3891",
+      "recorded_at_utc": "2026-09-02T22:51:48Z",
+      "operation": "query",
+      "command": "brief",
+      "result_status": "passed",
+      "evidence_paths": [
+        "machine/agent-packs/pack-20260902-225148-363978-01.json",
+        "machine/agent-packs/pack-20260902-225148-363978-01.md"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-af97d7f1d2955cf6b7c325d303de05ea",
+      "recorded_at_utc": "2026-09-02T22:58:28Z",
+      "operation": "query",
+      "command": "brief",
+      "result_status": "passed",
+      "evidence_paths": [
+        "machine/agent-packs/pack-20260902-225827-415575-01.json",
+        "machine/agent-packs/pack-20260902-225827-415575-01.md"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-a7cdf28984d55c719086d07152aca6ac",
+      "recorded_at_utc": "2026-09-02T23:36:51Z",
+      "operation": "record",
+      "command": "record:change",
+      "result_status": "agent-reviewed",
+      "evidence_paths": [
+        "human/changes/发布 GitHub 发展分支并同步稳定知识库.md",
+        "markdown/changes/发布 GitHub 发展分支并同步稳定知识库.md"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-4453fb6c7411559c825005523d8ff7c9",
+      "recorded_at_utc": "2026-09-02T23:36:55Z",
+      "operation": "query",
+      "command": "brief",
+      "result_status": "passed",
+      "evidence_paths": [
+        "machine/agent-packs/pack-20260902-233654-605181-01.json",
+        "machine/agent-packs/pack-20260902-233654-605181-01.md"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-508790a6a3af51b1a5216f042ccfc18c",
+      "recorded_at_utc": "2026-09-03T00:44:50Z",
+      "operation": "query",
+      "command": "brief",
+      "result_status": "passed",
+      "evidence_paths": [
+        "machine/agent-packs/pack-20260903-004449-491469-01.json",
+        "machine/agent-packs/pack-20260903-004449-491469-01.md"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-ab8226c9aa4e517bb62c7406d8472abc",
+      "recorded_at_utc": "2026-09-03T00:49:10Z",
+      "operation": "maintenance",
+      "command": "maintain",
+      "result_status": "passed",
+      "evidence_paths": [
+        "workspace-meta/maintenance/latest.json"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-9a6f2c1a14485193ba25cdd3b974a7d7",
+      "recorded_at_utc": "2026-09-03T00:50:17Z",
+      "operation": "query",
+      "command": "brief",
+      "result_status": "passed",
+      "evidence_paths": [
+        "machine/agent-packs/pack-20260903-005016-636896-01.json",
+        "machine/agent-packs/pack-20260903-005016-636896-01.md"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-4634ff30afdb582497110512b48e927e",
+      "recorded_at_utc": "2026-09-03T00:51:30Z",
+      "operation": "query",
+      "command": "changes",
+      "result_status": "passed",
+      "evidence_paths": []
     }
   ],
   "bounded_drops": {
     "size_or_count": 0,
     "retention": 0,
-    "deduplicated": 556
+    "deduplicated": 586
   }
 }

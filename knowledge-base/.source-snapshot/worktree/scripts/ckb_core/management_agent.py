@@ -420,8 +420,6 @@ def _git_preflight(
     if not current_head:
         raise CkbError(f"management integration repository has no HEAD: {repo_root}")
     dirty = (_git(repo_root, "status", "--porcelain=v1", "--untracked-files=all") or "").splitlines()
-    if dirty:
-        raise CkbError(f"management integration worktree must be clean: {repo_root}; paths={dirty[:12]}")
     return {
         "workspace_root": str(workspace_root),
         "repo_root": str(repo_root),
@@ -429,7 +427,8 @@ def _git_preflight(
         "integration_branch": integration_branch,
         "current_branch": current_branch,
         "head": current_head,
-        "clean": True,
+        "clean": not dirty,
+        "dirty_paths": dirty[:100],
     }
 
 

@@ -217,7 +217,7 @@ class ManagementBindingLifecycleTest(unittest.TestCase):
         self.assertEqual(current["binding"]["binding_id"], original["binding"]["binding_id"])
         self.assertEqual(Path(current["binding"]["repo_root"]), self.repo.resolve())
 
-    def test_missing_repo_output_branch_and_dirty_tree_fail_preflight(self) -> None:
+    def test_missing_repo_output_and_branch_fail_while_dirty_tree_can_bind(self) -> None:
         with self.assertRaisesRegex(CkbError, "repository does not exist"):
             bind_conversation(self.payload("missing-repo", repo_root=str(self.workspace / "absent")), self.registry)
         with self.assertRaisesRegex(CkbError, "knowledge base does not exist"):
@@ -225,8 +225,13 @@ class ManagementBindingLifecycleTest(unittest.TestCase):
         with self.assertRaisesRegex(CkbError, "branch mismatch"):
             bind_conversation(self.payload("wrong-branch", integration_branch="absent"), self.registry)
         (self.repo / "app.py").write_text("def value():\n    return 2\n", encoding="utf-8")
-        with self.assertRaisesRegex(CkbError, "must be clean"):
-            bind_conversation(self.payload("dirty"), self.registry)
+        bound = bind_conversation(self.payload("dirty"), self.registry)
+        self.assertEqual(bound["status"], "bound")
+        self.assertFalse(bound["preflight"]["clean"])
+        self.assertTrue(any(path.endswith("app.py") for path in bound["preflight"]["dirty_paths"]))
+        status = binding_status("dirty", "generic", self.registry)
+        self.assertEqual(status["status"], "blocked")
+        self.assertIn("integration-worktree-dirty", status["blockers"])
         self.assertEqual(audit_manager_registry(self.registry)["status"], "passed")
 
     def test_non_git_unborn_and_missing_state_outputs_fail_preflight(self) -> None:

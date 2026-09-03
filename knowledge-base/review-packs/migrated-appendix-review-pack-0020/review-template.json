@@ -6,48 +6,9 @@
   "reviewed_at_utc": null,
   "reviews": [
     {
-      "entity_id": "ent-674084dbf98e5ce69cbf3a38f88a0712",
+      "entity_id": "ent-ea143e08325d5c2b846cf1988b0dd16a",
       "classification": "appendix",
-      "owner_page_id": "file-48b168cdcbce59c7a2b008c2cfc98484",
-      "source_path": "scripts/ckb_core/management_agent.py",
-      "start_line": 1066,
-      "end_line": 1206,
-      "source_blob": "0b47588092be278007c873268283988e86f83b42",
-      "source_excerpt": "def create_management_task(\n    conversation_id: str,\n    harness_id: str,\n    task_id: str,\n    branch: str,\n    worktree: Path,\n    registry_path: Path | None = None,\n    *,\n    allowed_paths: list[str] | None = None,\n    forbidden_paths: list[str] | None = None,\n    tests: list[str] | None = None,\n    python: Path | None = None,\n    ckb: Path | None = None,\n) -> dict[str, Any]:\n    task_identity = task_id.strip()\n    if not _OPAQUE_ID.fullmatch(task_identity):\n        raise CkbError(\"management task_id must be bounded opaque text\")\n    branch = branch.strip()\n    allowed = _bounded_values(allowed_paths, \"allowed_paths\")\n    forbidden = _bounded_values(forbidden_paths, \"forbidden_paths\")\n    test_commands = _bounded_values(tests, \"tests\", required=True)\n    context = management_context(\n        conversation_id,\n        harness_id,\n        f\"派发开发任务 {task_identity}\",\n        registry_path,\n        python=python,\n        ckb=ckb,\n    )\n    if context[\"status\"] != \"ready\":\n        raise CkbError(f\"management task dispatch is blocked: {context['blockers']}\")\n    binding = context[\"binding\"]\n    repo = Path(binding[\"repo_root\"])\n    workspace = Path(binding[\"workspace_root\"])\n    worktree = worktree.expanduser().resolve()\n    if worktree == repo or _is_within(worktree, repo):\n        raise CkbError(\"management task worktree must be independent from the integration repository\")\n    if not _is_within(worktree, workspace):\n        raise CkbError(f\"management task worktree must stay inside workspace_root: {workspace}\")\n    check_ref = run([\"git\", \"-C\", str(repo), \"check-ref-format\", \"--branch\", branch], timeout=30)\n    if check_ref.returncode:\n        detail = (check_ref.stderr or check_ref.stdout).strip()\n        raise CkbError(f\"invalid management task branch: {branch}: {detail}\")\n    registry = (registry_path or default_management_registry_path()).expanduser().resolve()\n    dispatch_id = _task_id(binding[\"binding_id\"], task_identity)\n    result: dict[str, Any] | None = None\n    error: CkbError | None = None\n    created_worktree = False\n    created_branch = False\n    prompt_path: Path | None = None\n    with _locked_registry(registry) as (locked_path, value):\n        existing = _find_task(value, dispatch_id)\n        try:\n            if existing:\n                expected = {\n                    \"branch\": branch,\n                    \"worktree\": str(worktree),\n                    \"allowed_paths\": allowed,\n                    \"forbidden_paths\": forbidden,\n                    \"tests\": test_commands,\n                }\n                conflicts = [field for field, expected_value in expected.items() if existing.get(field) != expected_value]\n                if conflicts:\n                    raise CkbError(f\"management task conflicts with existing dispatch fields: {conflicts}\")\n                result = {\n                    \"schema_version\": MANAGEMENT_SCHEMA_VERSION,\n                    \"status\": \"already-created\",\n                    \"registry\": str(locked_path),\n                    \"task\": existing,\n                }\n            else:\n                # Binding/context was checked immediately before taking the\n                # lock; recheck the two Git invariants that protect creation.\n                runtime = _runtime_state(binding)\n                if runtime[\"errors\"]:\n                    raise CkbError(f\"management task dispatch Git gate failed: {runtime['errors']}\")\n                if worktree.exists():\n                    raise CkbError(f\"management task worktree already exists: {worktree}\")\n                if _git(repo, \"show-ref\", \"--verify\", f\"refs/heads/{branch}\", allow_failure=True):\n                    raise CkbError(f\"management task branch already exists: {branch}\")\n                add = run(\n                    [\"git\", \"-C\", str(repo), \"worktree\", \"add\", \"-b\", branch, str(worktree), binding[\"bound_head\"]],\n                    timeout=120,\n                )\n                if add.returncode:\n                    detail = (add.stderr or add.stdout).strip()\n                    raise CkbError(f\"management task worktree creation failed: {detail}\")\n                created_worktree = True\n                created_branch = True\n                stamp = utc_now()\n                task = {\n                    \"schema_version\": MANAGEMENT_SCHEMA_VERSION,\n                    \"dispatch_id\": dispatch_id,\n                    \"binding_id\": binding[\"binding_id\"],\n                    \"task_id\": task_identity,\n                    \"status\": \"created\",\n                    \"base_commit\": binding[\"bound_head\"],\n                    \"branch\": branch,\n                    \"worktree\": str(worktree),\n                    \"allowed_paths\": allowed,\n                    \"forbidden_paths\": forbidden,\n                    \"tests\": test_commands,\n                    \"created_at_utc\": stamp,\n                    \"updated_at_utc\": stamp,\n                    \"prompt_path\": None,\n                    \"prompt_sha256\": None,\n                    \"verification_path\": None,\n                    \"verification_sha256\": None,\n                }\n                prompt = _task_prompt(binding, task)\n                prompt_path = _task_artifact_root(locked_path) / \"prompts\" / f\"{dispatch_id}.md\"\n                prompt_path.parent.mkdir(parents=True, exist_ok=True)\n                if prompt_path.exists():\n                    raise CkbError(f\"management task prompt already exists without registry state: {prompt_path}\")\n                prompt_path.write_text(prompt, encoding=\"utf-8\", newline=\"\\n\")\n                task[\"prompt_path\"] = str(prompt_path.resolve())\n                task[\"prompt_sha256\"] = hashlib.sha256(prompt_path.read_bytes()).hexdigest()\n                value[\"tasks\"].append(task)\n                value[\"tasks\"].sort(key=lambda item: item[\"dispatch_id\"])\n                value[\"audit_log\"].append(_audit_event(binding[\"binding_id\"], \"task-create\", \"passed\", dispatch_id))\n                result = {\n                    \"schema_version\": MANAGEMENT_SCHEMA_VERSION,\n                    \"status\": \"created\",\n                    \"registry\": str(locked_path),\n                    \"task\": task,\n                    \"prompt\": prompt,\n                }\n        except CkbError as exc:\n            value[\"audit_log\"].append(_audit_event(binding[\"binding_id\"], \"task-create\", \"failed\", type(exc).__name__))\n            error = exc\n    if error is not None:\n        if prompt_path is not None:\n            prompt_path.unlink(missing_ok=True)\n        if created_worktree:\n            run([\"git\", \"-C\", str(repo), \"worktree\", \"remove\", \"--force\", str(worktree)], timeout=120)\n        if created_branch:\n            run([\"git\", \"-C\", str(repo), \"branch\", \"-D\", branch], timeout=60)\n        raise error\n    assert result is not None\n    result[\"collaboration\"] = _record_task_collaboration(binding, result[\"task\"], \"planned\", result[\"task\"][\"base_commit\"])\n    return result",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-b4f6d800e4ae5e708819a1515588fe11",
-      "classification": "appendix",
-      "owner_page_id": "file-48b168cdcbce59c7a2b008c2cfc98484",
-      "source_path": "scripts/ckb_core/management_agent.py",
-      "start_line": 1209,
-      "end_line": 1292,
-      "source_blob": "0b47588092be278007c873268283988e86f83b42",
-      "source_excerpt": "def management_task_status(dispatch_id: str, registry_path: Path | None = None) -> dict[str, Any]:\n    registry = (registry_path or default_management_registry_path()).expanduser().resolve()\n    value = _read_registry(registry)\n    task = _find_task(value, dispatch_id)\n    if task is None:\n        raise CkbError(f\"management task does not exist: {dispatch_id}\")\n    binding = next((item for item in value[\"bindings\"] if item.get(\"binding_id\") == task[\"binding_id\"]), None)\n    if binding is None:\n        raise CkbError(f\"management task binding does not exist: {task['binding_id']}\")\n    binding_runtime = _runtime_state(binding)\n    worktree = Path(task[\"worktree\"])\n    development: dict[str, Any] = {\n        \"worktree_exists\": worktree.is_dir(),\n        \"branch\": None,\n        \"head\": None,\n        \"clean\": None,\n        \"dirty_paths\": [],\n        \"base_is_ancestor\": False,\n        \"commit_count\": 0,\n        \"prompt_verified\": False,\n        \"verification_verified\": False,\n        \"errors\": [],\n    }\n    prompt_path = Path(task[\"prompt_path\"])\n    development[\"prompt_verified\"] = (\n        prompt_path.is_file() and hashlib.sha256(prompt_path.read_bytes()).hexdigest() == task[\"prompt_sha256\"]\n    )\n    if not development[\"prompt_verified\"]:\n        development[\"errors\"].append(\"task-prompt-drift\")\n    if not worktree.is_dir():\n        development[\"errors\"].append(\"task-worktree-missing\")\n    else:\n        development[\"branch\"] = _git(worktree, \"symbolic-ref\", \"--quiet\", \"--short\", \"HEAD\", allow_failure=True)\n        development[\"head\"] = _git(worktree, \"rev-parse\", \"--verify\", \"HEAD\", allow_failure=True)\n        dirty = (_git(worktree, \"status\", \"--porcelain=v1\", \"--untracked-files=all\", allow_failure=True) or \"\").splitlines()\n        development[\"dirty_paths\"] = dirty[:100]\n        development[\"clean\"] = not dirty\n        if development[\"branch\"] != task[\"branch\"]:\n            development[\"errors\"].append(\"task-branch-mismatch\")\n        if development[\"head\"]:\n            ancestor = run(\n                [\"git\", \"-C\", str(worktree), \"merge-base\", \"--is-ancestor\", task[\"base_commit\"], development[\"head\"]],\n                timeout=30,\n            )\n            development[\"base_is_ancestor\"] = ancestor.returncode == 0\n            count = _git(worktree, \"rev-list\", \"--count\", f\"{task['base_commit']}..{development['head']}\", allow_failure=True)\n            development[\"commit_count\"] = int(count) if count and count.isdigit() else 0\n        if not development[\"base_is_ancestor\"]:\n            development[\"errors\"].append(\"task-history-diverged\")\n        if not development[\"clean\"]:\n            development[\"errors\"].append(\"task-worktree-dirty\")\n        if development[\"commit_count\"] < 1:\n            development[\"errors\"].append(\"task-has-no-commits\")\n    verification_path = Path(task[\"verification_path\"]) if task.get(\"verification_path\") else None\n    if verification_path and verification_path.is_file():\n        actual_hash = hashlib.sha256(verification_path.read_bytes()).hexdigest()\n        try:\n            verification = json_load(verification_path)\n        except Exception:\n            verification = {}\n        development[\"verification_verified\"] = bool(\n            actual_hash == task.get(\"verification_sha256\")\n            and verification.get(\"status\") == \"passed\"\n            and verification.get(\"development_head\") == development[\"head\"]\n            and verification.get(\"integration_head\") == binding[\"bound_head\"]\n            and verification.get(\"tests\") == task[\"tests\"]\n        )\n    if task[\"status\"] == \"review-passed\" and not development[\"verification_verified\"]:\n        development[\"errors\"].append(\"task-verification-stale\")\n    blockers = ([] if binding[\"status\"] == \"active\" else [\"binding-unbound\"]) + binding_runtime[\"errors\"] + development[\"errors\"]\n    merge_ready = not blockers and development[\"verification_verified\"]\n    collaboration = query_collaboration_records(Path(binding[\"knowledge_base\"]), task=str(task[\"task_id\"]))\n    return {\n        \"schema_version\": MANAGEMENT_SCHEMA_VERSION,\n        \"status\": \"merge-ready\" if merge_ready else \"blocked\",\n        \"registry\": str(registry),\n        \"binding\": binding,\n        \"task\": task,\n        \"integration\": binding_runtime,\n        \"development\": development,\n        \"collaboration\": collaboration,\n        \"blockers\": blockers,\n        \"merge_performed\": False,\n    }",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-a8c0d2d67a6d52dfa90fb3787b2e4463",
-      "classification": "appendix",
-      "owner_page_id": "file-48b168cdcbce59c7a2b008c2cfc98484",
-      "source_path": "scripts/ckb_core/management_agent.py",
-      "start_line": 1295,
-      "end_line": 1399,
-      "source_blob": "0b47588092be278007c873268283988e86f83b42",
-      "source_excerpt": "def review_management_task(dispatch_id: str, registry_path: Path | None = None) -> dict[str, Any]:\n    registry = (registry_path or default_management_registry_path()).expanduser().resolve()\n    task_lock = _task_artifact_root(registry) / \"locks\" / dispatch_id\n    with _registry_lock(task_lock, timeout=300.0):\n        before = management_task_status(dispatch_id, registry)\n        if before[\"status\"] == \"merge-ready\":\n            task = before[\"task\"]\n            verification_path = Path(task[\"verification_path\"])\n            collaboration = _record_task_collaboration(before[\"binding\"], task, \"implemented\", str(before[\"development\"][\"head\"]))\n            return {\n                \"schema_version\": MANAGEMENT_SCHEMA_VERSION,\n                \"status\": \"passed\",\n                \"registry\": str(registry),\n                \"verification\": json_load(verification_path),\n                \"verification_path\": str(verification_path),\n                \"verification_sha256\": task[\"verification_sha256\"],\n                \"gate\": before,\n                \"idempotent\": True,\n                \"collaboration\": collaboration,\n                \"merge_performed\": False,\n            }\n        allowed_pre_review = {\"task-verification-stale\"}\n        blockers = [item for item in before[\"blockers\"] if item not in allowed_pre_review]\n        if blockers:\n            raise CkbError(f\"management task review is blocked: {blockers}\")\n        task = before[\"task\"]\n        binding = before[\"binding\"]\n        worktree = Path(task[\"worktree\"])\n        initial_head = before[\"development\"][\"head\"]\n        results = []\n        passed = True\n        for command in task[\"tests\"]:\n            completed = subprocess.run(\n                command,\n                cwd=str(worktree),\n                shell=True,\n                text=True,\n                encoding=\"utf-8\",\n                errors=\"replace\",\n                stdout=subprocess.PIPE,\n                stderr=subprocess.PIPE,\n            )\n            results.append(\n                {\n                    \"command\": command,\n                    \"exit_status\": completed.returncode,\n                    \"stdout\": completed.stdout[-12_000:],\n                    \"stderr\": completed.stderr[-12_000:],\n                }\n            )\n            if completed.returncode:\n                passed = False\n        final_head = _git(worktree, \"rev-parse\", \"--verify\", \"HEAD\", allow_failure=True)\n        final_dirty = (_git(worktree, \"status\", \"--porcelain=v1\", \"--untracked-files=all\", allow_failure=True) or \"\").splitlines()\n        integration_head = _git(Path(binding[\"repo_root\"]), \"rev-parse\", \"--verify\", f\"refs/heads/{binding['integration_branch']}^{{commit}}\", allow_failure=True)\n        if final_head != initial_head or final_dirty or integration_head != binding[\"bound_head\"]:\n            passed = False\n        verification = {\n            \"schema_version\": MANAGEMENT_SCHEMA_VERSION,\n            \"status\": \"passed\" if passed else \"failed\",\n            \"dispatch_id\": dispatch_id,\n            \"base_commit\": task[\"base_commit\"],\n            \"development_head\": final_head,\n            \"integration_head\": integration_head,\n            \"worktree_clean\": not final_dirty,\n            \"tests\": task[\"tests\"],\n            \"results\": results,\n            \"verified_at_utc\": utc_now(),\n        }\n        verification_path = _task_artifact_root(registry) / \"verifications\" / f\"{dispatch_id}.json\"\n        json_write(verification_path, verification)\n        verification_hash = hashlib.sha256(verification_path.read_bytes()).hexdigest()\n        with _locked_registry(registry) as (_locked, value):\n            current = _find_task(value, dispatch_id)\n            if current is None:\n                raise CkbError(f\"management task disappeared during review: {dispatch_id}\")\n            current.update(\n                {\n                    \"status\": \"review-passed\" if passed else \"review-failed\",\n                    \"updated_at_utc\": utc_now(),\n                    \"verification_path\": str(verification_path.resolve()),\n                    \"verification_sha256\": verification_hash,\n                }\n            )\n            value[\"audit_log\"].append(\n                _audit_event(binding[\"binding_id\"], \"task-review\", \"passed\" if passed else \"failed\", dispatch_id)\n            )\n        after = management_task_status(dispatch_id, registry)\n        collaboration = (\n            _record_task_collaboration(binding, task, \"implemented\", str(final_head))\n            if after[\"status\"] == \"merge-ready\" and final_head\n            else None\n        )\n        return {\n            \"schema_version\": MANAGEMENT_SCHEMA_VERSION,\n            \"status\": \"passed\" if after[\"status\"] == \"merge-ready\" else \"failed\",\n            \"registry\": str(registry),\n            \"verification\": verification,\n            \"verification_path\": str(verification_path.resolve()),\n            \"verification_sha256\": verification_hash,\n            \"gate\": after,\n            \"idempotent\": False,\n            \"collaboration\": collaboration,\n            \"merge_performed\": False,\n        }",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-6512ccef398453dfb3289d47af297b8a",
-      "classification": "appendix",
-      "owner_page_id": "file-5ea567588b7c53e58de20672149e2874",
+      "owner_page_id": "file-3c6763b493d3585080ba55402c21d58e",
       "source_path": "scripts/ckb_core/migration.py",
       "start_line": 24,
       "end_line": 34,
@@ -58,9 +19,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-e55aa6419c455138a5bc5e07d8019adc",
+      "entity_id": "ent-d3b14497c623590c95ff6ac71e3beb7f",
       "classification": "appendix",
-      "owner_page_id": "file-5ea567588b7c53e58de20672149e2874",
+      "owner_page_id": "file-3c6763b493d3585080ba55402c21d58e",
       "source_path": "scripts/ckb_core/migration.py",
       "start_line": 37,
       "end_line": 38,
@@ -71,9 +32,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-8b90e3d3ca915c9e896d3bb3d5a171a9",
+      "entity_id": "ent-b12a5596de575e65a5b9830fca8a9a4b",
       "classification": "appendix",
-      "owner_page_id": "file-5ea567588b7c53e58de20672149e2874",
+      "owner_page_id": "file-3c6763b493d3585080ba55402c21d58e",
       "source_path": "scripts/ckb_core/migration.py",
       "start_line": 41,
       "end_line": 62,
@@ -84,9 +45,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-8c483b9a34d15f84b4f915d4b8232bb2",
+      "entity_id": "ent-a77c9e26bca85477853ef69a9e164b5a",
       "classification": "appendix",
-      "owner_page_id": "file-5ea567588b7c53e58de20672149e2874",
+      "owner_page_id": "file-3c6763b493d3585080ba55402c21d58e",
       "source_path": "scripts/ckb_core/migration.py",
       "start_line": 65,
       "end_line": 74,
@@ -97,9 +58,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-43a111216b9454b58e81a1899d4c7fb7",
+      "entity_id": "ent-958c9751fe4f538ab73f325787e0b9e7",
       "classification": "appendix",
-      "owner_page_id": "file-5ea567588b7c53e58de20672149e2874",
+      "owner_page_id": "file-3c6763b493d3585080ba55402c21d58e",
       "source_path": "scripts/ckb_core/migration.py",
       "start_line": 77,
       "end_line": 84,
@@ -110,9 +71,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-a25c5dc873825077b3bb5348c2deac64",
+      "entity_id": "ent-84a3c4ce3139515eb5db174a7fd1eada",
       "classification": "appendix",
-      "owner_page_id": "file-5ea567588b7c53e58de20672149e2874",
+      "owner_page_id": "file-3c6763b493d3585080ba55402c21d58e",
       "source_path": "scripts/ckb_core/migration.py",
       "start_line": 87,
       "end_line": 104,
@@ -123,9 +84,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-37fe448669e258b59178ec874ac8ede4",
+      "entity_id": "ent-0aa0a42916c15241b347f7864abcd5d7",
       "classification": "appendix",
-      "owner_page_id": "file-5ea567588b7c53e58de20672149e2874",
+      "owner_page_id": "file-3c6763b493d3585080ba55402c21d58e",
       "source_path": "scripts/ckb_core/migration.py",
       "start_line": 107,
       "end_line": 111,
@@ -136,9 +97,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-0e176e8e5a7e53bfb5b8dea0544bded8",
+      "entity_id": "ent-6df74ae4c9d2561996457283fa896552",
       "classification": "appendix",
-      "owner_page_id": "file-5ea567588b7c53e58de20672149e2874",
+      "owner_page_id": "file-3c6763b493d3585080ba55402c21d58e",
       "source_path": "scripts/ckb_core/migration.py",
       "start_line": 114,
       "end_line": 181,
@@ -149,9 +110,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-43b99a9757a25e29a3b4693e11fa8607",
+      "entity_id": "ent-75ddc6c17a7f5d4f9a9c7e15f87ff852",
       "classification": "appendix",
-      "owner_page_id": "file-5ea567588b7c53e58de20672149e2874",
+      "owner_page_id": "file-3c6763b493d3585080ba55402c21d58e",
       "source_path": "scripts/ckb_core/migration.py",
       "start_line": 184,
       "end_line": 196,
@@ -162,9 +123,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-6d14969a9c6a5932a540ac3074297b46",
+      "entity_id": "ent-32ae3d6814f85ff08a7fff3db9e93928",
       "classification": "appendix",
-      "owner_page_id": "file-5ea567588b7c53e58de20672149e2874",
+      "owner_page_id": "file-3c6763b493d3585080ba55402c21d58e",
       "source_path": "scripts/ckb_core/migration.py",
       "start_line": 199,
       "end_line": 250,
@@ -175,9 +136,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-bdfada1b510852b680a7bb26885f7cb2",
+      "entity_id": "ent-5ab33ba8e0cf5ae8a9acd7193dce816d",
       "classification": "appendix",
-      "owner_page_id": "file-5ea567588b7c53e58de20672149e2874",
+      "owner_page_id": "file-3c6763b493d3585080ba55402c21d58e",
       "source_path": "scripts/ckb_core/migration.py",
       "start_line": 253,
       "end_line": 364,
@@ -188,9 +149,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-bb6f64fa293a5b2384e2e7c00553271e",
+      "entity_id": "ent-ebcf713daa13501abd2cec2ab3b7a46b",
       "classification": "appendix",
-      "owner_page_id": "ent-c3c5e5c3610f50b888dd3cca84ef2eb0",
+      "owner_page_id": "ent-44cb74a1b17d5cdfb391a022fed81d84",
       "source_path": "scripts/ckb_core/migration.py",
       "start_line": 373,
       "end_line": 374,
@@ -201,9 +162,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-6d9ad48a5c3f5774a4cca6680c89e653",
+      "entity_id": "ent-6d537ce88a7851ed8589b1c9ae5b8cf2",
       "classification": "appendix",
-      "owner_page_id": "file-5ea567588b7c53e58de20672149e2874",
+      "owner_page_id": "file-3c6763b493d3585080ba55402c21d58e",
       "source_path": "scripts/ckb_core/migration.py",
       "start_line": 482,
       "end_line": 484,
@@ -214,9 +175,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-f3e94365527b54b1901fbff83c124862",
+      "entity_id": "ent-d61aaf5d139259d9b17e5170ccdbf453",
       "classification": "appendix",
-      "owner_page_id": "file-5ea567588b7c53e58de20672149e2874",
+      "owner_page_id": "file-3c6763b493d3585080ba55402c21d58e",
       "source_path": "scripts/ckb_core/migration.py",
       "start_line": 487,
       "end_line": 581,
@@ -227,9 +188,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-c4964ff719d85b1fb889780ecf1df48a",
+      "entity_id": "ent-77c1583468a7513d9727a74361413dbf",
       "classification": "appendix",
-      "owner_page_id": "file-5ea567588b7c53e58de20672149e2874",
+      "owner_page_id": "file-3c6763b493d3585080ba55402c21d58e",
       "source_path": "scripts/ckb_core/migration.py",
       "start_line": 515,
       "end_line": 520,
@@ -240,9 +201,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-3720a0ca2b1755e1bf6d75e8c9afdeab",
+      "entity_id": "ent-a3564f38a0d35314b3b691c0ecd3f7a4",
       "classification": "appendix",
-      "owner_page_id": "file-5ea567588b7c53e58de20672149e2874",
+      "owner_page_id": "file-3c6763b493d3585080ba55402c21d58e",
       "source_path": "scripts/ckb_core/migration.py",
       "start_line": 584,
       "end_line": 603,
@@ -253,9 +214,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-c1889b8b0ff65ef88da595e4bbe0d5d3",
+      "entity_id": "ent-eb0bde7e27b157569ff19e757aacd86e",
       "classification": "appendix",
-      "owner_page_id": "file-3c60d8e38467508285a0fb1c144fe7c5",
+      "owner_page_id": "file-03da98d047795121a6bc4f9ca89c629f",
       "source_path": "scripts/ckb_core/navigation.py",
       "start_line": 42,
       "end_line": 44,
@@ -266,9 +227,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-533b9e69bdfc5c9db925b2ba6b9b6899",
+      "entity_id": "ent-b748d4f3ad6250b5be7461dc65ef37dd",
       "classification": "appendix",
-      "owner_page_id": "file-3c60d8e38467508285a0fb1c144fe7c5",
+      "owner_page_id": "file-03da98d047795121a6bc4f9ca89c629f",
       "source_path": "scripts/ckb_core/navigation.py",
       "start_line": 47,
       "end_line": 50,
@@ -279,9 +240,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-d5f8ef4e10b25b0bbd6efd989f2dd815",
+      "entity_id": "ent-fda187feba7d5958a4077cdd29a0236d",
       "classification": "appendix",
-      "owner_page_id": "file-3c60d8e38467508285a0fb1c144fe7c5",
+      "owner_page_id": "file-03da98d047795121a6bc4f9ca89c629f",
       "source_path": "scripts/ckb_core/navigation.py",
       "start_line": 53,
       "end_line": 83,
@@ -292,9 +253,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-7e4e9bb238b75f399d37e66a944205cf",
+      "entity_id": "ent-7e3bd9e17be050219916ab2f2c014f36",
       "classification": "appendix",
-      "owner_page_id": "file-3c60d8e38467508285a0fb1c144fe7c5",
+      "owner_page_id": "file-03da98d047795121a6bc4f9ca89c629f",
       "source_path": "scripts/ckb_core/navigation.py",
       "start_line": 86,
       "end_line": 98,
@@ -305,9 +266,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-68c39c162bd0554d839d692a3da39055",
+      "entity_id": "ent-3002f1f3125b502e959054dbc16cdfaf",
       "classification": "appendix",
-      "owner_page_id": "file-3c60d8e38467508285a0fb1c144fe7c5",
+      "owner_page_id": "file-03da98d047795121a6bc4f9ca89c629f",
       "source_path": "scripts/ckb_core/navigation.py",
       "start_line": 101,
       "end_line": 106,
@@ -318,14 +279,118 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-d867e8095b6a5ddbb0438cc5fdbb78ea",
+      "entity_id": "ent-bb9d7b824f06563080da57682a10cd44",
       "classification": "appendix",
-      "owner_page_id": "file-3c60d8e38467508285a0fb1c144fe7c5",
+      "owner_page_id": "file-03da98d047795121a6bc4f9ca89c629f",
       "source_path": "scripts/ckb_core/navigation.py",
       "start_line": 109,
       "end_line": 132,
       "source_blob": "a38a51f70cccdb4b413777cc7ea839e5800ae27f",
       "source_excerpt": "def _rank(\n    entity: dict[str, Any],\n    *,\n    entry_ids: set[str],\n    entry_owners: set[str],\n    entry_direct: set[str],\n    facts: dict[str, Any],\n) -> tuple[Any, ...]:\n    entity_id = entity[\"id\"]\n    # Negated numeric facts sort the highest-priority entity first.  Path/range/ID\n    # provide a stable language-independent tie break.\n    return (\n        0 if entity_id in entry_ids else 1,\n        0 if entity_id in entry_owners else 1,\n        0 if entity_id in entry_direct else 1,\n        0 if facts[\"cross_degree\"].get(entity_id, 0) else 1,\n        0 if entity.get(\"is_public_or_exported\") else 1,\n        -facts[\"cross_degree\"].get(entity_id, 0),\n        -facts[\"total_degree\"].get(entity_id, 0),\n        0 if entity_id in facts[\"test_related\"] else 1,\n        entity[\"path\"],\n        int(entity[\"range\"][\"start_line\"]),\n        entity_id,\n    )",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-29a206be8a1b5b519b0c4b49cfd27f81",
+      "classification": "appendix",
+      "owner_page_id": "file-03da98d047795121a6bc4f9ca89c629f",
+      "source_path": "scripts/ckb_core/navigation.py",
+      "start_line": 135,
+      "end_line": 318,
+      "source_blob": "a38a51f70cccdb4b413777cc7ea839e5800ae27f",
+      "source_excerpt": "def build_navigation_plan(\n    entities: list[dict[str, Any]],\n    links: list[dict[str, Any]],\n    entry_ids: list[str],\n    page_config: dict[str, Any] | None = None,\n) -> dict[str, Any]:\n    \"\"\"Assign page/appendix/boundary using fixed evidence and configured quotas.\"\"\"\n    config = page_config or DEFAULT_PAGE_CONFIG\n    page_limits = config[\"page_limits\"]\n    ordinary_file_limit = int(page_limits[\"ordinary_file\"])\n    core_file_limit = int(page_limits[\"core_file\"])\n    adjacent_file_limit = int(page_limits[\"adjacent_file\"])\n    core_entry_limit = int(page_limits[\"core_per_entry\"])\n    adjacent_entry_limit = int(page_limits[\"adjacent_per_entry\"])\n    facts = _graph_facts(entities, links)\n    by_id: dict[str, dict[str, Any]] = facts[\"by_id\"]\n    entries = {value for value in entry_ids if value in by_id}\n    entry_owners = {ancestor for entry in entries for ancestor in _ancestors(entry, by_id) if by_id[ancestor][\"kind\"] != \"file\"}\n    entry_direct: set[str] = set()\n    for entry in entries:\n        entry_direct.update(facts[\"outgoing\"].get(entry, set()))\n        entry_direct.update(facts[\"incoming\"].get(entry, set()))\n    selected_pages: set[str] = {entity[\"id\"] for entity in entities if entity[\"kind\"] == \"file\"}\n    boundary_ids = {entity[\"id\"] for entity in entities if entity[\"kind\"] == \"boundary\"}\n    selected_pages.update(boundary_ids)\n    candidates_by_path: dict[str, list[dict[str, Any]]] = defaultdict(list)\n    for entity in entities:\n        if _eligible(entity, entries):\n            candidates_by_path[entity[\"path\"]].append(entity)\n    rank_kwargs = {\"entry_ids\": entries, \"entry_owners\": entry_owners, \"entry_direct\": entry_direct, \"facts\": facts}\n    for values in candidates_by_path.values():\n        values.sort(key=lambda value: _rank(value, **rank_kwargs))\n\n    clusters: list[dict[str, Any]] = []\n    core_paths: set[str] = set()\n    neighbor_ids_all: set[str] = set()\n    adjacent_paths: set[str] = set()\n    selected_key_count_by_path: dict[str, int] = defaultdict(int)\n    for entry_id in sorted(entries):\n        entry = by_id[entry_id]\n        if not _eligible(entry, entries):\n            clusters.append({\"entry_id\": entry_id, \"core_page_ids\": [], \"neighbor_page_ids\": [], \"landing_page_id\": next((value for value in _ancestors(entry_id, by_id) if by_id[value][\"kind\"] == \"file\"), None)})\n            continue\n        same_path = candidates_by_path.get(entry[\"path\"], [])\n        core_pool: list[dict[str, Any]] = [entry] if _eligible(entry, entries) else []\n        for ancestor_id in _ancestors(entry_id, by_id):\n            ancestor = by_id[ancestor_id]\n            if ancestor[\"kind\"] != \"file\" and _eligible(ancestor, entries):\n                core_pool.append(ancestor)\n        direct_same = [by_id[value] for value in facts[\"outgoing\"].get(entry_id, set()) | facts[\"incoming\"].get(entry_id, set()) if value in by_id and by_id[value][\"path\"] == entry[\"path\"] and _eligible(by_id[value], entries)]\n        core_pool.extend(sorted(direct_same, key=lambda value: _rank(value, **rank_kwargs)))\n        entry_parent = entry.get(\"parent_id\")\n        core_pool.extend(value for value in same_path if value.get(\"parent_id\") == entry_parent)\n        core_ids: list[str] = []\n        for value in core_pool:\n            if len(core_ids) >= core_entry_limit:\n                break\n            if value[\"id\"] in core_ids:\n                continue\n            if value[\"id\"] in selected_pages:\n                core_ids.append(value[\"id\"])\n                continue\n            if selected_key_count_by_path[value[\"path\"]] >= core_file_limit:\n                continue\n            core_ids.append(value[\"id\"])\n            selected_pages.add(value[\"id\"])\n            selected_key_count_by_path[value[\"path\"]] += 1\n        core_paths.update(by_id[value][\"path\"] for value in core_ids)\n\n        neighbor_pool: list[dict[str, Any]] = []\n        for core_id in core_ids:\n            for neighbor_id in facts[\"outgoing\"].get(core_id, set()) | facts[\"incoming\"].get(core_id, set()):\n                neighbor = by_id.get(neighbor_id)\n                if neighbor and neighbor[\"path\"] != entry[\"path\"] and _eligible(neighbor, entries):\n                    neighbor_pool.append(neighbor)\n        neighbor_pool.sort(key=lambda value: _rank(value, **rank_kwargs))\n        neighbor_ids: list[str] = []\n        for value in neighbor_pool:\n            if len(neighbor_ids) >= adjacent_entry_limit:\n                break\n            if value[\"id\"] in neighbor_ids or value[\"id\"] in selected_pages:\n                continue\n            if value[\"path\"] in core_paths or selected_key_count_by_path[value[\"path\"]] >= adjacent_file_limit:\n                continue\n            neighbor_ids.append(value[\"id\"])\n            selected_pages.add(value[\"id\"])\n            selected_key_count_by_path[value[\"path\"]] += 1\n        neighbor_ids_all.update(neighbor_ids)\n        adjacent_paths.update(by_id[value][\"path\"] for value in neighbor_ids)\n        adjacent_paths.difference_update(core_paths)\n        clusters.append({\"entry_id\": entry_id, \"core_page_ids\": core_ids, \"neighbor_page_ids\": neighbor_ids})\n\n    # Every non-core source file receives no more than its configured ordinary\n    # or adjacent quota.  Ranking and tie breaks remain entirely deterministic.\n    for path, values in sorted(candidates_by_path.items()):\n        if path in core_paths:\n            continue\n        limit = adjacent_file_limit if path in adjacent_paths else ordinary_file_limit\n        for value in values:\n            if selected_key_count_by_path[path] >= limit:\n                break\n            if value[\"id\"] not in selected_pages:\n                selected_pages.add(value[\"id\"])\n                selected_key_count_by_path[path] += 1\n\n    owner_by_entity: dict[str, str] = {}\n    decisions: list[dict[str, Any]] = []\n    file_page_by_path = {entity[\"path\"]: entity[\"id\"] for entity in entities if entity[\"kind\"] == \"file\"}\n    for entity in entities:\n        entity_id = entity[\"id\"]\n        if entity_id in boundary_ids:\n            classification = \"boundary\"\n            owner = entity_id\n        elif entity_id in selected_pages:\n            classification = \"page\"\n            owner = entity_id\n        else:\n            classification = \"appendix\"\n            owner = next((ancestor for ancestor in _ancestors(entity_id, by_id) if ancestor in selected_pages and by_id[ancestor][\"kind\"] != \"file\"), file_page_by_path.get(entity[\"path\"]))\n            if not owner:\n                raise AuditError(f\"appendix entity has no deterministic owner: {entity_id}\")\n        owner_by_entity[entity_id] = owner\n        evidence = []\n        if entity_id in entries:\n            evidence.append(\"explicit-entry\")\n        if entity_id in entry_owners:\n            evidence.append(\"entry-lexical-owner\")\n        if entity_id in entry_direct:\n            evidence.append(\"entry-direct-relation\")\n        if facts[\"cross_degree\"].get(entity_id, 0):\n            evidence.append(\"cross-file-reference\")\n        if entity.get(\"is_public_or_exported\"):\n            evidence.append(\"public-or-exported\")\n        if entity.get(\"hard_exclusion\"):\n            evidence.append(f\"hard-exclusion:{entity['hard_exclusion']}\")\n        decisions.append(\n            {\n                \"entity_id\": entity_id,\n                \"classification\": classification,\n                \"owner_page_id\": owner,\n                \"rank_evidence\": evidence or [\"fixed-order-default\"],\n                \"cross_file_degree\": facts[\"cross_degree\"].get(entity_id, 0),\n                \"total_degree\": facts[\"total_degree\"].get(entity_id, 0),\n            }\n        )\n\n    page_count_by_path: dict[str, int] = defaultdict(int)\n    for entity_id in selected_pages - boundary_ids:\n        entity = by_id[entity_id]\n        if entity[\"kind\"] != \"file\":\n            page_count_by_path[entity[\"path\"]] += 1\n    quota_errors = []\n    for path, count in sorted(page_count_by_path.items()):\n        limit = core_file_limit if path in core_paths else (adjacent_file_limit if path in adjacent_paths else ordinary_file_limit)\n        if count > limit:\n            quota_errors.append({\"path\": path, \"count\": count, \"limit\": limit})\n    for cluster in clusters:\n        if len(cluster[\"core_page_ids\"]) > core_entry_limit or len(cluster[\"neighbor_page_ids\"]) > adjacent_entry_limit:\n            quota_errors.append(\n                {\n                    \"entry_id\": cluster[\"entry_id\"],\n                    \"reason\": \"entry-cluster-quota\",\n                    \"core_count\": len(cluster[\"core_page_ids\"]),\n                    \"core_limit\": core_entry_limit,\n                    \"adjacent_count\": len(cluster[\"neighbor_page_ids\"]),\n                    \"adjacent_limit\": adjacent_entry_limit,\n                }\n            )\n    return {\n        \"schema_version\": 3,\n        \"algorithm\": \"human-code-unit-navigation-v3-configured\",\n        \"page_limits\": dict(page_limits),\n        \"classifications\": sorted(PAGE_CLASSIFICATIONS),\n        \"decisions\": decisions,\n        \"entity_owner_pages\": owner_by_entity,\n        \"page_entity_ids\": sorted(selected_pages - boundary_ids),\n        \"boundary_entity_ids\": sorted(boundary_ids),\n        \"entry_clusters\": clusters,\n        \"core_paths\": sorted(core_paths),\n        \"adjacent_paths\": sorted(adjacent_paths),\n        \"page_count_by_path\": dict(sorted(page_count_by_path.items())),\n        \"quota_errors\": quota_errors,\n        \"status\": \"passed\" if not quota_errors else \"failed\",\n    }",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-7c72d98bfe265a008c5066454703d669",
+      "classification": "appendix",
+      "owner_page_id": "file-03da98d047795121a6bc4f9ca89c629f",
+      "source_path": "scripts/ckb_core/navigation.py",
+      "start_line": 321,
+      "end_line": 334,
+      "source_blob": "a38a51f70cccdb4b413777cc7ea839e5800ae27f",
+      "source_excerpt": "def apply_navigation_plan(entities: list[dict[str, Any]], plan: dict[str, Any]) -> list[dict[str, Any]]:\n    decisions = {item[\"entity_id\"]: item for item in plan[\"decisions\"]}\n    result = []\n    for entity in entities:\n        decision = decisions.get(entity[\"id\"])\n        if not decision:\n            raise AuditError(f\"navigation plan omitted entity: {entity['id']}\")\n        value = dict(entity)\n        value[\"classification\"] = decision[\"classification\"]\n        value[\"candidate_classification\"] = decision[\"classification\"]\n        value[\"owner_page_id\"] = decision[\"owner_page_id\"]\n        value[\"navigation_evidence\"] = decision[\"rank_evidence\"]\n        result.append(value)\n    return result",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-7c7e76eaf5fd56b39ba4fb336dd22e52",
+      "classification": "appendix",
+      "owner_page_id": "file-03da98d047795121a6bc4f9ca89c629f",
+      "source_path": "scripts/ckb_core/navigation.py",
+      "start_line": 337,
+      "end_line": 355,
+      "source_blob": "a38a51f70cccdb4b413777cc7ea839e5800ae27f",
+      "source_excerpt": "def page_limit(\n    scope_file_count: int,\n    module_count: int,\n    entry_cluster_count: int,\n    boundary_group_count: int,\n    page_config: dict[str, Any] | None = None,\n) -> int:\n    limits = (page_config or DEFAULT_PAGE_CONFIG)[\"page_limits\"]\n    ordinary = int(limits[\"ordinary_file\"])\n    core_extra = max(0, int(limits[\"core_per_entry\"]) - ordinary)\n    adjacent_extra = int(limits[\"adjacent_per_entry\"])\n    return (\n        1\n        + module_count\n        + scope_file_count\n        + scope_file_count * ordinary\n        + entry_cluster_count * (core_extra + adjacent_extra)\n        + boundary_group_count\n    )",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-be348313b04259d99aa3fe27a2c4f810",
+      "classification": "appendix",
+      "owner_page_id": "file-03da98d047795121a6bc4f9ca89c629f",
+      "source_path": "scripts/ckb_core/navigation.py",
+      "start_line": 358,
+      "end_line": 378,
+      "source_blob": "a38a51f70cccdb4b413777cc7ea839e5800ae27f",
+      "source_excerpt": "def context_budget_record(\n    text: str,\n    mode: str,\n    module: str | None = None,\n    page_config: dict[str, Any] | None = None,\n) -> dict[str, Any]:\n    context = (page_config or DEFAULT_PAGE_CONFIG)[\"context\"]\n    divisor = int(context[\"bytes_per_token\"])\n    tokens = estimated_tokens(text, divisor)\n    limit = int(context[\"module_max_tokens\"] if mode == \"full-module\" else context[\"task_max_tokens\"])\n    return {\n        \"mode\": mode,\n        \"module\": module,\n        \"utf8_bytes\": len(text.encode(\"utf-8\")),\n        \"estimated_tokens\": tokens,\n        \"formula\": f\"ceil(utf8_bytes / {divisor})\",\n        \"limit\": limit,\n        \"total_context_budget\": int(context[\"total_max_tokens\"]),\n        \"reserved_agent_tokens\": int(context[\"reserved_agent_tokens\"]),\n        \"status\": \"passed\" if tokens <= limit else \"failed\",\n    }",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-39c69ff8ff055e17b74ed8c751481d5e",
+      "classification": "appendix",
+      "owner_page_id": "file-03da98d047795121a6bc4f9ca89c629f",
+      "source_path": "scripts/ckb_core/navigation.py",
+      "start_line": 381,
+      "end_line": 455,
+      "source_blob": "a38a51f70cccdb4b413777cc7ea839e5800ae27f",
+      "source_excerpt": "def build_review_packs(\n    parse_batches: list[dict[str, Any]],\n    entities: list[dict[str, Any]],\n    page_config: dict[str, Any] | None = None,\n) -> list[dict[str, Any]]:\n    \"\"\"Create review units independent from machine parse batches.\"\"\"\n    config = page_config or DEFAULT_PAGE_CONFIG\n    review_limits = config[\"review_packs\"]\n    token_divisor = int(config[\"context\"][\"bytes_per_token\"])\n    by_id = {entity[\"id\"]: entity for entity in entities}\n    batch_by_entity = {entity_id: batch[\"id\"] for batch in parse_batches for entity_id in batch[\"entity_ids\"]}\n    packs: list[dict[str, Any]] = []\n\n    def partition(kind: str, values: list[dict[str, Any]], max_files: int, max_items: int, token_limit: int) -> None:\n        current: list[dict[str, Any]] = []\n        current_paths: set[str] = set()\n        current_estimate = 0\n\n        def flush() -> None:\n            nonlocal current, current_paths, current_estimate\n            if not current:\n                return\n            pack_id = f\"{kind}-pack-{sum(1 for value in packs if value['kind'] == kind) + 1:04d}\"\n            packs.append(\n                {\n                    \"id\": pack_id,\n                    \"kind\": kind,\n                    \"entity_ids\": [value[\"id\"] for value in current],\n                    \"file_paths\": sorted(current_paths),\n                    \"parse_batch_ids\": sorted({batch_by_entity[value[\"id\"]] for value in current if value[\"id\"] in batch_by_entity}),\n                    \"estimated_input_tokens\": current_estimate,\n                    \"token_limit\": token_limit,\n                    \"status\": \"planned\",\n                }\n            )\n            current = []\n            current_paths = set()\n            current_estimate = 0\n\n        for value in sorted(values, key=lambda item: (item[\"path\"], item[\"range\"][\"start_line\"], item[\"id\"])):\n            estimate = max(8, ceil((int(value[\"range\"][\"end_byte\"]) - int(value[\"range\"][\"start_byte\"])) / token_divisor))\n            next_paths = current_paths | {value[\"path\"]}\n            if current and (len(current) + 1 > max_items or len(next_paths) > max_files or current_estimate + estimate > token_limit):\n                flush()\n            current.append(value)\n            current_paths.add(value[\"path\"])\n            current_estimate += estimate\n            if estimate > token_limit:\n                # A single declaration is an auditable oversized unit.\n                flush()\n        flush()\n\n    # Keep packs independent from parse batches as state objects while avoiding\n    # a pack that waits on two machine batches before it can be reviewed.\n    for batch in parse_batches:\n        batch_ids = set(batch[\"entity_ids\"])\n        pages = [entity for entity in entities if entity[\"id\"] in batch_ids and entity.get(\"classification\") in {\"page\", \"boundary\"}]\n        appendices = [entity for entity in entities if entity[\"id\"] in batch_ids and entity.get(\"classification\") == \"appendix\"]\n        page_limits = review_limits[\"page\"]\n        appendix_limits = review_limits[\"appendix\"]\n        partition(\n            \"page-review\",\n            pages,\n            max_files=int(page_limits[\"max_files\"]),\n            max_items=int(page_limits[\"max_items\"]),\n            token_limit=int(page_limits[\"max_tokens\"]),\n        )\n        partition(\n            \"appendix-review\",\n            appendices,\n            max_files=int(appendix_limits[\"max_files\"]),\n            max_items=int(appendix_limits[\"max_items\"]),\n            token_limit=int(appendix_limits[\"max_tokens\"]),\n        )\n    return packs",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-88feb190ef485febb5655e5c6a7661f5",
+      "classification": "appendix",
+      "owner_page_id": "file-03da98d047795121a6bc4f9ca89c629f",
+      "source_path": "scripts/ckb_core/navigation.py",
+      "start_line": 394,
+      "end_line": 431,
+      "source_blob": "a38a51f70cccdb4b413777cc7ea839e5800ae27f",
+      "source_excerpt": "def partition(kind: str, values: list[dict[str, Any]], max_files: int, max_items: int, token_limit: int) -> None:\n        current: list[dict[str, Any]] = []\n        current_paths: set[str] = set()\n        current_estimate = 0\n\n        def flush() -> None:\n            nonlocal current, current_paths, current_estimate\n            if not current:\n                return\n            pack_id = f\"{kind}-pack-{sum(1 for value in packs if value['kind'] == kind) + 1:04d}\"\n            packs.append(\n                {\n                    \"id\": pack_id,\n                    \"kind\": kind,\n                    \"entity_ids\": [value[\"id\"] for value in current],\n                    \"file_paths\": sorted(current_paths),\n                    \"parse_batch_ids\": sorted({batch_by_entity[value[\"id\"]] for value in current if value[\"id\"] in batch_by_entity}),\n                    \"estimated_input_tokens\": current_estimate,\n                    \"token_limit\": token_limit,\n                    \"status\": \"planned\",\n                }\n            )\n            current = []\n            current_paths = set()\n            current_estimate = 0\n\n        for value in sorted(values, key=lambda item: (item[\"path\"], item[\"range\"][\"start_line\"], item[\"id\"])):\n            estimate = max(8, ceil((int(value[\"range\"][\"end_byte\"]) - int(value[\"range\"][\"start_byte\"])) / token_divisor))\n            next_paths = current_paths | {value[\"path\"]}\n            if current and (len(current) + 1 > max_items or len(next_paths) > max_files or current_estimate + estimate > token_limit):\n                flush()\n            current.append(value)\n            current_paths.add(value[\"path\"])\n            current_estimate += estimate\n            if estimate > token_limit:\n                # A single declaration is an auditable oversized unit.\n                flush()\n        flush()",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-286b2368fba458c0939cb60a4f4e5b89",
+      "classification": "appendix",
+      "owner_page_id": "file-03da98d047795121a6bc4f9ca89c629f",
+      "source_path": "scripts/ckb_core/navigation.py",
+      "start_line": 399,
+      "end_line": 418,
+      "source_blob": "a38a51f70cccdb4b413777cc7ea839e5800ae27f",
+      "source_excerpt": "def flush() -> None:\n            nonlocal current, current_paths, current_estimate\n            if not current:\n                return\n            pack_id = f\"{kind}-pack-{sum(1 for value in packs if value['kind'] == kind) + 1:04d}\"\n            packs.append(\n                {\n                    \"id\": pack_id,\n                    \"kind\": kind,\n                    \"entity_ids\": [value[\"id\"] for value in current],\n                    \"file_paths\": sorted(current_paths),\n                    \"parse_batch_ids\": sorted({batch_by_entity[value[\"id\"]] for value in current if value[\"id\"] in batch_by_entity}),\n                    \"estimated_input_tokens\": current_estimate,\n                    \"token_limit\": token_limit,\n                    \"status\": \"planned\",\n                }\n            )\n            current = []\n            current_paths = set()\n            current_estimate = 0",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-23526352090d5e3aa3dd04d110914cd4",
+      "classification": "appendix",
+      "owner_page_id": "file-75125c375fa8596e89b2dc5ed6998d02",
+      "source_path": "scripts/ckb_core/obsidian.py",
+      "start_line": 25,
+      "end_line": 45,
+      "source_blob": "3113783787c8ad5e2d29e99c86e1dc79fe69cc79",
+      "source_excerpt": "def prepare_vault(root: Path, output: Path) -> None:\n    \"\"\"Remove only generator-owned files and preserve Agent/user notes.\"\"\"\n    root.mkdir(parents=True, exist_ok=True)\n    ownership = root / \".ckb-generated-files.json\"\n    if ownership.is_file():\n        record = json_load(ownership)\n        for relative in record.get(\"files\", []):\n            path = root / str(relative)\n            if path.is_file():\n                path.unlink()\n            elif path.is_dir():\n                safe_rmtree(path, root)\n    else:\n        for name in GENERATED_TOP_LEVEL:\n            (root / name).unlink(missing_ok=True)\n        for name in (\"pages\", \"logseq\"):\n            path = root / name\n            if path.exists():\n                safe_rmtree(path, root)\n    for name in (*NOTE_DIRECTORIES, *FEEDBACK_DIRECTORIES):\n        (root / name).mkdir(parents=True, exist_ok=True)",
       "status": "draft",
       "evidence_note": "",
       "description_zh": ""

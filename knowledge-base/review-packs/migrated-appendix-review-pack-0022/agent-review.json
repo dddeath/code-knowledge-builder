@@ -3,287 +3,12 @@
   "pack_id": "migrated-appendix-review-pack-0022",
   "kind": "appendix-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-02T22:46:07Z",
+  "reviewed_at_utc": "2026-09-03T01:39:25Z",
   "reviews": [
     {
-      "entity_id": "ent-1de1bb5fd846521d9da7562266a8d0e2",
+      "entity_id": "ent-cfa773217d3a5c9bac6f997c91ed649a",
       "classification": "appendix",
-      "owner_page_id": "file-76b2f19eb8f35d6f88c4f818591c0e3d",
-      "source_path": "scripts/ckb_core/output_contract.py",
-      "start_line": 31,
-      "end_line": 35,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/output_contract.py` 第 31-35 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`expected_output_contract` 是第 31-35 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-9658577ffc735c9fb898422ddd56d88a",
-      "classification": "appendix",
-      "owner_page_id": "file-76b2f19eb8f35d6f88c4f818591c0e3d",
-      "source_path": "scripts/ckb_core/output_contract.py",
-      "start_line": 38,
-      "end_line": 58,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/output_contract.py` 第 38-58 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`output_contract_for_r...` 是第 38-58 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-96425f5646cb50888d15d2a01d9463d2",
-      "classification": "appendix",
-      "owner_page_id": "file-76b2f19eb8f35d6f88c4f818591c0e3d",
-      "source_path": "scripts/ckb_core/output_contract.py",
-      "start_line": 61,
-      "end_line": 73,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/output_contract.py` 第 61-73 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_update_ownership` 是第 61-73 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-bed1855a482957c7a0ae8d23a043927e",
-      "classification": "appendix",
-      "owner_page_id": "file-76b2f19eb8f35d6f88c4f818591c0e3d",
-      "source_path": "scripts/ckb_core/output_contract.py",
-      "start_line": 76,
-      "end_line": 97,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/output_contract.py` 第 76-97 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`project_output_contract` 是第 76-97 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-c6a3c3c90af85693a7c63426255688f5",
-      "classification": "appendix",
-      "owner_page_id": "file-76b2f19eb8f35d6f88c4f818591c0e3d",
-      "source_path": "scripts/ckb_core/output_contract.py",
-      "start_line": 100,
-      "end_line": 108,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/output_contract.py` 第 100-108 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`remove_output_contract` 是第 100-108 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-27d9aa9d1a7d56deafb40c565849d09c",
-      "classification": "appendix",
-      "owner_page_id": "file-67d8a6d5f6955321a2fee7249b7f9dbd",
-      "source_path": "scripts/ckb_core/page_config.py",
-      "start_line": 108,
-      "end_line": 119,
-      "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定 Git 源码中 scripts/ckb_core/page_config.py 第 108 至 119 行，核对名称、签名和局部实现后写出本条中文说明。",
-      "description_zh": "该附属代码负责合并批次实体和跨批次关系，并把结果交给所属页面中的主流程使用。"
-    },
-    {
-      "entity_id": "ent-f996eeb00fa45014a4e0619121e4b028",
-      "classification": "appendix",
-      "owner_page_id": "file-67d8a6d5f6955321a2fee7249b7f9dbd",
-      "source_path": "scripts/ckb_core/page_config.py",
-      "start_line": 122,
-      "end_line": 125,
-      "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定 Git 源码中 scripts/ckb_core/page_config.py 第 122 至 125 行，核对名称、签名和局部实现后写出本条中文说明。",
-      "description_zh": "该附属代码负责页面配置合并、规范化、校验和固定，并把结果交给所属页面中的主流程使用。"
-    },
-    {
-      "entity_id": "ent-b0ccf27318f75b91a495cf08585d2f94",
-      "classification": "appendix",
-      "owner_page_id": "file-67d8a6d5f6955321a2fee7249b7f9dbd",
-      "source_path": "scripts/ckb_core/page_config.py",
-      "start_line": 128,
-      "end_line": 141,
-      "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定 Git 源码中 scripts/ckb_core/page_config.py 第 128 至 141 行，核对名称、签名和局部实现后写出本条中文说明。",
-      "description_zh": "该附属代码负责页面配置合并、规范化、校验和固定，并把结果交给所属页面中的主流程使用。"
-    },
-    {
-      "entity_id": "ent-59c3404bda9c51b3b6dd45c19640e29a",
-      "classification": "appendix",
-      "owner_page_id": "file-67d8a6d5f6955321a2fee7249b7f9dbd",
-      "source_path": "scripts/ckb_core/page_config.py",
-      "start_line": 144,
-      "end_line": 206,
-      "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定 Git 源码中 scripts/ckb_core/page_config.py 第 144 至 206 行，核对名称、签名和局部实现后写出本条中文说明。",
-      "description_zh": "该附属代码负责规范化并校验不可漂移的页面配置，并把结果交给所属页面中的主流程使用。"
-    },
-    {
-      "entity_id": "ent-0f734b1f22925a00af6ef6aa5aba184d",
-      "classification": "appendix",
-      "owner_page_id": "file-67d8a6d5f6955321a2fee7249b7f9dbd",
-      "source_path": "scripts/ckb_core/page_config.py",
-      "start_line": 222,
-      "end_line": 224,
-      "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定 Git 源码中 scripts/ckb_core/page_config.py 第 222 至 224 行，核对名称、签名和局部实现后写出本条中文说明。",
-      "description_zh": "该附属代码负责规范化并校验不可漂移的页面配置，并把结果交给所属页面中的主流程使用。"
-    },
-    {
-      "entity_id": "ent-8a089f022cac55a796ef3116f6c29eea",
-      "classification": "appendix",
-      "owner_page_id": "file-67d8a6d5f6955321a2fee7249b7f9dbd",
-      "source_path": "scripts/ckb_core/page_config.py",
-      "start_line": 227,
-      "end_line": 228,
-      "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定 Git 源码中 scripts/ckb_core/page_config.py 第 227 至 228 行，核对名称、签名和局部实现后写出本条中文说明。",
-      "description_zh": "该附属代码负责规范化并校验不可漂移的页面配置，并把结果交给所属页面中的主流程使用。"
-    },
-    {
-      "entity_id": "ent-c406b98a6a7b5d6f9bd9975dea5a5c68",
-      "classification": "appendix",
-      "owner_page_id": "file-67d8a6d5f6955321a2fee7249b7f9dbd",
-      "source_path": "scripts/ckb_core/page_config.py",
-      "start_line": 231,
-      "end_line": 243,
-      "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定 Git 源码中 scripts/ckb_core/page_config.py 第 231 至 243 行，核对名称、签名和局部实现后写出本条中文说明。",
-      "description_zh": "该附属代码负责规范化并校验不可漂移的页面配置，并把结果交给所属页面中的主流程使用。"
-    },
-    {
-      "entity_id": "ent-5db070e5e4495b8397a136863f781e13",
-      "classification": "appendix",
-      "owner_page_id": "file-dce85f454e7b56deaf43420d88b171be",
-      "source_path": "scripts/ckb_core/parsers.py",
-      "start_line": 74,
-      "end_line": 87,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/parsers.py` 第 74 至 87 行；摘录与 Git blob d065fd12495e 一致。",
-      "description_zh": "`_language` 完成源码结构与局部语法警告提取中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-0440bdd22c655e988fd7588ed4df475d",
-      "classification": "appendix",
-      "owner_page_id": "file-dce85f454e7b56deaf43420d88b171be",
-      "source_path": "scripts/ckb_core/parsers.py",
-      "start_line": 90,
-      "end_line": 95,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/parsers.py` 第 90 至 95 行；摘录与 Git blob d065fd12495e 一致。",
-      "description_zh": "`_walk` 完成源码结构与局部语法警告提取中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-50178dfa250159a3ad500df5a07d01c4",
-      "classification": "appendix",
-      "owner_page_id": "file-dce85f454e7b56deaf43420d88b171be",
-      "source_path": "scripts/ckb_core/parsers.py",
-      "start_line": 98,
-      "end_line": 99,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/parsers.py` 第 98 至 99 行；摘录与 Git blob d065fd12495e 一致。",
-      "description_zh": "`_node_text` 完成源码结构与局部语法警告提取中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-3c994b6c926f524aab7b5f5d2133e242",
-      "classification": "appendix",
-      "owner_page_id": "file-dce85f454e7b56deaf43420d88b171be",
-      "source_path": "scripts/ckb_core/parsers.py",
-      "start_line": 102,
-      "end_line": 105,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/parsers.py` 第 102 至 105 行；摘录与 Git blob d065fd12495e 一致。",
-      "description_zh": "`_byte_position` 完成源码结构与局部语法警告提取中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-311d745f1e5456748bbb522fb6acd775",
-      "classification": "appendix",
-      "owner_page_id": "file-dce85f454e7b56deaf43420d88b171be",
-      "source_path": "scripts/ckb_core/parsers.py",
-      "start_line": 108,
-      "end_line": 124,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/parsers.py` 第 108 至 124 行；摘录与 Git blob d065fd12495e 一致。",
-      "description_zh": "`_find_name` 读取并判定源码结构与局部语法警告提取所需的数据或状态。"
-    },
-    {
-      "entity_id": "ent-d63ff530c87d5ce4b797e8d5bbcd0ff6",
-      "classification": "appendix",
-      "owner_page_id": "file-dce85f454e7b56deaf43420d88b171be",
-      "source_path": "scripts/ckb_core/parsers.py",
-      "start_line": 127,
-      "end_line": 132,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/parsers.py` 第 127 至 132 行；摘录与 Git blob d065fd12495e 一致。",
-      "description_zh": "`_public_evidence` 完成源码结构与局部语法警告提取中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-9cd5a20a8f2456d3acc8c5dc1d5fdb68",
-      "classification": "appendix",
-      "owner_page_id": "file-dce85f454e7b56deaf43420d88b171be",
-      "source_path": "scripts/ckb_core/parsers.py",
-      "start_line": 154,
-      "end_line": 177,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/parsers.py` 第 154 至 177 行；摘录与 Git blob d065fd12495e 一致。",
-      "description_zh": "`_single_statement_shape` 完成源码结构与局部语法警告提取中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-96f8ffef09d85e9eb04cdf4a1b9133ba",
-      "classification": "appendix",
-      "owner_page_id": "file-dce85f454e7b56deaf43420d88b171be",
-      "source_path": "scripts/ckb_core/parsers.py",
-      "start_line": 180,
-      "end_line": 196,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/parsers.py` 第 180 至 196 行；摘录与 Git blob d065fd12495e 一致。",
-      "description_zh": "`_csharp_fallback_name` 完成源码结构与局部语法警告提取中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-2c0e8e2eeea250cea411bb4029c70cfb",
-      "classification": "appendix",
-      "owner_page_id": "file-dce85f454e7b56deaf43420d88b171be",
-      "source_path": "scripts/ckb_core/parsers.py",
-      "start_line": 199,
-      "end_line": 205,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/parsers.py` 第 199 至 205 行；摘录与 Git blob d065fd12495e 一致。",
-      "description_zh": "`_has_ancestor` 完成源码结构与局部语法警告提取中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-3f70280d37e153e5acdc8515da3216b4",
-      "classification": "appendix",
-      "owner_page_id": "file-dce85f454e7b56deaf43420d88b171be",
-      "source_path": "scripts/ckb_core/parsers.py",
-      "start_line": 208,
-      "end_line": 218,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/parsers.py` 第 208 至 218 行；摘录与 Git blob d065fd12495e 一致。",
-      "description_zh": "`_cpp_function_declarator_kind` 完成源码结构与局部语法警告提取中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-f191f5fa068053b9b355157fa619a5cf",
-      "classification": "appendix",
-      "owner_page_id": "file-dce85f454e7b56deaf43420d88b171be",
-      "source_path": "scripts/ckb_core/parsers.py",
-      "start_line": 221,
-      "end_line": 244,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/parsers.py` 第 221 至 244 行；摘录与 Git blob d065fd12495e 一致。",
-      "description_zh": "`_cpp_explicit_class_instantiation_r…` 完成源码结构与局部语法警告提取中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-859226fa1a8c5346a7b27fb93844b0b4",
-      "classification": "appendix",
-      "owner_page_id": "file-dce85f454e7b56deaf43420d88b171be",
-      "source_path": "scripts/ckb_core/parsers.py",
-      "start_line": 247,
-      "end_line": 288,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/parsers.py` 第 247 至 288 行；摘录与 Git blob d065fd12495e 一致。",
-      "description_zh": "`_parse_diagnostics` 解析并归一化源码结构与局部语法警告提取所需的数据或状态。"
-    },
-    {
-      "entity_id": "ent-d50b9ffbf57c5fada9d0138431ad3067",
-      "classification": "appendix",
-      "owner_page_id": "file-dce85f454e7b56deaf43420d88b171be",
-      "source_path": "scripts/ckb_core/parsers.py",
-      "start_line": 291,
-      "end_line": 303,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/parsers.py` 第 291 至 303 行；摘录与 Git blob d065fd12495e 一致。",
-      "description_zh": "`_union_size` 完成源码结构与局部语法警告提取中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-9aee1e1a6423549d8733c9bf229e8df6",
-      "classification": "appendix",
-      "owner_page_id": "file-dce85f454e7b56deaf43420d88b171be",
+      "owner_page_id": "file-551156fec37b5443b84bef82fcdbcf5d",
       "source_path": "scripts/ckb_core/parsers.py",
       "start_line": 306,
       "end_line": 347,
@@ -292,9 +17,9 @@
       "description_zh": "`_diagnostic_contract` 完成源码结构与局部语法警告提取中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-2875f4066461593e879ba12fc38751f3",
+      "entity_id": "ent-c712ed31335554a2988d00432612447e",
       "classification": "appendix",
-      "owner_page_id": "file-dce85f454e7b56deaf43420d88b171be",
+      "owner_page_id": "file-551156fec37b5443b84bef82fcdbcf5d",
       "source_path": "scripts/ckb_core/parsers.py",
       "start_line": 350,
       "end_line": 357,
@@ -303,9 +28,9 @@
       "description_zh": "`_diagnostic_overlaps` 完成源码结构与局部语法警告提取中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-a8e1fdda7ee25a0a9f33b07c9c0303f6",
+      "entity_id": "ent-3b8099a5c24d57b1b0db5f4c96c683b3",
       "classification": "appendix",
-      "owner_page_id": "file-dce85f454e7b56deaf43420d88b171be",
+      "owner_page_id": "file-551156fec37b5443b84bef82fcdbcf5d",
       "source_path": "scripts/ckb_core/parsers.py",
       "start_line": 360,
       "end_line": 380,
@@ -314,9 +39,9 @@
       "description_zh": "`syntax_warning_id` 完成源码结构与局部语法警告提取中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-d9cd65c5205e53a292b31d62da26ccc1",
+      "entity_id": "ent-3f864ce40ac95c32b81aecafb313a1bb",
       "classification": "appendix",
-      "owner_page_id": "file-dce85f454e7b56deaf43420d88b171be",
+      "owner_page_id": "file-551156fec37b5443b84bef82fcdbcf5d",
       "source_path": "scripts/ckb_core/parsers.py",
       "start_line": 614,
       "end_line": 670,
@@ -325,9 +50,9 @@
       "description_zh": "`merge_csharp_partials` 完成源码结构与局部语法警告提取中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-86b5c0ca9b5759ca9764a93dbaf497d8",
+      "entity_id": "ent-9218fe16c7385b4ca3747c3e2001f441",
       "classification": "appendix",
-      "owner_page_id": "file-dce85f454e7b56deaf43420d88b171be",
+      "owner_page_id": "file-551156fec37b5443b84bef82fcdbcf5d",
       "source_path": "scripts/ckb_core/parsers.py",
       "start_line": 673,
       "end_line": 718,
@@ -336,9 +61,9 @@
       "description_zh": "`lexical_links` 完成源码结构与局部语法警告提取中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-6ab5773c12455406b4a7a60540bf71a7",
+      "entity_id": "ent-1b8a6705a9585ccf906900094f78459b",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 101,
       "end_line": 114,
@@ -347,9 +72,9 @@
       "description_zh": "`_replace_output_prefix` 完成知识库构建与投影主流程中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-ae36356c31f25128bd4fa772fe1b536f",
+      "entity_id": "ent-b4629a812b555eaeaadf7f1fb9dc6a5b",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 117,
       "end_line": 168,
@@ -358,9 +83,9 @@
       "description_zh": "`_relocate_completed_output` 完成知识库构建与投影主流程中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-eea10baa33a15c4d8144c8b1de88eabb",
+      "entity_id": "ent-229ad9001d2750d3a515512474d27bba",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 171,
       "end_line": 205,
@@ -369,9 +94,9 @@
       "description_zh": "`_load_state` 读取并判定知识库构建与投影主流程所需的数据或状态。"
     },
     {
-      "entity_id": "ent-2287846b790f5d50ab179deb04759d0f",
+      "entity_id": "ent-d7fd2d8286ba5a7fa97bd441ff702d66",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 208,
       "end_line": 209,
@@ -380,9 +105,9 @@
       "description_zh": "`_module` 完成知识库构建与投影主流程中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-a2b804e19f20564d9a49218ce61f8698",
+      "entity_id": "ent-1b87e3b049cf5289868e24ff2e8aaefd",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 212,
       "end_line": 219,
@@ -391,9 +116,9 @@
       "description_zh": "`_parse_entry` 解析并归一化知识库构建与投影主流程所需的数据或状态。"
     },
     {
-      "entity_id": "ent-448c914e5d295956b6b793eda686e6c2",
+      "entity_id": "ent-0373fa35888b5b52a8c4954777cec23b",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 222,
       "end_line": 242,
@@ -402,9 +127,9 @@
       "description_zh": "`_resolve_entries` 完成知识库构建与投影主流程中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-7aee7f61c5125423af9de8c5955df79b",
+      "entity_id": "ent-cb8d4aaa87a2597cbd559be2f1f85894",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 245,
       "end_line": 276,
@@ -413,9 +138,9 @@
       "description_zh": "`_expand_entries` 完成知识库构建与投影主流程中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-709e312756065eb489b17c3aa1a47c71",
+      "entity_id": "ent-6d31af34684d5794b0b390920245383b",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 279,
       "end_line": 380,
@@ -424,9 +149,9 @@
       "description_zh": "`_chunks` 完成知识库构建与投影主流程中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-735c6238145a54fcbdd60cf4f957b04e",
+      "entity_id": "ent-e78d75019f56500b9528ac30b3d64619",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 292,
       "end_line": 314,
@@ -435,9 +160,9 @@
       "description_zh": "`flush` 完成知识库构建与投影主流程中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-4828a9c4f5ed52fb96304fb7aaaba405",
+      "entity_id": "ent-7a116626b5f455eeadbdc9cf8481fce7",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 316,
       "end_line": 359,
@@ -446,15 +171,92 @@
       "description_zh": "`units_for_file` 完成知识库构建与投影主流程中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-d970bbd91c035e48ac280bb0125b913f",
+      "entity_id": "ent-62874dcacc3b5342b995dd761dd0bffc",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 383,
       "end_line": 426,
       "status": "agent-reviewed",
       "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/pipeline.py` 第 383 至 426 行；摘录与 Git blob 06869d8b1045 一致。",
       "description_zh": "`_write_review_pack_templates` 生成并写入知识库构建与投影主流程所需的数据或状态。"
+    },
+    {
+      "entity_id": "ent-52dbdf6b81655758bf5bca0f5f26d860",
+      "classification": "appendix",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 429,
+      "end_line": 434,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/pipeline.py` 第 429 至 434 行；摘录与 Git blob 06869d8b1045 一致。",
+      "description_zh": "`_normalize_repo_selector` 解析并归一化知识库构建与投影主流程所需的数据或状态。"
+    },
+    {
+      "entity_id": "ent-17434c1d2a905c4a9c87517ab5d5aad2",
+      "classification": "appendix",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 437,
+      "end_line": 479,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/pipeline.py` 第 437 至 479 行；摘录与 Git blob 06869d8b1045 一致。",
+      "description_zh": "`_resolve_csharp_workspace` 完成知识库构建与投影主流程中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-567e1fbaa0e75c4695e24c969410dd08",
+      "classification": "appendix",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 482,
+      "end_line": 557,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/pipeline.py` 第 482 至 557 行；摘录与 Git blob 06869d8b1045 一致。",
+      "description_zh": "`_prepare_csharp_restore` 创建并初始化知识库构建与投影主流程所需的数据或状态。"
+    },
+    {
+      "entity_id": "ent-774ec300964a53e48d53bb53e266d068",
+      "classification": "appendix",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 560,
+      "end_line": 623,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/pipeline.py` 第 560 至 623 行；摘录与 Git blob 06869d8b1045 一致。",
+      "description_zh": "`_prepare_csharp_fallback_workspace` 创建并初始化知识库构建与投影主流程所需的数据或状态。"
+    },
+    {
+      "entity_id": "ent-c75e3fa054635f0bbc1c8cf23ed7a15d",
+      "classification": "appendix",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 626,
+      "end_line": 698,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/pipeline.py` 第 626 至 698 行；摘录与 Git blob 06869d8b1045 一致。",
+      "description_zh": "`_rekey_reused_file_parse` 完成知识库构建与投影主流程中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-5af657ebaf095b6589355f3031f0cf7d",
+      "classification": "appendix",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 701,
+      "end_line": 728,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/pipeline.py` 第 701 至 728 行；摘录与 Git blob 06869d8b1045 一致。",
+      "description_zh": "`_syntax_warning_summary` 完成知识库构建与投影主流程中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-0631d1b7934c5a0183494ca8cf12accb",
+      "classification": "appendix",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 731,
+      "end_line": 749,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/pipeline.py` 第 731 至 749 行；摘录与 Git blob 06869d8b1045 一致。",
+      "description_zh": "`_semantic_warning_summary` 完成知识库构建与投影主流程中的一个明确步骤。"
     }
   ]
 }

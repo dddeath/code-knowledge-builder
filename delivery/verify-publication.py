@@ -11,7 +11,7 @@ import sqlite3
 from typing import Any
 
 
-TARGET_COMMIT = "c533dd7c53224a637b1438ea72ee25da887fc6de"
+TARGET_COMMIT = "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d"
 LEARNING_NOTES = {
     "2026-08-29.md": "62059c19c42a0969e116c66d747627c6fae1b9fef3ef412e2c0ed03ced45ceeb",
     "2026-08-30.md": "dc7e8eb4791816b8d7989bb7bb82e97f50d6cbdb2f586f769422baf79ea91e67",

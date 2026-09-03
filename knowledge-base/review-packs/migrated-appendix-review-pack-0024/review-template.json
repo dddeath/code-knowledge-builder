@@ -6,61 +6,9 @@
   "reviewed_at_utc": null,
   "reviews": [
     {
-      "entity_id": "ent-fcd01469021a511081c7ab33aaebd2a9",
+      "entity_id": "ent-6ef0c2af5af452e7adf1127971d87a27",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
-      "source_path": "scripts/ckb_core/pipeline.py",
-      "start_line": 1270,
-      "end_line": 1379,
-      "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
-      "source_excerpt": "def audit_chunk(output: Path, chunk_id: str) -> dict[str, Any]:\n    state = _load_state(output)\n    (output / \".complete\").unlink(missing_ok=True)\n    if state.get(\"status\") == \"complete\":\n        state[\"status\"] = \"in-progress\"\n        json_write(output / \"state.json\", state)\n    chunk = _chunk(state, chunk_id)\n    chunk_dir = output / \"chunks\" / chunk_id\n    candidate_path = chunk_dir / \"candidate.json\"\n    review_path = chunk_dir / \"agent-review.json\"\n    if not candidate_path.is_file():\n        raise AuditError(\"candidate.json is missing\")\n    candidate = json_load(candidate_path)\n    review = json_load(review_path) if review_path.is_file() else {\"reviews\": []}\n    entities = candidate[\"entities\"]\n    entity_by_id = {entity[\"id\"]: entity for entity in entities}\n    review_by_id = {item.get(\"entity_id\"): item for item in review.get(\"reviews\", []) if isinstance(item, dict)}\n    gates: dict[str, dict[str, Any]] = {}\n\n    def gate(name: str, checks: list[dict[str, Any]]) -> None:\n        gates[name] = {\"status\": \"passed\" if all(item[\"passed\"] for item in checks) else \"failed\", \"checks\": checks}\n\n    scope_ids = set(chunk[\"entity_ids\"])\n    gate(\"scope\", [{\"name\": \"chunk-entity-set-exact\", \"passed\": set(entity_by_id) == scope_ids, \"detail\": {\"missing\": sorted(scope_ids - set(entity_by_id)), \"extra\": sorted(set(entity_by_id) - scope_ids)}}])\n    catalog, _scope_doc, _boundary_doc = _selected_catalog(output)\n    parse_by_path = {item[\"file\"][\"path\"]: item[\"parse\"] for item in catalog[\"files\"]}\n    gate(\"syntax\", [{\"name\": \"all-files-parse\", \"passed\": all(parse_by_path[path][\"status\"] == \"passed\" for path in chunk[\"file_paths\"]), \"detail\": {path: parse_by_path[path] for path in chunk[\"file_paths\"] if parse_by_path[path][\"status\"] != \"passed\"}}, {\"name\": \"entity-ids-unique\", \"passed\": len(entity_by_id) == len(entities), \"detail\": len(entities)}])\n    classification_errors = []\n    navigation_plan = json_load(output / \"navigation-plan.json\")\n    planned_by_id = {item[\"entity_id\"]: item for item in navigation_plan[\"decisions\"]}\n    global_page_ids = set(navigation_plan[\"page_entity_ids\"]) | set(navigation_plan[\"boundary_entity_ids\"])\n    for entity in entities:\n        item = review_by_id.get(entity[\"id\"], {})\n        classification = item.get(\"classification\")\n        owner = item.get(\"owner_page_id\")\n        planned = planned_by_id.get(entity[\"id\"])\n        if classification not in ALLOWED_CLASSIFICATIONS:\n            classification_errors.append({\"id\": entity[\"id\"], \"reason\": \"invalid-classification\"})\n        elif not planned or classification != planned[\"classification\"]:\n            classification_errors.append({\"id\": entity[\"id\"], \"reason\": \"classification-differs-from-deterministic-plan\", \"planned\": planned})\n        elif owner != planned[\"owner_page_id\"]:\n            classification_errors.append({\"id\": entity[\"id\"], \"reason\": \"owner-differs-from-deterministic-plan\", \"planned_owner\": planned[\"owner_page_id\"], \"actual_owner\": owner})\n        elif entity[\"kind\"] == \"file\" and classification != \"page\":\n            classification_errors.append({\"id\": entity[\"id\"], \"reason\": \"file-not-page\"})\n        elif entity[\"kind\"] == \"boundary\" and classification != \"boundary\":\n            classification_errors.append({\"id\": entity[\"id\"], \"reason\": \"boundary-mismatch\"})\n        elif classification == \"appendix\" and owner not in global_page_ids:\n            classification_errors.append({\"id\": entity[\"id\"], \"reason\": \"appendix-owner-not-page\", \"owner\": owner})\n    gate(\"classification\", [{\"name\": \"classification-and-owner-valid\", \"passed\": not classification_errors, \"detail\": classification_errors}])\n    provider_errors = []\n    covered: set[str] = set()\n    for provider in candidate.get(\"providers\", []):\n        if provider.get(\"status\") != \"passed\":\n            provider_errors.append(provider)\n        covered.update(provider.get(\"covered_entity_ids\", []))\n    key_ids = {entity[\"id\"] for entity in entities if entity[\"kind\"] != \"boundary\" and review_by_id.get(entity[\"id\"], {}).get(\"classification\") == \"page\" and entity[\"kind\"] != \"file\"}\n    if os.environ.get(\"CKB_TEST_PROVIDER\") != \"deterministic-fixture\":\n        missing_key = sorted(key_ids - covered)\n    else:\n        missing_key = []\n    gate(\"semantics\", [{\"name\": \"providers-passed\", \"passed\": not provider_errors, \"detail\": provider_errors}, {\"name\": \"key-entity-coverage\", \"passed\": not missing_key, \"detail\": missing_key}])\n    file_by_path = {item[\"file\"][\"path\"]: item[\"file\"] for item in catalog[\"files\"]}\n    audit_paths = {entity[\"path\"] for entity in entities}\n    audit_paths.update(fragment[\"path\"] for entity in entities for fragment in entity.get(\"fragments\", []))\n    audit_files = [file_by_path[path] for path in sorted(audit_paths)]\n    audit_sources = blob_bytes_many(state[\"repository\"], audit_files)\n    source_errors = [\n        {\"id\": entity[\"id\"], \"reason\": reason}\n        for entity in entities\n        if (reason := _source_check(entity, audit_sources.get(entity[\"path\"]), file_by_path.get(entity[\"path\"], {}).get(\"blob\")))\n    ]\n    source_errors.extend(error for entity in entities for error in _partial_fragment_source_errors(entity, audit_sources, file_by_path))\n    gate(\"source\", [{\"name\": \"git-source-authentic\", \"passed\": not source_errors, \"detail\": source_errors}])\n    description_errors = []\n    if set(review_by_id) != set(entity_by_id):\n        description_errors.append({\"reason\": \"review-entity-set-mismatch\", \"missing\": sorted(set(entity_by_id) - set(review_by_id)), \"extra\": sorted(set(review_by_id) - set(entity_by_id))})\n    for entity_id, item in review_by_id.items():\n        entity = entity_by_id.get(entity_id)\n        if not entity:\n            continue\n        if item.get(\"status\") != \"agent-reviewed\":\n            description_errors.append({\"id\": entity_id, \"reason\": \"status-not-agent-reviewed\"})\n        if item.get(\"classification\") == \"appendix\":\n            if not _single_chinese_sentence(item.get(\"description_zh\")):\n                description_errors.append({\"id\": entity_id, \"reason\": \"description_zh-not-one-useful-sentence\"})\n            if not _substantive_chinese(item.get(\"evidence_note\")):\n                description_errors.append({\"id\": entity_id, \"reason\": \"evidence_note-not-substantive\"})\n        else:\n            for field in (\"meaning_zh\", \"role_zh\", \"change_when_zh\", \"evidence_note\"):\n                if not _substantive_chinese(item.get(field)):\n                    description_errors.append({\"id\": entity_id, \"reason\": f\"{field}-not-substantive\"})\n        if item.get(\"source_path\") != entity[\"path\"] or item.get(\"start_line\") != entity[\"range\"][\"start_line\"] or item.get(\"end_line\") != entity[\"range\"][\"end_line\"]:\n            description_errors.append({\"id\": entity_id, \"reason\": \"source-basis-mismatch\"})\n    gate(\"descriptions\", [{\"name\": \"pages-and-appendix-sentences-agent-reviewed\", \"passed\": not description_errors, \"detail\": description_errors}])\n    scope = _scope_doc\n    global_ids = set(scope[\"selected_entity_ids\"])\n    link_errors = []\n    for link in candidate.get(\"links\", []):\n        if link[\"source\"] not in global_ids or link[\"target\"] not in global_ids:\n            link_errors.append({\"id\": link[\"id\"], \"reason\": \"endpoint-outside-selected-or-boundary\"})\n    gate(\"links\", [{\"name\": \"link-endpoints-valid\", \"passed\": not link_errors, \"detail\": link_errors}])\n    status = \"passed\" if all(item[\"status\"] == \"passed\" for item in gates.values()) else \"failed\"\n    result = {\"schema_version\": SCHEMA_VERSION, \"chunk_id\": chunk_id, \"status\": status, \"gates\": gates, \"audited_at_utc\": utc_now()}\n    json_write(chunk_dir / \"audit.json\", result)\n    write_marker(\n        output,\n        \".pending-agent-review\" if status == \"passed\" else \".failed\",\n        {\"status\": \"audit-passed-finalize-required\" if status == \"passed\" else \"failed\", \"chunk_id\": chunk_id, \"audit\": str((chunk_dir / \"audit.json\").resolve())},\n    )\n    return result",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-13989012634b5690a716fadd5a0cfcf2",
-      "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
-      "source_path": "scripts/ckb_core/pipeline.py",
-      "start_line": 1289,
-      "end_line": 1290,
-      "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
-      "source_excerpt": "def gate(name: str, checks: list[dict[str, Any]]) -> None:\n        gates[name] = {\"status\": \"passed\" if all(item[\"passed\"] for item in checks) else \"failed\", \"checks\": checks}",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-76c42dd675d45dbf9e6d8dc233e97d09",
-      "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
-      "source_path": "scripts/ckb_core/pipeline.py",
-      "start_line": 1382,
-      "end_line": 1439,
-      "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
-      "source_excerpt": "def review_chunk(output: Path, chunk_id: str, review_file: Path) -> dict[str, Any]:\n    state = _load_state(output)\n    chunk = _chunk(state, chunk_id)\n    candidate_path = output / \"chunks\" / chunk_id / \"candidate.json\"\n    if not candidate_path.is_file():\n        raise CkbError(\"build the chunk before submitting a review\")\n    review = json_load(review_file)\n    review[\"reviewed_at_utc\"] = review.get(\"reviewed_at_utc\") or utc_now()\n    review[\"chunk_id\"] = chunk_id\n    destination = output / \"chunks\" / chunk_id / \"agent-review.json\"\n    json_write(destination, review)\n    audit = audit_chunk(output, chunk_id)\n    if audit[\"status\"] != \"passed\":\n        chunk[\"status\"] = \"failed\"\n        state[\"status\"] = \"failed\"\n        json_write(output / \"state.json\", state)\n        write_marker(output, \".failed\", {\"status\": \"failed\", \"chunk_id\": chunk_id, \"audit\": str((output / \"chunks\" / chunk_id / \"audit.json\").resolve())})\n        raise AuditError(f\"chunk review failed: {output / 'chunks' / chunk_id / 'audit.json'}\")\n    candidate = json_load(candidate_path)\n    review_by_id = {item[\"entity_id\"]: item for item in review[\"reviews\"]}\n    for entity in candidate[\"entities\"]:\n        item = review_by_id[entity[\"id\"]]\n        entity[\"classification\"] = item[\"classification\"]\n        entity[\"owner_page_id\"] = item[\"owner_page_id\"]\n        if item[\"classification\"] == \"appendix\":\n            entity[\"description_zh\"] = item[\"description_zh\"]\n        else:\n            entity[\"meaning_zh\"] = item[\"meaning_zh\"]\n            entity[\"role_zh\"] = item[\"role_zh\"]\n            entity[\"change_when_zh\"] = item[\"change_when_zh\"]\n        entity[\"evidence_note\"] = item[\"evidence_note\"]\n        entity[\"review_status\"] = \"agent-reviewed\"\n    json_write(candidate_path, candidate)\n    chunk[\"status\"] = \"passed\"\n    chunk[\"review_path\"] = str(destination.resolve())\n    chunk[\"audit_path\"] = str((output / \"chunks\" / chunk_id / \"audit.json\").resolve())\n    state[\"status\"] = \"in-progress\"\n    review_items = {item[\"entity_id\"]: item for item in review[\"reviews\"]}\n    for pack in state.get(\"review_packs\", []):\n        if chunk_id not in pack.get(\"parse_batch_ids\", []):\n            continue\n        subset = [review_items[value] for value in pack[\"entity_ids\"] if value in review_items]\n        if len(subset) != len(pack[\"entity_ids\"]):\n            continue\n        pack_dir = output / \"review-packs\" / pack[\"id\"]\n        pack_dir.mkdir(parents=True, exist_ok=True)\n        json_write(pack_dir / \"agent-review.json\", {\"schema_version\": SCHEMA_VERSION, \"pack_id\": pack[\"id\"], \"kind\": pack[\"kind\"], \"reviewer\": review.get(\"reviewer\", \"Agent\"), \"reviewed_at_utc\": review[\"reviewed_at_utc\"], \"reviews\": subset})\n        json_write(pack_dir / \"audit.json\", {\"schema_version\": SCHEMA_VERSION, \"pack_id\": pack[\"id\"], \"status\": \"passed\", \"basis\": \"legacy-combined-batch-review\", \"audited_at_utc\": utc_now()})\n        pack[\"status\"] = \"passed\"\n        pack[\"review_path\"] = str((pack_dir / \"agent-review.json\").resolve())\n        pack[\"audit_path\"] = str((pack_dir / \"audit.json\").resolve())\n    json_write(output / \"state.json\", state)\n    next_chunk = next((item for item in state[\"chunks\"] if item[\"status\"] != \"passed\"), None)\n    if next_chunk:\n        write_marker(output, \".pending-agent-review\", {\"status\": \"next-chunk\", \"next_chunk\": next_chunk[\"id\"]})\n    else:\n        write_marker(output, \".pending-agent-review\", {\"status\": \"ready-to-merge\"})\n    return audit",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-a19bba00f25b513fb696ab7417d64958",
-      "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
-      "source_path": "scripts/ckb_core/pipeline.py",
-      "start_line": 1442,
-      "end_line": 1545,
-      "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
-      "source_excerpt": "def review_pack(output: Path, pack_id: str, review_file: Path) -> dict[str, Any]:\n    \"\"\"Validate one page/appendix Agent review unit independently of parsing.\"\"\"\n    state = _load_state(output)\n    pack = _review_pack(state, pack_id)\n    required_batches = [_chunk(state, value) for value in pack[\"parse_batch_ids\"]]\n    if any(not (output / \"chunks\" / batch[\"id\"] / \"candidate.json\").is_file() for batch in required_batches):\n        raise CkbError(\"build every parse batch referenced by the review pack before submitting it\")\n    review = json_load(review_file)\n    items = [item for item in review.get(\"reviews\", []) if isinstance(item, dict)]\n    by_id = {item.get(\"entity_id\"): item for item in items}\n    catalog, scope_doc, boundary_doc = _selected_catalog(output)\n    entity_by_id = {entity[\"id\"]: entity for entity in catalog[\"entities\"]}\n    entity_by_id.update({entity[\"id\"]: entity for entity in boundary_doc.get(\"entities\", [])})\n    planned = {item[\"entity_id\"]: item for item in json_load(output / \"navigation-plan.json\")[\"decisions\"]}\n    errors: list[dict[str, Any]] = []\n    expected_ids = set(pack[\"entity_ids\"])\n    if set(by_id) != expected_ids:\n        errors.append({\"reason\": \"review-pack-entity-set-mismatch\", \"missing\": sorted(expected_ids - set(by_id)), \"extra\": sorted(set(by_id) - expected_ids)})\n    file_by_path = {item[\"file\"][\"path\"]: item[\"file\"] for item in catalog[\"files\"]}\n    files = [file_by_path[path] for path in sorted({entity_by_id[value][\"path\"] for value in expected_ids if value in entity_by_id})]\n    sources = blob_bytes_many(state[\"repository\"], files)\n    for entity_id in sorted(expected_ids & set(by_id)):\n        item = by_id[entity_id]\n        entity = entity_by_id[entity_id]\n        decision = planned[entity_id]\n        if item.get(\"status\") != \"agent-reviewed\":\n            errors.append({\"id\": entity_id, \"reason\": \"status-not-agent-reviewed\"})\n        if item.get(\"classification\") != decision[\"classification\"] or item.get(\"owner_page_id\") != decision[\"owner_page_id\"]:\n            errors.append({\"id\": entity_id, \"reason\": \"deterministic-classification-or-owner-changed\"})\n        if item.get(\"source_path\") != entity[\"path\"] or item.get(\"start_line\") != entity[\"range\"][\"start_line\"] or item.get(\"end_line\") != entity[\"range\"][\"end_line\"]:\n            errors.append({\"id\": entity_id, \"reason\": \"source-basis-mismatch\"})\n        reason = _source_check(entity, sources.get(entity[\"path\"]), file_by_path.get(entity[\"path\"], {}).get(\"blob\"))\n        if reason:\n            errors.append({\"id\": entity_id, \"reason\": reason})\n        if pack[\"kind\"] == \"appendix-review\":\n            if not _single_chinese_sentence(item.get(\"description_zh\")):\n                errors.append({\"id\": entity_id, \"reason\": \"description_zh-not-one-useful-sentence\"})\n        else:\n            for field in (\"meaning_zh\", \"role_zh\", \"change_when_zh\"):\n                if not _substantive_chinese(item.get(field)):\n                    errors.append({\"id\": entity_id, \"reason\": f\"{field}-not-substantive\"})\n        if not _substantive_chinese(item.get(\"evidence_note\")):\n            errors.append({\"id\": entity_id, \"reason\": \"evidence_note-not-substantive\"})\n    status_value = \"passed\" if not errors else \"failed\"\n    pack_dir = output / \"review-packs\" / pack_id\n    destination = pack_dir / \"agent-review.json\"\n    review[\"pack_id\"] = pack_id\n    review[\"kind\"] = pack[\"kind\"]\n    review[\"reviewed_at_utc\"] = review.get(\"reviewed_at_utc\") or utc_now()\n    json_write(destination, review)\n    audit = {\"schema_version\": SCHEMA_VERSION, \"pack_id\": pack_id, \"kind\": pack[\"kind\"], \"status\": status_value, \"errors\": errors, \"audited_at_utc\": utc_now()}\n    json_write(pack_dir / \"audit.json\", audit)\n    pack[\"status\"] = status_value\n    pack[\"review_path\"] = str(destination.resolve())\n    pack[\"audit_path\"] = str((pack_dir / \"audit.json\").resolve())\n    state[\"status\"] = \"in-progress\" if status_value == \"passed\" else \"failed\"\n    json_write(output / \"state.json\", state)\n    if errors:\n        write_marker(output, \".failed\", {\"status\": \"failed\", \"review_pack\": pack_id, \"audit\": pack[\"audit_path\"]})\n        raise AuditError(f\"review pack failed: {pack_dir / 'audit.json'}\")\n\n    # When all review packs for a parse batch pass, materialize the combined\n    # review expected by the existing deterministic batch audit and close it.\n    state = _load_state(output)\n    for batch in required_batches:\n        batch_packs = [value for value in state[\"review_packs\"] if batch[\"id\"] in value.get(\"parse_batch_ids\", [])]\n        if not batch_packs or any(value[\"status\"] != \"passed\" for value in batch_packs):\n            continue\n        combined_items: list[dict[str, Any]] = []\n        for value in batch_packs:\n            combined_items.extend(json_load(output / \"review-packs\" / value[\"id\"] / \"agent-review.json\")[\"reviews\"])\n        combined = {\"schema_version\": SCHEMA_VERSION, \"chunk_id\": batch[\"id\"], \"reviewer\": \"Agent\", \"reviewed_at_utc\": utc_now(), \"reviews\": combined_items}\n        json_write(output / \"chunks\" / batch[\"id\"] / \"agent-review.json\", combined)\n        batch_audit = audit_chunk(output, batch[\"id\"])\n        if batch_audit[\"status\"] != \"passed\":\n            raise AuditError(f\"parse batch audit failed after review packs: {batch['id']}\")\n        candidate_path = output / \"chunks\" / batch[\"id\"] / \"candidate.json\"\n        candidate = json_load(candidate_path)\n        combined_by_id = {item[\"entity_id\"]: item for item in combined_items}\n        for entity in candidate[\"entities\"]:\n            item = combined_by_id[entity[\"id\"]]\n            entity[\"classification\"] = item[\"classification\"]\n            entity[\"owner_page_id\"] = item[\"owner_page_id\"]\n            if item[\"classification\"] == \"appendix\":\n                entity[\"description_zh\"] = item[\"description_zh\"]\n            else:\n                entity[\"meaning_zh\"] = item[\"meaning_zh\"]\n                entity[\"role_zh\"] = item[\"role_zh\"]\n                entity[\"change_when_zh\"] = item[\"change_when_zh\"]\n            entity[\"evidence_note\"] = item[\"evidence_note\"]\n            entity[\"review_status\"] = \"agent-reviewed\"\n        json_write(candidate_path, candidate)\n        refreshed = _load_state(output)\n        refreshed_batch = _chunk(refreshed, batch[\"id\"])\n        refreshed_batch[\"status\"] = \"passed\"\n        refreshed[\"status\"] = \"in-progress\"\n        json_write(output / \"state.json\", refreshed)\n    state = _load_state(output)\n    remaining = next((value for value in state[\"review_packs\"] if value[\"status\"] != \"passed\"), None)\n    if remaining:\n        write_marker(output, \".pending-agent-review\", {\"status\": \"next-review-pack\", \"next_review_pack\": remaining[\"id\"], \"review_template\": remaining.get(\"review_template_path\")})\n    else:\n        write_marker(output, \".pending-agent-review\", {\"status\": \"ready-to-merge\"})\n    return audit",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-e1a85ba1368a56da9c13691a145f5019",
-      "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 1548,
       "end_line": 1592,
@@ -71,9 +19,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-a11b7089c3785aa1976b1bb1d1a9e48c",
+      "entity_id": "ent-13ccb85474f552fd94c3cf00fb4357a0",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 1613,
       "end_line": 1614,
@@ -84,9 +32,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-dfc8f5fc05ca5f5fa80c5081078d67d6",
+      "entity_id": "ent-8e6fb1b5683152f9b44526ec7fd963ce",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 1617,
       "end_line": 1623,
@@ -97,9 +45,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-4bf3bc594eb657aeaa121f7e97b215ae",
+      "entity_id": "ent-104cb206a16d589f927e3f8f4f511d97",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 1626,
       "end_line": 1634,
@@ -110,9 +58,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-1f62f325e6b55cb3bfd3132d7b184794",
+      "entity_id": "ent-2136aceeacb250c185882e4e32b5d683",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 1637,
       "end_line": 1679,
@@ -123,9 +71,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-3679b1f566c1574c9c85518cf3d12714",
+      "entity_id": "ent-0ea5ef776aa756dc9658ea6f1ed96204",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 1682,
       "end_line": 1711,
@@ -136,9 +84,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-a62f72403b1e5e3ea9d7ce8ee54b2d8a",
+      "entity_id": "ent-d0f7b941ab545fc296c27379bc80defa",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 1714,
       "end_line": 1913,
@@ -149,9 +97,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-f50fd07acaa258ee967a9e320f9d2072",
+      "entity_id": "ent-579193b4ce3b58248995dba675d070d0",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 1722,
       "end_line": 1737,
@@ -162,9 +110,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-b9eb8900b69554fa94e95d310b5d5b71",
+      "entity_id": "ent-9041cfac31535b79b54aca71bd74c148",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 1860,
       "end_line": 1867,
@@ -175,9 +123,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-35be32b3aabb565a8821ba33b083c251",
+      "entity_id": "ent-2c127e29e3a156fab1fd308f5f94fbbc",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 1916,
       "end_line": 1933,
@@ -188,9 +136,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-6648ec94c0435429a93e1c20e6c7fc45",
+      "entity_id": "ent-440ddf9e56745dfcbaf5a428b1419f55",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 1936,
       "end_line": 1942,
@@ -201,9 +149,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-f4d95c7c803d5cec8db65e3076d52802",
+      "entity_id": "ent-cbb2cb201c07540b8c89b32b6b707748",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 1945,
       "end_line": 1951,
@@ -214,9 +162,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-0dde230bf5f45a49951dc1dd4c95564f",
+      "entity_id": "ent-c68cd6d224cc5a5d83b3b9e5af3169d0",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 1954,
       "end_line": 1957,
@@ -227,9 +175,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-37e06dd5f7c55439b56d00a68fe33bd4",
+      "entity_id": "ent-180c4601ee285ed4928266f1ccfd4e74",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 1960,
       "end_line": 1995,
@@ -240,9 +188,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-917478ad630a59c8b9bd91f168247069",
+      "entity_id": "ent-0b3e9a0e61b25fe79adb36feb4cb1527",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 1998,
       "end_line": 2029,
@@ -253,14 +201,118 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-a62f97a3ed6259bbb6384f24316f7847",
+      "entity_id": "ent-b16aae65364056688fbdecaf9e900e74",
       "classification": "appendix",
-      "owner_page_id": "file-a0109fe5fabc5604a13d7cc385a56904",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
       "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 2032,
       "end_line": 2047,
       "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
       "source_excerpt": "def _relation_phrase(link: dict[str, Any], other_title: str, incoming: bool = False) -> str:\n    \"\"\"Translate a machine relation into one short human navigation sentence.\"\"\"\n    relation = link[\"type\"]\n    if relation in {\"contains-module\", \"contains-file\"}:\n        return f\"可从 [[{other_title}]] 进入本页。\" if incoming else f\"继续浏览 [[{other_title}]]。\"\n    if relation == \"contains\":\n        return f\"[[{other_title}]] 汇总了本页。\" if incoming else f\"主要代码单元是 [[{other_title}]]。\"\n    if relation == \"tested-by\":\n        return f\"[[{other_title}]] 关联到这里的验证场景。\" if incoming else f\"由 [[{other_title}]] 覆盖相关行为。\"\n    if relation == \"partial-fragment\":\n        return f\"[[{other_title}]] 也参与组成这段实现。\" if incoming else f\"与 [[{other_title}]] 共同组成完整实现。\"\n    if relation in {\"calls\", \"invokes\"}:\n        return f\"[[{other_title}]] 会调用这里。\" if incoming else f\"执行时会调用 [[{other_title}]]。\"\n    if relation in {\"imports\", \"depends-on\", \"uses\"}:\n        return f\"[[{other_title}]] 依赖这里。\" if incoming else f\"实现依赖 [[{other_title}]]。\"\n    return f\"[[{other_title}]] 会使用这里提供的行为。\" if incoming else f\"实现时会用到 [[{other_title}]]。\"",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-98deb860774954e4950a39457888767a",
+      "classification": "appendix",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2050,
+      "end_line": 2074,
+      "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
+      "source_excerpt": "def _human_relation_sentences(\n    links: list[dict[str, Any]], title_by_id: dict[str, str], incoming: bool = False\n) -> list[str]:\n    \"\"\"Keep one best sentence per neighboring page, hiding machine-type duplicates.\"\"\"\n    priorities = {\n        \"contains\": 0,\n        \"contains-module\": 0,\n        \"contains-file\": 0,\n        \"partial-fragment\": 1,\n        \"tested-by\": 1,\n        \"calls\": 2,\n        \"invokes\": 2,\n        \"imports\": 3,\n        \"depends-on\": 3,\n        \"uses\": 3,\n        \"references\": 4,\n    }\n    selected: dict[str, dict[str, Any]] = {}\n    endpoint = \"source\" if incoming else \"target\"\n    for link in sorted(links, key=lambda value: (priorities.get(value[\"type\"], 5), title_by_id[value[endpoint]], value[\"id\"])):\n        selected.setdefault(link[endpoint], link)\n    return [\n        _relation_phrase(link, title_by_id[link[endpoint]], incoming=incoming)\n        for _neighbor, link in sorted(selected.items(), key=lambda item: title_by_id[item[0]])\n    ]",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-08ba9054a9365eab84ae866182119994",
+      "classification": "appendix",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2077,
+      "end_line": 2155,
+      "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
+      "source_excerpt": "def _normalized_edn_document(\n    graph: dict[str, Any],\n    logical: dict[str, Any],\n    local_openers: dict[str, Any] | None = None,\n) -> tuple[str, dict[str, int]]:\n    \"\"\"Render the same minimal narrative used by Markdown into Logseq EDN.\"\"\"\n    page_config = logical.get(\"page_config\", DEFAULT_PAGE_CONFIG)\n    title_by_id = {page[\"id\"]: page[\"title\"] for page in logical[\"pages\"]}\n    edn_pages: list[str] = []\n    expected_relation_blocks = 0\n    expected_page_entity_blocks = 0\n    expected_appendix_blocks = 0\n    expected_boundary_blocks = 0\n    for page in logical[\"pages\"]:\n        entity = page[\"entity\"]\n        blocks: list[str] = [f\"标签：{page.get('tag') or page_tag(page['page_type'])}\"]\n        sections = _page_sections(page, page_config)\n        if page[\"page_type\"] in {\"file\", \"entity\"}:\n            for section in sections:\n                if section == \"overview\":\n                    blocks.append(f\"页面说明：{_overview_text(entity, page_config)}\")\n                elif section == \"change_when\":\n                    blocks.append(f\"需要修改时：{entity['change_when_zh']}\")\n                elif section == \"source_location\":\n                    if local_openers:\n                        blocks.append(\n                            \"源码入口：\"\n                            + source_markdown_link(\n                                local_openers,\n                                entity[\"path\"],\n                                int(entity[\"range\"][\"start_line\"]),\n                                int(entity[\"range\"][\"end_line\"]),\n                            )\n                        )\n                    else:\n                        blocks.append(f\"代码位置：{entity['path']}:{entity['range']['start_line']}-{entity['range']['end_line']}\")\n                    expected_page_entity_blocks += 1\n                elif section == \"partial_fragments\" and entity.get(\"partial\"):\n                    for fragment in entity.get(\"fragments\", []):\n                        blocks.append(f\"组成位置：{fragment['path']}:{fragment['range']['start_line']}-{fragment['range']['end_line']}\")\n                elif section == \"appendix\":\n                    for appendix in page[\"appendix_entities\"]:\n                        blocks.append(f\"内部实现：{appendix['qualified_name']} — {appendix['description_zh']}\")\n                        expected_appendix_blocks += 1\n        elif page[\"page_type\"] == \"boundary\":\n            for section in sections:\n                if section == \"overview\":\n                    blocks.append(\"页面说明：这里汇集当前扫描范围之外、但与所选功能直接协作的代码。\")\n                elif section == \"boundary_details\":\n                    for boundary in page[\"boundary_entities\"]:\n                        blocks.append(f\"边界协作：{boundary['qualified_name']} — 位于 {boundary['path']}:{boundary['range']['start_line']}-{boundary['range']['end_line']}，本次未继续展开。\")\n                        expected_boundary_blocks += 1\n        else:\n            if \"overview\" in sections:\n                blocks.append(f\"页面说明：{_aggregate_overview(page)}\")\n        relation_blocks: list[str] = []\n        outgoing = sorted(page[\"outgoing\"], key=lambda link: (title_by_id[link[\"target\"]], link[\"type\"], link[\"id\"]))\n        tested_by = [link for link in outgoing if link[\"type\"] == \"tested-by\"]\n        collaboration = [link for link in outgoing if link[\"type\"] != \"tested-by\"]\n        if \"related_code\" in sections:\n            relation_blocks.extend(f\"协作：{sentence}\" for sentence in _human_relation_sentences(collaboration, title_by_id))\n        if \"tests\" in sections:\n            relation_blocks.extend(f\"协作：{sentence}\" for sentence in _human_relation_sentences(tested_by, title_by_id))\n        if \"backlinks\" in sections:\n            relation_blocks.extend(f\"协作：{sentence}\" for sentence in _human_relation_sentences(page[\"backlinks\"], title_by_id, incoming=True))\n        expected_relation_blocks += len(relation_blocks)\n        blocks.extend(relation_blocks)\n        block_edn = \" \".join(f\"{{:block/title {json.dumps(content, ensure_ascii=False)}}}\" for content in blocks)\n        edn_pages.append(f\"{{:page {{:block/title {json.dumps(page['title'], ensure_ascii=False)}}} :blocks [{block_edn}]}}\")\n    document = \"{:pages-and-blocks [\\n\" + \"\\n\".join(edn_pages) + \"\\n]}\\n\"\n    counts = {\n        \"pages\": len(logical[\"pages\"]),\n        \"page_entities\": expected_page_entity_blocks,\n        \"appendix_entities\": expected_appendix_blocks,\n        \"boundary_entities\": expected_boundary_blocks,\n        \"entities\": expected_page_entity_blocks + expected_appendix_blocks + expected_boundary_blocks,\n        \"relations\": expected_relation_blocks,\n    }\n    return document, counts",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-9c33fd5ef65555a1a14f0cf4598f2a87",
+      "classification": "appendix",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2158,
+      "end_line": 2231,
+      "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
+      "source_excerpt": "def _render_markdown_page(\n    page: dict[str, Any],\n    title_by_id: dict[str, str],\n    page_config: dict[str, Any],\n    local_openers: dict[str, Any],\n) -> str:\n    content = page_config[\"content\"]\n    headings = content[\"headings\"]\n    sections = _page_sections(page, page_config)\n    entity = page.get(\"entity\")\n    lines = [f\"# {page['title']}\", \"\", f\"标签：{page.get('tag') or page_tag(page['page_type'])}\", \"\"]\n    outgoing = sorted(page[\"outgoing\"], key=lambda link: (title_by_id[link[\"target\"]], link[\"type\"], link[\"id\"]))\n    tested_by = [link for link in outgoing if link[\"type\"] == \"tested-by\"]\n    collaboration = [link for link in outgoing if link[\"type\"] != \"tested-by\"]\n    backlinks = sorted(page[\"backlinks\"], key=lambda link: (title_by_id[link[\"source\"]], link[\"type\"], link[\"id\"]))\n\n    for section in sections:\n        if section == \"overview\":\n            if entity:\n                lines.append(f\"> {_overview_text(entity, page_config)}\")\n            elif page[\"page_type\"] == \"boundary\":\n                lines.append(\"> 这里汇集当前扫描范围之外、但与所选功能直接协作的代码。\")\n            else:\n                lines.append(f\"> {_aggregate_overview(page)}\")\n        elif section == \"change_when\" and entity:\n            lines.extend([\"\", f\"## {headings['change_when']}\", \"\", str(entity[\"change_when_zh\"])])\n        elif section == \"source_location\" and entity:\n            lines.extend(\n                [\n                    \"\",\n                    f\"## {headings['source_location']}\",\n                    \"\",\n                    source_markdown_link(\n                        local_openers,\n                        entity[\"path\"],\n                        int(entity[\"range\"][\"start_line\"]),\n                        int(entity[\"range\"][\"end_line\"]),\n                    ),\n                ]\n            )\n        elif section == \"partial_fragments\" and entity and entity.get(\"partial\"):\n            lines.extend([\"\", \"这个类型由下面几段代码共同组成：\"])\n            lines.extend(f\"- `{item['path']}:{item['range']['start_line']}-{item['range']['end_line']}`\" for item in entity.get(\"fragments\", []))\n        elif section == \"boundary_details\" and page.get(\"boundary_entities\"):\n            lines.extend([\"\", f\"## {headings['boundary_details']}\", \"\"])\n            lines.extend(\n                f\"- **{boundary['qualified_name']}**：位于 `{boundary['path']}:{boundary['range']['start_line']}-{boundary['range']['end_line']}`。\"\n                for boundary in page[\"boundary_entities\"]\n            )\n        elif section == \"related_code\" and collaboration:\n            lines.extend([\"\", f\"## {headings['related_code']}\", \"\"])\n            lines.extend(f\"- {sentence}\" for sentence in _human_relation_sentences(collaboration, title_by_id))\n        elif section == \"backlinks\" and backlinks:\n            lines.extend([\"\", f\"## {headings['backlinks']}\", \"\"])\n            lines.extend(f\"- {sentence}\" for sentence in _human_relation_sentences(backlinks, title_by_id, incoming=True))\n        elif section == \"tests\" and tested_by:\n            lines.extend([\"\", f\"## {headings['tests']}\", \"\"])\n            lines.extend(f\"- [[{title_by_id[link['target']]}]]\" for link in tested_by)\n        elif section == \"hidden_relation_hint\":\n            hidden = sum(int(value[\"hidden_groups\"]) for value in page[\"relation_summary\"].values())\n            if hidden:\n                lines.extend([\"\", \"> 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。\"])\n        elif section == \"appendix\" and page.get(\"appendix_entities\"):\n            lines.extend([\"\", f\"## {headings['appendix']}\", \"\"])\n            if content[\"appendix_mode\"] == \"collapsed\":\n                lines.extend([f\"<details><summary>查看本页收纳的 {len(page['appendix_entities'])} 个辅助实现</summary>\", \"\"])\n            lines.extend([\"| 代码单元 | 一句话作用 |\", \"|---|---|\"])\n            for appendix in page[\"appendix_entities\"]:\n                symbol = str(appendix[\"qualified_name\"]).replace(\"|\", \"\\\\|\").replace(\"\\n\", \" \")\n                description = str(appendix[\"description_zh\"]).replace(\"|\", \"\\\\|\").replace(\"\\n\", \" \")\n                lines.append(f\"| `{symbol}` | {description} |\")\n            if content[\"appendix_mode\"] == \"collapsed\":\n                lines.extend([\"\", \"</details>\"])\n    return \"\\n\".join(lines).rstrip() + \"\\n\"",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-53fa655a10a55d36824f4a17972337da",
+      "classification": "appendix",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2234,
+      "end_line": 2244,
+      "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
+      "source_excerpt": "def _logseq_file_graph_config_bytes() -> bytes:\n    \"\"\"Load the pinned Logseq file-graph config and enforce its source hash.\"\"\"\n    template = Path(__file__).resolve().parents[2] / \"references\" / \"logseq-config.edn\"\n    if not template.is_file():\n        raise AuditError(f\"pinned Logseq file-graph config is absent: {template}\")\n    if sha256_file(template) != LOGSEQ_FILE_GRAPH_CONFIG_SHA256:\n        raise AuditError(\n            \"pinned Logseq file-graph config differs from the locked upstream template: \"\n            f\"{template}\"\n        )\n    return template.read_bytes()",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-392e7495292c57feaf0f2cf13bc9642a",
+      "classification": "appendix",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2247,
+      "end_line": 2260,
+      "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
+      "source_excerpt": "def _install_logseq_file_graph_config(root: Path) -> dict[str, str]:\n    \"\"\"Make a Markdown projection directly openable as a Logseq file graph.\"\"\"\n    content = _logseq_file_graph_config_bytes()\n    config = root / \"logseq\" / \"config.edn\"\n    config.parent.mkdir(parents=True, exist_ok=True)\n    config.write_bytes(content)\n    return {\n        \"graph_root\": str(root.resolve()),\n        \"config\": str(config.resolve()),\n        \"config_relative_path\": \"logseq/config.edn\",\n        \"config_sha256\": sha256_file(config),\n        \"source_commit\": LOGSEQ_FILE_GRAPH_CONFIG_COMMIT,\n        \"source_url\": LOGSEQ_FILE_GRAPH_CONFIG_URL,\n    }",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-751fca6e1f0355ada2bc9abbd40989d4",
+      "classification": "appendix",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2263,
+      "end_line": 2290,
+      "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
+      "source_excerpt": "def _audit_logseq_file_graph_config(\n    graph_root: Path,\n    config_record: dict[str, Any],\n    reason_prefix: str,\n) -> list[dict[str, Any]]:\n    \"\"\"Audit one selectable Logseq file-graph root against the pinned template.\"\"\"\n    config = graph_root / \"logseq\" / \"config.edn\"\n    expected_config = _logseq_file_graph_config_bytes()\n    errors: list[dict[str, Any]] = []\n    if not config.is_file():\n        errors.append({\"reason\": f\"{reason_prefix}-config-missing\", \"path\": \"logseq/config.edn\"})\n    else:\n        if config.read_bytes() != expected_config:\n            errors.append({\"reason\": f\"{reason_prefix}-config-content-mismatch\", \"path\": \"logseq/config.edn\"})\n        actual_config_hash = sha256_file(config)\n        if config_record.get(\"config_sha256\") != actual_config_hash:\n            errors.append({\"reason\": f\"{reason_prefix}-config-hash-mismatch\", \"path\": \"logseq/config.edn\"})\n        if Path(config_record.get(\"config\", \"\")).resolve() != config.resolve():\n            errors.append({\"reason\": f\"{reason_prefix}-config-path-mismatch\", \"path\": \"logseq/config.edn\"})\n    if Path(config_record.get(\"graph_root\", \"\")).resolve() != graph_root.resolve():\n        errors.append({\"reason\": f\"{reason_prefix}-graph-root-mismatch\"})\n    if config_record.get(\"config_relative_path\") != \"logseq/config.edn\":\n        errors.append({\"reason\": f\"{reason_prefix}-config-relative-path-mismatch\"})\n    if config_record.get(\"source_commit\") != LOGSEQ_FILE_GRAPH_CONFIG_COMMIT:\n        errors.append({\"reason\": f\"{reason_prefix}-config-source-commit-mismatch\"})\n    if config_record.get(\"source_url\") != LOGSEQ_FILE_GRAPH_CONFIG_URL:\n        errors.append({\"reason\": f\"{reason_prefix}-config-source-url-mismatch\"})\n    return errors",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-f1c18ef553965e58a9ffb5bd547a12cd",
+      "classification": "appendix",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2293,
+      "end_line": 2302,
+      "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
+      "source_excerpt": "def _human_page_filenames(logical: dict[str, Any]) -> dict[str, str]:\n    \"\"\"Create readable filenames; use a numeric suffix only after sanitization collisions.\"\"\"\n    result: dict[str, str] = {}\n    counts: dict[str, int] = defaultdict(int)\n    for page in logical[\"pages\"]:\n        base = safe_title(page[\"title\"], 105)\n        counts[base] += 1\n        suffix = f\"（{counts[base]}）\" if counts[base] > 1 else \"\"\n        result[page[\"id\"]] = f\"{base}{suffix}.md\"\n    return result",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-23d2521870b655aaa610034108ae4114",
+      "classification": "appendix",
+      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2305,
+      "end_line": 2347,
+      "source_blob": "06869d8b10459e4bdd2c3d760317417decdfa5bb",
+      "source_excerpt": "def _index_document(graph: dict[str, Any], logical: dict[str, Any], output: Path) -> str:\n    repository_title = next(page[\"title\"] for page in logical[\"pages\"] if page[\"id\"] == logical[\"repository_page_id\"])\n    project = _repository_name(graph[\"repository\"][\"root\"])\n    module_ids = set(logical[\"module_page_ids\"].values())\n    module_titles = [page[\"title\"] for page in logical[\"pages\"] if page[\"id\"] in module_ids]\n    reference_projection = output / \"references/projection.json\"\n    reference_pages = json_load(reference_projection).get(\"pages\", []) if reference_projection.is_file() else []\n    reference_entry = [\"- **查找已审阅外部资料**：打开 [参考资料导览](REFERENCES.md)，摘要中的每项主张都链接到归档原文范围。\"] if reference_pages else []\n    lines = [\n        f\"# {project} 知识库\",\n        \"\",\n        \"> 先按任务选择入口：理解代码进入职责导览，查找已有结论进入工作记录，精确定位交给确定性检索。\",\n        \"\",\n        \"## 按任务选择入口\",\n        \"\",\n        f\"- **理解或修改代码**：从 [[{repository_title}]] 进入，再按职责缩小到类、函数或聚合页。\",\n        f\"- **查找已有分析、变更和实验**：打开 [工作记录导览]({WORK_RECORD_INDEX})，按任务目的浏览全部记录。\",\n        *reference_entry,\n        \"- **精确定位类、函数或源码范围**：使用 `brief --profile fast`，复杂问题再使用完整 `retrieve --profile precise`。\",\n        \"- **了解页面规则和阅读顺序**：打开 [阅读这套知识库的方法](WIKI.md)。\",\n        \"\",\n        \"## 按职责浏览代码\",\n        \"\",\n        *[f\"- [[{title}]]\" for title in module_titles],\n        \"\",\n        \"## 工作记录\",\n        \"\",\n        f\"[工作记录导览]({WORK_RECORD_INDEX}) 为每条分析、变更、实验、踩坑和会话记录提供一句中文说明，并按任务目的分组。导览由脚本从全部现有记录统一生成，不依赖手工挑选。\",\n        \"\",\n        \"## 精确定位\",\n        \"\",\n        \"遇到具体修改任务时，优先使用 `brief --profile fast` 获取预算内机器阅读包；复杂问题再使用完整 `retrieve --profile precise`。只在索引要求源码回退时读取最窄源码范围。两种档位都不调用向量模型。\",\n        \"\",\n        \"## 在 Obsidian 中打开\",\n        \"\",\n        f\"把 `{(output / 'human').resolve()}` 作为 Obsidian vault 打开；从本页、工作记录导览、标签或反向链接进入。`{(output / 'markdown').resolve()}` 是兼容镜像。\",\n        \"\",\n        \"## 在 Logseq 中打开\",\n        \"\",\n        f\"选择输出目录 `{output.resolve()}`；配置文件位于 [logseq/config.edn](logseq/config.edn)。\",\n        \"\",\n    ]\n    return \"\\n\".join(lines)",
       "status": "draft",
       "evidence_note": "",
       "description_zh": ""

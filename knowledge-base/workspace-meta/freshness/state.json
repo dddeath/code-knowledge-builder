@@ -2,16 +2,16 @@
   "schema_version": 1,
   "state": "current",
   "stable_state": "current",
-  "observed_at_utc": "2026-09-02T23:36:55Z",
-  "trigger": "first-query",
+  "observed_at_utc": "2026-09-03T01:50:30Z",
+  "trigger": "manager-status",
   "repository": "E:\\knowledge_builder\\self-workspace\\source",
   "knowledge_state": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\state.json",
   "knowledge_state_status": "complete",
-  "bound_commit": "c533dd7c53224a637b1438ea72ee25da887fc6de",
-  "current_head": "c533dd7c53224a637b1438ea72ee25da887fc6de",
-  "current_tree": "7eee86dbd7ba25504ec65986c02c2582091e8116",
+  "bound_commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+  "current_head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+  "current_tree": "9289ac724bfb6c1a5a76e6160fe57ba11255691e",
   "branch": "codex/reference-ingest-v1",
-  "worktree_signature": "77306e4c0521b01fba13db762de3ad1a6d2ea071496f0ea4bd1c2578dfc6988f",
+  "worktree_signature": "e065b2d849b80b316f1447d5cba356ae32cd38aebd11a1e1c51bc7e3354a2b1f",
   "dirty": {
     "count": 0,
     "paths": [],
@@ -27,15 +27,15 @@
   "migration": null,
   "migration_plan": {
     "schema_version": 1,
-    "plan_id": "freshness-migration-0593c65386e35bd9b682cd3d216c551c",
+    "plan_id": "freshness-migration-eaa50a12a03e525dbc9ca3ac374ef418",
     "status": "pending",
     "stable_output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
     "repository": "E:\\knowledge_builder\\self-workspace\\source",
-    "bound_commit": "bd8519583e3a075612036d0874c1d0742000e30c",
-    "target_commit": "c533dd7c53224a637b1438ea72ee25da887fc6de",
-    "staging_output": "E:\\knowledge_builder\\self-workspace\\kb-stg-c533dd7",
-    "created_at_utc": "2026-09-02T22:22:17Z",
-    "created_by_session": "manager-sync-c533dd7",
+    "bound_commit": "c533dd7c53224a637b1438ea72ee25da887fc6de",
+    "target_commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+    "staging_output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+    "created_at_utc": "2026-09-03T01:37:09Z",
+    "created_by_session": "01a057dd-b47d-74f1-af32-b0dcc775891c",
     "command": [
       "migrate",
       "start",
@@ -44,13 +44,13 @@
       "--repo",
       "E:\\knowledge_builder\\self-workspace\\source",
       "--out",
-      "E:\\knowledge_builder\\self-workspace\\kb-stg-c533dd7"
+      "E:\\knowledge_builder\\self-workspace\\knowledge-base"
     ],
     "automatic_cutover": false,
     "stable_output_overwritten": false
   },
   "overlay": null,
-  "cache_hit": false,
+  "cache_hit": true,
   "forced": false,
   "lock_recovered": false,
   "recovered_from_unavailable": false,
@@ -58,10 +58,10 @@
   "last_confirmed": {
     "state": "current",
     "stable_state": "current",
-    "bound_commit": "c533dd7c53224a637b1438ea72ee25da887fc6de",
-    "current_head": "c533dd7c53224a637b1438ea72ee25da887fc6de",
+    "bound_commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+    "current_head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
     "branch": "codex/reference-ingest-v1",
-    "observed_at_utc": "2026-09-02T23:36:55Z"
+    "observed_at_utc": "2026-09-03T01:50:30Z"
   },
   "error": null,
   "writes": {
@@ -74,6 +74,97 @@
     "rebuild": false
   },
   "session_cache": {
+    "01a057dd-b47d-74f1-af32-b0dcc775891c": {
+      "signature": "e065b2d849b80b316f1447d5cba356ae32cd38aebd11a1e1c51bc7e3354a2b1f",
+      "head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-03T01:50:30Z"
+    },
+    "process-65156": {
+      "signature": "e065b2d849b80b316f1447d5cba356ae32cd38aebd11a1e1c51bc7e3354a2b1f",
+      "head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-03T01:50:11Z"
+    },
+    "process-33196": {
+      "signature": "e065b2d849b80b316f1447d5cba356ae32cd38aebd11a1e1c51bc7e3354a2b1f",
+      "head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-03T01:47:10Z"
+    },
+    "process-38612": {
+      "signature": "77306e4c0521b01fba13db762de3ad1a6d2ea071496f0ea4bd1c2578dfc6988f",
+      "head": "c533dd7c53224a637b1438ea72ee25da887fc6de",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-03T00:50:17Z"
+    },
+    "process-56080": {
+      "signature": "77306e4c0521b01fba13db762de3ad1a6d2ea071496f0ea4bd1c2578dfc6988f",
+      "head": "c533dd7c53224a637b1438ea72ee25da887fc6de",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-03T00:49:04Z"
+    },
+    "process-67192": {
+      "signature": "77306e4c0521b01fba13db762de3ad1a6d2ea071496f0ea4bd1c2578dfc6988f",
+      "head": "c533dd7c53224a637b1438ea72ee25da887fc6de",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-03T00:47:15Z"
+    },
+    "process-29284": {
+      "signature": "77306e4c0521b01fba13db762de3ad1a6d2ea071496f0ea4bd1c2578dfc6988f",
+      "head": "c533dd7c53224a637b1438ea72ee25da887fc6de",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-03T00:44:50Z"
+    },
     "process-57436": {
       "signature": "77306e4c0521b01fba13db762de3ad1a6d2ea071496f0ea4bd1c2578dfc6988f",
       "head": "c533dd7c53224a637b1438ea72ee25da887fc6de",
@@ -2756,6 +2847,198 @@
       "state": "current",
       "stable_state": "current",
       "current_head": "c533dd7c53224a637b1438ea72ee25da887fc6de",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-e054d7875fe75486beba28756776b741",
+      "observed_at_utc": "2026-09-03T00:44:50Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "c533dd7c53224a637b1438ea72ee25da887fc6de",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-d34bddab271f5281b508b888f9af48d5",
+      "observed_at_utc": "2026-09-03T00:47:12Z",
+      "trigger": "manager-status",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "c533dd7c53224a637b1438ea72ee25da887fc6de",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-bb87425068d2500ebd01947832871f09",
+      "observed_at_utc": "2026-09-03T00:47:14Z",
+      "trigger": "manager-status",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "c533dd7c53224a637b1438ea72ee25da887fc6de",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-990c767cff8659e58f0b77bf57d9b044",
+      "observed_at_utc": "2026-09-03T00:47:15Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "c533dd7c53224a637b1438ea72ee25da887fc6de",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-1ee34d568ce05b2ead9e02e540c2d176",
+      "observed_at_utc": "2026-09-03T00:48:13Z",
+      "trigger": "manager-status",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "c533dd7c53224a637b1438ea72ee25da887fc6de",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-e1e028c1c2bc575a8942983bee3f8902",
+      "observed_at_utc": "2026-09-03T00:48:58Z",
+      "trigger": "manager-status",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "c533dd7c53224a637b1438ea72ee25da887fc6de",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-3bd9e4f0fb735458b4792bffaa9c7883",
+      "observed_at_utc": "2026-09-03T00:49:01Z",
+      "trigger": "manager-status",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "c533dd7c53224a637b1438ea72ee25da887fc6de",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-f4ce29615846558bb209d9c653333e61",
+      "observed_at_utc": "2026-09-03T00:49:02Z",
+      "trigger": "manager-status",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "c533dd7c53224a637b1438ea72ee25da887fc6de",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-591ea8755a835a2f8299321687fce045",
+      "observed_at_utc": "2026-09-03T00:49:04Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "c533dd7c53224a637b1438ea72ee25da887fc6de",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-012f03b69e8459c0b13fe5c1b92fe233",
+      "observed_at_utc": "2026-09-03T00:50:17Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "c533dd7c53224a637b1438ea72ee25da887fc6de",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-7b2ce1c71cdd51fe9c2feaffab60449c",
+      "observed_at_utc": "2026-09-03T01:37:08Z",
+      "trigger": "explicit-status",
+      "state": "stale-committed",
+      "stable_state": "stale-committed",
+      "current_head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-2ac52a7e2d4d53d2b0c76b302f6a7521",
+      "observed_at_utc": "2026-09-03T01:37:09Z",
+      "trigger": "migration-plan-preflight",
+      "state": "stale-committed",
+      "stable_state": "stale-committed",
+      "current_head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-ea05592c0b975205a50fc3caa9efbd19",
+      "observed_at_utc": "2026-09-03T01:47:10Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-f8ee85a966ab53b2ba0ff2f476beccd0",
+      "observed_at_utc": "2026-09-03T01:50:11Z",
+      "trigger": "explicit-status",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-ed1cad8561a85e9c955032f189a2665c",
+      "observed_at_utc": "2026-09-03T01:50:11Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-c596d2c4c5755187938cd30e9049bc0e",
+      "observed_at_utc": "2026-09-03T01:50:30Z",
+      "trigger": "manager-status",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
       "branch": "codex/reference-ingest-v1",
       "dirty_count": 0,
       "error": null

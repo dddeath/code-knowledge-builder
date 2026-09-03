@@ -1,0 +1,35 @@
+{
+  "schema_version": 4,
+  "pack_id": "delta-appendix-review-pack-0005",
+  "kind": "appendix-review",
+  "reviewer": "Agent",
+  "reviewed_at_utc": null,
+  "reviews": [
+    {
+      "entity_id": "ent-27b910166f8a5c5b83c4f63af490de23",
+      "classification": "appendix",
+      "owner_page_id": "file-c66a1d9fbf3a5102a9524783bd619b73",
+      "source_path": "tests/test_management_agent.py",
+      "start_line": 429,
+      "end_line": 462,
+      "source_blob": "9b11986f6b07a5f3b0db23949fba5e28cd666951",
+      "source_excerpt": "def test_task_dispatch_is_idempotent_and_blocks_integration_drift(self) -> None:\n        bind_conversation(self.payload(), self.registry)\n        worktree = self.workspace / \"worktrees/idempotent\"\n        arguments = dict(\n            conversation_id=\"conversation-fixture\",\n            harness_id=\"generic\",\n            task_id=\"idempotent-task\",\n            branch=\"codex/idempotent-task\",\n            worktree=worktree,\n            registry_path=self.registry,\n            tests=[f'\"{sys.executable}\" -c \"print(\\'OK\\')\"'],\n        )\n        with mock.patch(\"ckb_core.management_agent.management_context\", return_value=self.ready_context()):\n            with ThreadPoolExecutor(max_workers=6) as executor:\n                dispatched = list(executor.map(lambda _index: create_management_task(**arguments), range(6)))\n        self.assertEqual(sum(item[\"status\"] == \"created\" for item in dispatched), 1)\n        self.assertEqual(sum(item[\"status\"] == \"already-created\" for item in dispatched), 5)\n        self.assertEqual(len({item[\"task\"][\"dispatch_id\"] for item in dispatched}), 1)\n        (self.repo / \"drift.py\").write_text(\"DRIFT = True\\n\", encoding=\"utf-8\")\n        git(self.repo, \"add\", \".\")\n        git(self.repo, \"commit\", \"-m\", \"integration drift\")\n        with mock.patch(\"ckb_core.management_agent.management_context\", return_value=self.ready_context()):\n            with self.assertRaisesRegex(CkbError, \"Git gate failed\"):\n                create_management_task(\n                    \"conversation-fixture\",\n                    \"generic\",\n                    \"blocked-task\",\n                    \"codex/blocked-task\",\n                    self.workspace / \"worktrees/blocked\",\n                    self.registry,\n                    tests=[f'\"{sys.executable}\" -c \"print(\\'NO\\')\"'],\n                )\n        self.assertFalse((self.workspace / \"worktrees/blocked\").exists())\n        self.assertEqual(git(self.repo, \"branch\", \"--list\", \"codex/blocked-task\"), \"\")",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-08055f9ee6c55578891b0e2816e42d6d",
+      "classification": "appendix",
+      "owner_page_id": "file-c66a1d9fbf3a5102a9524783bd619b73",
+      "source_path": "tests/test_management_agent.py",
+      "start_line": 464,
+      "end_line": 484,
+      "source_blob": "9b11986f6b07a5f3b0db23949fba5e28cd666951",
+      "source_excerpt": "def test_task_review_records_literal_failure_without_merge(self) -> None:\n        bind_conversation(self.payload(), self.registry)\n        worktree = self.workspace / \"worktrees/failing\"\n        with mock.patch(\"ckb_core.management_agent.management_context\", return_value=self.ready_context()):\n            created = create_management_task(\n                \"conversation-fixture\",\n                \"generic\",\n                \"failing-task\",\n                \"codex/failing-task\",\n                worktree,\n                self.registry,\n                tests=[f'\"{sys.executable}\" -c \"import sys; print(\\'EXPECTED_FAILURE\\'); sys.exit(3)\"'],\n            )\n        (worktree / \"feature.py\").write_text(\"VALUE = 1\\n\", encoding=\"utf-8\")\n        git(worktree, \"add\", \".\")\n        git(worktree, \"commit\", \"-m\", \"add failing fixture\")\n        reviewed = review_management_task(created[\"task\"][\"dispatch_id\"], self.registry)\n        self.assertEqual(reviewed[\"status\"], \"failed\")\n        self.assertEqual(reviewed[\"verification\"][\"results\"][0][\"exit_status\"], 3)\n        self.assertIn(\"EXPECTED_FAILURE\", reviewed[\"verification\"][\"results\"][0][\"stdout\"])\n        self.assertFalse(reviewed[\"merge_performed\"])",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    }
+  ]
+}

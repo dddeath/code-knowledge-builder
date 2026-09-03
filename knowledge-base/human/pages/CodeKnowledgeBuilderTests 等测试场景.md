@@ -48,7 +48,7 @@
 - [[audit_work_record_index 与 _contains_chinese 的协作实现]] 关联到这里的验证场景。
 - [[bind_conversation]] 关联到这里的验证场景。
 - [[check_fact_freshness 与 _root 的协作实现]] 关联到这里的验证场景。
-- [[contracts 的协作边界（623c049c）]] 关联到这里的验证场景。
+- [[contracts 的协作边界（743c915d）]] 关联到这里的验证场景。
 - [[debug_value 等测试场景]] 关联到这里的验证场景。
 - [[doctor_report 与 _version_matches 的协作实现]] 关联到这里的验证场景。
 - [[extract_pdf 与 PdfExtractionError 的协作实现]] 关联到这里的验证场景。
