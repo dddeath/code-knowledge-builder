@@ -6,6 +6,12 @@ $ErrorActionPreference = 'Stop'
 $GitPath = 'C:\Program Files\Git\cmd\git.exe'
 $Branch = 'codex/development-knowledge-builder'
 $Baseline = '6cf8377dda82081e417fa058ea0fe660912b625c'
+$GitOptions = @(
+  '-c','filter.lfs.process=',
+  '-c','filter.lfs.smudge=cat',
+  '-c','filter.lfs.clean=cat',
+  '-c','filter.lfs.required=false'
+)
 $GitDirectory = Split-Path -Parent $GitPath
 if (-not (($env:PATH -split ';') -contains $GitDirectory)) {
   $env:PATH = "$GitDirectory;$env:PATH"
@@ -16,7 +22,7 @@ function Invoke-GitText([string[]]$GitArguments) {
   $stdoutPath = Join-Path $env:TEMP "ckb-development-rollback-$token.out"
   $stderrPath = Join-Path $env:TEMP "ckb-development-rollback-$token.err"
   try {
-    $process = Start-Process -FilePath $GitPath -ArgumentList $GitArguments `
+    $process = Start-Process -FilePath $GitPath -ArgumentList ($GitOptions + $GitArguments) `
       -WorkingDirectory $Worktree -Wait -PassThru -NoNewWindow `
       -RedirectStandardOutput $stdoutPath -RedirectStandardError $stderrPath
     $stdout = if (Test-Path -LiteralPath $stdoutPath) { [IO.File]::ReadAllText($stdoutPath, [Text.Encoding]::UTF8) } else { '' }
