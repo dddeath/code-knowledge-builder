@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "ready-overdefense-review-and-stable-knowledge",
+  "status": "published-overdefense-review-and-stable-knowledge-remote-verified",
   "repository": "https://github.com/dddeath/code-knowledge-builder",
   "target_branch": "codex/development-knowledge-builder",
   "publication_base": "6cf8377dda82081e417fa058ea0fe660912b625c",
@@ -118,7 +118,14 @@
     "checks": 15
   },
   "remote_clone_verification": {
-    "status": "pending"
+    "status": "passed",
+    "commit": "f8b6c400c474ff416b79fca2433dc61bc8e93253",
+    "path": "delivery/remote-overdefense-verification.json",
+    "sha256": "cdb1a862682d2861dcde90d957ad7785184fefa2a2f8f4d7f6e8bda68448f422",
+    "checks": 15,
+    "lfs_fsck": "passed",
+    "lfs_evidence": "delivery/remote-overdefense-lfs-fsck.txt",
+    "short_root_required_on_windows": true
   },
   "rollback": {
     "baseline": "6cf8377dda82081e417fa058ea0fe660912b625c",

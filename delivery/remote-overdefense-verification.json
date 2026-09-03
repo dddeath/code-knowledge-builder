@@ -1,0 +1,190 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "root": "/mnt/e/ckb-v-f8b6",
+  "checks": [
+    {
+      "name": "source-files",
+      "passed": true,
+      "detail": {
+        "passed": true,
+        "expected_count": 1003,
+        "actual_count": 1003,
+        "missing": [],
+        "extra": [],
+        "changed": []
+      }
+    },
+    {
+      "name": "knowledge-files",
+      "passed": true,
+      "detail": {
+        "passed": true,
+        "expected_count": 3222,
+        "actual_count": 3222,
+        "missing": [],
+        "extra": [],
+        "changed": []
+      }
+    },
+    {
+      "name": "fixed-source-commit",
+      "passed": true,
+      "detail": {
+        "root": "E:\\knowledge_builder\\self-workspace\\source",
+        "commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+        "tree": "9289ac724bfb6c1a5a76e6160fe57ba11255691e",
+        "git_bootstrap": {
+          "requested": false,
+          "performed": false,
+          "repository_created": false,
+          "initial_commit_created": false,
+          "root": "E:\\knowledge_builder\\self-workspace\\source",
+          "commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+          "commit_count": 177,
+          "commit_message": null,
+          "author": null
+        }
+      }
+    },
+    {
+      "name": "completion-markers",
+      "passed": true,
+      "detail": "three markers"
+    },
+    {
+      "name": "global-audit",
+      "passed": true,
+      "detail": "passed"
+    },
+    {
+      "name": "double-sqlite",
+      "passed": true,
+      "detail": [
+        {
+          "path": "/mnt/e/ckb-v-f8b6/knowledge-base/agent-index.sqlite",
+          "passed": true,
+          "integrity_check": "ok",
+          "foreign_key_error_count": 0,
+          "schema_version": "1",
+          "sha256": "46ee4db3faa6f424328c301899e070fe5eefaf444fad9d6577126de2e2f7cb94"
+        },
+        {
+          "path": "/mnt/e/ckb-v-f8b6/knowledge-base/machine/knowledge.sqlite",
+          "passed": true,
+          "integrity_check": "ok",
+          "foreign_key_error_count": 0,
+          "schema_version": "3",
+          "sha256": "1c253c25ba4c5bd994db2b0f26b20b465bdd7405ceed12ae3ea7b8c08505822e"
+        }
+      ]
+    },
+    {
+      "name": "human-markdown-mirror",
+      "passed": true,
+      "detail": {
+        "passed": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "readability",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "experimental-canvas-and-record-replace-surface",
+      "passed": true,
+      "detail": {
+        "files": {
+          "canvas_skill": true,
+          "canvas_cli": true,
+          "canvas_schema": true,
+          "record_replace": true,
+          "record_replace_test": true,
+          "record_replace_note": true,
+          "canvas_release_note": true,
+          "page_fanout_benchmark": true,
+          "page_fanout_result": true,
+          "page_fanout_note": true,
+          "semantic_vector_benchmark": true,
+          "semantic_vector_result": true,
+          "semantic_vector_note": true
+        },
+        "canvas_status": "experimental-awaiting-user-feedback",
+        "page_fanout_status": "negative-result",
+        "semantic_vector_status": "regression-observed",
+        "readme_human_entry_headings": true
+      }
+    },
+    {
+      "name": "negative-experiment-results",
+      "passed": true,
+      "detail": {
+        "page_fanout_recommendation": "retain-conservative",
+        "semantic_status": "failed",
+        "semantic_failed_checks": [
+          "extra_child_processes_within_limit"
+        ],
+        "semantic_decision": {
+          "result": "regression-observed",
+          "eligible_arms": [],
+          "reason_zh": "冻结质量与完成门没有同时形成进入生产实验的证据。",
+          "production_default_changed": false
+        }
+      }
+    },
+    {
+      "name": "durable-counts",
+      "passed": true,
+      "detail": {
+        "records": 70,
+        "expected_records": 70,
+        "references": 1,
+        "expected_references": 1,
+        "research_gaps": 7,
+        "expected_research_gaps": 7
+      }
+    },
+    {
+      "name": "learning-note-originals",
+      "passed": true,
+      "detail": [
+        {
+          "name": "2026-08-29.md",
+          "expected": "62059c19c42a0969e116c66d747627c6fae1b9fef3ef412e2c0ed03ced45ceeb",
+          "human": "62059c19c42a0969e116c66d747627c6fae1b9fef3ef412e2c0ed03ced45ceeb",
+          "markdown": "62059c19c42a0969e116c66d747627c6fae1b9fef3ef412e2c0ed03ced45ceeb",
+          "passed": true
+        },
+        {
+          "name": "2026-08-30.md",
+          "expected": "dc7e8eb4791816b8d7989bb7bb82e97f50d6cbdb2f586f769422baf79ea91e67",
+          "human": "dc7e8eb4791816b8d7989bb7bb82e97f50d6cbdb2f586f769422baf79ea91e67",
+          "markdown": "dc7e8eb4791816b8d7989bb7bb82e97f50d6cbdb2f586f769422baf79ea91e67",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "no-transient-git-or-sqlite-state",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "credential-scan",
+      "passed": true,
+      "detail": {
+        "status": "passed",
+        "scanned_text_files": 4239,
+        "findings": [],
+        "allowlisted_test_fixtures": 6
+      }
+    },
+    {
+      "name": "lfs-objects-materialized",
+      "passed": true,
+      "detail": []
+    }
+  ]
+}
