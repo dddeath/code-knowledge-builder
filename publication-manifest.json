@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "local-verified-ready-for-push",
+  "status": "published-retrieval-contract-and-stable-knowledge-remote-verified",
   "repository": "https://github.com/dddeath/code-knowledge-builder",
   "target_branch": "codex/development-knowledge-builder",
   "publication_base": "6f6ab1547cd9ca2dc365bd187a99a7bc4ecf86ce",
@@ -109,7 +109,7 @@
   "credential_scan": {
     "status": "passed",
     "path": "delivery/credential-scan.json",
-    "scanned_text_files": 4313,
+    "scanned_text_files": 4315,
     "findings": 0
   },
   "local_verification": {
@@ -119,7 +119,14 @@
     "checks": 15
   },
   "remote_clone_verification": {
-    "status": "pending"
+    "status": "passed",
+    "commit": "8985254b8a108969ede960b7b91f9068d32d0b12",
+    "path": "delivery/remote-fcad-verification.json",
+    "sha256": "2f457c49c9e5e25e862741bd455fa06c1261dd8fd7aca6a57e3d07e382116e8f",
+    "checks": 15,
+    "lfs_fsck": "passed",
+    "lfs_evidence": "delivery/remote-fcad-lfs-fsck.txt",
+    "short_root_required_on_windows": true
   },
   "rollback": {
     "baseline": "6f6ab1547cd9ca2dc365bd187a99a7bc4ecf86ce",
