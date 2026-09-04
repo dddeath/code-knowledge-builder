@@ -1,0 +1,37 @@
+{
+  "schema_version": 4,
+  "pack_id": "delta-page-review-pack-0013",
+  "kind": "page-review",
+  "reviewer": "管理 Agent",
+  "reviewed_at_utc": "2026-09-03T22:43:20Z",
+  "reviews": [
+    {
+      "entity_id": "file-fc7e05d927145343b055c86046762e7b",
+      "classification": "page",
+      "owner_page_id": "file-fc7e05d927145343b055c86046762e7b",
+      "source_path": "tests/test_ckb_core.py",
+      "start_line": 1,
+      "end_line": 308,
+      "source_blob": "2700f53626bd2494eadb7adb376502f62086f5a0",
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `tests/test_ckb_core.py` 第 1-308 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "meaning_zh": "该文件集中验证范围外源码确认的判定、诊断、brief 和 stdio 传输行为。",
+      "role_zh": "该文件承载 `tests/test_ckb_core.py` 所属能力的实现或测试入口。",
+      "change_when_zh": "当 `tests/test_ckb_core.py` 的职责或可见行为变化时，应更新本页并重跑相关测试。"
+    },
+    {
+      "entity_id": "ent-d7483c377ed05365b0069191b2cf6cb7",
+      "classification": "page",
+      "owner_page_id": "ent-d7483c377ed05365b0069191b2cf6cb7",
+      "source_path": "tests/test_ckb_core.py",
+      "start_line": 88,
+      "end_line": 103,
+      "source_blob": "2700f53626bd2494eadb7adb376502f62086f5a0",
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `tests/test_ckb_core.py` 第 88-103 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "meaning_zh": "`ScopeExtensionOfferTests.retrieval` 在 `tests/test_ckb_core.py` 中完成其名称所示的局部辅助或验证步骤。",
+      "role_zh": "它为所属流程提供有界输入、确定性结果或失败断言。",
+      "change_when_zh": "当 `ScopeExtensionOfferTests.retrieval` 的输入、输出或失败边界变化时，应更新该实现及相关测试。"
+    }
+  ]
+}

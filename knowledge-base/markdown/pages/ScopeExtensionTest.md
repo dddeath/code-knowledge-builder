@@ -10,7 +10,7 @@
 
 ## 在代码中的位置
 
-[打开源码：tests/test_scope_extension.py 第 63 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_scope_extension.py:63:1)  `tests/test_scope_extension.py:63-418`
+[打开源码：tests/test_scope_extension.py 第 65 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_scope_extension.py:65:1)  `tests/test_scope_extension.py:65-503`
 
 ## 相关代码
 
@@ -33,6 +33,8 @@
 - [[maintenance_check 与 capability_matrix 的协作实现]] 关联到这里的验证场景。
 - [[preflight]] 关联到这里的验证场景。
 - [[refresh 等测试场景]] 会使用这里提供的行为。
+- [[serve_stdio]] 关联到这里的验证场景。
+- [[serve_stdio 与 _write_line 的协作实现]] 关联到这里的验证场景。
 - [[start_scope_extension]] 关联到这里的验证场景。
 
 ## 相关测试
@@ -43,12 +45,14 @@
 
 ## 内部细节
 
-<details><summary>查看本页收纳的 8 个辅助实现</summary>
+<details><summary>查看本页收纳的 10 个辅助实现</summary>
 
 | 代码单元 | 一句话作用 |
 |---|---|
 | `ScopeExtensionTest.setUp` | `ScopeExtensionTest.setUp` 是第 64-91 行的函数，供所属页面定位实现。 |
 | `ScopeExtensionTest.add_preserved_layers` | `ScopeExtensionTest.ad...` 是第 93-192 行的函数，供所属页面定位实现。 |
+| `ScopeExtensionTest.test_cli_brief_and_stdio_share_scope_offer_schema` | 该测试验证当前场景的实际结果、来源约束和失败边界。 |
+| `ScopeExtensionTest.test_cli_brief_and_stdio_share_scope_offer_schema.invoke` | 该测试验证当前场景的实际结果、来源约束和失败边界。 |
 | `ScopeExtensionTest.tearDown` | `ScopeExtensionTest.te...` 是第 194-199 行的函数，供所属页面定位实现。 |
 | `ScopeExtensionTest.test_union_delta_idempotence_cutover_and_byte_exact_rollback` | `ScopeExtensionTest.te...` 是第 201-255 行的函数，供所属页面定位实现。 |
 | `ScopeExtensionTest.test_cutover_failure_restores_origin` | `ScopeExtensionTest.te...` 是第 257-268 行的函数，供所属页面定位实现。 |

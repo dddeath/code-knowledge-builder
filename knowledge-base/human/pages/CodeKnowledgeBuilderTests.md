@@ -10,14 +10,14 @@
 
 ## 在代码中的位置
 
-[打开源码：tests/test_ckb.py 第 199 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_ckb.py:199:1)  `tests/test_ckb.py:199-2232`
+[打开源码：tests/test_ckb.py 第 199 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_ckb.py:199:1)  `tests/test_ckb.py:199-2234`
 
 ## 相关代码
 
 - 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
+- 实现时会用到 [[ScopeExtensionOfferTests.retrieval]]。
 - 实现时会用到 [[audit_feedback 与 _contains_chinese 的协作实现]]。
 - 实现时会用到 [[audit_gap_register 与 _root 的协作实现]]。
-- 实现时会用到 [[audit_operation_journal 与 _root 的协作实现]]。
 - 实现时会用到 [[ckb_canvas 的协作边界]]。
 - 实现时会用到 [[finalize]]。
 - 实现时会用到 [[finalize 与 _replace_output_prefix 的协作实现]]。
@@ -47,7 +47,7 @@
 - [[audit_work_record_index]] 关联到这里的验证场景。
 - [[audit_work_record_index 与 _contains_chinese 的协作实现]] 关联到这里的验证场景。
 - [[check_fact_freshness 与 _root 的协作实现]] 关联到这里的验证场景。
-- [[contracts 的协作边界（743c915d）]] 关联到这里的验证场景。
+- [[contracts 的协作边界（959fe0e0）]] 关联到这里的验证场景。
 - [[doctor_report 与 _version_matches 的协作实现]] 关联到这里的验证场景。
 - [[extract_pdf 与 PdfExtractionError 的协作实现]] 关联到这里的验证场景。
 - [[finalize]] 关联到这里的验证场景。
@@ -64,6 +64,7 @@
 - [[record_note]] 关联到这里的验证场景。
 - [[record_note 与 page_tag 的协作实现]] 关联到这里的验证场景。
 - [[refresh]] 关联到这里的验证场景。
+- [[refresh 等测试场景]] 关联到这里的验证场景。
 - [[register_obsidian_plugin]] 关联到这里的验证场景。
 - [[register_obsidian_plugin 与 default_obsidian_plugin_registry 的协作实现]] 关联到这里的验证场景。
 - [[retrieve]] 关联到这里的验证场景。

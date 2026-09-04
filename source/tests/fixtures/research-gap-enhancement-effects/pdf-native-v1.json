@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "status": "frozen",
+  "benchmark": "ckb-pdf-native-effect-v1",
+  "measured_at_utc": "2026-09-04T00:00:00Z",
+  "baseline_commit": "8ac58b93435f99a621c9751040e4c8a38990851f",
+  "feature_merge_commit": "252dbb4298ecb451d41b5e1dd0883fa8d5598bdb",
+  "current_source_commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+  "implementation_path": "scripts/ckb_core/reference_pdf.py",
+  "parser": {
+    "name": "pypdf",
+    "version": "6.16.2"
+  },
+  "layout_case": {
+    "page_markers": [
+      [1, "PDF STRUCTURE TEST"],
+      [2, "SECOND PAGE"]
+    ],
+    "code_lines": [
+      "def calculate(value):",
+      "    return value + 1"
+    ],
+    "table_lines": [
+      "Name          Value",
+      "alpha         10",
+      "beta          20"
+    ]
+  },
+  "unicode_case": {
+    "expected_lines": [
+      "中文资料页标题",
+      "这段中文原生文本用于验证页级提取与原文定位。"
+    ]
+  },
+  "diagnostic_cases": [
+    "blank-native-page",
+    "missing-ocr-adapter",
+    "invalid-pdf-header",
+    "corrupt-pdf",
+    "encrypted-pdf",
+    "pdf-byte-limit",
+    "pdf-page-limit"
+  ],
+  "gates": {
+    "baseline_feature_absent": true,
+    "current_implementation_matches_snapshot": true,
+    "parser_identity_matches_protocol": true,
+    "page_locator_accuracy": 1.0,
+    "unicode_line_recall": 1.0,
+    "code_line_accuracy": 1.0,
+    "code_indent_accuracy": 1.0,
+    "table_line_accuracy": 1.0,
+    "diagnostic_accuracy": 1.0,
+    "web_implementation_status": "not-implemented",
+    "real_ocr_calls": 0
+  }
+}

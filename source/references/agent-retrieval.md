@@ -2,6 +2,23 @@
 
 在读取大范围源码或执行全仓 grep 前，先使用本页接口。
 
+## 未注入项目指令时的入口
+
+Harness 是否加载项目指令、是否加载 Skill 正文、是否向自动化层发送精确激活事件，是三个独立事实。没有项目 `AGENTS.md` 不等于没有加载 `code-knowledge-builder` Skill；没有 Skill 激活证据也不能由项目名、普通 prompt 或 Hook 安装状态推断为已应用。
+
+精确 Skill 正文已加载时，按以下顺序建立一次绑定：
+
+1. 先用当前任务或交接中明确给出的 `REPO`、`OUTPUT`、`PYTHON` 和 `CKB`；
+2. 若任务给出了 manager conversation 身份，执行 `manager status/context` 读取绑定；
+3. 否则读取 `automation registry`，只接受当前 repo/workspace 的唯一精确匹配；
+4. 重新打开 `OUTPUT/state.json`，核对 `repository.root`，并要求 `OUTPUT/machine/knowledge.sqlite` 存在；不以目录扫描猜测 OUTPUT。
+
+`automation register/activate` 只决定事件同步和 resident stdio。它们缺失或降级时，`brief`、反馈、缺口和窄接口继续使用逐命令 CLI。`brief` 会写 Agent pack、完整 record、事实新鲜度状态和有界 operation journal；只读稳定库必须先由任务指定一个可写隔离副本。
+
+运行顺序固定为：实际 `brief --profile fast` → 重新打开 pack 和 record → `open_feedback > 0` 时列出开放反馈 → 按返回 selector/path/range 使用窄接口。只有 `status=needs-source-read` 或已返回精确路径/范围时才读源码。`record` 只在任务要求持久化结论时执行；`maintain` 只在本轮修改知识库或验收目标明确要求维护状态时执行。非当前 Harness 的适配器缺失属于 Agent Policy 维护结果，不是机器检索前置条件。
+
+无 Skill 正文的对照必须保留 `ckb_applied=false`：普通 `session.start` 和普通 prompt 返回 `skill-not-applied-in-session`，不创建激活、event、session、turn 或 spool 记录，也不运行 CKB 检索。可重放验证入口为 `tests/harness_retrieval_contract_probe.py`。
+
 ## 主索引
 
 每种输出格式都生成 `OUTPUT/machine/knowledge.sqlite`。它不是页面缓存，而是 Agent 专用完整知识库，包含全部实体、范围、关系、来源证据、审阅说明、固定快照源码、职责群、人类页映射、Agent 记录和工作树覆盖层。`OUTPUT/agent-index.sqlite` 只保留旧接口兼容能力。
@@ -180,7 +197,64 @@ stdio 使用同一 canonical 配置，不另设第二套 Provider 协议。只�
 
 进程启动与第一次 `retrieve` 的缓存未命中成本应单独计量；后续请求的 `retrieval_stats.static_cache_hit` 应为 `true`。响应中的 `elapsed_ms` 是服务端请求时间，Harness 从写入一行到读回一行的时间才是用户可见往返延迟。
 
-`passed` 结果已经给出来源绑定候选，不再加载完整图。`needs-source-read` 表示索引中没有可信候选，此时只按返回路径、词项和已知范围继续读取源码。
+`passed` 结果已经给出来源绑定候选，不再加载完整图。`needs-source-read` 表示索引中没有可信候选，此时只按返回路径、词项和已知范围继续读取源码。stdio 将这两种状态都作为结构化成功响应返回；只有未知状态或 `passed` 缺少 Agent pack 才返回协议错误。
+
+## 范围外源码确认
+
+`needs-source-read` 本身不表示源码位于 scope 外。CKB 只从问题中提取显式仓库相对源码路径或完整 `LANGUAGE:PATH#QUALIFIED_NAME`，再使用同一 OUTPUT 的 `catalog.json`、`scope.json`、绑定提交和 `fact_freshness` 做确定性判定。路径必须在固定 Git catalog 中只解析到一个源码中心；多个候选、一个路径中的多个中心和含糊路径均不猜测。若通用后缀词项让检索返回了当前 scope 内的粗命中，原 `passed` 状态、排序和 pack 保持不变；只要证据没有覆盖显式 selector，offer 仍将该局部证据标为 `insufficient-for-explicit-selector`。
+
+| 检索与边界证据 | 返回结果 |
+|---|---|
+| 全局结果为 `needs-source-read`，或 `passed` 结果未覆盖显式 selector；同时 `fact_freshness=current`、无影响该 selector 的 warning、无服务失败、候选有固定 blob、候选唯一且不在当前 scope | 返回 `scope_extension_offer`，保留原检索状态、排序和全部 warning |
+| 普通零命中且问题没有路径或中心 | 保留原 `needs-source-read` |
+| 候选已经在当前 scope | 返回 `already-in-scope` 诊断，继续排查范围内漏检 |
+| stale 或 keyword fallback 服务失败 | 保留对应诊断，不请求扩库 |
+| warning 的 `file`、`affected_paths` 或 `affected_entity_ids` 明确命中候选，且 `absence_inference_allowed=false` | 返回带候选路径和相关 warning 摘要的有界诊断，不请求扩库 |
+| 其他路径或语言的 warning，例如 Python 候选之外的 C++ `compile-commands-unavailable` | 原样保留 warning，继续唯一 selector 判定，不形成全局阻塞 |
+| 多候选、路径内多中心、selector 越界或没有固定 Git 证据 | 返回有界 `scope_extension_diagnostic`，不请求扩库 |
+
+`retrieve` 与 `brief` 共用下列 canonical schema；`brief` 不会删掉 offer：
+
+```json
+{
+  "status": "needs-source-read",
+  "scope_extension_offer": {
+    "schema_version": 1,
+    "offer_id": "scope-offer-...",
+    "status": "confirmation-required",
+    "reason": {
+      "code": "source-outside-current-scope",
+      "message_zh": "检索证据不足，且固定 Git 证据表明唯一候选中心位于当前 scope 之外。"
+    },
+    "evidence": {
+      "retrieval_status": "needs-source-read",
+      "evidence_adequacy": "insufficient-for-explicit-selector",
+      "fact_freshness": "current",
+      "repository_commit": "COMMIT",
+      "candidate_source": "user-explicit",
+      "tracked_path": "src/service.py",
+      "tracked_blob": "BLOB",
+      "scope_membership": "outside",
+      "relation_to_question_zh": "问题显式指定了该路径，并唯一解析到该源码中心。"
+    },
+    "selector": {
+      "kind": "entry",
+      "value": "python:src/service.py#Service.run",
+      "language": "python",
+      "path": "src/service.py",
+      "qualified_name": "Service.run"
+    },
+    "human_prompt_zh": "是否确认通过既有 scope extend 将该中心加入范围？",
+    "requires_confirmation": true,
+    "next": {
+      "action": "await-human-confirmation",
+      "automatic_scope_extension": false
+    }
+  }
+}
+```
+
+`on_confirmation.command` 只生成既有 `scope extend start` 的参数数组，调用方确认 `STAGING_OUTPUT` 后执行；返回 offer 本身不会扫描、重建、创建中心或写入 scope。`on_defer` 返回候选路径和稳定 `repeat_key`，调用方仍可窄读该路径。同一常驻 stdio 会话只返回一次相同 `offer_id`，后续相同证据返回 `offer-already-presented`，避免循环询问。
 
 ## 分节与上下文
 

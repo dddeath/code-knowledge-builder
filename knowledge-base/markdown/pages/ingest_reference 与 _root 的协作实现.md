@@ -25,7 +25,7 @@
 - 实现时会用到 [[ingest]]。
 - 实现时会用到 [[ingest 与 connect 的协作实现]]。
 - 主要代码单元是 [[ingest_reference]]。
-- 实现时会用到 [[render_integration 与 _looks_windows 的协作实现]]。
+- 实现时会用到 [[render_integration 与 harness_retrieval_contract 的协作实现]]。
 - 实现时会用到 [[retrieve 与 _tokens 的协作实现]]。
 - 实现时会用到 [[retrieve_machine 与 estimated_tokens 的协作实现]]。
 

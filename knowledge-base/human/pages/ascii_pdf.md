@@ -22,9 +22,11 @@
 - [[PdfReferenceExtractionTests]] 会使用这里提供的行为。
 - [[PdfReferenceExtractionTests 等测试场景]] 会使用这里提供的行为。
 - [[ascii_pdf 等测试场景]] 汇总了本页。
+- [[run_benchmark]] 会使用这里提供的行为。
 
 ## 相关测试
 
 - [[PdfReferenceExtractionTests]]
 - [[PdfReferenceExtractionTests 等测试场景]]
 - [[ascii_pdf 等测试场景]]
+- [[run_benchmark]]

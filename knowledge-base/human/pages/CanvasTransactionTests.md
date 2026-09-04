@@ -17,7 +17,7 @@
 - 实现时会用到 [[build_case]]。
 - 实现时会用到 [[build_case 等测试场景]]。
 - 实现时会用到 [[commands 的协作边界]]。
-- 实现时会用到 [[contracts 的协作边界（36093e4a）]]。
+- 实现时会用到 [[contracts 的协作边界（prototypes）]]。
 - 实现时会用到 [[freeze 的协作边界]]。
 - 实现时会用到 [[transaction 的协作边界]]。
 - 实现时会用到 [[validate]]。

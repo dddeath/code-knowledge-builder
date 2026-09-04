@@ -14,6 +14,7 @@
 
 ## 相关代码
 
+- 实现时会用到 [[ScopeExtensionOfferTests.retrieval]]。
 - 实现时会用到 [[SourceLinkRenderer.uri]]。
 - 实现时会用到 [[_Transport.close]]。
 - 实现时会用到 [[append]]。

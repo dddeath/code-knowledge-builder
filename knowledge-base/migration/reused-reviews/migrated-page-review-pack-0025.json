@@ -3,72 +3,20 @@
   "pack_id": "migrated-page-review-pack-0025",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-03T01:38:41Z",
+  "reviewed_at_utc": "2026-09-03T22:05:53Z",
   "reviews": [
     {
-      "entity_id": "ent-908f66639f145acd85368f1195c3df62",
+      "entity_id": "file-e669e1e738b7569d8a1fe5f08d2a4b30",
       "classification": "page",
-      "owner_page_id": "ent-908f66639f145acd85368f1195c3df62",
-      "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
-      "start_line": 888,
-      "end_line": 956,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/knowledge_batch_migration.py` 第 888-956 行的源码摘录，文件、符号与行范围一致。",
-      "meaning_zh": "`create_knowledge_batc...` 是 `scripts/ckb_core/knowledge_batch_migration.py` 第 888-956 行定义的函数，本页绑定该固定源码范围。",
-      "role_zh": "负责完整知识库批量迁移的计划、隔离构建、审计、切换和精确回滚。",
-      "change_when_zh": "当 `create_knowledge_batch_plan` 的输入、输出、状态转换或失败返回变化时，应更新本页并重跑对应测试。"
-    },
-    {
-      "entity_id": "file-d1dc36c135fc568f8d76a58b1ff7525f",
-      "classification": "page",
-      "owner_page_id": "file-d1dc36c135fc568f8d76a58b1ff7525f",
-      "source_path": "scripts/ckb_core/knowledge_layers.py",
+      "owner_page_id": "file-e669e1e738b7569d8a1fe5f08d2a4b30",
+      "source_path": "scripts/ckb_core/management_agent.py",
       "start_line": 1,
-      "end_line": 262,
+      "end_line": 1399,
       "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/knowledge_layers.py` 第 1 至 262 行，核对 `scripts/ckb_core/knowledge_layers.py` 的签名、分支和数据流后写出本条简体中文说明。",
-      "meaning_zh": "`scripts/ckb_core/knowledge_layers.py` 是 `scripts/ckb_core/knowledge_layers.py` 中负责汇总并提供机器事实到 human/markdown 双层投影和镜像审计的文件入口。",
-      "role_zh": "它按源码所示的参数、条件分支和数据结构完成汇总并提供机器事实到 human/markdown 双层投影和镜像审计，并把确定结果交给调用方或后续审计、索引、投影阶段。",
-      "change_when_zh": "当机器事实到 human/markdown 双层投影和镜像审计的输入格式、状态规则、错误处理或输出契约变化时，需要修改该代码单元并复核对应测试。"
-    },
-    {
-      "entity_id": "ent-12788f15fbbe5406a50e2cfa5a18c687",
-      "classification": "page",
-      "owner_page_id": "ent-12788f15fbbe5406a50e2cfa5a18c687",
-      "source_path": "scripts/ckb_core/knowledge_layers.py",
-      "start_line": 126,
-      "end_line": 192,
-      "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/knowledge_layers.py` 第 126 至 192 行，核对 `sync_human_layer` 的签名、分支和数据流后写出本条简体中文说明。",
-      "meaning_zh": "`sync_human_layer` 是 `scripts/ckb_core/knowledge_layers.py` 中负责把已审计 Markdown 投影同步到 human 层，并保持生成文件清单和镜像一致的函数。",
-      "role_zh": "它按源码所示的参数、条件分支和数据结构完成把已审计 Markdown 投影同步到 human 层，并保持生成文件清单和镜像一致，并把确定结果交给调用方或后续审计、索引、投影阶段。",
-      "change_when_zh": "当机器事实到 human/markdown 双层投影和镜像审计的输入格式、状态规则、错误处理或输出契约变化时，需要修改该代码单元并复核对应测试。"
-    },
-    {
-      "entity_id": "file-03ab41c67ac35db48a00d4ea0acdd2ce",
-      "classification": "page",
-      "owner_page_id": "file-03ab41c67ac35db48a00d4ea0acdd2ce",
-      "source_path": "scripts/ckb_core/llm_wiki_capabilities.py",
-      "start_line": 1,
-      "end_line": 478,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/llm_wiki_capabilities.py` 第 1 至 478 行；摘录与 Git blob c1729d9ad2c2 一致。",
-      "meaning_zh": "文件 `scripts/ckb_core/llm_wiki_capabilities.py`负责维护外部 Wiki 能力的吸收状态，并给 Agent 生成紧凑能力说明。",
-      "role_zh": "它属于知识库能力边界与后续研究队列的机器可读入口，当前说明只覆盖所列固定源码范围。",
-      "change_when_zh": "当能力状态、证据链接、维护检查或紧凑说明格式变化时，应同步复查本页及其直接关联测试。"
-    },
-    {
-      "entity_id": "ent-e49fe98113f15c2ca74bc49726e47a82",
-      "classification": "page",
-      "owner_page_id": "ent-e49fe98113f15c2ca74bc49726e47a82",
-      "source_path": "scripts/ckb_core/llm_wiki_capabilities.py",
-      "start_line": 427,
-      "end_line": 477,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/llm_wiki_capabilities.py` 第 427 至 477 行；摘录与 Git blob c1729d9ad2c2 一致。",
-      "meaning_zh": "代码单元 `maintenance_check`负责维护外部 Wiki 能力的吸收状态，并给 Agent 生成紧凑能力说明。",
-      "role_zh": "它属于知识库能力边界与后续研究队列的机器可读入口，当前说明只覆盖所列固定源码范围。",
-      "change_when_zh": "当能力状态、证据链接、维护检查或紧凑说明格式变化时，应同步复查本页及其直接关联测试。"
+      "evidence_note": "已核对固定提交 bdd4a6671df5 中 `scripts/ckb_core/management_agent.py` 第 1 至 1399 行，摘录属于 Git blob 8e89e063725b；相关运行验证见本次机器验证记录。",
+      "meaning_zh": "该模块把 Harness 对话绑定到项目管理身份，并提供状态恢复、任务派发和复核入口。",
+      "role_zh": "它集中维护对话与仓库关系，确保开发任务从已确认的 integration HEAD 建立独立 worktree。",
+      "change_when_zh": "调整绑定身份、Harness 能力、派发前提、管理 Prompt 或复核结构时需要修改。"
     }
   ]
 }

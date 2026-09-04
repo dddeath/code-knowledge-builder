@@ -2,6 +2,12 @@
 
 `scope extend` 在同一固定 Git 快照上把一个或多个新中心加入已完成知识库。目标中心集合始终是旧 `entries` 与新增 `entries` 的并集；接口不提供隐式删除。所有构建、审阅和审计先发生在独立 staging，生产 OUTPUT 在 `cutover` 前保持原字节不变。
 
+## 从检索建议进入扩库
+
+`retrieve` 或 `brief` 返回的 `scope_extension_offer` 是人类确认建议，不是新的全局阻塞，也不会自动调用本页命令。它只在检索证据不足、源码事实为 current、候选具有固定 Git blob、唯一解析为完整 entry 且确定不属于当前 scope 时出现。证据不足既包括 `needs-source-read`，也包括 `passed` 结果只命中当前 scope 的通用词项而没有覆盖用户显式 selector；后一种情况保留原状态、排序和 pack，仅把 selector 局部证据标为不足。warning 也按候选局部判断：只有 `absence_inference_allowed=false` 且 `file`、`affected_paths`、`affected_entity_ids` 或候选实体完整性字段明确命中该 selector 时才抑制 offer；其他路径或语言的 warning 原样保留并继续判定。普通零命中、范围内漏检、stale、服务失败、歧义、重复 scope 和越界路径保留各自诊断。
+
+确认后从 `scope_extension_offer.on_confirmation.command` 读取既有 `scope extend start` 参数，将 `STAGING_OUTPUT` 替换为独立 staging 目录并执行。暂不扩展时按 `on_defer.path` 继续窄读；调用方以 `repeat_key` 去重，同一常驻 stdio 会话也不会重复返回相同确认。确认建议没有第二套 scope 状态、cutover 或 rollback，后续仍完全执行本页既有流程。
+
 ## 启动和审阅
 
 每个新增中心必须使用完整的 `LANGUAGE:PATH#QUALIFIED_NAME`，并且在受支持、已跟踪的固定源码中唯一解析。零解析、多解析、不支持语言、未跟踪路径、重复输入和已经存在的中心均使用固定错误分类退出。

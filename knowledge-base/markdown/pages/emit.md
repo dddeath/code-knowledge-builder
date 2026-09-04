@@ -19,7 +19,7 @@
 ## 谁会来到这里
 
 - [[keyword_provider_config 与 parser 的协作实现]] 汇总了本页。
-- [[render_integration 与 _looks_windows 的协作实现]] 会使用这里提供的行为。
+- [[render_integration 与 harness_retrieval_contract 的协作实现]] 会使用这里提供的行为。
 
 ## 相关测试
 

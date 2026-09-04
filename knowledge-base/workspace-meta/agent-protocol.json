@@ -88,7 +88,9 @@
     "reference_list": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe' 'E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py' reference list --out 'E:\\knowledge_builder\\self-workspace\\knowledge-base' --status all",
     "reference_audit": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe' 'E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py' reference audit --out 'E:\\knowledge_builder\\self-workspace\\knowledge-base'",
     "gaps_list": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe' 'E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py' gaps list --out 'E:\\knowledge_builder\\self-workspace\\knowledge-base' --status open",
-    "gaps_audit": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe' 'E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py' gaps audit --out 'E:\\knowledge_builder\\self-workspace\\knowledge-base'"
+    "gaps_audit": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe' 'E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py' gaps audit --out 'E:\\knowledge_builder\\self-workspace\\knowledge-base'",
+    "automation_registry": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe' 'E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py' automation registry",
+    "automation_activate": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe' 'E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py' automation activate --harness 'HARNESS' --session-id 'SESSION_ID' --cwd 'TASK_ROOT'"
   },
   "harness_contract": {
     "codex": "AGENTS.md",

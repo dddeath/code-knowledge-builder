@@ -14,7 +14,7 @@
 
 ## 相关代码
 
-- 实现时会用到 [[contracts 的协作边界（36093e4a）]]。
+- 实现时会用到 [[contracts 的协作边界（prototypes）]]。
 
 ## 谁会来到这里
 
@@ -80,6 +80,7 @@
 - [[refresh 等测试场景]] 会使用这里提供的行为。
 - [[register_obsidian_plugin 与 default_obsidian_plugin_registry 的协作实现]] 会使用这里提供的行为。
 - [[render_integration]] 会使用这里提供的行为。
+- [[render_integration 与 harness_retrieval_contract 的协作实现]] 会使用这里提供的行为。
 - [[render_page_author 与 _error 的协作实现]] 会使用这里提供的行为。
 - [[replace_note]] 会使用这里提供的行为。
 - [[replace_note 与 RecordReplaceLockError 的协作实现]] 会使用这里提供的行为。

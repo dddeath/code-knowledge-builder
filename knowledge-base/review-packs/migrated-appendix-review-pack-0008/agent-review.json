@@ -3,342 +3,12 @@
   "pack_id": "migrated-appendix-review-pack-0008",
   "kind": "appendix-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-03T01:38:50Z",
+  "reviewed_at_utc": "2026-09-03T22:05:41Z",
   "reviews": [
     {
-      "entity_id": "ent-8ecb22c7201f525482c278403c06aea5",
+      "entity_id": "ent-db8afd3b8cd354379d4b997ea7b54e66",
       "classification": "appendix",
-      "owner_page_id": "file-053bc608a4625fd096aacccf77e6b529",
-      "source_path": "scripts/ckb_core/feedback.py",
-      "start_line": 143,
-      "end_line": 179,
-      "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 143 至 179 行，核对 `_visible_feedback` 的签名、分支和数据流后写出本条简体中文说明。",
-      "description_zh": "处理 `feedback` 对应的数据与约束。"
-    },
-    {
-      "entity_id": "ent-eb0547eeab495a73917e676f3882a4fe",
-      "classification": "appendix",
-      "owner_page_id": "file-053bc608a4625fd096aacccf77e6b529",
-      "source_path": "scripts/ckb_core/feedback.py",
-      "start_line": 182,
-      "end_line": 183,
-      "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 182 至 183 行，核对 `_record_path` 的签名、分支和数据流后写出本条简体中文说明。",
-      "description_zh": "记录 `path` 对应的数据与约束。"
-    },
-    {
-      "entity_id": "ent-201c3b71493352a38f75cd0c5e3e70bf",
-      "classification": "appendix",
-      "owner_page_id": "file-053bc608a4625fd096aacccf77e6b529",
-      "source_path": "scripts/ckb_core/feedback.py",
-      "start_line": 186,
-      "end_line": 187,
-      "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 186 至 187 行，核对 `_visible_relative` 的签名、分支和数据流后写出本条简体中文说明。",
-      "description_zh": "处理 `relative` 对应的数据与约束。"
-    },
-    {
-      "entity_id": "ent-f800b6e708c35f8687bda4f28a42b21d",
-      "classification": "appendix",
-      "owner_page_id": "file-053bc608a4625fd096aacccf77e6b529",
-      "source_path": "scripts/ckb_core/feedback.py",
-      "start_line": 190,
-      "end_line": 199,
-      "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 190 至 199 行，核对 `_write_visible_mirrors` 的签名、分支和数据流后写出本条简体中文说明。",
-      "description_zh": "写入 `visible_mirrors` 对应的数据与约束。"
-    },
-    {
-      "entity_id": "ent-bce344a5d19a5e14abfaf92ddee30364",
-      "classification": "appendix",
-      "owner_page_id": "file-053bc608a4625fd096aacccf77e6b529",
-      "source_path": "scripts/ckb_core/feedback.py",
-      "start_line": 202,
-      "end_line": 254,
-      "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 202 至 254 行，核对 `create_feedback` 的签名、分支和数据流后写出本条简体中文说明。",
-      "description_zh": "创建 `feedback` 对应的数据与约束。"
-    },
-    {
-      "entity_id": "ent-c140627bf06d53fda82cc16fbc44f55e",
-      "classification": "appendix",
-      "owner_page_id": "file-053bc608a4625fd096aacccf77e6b529",
-      "source_path": "scripts/ckb_core/feedback.py",
-      "start_line": 257,
-      "end_line": 263,
-      "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 257 至 263 行，核对 `_load_feedback` 的签名、分支和数据流后写出本条简体中文说明。",
-      "description_zh": "加载 `feedback` 对应的数据与约束。"
-    },
-    {
-      "entity_id": "ent-94fa2fd489c956babdcc3ddd8796fc54",
-      "classification": "appendix",
-      "owner_page_id": "file-053bc608a4625fd096aacccf77e6b529",
-      "source_path": "scripts/ckb_core/feedback.py",
-      "start_line": 266,
-      "end_line": 275,
-      "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 266 至 275 行，核对 `_all_offsets` 的签名、分支和数据流后写出本条简体中文说明。",
-      "description_zh": "处理 `offsets` 对应的数据与约束。"
-    },
-    {
-      "entity_id": "ent-d62f82f6420e5057b2b1b5c87d025362",
-      "classification": "appendix",
-      "owner_page_id": "file-053bc608a4625fd096aacccf77e6b529",
-      "source_path": "scripts/ckb_core/feedback.py",
-      "start_line": 278,
-      "end_line": 279,
-      "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 278 至 279 行，核对 `_offset_lines` 的签名、分支和数据流后写出本条简体中文说明。",
-      "description_zh": "处理 `lines` 对应的数据与约束。"
-    },
-    {
-      "entity_id": "ent-da3a18ae03695901895d7404fb89318d",
-      "classification": "appendix",
-      "owner_page_id": "file-053bc608a4625fd096aacccf77e6b529",
-      "source_path": "scripts/ckb_core/feedback.py",
-      "start_line": 282,
-      "end_line": 308,
-      "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 282 至 308 行，核对 `_locate_anchor` 的签名、分支和数据流后写出本条简体中文说明。",
-      "description_zh": "定位 `anchor` 对应的数据与约束。"
-    },
-    {
-      "entity_id": "ent-f2d0a262cac051d6bf7a330d8c75ebf8",
-      "classification": "appendix",
-      "owner_page_id": "file-053bc608a4625fd096aacccf77e6b529",
-      "source_path": "scripts/ckb_core/feedback.py",
-      "start_line": 311,
-      "end_line": 324,
-      "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 311 至 324 行，核对 `locate_feedback` 的签名、分支和数据流后写出本条简体中文说明。",
-      "description_zh": "定位 `feedback` 对应的数据与约束。"
-    },
-    {
-      "entity_id": "ent-7da6bde7390453d7be1b7266b12bd231",
-      "classification": "appendix",
-      "owner_page_id": "file-053bc608a4625fd096aacccf77e6b529",
-      "source_path": "scripts/ckb_core/feedback.py",
-      "start_line": 327,
-      "end_line": 351,
-      "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 327 至 351 行，核对 `_canonical_applied_record` 的签名、分支和数据流后写出本条简体中文说明。",
-      "description_zh": "处理 `applied_record` 对应的数据与约束。"
-    },
-    {
-      "entity_id": "ent-6536a8bb6659564a927b67bc85109c1c",
-      "classification": "appendix",
-      "owner_page_id": "file-053bc608a4625fd096aacccf77e6b529",
-      "source_path": "scripts/ckb_core/feedback.py",
-      "start_line": 354,
-      "end_line": 395,
-      "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 354 至 395 行，核对 `resolve_feedback` 的签名、分支和数据流后写出本条简体中文说明。",
-      "description_zh": "解析并确定 `feedback` 对应的数据与约束。"
-    },
-    {
-      "entity_id": "ent-b24c519d80385305926cbae8a3357217",
-      "classification": "appendix",
-      "owner_page_id": "file-053bc608a4625fd096aacccf77e6b529",
-      "source_path": "scripts/ckb_core/feedback.py",
-      "start_line": 398,
-      "end_line": 434,
-      "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 398 至 434 行，核对 `list_feedback` 的签名、分支和数据流后写出本条简体中文说明。",
-      "description_zh": "列出 `feedback` 对应的数据与约束。"
-    },
-    {
-      "entity_id": "ent-e7283ff5289a539a9938c71a995bb2b0",
-      "classification": "appendix",
-      "owner_page_id": "file-053bc608a4625fd096aacccf77e6b529",
-      "source_path": "scripts/ckb_core/feedback.py",
-      "start_line": 548,
-      "end_line": 553,
-      "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 548 至 553 行，核对 `_query_terms` 的签名、分支和数据流后写出本条简体中文说明。",
-      "description_zh": "查询 `terms` 对应的数据与约束。"
-    },
-    {
-      "entity_id": "ent-3db25726e03352dd9aec0f075017a51f",
-      "classification": "appendix",
-      "owner_page_id": "file-053bc608a4625fd096aacccf77e6b529",
-      "source_path": "scripts/ckb_core/feedback.py",
-      "start_line": 556,
-      "end_line": 594,
-      "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 556 至 594 行，核对 `search_feedback` 的签名、分支和数据流后写出本条简体中文说明。",
-      "description_zh": "处理 `feedback` 对应的数据与约束。"
-    },
-    {
-      "entity_id": "ent-16c6cd26887b5165a113df48e451d72e",
-      "classification": "appendix",
-      "owner_page_id": "file-551a57cc3557566281e26b3b88b05c6a",
-      "source_path": "scripts/ckb_core/freshness.py",
-      "start_line": 54,
-      "end_line": 58,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 54 至 58 行；摘录与 Git blob adfaca335688 一致。",
-      "description_zh": "`_root` 完成Git 源码事实新鲜度中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-09b50cc16aac50f2b2baf31c30bafc92",
-      "classification": "appendix",
-      "owner_page_id": "file-551a57cc3557566281e26b3b88b05c6a",
-      "source_path": "scripts/ckb_core/freshness.py",
-      "start_line": 61,
-      "end_line": 86,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 61 至 86 行；摘录与 Git blob adfaca335688 一致。",
-      "description_zh": "`_pid_alive` 完成Git 源码事实新鲜度中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-8fe27e5654935c17b015d6b81e917805",
-      "classification": "appendix",
-      "owner_page_id": "file-551a57cc3557566281e26b3b88b05c6a",
-      "source_path": "scripts/ckb_core/freshness.py",
-      "start_line": 89,
-      "end_line": 94,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 89 至 94 行；摘录与 Git blob adfaca335688 一致。",
-      "description_zh": "`_read_lock` 读取并判定Git 源码事实新鲜度所需的数据或状态。"
-    },
-    {
-      "entity_id": "ent-51fa10eab8e85db19a2b2fe56a936544",
-      "classification": "appendix",
-      "owner_page_id": "file-551a57cc3557566281e26b3b88b05c6a",
-      "source_path": "scripts/ckb_core/freshness.py",
-      "start_line": 97,
-      "end_line": 102,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 97 至 102 行；摘录与 Git blob adfaca335688 一致。",
-      "description_zh": "`_lock_file_identity` 完成Git 源码事实新鲜度中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-ff24d297810a535cb5e365d20ce00c63",
-      "classification": "appendix",
-      "owner_page_id": "file-551a57cc3557566281e26b3b88b05c6a",
-      "source_path": "scripts/ckb_core/freshness.py",
-      "start_line": 105,
-      "end_line": 148,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 105 至 148 行；摘录与 Git blob adfaca335688 一致。",
-      "description_zh": "`_release_owned_state_lock` 受控释放或回滚Git 源码事实新鲜度所需的数据或状态。"
-    },
-    {
-      "entity_id": "ent-7c2950296fb1512aa4e1e4d03c9fe68f",
-      "classification": "appendix",
-      "owner_page_id": "file-551a57cc3557566281e26b3b88b05c6a",
-      "source_path": "scripts/ckb_core/freshness.py",
-      "start_line": 152,
-      "end_line": 217,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 152 至 217 行；摘录与 Git blob adfaca335688 一致。",
-      "description_zh": "`_state_lock` 完成Git 源码事实新鲜度中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-19371466e0ab53048e604ae9a33f6520",
-      "classification": "appendix",
-      "owner_page_id": "file-551a57cc3557566281e26b3b88b05c6a",
-      "source_path": "scripts/ckb_core/freshness.py",
-      "start_line": 220,
-      "end_line": 224,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 220 至 224 行；摘录与 Git blob adfaca335688 一致。",
-      "description_zh": "`_bounded_text` 完成Git 源码事实新鲜度中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-1f866e4404f2575a8a1e234f3019b37e",
-      "classification": "appendix",
-      "owner_page_id": "file-551a57cc3557566281e26b3b88b05c6a",
-      "source_path": "scripts/ckb_core/freshness.py",
-      "start_line": 227,
-      "end_line": 247,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 227 至 247 行；摘录与 Git blob adfaca335688 一致。",
-      "description_zh": "`_repository_binding` 完成Git 源码事实新鲜度中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-5bd154f8533f579e9371e623127e292d",
-      "classification": "appendix",
-      "owner_page_id": "file-551a57cc3557566281e26b3b88b05c6a",
-      "source_path": "scripts/ckb_core/freshness.py",
-      "start_line": 250,
-      "end_line": 257,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 250 至 257 行；摘录与 Git blob adfaca335688 一致。",
-      "description_zh": "`_git` 完成Git 源码事实新鲜度中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-6042ecf62f8a5fcb81cfaaacd2ed5bd4",
-      "classification": "appendix",
-      "owner_page_id": "file-551a57cc3557566281e26b3b88b05c6a",
-      "source_path": "scripts/ckb_core/freshness.py",
-      "start_line": 260,
-      "end_line": 282,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 260 至 282 行；摘录与 Git blob adfaca335688 一致。",
-      "description_zh": "`_status_records` 读取并判定Git 源码事实新鲜度所需的数据或状态。"
-    },
-    {
-      "entity_id": "ent-75437bab0f1f5eeba5172daffe28d524",
-      "classification": "appendix",
-      "owner_page_id": "file-551a57cc3557566281e26b3b88b05c6a",
-      "source_path": "scripts/ckb_core/freshness.py",
-      "start_line": 285,
-      "end_line": 308,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 285 至 308 行；摘录与 Git blob adfaca335688 一致。",
-      "description_zh": "`_repository_snapshot` 完成Git 源码事实新鲜度中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-afe4bee4935b52cabc2cd275a8abdc19",
-      "classification": "appendix",
-      "owner_page_id": "file-551a57cc3557566281e26b3b88b05c6a",
-      "source_path": "scripts/ckb_core/freshness.py",
-      "start_line": 311,
-      "end_line": 352,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 311 至 352 行；摘录与 Git blob adfaca335688 一致。",
-      "description_zh": "`_change_summary` 完成Git 源码事实新鲜度中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-3dfcb0d1d9955f0ebec050c77d49f27b",
-      "classification": "appendix",
-      "owner_page_id": "file-551a57cc3557566281e26b3b88b05c6a",
-      "source_path": "scripts/ckb_core/freshness.py",
-      "start_line": 355,
-      "end_line": 356,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 355 至 356 行；摘录与 Git blob adfaca335688 一致。",
-      "description_zh": "`_iso_after` 完成Git 源码事实新鲜度中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-33cc197aeb4750929e0984e864d2294c",
-      "classification": "appendix",
-      "owner_page_id": "file-551a57cc3557566281e26b3b88b05c6a",
-      "source_path": "scripts/ckb_core/freshness.py",
-      "start_line": 359,
-      "end_line": 369,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 359 至 369 行；摘录与 Git blob adfaca335688 一致。",
-      "description_zh": "`_prune_overlays` 完成Git 源码事实新鲜度中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-a3842b5998c95824ae476cad33c246dc",
-      "classification": "appendix",
-      "owner_page_id": "file-551a57cc3557566281e26b3b88b05c6a",
-      "source_path": "scripts/ckb_core/freshness.py",
-      "start_line": 372,
-      "end_line": 411,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 372 至 411 行；摘录与 Git blob adfaca335688 一致。",
-      "description_zh": "`_write_overlay` 生成并写入Git 源码事实新鲜度所需的数据或状态。"
-    },
-    {
-      "entity_id": "ent-31575482586255308a2995e49c957feb",
-      "classification": "appendix",
-      "owner_page_id": "file-551a57cc3557566281e26b3b88b05c6a",
+      "owner_page_id": "file-38cfe0331f1954d78abc7b11e14fe86b",
       "source_path": "scripts/ckb_core/freshness.py",
       "start_line": 414,
       "end_line": 454,
@@ -347,9 +17,9 @@
       "description_zh": "`_migration_evidence` 完成Git 源码事实新鲜度中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-94b9d2535515589b9a4fe8d7285114b3",
+      "entity_id": "ent-23c3d49e300a58e498cecc84acb65d7c",
       "classification": "appendix",
-      "owner_page_id": "file-551a57cc3557566281e26b3b88b05c6a",
+      "owner_page_id": "file-38cfe0331f1954d78abc7b11e14fe86b",
       "source_path": "scripts/ckb_core/freshness.py",
       "start_line": 457,
       "end_line": 495,
@@ -358,9 +28,9 @@
       "description_zh": "`_next_action` 完成Git 源码事实新鲜度中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-90330b1dbad352ca9b312102d9fce87c",
+      "entity_id": "ent-b4b4fec9450d5d2a923dd21bc88c1426",
       "classification": "appendix",
-      "owner_page_id": "file-551a57cc3557566281e26b3b88b05c6a",
+      "owner_page_id": "file-38cfe0331f1954d78abc7b11e14fe86b",
       "source_path": "scripts/ckb_core/freshness.py",
       "start_line": 498,
       "end_line": 516,
@@ -369,9 +39,9 @@
       "description_zh": "`_event_record` 完成Git 源码事实新鲜度中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-a950e022cbc451e78e4d98aa2dab2758",
+      "entity_id": "ent-3cbff78cb7f55593b531751d59de32ae",
       "classification": "appendix",
-      "owner_page_id": "file-551a57cc3557566281e26b3b88b05c6a",
+      "owner_page_id": "file-38cfe0331f1954d78abc7b11e14fe86b",
       "source_path": "scripts/ckb_core/freshness.py",
       "start_line": 519,
       "end_line": 527,
@@ -380,9 +50,9 @@
       "description_zh": "`_write_events` 生成并写入Git 源码事实新鲜度所需的数据或状态。"
     },
     {
-      "entity_id": "ent-719483eb6a3f576e95038bad29721491",
+      "entity_id": "ent-b340f28e06af5b4dbb13cc843cf1b02a",
       "classification": "appendix",
-      "owner_page_id": "file-551a57cc3557566281e26b3b88b05c6a",
+      "owner_page_id": "file-38cfe0331f1954d78abc7b11e14fe86b",
       "source_path": "scripts/ckb_core/freshness.py",
       "start_line": 530,
       "end_line": 539,
@@ -391,9 +61,9 @@
       "description_zh": "`_last_confirmed` 完成Git 源码事实新鲜度中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-fd5a2095f259550eae105e3689bb49e3",
+      "entity_id": "ent-ff54885e30f6548abe7b719c0c885780",
       "classification": "appendix",
-      "owner_page_id": "file-551a57cc3557566281e26b3b88b05c6a",
+      "owner_page_id": "file-38cfe0331f1954d78abc7b11e14fe86b",
       "source_path": "scripts/ckb_core/freshness.py",
       "start_line": 542,
       "end_line": 566,
@@ -402,9 +72,9 @@
       "description_zh": "`_unavailable_result` 完成Git 源码事实新鲜度中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-74b6fcd02b4e5aa3a5502942ad96aac1",
+      "entity_id": "ent-ef5e2f6de4ac50a8aecb6e1f58374aab",
       "classification": "appendix",
-      "owner_page_id": "file-551a57cc3557566281e26b3b88b05c6a",
+      "owner_page_id": "file-38cfe0331f1954d78abc7b11e14fe86b",
       "source_path": "scripts/ckb_core/freshness.py",
       "start_line": 688,
       "end_line": 751,
@@ -413,9 +83,9 @@
       "description_zh": "`create_migration_plan` 创建并初始化Git 源码事实新鲜度所需的数据或状态。"
     },
     {
-      "entity_id": "ent-6a430e07fb635863a5f424362c162381",
+      "entity_id": "ent-df617610513e5b4f971777083cd005ed",
       "classification": "appendix",
-      "owner_page_id": "file-551a57cc3557566281e26b3b88b05c6a",
+      "owner_page_id": "file-38cfe0331f1954d78abc7b11e14fe86b",
       "source_path": "scripts/ckb_core/freshness.py",
       "start_line": 754,
       "end_line": 777,
@@ -424,9 +94,9 @@
       "description_zh": "`discard_overlay` 受控释放或回滚Git 源码事实新鲜度所需的数据或状态。"
     },
     {
-      "entity_id": "ent-d125c22e9df757379f7008e3116ab0d4",
+      "entity_id": "ent-a762bff2a5c05fe58168fa7e06e2f273",
       "classification": "appendix",
-      "owner_page_id": "file-551a57cc3557566281e26b3b88b05c6a",
+      "owner_page_id": "file-38cfe0331f1954d78abc7b11e14fe86b",
       "source_path": "scripts/ckb_core/freshness.py",
       "start_line": 780,
       "end_line": 792,
@@ -435,9 +105,9 @@
       "description_zh": "`_command_strings` 完成Git 源码事实新鲜度中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-3a3284d6b4115010b06106d390d5897e",
+      "entity_id": "ent-9b8bd0ab4617512194f12aa69f6df0b1",
       "classification": "appendix",
-      "owner_page_id": "file-551a57cc3557566281e26b3b88b05c6a",
+      "owner_page_id": "file-38cfe0331f1954d78abc7b11e14fe86b",
       "source_path": "scripts/ckb_core/freshness.py",
       "start_line": 795,
       "end_line": 804,
@@ -446,9 +116,9 @@
       "description_zh": "`classify_git_trigger` 解析并归一化Git 源码事实新鲜度所需的数据或状态。"
     },
     {
-      "entity_id": "ent-6d01a2ae8d9a5f879704f0c9ce514842",
+      "entity_id": "ent-cd643e66d48750acaac61d2265b52fde",
       "classification": "appendix",
-      "owner_page_id": "file-551a57cc3557566281e26b3b88b05c6a",
+      "owner_page_id": "file-38cfe0331f1954d78abc7b11e14fe86b",
       "source_path": "scripts/ckb_core/freshness.py",
       "start_line": 807,
       "end_line": 808,
@@ -457,9 +127,9 @@
       "description_zh": "`_collaboration_path` 完成Git 源码事实新鲜度中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-c242201670c353c9b87c170efe4e9a96",
+      "entity_id": "ent-4993186699325d549b4fd07a9bd9e3f8",
       "classification": "appendix",
-      "owner_page_id": "file-551a57cc3557566281e26b3b88b05c6a",
+      "owner_page_id": "file-38cfe0331f1954d78abc7b11e14fe86b",
       "source_path": "scripts/ckb_core/freshness.py",
       "start_line": 811,
       "end_line": 822,
@@ -468,9 +138,9 @@
       "description_zh": "`_read_collaboration` 读取并判定Git 源码事实新鲜度所需的数据或状态。"
     },
     {
-      "entity_id": "ent-88a49591466758bd8a82bedf58397845",
+      "entity_id": "ent-1a535630c2b85f58a3e784b07ce90a97",
       "classification": "appendix",
-      "owner_page_id": "file-551a57cc3557566281e26b3b88b05c6a",
+      "owner_page_id": "file-38cfe0331f1954d78abc7b11e14fe86b",
       "source_path": "scripts/ckb_core/freshness.py",
       "start_line": 825,
       "end_line": 833,
@@ -479,9 +149,9 @@
       "description_zh": "`_write_collaboration` 生成并写入Git 源码事实新鲜度所需的数据或状态。"
     },
     {
-      "entity_id": "ent-d632aa627ce3544393c5883bffb23c73",
+      "entity_id": "ent-9da8d4449cb45acfa495aeaadce2dc2d",
       "classification": "appendix",
-      "owner_page_id": "file-551a57cc3557566281e26b3b88b05c6a",
+      "owner_page_id": "file-38cfe0331f1954d78abc7b11e14fe86b",
       "source_path": "scripts/ckb_core/freshness.py",
       "start_line": 836,
       "end_line": 843,
@@ -490,9 +160,9 @@
       "description_zh": "`_relative_paths` 完成Git 源码事实新鲜度中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-b821b7114dbc55d5ac886805bcf261cc",
+      "entity_id": "ent-0a3d7f85832951a48384924c461fc259",
       "classification": "appendix",
-      "owner_page_id": "file-551a57cc3557566281e26b3b88b05c6a",
+      "owner_page_id": "file-38cfe0331f1954d78abc7b11e14fe86b",
       "source_path": "scripts/ckb_core/freshness.py",
       "start_line": 846,
       "end_line": 904,
@@ -501,15 +171,301 @@
       "description_zh": "`record_collaboration` 登记并持久化Git 源码事实新鲜度所需的数据或状态。"
     },
     {
-      "entity_id": "ent-8e7d36bb00295f708e1acb7a2b984648",
+      "entity_id": "ent-2f30cbfa71c25ed7b0fff287de324f2b",
       "classification": "appendix",
-      "owner_page_id": "file-551a57cc3557566281e26b3b88b05c6a",
+      "owner_page_id": "file-38cfe0331f1954d78abc7b11e14fe86b",
       "source_path": "scripts/ckb_core/freshness.py",
       "start_line": 907,
       "end_line": 914,
       "status": "agent-reviewed",
       "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 907 至 914 行；摘录与 Git blob adfaca335688 一致。",
       "description_zh": "`_feature_terms` 完成Git 源码事实新鲜度中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-2f5cc823808e5358addd4a1984c5efbb",
+      "classification": "appendix",
+      "owner_page_id": "file-38cfe0331f1954d78abc7b11e14fe86b",
+      "source_path": "scripts/ckb_core/freshness.py",
+      "start_line": 917,
+      "end_line": 980,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 917 至 980 行；摘录与 Git blob adfaca335688 一致。",
+      "description_zh": "`query_collaboration_records` 读取并判定Git 源码事实新鲜度所需的数据或状态。"
+    },
+    {
+      "entity_id": "ent-5e5f1e92534854f0977c229c9a8f30b3",
+      "classification": "appendix",
+      "owner_page_id": "file-38cfe0331f1954d78abc7b11e14fe86b",
+      "source_path": "scripts/ckb_core/freshness.py",
+      "start_line": 983,
+      "end_line": 1036,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 983 至 1036 行；摘录与 Git blob adfaca335688 一致。",
+      "description_zh": "`attach_freshness_to_retrieval` 完成Git 源码事实新鲜度中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-6da520c2d76d5004a1c94384c281ce94",
+      "classification": "appendix",
+      "owner_page_id": "file-5a989dea314454cbb361a584a9d03bfe",
+      "source_path": "scripts/ckb_core/gitrepo.py",
+      "start_line": 79,
+      "end_line": 84,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/gitrepo.py` 第 79 至 84 行，核对 `git` 的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "处理 `git` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-671433bfb6ce5465b7ff93a2f493e750",
+      "classification": "appendix",
+      "owner_page_id": "file-5a989dea314454cbb361a584a9d03bfe",
+      "source_path": "scripts/ckb_core/gitrepo.py",
+      "start_line": 87,
+      "end_line": 88,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/gitrepo.py` 第 87 至 88 行，核对 `_git_probe` 的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "处理 `probe` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-902974a76c225f03b0adde6d68c51c75",
+      "classification": "appendix",
+      "owner_page_id": "file-5a989dea314454cbb361a584a9d03bfe",
+      "source_path": "scripts/ckb_core/gitrepo.py",
+      "start_line": 91,
+      "end_line": 94,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/gitrepo.py` 第 91 至 94 行，核对 `_identity_value` 的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "处理 `value` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-0ae619590518556ea2a45aeeca00de37",
+      "classification": "appendix",
+      "owner_page_id": "file-5a989dea314454cbb361a584a9d03bfe",
+      "source_path": "scripts/ckb_core/gitrepo.py",
+      "start_line": 97,
+      "end_line": 191,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/gitrepo.py` 第 97 至 191 行，核对 `prepare_git_repository` 的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "准备 `git_repository` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-2452943a6a515eab916da6ec94b8a5fd",
+      "classification": "appendix",
+      "owner_page_id": "file-5a989dea314454cbb361a584a9d03bfe",
+      "source_path": "scripts/ckb_core/gitrepo.py",
+      "start_line": 220,
+      "end_line": 227,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/gitrepo.py` 第 220 至 227 行，核对 `assert_unchanged` 的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "处理 `unchanged` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-554d666656505dc9a23cdce4bb56d8fe",
+      "classification": "appendix",
+      "owner_page_id": "file-5a989dea314454cbb361a584a9d03bfe",
+      "source_path": "scripts/ckb_core/gitrepo.py",
+      "start_line": 230,
+      "end_line": 257,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/gitrepo.py` 第 230 至 257 行，核对 `create_source_snapshot` 的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "创建 `source_snapshot` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-d668ed4fa9c250919f8cdb7f1be808ab",
+      "classification": "appendix",
+      "owner_page_id": "file-5a989dea314454cbb361a584a9d03bfe",
+      "source_path": "scripts/ckb_core/gitrepo.py",
+      "start_line": 260,
+      "end_line": 277,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/gitrepo.py` 第 260 至 277 行，核对 `assert_source_snapshot` 的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "处理 `source_snapshot` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-72755d4996c953e6bbccc9f6d053c2e0",
+      "classification": "appendix",
+      "owner_page_id": "file-5a989dea314454cbb361a584a9d03bfe",
+      "source_path": "scripts/ckb_core/gitrepo.py",
+      "start_line": 280,
+      "end_line": 318,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/gitrepo.py` 第 280 至 318 行，核对 `tracked_sources` 的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "处理 `sources` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-267d998d4b4e5778ad619074ed4f30e7",
+      "classification": "appendix",
+      "owner_page_id": "file-5a989dea314454cbb361a584a9d03bfe",
+      "source_path": "scripts/ckb_core/gitrepo.py",
+      "start_line": 321,
+      "end_line": 345,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/gitrepo.py` 第 321 至 345 行，核对 `tracked_csharp_project_files` 的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "处理 `csharp_project_files` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-df66085a5a19584d97d17213579032c2",
+      "classification": "appendix",
+      "owner_page_id": "file-5a989dea314454cbb361a584a9d03bfe",
+      "source_path": "scripts/ckb_core/gitrepo.py",
+      "start_line": 348,
+      "end_line": 360,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/gitrepo.py` 第 348 至 360 行，核对 `blob_bytes` 的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "处理 `bytes` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-d7ffcc14ca50574d9d95223fbb0fc3bb",
+      "classification": "appendix",
+      "owner_page_id": "file-5a989dea314454cbb361a584a9d03bfe",
+      "source_path": "scripts/ckb_core/gitrepo.py",
+      "start_line": 363,
+      "end_line": 393,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/gitrepo.py` 第 363-393 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`blob_bytes_many` 是第 363-393 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-2211e170097855dc86de139a53d29fa8",
+      "classification": "appendix",
+      "owner_page_id": "file-5a989dea314454cbb361a584a9d03bfe",
+      "source_path": "scripts/ckb_core/gitrepo.py",
+      "start_line": 396,
+      "end_line": 398,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/gitrepo.py` 第 396 至 398 行，核对 `object_exists` 的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "判断 `object_exists` 所表达的条件。"
+    },
+    {
+      "entity_id": "ent-7f8c568cb9235c47a8d2be2995fbe568",
+      "classification": "appendix",
+      "owner_page_id": "file-5a989dea314454cbb361a584a9d03bfe",
+      "source_path": "scripts/ckb_core/gitrepo.py",
+      "start_line": 401,
+      "end_line": 418,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/gitrepo.py` 第 401 至 418 行，核对 `resolve_scope_paths` 的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "解析并确定 `scope_paths` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-1eae4b2816c45d8c8fa965e2697c5d5e",
+      "classification": "appendix",
+      "owner_page_id": "file-cc5bbb486c9150c39529c413d2e618fe",
+      "source_path": "scripts/ckb_core/graphify_core.py",
+      "start_line": 35,
+      "end_line": 46,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 源码中 scripts/ckb_core/graphify_core.py 第 35 至 46 行，核对名称、签名和局部实现后写出本条中文说明。",
+      "description_zh": "该附属代码负责Graphify 兼容图、确定性职责群、路径查询和关系报告，并把结果交给所属页面中的主流程使用。"
+    },
+    {
+      "entity_id": "ent-631c6f2f276a57cea0683b017a958e7f",
+      "classification": "appendix",
+      "owner_page_id": "file-cc5bbb486c9150c39529c413d2e618fe",
+      "source_path": "scripts/ckb_core/graphify_core.py",
+      "start_line": 49,
+      "end_line": 51,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 源码中 scripts/ckb_core/graphify_core.py 第 49 至 51 行，核对名称、签名和局部实现后写出本条中文说明。",
+      "description_zh": "该附属代码负责稳定读取或写入机器状态记录，并把结果交给所属页面中的主流程使用。"
+    },
+    {
+      "entity_id": "ent-4055ea1b47fa5a809057fe93bab0c9f5",
+      "classification": "appendix",
+      "owner_page_id": "file-cc5bbb486c9150c39529c413d2e618fe",
+      "source_path": "scripts/ckb_core/graphify_core.py",
+      "start_line": 54,
+      "end_line": 58,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 源码中 scripts/ckb_core/graphify_core.py 第 54 至 58 行，核对名称、签名和局部实现后写出本条中文说明。",
+      "description_zh": "该附属代码负责Graphify 兼容图、确定性职责群、路径查询和关系报告，并把结果交给所属页面中的主流程使用。"
+    },
+    {
+      "entity_id": "ent-b482b78c78c0580c8a9f28b151f6dcb1",
+      "classification": "appendix",
+      "owner_page_id": "file-cc5bbb486c9150c39529c413d2e618fe",
+      "source_path": "scripts/ckb_core/graphify_core.py",
+      "start_line": 61,
+      "end_line": 64,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 源码中 scripts/ckb_core/graphify_core.py 第 61 至 64 行，核对名称、签名和局部实现后写出本条中文说明。",
+      "description_zh": "该附属代码负责Graphify 兼容图、确定性职责群、路径查询和关系报告，并把结果交给所属页面中的主流程使用。"
+    },
+    {
+      "entity_id": "ent-326387f967e653b4bf5c5ae2d76fd262",
+      "classification": "appendix",
+      "owner_page_id": "file-cc5bbb486c9150c39529c413d2e618fe",
+      "source_path": "scripts/ckb_core/graphify_core.py",
+      "start_line": 67,
+      "end_line": 73,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 源码中 scripts/ckb_core/graphify_core.py 第 67 至 73 行，核对名称、签名和局部实现后写出本条中文说明。",
+      "description_zh": "该附属代码负责Graphify 兼容图、确定性职责群、路径查询和关系报告，并把结果交给所属页面中的主流程使用。"
+    },
+    {
+      "entity_id": "ent-c02db0e8d27f528aa425eca849234968",
+      "classification": "appendix",
+      "owner_page_id": "file-cc5bbb486c9150c39529c413d2e618fe",
+      "source_path": "scripts/ckb_core/graphify_core.py",
+      "start_line": 76,
+      "end_line": 85,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 源码中 scripts/ckb_core/graphify_core.py 第 76 至 85 行，核对名称、签名和局部实现后写出本条中文说明。",
+      "description_zh": "该附属代码负责Graphify 兼容图、确定性职责群、路径查询和关系报告，并把结果交给所属页面中的主流程使用。"
+    },
+    {
+      "entity_id": "ent-c8127e3442b351cab7c21ad11b8fd212",
+      "classification": "appendix",
+      "owner_page_id": "file-cc5bbb486c9150c39529c413d2e618fe",
+      "source_path": "scripts/ckb_core/graphify_core.py",
+      "start_line": 88,
+      "end_line": 116,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 源码中 scripts/ckb_core/graphify_core.py 第 88 至 116 行，核对名称、签名和局部实现后写出本条中文说明。",
+      "description_zh": "该附属代码负责构造职责关系图并提供职责群或路径查询，并把结果交给所属页面中的主流程使用。"
+    },
+    {
+      "entity_id": "ent-bd2943ca3dd7589da3142c63812f23a3",
+      "classification": "appendix",
+      "owner_page_id": "file-cc5bbb486c9150c39529c413d2e618fe",
+      "source_path": "scripts/ckb_core/graphify_core.py",
+      "start_line": 119,
+      "end_line": 134,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 源码中 scripts/ckb_core/graphify_core.py 第 119 至 134 行，核对名称、签名和局部实现后写出本条中文说明。",
+      "description_zh": "该附属代码负责构造职责关系图并提供职责群或路径查询，并把结果交给所属页面中的主流程使用。"
+    },
+    {
+      "entity_id": "ent-46e596bb85025c5b9ba5e4255d5f3e22",
+      "classification": "appendix",
+      "owner_page_id": "file-cc5bbb486c9150c39529c413d2e618fe",
+      "source_path": "scripts/ckb_core/graphify_core.py",
+      "start_line": 137,
+      "end_line": 146,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 源码中 scripts/ckb_core/graphify_core.py 第 137 至 146 行，核对名称、签名和局部实现后写出本条中文说明。",
+      "description_zh": "该附属代码负责Graphify 兼容图、确定性职责群、路径查询和关系报告，并把结果交给所属页面中的主流程使用。"
+    },
+    {
+      "entity_id": "ent-e91f4ba8b94d5a94a6deb361bffe92c4",
+      "classification": "appendix",
+      "owner_page_id": "file-cc5bbb486c9150c39529c413d2e618fe",
+      "source_path": "scripts/ckb_core/graphify_core.py",
+      "start_line": 149,
+      "end_line": 165,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 源码中 scripts/ckb_core/graphify_core.py 第 149 至 165 行，核对名称、签名和局部实现后写出本条中文说明。",
+      "description_zh": "该附属代码负责构造职责关系图并提供职责群或路径查询，并把结果交给所属页面中的主流程使用。"
+    },
+    {
+      "entity_id": "ent-1a5379adb2265583a70585e95a312010",
+      "classification": "appendix",
+      "owner_page_id": "file-cc5bbb486c9150c39529c413d2e618fe",
+      "source_path": "scripts/ckb_core/graphify_core.py",
+      "start_line": 168,
+      "end_line": 253,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定 Git 源码中 scripts/ckb_core/graphify_core.py 第 168 至 253 行，核对名称、签名和局部实现后写出本条中文说明。",
+      "description_zh": "该附属代码负责Graphify 兼容图、确定性职责群、路径查询和关系报告，并把结果交给所属页面中的主流程使用。"
     }
   ]
 }

@@ -1,0 +1,190 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "root": "/mnt/e/knowledge_builder/self-workspace/publish-worktrees/development-knowledge-builder",
+  "checks": [
+    {
+      "name": "source-files",
+      "passed": true,
+      "detail": {
+        "passed": true,
+        "expected_count": 1017,
+        "actual_count": 1017,
+        "missing": [],
+        "extra": [],
+        "changed": []
+      }
+    },
+    {
+      "name": "knowledge-files",
+      "passed": true,
+      "detail": {
+        "passed": true,
+        "expected_count": 3276,
+        "actual_count": 3276,
+        "missing": [],
+        "extra": [],
+        "changed": []
+      }
+    },
+    {
+      "name": "fixed-source-commit",
+      "passed": true,
+      "detail": {
+        "root": "E:\\knowledge_builder\\self-workspace\\source",
+        "commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+        "tree": "098b3d1b13d3eb40ce74b41a715429493f171d14",
+        "git_bootstrap": {
+          "requested": false,
+          "performed": false,
+          "repository_created": false,
+          "initial_commit_created": false,
+          "root": "E:\\knowledge_builder\\self-workspace\\source",
+          "commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+          "commit_count": 190,
+          "commit_message": null,
+          "author": null
+        }
+      }
+    },
+    {
+      "name": "completion-markers",
+      "passed": true,
+      "detail": "three markers"
+    },
+    {
+      "name": "global-audit",
+      "passed": true,
+      "detail": "passed"
+    },
+    {
+      "name": "double-sqlite",
+      "passed": true,
+      "detail": [
+        {
+          "path": "/mnt/e/knowledge_builder/self-workspace/publish-worktrees/development-knowledge-builder/knowledge-base/agent-index.sqlite",
+          "passed": true,
+          "integrity_check": "ok",
+          "foreign_key_error_count": 0,
+          "schema_version": "1",
+          "sha256": "c047b5917167c0fc462a9e85069bee7b69debc0ffe833c6accf1110a2e780806"
+        },
+        {
+          "path": "/mnt/e/knowledge_builder/self-workspace/publish-worktrees/development-knowledge-builder/knowledge-base/machine/knowledge.sqlite",
+          "passed": true,
+          "integrity_check": "ok",
+          "foreign_key_error_count": 0,
+          "schema_version": "3",
+          "sha256": "7d67e4098b6f69c7315ac0acf4a8a76549a04dd91f34408f27dce8e2fd471632"
+        }
+      ]
+    },
+    {
+      "name": "human-markdown-mirror",
+      "passed": true,
+      "detail": {
+        "passed": true,
+        "errors": []
+      }
+    },
+    {
+      "name": "readability",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "experimental-canvas-and-record-replace-surface",
+      "passed": true,
+      "detail": {
+        "files": {
+          "canvas_skill": true,
+          "canvas_cli": true,
+          "canvas_schema": true,
+          "record_replace": true,
+          "record_replace_test": true,
+          "record_replace_note": true,
+          "canvas_release_note": true,
+          "page_fanout_benchmark": true,
+          "page_fanout_result": true,
+          "page_fanout_note": true,
+          "semantic_vector_benchmark": true,
+          "semantic_vector_result": true,
+          "semantic_vector_note": true
+        },
+        "canvas_status": "experimental-awaiting-user-feedback",
+        "page_fanout_status": "negative-result",
+        "semantic_vector_status": "regression-observed",
+        "readme_human_entry_headings": true
+      }
+    },
+    {
+      "name": "negative-experiment-results",
+      "passed": true,
+      "detail": {
+        "page_fanout_recommendation": "retain-conservative",
+        "semantic_status": "failed",
+        "semantic_failed_checks": [
+          "extra_child_processes_within_limit"
+        ],
+        "semantic_decision": {
+          "result": "regression-observed",
+          "eligible_arms": [],
+          "reason_zh": "冻结质量与完成门没有同时形成进入生产实验的证据。",
+          "production_default_changed": false
+        }
+      }
+    },
+    {
+      "name": "durable-counts",
+      "passed": true,
+      "detail": {
+        "records": 72,
+        "expected_records": 72,
+        "references": 1,
+        "expected_references": 1,
+        "research_gaps": 7,
+        "expected_research_gaps": 7
+      }
+    },
+    {
+      "name": "learning-note-originals",
+      "passed": true,
+      "detail": [
+        {
+          "name": "2026-08-29.md",
+          "expected": "62059c19c42a0969e116c66d747627c6fae1b9fef3ef412e2c0ed03ced45ceeb",
+          "human": "62059c19c42a0969e116c66d747627c6fae1b9fef3ef412e2c0ed03ced45ceeb",
+          "markdown": "62059c19c42a0969e116c66d747627c6fae1b9fef3ef412e2c0ed03ced45ceeb",
+          "passed": true
+        },
+        {
+          "name": "2026-08-30.md",
+          "expected": "deda3a69bfd3da78eb382890b86bed779fc8fdb268e60a3c782ee8fbce6d9a43",
+          "human": "deda3a69bfd3da78eb382890b86bed779fc8fdb268e60a3c782ee8fbce6d9a43",
+          "markdown": "deda3a69bfd3da78eb382890b86bed779fc8fdb268e60a3c782ee8fbce6d9a43",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "no-transient-git-or-sqlite-state",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "credential-scan",
+      "passed": true,
+      "detail": {
+        "status": "passed",
+        "scanned_text_files": 4311,
+        "findings": [],
+        "allowlisted_test_fixtures": 6
+      }
+    },
+    {
+      "name": "lfs-objects-materialized",
+      "passed": true,
+      "detail": []
+    }
+  ]
+}

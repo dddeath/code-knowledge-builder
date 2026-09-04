@@ -3,59 +3,20 @@
   "pack_id": "migrated-page-review-pack-0036",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-03T01:39:14Z",
+  "reviewed_at_utc": "2026-09-03T22:06:06Z",
   "reviews": [
     {
-      "entity_id": "ent-e92266db21095b2e9d84a9975c366bb5",
+      "entity_id": "file-d571d505aa725eefbe04411079bf7789",
       "classification": "page",
-      "owner_page_id": "ent-e92266db21095b2e9d84a9975c366bb5",
-      "source_path": "scripts/ckb_core/reference_documents.py",
-      "start_line": 156,
-      "end_line": 390,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/reference_documents.py` 第 156 至 390 行；摘录与 Git blob cf6e0a068c33 一致。",
-      "meaning_zh": "代码单元 `ingest_reference`负责管理参考资料的吸收、审阅、投影、索引、失败重试与回滚。",
-      "role_zh": "它属于外部资料进入独立参考层的受控生命周期入口，当前说明只覆盖所列固定源码范围。",
-      "change_when_zh": "当资料格式、来源定位、审阅合同、状态迁移或回滚规则变化时，应同步复查本页及其直接关联测试。"
-    },
-    {
-      "entity_id": "file-7e3cf01cafb05e36982824ab80083d7f",
-      "classification": "page",
-      "owner_page_id": "file-7e3cf01cafb05e36982824ab80083d7f",
-      "source_path": "scripts/ckb_core/reference_inputs.py",
+      "owner_page_id": "file-d571d505aa725eefbe04411079bf7789",
+      "source_path": "scripts/ckb_core/session_stdio.py",
       "start_line": 1,
-      "end_line": 77,
+      "end_line": 1459,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/reference_inputs.py` 第 1 至 77 行；摘录与 Git blob a9c6f9ec16eb 一致。",
-      "meaning_zh": "文件 `scripts/ckb_core/reference_inputs.py`负责定义本地文件与 Web 等参考输入适配器的最小协议。",
-      "role_zh": "它属于新增资料来源而不改变参考资料主流程的扩展边界，当前说明只覆盖所列固定源码范围。",
-      "change_when_zh": "当输入类型、适配器责任、准备结果或网络权限边界变化时，应同步复查本页及其直接关联测试。"
-    },
-    {
-      "entity_id": "ent-25a09d8e26de5b7c92a2d3507bacfe51",
-      "classification": "page",
-      "owner_page_id": "ent-25a09d8e26de5b7c92a2d3507bacfe51",
-      "source_path": "scripts/ckb_core/reference_inputs.py",
-      "start_line": 44,
-      "end_line": 76,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/reference_inputs.py` 第 44 至 76 行；摘录与 Git blob a9c6f9ec16eb 一致。",
-      "meaning_zh": "代码单元 `web_input_adapter_contract`负责定义本地文件与 Web 等参考输入适配器的最小协议。",
-      "role_zh": "它属于新增资料来源而不改变参考资料主流程的扩展边界，当前说明只覆盖所列固定源码范围。",
-      "change_when_zh": "当输入类型、适配器责任、准备结果或网络权限边界变化时，应同步复查本页及其直接关联测试。"
-    },
-    {
-      "entity_id": "file-a848c75f383556a683126a00c4a40d93",
-      "classification": "page",
-      "owner_page_id": "file-a848c75f383556a683126a00c4a40d93",
-      "source_path": "scripts/ckb_core/reference_pdf.py",
-      "start_line": 1,
-      "end_line": 685,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/reference_pdf.py` 第 1 至 685 行；摘录与 Git blob 1b3237f4acf3 一致。",
-      "meaning_zh": "文件 `scripts/ckb_core/reference_pdf.py`负责按页提取 PDF 文本、代码和表格结构，评估质量并在需要时调用受限 OCR 适配器。",
-      "role_zh": "它属于PDF 来源可追溯、失败可诊断和页级审阅的实现层，当前说明只覆盖所列固定源码范围。",
-      "change_when_zh": "当PDF 限额、文本质量、页块分类、OCR 合同或页级证据规则变化时，应同步复查本页及其直接关联测试。"
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/session_stdio.py` 第 1-1459 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`scripts/ckb_core/session_stdio.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
+      "role_zh": "负责会话级 stdio 服务的首次激活、租约续用、关闭与资源释放。",
+      "change_when_zh": "当 `scripts/ckb_core/session_stdio.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
     }
   ]
 }

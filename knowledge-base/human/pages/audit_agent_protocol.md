@@ -10,7 +10,7 @@
 
 ## 在代码中的位置
 
-[打开源码：scripts/ckb_core/agent_protocol.py 第 420 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_protocol.py:420:1)  `scripts/ckb_core/agent_protocol.py:420-496`
+[打开源码：scripts/ckb_core/agent_protocol.py 第 426 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_protocol.py:426:1)  `scripts/ckb_core/agent_protocol.py:426-502`
 
 ## 相关代码
 

@@ -10,17 +10,20 @@
 
 ## 在代码中的位置
 
-[打开源码：scripts/ckb_core/scope_extension.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/scope_extension.py:1:1)  `scripts/ckb_core/scope_extension.py:1-909`
+[打开源码：scripts/ckb_core/scope_extension.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/scope_extension.py:1:1)  `scripts/ckb_core/scope_extension.py:1-1314`
 
 ## 相关代码
 
 - 实现时会用到 [[CkbError]]。
 - 实现时会用到 [[CkbError 与 DependencyError 的协作实现]]。
+- 实现时会用到 [[ScopeExtensionOfferTests.retrieval]]。
 - 实现时会用到 [[SourceLinkRenderer.uri]]。
 - 实现时会用到 [[_Transport.close]]。
 - 实现时会用到 [[append]]。
 - 实现时会用到 [[audit_migration 与 _entity_key 的协作实现]]。
+- 实现时会用到 [[command]]。
 - 实现时会用到 [[finalize]]。
+- 实现时会用到 [[finalize 与 _replace_output_prefix 的协作实现]]。
 - 实现时会用到 [[ingest 与 connect 的协作实现]]。
 - 实现时会用到 [[maintenance_check]]。
 - 实现时会用到 [[preflight]]。
@@ -29,6 +32,7 @@
 
 ## 谁会来到这里
 
+- [[ScopeExtensionOfferTests.retrieval 等测试场景]] 会使用这里提供的行为。
 - [[ScopeExtensionTest]] 会使用这里提供的行为。
 - [[_Transport.close 与 _StartGate 的协作实现]] 会使用这里提供的行为。
 - [[audit_agent_protocol 与 _default_python 的协作实现]] 会使用这里提供的行为。
@@ -39,6 +43,7 @@
 - [[query_graph]] 会使用这里提供的行为。
 - [[refresh]] 会使用这里提供的行为。
 - [[refresh 等测试场景]] 会使用这里提供的行为。
+- [[retrieve_machine]] 会使用这里提供的行为。
 - 可从 [[scripts 职责导览]] 进入本页。
 - [[serve_stdio]] 会使用这里提供的行为。
 - [[start_scope_extension]] 会使用这里提供的行为。
@@ -47,21 +52,30 @@
 
 - [[AgentProtocolBatchApplyTests]]
 - [[AgentProtocolBatchApplyTests 等测试场景]]
+- [[AutomationTest.register 等测试场景]]
+- [[ChineseRetrievalEffectRetestFixtureTests]]
 - [[CodeKnowledgeBuilderTests]]
 - [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[HumanPageAuthoringValidationFailureTests 等测试场景]]
-- [[KeywordFallbackRetrievalWiringTests]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 
 ## 内部细节
 
-<details><summary>查看本页收纳的 26 个辅助实现</summary>
+<details><summary>查看本页收纳的 35 个辅助实现</summary>
 
 | 代码单元 | 一句话作用 |
 |---|---|
 | `_error` | `_error` 是第 34-35 行的函数，供所属页面定位实现。 |
 | `_canonical_entry` | `_canonical_entry` 是第 38-54 行的函数，供所属页面定位实现。 |
+| `_scope_offer_diagnostic` | `_scope_offer_diagnostic` 生成有界的扩库未建议诊断，保存固定分类、中文说明和最多八个候选。 |
+| `_explicit_scope_candidates` | `_explicit_scope_candidates` 只从用户问题中提取显式源码路径或完整 entry selector，并保持首次出现顺序去重。 |
+| `_canonical_candidate_path` | `_canonical_candidate_path` 把候选转换为仓库相对 POSIX 路径，并拒绝绝对路径、父目录跳转和非规范片段。 |
+| `_catalog_file_records` | `_catalog_file_records` 从固定 catalog 中提取带路径的源码文件记录，供扩库候选核对 Git blob 和中心归属。 |
+| `_resolve_scope_offer_selector` | 该函数为范围外源码确认提供候选解析、证据判定或有界诊断。 |
+| `_candidate_warning_evidence` | `_candidate_warning_evidence` 只收集明确命中候选路径或实体且禁止缺失推断的 warning，忽略其他语言和其他路径的警告。 |
+| `_candidate_warning_evidence.normalized_path` | 该函数为范围外源码确认提供候选解析、证据判定或有界诊断。 |
+| `_candidate_warning_evidence.add_if_relevant` | 该函数为范围外源码确认提供候选解析、证据判定或有界诊断。 |
+| `attach_scope_extension_offer` | 该函数为范围外源码确认提供候选解析、证据判定或有界诊断。 |
 | `_tree_manifest` | `_tree_manifest` 是第 57-72 行的函数，供所属页面定位实现。 |
 | `_same_manifest` | `_same_manifest` 是第 75-76 行的函数，供所属页面定位实现。 |
 | `_sqlite_checks` | `_sqlite_checks` 是第 79-100 行的函数，供所属页面定位实现。 |

@@ -33,15 +33,22 @@
 - [[create_knowledge_batch_plan]] 关联到这里的验证场景。
 - [[create_knowledge_batch_plan 与 KnowledgeRelease 的协作实现]] 关联到这里的验证场景。
 - [[maintenance_check]] 关联到这里的验证场景。
-- [[maintenance_check 与 capability_matrix 的协作实现]] 关联到这里的验证场景。
 - [[resolve_checkout_git_dir]] 关联到这里的验证场景。
 - [[resolve_checkout_git_dir 等测试场景]] 关联到这里的验证场景。
+- [[retrieve_machine]] 会使用这里提供的行为。
+- [[serve_stdio]] 关联到这里的验证场景。
+- [[serve_stdio 与 _write_line 的协作实现]] 关联到这里的验证场景。
 - [[start_scope_extension]] 关联到这里的验证场景。
 - 可从 [[tests 职责导览]] 进入本页。
 
 ## 相关测试
 
-- [[command 等测试场景]]
+- [[AutomationTest.register 等测试场景]]
+- [[ChineseRetrievalEffectRetestFixtureTests]]
+- [[CodeKnowledgeBuilderTests]]
+- [[KeywordFallbackRetrievalWiringTests]]
+- [[KeywordFallbackRetrievalWiringTests 等测试场景]]
+- [[MigrationTest]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 

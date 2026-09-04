@@ -10,12 +10,13 @@
 
 ## 在代码中的位置
 
-[打开源码：scripts/ckb_core/stdio_server.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/stdio_server.py:1:1)  `scripts/ckb_core/stdio_server.py:1-392`
+[打开源码：scripts/ckb_core/stdio_server.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/stdio_server.py:1:1)  `scripts/ckb_core/stdio_server.py:1-413`
 
 ## 相关代码
 
 - 实现时会用到 [[CkbError]]。
 - 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
+- 实现时会用到 [[ScopeExtensionOfferTests.retrieval]]。
 - 实现时会用到 [[audit_agent_protocol]]。
 - 实现时会用到 [[audit_feedback]]。
 - 实现时会用到 [[command]]。
@@ -31,6 +32,9 @@
 
 - [[CodeKnowledgeBuilderTests]]
 - [[KeywordFallbackRetrievalWiringTests]]
+- [[ScopeExtensionOfferTests.retrieval 等测试场景]]
+- [[ScopeExtensionTest]]
+- [[refresh 等测试场景]]
 
 ## 内部细节
 

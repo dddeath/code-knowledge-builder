@@ -35,9 +35,10 @@
 ## 谁会来到这里
 
 - [[CodeKnowledgeBuilderTests 等测试场景]] 会使用这里提供的行为。
+- [[ReferencePdfEffectBenchmarkTests]] 会使用这里提供的行为。
 - [[build 的协作边界]] 会使用这里提供的行为。
 - [[ckb_canvas 的协作边界]] 会使用这里提供的行为。
-- [[cli 的协作边界（prototypes）]] 会使用这里提供的行为。
+- [[cli 的协作边界（99938c49）]] 会使用这里提供的行为。
 - [[command 等测试场景]] 会使用这里提供的行为。
 - [[deploy 的协作边界]] 会使用这里提供的行为。
 - [[extract_pdf]] 会使用这里提供的行为。
@@ -58,7 +59,10 @@
 - [[preflight 与 git 的协作实现]] 会使用这里提供的行为。
 - [[recompute 的协作边界]] 会使用这里提供的行为。
 - [[run 等测试场景]] 会使用这里提供的行为。
+- [[run_benchmark]] 会使用这里提供的行为。
+- [[run_benchmark 等测试场景]] 会使用这里提供的行为。
 - [[run_failure_probe 等测试场景]] 会使用这里提供的行为。
+- [[run_probe 等测试场景]] 会使用这里提供的行为。
 - [[source_files 与 sha256 的协作实现]] 会使用这里提供的行为。
 
 ## 相关测试
@@ -66,8 +70,8 @@
 - [[CodeKnowledgeBuilderTests 等测试场景]]
 - [[PdfReferenceExtractionTests]]
 - [[PdfReferenceExtractionTests 等测试场景]]
+- [[ReferencePdfEffectBenchmarkTests]]
 - [[command 等测试场景]]
 - [[main（benchmark_obsidian_canvas_navigation 测试）]]
-- [[main（generate_large_fixture 测试）]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。

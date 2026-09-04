@@ -1,0 +1,23 @@
+{
+  "schema_version": 4,
+  "pack_id": "delta-page-review-pack-0006",
+  "kind": "page-review",
+  "reviewer": "管理 Agent",
+  "reviewed_at_utc": "2026-09-03T22:43:20Z",
+  "reviews": [
+    {
+      "entity_id": "file-ded31520e51e565b91b43234e38215b6",
+      "classification": "page",
+      "owner_page_id": "file-ded31520e51e565b91b43234e38215b6",
+      "source_path": "scripts/ckb_core/scope_extension.py",
+      "start_line": 1,
+      "end_line": 1314,
+      "source_blob": "acef6f5b435f2e14621bd6310e6b23a17d5fa2df",
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `scripts/ckb_core/scope_extension.py` 第 1-1314 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "meaning_zh": "`scripts/ckb_core/scope_extension.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
+      "role_zh": "负责实现 `scope_extension.py` 中由固定源码定义的命令或知识库处理步骤。",
+      "change_when_zh": "当 `scripts/ckb_core/scope_extension.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
+    }
+  ]
+}

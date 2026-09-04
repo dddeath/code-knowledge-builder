@@ -43,6 +43,7 @@
 - [[preflight 与 git 的协作实现]] 关联到这里的验证场景。
 - [[query_graph 与 _networkx_modules 的协作实现]] 关联到这里的验证场景。
 - [[record_note 与 page_tag 的协作实现]] 关联到这里的验证场景。
+- [[refresh 等测试场景]] 关联到这里的验证场景。
 - [[register_obsidian_plugin 与 default_obsidian_plugin_registry 的协作实现]] 关联到这里的验证场景。
 - [[retrieve]] 关联到这里的验证场景。
 - [[retrieve 与 _tokens 的协作实现]] 关联到这里的验证场景。
@@ -51,7 +52,6 @@
 - [[search_terms 与 _split_camel 的协作实现]] 关联到这里的验证场景。
 - [[serve_stdio]] 关联到这里的验证场景。
 - [[serve_stdio 与 _write_line 的协作实现]] 关联到这里的验证场景。
-- [[start_scope_extension 与 _error 的协作实现]] 关联到这里的验证场景。
 - [[sync_human_layer]] 关联到这里的验证场景。
 - [[sync_human_layer 与 _source_manifest 的协作实现]] 关联到这里的验证场景。
 

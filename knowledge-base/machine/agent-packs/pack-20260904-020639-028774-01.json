@@ -1,0 +1,452 @@
+{
+  "schema_version": 3,
+  "status": "passed",
+  "question": "完成当前维护后的唯一一次 GitHub 推送，并停止后续更新",
+  "profile": "fast",
+  "budget": 1800,
+  "estimated_tokens": 1730,
+  "terms": [
+    "完成当前维护后的唯一一次",
+    "并停止后续更新",
+    "github",
+    "推送",
+    "完成当前维护后",
+    "停止后续更新",
+    "唯一一次",
+    "git",
+    "hub",
+    "一一次",
+    "停止后",
+    "前维护",
+    "后续更",
+    "唯一一",
+    "完成当",
+    "当前维",
+    "成当前",
+    "止后续",
+    "续更新",
+    "维护后",
+    "一一",
+    "一次",
+    "停止",
+    "前维",
+    "后续",
+    "唯一",
+    "完成",
+    "当前",
+    "成当",
+    "护后",
+    "更新",
+    "止后",
+    "续更",
+    "维护"
+  ],
+  "anchors": [
+    "github"
+  ],
+  "seed_entity_ids": [
+    "ent-0ae619590518556ea2a45aeeca00de37",
+    "ent-6da520c2d76d5004a1c94384c281ce94",
+    "file-5a989dea314454cbb361a584a9d03bfe",
+    "ent-0e5f911381415e6aa4a26ec91f02cca0",
+    "ent-671433bfb6ce5465b7ff93a2f493e750"
+  ],
+  "selected_entities": [
+    {
+      "entity_id": "ent-0ae619590518556ea2a45aeeca00de37",
+      "name": "prepare_git_repository",
+      "qualified_name": "prepare_git_repository",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/gitrepo.py",
+      "start_line": 97,
+      "end_line": 191,
+      "human_page_title": "preflight 与 git 的协作实现",
+      "human_page_file": "pages/preflight 与 git 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 131.68361352,
+      "score_breakdown": {
+        "entity-fts": 16.9123916,
+        "graph": 4.51071675,
+        "metadata": 30.0,
+        "section-fts": 70.26050517,
+        "term": 10.0
+      },
+      "reasons": [
+        "确定性词项 `git`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "ent-0e5f911381415e6aa4a26ec91f02cca0",
+      "name": "_git",
+      "qualified_name": "_git",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/freshness.py",
+      "start_line": 250,
+      "end_line": 257,
+      "human_page_title": "check_fact_freshness 与 _root 的协作实现",
+      "human_page_file": "pages/check_fact_freshness 与 _root 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 107.52194683,
+      "score_breakdown": {
+        "entity-fts": 16.83339538,
+        "graph": 0.00377847,
+        "metadata": 30.0,
+        "section-fts": 46.68477298,
+        "term": 14.0
+      },
+      "reasons": [
+        "确定性词项 `git`",
+        "确定性词项 `完成`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "ent-81135988a5ca507f848373b04389a5ba",
+      "name": "add_git_bootstrap_arguments",
+      "qualified_name": "add_git_bootstrap_arguments",
+      "kind": "function",
+      "source_path": "scripts/ckb.py",
+      "start_line": 261,
+      "end_line": 269,
+      "human_page_title": "keyword_provider_config 与 parser 的协作实现",
+      "human_page_file": "pages/keyword_provider_config 与 parser 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 84.60959593,
+      "score_breakdown": {
+        "entity-fts": 17.08543858,
+        "metadata": 30.0,
+        "section-fts": 23.52415735,
+        "term": 14.0
+      },
+      "reasons": [
+        "确定性词项 `git`",
+        "确定性词项 `完成`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "ent-5c0082504c295347ab32cd3df49f8115",
+      "name": "_git_status_paths",
+      "qualified_name": "_git_status_paths",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 734,
+      "end_line": 754,
+      "human_page_title": "ingest_event 与 default_registry_path 的协作实现",
+      "human_page_file": "pages/ingest_event 与 default_registry_path 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 61.05113598,
+      "score_breakdown": {
+        "entity-fts": 17.05113598,
+        "metadata": 30.0,
+        "term": 14.0
+      },
+      "reasons": [
+        "确定性词项 `git`",
+        "确定性词项 `完成`",
+        "机器实体全文命中",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": [
+        "中文作用"
+      ],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "ent-2b3408c7491554c390f1040b2746f630",
+      "name": "_git",
+      "qualified_name": "_git",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/management_agent.py",
+      "start_line": 374,
+      "end_line": 381,
+      "human_page_title": "bind_conversation 与 default_management_registry_path 的协作实现",
+      "human_page_file": "pages/bind_conversation 与 default_management_registry_path 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 60.98281979,
+      "score_breakdown": {
+        "entity-fts": 16.98246214,
+        "graph": 0.00035765,
+        "metadata": 30.0,
+        "term": 14.0
+      },
+      "reasons": [
+        "确定性词项 `git`",
+        "确定性词项 `完成`",
+        "机器实体全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文作用"
+      ],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "ent-d733281f0d3d5f86ba4d4bd39dd8b21c",
+      "name": "git",
+      "qualified_name": "git",
+      "kind": "function",
+      "source_path": "tests/test_git_fact_freshness.py",
+      "start_line": 33,
+      "end_line": 44,
+      "human_page_title": "FactFreshnessStateMachineTest 等测试场景",
+      "human_page_file": "pages/FactFreshnessStateMachineTest 等测试场景.md",
+      "display_mode": "appendix",
+      "score": 54.49118735,
+      "score_breakdown": {
+        "entity-fts": 16.80637271,
+        "metadata": 52.0,
+        "section-fts": 46.93454955,
+        "term": 14.0,
+        "test-discount": -75.24973491
+      },
+      "reasons": [
+        "确定性词项 `git`",
+        "确定性词项 `完成`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "实现定位查询对测试实体应用固定折扣"
+      ],
+      "sections": [
+        "中文作用"
+      ],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "ent-6300f1ea1f7155029520ed24fdb8ac7c",
+      "name": "resolve_checkout_git_dir",
+      "qualified_name": "resolve_checkout_git_dir",
+      "kind": "function",
+      "source_path": "tests/git_checkout.py",
+      "start_line": 20,
+      "end_line": 32,
+      "human_page_title": "resolve_checkout_git_dir",
+      "human_page_file": "pages/resolve_checkout_git_dir.md",
+      "display_mode": "page",
+      "score": 44.84372902,
+      "score_breakdown": {
+        "entity-fts": 17.12282898,
+        "metadata": 30.0,
+        "section-fts": 45.6479544,
+        "term": 14.0,
+        "test-discount": -61.92705436
+      },
+      "reasons": [
+        "确定性词项 `git`",
+        "确定性词项 `更新`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "实现定位查询对测试实体应用固定折扣"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "file-5a989dea314454cbb361a584a9d03bfe",
+      "name": "gitrepo.py",
+      "qualified_name": "scripts/ckb_core/gitrepo.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/gitrepo.py",
+      "start_line": 1,
+      "end_line": 419,
+      "human_page_title": "preflight 与 git 的协作实现",
+      "human_page_file": "pages/preflight 与 git 的协作实现.md",
+      "display_mode": "page",
+      "score": 131.019321,
+      "score_breakdown": {
+        "entity-fts": 17.14794776,
+        "graph": 5.80579295,
+        "metadata": 50.0,
+        "section-fts": 46.06558028,
+        "term": 12.0
+      },
+      "reasons": [
+        "确定性词项 `git`",
+        "确定性词项 `后续`",
+        "确定性词项 `完成`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    }
+  ],
+  "related_documents": [
+    {
+      "document_id": "note:changes:发布 GitHub 发展分支并同步稳定知识库",
+      "title": "发布 GitHub 发展分支并同步稳定知识库",
+      "kind": "change",
+      "status": "agent-reviewed",
+      "human_file": "changes/发布 GitHub 发展分支并同步稳定知识库.md",
+      "source_path": null,
+      "start_line": null,
+      "end_line": null
+    },
+    {
+      "document_id": "note:changes:CKB 5.4.0 GitHub 发布与远端复验",
+      "title": "CKB 5.4.0 GitHub 发布与远端复验",
+      "kind": "change",
+      "status": "agent-reviewed",
+      "human_file": "changes/CKB 5.4.0 GitHub 发布与远端复验.md",
+      "source_path": null,
+      "start_line": null,
+      "end_line": null
+    },
+    {
+      "document_id": "note:changes:CKB 5.3.0 GitHub 发布边界",
+      "title": "CKB 5.3.0 GitHub 发布边界",
+      "kind": "change",
+      "status": "agent-reviewed",
+      "human_file": "changes/CKB 5.3.0 GitHub 发布边界.md",
+      "source_path": null,
+      "start_line": null,
+      "end_line": null
+    },
+    {
+      "document_id": "note:analysis:OpenViking 记忆系统调研",
+      "title": "OpenViking 记忆系统调研",
+      "kind": "analysis",
+      "human_file": "analysis/OpenViking 记忆系统调研.md"
+    },
+    {
+      "document_id": "note:analysis:自动同步与 LLM Wiki 后续待办",
+      "title": "自动同步与 LLM Wiki 后续待办",
+      "kind": "analysis",
+      "human_file": "analysis/自动同步与 LLM Wiki 后续待办.md"
+    },
+    {
+      "document_id": "note:changes:将 Obsidian Canvas 原型纳入实验发布",
+      "title": "将 Obsidian Canvas 原型纳入实验发布",
+      "kind": "change",
+      "human_file": "changes/将 Obsidian Canvas 原型纳入实验发布.md"
+    },
+    {
+      "document_id": "note:sessions:V3 页面模板验收与剩余任务第一波派发",
+      "title": "V3 页面模板验收与剩余任务第一波派发",
+      "kind": "session",
+      "human_file": "sessions/V3 页面模板验收与剩余任务第一波派发.md"
+    },
+    {
+      "document_id": "note:analysis:CKB Agent 方法调用防偏移机制",
+      "title": "CKB Agent 方法调用防偏移机制",
+      "kind": "analysis",
+      "human_file": "analysis/CKB Agent 方法调用防偏移机制.md"
+    }
+  ],
+  "open_feedback": 0,
+  "retrieval_stats": {
+    "scored_entities": 1302,
+    "overscan_limit": 32,
+    "materialized_candidates": 32,
+    "selected_entities": 8,
+    "budgeted_entity_limit": 8,
+    "selected_source_paths": 7,
+    "batched_entity_queries": 2,
+    "source_link_cache_entries": 7,
+    "static_cache_hit": false
+  },
+  "pack": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260904-020639-028774-01.md",
+  "record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260904-020639-028774-01.json",
+  "retrieval": "sqlite-exact-fts5-sections-deterministic-weighted-graph",
+  "deterministic": true,
+  "source_grounded": true,
+  "grep_fallback_required": false,
+  "warnings": {
+    "status": "warning",
+    "warning_count": 1,
+    "examples": [
+      {
+        "kind": "compile-commands-unavailable",
+        "language": "cpp",
+        "file": "compile_commands.json",
+        "range": null,
+        "diagnostic_categories": [],
+        "diagnostic_count": 0,
+        "coverage": {},
+        "precision": "bounded-approximate",
+        "build_evidence": {
+          "paths": [
+            "tests/fixtures/cpp-parser-scons/scons-project/SConstruct",
+            "tests/fixtures/cpp-parser-scons/scons-project/src/SConscript"
+          ],
+          "resolution": "build-config-unique",
+          "selected": "c++20"
+        },
+        "affected_entity_count": 0,
+        "absence_inference_allowed": false
+      }
+    ],
+    "omitted_warning_count": 0,
+    "absence_inference_allowed": false,
+    "message_zh": "警告范围或有界近似语义结果不完整，不可据此推断未检出事实在源码中不存在。"
+  },
+  "fact_freshness": {
+    "schema_version": 1,
+    "state": "current",
+    "stable_state": "current",
+    "observed_at_utc": "2026-09-04T02:06:39Z",
+    "trigger": "first-query",
+    "bound_commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+    "current_head": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+    "branch": "codex/reference-ingest-v1",
+    "dirty": {
+      "count": 0,
+      "paths": [],
+      "truncated": false
+    },
+    "change_summary": {
+      "comparison": "bound-commit-to-current-head",
+      "changed": 0,
+      "changed_paths": [],
+      "counts": {},
+      "truncated": false
+    },
+    "migration": null,
+    "overlay": null,
+    "cache_hit": false,
+    "stable_facts_current": true,
+    "next_action": {
+      "action": "reuse-stable-facts",
+      "rebuild": false
+    },
+    "error": null,
+    "state_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\freshness\\state.json"
+  },
+  "current_source_grounded": true
+}

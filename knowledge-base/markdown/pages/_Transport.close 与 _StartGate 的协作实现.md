@@ -22,7 +22,7 @@
 - 实现时会用到 [[build_case 等测试场景]]。
 - 实现时会用到 [[ckb_canvas 的协作边界]]。
 - 实现时会用到 [[command]]。
-- 实现时会用到 [[contracts 的协作边界（36093e4a）]]。
+- 实现时会用到 [[contracts 的协作边界（prototypes）]]。
 - 实现时会用到 [[doctor_report 与 _version_matches 的协作实现]]。
 - 实现时会用到 [[finalize 与 _replace_output_prefix 的协作实现]]。
 - 实现时会用到 [[ingest 与 connect 的协作实现]]。
@@ -42,6 +42,7 @@
 - [[main（session_stdio_reactivation_probe 测试）]] 会使用这里提供的行为。
 - [[one_cycle]] 会使用这里提供的行为。
 - [[one_cycle 等测试场景]] 会使用这里提供的行为。
+- [[run_probe]] 会使用这里提供的行为。
 - 可从 [[scripts 职责导览]] 进入本页。
 
 ## 相关测试

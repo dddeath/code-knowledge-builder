@@ -10,7 +10,7 @@
 
 ## 在代码中的位置
 
-[打开源码：scripts/ckb_core/scope_extension.py 第 261 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/scope_extension.py:261:1)  `scripts/ckb_core/scope_extension.py:261-451`
+[打开源码：scripts/ckb_core/scope_extension.py 第 666 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/scope_extension.py:666:1)  `scripts/ckb_core/scope_extension.py:666-856`
 
 ## 相关代码
 

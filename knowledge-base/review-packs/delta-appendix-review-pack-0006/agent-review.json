@@ -1,0 +1,117 @@
+{
+  "schema_version": 4,
+  "pack_id": "delta-appendix-review-pack-0006",
+  "kind": "appendix-review",
+  "reviewer": "管理 Agent",
+  "reviewed_at_utc": "2026-09-03T22:43:20Z",
+  "reviews": [
+    {
+      "entity_id": "ent-a0476ff7d2be5191ac21055bd25328f5",
+      "classification": "appendix",
+      "owner_page_id": "file-ded31520e51e565b91b43234e38215b6",
+      "source_path": "scripts/ckb_core/scope_extension.py",
+      "start_line": 1104,
+      "end_line": 1209,
+      "source_blob": "acef6f5b435f2e14621bd6310e6b23a17d5fa2df",
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `scripts/ckb_core/scope_extension.py` 第 1104-1209 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "description_zh": "`cutover_scope_extension` 是第 699-804 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-b587c643a6a25c01bb40673cff5fce14",
+      "classification": "appendix",
+      "owner_page_id": "file-ded31520e51e565b91b43234e38215b6",
+      "source_path": "scripts/ckb_core/scope_extension.py",
+      "start_line": 1212,
+      "end_line": 1223,
+      "source_blob": "acef6f5b435f2e14621bd6310e6b23a17d5fa2df",
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `scripts/ckb_core/scope_extension.py` 第 1212-1223 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "description_zh": "`_active_control` 是第 807-818 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-84d07f48515354fdb41ab608145a98a2",
+      "classification": "appendix",
+      "owner_page_id": "file-ded31520e51e565b91b43234e38215b6",
+      "source_path": "scripts/ckb_core/scope_extension.py",
+      "start_line": 1226,
+      "end_line": 1313,
+      "source_blob": "acef6f5b435f2e14621bd6310e6b23a17d5fa2df",
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `scripts/ckb_core/scope_extension.py` 第 1226-1313 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "description_zh": "`rollback_scope_extension` 是第 821-908 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-91b6363e16eb5cd3853416d9eecb2472",
+      "classification": "appendix",
+      "owner_page_id": "file-189d79c786ae562b8707d6ce6a575edf",
+      "source_path": "scripts/ckb_core/stdio_server.py",
+      "start_line": 25,
+      "end_line": 29,
+      "source_blob": "323e1ed612344aed69e0095c294ada9199e4fae9",
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `scripts/ckb_core/stdio_server.py` 第 25-29 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "description_zh": "`_write_line` 是第 25-29 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-893b8090f1955298ad59be2ca8bce2a3",
+      "classification": "appendix",
+      "owner_page_id": "file-189d79c786ae562b8707d6ce6a575edf",
+      "source_path": "scripts/ckb_core/stdio_server.py",
+      "start_line": 32,
+      "end_line": 35,
+      "source_blob": "323e1ed612344aed69e0095c294ada9199e4fae9",
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `scripts/ckb_core/stdio_server.py` 第 32-35 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "description_zh": "`_integer` 是第 32-35 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-f3ba015428cf53ec987adc96217c9ff6",
+      "classification": "appendix",
+      "owner_page_id": "file-189d79c786ae562b8707d6ce6a575edf",
+      "source_path": "scripts/ckb_core/stdio_server.py",
+      "start_line": 38,
+      "end_line": 40,
+      "source_blob": "323e1ed612344aed69e0095c294ada9199e4fae9",
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `scripts/ckb_core/stdio_server.py` 第 38-40 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "description_zh": "`_utf8_safe` 是第 38-40 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-3fe5a3950fee57fd8f056d985ff2e004",
+      "classification": "appendix",
+      "owner_page_id": "file-189d79c786ae562b8707d6ce6a575edf",
+      "source_path": "scripts/ckb_core/stdio_server.py",
+      "start_line": 43,
+      "end_line": 50,
+      "source_blob": "323e1ed612344aed69e0095c294ada9199e4fae9",
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `scripts/ckb_core/stdio_server.py` 第 43-50 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "description_zh": "`_required_text` 是第 43-50 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-88991b8c41065a1a930c8e3433467222",
+      "classification": "appendix",
+      "owner_page_id": "file-189d79c786ae562b8707d6ce6a575edf",
+      "source_path": "scripts/ckb_core/stdio_server.py",
+      "start_line": 53,
+      "end_line": 104,
+      "source_blob": "323e1ed612344aed69e0095c294ada9199e4fae9",
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `scripts/ckb_core/stdio_server.py` 第 53-104 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "description_zh": "`_keyword_fallback_opt...` 是第 53-104 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-4baf3b5ec0f35737840f0f8971aa3798",
+      "classification": "appendix",
+      "owner_page_id": "file-189d79c786ae562b8707d6ce6a575edf",
+      "source_path": "scripts/ckb_core/stdio_server.py",
+      "start_line": 107,
+      "end_line": 199,
+      "source_blob": "323e1ed612344aed69e0095c294ada9199e4fae9",
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `scripts/ckb_core/stdio_server.py` 第 107-199 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "description_zh": "`_record_explanation` 是第 107-199 行的函数，供所属页面定位实现。"
+    }
+  ]
+}

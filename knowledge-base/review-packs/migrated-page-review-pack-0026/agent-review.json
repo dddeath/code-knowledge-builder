@@ -3,20 +3,46 @@
   "pack_id": "migrated-page-review-pack-0026",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-03T01:38:42Z",
+  "reviewed_at_utc": "2026-09-03T22:05:54Z",
   "reviews": [
     {
-      "entity_id": "file-2869591ff924551fa7b6fb04703fbbf8",
+      "entity_id": "ent-3019321043cb5bec8e0198b44004c5ed",
       "classification": "page",
-      "owner_page_id": "file-2869591ff924551fa7b6fb04703fbbf8",
-      "source_path": "scripts/ckb_core/machine_knowledge.py",
-      "start_line": 1,
-      "end_line": 1992,
+      "owner_page_id": "ent-3019321043cb5bec8e0198b44004c5ed",
+      "source_path": "scripts/ckb_core/management_agent.py",
+      "start_line": 453,
+      "end_line": 568,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/machine_knowledge.py` 第 1 至 1992 行；摘录与 Git blob 5f8b9b704513 一致。",
-      "meaning_zh": "文件 `scripts/ckb_core/machine_knowledge.py`负责构建双 SQLite 检索层，并组合 FTS5、图关系、工作记录和源码新鲜度生成检索包。",
-      "role_zh": "它属于Agent 先检索后窄读源码的核心机器入口，当前说明只覆盖所列固定源码范围。",
-      "change_when_zh": "当索引结构、词项、排序、预算、警告传播或检索输出合同变化时，应同步复查本页及其直接关联测试。"
+      "evidence_note": "已核对固定提交 bdd4a6671df5 中 `scripts/ckb_core/management_agent.py` 第 453 至 568 行，摘录属于 Git blob 8e89e063725b；相关运行验证见本次机器验证记录。",
+      "meaning_zh": "该函数校验项目身份后创建、重复返回或恢复一条管理对话绑定。",
+      "role_zh": "它允许脏工作树先完成身份登记，并把干净工作树要求保留给后续状态和派发门。",
+      "change_when_zh": "调整绑定前提、幂等规则、恢复语义或绑定字段时需要修改。"
+    },
+    {
+      "entity_id": "file-a2ada27c1bc75553865fb7ba55d9518a",
+      "classification": "page",
+      "owner_page_id": "file-a2ada27c1bc75553865fb7ba55d9518a",
+      "source_path": "scripts/ckb_core/migration.py",
+      "start_line": 1,
+      "end_line": 604,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/migration.py` 第 1-604 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`scripts/ckb_core/migration.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
+      "role_zh": "负责把已审计知识库增量迁移到新快照，并保留可变层和复用证明。",
+      "change_when_zh": "当 `scripts/ckb_core/migration.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "ent-5facfd706dc251bbbcaca664e4b0effb",
+      "classification": "page",
+      "owner_page_id": "ent-5facfd706dc251bbbcaca664e4b0effb",
+      "source_path": "scripts/ckb_core/migration.py",
+      "start_line": 367,
+      "end_line": 479,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/migration.py` 第 367-479 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`audit_migration` 是 `scripts/ckb_core/migration.py` 第 367-479 行定义的函数，本页绑定该固定源码范围。",
+      "role_zh": "负责把已审计知识库增量迁移到新快照，并保留可变层和复用证明。",
+      "change_when_zh": "当 `audit_migration` 的输入、输出、状态转换或失败返回变化时，应更新本页并重跑对应测试。"
     }
   ]
 }

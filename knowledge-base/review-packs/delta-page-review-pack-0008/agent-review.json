@@ -1,0 +1,51 @@
+{
+  "schema_version": 4,
+  "pack_id": "delta-page-review-pack-0008",
+  "kind": "page-review",
+  "reviewer": "管理 Agent",
+  "reviewed_at_utc": "2026-09-03T22:43:20Z",
+  "reviews": [
+    {
+      "entity_id": "file-b28e412c4adf5e99a3f37fa34bd0d54b",
+      "classification": "page",
+      "owner_page_id": "file-b28e412c4adf5e99a3f37fa34bd0d54b",
+      "source_path": "tests/benchmark_reference_pdf_effect.py",
+      "start_line": 1,
+      "end_line": 360,
+      "source_blob": "6e24181ce351406ea5b4e1e1c7dda1577b6fc6c9",
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `tests/benchmark_reference_pdf_effect.py` 第 1-360 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "meaning_zh": "该文件实现冻结的原生 PDF 增强效果 benchmark，生成可重放的原始结果和聚合报告。",
+      "role_zh": "该文件承载 `tests/benchmark_reference_pdf_effect.py` 所属能力的实现或测试入口。",
+      "change_when_zh": "当 `tests/benchmark_reference_pdf_effect.py` 的职责或可见行为变化时，应更新本页并重跑相关测试。"
+    },
+    {
+      "entity_id": "ent-0e9d8d94fcdf574e900b9079ebb94996",
+      "classification": "page",
+      "owner_page_id": "ent-0e9d8d94fcdf574e900b9079ebb94996",
+      "source_path": "tests/benchmark_reference_pdf_effect.py",
+      "start_line": 150,
+      "end_line": 324,
+      "source_blob": "6e24181ce351406ea5b4e1e1c7dda1577b6fc6c9",
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `tests/benchmark_reference_pdf_effect.py` 第 150-324 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "meaning_zh": "`run_benchmark` 在冻结协议下比较旧基线与当前原生 PDF 能力，并测量页码、中文、代码缩进、表格和失败诊断。",
+      "role_zh": "它绑定源码 blob 与实际 pypdf 运行时身份，明确把 Web 和真实 OCR 留在未覆盖范围。",
+      "change_when_zh": "当 PDF 解析器、fixture、指标或运行时身份门变化时，应更新本函数并重新生成原始结果和报告。"
+    },
+    {
+      "entity_id": "file-e90f5451cd34505f8086c8fdd7be2d68",
+      "classification": "page",
+      "owner_page_id": "file-e90f5451cd34505f8086c8fdd7be2d68",
+      "source_path": "tests/harness_retrieval_contract_probe.py",
+      "start_line": 1,
+      "end_line": 519,
+      "source_blob": "ca422a4d6c0b5c0c28d1068b2b6bae69e3fa8a4f",
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `tests/harness_retrieval_contract_probe.py` 第 1-519 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "meaning_zh": "该文件实现无项目 Agent 指令条件下的 CKB Skill 检索闭环探针。",
+      "role_zh": "该文件承载 `tests/harness_retrieval_contract_probe.py` 所属能力的实现或测试入口。",
+      "change_when_zh": "当 `tests/harness_retrieval_contract_probe.py` 的职责或可见行为变化时，应更新本页并重跑相关测试。"
+    }
+  ]
+}

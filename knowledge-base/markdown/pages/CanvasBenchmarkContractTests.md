@@ -16,8 +16,8 @@
 
 - 实现时会用到 [[CanvasBenchmarkContractTests 等测试场景]]。
 - 实现时会用到 [[append]]。
-- 实现时会用到 [[benchmark 的协作边界（prototypes）]]。
-- 实现时会用到 [[contracts 的协作边界（36093e4a）]]。
+- 实现时会用到 [[benchmark 的协作边界（16d95d34）]]。
+- 实现时会用到 [[contracts 的协作边界（prototypes）]]。
 
 ## 谁会来到这里
 
@@ -28,13 +28,12 @@
 - [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]] 关联到这里的验证场景。
 - [[_Transport.close]] 关联到这里的验证场景。
 - [[append]] 关联到这里的验证场景。
-- [[benchmark 的协作边界（prototypes）]] 关联到这里的验证场景。
+- [[benchmark 的协作边界（16d95d34）]] 关联到这里的验证场景。
 - [[bind_conversation 与 default_management_registry_path 的协作实现]] 关联到这里的验证场景。
 - [[build_case 等测试场景]] 关联到这里的验证场景。
 - [[commands 的协作边界]] 关联到这里的验证场景。
-- [[contracts 的协作边界（36093e4a）]] 关联到这里的验证场景。
+- [[contracts 的协作边界（prototypes）]] 关联到这里的验证场景。
 - [[doctor_report 与 _version_matches 的协作实现]] 关联到这里的验证场景。
-- [[finalize 与 _replace_output_prefix 的协作实现]] 关联到这里的验证场景。
 - [[freeze 的协作边界]] 关联到这里的验证场景。
 - [[graph 的协作边界]] 关联到这里的验证场景。
 - [[source_files]] 关联到这里的验证场景。

@@ -26,6 +26,7 @@
 - [[KeywordFallbackRetrievalWiringTests 等测试场景]] 会使用这里提供的行为。
 - [[SessionStdioLifecycleTests]] 会使用这里提供的行为。
 - [[ingest_event 与 default_registry_path 的协作实现]] 汇总了本页。
+- [[run_probe]] 会使用这里提供的行为。
 
 ## 相关测试
 
@@ -33,3 +34,5 @@
 - [[FactFreshnessStateMachineTest 等测试场景]]
 - [[KeywordFallbackRetrievalWiringTests 等测试场景]]
 - [[SessionStdioLifecycleTests]]
+- [[run_probe]]
+- [[run_probe 等测试场景]]

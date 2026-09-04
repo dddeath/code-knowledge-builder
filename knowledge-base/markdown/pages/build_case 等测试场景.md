@@ -38,13 +38,14 @@
 - [[PdfReferenceExtractionTests]] 会使用这里提供的行为。
 - [[PdfReferenceExtractionTests 等测试场景]] 会使用这里提供的行为。
 - [[RecordReplaceTests]] 会使用这里提供的行为。
+- [[ScopeExtensionOfferTests.retrieval 等测试场景]] 会使用这里提供的行为。
 - [[TagNavigationStateMachineTests]] 会使用这里提供的行为。
 - [[TemplateProposalStoreTests]] 会使用这里提供的行为。
 - [[_Transport.close 与 _StartGate 的协作实现]] 会使用这里提供的行为。
 - [[append 等测试场景]] 会使用这里提供的行为。
-- [[benchmark 的协作边界（prototypes）]] 会使用这里提供的行为。
+- [[benchmark 的协作边界（16d95d34）]] 会使用这里提供的行为。
 - [[build_case]] 会使用这里提供的行为。
-- [[cli 的协作边界（20ef2cd4）]] 会使用这里提供的行为。
+- [[cli 的协作边界（99938c49）]] 会使用这里提供的行为。
 - [[cli 的协作边界（prototypes）]] 会使用这里提供的行为。
 - [[command 等测试场景]] 会使用这里提供的行为。
 - [[commands 的协作边界]] 会使用这里提供的行为。

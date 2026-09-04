@@ -22,16 +22,17 @@
 - [[KeywordFallbackRetrievalWiringTests]] 会使用这里提供的行为。
 - [[KeywordFallbackRetrievalWiringTests 等测试场景]] 会使用这里提供的行为。
 - [[PdfReferenceExtractionTests 等测试场景]] 会使用这里提供的行为。
+- [[ScopeExtensionOfferTests.retrieval 等测试场景]] 会使用这里提供的行为。
 - [[_Transport.close 与 _StartGate 的协作实现]] 会使用这里提供的行为。
 - [[audit_obsidian 与 prepare_vault 的协作实现]] 会使用这里提供的行为。
 - [[audit_operation_journal 与 _root 的协作实现]] 会使用这里提供的行为。
 - [[audit_output_contract 与 _default_ckb 的协作实现]] 会使用这里提供的行为。
-- [[benchmark 的协作边界（9fab5b96）]] 会使用这里提供的行为。
+- [[benchmark 的协作边界（e30cfb0a）]] 会使用这里提供的行为。
 - [[bind_conversation 与 default_management_registry_path 的协作实现]] 会使用这里提供的行为。
 - [[build 的协作边界]] 会使用这里提供的行为。
 - [[check_fact_freshness 与 _root 的协作实现]] 会使用这里提供的行为。
 - [[ckb_canvas 的协作边界]] 会使用这里提供的行为。
-- [[cli 的协作边界（20ef2cd4）]] 会使用这里提供的行为。
+- [[cli 的协作边界（99938c49）]] 会使用这里提供的行为。
 - [[cli 的协作边界（prototypes）]] 会使用这里提供的行为。
 - [[command 等测试场景]] 汇总了本页。
 - [[create_batch_plan 与 ProtocolRelease 的协作实现]] 会使用这里提供的行为。
@@ -48,13 +49,14 @@
 - [[parser]] 会使用这里提供的行为。
 - [[preflight 与 git 的协作实现]] 会使用这里提供的行为。
 - [[render_integration]] 会使用这里提供的行为。
-- [[render_integration 与 _looks_windows 的协作实现]] 会使用这里提供的行为。
+- [[render_integration 与 harness_retrieval_contract 的协作实现]] 会使用这里提供的行为。
 - [[render_page_author 与 _error 的协作实现]] 会使用这里提供的行为。
 - [[run 等测试场景]] 会使用这里提供的行为。
 - [[run_failure_probe 等测试场景]] 会使用这里提供的行为。
 - [[run_keyword_provider]] 会使用这里提供的行为。
 - [[run_keyword_provider 与 KeywordProviderConfig 的协作实现]] 会使用这里提供的行为。
 - [[serve_stdio 与 _write_line 的协作实现]] 会使用这里提供的行为。
+- [[start_scope_extension 与 _error 的协作实现]] 会使用这里提供的行为。
 - [[validate_human_maintenance_invocation 与 ParameterSpec 的协作实现]] 会使用这里提供的行为。
 
 ## 相关测试

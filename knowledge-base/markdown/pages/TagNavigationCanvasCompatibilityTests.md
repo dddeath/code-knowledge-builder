@@ -16,7 +16,7 @@
 
 - 实现时会用到 [[TagNavigationCanvasCompatibilityTests 等测试场景]]。
 - 实现时会用到 [[assertions]]。
-- 实现时会用到 [[contracts 的协作边界（36093e4a）]]。
+- 实现时会用到 [[contracts 的协作边界（prototypes）]]。
 - 实现时会用到 [[ingest 与 connect 的协作实现]]。
 - 实现时会用到 [[projection 的协作边界]]。
 - 实现时会用到 [[state_machine 的协作边界]]。
@@ -24,7 +24,6 @@
 ## 谁会来到这里
 
 - [[TagNavigationCanvasCompatibilityTests 等测试场景]] 汇总了本页。
-- [[assertions]] 关联到这里的验证场景。
 - [[projection 的协作边界]] 关联到这里的验证场景。
 - [[state_machine 的协作边界]] 关联到这里的验证场景。
 

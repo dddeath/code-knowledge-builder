@@ -3,20 +3,20 @@
   "pack_id": "migrated-page-review-pack-0032",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-03T01:39:10Z",
+  "reviewed_at_utc": "2026-09-03T22:06:01Z",
   "reviews": [
     {
-      "entity_id": "file-7d59c347cb415a07a31a93473b91c95a",
+      "entity_id": "file-2c846ce8cc8a524caaf169cbc071b031",
       "classification": "page",
-      "owner_page_id": "file-7d59c347cb415a07a31a93473b91c95a",
-      "source_path": "scripts/ckb_core/pipeline.py",
+      "owner_page_id": "file-2c846ce8cc8a524caaf169cbc071b031",
+      "source_path": "scripts/ckb_core/record_replace.py",
       "start_line": 1,
-      "end_line": 3605,
+      "end_line": 1156,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/pipeline.py` 第 1 至 3605 行；摘录与 Git blob 06869d8b1045 一致。",
-      "meaning_zh": "文件 `scripts/ckb_core/pipeline.py`负责编排固定快照解析、Agent 审阅、页面投影、迁移、全局审计与最终生成。",
-      "role_zh": "它属于从源码事实到机器索引和人类页面的一致性主流程，当前说明只覆盖所列固定源码范围。",
-      "change_when_zh": "当构建阶段、迁移复用、页面预算、可读性、镜像或完成门变化时，应同步复查本页及其直接关联测试。"
+      "evidence_note": "已核对固定提交 `94bf22015243` 中 `scripts/ckb_core/record_replace.py` 第 1-1156 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "meaning_zh": "`scripts/ckb_core/record_replace.py` 页面绑定固定源码第 1-1156 行，说明该文件在工作记录正文替换、候选验证、原子 promotion 和回滚中的整体职责。",
+      "role_zh": "该文件负责工作记录正文替换、候选验证、原子 promotion 和回滚，并为相关命令或测试提供可复查实现入口。",
+      "change_when_zh": "当 `scripts/ckb_core/record_replace.py` 中 `scripts/ckb_core/record_replace.py` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
     }
   ]
 }

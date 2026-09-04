@@ -16,7 +16,7 @@
 
 - 实现时会用到 [[_Transport.close]]。
 - 实现时会用到 [[assertions]]。
-- 实现时会用到 [[contracts 的协作边界（743c915d）]]。
+- 实现时会用到 [[contracts 的协作边界（959fe0e0）]]。
 - 实现时会用到 [[ingest 与 connect 的协作实现]]。
 
 ## 谁会来到这里

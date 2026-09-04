@@ -1,0 +1,23 @@
+{
+  "schema_version": 4,
+  "pack_id": "delta-page-review-pack-0005",
+  "kind": "page-review",
+  "reviewer": "管理 Agent",
+  "reviewed_at_utc": "2026-09-03T22:43:20Z",
+  "reviews": [
+    {
+      "entity_id": "ent-2c054d4d13df597aa3aed31b2a805ddc",
+      "classification": "page",
+      "owner_page_id": "ent-2c054d4d13df597aa3aed31b2a805ddc",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 1827,
+      "end_line": 1852,
+      "source_blob": "c2232fa60fc96e60f72ed5ccc9af69463e248517",
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `scripts/ckb_core/machine_knowledge.py` 第 1827-1852 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "meaning_zh": "`retrieve_machine` 执行机器知识检索，附加 Git 新鲜度，并对问题中的唯一显式源码 selector 评估是否需要给出扩库确认建议。",
+      "role_zh": "它保持既有排序和预算，把范围外确认作为检索后的证据判断，而不是第二套检索引擎。",
+      "change_when_zh": "当检索结果、新鲜度合同、scope offer 接线或关键词慢路径变化时，应更新本函数并复查 CLI 与 stdio 一致性。"
+    }
+  ]
+}

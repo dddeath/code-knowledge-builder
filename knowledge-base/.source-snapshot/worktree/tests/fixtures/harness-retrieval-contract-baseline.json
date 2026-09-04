@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "base_commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+  "status": "contract-gap-confirmed",
+  "confirmed": [
+    "SKILL.md 与已安装 Skill 在基线提交字节一致。",
+    "直接 brief 会生成可重开的 pack 与完整 record，并附带事实新鲜度。",
+    "没有精确 Skill 应用证据的已登记 session 返回 skill-not-applied-in-session，自动化计数不增加。",
+    "精确 skill.applied 事件会启动 stdio；启动或传输失败时，受支持查询会执行一次 CLI fallback。",
+    "缺少或漂移的 Harness 适配器会使 Agent Policy 维护门失败，但不会阻止 machine SQLite 的 brief、source、feedback 或 gaps 读取。"
+  ],
+  "gaps": [
+    {
+      "id": "skill-only-bootstrap-missing",
+      "evidence": "SKILL.md 没有把无项目 AGENTS.md 时的 OUTPUT 解析、精确 Skill 激活、brief 和条件式维护组织为一个首轮闭环。"
+    },
+    {
+      "id": "record-trigger-overbroad",
+      "evidence": "SKILL.md 要求每个实质说明或分析都先写 record，未按用户是否要求持久化或当前 OUTPUT 是否可写区分。"
+    },
+    {
+      "id": "harness-source-matrix-missing",
+      "evidence": "integration.json 只声明 required_skill 与 session_skill_activation_required，没有分别声明项目指令自动发现、Skill 精确加载、激活/注册和 OUTPUT 发现来源。"
+    },
+    {
+      "id": "manager-prompt-and-project-instruction-conflated",
+      "evidence": "现有资料没有在同一矩阵中明确区分项目指令自动发现与 manager prompt_injection.available=false。"
+    }
+  ],
+  "required_corrections": [
+    "在 Skill 入口新增无项目指令时的确定性绑定和检索顺序。",
+    "把 record、maintain 与源码窄读改为按任务触发，并说明非当前 Harness 适配器不属于读取前置门。",
+    "让生成的 integration.json 携带可测试的 Harness 检索契约矩阵。",
+    "新增无 AGENTS.md 的 skill-only 与 skill-missing 运行时探针。"
+  ]
+}

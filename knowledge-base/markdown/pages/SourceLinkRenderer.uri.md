@@ -16,7 +16,7 @@
 
 - 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
 - 实现时会用到 [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]]。
-- 实现时会用到 [[render_integration 与 _looks_windows 的协作实现]]。
+- 实现时会用到 [[render_integration 与 harness_retrieval_contract 的协作实现]]。
 
 ## 谁会来到这里
 
@@ -26,7 +26,7 @@
 - [[audit_agent_protocol 与 _default_python 的协作实现]] 会使用这里提供的行为。
 - [[audit_migration]] 会使用这里提供的行为。
 - [[audit_migration 与 _entity_key 的协作实现]] 会使用这里提供的行为。
-- [[benchmark 的协作边界（9fab5b96）]] 会使用这里提供的行为。
+- [[benchmark 的协作边界（e30cfb0a）]] 会使用这里提供的行为。
 - [[bind_conversation 与 default_management_registry_path 的协作实现]] 会使用这里提供的行为。
 - [[build_case]] 会使用这里提供的行为。
 - [[create_knowledge_batch_plan 与 KnowledgeRelease 的协作实现]] 会使用这里提供的行为。
@@ -41,6 +41,7 @@
 - [[retrieve 与 _tokens 的协作实现]] 会使用这里提供的行为。
 - [[retrieve_machine 与 estimated_tokens 的协作实现]] 会使用这里提供的行为。
 - [[run_failure_probe 等测试场景]] 会使用这里提供的行为。
+- [[run_probe 等测试场景]] 会使用这里提供的行为。
 - [[start_scope_extension 与 _error 的协作实现]] 会使用这里提供的行为。
 
 ## 相关测试

@@ -10,7 +10,7 @@
 
 ## 在代码中的位置
 
-[打开源码：scripts/ckb_core/llm_wiki_capabilities.py 第 427 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/llm_wiki_capabilities.py:427:1)  `scripts/ckb_core/llm_wiki_capabilities.py:427-477`
+[打开源码：scripts/ckb_core/llm_wiki_capabilities.py 第 431 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/llm_wiki_capabilities.py:431:1)  `scripts/ckb_core/llm_wiki_capabilities.py:431-481`
 
 ## 相关代码
 

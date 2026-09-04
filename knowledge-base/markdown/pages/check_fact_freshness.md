@@ -26,6 +26,7 @@
 - [[ingest_event]] 会使用这里提供的行为。
 - [[ingest_event 与 default_registry_path 的协作实现]] 会使用这里提供的行为。
 - [[retrieve_machine]] 会使用这里提供的行为。
+- [[run_probe]] 会使用这里提供的行为。
 
 ## 相关测试
 

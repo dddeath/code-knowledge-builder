@@ -16,13 +16,13 @@
 
 - 实现时会用到 [[append]]。
 - 实现时会用到 [[build_case 等测试场景]]。
-- 实现时会用到 [[contracts 的协作边界（prototypes）]]。
+- 实现时会用到 [[contracts 的协作边界（05d22df9）]]。
 - 实现时会用到 [[generator 的协作边界]]。
 
 ## 谁会来到这里
 
 - [[PageFanoutGeneratorTests 等测试场景]] 汇总了本页。
-- [[contracts 的协作边界（prototypes）]] 关联到这里的验证场景。
+- [[contracts 的协作边界（05d22df9）]] 关联到这里的验证场景。
 - [[generator 的协作边界]] 关联到这里的验证场景。
 
 ## 内部细节

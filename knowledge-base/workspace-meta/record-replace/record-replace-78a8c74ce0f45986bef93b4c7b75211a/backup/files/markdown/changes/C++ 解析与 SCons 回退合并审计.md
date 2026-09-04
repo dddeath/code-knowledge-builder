@@ -26,7 +26,7 @@
 
 - [[parser]]
 - [[parse_file 与 _language 的协作实现]]
-- [[render_integration 与 _looks_windows 的协作实现]]
+- [[render_integration 与 harness_retrieval_contract 的协作实现]]
 - [[main 等测试场景（provider_integration 测试）]]
 - [[AutomationTest.register 等测试场景]]
 - [[CodeKnowledgeBuilderTests]]

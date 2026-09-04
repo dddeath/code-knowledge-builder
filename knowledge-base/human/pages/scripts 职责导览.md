@@ -42,7 +42,7 @@
 - 继续浏览 [[query_graph 与 _networkx_modules 的协作实现]]。
 - 继续浏览 [[record_note 与 page_tag 的协作实现]]。
 - 继续浏览 [[register_obsidian_plugin 与 default_obsidian_plugin_registry 的协作实现]]。
-- 继续浏览 [[render_integration 与 _looks_windows 的协作实现]]。
+- 继续浏览 [[render_integration 与 harness_retrieval_contract 的协作实现]]。
 - 继续浏览 [[render_page_author 与 _error 的协作实现]]。
 - 继续浏览 [[replace_note 与 RecordReplaceLockError 的协作实现]]。
 - 继续浏览 [[retrieve 与 _tokens 的协作实现]]。

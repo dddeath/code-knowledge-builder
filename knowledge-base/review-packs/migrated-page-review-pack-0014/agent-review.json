@@ -3,33 +3,20 @@
   "pack_id": "migrated-page-review-pack-0014",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-03T01:38:28Z",
+  "reviewed_at_utc": "2026-09-03T22:05:23Z",
   "reviews": [
     {
-      "entity_id": "file-551a57cc3557566281e26b3b88b05c6a",
+      "entity_id": "file-ebdd3de90e1b5029b70a2bcd583a00b3",
       "classification": "page",
-      "owner_page_id": "file-551a57cc3557566281e26b3b88b05c6a",
-      "source_path": "scripts/ckb_core/freshness.py",
+      "owner_page_id": "file-ebdd3de90e1b5029b70a2bcd583a00b3",
+      "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
       "start_line": 1,
-      "end_line": 1037,
+      "end_line": 2010,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 1 至 1037 行；摘录与 Git blob adfaca335688 一致。",
-      "meaning_zh": "文件 `scripts/ckb_core/freshness.py`负责比较知识库固定提交与 Git 当前状态，生成事实新鲜度状态、迁移计划和协作记录。",
-      "role_zh": "它属于阻止 Agent 把过期源码事实当作当前结论的前置保护层，当前说明只覆盖所列固定源码范围。",
-      "change_when_zh": "当Git 事件、状态机、锁释放、迁移完成证据或检索结论保护变化时，应同步复查本页及其直接关联测试。"
-    },
-    {
-      "entity_id": "ent-c9519c794e3f5d039cd78ab7ebcaaf7d",
-      "classification": "page",
-      "owner_page_id": "ent-c9519c794e3f5d039cd78ab7ebcaaf7d",
-      "source_path": "scripts/ckb_core/freshness.py",
-      "start_line": 569,
-      "end_line": 685,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 569 至 685 行；摘录与 Git blob adfaca335688 一致。",
-      "meaning_zh": "代码单元 `check_fact_freshness`负责比较知识库固定提交与 Git 当前状态，生成事实新鲜度状态、迁移计划和协作记录。",
-      "role_zh": "它属于阻止 Agent 把过期源码事实当作当前结论的前置保护层，当前说明只覆盖所列固定源码范围。",
-      "change_when_zh": "当Git 事件、状态机、锁释放、迁移完成证据或检索结论保护变化时，应同步复查本页及其直接关联测试。"
+      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_maintenance_prompts.py` 第 1-2010 行，并核对 Git blob `32abdbacb6ff`、分类与所有者。",
+      "meaning_zh": "`scripts/ckb_core/human_maintenance_prompts.py` 页面绑定固定源码第 1-2010 行，说明该文件如何承担参数化人类维护 Prompt 的动作合同、渲染和交付核对。",
+      "role_zh": "该文件负责参数化人类维护 Prompt 的动作合同、渲染和交付核对，并为相关命令、页面生成或测试提供源码入口。",
+      "change_when_zh": "当 `scripts/ckb_core/human_maintenance_prompts.py` 的公开输入、生成结果、状态边界或与其他模块的协作关系变化时，应更新本页。"
     }
   ]
 }

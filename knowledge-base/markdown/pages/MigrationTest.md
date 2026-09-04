@@ -15,13 +15,13 @@
 ## 相关代码
 
 - 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
+- 实现时会用到 [[ScopeExtensionOfferTests.retrieval]]。
 - 实现时会用到 [[_Transport.close]]。
 - 实现时会用到 [[audit_migration]]。
 - 实现时会用到 [[audit_migration 与 _entity_key 的协作实现]]。
 - 实现时会用到 [[build_case 等测试场景]]。
 - 实现时会用到 [[finalize]]。
 - 实现时会用到 [[ingest 与 connect 的协作实现]]。
-- 实现时会用到 [[retrieve_machine]]。
 
 ## 谁会来到这里
 
@@ -46,11 +46,14 @@
 - [[query_graph 与 _networkx_modules 的协作实现]] 关联到这里的验证场景。
 - [[record_note]] 关联到这里的验证场景。
 - [[record_note 与 page_tag 的协作实现]] 关联到这里的验证场景。
+- [[refresh 等测试场景]] 关联到这里的验证场景。
 - [[register_obsidian_plugin 与 default_obsidian_plugin_registry 的协作实现]] 关联到这里的验证场景。
 - [[retrieve_machine]] 关联到这里的验证场景。
 - [[run_keyword_provider]] 关联到这里的验证场景。
 - [[sync_human_layer]] 关联到这里的验证场景。
 - [[sync_human_layer 与 _source_manifest 的协作实现]] 关联到这里的验证场景。
+
+> 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 
 ## 内部细节
 

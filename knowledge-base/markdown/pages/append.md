@@ -26,7 +26,6 @@
 - [[PageFanoutGeneratorTests]] 会使用这里提供的行为。
 - [[RecordReplaceTests]] 会使用这里提供的行为。
 - [[ScopeExtensionTest]] 会使用这里提供的行为。
-- [[SessionStdioLifecycleTests]] 会使用这里提供的行为。
 - [[TagNavigationBenchmarkTests]] 会使用这里提供的行为。
 - [[TemplateProposalStoreTests]] 会使用这里提供的行为。
 - [[_Transport.close 与 _StartGate 的协作实现]] 会使用这里提供的行为。
@@ -47,8 +46,8 @@
 - [[audit_output_contract]] 会使用这里提供的行为。
 - [[audit_work_record_index]] 会使用这里提供的行为。
 - [[audit_work_record_index 与 _contains_chinese 的协作实现]] 会使用这里提供的行为。
-- [[benchmark 的协作边界（10621f79）]] 会使用这里提供的行为。
-- [[benchmark 的协作边界（9fab5b96）]] 会使用这里提供的行为。
+- [[benchmark 的协作边界（16d95d34）]] 会使用这里提供的行为。
+- [[benchmark 的协作边界（e30cfb0a）]] 会使用这里提供的行为。
 - [[benchmark 的协作边界（prototypes）]] 会使用这里提供的行为。
 - [[bind_conversation]] 会使用这里提供的行为。
 - [[bind_conversation 与 default_management_registry_path 的协作实现]] 会使用这里提供的行为。
@@ -57,7 +56,7 @@
 - [[check_fact_freshness 与 _root 的协作实现]] 会使用这里提供的行为。
 - [[command 等测试场景]] 会使用这里提供的行为。
 - [[commands 的协作边界]] 会使用这里提供的行为。
-- [[contracts 的协作边界（prototypes）]] 会使用这里提供的行为。
+- [[contracts 的协作边界（05d22df9）]] 会使用这里提供的行为。
 - [[create_batch_plan]] 会使用这里提供的行为。
 - [[create_batch_plan 与 ProtocolRelease 的协作实现]] 会使用这里提供的行为。
 - [[create_knowledge_batch_plan]] 会使用这里提供的行为。
@@ -96,6 +95,7 @@
 - [[record_note 与 page_tag 的协作实现]] 会使用这里提供的行为。
 - [[refresh 等测试场景]] 会使用这里提供的行为。
 - [[render_integration]] 会使用这里提供的行为。
+- [[render_integration 与 harness_retrieval_contract 的协作实现]] 会使用这里提供的行为。
 - [[render_page_author]] 会使用这里提供的行为。
 - [[render_page_author 与 _error 的协作实现]] 会使用这里提供的行为。
 - [[replace_note 与 RecordReplaceLockError 的协作实现]] 会使用这里提供的行为。

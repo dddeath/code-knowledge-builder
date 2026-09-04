@@ -2,24 +2,36 @@
   "schema_version": 4,
   "pack_id": "delta-page-review-pack-0002",
   "kind": "page-review",
-  "reviewer": "Agent",
-  "reviewed_at_utc": "2026-09-03T01:42:52Z",
+  "reviewer": "管理 Agent",
+  "reviewed_at_utc": "2026-09-03T22:43:20Z",
   "reviews": [
     {
-      "entity_id": "ent-e225b68da5f75d12a13ccf4c4b580adc",
+      "entity_id": "file-23208993ad0b59648421e6afe6df3ee9",
       "classification": "page",
-      "owner_page_id": "ent-e225b68da5f75d12a13ccf4c4b580adc",
-      "source_path": "scripts/ckb_core/management_agent.py",
-      "start_line": 453,
-      "end_line": 568,
-      "source_blob": "8e89e063725bb1aabbcdf208544be5178ee5d704",
-      "source_excerpt": "def bind_conversation(\n    payload: dict[str, Any],\n    registry_path: Path | None = None,\n) -> dict[str, Any]:\n    canonical, ignored_fields = canonical_binding_input(payload)\n    binding_id = _binding_id(canonical)\n    try:\n        preflight = _git_preflight(\n            Path(canonical[\"workspace_root\"]),\n            Path(canonical[\"repo_root\"]),\n            Path(canonical[\"knowledge_base\"]),\n            canonical[\"integration_branch\"],\n        )\n    except CkbError as exc:\n        with _locked_registry(registry_path) as (_registry, failed_value):\n            failed_value[\"audit_log\"].append(_audit_event(binding_id, \"bind\", \"failed\", type(exc).__name__))\n        raise\n    error: CkbError | None = None\n    result: dict[str, Any] | None = None\n    with _locked_registry(registry_path) as (registry, value):\n        try:\n            matches = [item for item in value[\"bindings\"] if _binding_identity(item) == _binding_identity(canonical)]\n            if matches:\n                existing = matches[0]\n                if _binding_project(existing) != _binding_project(canonical):\n                    raise CkbError(\n                        \"management conversation identity is already bound to another project: \"\n                        f\"binding_id={existing['binding_id']}\"\n                    )\n                immutable_paths = (\"workspace_root\", \"repo_root\", \"knowledge_base\")\n                conflicts = [field for field in immutable_paths if _path_key(existing[field]) != _path_key(canonical[field])]\n                if existing[\"integration_branch\"] != canonical[\"integration_branch\"]:\n                    conflicts.append(\"integration_branch\")\n                if conflicts:\n                    raise CkbError(\n                        f\"management conversation binding conflicts with existing fields: {conflicts}; \"\n                        f\"binding_id={existing['binding_id']}\"\n                    )\n                if existing[\"status\"] == \"active\":\n                    result = {\n                        \"schema_version\": MANAGEMENT_SCHEMA_VERSION,\n                        \"status\": \"already-bound\",\n                        \"registry\": str(registry),\n                        \"binding\": existing,\n                        \"ignored_input_fields\": ignored_fields,\n                        \"preflight\": preflight,\n                    }\n                else:\n                    stamp = utc_now()\n                    existing.update(\n                        {\n                            \"status\": \"active\",\n                            \"bound_head\": preflight[\"head\"],\n                            \"updated_at_utc\": stamp,\n                            \"unbound_at_utc\": None,\n                            \"prompt_version\": MANAGEMENT_PROMPT_VERSION,\n                            \"capabilities\": canonical[\"capabilities\"],\n                            \"notification_policy\": canonical[\"notification_policy\"],\n                        }\n                    )\n                    value[\"audit_log\"].append(_audit_event(existing[\"binding_id\"], \"bind\", \"passed\", \"reactivated\"))\n                    result = {\n                        \"schema_version\": MANAGEMENT_SCHEMA_VERSION,\n                        \"status\": \"bound\",\n                        \"registry\": str(registry),\n                        \"binding\": existing,\n                        \"ignored_input_fields\": ignored_fields,\n                        \"preflight\": preflight,\n                    }\n            else:\n                # Recheck only the first creation while holding the registry\n                # lock. Concurrent idempotent bind calls complete from the\n                # canonical record instead of serializing repeated Git probes.\n                preflight = _git_preflight(\n                    Path(canonical[\"workspace_root\"]),\n                    Path(canonical[\"repo_root\"]),\n                    Path(canonical[\"knowledge_base\"]),\n                    canonical[\"integration_branch\"],\n                )\n                stamp = utc_now()\n                binding = {\n                    \"schema_version\": MANAGEMENT_SCHEMA_VERSION,\n                    \"binding_id\": binding_id,\n                    \"conversation_id\": canonical[\"conversation_id\"],\n                    \"harness_id\": canonical[\"harness_id\"],\n                    \"workspace_root\": canonical[\"workspace_root\"],\n                    \"repo_root\": canonical[\"repo_root\"],\n                    \"knowledge_base\": canonical[\"knowledge_base\"],\n                    \"integration_branch\": canonical[\"integration_branch\"],\n                    \"bound_head\": preflight[\"head\"],\n                    \"status\": \"active\",\n                    \"created_at_utc\": stamp,\n                    \"updated_at_utc\": stamp,\n                    \"unbound_at_utc\": None,\n                    \"prompt_version\": MANAGEMENT_PROMPT_VERSION,\n                    \"notification_policy\": canonical[\"notification_policy\"],\n                    \"capabilities\": canonical[\"capabilities\"],\n                }\n                value[\"bindings\"].append(binding)\n                value[\"bindings\"].sort(key=lambda item: item[\"binding_id\"])\n                value[\"audit_log\"].append(_audit_event(binding_id, \"bind\", \"passed\", \"created\"))\n                result = {\n                    \"schema_version\": MANAGEMENT_SCHEMA_VERSION,\n                    \"status\": \"bound\",\n                    \"registry\": str(registry),\n                    \"binding\": binding,\n                    \"ignored_input_fields\": ignored_fields,\n                    \"preflight\": preflight,\n                }\n        except CkbError as exc:\n            value[\"audit_log\"].append(_audit_event(binding_id, \"bind\", \"failed\", type(exc).__name__))\n            error = exc\n    if error is not None:\n        raise error\n    assert result is not None\n    return result",
+      "owner_page_id": "file-23208993ad0b59648421e6afe6df3ee9",
+      "source_path": "scripts/ckb_core/automation_integrations.py",
+      "start_line": 1,
+      "end_line": 656,
+      "source_blob": "b3abeec5f1064cde705e2159af4d9a70db3466b2",
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 bdd4a6671df5 中 `scripts/ckb_core/management_agent.py` 第 453 至 568 行，摘录属于 Git blob 8e89e063725b；相关运行验证见本次机器验证记录。",
-      "meaning_zh": "该函数校验项目身份后创建、重复返回或恢复一条管理对话绑定。",
-      "role_zh": "它允许脏工作树先完成身份登记，并把干净工作树要求保留给后续状态和派发门。",
-      "change_when_zh": "调整绑定前提、幂等规则、恢复语义或绑定字段时需要修改。",
-      "description_zh": null
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `scripts/ckb_core/automation_integrations.py` 第 1-656 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "meaning_zh": "`scripts/ckb_core/automation_integrations.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
+      "role_zh": "负责为不同 Harness 生成事件接入脚本和固定配置。",
+      "change_when_zh": "当 `scripts/ckb_core/automation_integrations.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "ent-394967a336ee50a59899f463930bf440",
+      "classification": "page",
+      "owner_page_id": "ent-394967a336ee50a59899f463930bf440",
+      "source_path": "scripts/ckb_core/automation_integrations.py",
+      "start_line": 512,
+      "end_line": 655,
+      "source_blob": "b3abeec5f1064cde705e2159af4d9a70db3466b2",
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `scripts/ckb_core/automation_integrations.py` 第 512-655 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "meaning_zh": "`render_integration` 为目标 Harness 生成自动化适配文件及机器清单，并在清单中写入该 Harness 的检索契约。",
+      "role_zh": "它连接项目注册、会话事件、管理能力和跨 Harness 检索入口，但不把静态声明冒充为运行时验证。",
+      "change_when_zh": "当适配器文件、manifest schema、管理能力或检索契约字段变化时，应更新本函数和安装副本测试。"
     }
   ]
 }

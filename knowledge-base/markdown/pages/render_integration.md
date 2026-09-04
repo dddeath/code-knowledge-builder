@@ -2,15 +2,15 @@
 
 标签：#类型/代码
 
-> `render_integration` 是 `scripts/ckb_core/automation_integrations.py` 第 432-574 行定义的函数，本页绑定该固定源码范围。 负责为不同 Harness 生成事件接入脚本和固定配置。
+> `render_integration` 为目标 Harness 生成自动化适配文件及机器清单，并在清单中写入该 Harness 的检索契约。 它连接项目注册、会话事件、管理能力和跨 Harness 检索入口，但不把静态声明冒充为运行时验证。
 
 ## 什么时候需要修改
 
-当 `render_integration` 的输入、输出、状态转换或失败返回变化时，应更新本页并重跑对应测试。
+当适配器文件、manifest schema、管理能力或检索契约字段变化时，应更新本函数和安装副本测试。
 
 ## 在代码中的位置
 
-[打开源码：scripts/ckb_core/automation_integrations.py 第 432 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation_integrations.py:432:1)  `scripts/ckb_core/automation_integrations.py:432-574`
+[打开源码：scripts/ckb_core/automation_integrations.py 第 512 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation_integrations.py:512:1)  `scripts/ckb_core/automation_integrations.py:512-655`
 
 ## 相关代码
 
@@ -18,11 +18,11 @@
 - 实现时会用到 [[append]]。
 - 实现时会用到 [[bind_conversation 与 default_management_registry_path 的协作实现]]。
 - 实现时会用到 [[command]]。
-- 实现时会用到 [[render_integration 与 _looks_windows 的协作实现]]。
+- 实现时会用到 [[render_integration 与 harness_retrieval_contract 的协作实现]]。
 
 ## 谁会来到这里
 
-- [[render_integration 与 _looks_windows 的协作实现]] 汇总了本页。
+- [[render_integration 与 harness_retrieval_contract 的协作实现]] 汇总了本页。
 
 ## 相关测试
 

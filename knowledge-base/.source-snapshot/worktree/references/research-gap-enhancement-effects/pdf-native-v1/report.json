@@ -1,0 +1,64 @@
+{
+  "baseline_commit": "8ac58b93435f99a621c9751040e4c8a38990851f",
+  "benchmark": "ckb-pdf-native-effect-v1",
+  "checks": {
+    "baseline_feature_absent": true,
+    "code_indent_accuracy": true,
+    "code_line_accuracy": true,
+    "current_implementation_matches_snapshot": true,
+    "diagnostic_accuracy": true,
+    "page_locator_accuracy": true,
+    "parser_identity_matches_protocol": true,
+    "real_ocr_calls": true,
+    "table_line_accuracy": true,
+    "unicode_line_recall": true,
+    "web_implementation_status": true
+  },
+  "coverage": {
+    "boundary_zh": "本次只测原生 PDF 与已有失败分类；测试适配器不计作真实 OCR，Web 合同不计作抓取实现。",
+    "diagnostic_cases": 7,
+    "native_pdf_cases": 4,
+    "real_ocr_calls": 0,
+    "web_fetch_calls": 0
+  },
+  "current_source_commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+  "effect": {
+    "native_pdf": "已证实增强",
+    "pdf_web_ocr_combined_gap": "证据不足",
+    "reason_zh": "旧基线没有页级 PDF 提取模块；当前固定样例的页码、中文、代码缩进、表格和诊断全部命中。Web 仍未实现，真实 OCR 调用为零。"
+  },
+  "feature_merge_commit": "252dbb4298ecb451d41b5e1dd0883fa8d5598bdb",
+  "metrics": {
+    "code_indent_accuracy": 1.0,
+    "code_line_accuracy": 1.0,
+    "diagnostic_accuracy": 1.0,
+    "direct_pdf_capability": {
+      "baseline": 0.0,
+      "current": 1.0,
+      "delta": 1.0
+    },
+    "page_locator_accuracy": 1.0,
+    "table_line_accuracy": 1.0,
+    "unicode_line_recall": 1.0
+  },
+  "parser_identity": {
+    "actual": {
+      "distribution_name": "pypdf",
+      "distribution_version": "6.16.2",
+      "module_name": "pypdf",
+      "module_version": "6.16.2"
+    },
+    "expected": {
+      "name": "pypdf",
+      "version": "6.16.2"
+    },
+    "extraction_manifest": {
+      "mode": "layout",
+      "name": "pypdf",
+      "version": "6.16.2"
+    },
+    "matches_protocol": true
+  },
+  "schema_version": 1,
+  "status": "passed"
+}

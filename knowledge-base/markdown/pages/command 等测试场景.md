@@ -15,6 +15,7 @@
 ## 相关代码
 
 - 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
+- 实现时会用到 [[ScopeExtensionOfferTests.retrieval]]。
 - 实现时会用到 [[append]]。
 - 实现时会用到 [[build_case 等测试场景]]。
 - 主要代码单元是 [[command]]。
@@ -28,7 +29,6 @@
 
 ## 谁会来到这里
 
-- [[AutomationTest.register]] 关联到这里的验证场景。
 - [[append 等测试场景]] 关联到这里的验证场景。
 - [[audit_gap_register]] 关联到这里的验证场景。
 - [[audit_operation_journal]] 关联到这里的验证场景。
@@ -40,7 +40,6 @@
 - [[maintenance_check]] 关联到这里的验证场景。
 - [[maintenance_check 与 capability_matrix 的协作实现]] 关联到这里的验证场景。
 - [[parser]] 关联到这里的验证场景。
-- [[refresh 等测试场景]] 关联到这里的验证场景。
 - 可从 [[tests 职责导览]] 进入本页。
 
 ## 内部细节

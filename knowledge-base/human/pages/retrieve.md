@@ -15,6 +15,7 @@
 ## 相关代码
 
 - 实现时会用到 [[CkbError]]。
+- 实现时会用到 [[ScopeExtensionOfferTests.retrieval]]。
 - 实现时会用到 [[SourceLinkRenderer.uri]]。
 - 实现时会用到 [[_Transport.close]]。
 - 实现时会用到 [[append]]。
@@ -27,6 +28,7 @@
 
 - [[CodeKnowledgeBuilderTests]] 会使用这里提供的行为。
 - [[QueryTermsTests]] 会使用这里提供的行为。
+- [[ScopeExtensionOfferTests.retrieval 等测试场景]] 会使用这里提供的行为。
 - [[_Transport.close 与 _StartGate 的协作实现]] 会使用这里提供的行为。
 - [[audit_agent_protocol 与 _default_python 的协作实现]] 会使用这里提供的行为。
 - [[audit_operation_journal 与 _root 的协作实现]] 会使用这里提供的行为。

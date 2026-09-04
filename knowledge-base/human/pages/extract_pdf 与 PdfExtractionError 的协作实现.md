@@ -28,6 +28,8 @@
 - [[PdfReferenceExtractionTests]] 会使用这里提供的行为。
 - [[extract_pdf]] 会使用这里提供的行为。
 - [[ingest_reference 与 _root 的协作实现]] 会使用这里提供的行为。
+- [[run_benchmark]] 会使用这里提供的行为。
+- [[run_benchmark 等测试场景]] 会使用这里提供的行为。
 - 可从 [[scripts 职责导览]] 进入本页。
 
 ## 相关测试

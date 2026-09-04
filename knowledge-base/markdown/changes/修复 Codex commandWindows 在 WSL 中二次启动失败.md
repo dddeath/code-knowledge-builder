@@ -22,7 +22,7 @@
 
 ## 相关知识页
 
-- [[render_integration 与 _looks_windows 的协作实现]]
+- [[render_integration 与 harness_retrieval_contract 的协作实现]]
 - [[keyword_provider_config 与 parser 的协作实现]]
 - [[ingest_event 与 default_registry_path 的协作实现]]
 - [[audit_migration 与 _entity_key 的协作实现]]

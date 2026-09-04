@@ -2,16 +2,16 @@
   "schema_version": 1,
   "state": "current",
   "stable_state": "current",
-  "observed_at_utc": "2026-09-03T01:50:30Z",
-  "trigger": "manager-status",
+  "observed_at_utc": "2026-09-04T02:06:39Z",
+  "trigger": "first-query",
   "repository": "E:\\knowledge_builder\\self-workspace\\source",
   "knowledge_state": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\state.json",
   "knowledge_state_status": "complete",
-  "bound_commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
-  "current_head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
-  "current_tree": "9289ac724bfb6c1a5a76e6160fe57ba11255691e",
+  "bound_commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+  "current_head": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+  "current_tree": "098b3d1b13d3eb40ce74b41a715429493f171d14",
   "branch": "codex/reference-ingest-v1",
-  "worktree_signature": "e065b2d849b80b316f1447d5cba356ae32cd38aebd11a1e1c51bc7e3354a2b1f",
+  "worktree_signature": "f1bf463c679f9fc821e1f1b662751711af80ad79dd42c8d082042d405203ad19",
   "dirty": {
     "count": 0,
     "paths": [],
@@ -27,14 +27,14 @@
   "migration": null,
   "migration_plan": {
     "schema_version": 1,
-    "plan_id": "freshness-migration-eaa50a12a03e525dbc9ca3ac374ef418",
+    "plan_id": "freshness-migration-fd79c080639652309268feb4631e4b70",
     "status": "pending",
     "stable_output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
     "repository": "E:\\knowledge_builder\\self-workspace\\source",
-    "bound_commit": "c533dd7c53224a637b1438ea72ee25da887fc6de",
-    "target_commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+    "bound_commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+    "target_commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
     "staging_output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
-    "created_at_utc": "2026-09-03T01:37:09Z",
+    "created_at_utc": "2026-09-03T22:03:34Z",
     "created_by_session": "01a057dd-b47d-74f1-af32-b0dcc775891c",
     "command": [
       "migrate",
@@ -50,7 +50,7 @@
     "stable_output_overwritten": false
   },
   "overlay": null,
-  "cache_hit": true,
+  "cache_hit": false,
   "forced": false,
   "lock_recovered": false,
   "recovered_from_unavailable": false,
@@ -58,10 +58,10 @@
   "last_confirmed": {
     "state": "current",
     "stable_state": "current",
-    "bound_commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
-    "current_head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+    "bound_commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+    "current_head": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
     "branch": "codex/reference-ingest-v1",
-    "observed_at_utc": "2026-09-03T01:50:30Z"
+    "observed_at_utc": "2026-09-04T02:06:39Z"
   },
   "error": null,
   "writes": {
@@ -74,7 +74,380 @@
     "rebuild": false
   },
   "session_cache": {
+    "process-12052": {
+      "signature": "f1bf463c679f9fc821e1f1b662751711af80ad79dd42c8d082042d405203ad19",
+      "head": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-04T02:06:39Z"
+    },
+    "process-59968": {
+      "signature": "f1bf463c679f9fc821e1f1b662751711af80ad79dd42c8d082042d405203ad19",
+      "head": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-04T02:00:14Z"
+    },
+    "process-81620": {
+      "signature": "f1bf463c679f9fc821e1f1b662751711af80ad79dd42c8d082042d405203ad19",
+      "head": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-04T01:47:53Z"
+    },
+    "process-78056": {
+      "signature": "f1bf463c679f9fc821e1f1b662751711af80ad79dd42c8d082042d405203ad19",
+      "head": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-04T00:20:46Z"
+    },
+    "process-23124": {
+      "signature": "f1bf463c679f9fc821e1f1b662751711af80ad79dd42c8d082042d405203ad19",
+      "head": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-04T00:20:45Z"
+    },
     "01a057dd-b47d-74f1-af32-b0dcc775891c": {
+      "signature": "f1bf463c679f9fc821e1f1b662751711af80ad79dd42c8d082042d405203ad19",
+      "head": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 27,
+        "changed_paths": [
+          "SKILL.md",
+          "references/agent-policy.md",
+          "references/agent-retrieval.md",
+          "references/research-gap-enhancement-effects/effect-matrix.md",
+          "references/research-gap-enhancement-effects/further-research.md",
+          "references/research-gap-enhancement-effects/gap-reconciliation.md",
+          "references/research-gap-enhancement-effects/pdf-native-v1/raw-results.json",
+          "references/research-gap-enhancement-effects/pdf-native-v1/report.json",
+          "references/research-gap-enhancement-effects/sources.json",
+          "references/research-gap-enhancement-effects/verification-record.json",
+          "references/scope-extension.md",
+          "scripts/ckb_core/agent_protocol.py",
+          "scripts/ckb_core/automation_integrations.py",
+          "scripts/ckb_core/llm_wiki_capabilities.py",
+          "scripts/ckb_core/machine_knowledge.py",
+          "scripts/ckb_core/scope_extension.py",
+          "scripts/ckb_core/stdio_server.py",
+          "tests/benchmark_reference_pdf_effect.py",
+          "tests/fixtures/harness-retrieval-contract-baseline.json",
+          "tests/fixtures/research-gap-enhancement-effects/pdf-native-v1-parser-drift.json",
+          "tests/fixtures/research-gap-enhancement-effects/pdf-native-v1.json",
+          "tests/harness_retrieval_contract_probe.py",
+          "tests/test_automation.py",
+          "tests/test_ckb.py",
+          "tests/test_ckb_core.py",
+          "tests/test_reference_pdf_effect_benchmark.py",
+          "tests/test_scope_extension.py"
+        ],
+        "changes": [
+          {
+            "status": "M",
+            "path": "SKILL.md"
+          },
+          {
+            "status": "M",
+            "path": "references/agent-policy.md"
+          },
+          {
+            "status": "M",
+            "path": "references/agent-retrieval.md"
+          },
+          {
+            "status": "A",
+            "path": "references/research-gap-enhancement-effects/effect-matrix.md"
+          },
+          {
+            "status": "A",
+            "path": "references/research-gap-enhancement-effects/further-research.md"
+          },
+          {
+            "status": "A",
+            "path": "references/research-gap-enhancement-effects/gap-reconciliation.md"
+          },
+          {
+            "status": "A",
+            "path": "references/research-gap-enhancement-effects/pdf-native-v1/raw-results.json"
+          },
+          {
+            "status": "A",
+            "path": "references/research-gap-enhancement-effects/pdf-native-v1/report.json"
+          },
+          {
+            "status": "A",
+            "path": "references/research-gap-enhancement-effects/sources.json"
+          },
+          {
+            "status": "A",
+            "path": "references/research-gap-enhancement-effects/verification-record.json"
+          },
+          {
+            "status": "M",
+            "path": "references/scope-extension.md"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb_core/agent_protocol.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb_core/automation_integrations.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb_core/llm_wiki_capabilities.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb_core/machine_knowledge.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb_core/scope_extension.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb_core/stdio_server.py"
+          },
+          {
+            "status": "A",
+            "path": "tests/benchmark_reference_pdf_effect.py"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/harness-retrieval-contract-baseline.json"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/research-gap-enhancement-effects/pdf-native-v1-parser-drift.json"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/research-gap-enhancement-effects/pdf-native-v1.json"
+          },
+          {
+            "status": "A",
+            "path": "tests/harness_retrieval_contract_probe.py"
+          },
+          {
+            "status": "M",
+            "path": "tests/test_automation.py"
+          },
+          {
+            "status": "M",
+            "path": "tests/test_ckb.py"
+          },
+          {
+            "status": "A",
+            "path": "tests/test_ckb_core.py"
+          },
+          {
+            "status": "A",
+            "path": "tests/test_reference_pdf_effect_benchmark.py"
+          },
+          {
+            "status": "M",
+            "path": "tests/test_scope_extension.py"
+          }
+        ],
+        "counts": {
+          "A": 14,
+          "M": 13
+        },
+        "truncated": false
+      },
+      "stable_state": "stale-committed",
+      "observed_at_utc": "2026-09-03T22:03:34Z"
+    },
+    "process-20940": {
+      "signature": "f1bf463c679f9fc821e1f1b662751711af80ad79dd42c8d082042d405203ad19",
+      "head": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 27,
+        "changed_paths": [
+          "SKILL.md",
+          "references/agent-policy.md",
+          "references/agent-retrieval.md",
+          "references/research-gap-enhancement-effects/effect-matrix.md",
+          "references/research-gap-enhancement-effects/further-research.md",
+          "references/research-gap-enhancement-effects/gap-reconciliation.md",
+          "references/research-gap-enhancement-effects/pdf-native-v1/raw-results.json",
+          "references/research-gap-enhancement-effects/pdf-native-v1/report.json",
+          "references/research-gap-enhancement-effects/sources.json",
+          "references/research-gap-enhancement-effects/verification-record.json",
+          "references/scope-extension.md",
+          "scripts/ckb_core/agent_protocol.py",
+          "scripts/ckb_core/automation_integrations.py",
+          "scripts/ckb_core/llm_wiki_capabilities.py",
+          "scripts/ckb_core/machine_knowledge.py",
+          "scripts/ckb_core/scope_extension.py",
+          "scripts/ckb_core/stdio_server.py",
+          "tests/benchmark_reference_pdf_effect.py",
+          "tests/fixtures/harness-retrieval-contract-baseline.json",
+          "tests/fixtures/research-gap-enhancement-effects/pdf-native-v1-parser-drift.json",
+          "tests/fixtures/research-gap-enhancement-effects/pdf-native-v1.json",
+          "tests/harness_retrieval_contract_probe.py",
+          "tests/test_automation.py",
+          "tests/test_ckb.py",
+          "tests/test_ckb_core.py",
+          "tests/test_reference_pdf_effect_benchmark.py",
+          "tests/test_scope_extension.py"
+        ],
+        "changes": [
+          {
+            "status": "M",
+            "path": "SKILL.md"
+          },
+          {
+            "status": "M",
+            "path": "references/agent-policy.md"
+          },
+          {
+            "status": "M",
+            "path": "references/agent-retrieval.md"
+          },
+          {
+            "status": "A",
+            "path": "references/research-gap-enhancement-effects/effect-matrix.md"
+          },
+          {
+            "status": "A",
+            "path": "references/research-gap-enhancement-effects/further-research.md"
+          },
+          {
+            "status": "A",
+            "path": "references/research-gap-enhancement-effects/gap-reconciliation.md"
+          },
+          {
+            "status": "A",
+            "path": "references/research-gap-enhancement-effects/pdf-native-v1/raw-results.json"
+          },
+          {
+            "status": "A",
+            "path": "references/research-gap-enhancement-effects/pdf-native-v1/report.json"
+          },
+          {
+            "status": "A",
+            "path": "references/research-gap-enhancement-effects/sources.json"
+          },
+          {
+            "status": "A",
+            "path": "references/research-gap-enhancement-effects/verification-record.json"
+          },
+          {
+            "status": "M",
+            "path": "references/scope-extension.md"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb_core/agent_protocol.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb_core/automation_integrations.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb_core/llm_wiki_capabilities.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb_core/machine_knowledge.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb_core/scope_extension.py"
+          },
+          {
+            "status": "M",
+            "path": "scripts/ckb_core/stdio_server.py"
+          },
+          {
+            "status": "A",
+            "path": "tests/benchmark_reference_pdf_effect.py"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/harness-retrieval-contract-baseline.json"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/research-gap-enhancement-effects/pdf-native-v1-parser-drift.json"
+          },
+          {
+            "status": "A",
+            "path": "tests/fixtures/research-gap-enhancement-effects/pdf-native-v1.json"
+          },
+          {
+            "status": "A",
+            "path": "tests/harness_retrieval_contract_probe.py"
+          },
+          {
+            "status": "M",
+            "path": "tests/test_automation.py"
+          },
+          {
+            "status": "M",
+            "path": "tests/test_ckb.py"
+          },
+          {
+            "status": "A",
+            "path": "tests/test_ckb_core.py"
+          },
+          {
+            "status": "A",
+            "path": "tests/test_reference_pdf_effect_benchmark.py"
+          },
+          {
+            "status": "M",
+            "path": "tests/test_scope_extension.py"
+          }
+        ],
+        "counts": {
+          "A": 14,
+          "M": 13
+        },
+        "truncated": false
+      },
+      "stable_state": "stale-committed",
+      "observed_at_utc": "2026-09-03T22:03:07Z"
+    },
+    "process-57608": {
       "signature": "e065b2d849b80b316f1447d5cba356ae32cd38aebd11a1e1c51bc7e3354a2b1f",
       "head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
       "change_summary": {
@@ -85,7 +458,111 @@
         "truncated": false
       },
       "stable_state": "current",
-      "observed_at_utc": "2026-09-03T01:50:30Z"
+      "observed_at_utc": "2026-09-03T17:34:48Z"
+    },
+    "process-76020": {
+      "signature": "e065b2d849b80b316f1447d5cba356ae32cd38aebd11a1e1c51bc7e3354a2b1f",
+      "head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-03T16:59:41Z"
+    },
+    "process-37468": {
+      "signature": "e065b2d849b80b316f1447d5cba356ae32cd38aebd11a1e1c51bc7e3354a2b1f",
+      "head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-03T16:59:39Z"
+    },
+    "process-57980": {
+      "signature": "e065b2d849b80b316f1447d5cba356ae32cd38aebd11a1e1c51bc7e3354a2b1f",
+      "head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-03T16:58:56Z"
+    },
+    "process-68176": {
+      "signature": "e065b2d849b80b316f1447d5cba356ae32cd38aebd11a1e1c51bc7e3354a2b1f",
+      "head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-03T16:58:20Z"
+    },
+    "process-77728": {
+      "signature": "e065b2d849b80b316f1447d5cba356ae32cd38aebd11a1e1c51bc7e3354a2b1f",
+      "head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-03T16:55:35Z"
+    },
+    "process-52060": {
+      "signature": "e065b2d849b80b316f1447d5cba356ae32cd38aebd11a1e1c51bc7e3354a2b1f",
+      "head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-03T16:36:14Z"
+    },
+    "process-84612": {
+      "signature": "e065b2d849b80b316f1447d5cba356ae32cd38aebd11a1e1c51bc7e3354a2b1f",
+      "head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-03T16:31:42Z"
+    },
+    "process-32008": {
+      "signature": "e065b2d849b80b316f1447d5cba356ae32cd38aebd11a1e1c51bc7e3354a2b1f",
+      "head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "change_summary": {
+        "comparison": "bound-commit-to-current-head",
+        "changed": 0,
+        "changed_paths": [],
+        "counts": {},
+        "truncated": false
+      },
+      "stable_state": "current",
+      "observed_at_utc": "2026-09-03T16:27:05Z"
     },
     "process-65156": {
       "signature": "e065b2d849b80b316f1447d5cba356ae32cd38aebd11a1e1c51bc7e3354a2b1f",
@@ -1989,102 +2466,6 @@
   "recent_events": [
     {
       "schema_version": 1,
-      "event_id": "freshness-event-7631b05d69125eb4a711423164e39998",
-      "observed_at_utc": "2026-09-02T19:07:35Z",
-      "trigger": "postmerge-probe",
-      "state": "stale-committed",
-      "stable_state": "stale-committed",
-      "current_head": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
-      "branch": "codex/reference-ingest-v1",
-      "dirty_count": 0,
-      "error": null
-    },
-    {
-      "schema_version": 1,
-      "event_id": "freshness-event-c3198f9eb14d58f895c675e251af6d1d",
-      "observed_at_utc": "2026-09-02T19:07:45Z",
-      "trigger": "first-query",
-      "state": "stale-committed",
-      "stable_state": "stale-committed",
-      "current_head": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
-      "branch": "codex/reference-ingest-v1",
-      "dirty_count": 0,
-      "error": null
-    },
-    {
-      "schema_version": 1,
-      "event_id": "freshness-event-15b059a4e45a53f3af4a57fc985a73b6",
-      "observed_at_utc": "2026-09-02T19:27:46Z",
-      "trigger": "migration-plan-preflight",
-      "state": "stale-committed",
-      "stable_state": "stale-committed",
-      "current_head": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
-      "branch": "codex/reference-ingest-v1",
-      "dirty_count": 0,
-      "error": null
-    },
-    {
-      "schema_version": 1,
-      "event_id": "freshness-event-5a85b81db9cf525ea5d765a3adec682a",
-      "observed_at_utc": "2026-09-02T19:40:58Z",
-      "trigger": "first-query",
-      "state": "current",
-      "stable_state": "current",
-      "current_head": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
-      "branch": "codex/reference-ingest-v1",
-      "dirty_count": 0,
-      "error": null
-    },
-    {
-      "schema_version": 1,
-      "event_id": "freshness-event-feb885cd78fa50a89667e2a3933b919f",
-      "observed_at_utc": "2026-09-02T19:43:53Z",
-      "trigger": "explicit-status",
-      "state": "current",
-      "stable_state": "current",
-      "current_head": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
-      "branch": "codex/reference-ingest-v1",
-      "dirty_count": 0,
-      "error": null
-    },
-    {
-      "schema_version": 1,
-      "event_id": "freshness-event-bd15956682c35383becc392ff13bea4f",
-      "observed_at_utc": "2026-09-02T19:43:54Z",
-      "trigger": "first-query",
-      "state": "current",
-      "stable_state": "current",
-      "current_head": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
-      "branch": "codex/reference-ingest-v1",
-      "dirty_count": 0,
-      "error": null
-    },
-    {
-      "schema_version": 1,
-      "event_id": "freshness-event-5558fff6cfea5f56977432a25a56d751",
-      "observed_at_utc": "2026-09-02T19:48:51Z",
-      "trigger": "first-query",
-      "state": "current",
-      "stable_state": "current",
-      "current_head": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
-      "branch": "codex/reference-ingest-v1",
-      "dirty_count": 0,
-      "error": null
-    },
-    {
-      "schema_version": 1,
-      "event_id": "freshness-event-3be18e615625543ea996a75dc494bd27",
-      "observed_at_utc": "2026-09-02T19:49:00Z",
-      "trigger": "first-query",
-      "state": "current",
-      "stable_state": "current",
-      "current_head": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
-      "branch": "codex/reference-ingest-v1",
-      "dirty_count": 0,
-      "error": null
-    },
-    {
-      "schema_version": 1,
       "event_id": "freshness-event-001ea3db26f05afaaef2136f022df147",
       "observed_at_utc": "2026-09-02T19:49:11Z",
       "trigger": "first-query",
@@ -3039,6 +3420,246 @@
       "state": "current",
       "stable_state": "current",
       "current_head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-5b6719146d8a5be4b351b939015448ca",
+      "observed_at_utc": "2026-09-03T16:27:05Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-0c187140732d5d738570989636c0dd00",
+      "observed_at_utc": "2026-09-03T16:31:42Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-8c839858b50a59f39285a486de535ff8",
+      "observed_at_utc": "2026-09-03T16:36:14Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-e7919e7f363a50649a56f84063cedacd",
+      "observed_at_utc": "2026-09-03T16:55:35Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-08b9e29848135be4b2b616a7a7d5f8ce",
+      "observed_at_utc": "2026-09-03T16:57:51Z",
+      "trigger": "manager-status",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-7c30d6cbcfc3511697d86c4299667a66",
+      "observed_at_utc": "2026-09-03T16:58:20Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-3fdb16681cff574ea11116511c27adc3",
+      "observed_at_utc": "2026-09-03T16:58:54Z",
+      "trigger": "manager-status",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-5a8a4cd1d0cc5532b2ea81ccfbb84121",
+      "observed_at_utc": "2026-09-03T16:58:56Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-e44d2320dbfd57e5a3b7f06d6f9443cc",
+      "observed_at_utc": "2026-09-03T16:59:37Z",
+      "trigger": "manager-status",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-e1724dcfa4c25a868983db24f8fe98a3",
+      "observed_at_utc": "2026-09-03T16:59:39Z",
+      "trigger": "manager-status",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-3b26080216b5504d92907c21adec4a74",
+      "observed_at_utc": "2026-09-03T16:59:39Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-7284d9e674565d1883b3057f17fc3e9e",
+      "observed_at_utc": "2026-09-03T16:59:41Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-bcc733b1d7ca5048bab317cb42f0f977",
+      "observed_at_utc": "2026-09-03T17:34:48Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-13c18179a7175778af6cb33bc09329f1",
+      "observed_at_utc": "2026-09-03T22:03:07Z",
+      "trigger": "first-query",
+      "state": "stale-committed",
+      "stable_state": "stale-committed",
+      "current_head": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-7d5bc17abfed5208bb19f06280f03e42",
+      "observed_at_utc": "2026-09-03T22:03:34Z",
+      "trigger": "migration-plan-preflight",
+      "state": "stale-committed",
+      "stable_state": "stale-committed",
+      "current_head": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-4d4512796e5858e799065bd2ec9c8ac9",
+      "observed_at_utc": "2026-09-04T00:20:45Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-c05542eb3e8d5fe5b85770be30d40f53",
+      "observed_at_utc": "2026-09-04T00:20:46Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-67be7f1b8a4f52c6907a187c75973a80",
+      "observed_at_utc": "2026-09-04T01:47:53Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-feb525a6781552589656c85c3c78c3e9",
+      "observed_at_utc": "2026-09-04T02:00:14Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+      "branch": "codex/reference-ingest-v1",
+      "dirty_count": 0,
+      "error": null
+    },
+    {
+      "schema_version": 1,
+      "event_id": "freshness-event-94247d0aef005042bdb91d5b69fa27da",
+      "observed_at_utc": "2026-09-04T02:06:39Z",
+      "trigger": "first-query",
+      "state": "current",
+      "stable_state": "current",
+      "current_head": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
       "branch": "codex/reference-ingest-v1",
       "dirty_count": 0,
       "error": null

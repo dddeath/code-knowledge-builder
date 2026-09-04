@@ -29,7 +29,6 @@
 
 ## 谁会来到这里
 
-- [[CodeKnowledgeBuilderTests]] 会使用这里提供的行为。
 - [[audit_operation_journal]] 会使用这里提供的行为。
 - [[create_batch_plan 与 ProtocolRelease 的协作实现]] 会使用这里提供的行为。
 - [[emit]] 会使用这里提供的行为。

@@ -1,0 +1,182 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "branch": "codex/research-gaps-enhancement-effects",
+  "base_commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+  "first_commit": "1ce5fd49ff5f5fa4ccbbc8d42502e51b2db32fa1",
+  "integration_worktree": {
+    "mode": "read-only",
+    "branch": "codex/reference-ingest-v1",
+    "head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+    "clean": true
+  },
+  "stable_knowledge_base": {
+    "mode": "read-only",
+    "state_sha256_before": "5cf6a89951c10149f1dc65b3cb0922ac6619652f08b1ba2c1c68e5f19d6760a9",
+    "state_sha256_after_first_commit": "5cf6a89951c10149f1dc65b3cb0922ac6619652f08b1ba2c1c68e5f19d6760a9",
+    "state_sha256_after_second_batch": "5cf6a89951c10149f1dc65b3cb0922ac6619652f08b1ba2c1c68e5f19d6760a9",
+    "state_sha256_after_parser_identity_remediation": "5cf6a89951c10149f1dc65b3cb0922ac6619652f08b1ba2c1c68e5f19d6760a9",
+    "machine_sha256_before": "020bb27f618c21b6b22c495556aa43d5aef3375c5567f58542eb51ac5fe4df94",
+    "machine_sha256_after_first_commit": "020bb27f618c21b6b22c495556aa43d5aef3375c5567f58542eb51ac5fe4df94",
+    "machine_sha256_after_second_batch": "020bb27f618c21b6b22c495556aa43d5aef3375c5567f58542eb51ac5fe4df94",
+    "machine_sha256_after_parser_identity_remediation": "020bb27f618c21b6b22c495556aa43d5aef3375c5567f58542eb51ac5fe4df94",
+    "agent_index_sha256_before": "aefc7b71adfd0cab14bab0b8fa91a5425d324c08b70985b111cabeae8652eaa9",
+    "agent_index_sha256_after_first_commit": "aefc7b71adfd0cab14bab0b8fa91a5425d324c08b70985b111cabeae8652eaa9",
+    "agent_index_sha256_after_second_batch": "aefc7b71adfd0cab14bab0b8fa91a5425d324c08b70985b111cabeae8652eaa9",
+    "agent_index_sha256_after_parser_identity_remediation": "aefc7b71adfd0cab14bab0b8fa91a5425d324c08b70985b111cabeae8652eaa9"
+  },
+  "commands": [
+    {
+      "id": "gap-source-validation",
+      "command": "python3 <inline reconciliation/source hash validator>",
+      "exit_status": 0,
+      "literal_output": "RECONCILIATION_VALIDATION=passed gaps=7 internal_sources=13 external_sources=7"
+    },
+    {
+      "id": "pdf-native-benchmark",
+      "command": "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe -X utf8 E:\\knowledge_builder\\self-workspace\\worktrees\\research-gaps-enhancement-effects\\tests\\benchmark_reference_pdf_effect.py --protocol E:\\knowledge_builder\\self-workspace\\worktrees\\research-gaps-enhancement-effects\\tests\\fixtures\\research-gap-enhancement-effects\\pdf-native-v1.json --raw E:\\knowledge_builder\\self-workspace\\worktrees\\research-gaps-enhancement-effects\\references\\research-gap-enhancement-effects\\pdf-native-v1\\raw-results.json --report E:\\knowledge_builder\\self-workspace\\worktrees\\research-gaps-enhancement-effects\\references\\research-gap-enhancement-effects\\pdf-native-v1\\report.json --git C:\\Program Files\\Git\\cmd\\git.exe",
+      "exit_status": 0,
+      "literal_output": "{\"raw\": \"E:\\\\knowledge_builder\\\\self-workspace\\\\worktrees\\\\research-gaps-enhancement-effects\\\\references\\\\research-gap-enhancement-effects\\\\pdf-native-v1\\\\raw-results.json\", \"report\": \"E:\\\\knowledge_builder\\\\self-workspace\\\\worktrees\\\\research-gaps-enhancement-effects\\\\references\\\\research-gap-enhancement-effects\\\\pdf-native-v1\\\\report.json\", \"status\": \"passed\"}"
+    },
+    {
+      "id": "mandatory-semantic-vector",
+      "command": "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe -X utf8 -m unittest discover -s E:\\knowledge_builder\\self-workspace\\worktrees\\research-gaps-enhancement-effects\\tests -p test_ckb_semantic_vector_benchmark.py -v",
+      "exit_status": 0,
+      "literal_output_tail": "----------------------------------------------------------------------\nRan 13 tests in 0.061s\n\nOK (skipped=1)",
+      "skip_reason": "NumPy is required for the isolated vector index test"
+    },
+    {
+      "id": "mandatory-tag-navigation",
+      "command": "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe -X utf8 -m unittest discover -s E:\\knowledge_builder\\self-workspace\\worktrees\\research-gaps-enhancement-effects\\tests -p test_ckb_tag_navigation_benchmark.py -v",
+      "exit_status": 0,
+      "literal_output_tail": "----------------------------------------------------------------------\nRan 4 tests in 0.004s\n\nOK"
+    },
+    {
+      "id": "mandatory-canvas-contract",
+      "command": "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe -X utf8 -m unittest discover -s E:\\knowledge_builder\\self-workspace\\worktrees\\research-gaps-enhancement-effects\\tests -p test_ckb_canvas_benchmark_contract.py -v",
+      "exit_status": 0,
+      "literal_output_tail": "----------------------------------------------------------------------\nRan 7 tests in 0.344s\n\nOK"
+    },
+    {
+      "id": "mandatory-reference-pdf",
+      "command": "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe -X utf8 -m unittest discover -s E:\\knowledge_builder\\self-workspace\\worktrees\\research-gaps-enhancement-effects\\tests -p test_reference_pdf.py -v",
+      "exit_status": 0,
+      "literal_output_tail": "----------------------------------------------------------------------\nRan 7 tests in 58.417s\n\nOK"
+    },
+    {
+      "id": "mandatory-keyword-fallback",
+      "command": "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe -X utf8 -m unittest discover -s E:\\knowledge_builder\\self-workspace\\worktrees\\research-gaps-enhancement-effects\\tests -p test_keyword_fallback.py -v",
+      "exit_status": 0,
+      "literal_output_tail": "----------------------------------------------------------------------\nRan 16 tests in 4.037s\n\nOK"
+    },
+    {
+      "id": "pdf-effect-replay-test",
+      "command": "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe -X utf8 -m unittest discover -s E:\\knowledge_builder\\self-workspace\\worktrees\\research-gaps-enhancement-effects\\tests -p test_reference_pdf_effect_benchmark.py -v",
+      "exit_status": 0,
+      "literal_output_tail": "----------------------------------------------------------------------\nRan 2 tests in 0.613s\n\nOK"
+    },
+    {
+      "id": "qmd-package-metadata",
+      "command": "npm view @tobilu/qmd@2.8.3 version dist.tarball dist.integrity license engines --json",
+      "exit_status": 0,
+      "literal_output": "{\n  \"version\": \"2.8.3\",\n  \"dist.tarball\": \"https://registry.npmjs.org/@tobilu/qmd/-/qmd-2.8.3.tgz\",\n  \"dist.integrity\": \"sha512-zjfVwrObPB618B6x8SdhlGv/tX9OxRHsbQnr5DUtBvqPK6HGQ27lM+9/BAY5okpjrHVnW56hLyDkqoTcsrVLzA==\",\n  \"license\": \"MIT\",\n  \"engines\": {\n    \"node\": \">=22.0.0\"\n  }\n}"
+    },
+    {
+      "id": "qmd-isolated-smoke",
+      "command": "HOME=TEMP npm exec --yes --cache TEMP --package=@tobilu/qmd@2.8.3 -- qmd --version",
+      "exit_status": 130,
+      "literal_stdout_before_interrupt": "",
+      "literal_stderr_before_interrupt": "",
+      "observation_seconds": ">180",
+      "cleanup_verification": "QMD_TEMP_PATHS=0; residual_processes=0",
+      "result": "inconclusive"
+    },
+    {
+      "id": "delivery-validation",
+      "command": "python3 <inline JSON, matrix, link, result and verification validator>",
+      "exit_status": 0,
+      "literal_output": "DELIVERY_VALIDATION=passed matrix_rows=8 pdf_status=passed mandatory=47/46+1skip links=passed"
+    },
+    {
+      "id": "pdf-parser-identity-benchmark",
+      "command": "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe -X utf8 E:\\knowledge_builder\\self-workspace\\worktrees\\research-gaps-enhancement-effects\\tests\\benchmark_reference_pdf_effect.py --protocol E:\\knowledge_builder\\self-workspace\\worktrees\\research-gaps-enhancement-effects\\tests\\fixtures\\research-gap-enhancement-effects\\pdf-native-v1.json --raw E:\\knowledge_builder\\self-workspace\\worktrees\\research-gaps-enhancement-effects\\references\\research-gap-enhancement-effects\\pdf-native-v1\\raw-results.json --report E:\\knowledge_builder\\self-workspace\\worktrees\\research-gaps-enhancement-effects\\references\\research-gap-enhancement-effects\\pdf-native-v1\\report.json --git C:\\Program Files\\Git\\cmd\\git.exe",
+      "exit_status": 0,
+      "literal_result": "status=passed; written=true; failed_checks=[]; actual.module=pypdf/6.16.2; actual.distribution=pypdf/6.16.2; matches_protocol=true"
+    },
+    {
+      "id": "pdf-parser-identity-replay-and-drift",
+      "command": "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe -X utf8 -m unittest discover -s E:\\knowledge_builder\\self-workspace\\worktrees\\research-gaps-enhancement-effects\\tests -p test_reference_pdf_effect_benchmark.py -v",
+      "exit_status": 0,
+      "literal_output_tail": "----------------------------------------------------------------------\nRan 3 tests in 0.841s\n\nOK",
+      "confirmed": [
+        "committed success result replays exactly",
+        "actual parser module and distribution identity match frozen protocol",
+        "parser version drift returns exit 1 with written=false and preserves existing raw/report bytes"
+      ]
+    },
+    {
+      "id": "reference-pdf-after-parser-identity-remediation",
+      "command": "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe -X utf8 -m unittest discover -s E:\\knowledge_builder\\self-workspace\\worktrees\\research-gaps-enhancement-effects\\tests -p test_reference_pdf.py -v",
+      "exit_status": 0,
+      "literal_output_tail": "----------------------------------------------------------------------\nRan 7 tests in 43.579s\n\nOK"
+    },
+    {
+      "id": "parser-identity-remediation-delivery-validation",
+      "command": "python3 <inline parser identity, drift fixture, JSON, link and boundary validator>",
+      "exit_status": 0,
+      "literal_output": "REMEDIATION_DELIVERY_VALIDATION=passed parser=pypdf/6.16.2 identity_gate=true drift_fixture=true preserve_outputs=true json=5 links=passed"
+    }
+  ],
+  "mandatory_test_summary": {
+    "tests_run": 47,
+    "passed": 46,
+    "skipped": 1,
+    "failed": 0,
+    "runtime": "C:/Users/19739/.codex/cache/code-knowledge-builder/runtime/win-x64/win-x64-2.1.0/python/python.exe",
+    "note_zh": "锁定 runtime 的 ._pth 不包含 worktree，使用 unittest discover 逐个加载 handoff 指定的同五个模块；没有扩大到整套回归。"
+  },
+  "pdf_benchmark": {
+    "status": "passed",
+    "raw": "references/research-gap-enhancement-effects/pdf-native-v1/raw-results.json",
+    "report": "references/research-gap-enhancement-effects/pdf-native-v1/report.json",
+    "effect": "已证实增强",
+    "scope": "frozen-native-pdf-only",
+    "parser_identity": {
+      "expected": {"name": "pypdf", "version": "6.16.2"},
+      "actual_module": {"name": "pypdf", "version": "6.16.2"},
+      "actual_distribution": {"name": "pypdf", "version": "6.16.2"},
+      "matches_protocol": true
+    },
+    "drift_fixture": "tests/fixtures/research-gap-enhancement-effects/pdf-native-v1-parser-drift.json",
+    "drift_behavior": "exit 1, written=false, existing raw/report byte-identical",
+    "artifact_sha256": {
+      "protocol": "f8e42454764f72687d17cf121662978cb528d5c64810e89f0b8aa3ad5c7825bd",
+      "drift_fixture": "257ed99622fb03c58fa012a93233cc8dd2955b82839e477bfa3ae80cebd3bd0e",
+      "raw": "bede88de7e5ab1341560cd64dac748eaec5bb699a4b5a80b0cff713b15517dfc",
+      "report": "c0c465e8c3b3e46b4ef39e5be2636707cfd1a42d4d5693b8b88913cdacd8172c"
+    }
+  },
+  "parser_identity_remediation": {
+    "parent_head": "0137c2c317d9e782df4a07031aa316c5a2a32ca8",
+    "commit_subject": "fix: bind PDF benchmark to runtime parser identity",
+    "scope": [
+      "runtime parser module and distribution identity",
+      "protocol identity completion gate",
+      "non-promoting parser drift failure",
+      "updated committed raw/report and handoff"
+    ],
+    "production_paths_changed": false
+  },
+  "rollback_sequence": {
+    "order": "reverse-commit-order",
+    "powershell": [
+      "$remediation = & 'C:\\Program Files\\Git\\cmd\\git.exe' log --format=%H --grep='^fix: bind PDF benchmark to runtime parser identity$' -n 1",
+      "& 'C:\\Program Files\\Git\\cmd\\git.exe' revert --no-edit $remediation",
+      "$second = & 'C:\\Program Files\\Git\\cmd\\git.exe' log --format=%H --grep='^research: measure gap-related enhancement effects$' -n 1",
+      "& 'C:\\Program Files\\Git\\cmd\\git.exe' revert --no-edit $second",
+      "& 'C:\\Program Files\\Git\\cmd\\git.exe' revert --no-edit 1ce5fd49ff5f5fa4ccbbc8d42502e51b2db32fa1",
+      "& 'C:\\Program Files\\Git\\cmd\\git.exe' diff --exit-code bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d HEAD"
+    ],
+    "expected": "three revert commits, clean worktree, zero tree diff from bdd4a667"
+  }
+}

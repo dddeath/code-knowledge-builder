@@ -20,13 +20,14 @@
 ## 谁会来到这里
 
 - [[KeywordFallbackRetrievalWiringTests 等测试场景]] 关联到这里的验证场景。
+- [[ScopeExtensionOfferTests.retrieval]] 关联到这里的验证场景。
 - [[SourceLinkRenderer.uri]] 关联到这里的验证场景。
 - [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]] 关联到这里的验证场景。
 - [[build_case]] 关联到这里的验证场景。
 - [[build_case 等测试场景]] 关联到这里的验证场景。
 - [[ckb_canvas 的协作边界]] 关联到这里的验证场景。
 - [[ingest 与 connect 的协作实现]] 关联到这里的验证场景。
-- [[render_integration 与 _looks_windows 的协作实现]] 关联到这里的验证场景。
+- [[render_integration 与 harness_retrieval_contract 的协作实现]] 关联到这里的验证场景。
 - [[source_files]] 关联到这里的验证场景。
 - 可从 [[tests 职责导览]] 进入本页。
 - [[validate 与 canonical 的协作实现]] 关联到这里的验证场景。

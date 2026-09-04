@@ -6,165 +6,9 @@
   "reviewed_at_utc": null,
   "reviews": [
     {
-      "entity_id": "ent-a4acd4b33e9754b3b6aaea8c28776e4d",
+      "entity_id": "ent-c2f89660022753039717decbe91f5290",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
-      "source_path": "scripts/ckb_core/automation.py",
-      "start_line": 277,
-      "end_line": 294,
-      "source_blob": "44ab87d410ffaa5736126339a965f8b496753ebd",
-      "source_excerpt": "def _registration_for_event(registry: Path, cwd: Path, harness: str) -> tuple[dict[str, Any], str, str] | None:\n    candidates: list[tuple[int, int, dict[str, Any], str, str]] = []\n    for item in _read_registry(registry)[\"projects\"]:\n        if not item.get(\"enabled\", False) or harness not in item.get(\"harnesses\", []):\n            continue\n        if _is_within(cwd, item[\"repo_root\"]):\n            root = str(item[\"repo_root\"])\n            candidates.append((2, len(_path_key(root)), item, \"repository\", root))\n        for workspace_root in item.get(\"workspace_roots\", []):\n            if _is_within(cwd, workspace_root):\n                candidates.append((1, len(_path_key(workspace_root)), item, \"workspace\", str(workspace_root)))\n    if not candidates:\n        return None\n    best = max(candidates, key=lambda value: (value[0], value[1]))\n    tied = [value for value in candidates if value[:2] == best[:2] and value[2][\"registration_id\"] != best[2][\"registration_id\"]]\n    if tied:\n        raise CkbError(f\"automation event cwd matches multiple registrations at the same priority: {cwd}\")\n    return best[2], best[3], best[4]",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-8acdbf274504557ea7a2243cd6d56c90",
-      "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
-      "source_path": "scripts/ckb_core/automation.py",
-      "start_line": 297,
-      "end_line": 325,
-      "source_blob": "44ab87d410ffaa5736126339a965f8b496753ebd",
-      "source_excerpt": "def _event_path_text(value: str | Path, *, host_os: str | None = None) -> str:\n    \"\"\"Translate a harness path into the path syntax understood by this runtime.\n\n    Codex Desktop can host ``app-server`` in WSL while a generated Hook invokes\n    the bundled Windows Python through WSL interop.  The Hook payload then uses\n    ``/mnt/<drive>/...`` even though ``pathlib`` in the receiving process expects\n    a drive-letter path.  Normalize that boundary before registration matching\n    and changed-path attribution; leave relative paths and native paths intact.\n    \"\"\"\n    text = str(value).strip()\n    if text.casefold().startswith(\"file:\"):\n        parsed = urlparse(text)\n        if parsed.scheme.casefold() == \"file\":\n            text = unquote(parsed.path)\n            if parsed.netloc and parsed.netloc.casefold() != \"localhost\":\n                text = f\"//{parsed.netloc}{text}\"\n    target_os = os.name if host_os is None else host_os\n    if target_os != \"nt\":\n        return text\n    normalized = text.replace(\"\\\\\", \"/\")\n    mounted = re.fullmatch(r\"/mnt/([A-Za-z])(?:/(.*))?\", normalized)\n    if mounted:\n        parts = [part for part in (mounted.group(2) or \"\").split(\"/\") if part]\n        return str(PureWindowsPath(f\"{mounted.group(1).upper()}:\\\\\", *parts))\n    drive_uri = re.fullmatch(r\"/([A-Za-z]):(?:/(.*))?\", normalized)\n    if drive_uri:\n        parts = [part for part in (drive_uri.group(2) or \"\").split(\"/\") if part]\n        return str(PureWindowsPath(f\"{drive_uri.group(1).upper()}:\\\\\", *parts))\n    return text",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-b16a655440f95d0d9a16d25454c3102c",
-      "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
-      "source_path": "scripts/ckb_core/automation.py",
-      "start_line": 328,
-      "end_line": 336,
-      "source_blob": "44ab87d410ffaa5736126339a965f8b496753ebd",
-      "source_excerpt": "def _walk_values(value: Any) -> Iterator[tuple[str | None, Any]]:\n    if isinstance(value, dict):\n        for key, child in value.items():\n            yield str(key), child\n            yield from _walk_values(child)\n    elif isinstance(value, list):\n        for child in value:\n            yield None, child\n            yield from _walk_values(child)",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-cc743e0938945959a3f5250ed3cef0af",
-      "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
-      "source_path": "scripts/ckb_core/automation.py",
-      "start_line": 339,
-      "end_line": 356,
-      "source_blob": "44ab87d410ffaa5736126339a965f8b496753ebd",
-      "source_excerpt": "def _first_scalar(value: Any, keys: set[str]) -> str | None:\n    lowered = {key.casefold() for key in keys}\n    if isinstance(value, dict):\n        for key, child in value.items():\n            if str(key).casefold() in lowered and isinstance(child, (str, int)):\n                text = str(child).strip()\n                if text:\n                    return text\n        for child in value.values():\n            found = _first_scalar(child, keys)\n            if found:\n                return found\n    elif isinstance(value, list):\n        for child in value:\n            found = _first_scalar(child, keys)\n            if found:\n                return found\n    return None",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-34e37305d9775b8db73955df8deb30a3",
-      "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
-      "source_path": "scripts/ckb_core/automation.py",
-      "start_line": 359,
-      "end_line": 374,
-      "source_blob": "44ab87d410ffaa5736126339a965f8b496753ebd",
-      "source_excerpt": "def _text_content(value: Any) -> str:\n    if isinstance(value, str):\n        return value\n    if isinstance(value, list):\n        parts = [_text_content(item) for item in value]\n        return \"\\n\".join(item for item in parts if item)\n    if isinstance(value, dict):\n        direct = value.get(\"text\")\n        if isinstance(direct, str):\n            return direct\n        for key in (\"content\", \"parts\", \"message\", \"delta\", \"info\", \"properties\", \"data\"):\n            if key in value:\n                text = _text_content(value[key])\n                if text:\n                    return text\n    return \"\"",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-c9992e5109285bbebd91db7f684176ba",
-      "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
-      "source_path": "scripts/ckb_core/automation.py",
-      "start_line": 377,
-      "end_line": 385,
-      "source_blob": "44ab87d410ffaa5736126339a965f8b496753ebd",
-      "source_excerpt": "def _event_name(raw: dict[str, Any]) -> str:\n    for key in (\"hook_event_name\", \"canonical_type\", \"event_type\", \"type\"):\n        value = raw.get(key)\n        if isinstance(value, str) and value.strip():\n            return value.strip()\n    event = raw.get(\"event\")\n    if isinstance(event, dict) and isinstance(event.get(\"type\"), str):\n        return event[\"type\"]\n    return \"unknown\"",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-691b2be5ed3f5a3ba1cb5afbc6a32b5a",
-      "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
-      "source_path": "scripts/ckb_core/automation.py",
-      "start_line": 388,
-      "end_line": 389,
-      "source_blob": "44ab87d410ffaa5736126339a965f8b496753ebd",
-      "source_excerpt": "def _message_role(raw: dict[str, Any]) -> str:\n    return (_first_scalar(raw, {\"role\"}) or \"\").casefold()",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-82159cd672df5c57bf07695672340bd1",
-      "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
-      "source_path": "scripts/ckb_core/automation.py",
-      "start_line": 392,
-      "end_line": 394,
-      "source_blob": "44ab87d410ffaa5736126339a965f8b496753ebd",
-      "source_excerpt": "def _normalized_skill_name(value: Any) -> str:\n    text = str(value or \"\").strip().casefold()\n    return text.removeprefix(\"[\").removesuffix(\"]\").lstrip(\"$/\").strip()",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-870e37e30779587dbde09cce0e8b9fe8",
-      "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
-      "source_path": "scripts/ckb_core/automation.py",
-      "start_line": 397,
-      "end_line": 414,
-      "source_blob": "44ab87d410ffaa5736126339a965f8b496753ebd",
-      "source_excerpt": "def _skill_name(raw: dict[str, Any], tool_name: str | None = None, tool_input: Any = None) -> str | None:\n    for key, value in _walk_values(raw):\n        if not key or key.casefold() not in _SKILL_METADATA_KEYS:\n            continue\n        values = value if isinstance(value, list) else [value]\n        for item in values:\n            if isinstance(item, dict):\n                item = item.get(\"name\") or item.get(\"skill\") or item.get(\"skill_name\")\n            if _normalized_skill_name(item) == REQUIRED_SKILL:\n                return REQUIRED_SKILL\n    if str(tool_name or \"\").casefold() == \"skill\" and isinstance(tool_input, dict):\n        for key in (\"skill\", \"name\", \"skill_name\", \"command\"):\n            if _normalized_skill_name(tool_input.get(key)) == REQUIRED_SKILL:\n                return REQUIRED_SKILL\n    prompt = str(raw.get(\"prompt\") or raw.get(\"initial_prompt\") or \"\")\n    if _SKILL_PROMPT.search(prompt):\n        return REQUIRED_SKILL\n    return None",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-f97c3371799d5f6f97ce0450b54e57de",
-      "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
-      "source_path": "scripts/ckb_core/automation.py",
-      "start_line": 417,
-      "end_line": 464,
-      "source_blob": "44ab87d410ffaa5736126339a965f8b496753ebd",
-      "source_excerpt": "def _canonical_type(raw: dict[str, Any], name: str) -> str:\n    if name in CANONICAL_EVENTS:\n        return name\n    normalized = name.casefold()\n    mapping = {\n        \"skillapplied\": \"skill.applied\",\n        \"skill.applied\": \"skill.applied\",\n        \"userpromptexpansion\": \"skill.applied\",\n        \"sessionstart\": \"session.start\",\n        \"session.created\": \"session.start\",\n        \"userpromptsubmit\": \"turn.prompt\",\n        \"assistantmessage\": \"turn.assistant\",\n        \"posttooluse\": \"tool.result\",\n        \"posttoolusefailure\": \"tool.result\",\n        \"tool.execute.after\": \"tool.result\",\n        \"aftertool\": \"tool.result\",\n        \"filechanged\": \"file.changed\",\n        \"file.edited\": \"file.changed\",\n        \"afterfileedit\": \"file.changed\",\n        \"stop\": \"turn.stop\",\n        \"afteragent\": \"turn.stop\",\n        \"agentstop\": \"turn.stop\",\n        \"stopfailure\": \"turn.stop\",\n        \"session.idle\": \"turn.stop\",\n        \"session.execution.succeeded.1\": \"turn.stop\",\n        \"session.execution.failed.1\": \"turn.stop\",\n        \"precompact\": \"compact.before\",\n        \"precompress\": \"compact.before\",\n        \"postcompact\": \"compact.after\",\n        \"session.compacted\": \"compact.after\",\n        \"sessionend\": \"session.end\",\n        \"session.deleted\": \"session.end\",\n        \"session.terminated\": \"session.end\",\n        \"session.cancelled\": \"session.end\",\n        \"session.canceled\": \"session.end\",\n        \"terminate\": \"session.end\",\n        \"cancel\": \"session.end\",\n        \"beforeagent\": \"turn.prompt\",\n        \"beforesubmitprompt\": \"turn.prompt\",\n        \"userpromptsubmitted\": \"turn.prompt\",\n        \"afteragentresponse\": \"turn.assistant\",\n    }\n    if normalized == \"pretooluse\":\n        tool_name = _first_scalar(raw, {\"tool_name\", \"tool\", \"toolName\"})\n        return \"skill.applied\" if str(tool_name or \"\").casefold() == \"skill\" else \"\"\n    if normalized == \"message.updated\":\n        return \"turn.prompt\" if _message_role(raw) == \"user\" else \"turn.assistant\"\n    return mapping.get(normalized, \"\")",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-40ffe2c1abeb5c4c816c4ca5d4c525a8",
-      "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
-      "source_path": "scripts/ckb_core/automation.py",
-      "start_line": 467,
-      "end_line": 477,
-      "source_blob": "44ab87d410ffaa5736126339a965f8b496753ebd",
-      "source_excerpt": "def _extract_paths(value: Any) -> list[str]:\n    result: list[str] = []\n    for key, child in _walk_values(value):\n        if key and key.casefold() in _PATH_KEYS:\n            if isinstance(child, str):\n                result.append(child)\n            elif isinstance(child, list):\n                result.extend(str(item) for item in child if isinstance(item, (str, Path)))\n        if isinstance(child, str):\n            result.extend(match.strip() for match in _PATCH_PATH.findall(child))\n    return list(dict.fromkeys(path.strip() for path in result if path.strip()))",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-8bf849508564577394cc7622d77572b3",
-      "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
-      "source_path": "scripts/ckb_core/automation.py",
-      "start_line": 480,
-      "end_line": 556,
-      "source_blob": "44ab87d410ffaa5736126339a965f8b496753ebd",
-      "source_excerpt": "def normalize_event(harness: str, raw: dict[str, Any]) -> dict[str, Any]:\n    if harness not in SUPPORTED_HARNESSES:\n        raise CkbError(f\"unsupported automation harness: {harness}\")\n    if not isinstance(raw, dict):\n        raise CkbError(\"automation event must be one JSON object\")\n    name = _event_name(raw)\n    canonical = _canonical_type(raw, name)\n    if not canonical:\n        raise CkbError(f\"unsupported automation event for {harness}: {name}\")\n    session_id = _first_scalar(\n        raw,\n        {\"session_id\", \"sessionid\", \"sessionId\", \"session\", \"conversation_id\", \"conversationId\", \"composer_id\"},\n    ) or \"session-unknown\"\n    turn_id = _first_scalar(raw, {\"turn_id\", \"turnid\", \"turnId\"})\n    tool_use_id = _first_scalar(raw, {\"tool_use_id\", \"tooluseid\", \"toolUseId\", \"toolCallID\", \"callID\"})\n    cwd = _first_scalar(raw, {\"cwd\", \"directory\", \"worktree\", \"project_dir\", \"projectDir\"}) or os.getcwd()\n    prompt = str(raw.get(\"prompt\") or raw.get(\"initial_prompt\") or \"\").strip()\n    assistant = str(\n        raw.get(\"last_assistant_message\")\n        or raw.get(\"assistant_message\")\n        or raw.get(\"prompt_response\")\n        or raw.get(\"response\")\n        or raw.get(\"delta\")\n        or \"\"\n    ).strip()\n    if canonical in {\"turn.prompt\", \"turn.assistant\"} and not (prompt or assistant):\n        text = _text_content(raw.get(\"message\") or raw.get(\"info\") or raw.get(\"properties\") or raw)\n        if canonical == \"turn.prompt\":\n            prompt = text.strip()\n        else:\n            assistant = text.strip()\n    tool_name = _first_scalar(raw, {\"tool_name\", \"tool\", \"toolName\"})\n    tool_input = raw.get(\"tool_input\", raw.get(\"toolArgs\", raw.get(\"input\")))\n    tool_output = raw.get(\n        \"tool_response\",\n        raw.get(\"tool_result\", raw.get(\"toolResult\", raw.get(\"tool_output\", raw.get(\"output\", raw.get(\"result\"))))),\n    )\n    failed_names = {\"posttoolusefailure\", \"stopfailure\", \"session.execution.failed.1\"}\n    event_status = str(raw.get(\"status\") or (\"error\" if name.casefold() in failed_names else \"completed\"))\n    harness_pid_value = raw.get(\"harness_pid\", raw.get(\"host_pid\"))\n    harness_pid = (\n        int(harness_pid_value)\n        if isinstance(harness_pid_value, (int, str))\n        and not isinstance(harness_pid_value, bool)\n        and str(harness_pid_value).isdigit()\n        and int(harness_pid_value) > 0\n        else None\n    )\n    git_trigger = (\n        classify_git_trigger(tool_input)\n        if canonical == \"tool.result\" and event_status.casefold() not in {\"error\", \"failed\", \"failure\"}\n        else None\n    )\n    return {\n        \"schema_version\": AUTOMATION_SCHEMA_VERSION,\n        \"harness\": harness,\n        \"event_name\": name,\n        \"canonical_type\": canonical,\n        \"external_event_id\": _first_scalar(raw, {\"event_id\", \"eventId\", \"idempotency_key\"}),\n        \"session_id\": session_id,\n        \"turn_id\": turn_id,\n        \"tool_use_id\": tool_use_id,\n        \"cwd\": cwd,\n        \"prompt\": prompt,\n        \"assistant_message\": assistant,\n        \"tool_name\": tool_name,\n        \"tool_input\": tool_input,\n        \"tool_output\": tool_output,\n        \"tool_status\": event_status,\n        \"git_trigger\": git_trigger,\n        \"skill_name\": _skill_name(raw, tool_name, tool_input),\n        \"changed_paths\": _extract_paths(raw),\n        \"source\": raw.get(\"source\") or raw.get(\"reason\") or raw.get(\"trigger\"),\n        \"harness_pid\": harness_pid,\n        \"received_at_utc\": utc_now(),\n        \"raw\": raw,\n    }",
-      "status": "draft",
-      "evidence_note": "",
-      "description_zh": ""
-    },
-    {
-      "entity_id": "ent-bddb31cb4147563da5557806087b5a98",
-      "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 559,
       "end_line": 583,
@@ -175,9 +19,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-f6b1230d34a35e159500493dbbd1b17c",
+      "entity_id": "ent-823a0f21edbb5c5c90551df72219d43a",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 586,
       "end_line": 609,
@@ -188,9 +32,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-2221b5915ada5e1c824403409ffa028d",
+      "entity_id": "ent-dcfa9f9f20875b958d20236916214f7f",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 590,
       "end_line": 604,
@@ -201,9 +45,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-d7dd0ce74db7508fb37ddcf74a67d6b6",
+      "entity_id": "ent-02f8ac2d55915293ab555eabec79f96d",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 612,
       "end_line": 616,
@@ -214,9 +58,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-380b1ace804b5518b0894ebd73bc05a8",
+      "entity_id": "ent-a7bbf534646154e69722db8aa74e3e22",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 619,
       "end_line": 731,
@@ -227,9 +71,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-78fe311467d950669f7b76a99af04628",
+      "entity_id": "ent-5c0082504c295347ab32cd3df49f8115",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 734,
       "end_line": 754,
@@ -240,9 +84,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-9e0b07ce286a51d69169447ae27080c4",
+      "entity_id": "ent-4db3b9aeaaad5a12b892b3a9f01daee5",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 757,
       "end_line": 759,
@@ -253,9 +97,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-79e62959f3f85dbe82646ede1df7ac8e",
+      "entity_id": "ent-013baebbe6cf5d22a7b2c9e40ecdd858",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 762,
       "end_line": 777,
@@ -266,9 +110,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-c6f9704cdf8a57bea02463c0e2d8f7ec",
+      "entity_id": "ent-cc12f98403d25b0f9e040eaad7c28c1d",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 780,
       "end_line": 811,
@@ -279,9 +123,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-3a49fcee03db5c9993f1a0126e60469a",
+      "entity_id": "ent-597496c7474752ea8a4e967a1085a68d",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 815,
       "end_line": 842,
@@ -292,9 +136,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-2b6b0a8f9533560c812579cd70fae553",
+      "entity_id": "ent-be76fcd057d45ec9aa8f6391c712c302",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 845,
       "end_line": 852,
@@ -305,9 +149,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-6b72b31cf6715f3f86f60c6cc10cd57a",
+      "entity_id": "ent-4c35f18ea8af5a30bf2a8ff655fcf435",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 855,
       "end_line": 856,
@@ -318,9 +162,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-f5f88339be8a51358938b00691cf976f",
+      "entity_id": "ent-721d92fdda7a5b92ba7f9f0e6f530742",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 859,
       "end_line": 860,
@@ -331,9 +175,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-023a3764e7ad536baf53ac9846c1eeb1",
+      "entity_id": "ent-74c8570deb195d19910c831ecbdfb4fd",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 863,
       "end_line": 868,
@@ -344,9 +188,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-9656d2abfd4e55109b88c6c40ab98b2a",
+      "entity_id": "ent-ce18ef9391465086a58b99feeb30eaaa",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 871,
       "end_line": 872,
@@ -357,9 +201,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-af4411836f2a55d8ae62b98039161b5e",
+      "entity_id": "ent-30f5ac932981588ebe7727115b527eed",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 875,
       "end_line": 912,
@@ -370,9 +214,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-bc59e7425ef1539da557bd8b03311a2c",
+      "entity_id": "ent-8a8027ff4a6a502dbdac63d4622149a2",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 915,
       "end_line": 929,
@@ -383,9 +227,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-af093f3f55ed5a4dafacbbf6dda2b123",
+      "entity_id": "ent-7bc59e85ada85221aaeeb8532895e249",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 932,
       "end_line": 981,
@@ -396,9 +240,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-b691dc5a254b526db6c8d6b04ef54afc",
+      "entity_id": "ent-b417013ae2a3505a9777586d8151c8e6",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 984,
       "end_line": 996,
@@ -409,9 +253,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-57d1023417bf5ed9a35e31e7ef8f4d20",
+      "entity_id": "ent-ff989945bfb1590c905023a19d445aed",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 999,
       "end_line": 1009,
@@ -422,9 +266,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-bbecfe3bb19357758a9e079b0c8099e9",
+      "entity_id": "ent-f72f97b8e9bc51b982d7ac5ae5568c33",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 1012,
       "end_line": 1041,
@@ -435,9 +279,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-3f6163bc5a1c561eb82383324f2ec245",
+      "entity_id": "ent-09434887074f58ccae311a4d1d33262b",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 1044,
       "end_line": 1097,
@@ -448,9 +292,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-a02e525791a650c5a9319453990bfcea",
+      "entity_id": "ent-5e26862ce0745c199935dc1edd967b1d",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 1100,
       "end_line": 1121,
@@ -461,9 +305,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-d3145ee5cbd853aeb42c31fd920f70a3",
+      "entity_id": "ent-9d3d6993c3e057618f7b8ea84af7db8b",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 1124,
       "end_line": 1150,
@@ -474,9 +318,9 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-b716932e0eb450fcb7855acc55de9c6f",
+      "entity_id": "ent-026e798adb735c7eab60ae088179c90d",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 1153,
       "end_line": 1226,
@@ -487,14 +331,118 @@
       "description_zh": ""
     },
     {
-      "entity_id": "ent-c11fc13b6e5353af9afb36a4ff29e739",
+      "entity_id": "ent-e1d52574342958e0a0b99b99b277f502",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 1229,
       "end_line": 1315,
       "source_blob": "44ab87d410ffaa5736126339a965f8b496753ebd",
       "source_excerpt": "def _process_event(\n    connection: sqlite3.Connection,\n    output: Path,\n    repo: Path,\n    event: dict[str, Any],\n) -> dict[str, Any]:\n    connection.row_factory = sqlite3.Row\n    session_key = _ensure_session(connection, event, repo, output)\n    turn_key, external_turn_id = _resolve_turn(connection, event, session_key)\n    event_id = _event_id(event, session_key, turn_key)\n    if connection.execute(\"SELECT 1 FROM events WHERE event_id=?\", (event_id,)).fetchone():\n        return {\"status\": \"duplicate\", \"event_id\": event_id, \"session_key\": session_key, \"turn_key\": turn_key}\n    payload = json.dumps(event, ensure_ascii=False, sort_keys=True)\n    connection.execute(\n        \"INSERT INTO events VALUES(?,?,?,?,?,?,?,?,?,?,?)\",\n        (\n            event_id,\n            event[\"harness\"],\n            event[\"event_name\"],\n            event[\"canonical_type\"],\n            session_key,\n            turn_key,\n            event.get(\"tool_use_id\"),\n            event[\"cwd\"],\n            event[\"received_at_utc\"],\n            int(event.get(\"redaction_count\", 0)),\n            payload,\n        ),\n    )\n    canonical = event[\"canonical_type\"]\n    if canonical == \"turn.prompt\" and turn_key:\n        connection.execute(\n            \"UPDATE turns SET prompt=?,status='active',started_at_utc=COALESCE(started_at_utc,?) WHERE turn_key=?\",\n            (event.get(\"prompt\") or \"\", event[\"received_at_utc\"], turn_key),\n        )\n        connection.execute(\n            \"UPDATE sessions SET first_prompt=CASE WHEN first_prompt='' THEN ? ELSE first_prompt END WHERE session_key=?\",\n            (event.get(\"prompt\") or \"\", session_key),\n        )\n    elif canonical == \"turn.assistant\" and turn_key:\n        connection.execute(\"UPDATE turns SET assistant_message=? WHERE turn_key=?\", (event.get(\"assistant_message\") or \"\", turn_key))\n        connection.execute(\"UPDATE sessions SET last_assistant_message=? WHERE session_key=?\", (event.get(\"assistant_message\") or \"\", session_key))\n    if canonical in {\"tool.result\", \"file.changed\"}:\n        paths = _relative_changed_paths(\n            event.get(\"changed_paths\") or [],\n            repo,\n            output,\n            Path(str(event.get(\"cwd\") or repo)).expanduser(),\n        )\n        connection.execute(\n            \"INSERT INTO tool_events VALUES(?,?,?,?,?,?,?)\",\n            (event_id, session_key, turn_key, event.get(\"tool_name\"), event.get(\"tool_status\") or \"completed\", json.dumps(paths, ensure_ascii=False), payload),\n        )\n        for path in paths:\n            connection.execute(\n                \"INSERT INTO changed_paths VALUES(?,?,?,?,1) ON CONFLICT(session_key,path) DO UPDATE SET last_event_id=excluded.last_event_id,change_count=changed_paths.change_count+1\",\n                (session_key, path, event_id, event_id),\n            )\n    review_id = None\n    if canonical == \"turn.stop\" and turn_key:\n        assistant = event.get(\"assistant_message\") or \"\"\n        if assistant:\n            connection.execute(\"UPDATE turns SET assistant_message=? WHERE turn_key=?\", (assistant, turn_key))\n            connection.execute(\"UPDATE sessions SET last_assistant_message=? WHERE session_key=?\", (assistant, session_key))\n        connection.execute(\"UPDATE turns SET status='complete',completed_at_utc=? WHERE turn_key=?\", (event[\"received_at_utc\"], turn_key))\n        connection.execute(\n            \"UPDATE sessions SET turn_count=(SELECT count(*) FROM turns WHERE session_key=? AND status='complete') WHERE session_key=?\",\n            (session_key, session_key),\n        )\n        review_id = _create_pending_review(connection, output, repo, event, session_key, turn_key)\n    elif canonical == \"session.end\":\n        active = connection.execute(\n            \"SELECT turn_key FROM turns WHERE session_key=? AND status='active' ORDER BY ordinal DESC LIMIT 1\",\n            (session_key,),\n        ).fetchone()\n        if active:\n            connection.execute(\"UPDATE turns SET status='complete',completed_at_utc=? WHERE turn_key=?\", (event[\"received_at_utc\"], active[0]))\n            review_id = _create_pending_review(connection, output, repo, event, session_key, str(active[0]))\n        connection.execute(\"UPDATE sessions SET status='complete',ended_at_utc=? WHERE session_key=?\", (event[\"received_at_utc\"], session_key))\n    return {\n        \"status\": \"recorded\",\n        \"event_id\": event_id,\n        \"session_key\": session_key,\n        \"turn_key\": turn_key,\n        \"external_turn_id\": external_turn_id,\n        \"review_id\": review_id,\n    }",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-9d788fa65fc0557d9788ec6e28cb76f0",
+      "classification": "appendix",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 1318,
+      "end_line": 1364,
+      "source_blob": "44ab87d410ffaa5736126339a965f8b496753ebd",
+      "source_excerpt": "def drain_automation(output: Path, limit: int = 500) -> dict[str, Any]:\n    output = output.resolve()\n    initialize_automation_database(output)\n    root = _automation_root(output)\n    pending = root / \"spool\" / \"pending\"\n    processed = root / \"spool\" / \"processed\"\n    failed = root / \"spool\" / \"failed\"\n    results: list[dict[str, Any]] = []\n    with _drain_lock(output) as acquired:\n        if not acquired:\n            return {\"schema_version\": AUTOMATION_SCHEMA_VERSION, \"status\": \"queued\", \"reason\": \"drain-lock-busy\", \"pending\": len(_spool_events(pending))}\n        connection = sqlite3.connect(output / AUTOMATION_DATABASE, timeout=10)\n        try:\n            connection.execute(\"PRAGMA busy_timeout=10000\")\n            for path in _spool_events(pending)[:limit]:\n                try:\n                    envelope = json_load(path)\n                    event = envelope[\"event\"]\n                    repo = Path(envelope[\"repo_root\"]).resolve()\n                    connection.execute(\"BEGIN IMMEDIATE\")\n                    result = _process_event(connection, output, repo, event)\n                    connection.commit()\n                    destination = processed / f\"{result['event_id']}.json\"\n                    if destination.exists():\n                        path.unlink()\n                    else:\n                        path.replace(destination)\n                    results.append(result)\n                except Exception as exc:\n                    connection.rollback()\n                    destination = failed / path.name\n                    if destination.exists():\n                        destination = failed / f\"{path.stem}-{uuid.uuid4().hex}.json\"\n                    path.replace(destination)\n                    json_write(destination.with_suffix(\".error.json\"), {\"status\": \"failed\", \"error\": f\"{type(exc).__name__}: {exc}\"})\n                    results.append({\"status\": \"failed\", \"spool\": str(destination), \"error\": f\"{type(exc).__name__}: {exc}\"})\n        finally:\n            connection.close()\n    return {\n        \"schema_version\": AUTOMATION_SCHEMA_VERSION,\n        \"status\": \"passed\" if not any(item[\"status\"] == \"failed\" for item in results) else \"failed\",\n        \"processed\": sum(item[\"status\"] == \"recorded\" for item in results),\n        \"duplicates\": sum(item[\"status\"] == \"duplicate\" for item in results),\n        \"failed\": sum(item[\"status\"] == \"failed\" for item in results),\n        \"pending\": len(_spool_events(pending)),\n        \"results\": results,\n    }",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-b6669f3fcb335a3985bfcf39743ff573",
+      "classification": "appendix",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 1367,
+      "end_line": 1381,
+      "source_blob": "44ab87d410ffaa5736126339a965f8b496753ebd",
+      "source_excerpt": "def retry_failed_automation(output: Path, limit: int = 500) -> dict[str, Any]:\n    output = output.resolve()\n    root = _automation_root(output)\n    failed = root / \"spool\" / \"failed\"\n    pending = root / \"spool\" / \"pending\"\n    moved = 0\n    for path in _spool_events(failed)[:limit]:\n        destination = pending / f\"retry-{time.time_ns():020d}-{uuid.uuid4().hex}.json\"\n        path.replace(destination)\n        error = path.with_suffix(\".error.json\")\n        if error.is_file():\n            error.unlink()\n        moved += 1\n    result = drain_automation(output, limit)\n    return {\"schema_version\": AUTOMATION_SCHEMA_VERSION, \"status\": result[\"status\"], \"retried\": moved, \"drain\": result}",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-7adb86209ebd5b54958154e9b56c038a",
+      "classification": "appendix",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 1384,
+      "end_line": 1393,
+      "source_blob": "44ab87d410ffaa5736126339a965f8b496753ebd",
+      "source_excerpt": "def _hook_context(output: Path, freshness: dict[str, Any] | None = None) -> str:\n    status = automation_status(output)\n    fact_state = (freshness or status.get(\"fact_freshness\") or {}).get(\"state\", \"unavailable\")\n    fact_action = (freshness or status.get(\"fact_freshness\") or {}).get(\"next_action\", {}).get(\"action\", \"retry-freshness-check\")\n    return (\n        \"当前会话已明确应用 code-knowledge-builder Skill，CKB 自动同步已激活：本轮事件会先进入脱敏、幂等的机器层队列。\"\n        f\"源码事实新鲜度为 {fact_state}，下一入口为 {fact_action}。\"\n        f\"当前待 Agent 审阅记录 {status['pending_reviews']} 条，失败事件 {status['failed_spool']} 条。\"\n        \"分析和修改结论需使用简体中文核对来源后，再晋升到人类知识库。\"\n    )",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-a91d35ef1eb053bdb444208e441d83d3",
+      "classification": "appendix",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 1396,
+      "end_line": 1408,
+      "source_blob": "44ab87d410ffaa5736126339a965f8b496753ebd",
+      "source_excerpt": "def _hook_output(harness: str, event_name: str, context: str) -> dict[str, Any]:\n    if event_name in {\"SessionStart\", \"UserPromptSubmit\"} and harness in {\"codex\", \"claude\", \"dsh\"}:\n        return {\n            \"hookSpecificOutput\": {\n                \"hookEventName\": event_name,\n                \"additionalContext\": context,\n            }\n        }\n    if harness == \"gemini\" and event_name in {\"SessionStart\", \"BeforeAgent\"}:\n        return {\"hookSpecificOutput\": {\"additionalContext\": context}}\n    if harness == \"cursor\" and event_name == \"sessionStart\":\n        return {\"additional_context\": context}\n    return {}",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-86000e5a85fe5bedb887635dc80ecf75",
+      "classification": "appendix",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 1540,
+      "end_line": 1573,
+      "source_blob": "44ab87d410ffaa5736126339a965f8b496753ebd",
+      "source_excerpt": "def automation_status(output: Path) -> dict[str, Any]:\n    output = output.resolve()\n    path = initialize_automation_database(output)\n    root = _automation_root(output)\n    connection = sqlite3.connect(f\"file:{path.as_posix()}?mode=ro\", uri=True)\n    try:\n        counts = {\n            \"skill_activations\": connection.execute(\"SELECT count(*) FROM skill_activations\").fetchone()[0],\n            \"events\": connection.execute(\"SELECT count(*) FROM events\").fetchone()[0],\n            \"sessions\": connection.execute(\"SELECT count(*) FROM sessions\").fetchone()[0],\n            \"active_sessions\": connection.execute(\"SELECT count(*) FROM sessions WHERE status='active'\").fetchone()[0],\n            \"turns\": connection.execute(\"SELECT count(*) FROM turns\").fetchone()[0],\n            \"changed_paths\": connection.execute(\"SELECT count(*) FROM changed_paths\").fetchone()[0],\n            \"pending_reviews\": connection.execute(\"SELECT count(*) FROM pending_reviews WHERE status='pending-agent-review'\").fetchone()[0],\n            \"reviewed\": connection.execute(\"SELECT count(*) FROM pending_reviews WHERE status='agent-reviewed'\").fetchone()[0],\n        }\n        integrity = connection.execute(\"PRAGMA integrity_check\").fetchone()[0]\n    finally:\n        connection.close()\n    freshness_path = output / \"workspace-meta/freshness/state.json\"\n    try:\n        freshness = json_load(freshness_path) if freshness_path.is_file() else None\n    except Exception:\n        freshness = {\"state\": \"unavailable\", \"error\": {\"type\": \"InvalidFreshnessState\"}}\n    return {\n        \"schema_version\": AUTOMATION_SCHEMA_VERSION,\n        \"status\": \"ready\" if integrity == \"ok\" else \"failed\",\n        \"database\": str(path),\n        **counts,\n        \"pending_spool\": len(_spool_events(root / \"spool/pending\")),\n        \"failed_spool\": len(_spool_events(root / \"spool/failed\")),\n        \"sqlite_integrity\": integrity,\n        \"fact_freshness\": freshness,\n    }",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-76b1843ab8da596cb24d4681cd7a09b1",
+      "classification": "appendix",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 1576,
+      "end_line": 1598,
+      "source_blob": "44ab87d410ffaa5736126339a965f8b496753ebd",
+      "source_excerpt": "def pending_automation_reviews(output: Path, include_reviewed: bool = False) -> dict[str, Any]:\n    output = output.resolve()\n    path = initialize_automation_database(output)\n    connection = sqlite3.connect(f\"file:{path.as_posix()}?mode=ro\", uri=True)\n    connection.row_factory = sqlite3.Row\n    try:\n        query = \"SELECT review_id,kind,title,status,changed_paths_json,created_at_utc,reviewed_at_utc,human_file FROM pending_reviews\"\n        if not include_reviewed:\n            query += \" WHERE status='pending-agent-review'\"\n        query += \" ORDER BY created_at_utc,review_id\"\n        rows = []\n        for row in connection.execute(query):\n            item = dict(row)\n            item[\"changed_paths\"] = json.loads(item.pop(\"changed_paths_json\"))\n            rows.append(item)\n    finally:\n        connection.close()\n    return {\n        \"schema_version\": AUTOMATION_SCHEMA_VERSION,\n        \"status\": \"ready\",\n        \"count\": len(rows),\n        \"reviews\": rows,\n    }",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-6bb8221189125452ab13bd27ce004bfd",
+      "classification": "appendix",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 1601,
+      "end_line": 1641,
+      "source_blob": "44ab87d410ffaa5736126339a965f8b496753ebd",
+      "source_excerpt": "def write_automation_review_template(output: Path, review_id: str, target: Path) -> dict[str, Any]:\n    output = output.resolve()\n    path = initialize_automation_database(output)\n    connection = sqlite3.connect(f\"file:{path.as_posix()}?mode=ro\", uri=True)\n    connection.row_factory = sqlite3.Row\n    try:\n        row = connection.execute(\"SELECT * FROM pending_reviews WHERE review_id=?\", (review_id,)).fetchone()\n    finally:\n        connection.close()\n    if row is None:\n        raise CkbError(f\"automation review does not exist: {review_id}\")\n    changed_paths = json.loads(row[\"changed_paths_json\"])\n    template = {\n        \"schema_version\": AUTOMATION_SCHEMA_VERSION,\n        \"review_id\": review_id,\n        \"status\": \"agent-reviewed\",\n        \"kind\": row[\"kind\"],\n        \"title\": \"填写简洁的中文知识页标题\",\n        \"body\": \"填写 Agent 重写并核实后的简体中文 Markdown 文件绝对路径\",\n        \"evidence_note\": \"填写本次审阅如何核对会话、修改范围、源码和验证证据\",\n        \"source_checks\": [\n            {\n                \"path\": changed,\n                \"status\": \"agent-reviewed\",\n                \"evidence_note\": \"填写重新打开并核对此路径后的中文证据说明\",\n            }\n            for changed in changed_paths\n        ],\n        \"linked_pages\": [],\n    }\n    target = target.resolve()\n    if target.exists():\n        raise CkbError(f\"automation review template already exists: {target}\")\n    json_write(target, template)\n    return {\n        \"schema_version\": AUTOMATION_SCHEMA_VERSION,\n        \"status\": \"written\",\n        \"review_id\": review_id,\n        \"template\": str(target),\n        \"changed_paths\": changed_paths,\n    }",
+      "status": "draft",
+      "evidence_note": "",
+      "description_zh": ""
+    },
+    {
+      "entity_id": "ent-2555b85556e95f76bf43e300c22acbf5",
+      "classification": "appendix",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 1644,
+      "end_line": 1652,
+      "source_blob": "44ab87d410ffaa5736126339a965f8b496753ebd",
+      "source_excerpt": "def _heading_errors(text: str, changed: bool) -> list[str]:\n    if not changed:\n        return []\n    headings = {\n        re.sub(r\"\\s+\", \"\", line.lstrip().lstrip(\"#\").strip())\n        for line in text.splitlines()\n        if line.lstrip().startswith(\"#\")\n    }\n    return [heading for heading in _CHANGE_HEADINGS if heading not in headings]",
       "status": "draft",
       "evidence_note": "",
       "description_zh": ""

@@ -15,12 +15,11 @@
 ## 相关代码
 
 - 实现时会用到 [[ckb_canvas 的协作边界]]。
-- 实现时会用到 [[contracts 的协作边界（36093e4a）]]。
+- 实现时会用到 [[contracts 的协作边界（prototypes）]]。
 
 ## 谁会来到这里
 
 - [[AutomationTest.register 等测试场景]] 会使用这里提供的行为。
-- [[CodeKnowledgeBuilderTests 等测试场景]] 会使用这里提供的行为。
 - [[DriftAndAvailabilityTests 等测试场景]] 会使用这里提供的行为。
 - [[MigrationTest]] 会使用这里提供的行为。
 - [[PdfReferenceExtractionTests 等测试场景]] 会使用这里提供的行为。
@@ -54,6 +53,8 @@
 - [[retrieve]] 会使用这里提供的行为。
 - [[retrieve 与 _tokens 的协作实现]] 会使用这里提供的行为。
 - [[retrieve_machine 与 estimated_tokens 的协作实现]] 会使用这里提供的行为。
+- [[run_probe]] 会使用这里提供的行为。
+- [[run_probe 等测试场景]] 会使用这里提供的行为。
 - [[start_scope_extension 与 _error 的协作实现]] 会使用这里提供的行为。
 - [[state_machine 的协作边界]] 会使用这里提供的行为。
 - [[transaction 的协作边界]] 会使用这里提供的行为。

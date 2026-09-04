@@ -3,23 +3,23 @@
   "chunk_id": "batch-0002",
   "repository": {
     "root": "E:\\knowledge_builder\\self-workspace\\source",
-    "commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
-    "tree": "9289ac724bfb6c1a5a76e6160fe57ba11255691e",
+    "commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+    "tree": "098b3d1b13d3eb40ce74b41a715429493f171d14",
     "git_bootstrap": {
       "requested": false,
       "performed": false,
       "repository_created": false,
       "initial_commit_created": false,
       "root": "E:\\knowledge_builder\\self-workspace\\source",
-      "commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
-      "commit_count": 177,
+      "commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+      "commit_count": 190,
       "commit_message": null,
       "author": null
     }
   },
   "files": [
     {
-      "id": "file-87578f057d5b5135923e3c42ec873018",
+      "id": "file-c9da04cd185f5bba9b75d593832a5419",
       "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
       "language": "python",
       "blob": "d0373ddfac014a0e4fa2962576e424431ed219b3",
@@ -29,14 +29,14 @@
   ],
   "entities": [
     {
-      "id": "file-87578f057d5b5135923e3c42ec873018",
+      "id": "file-c9da04cd185f5bba9b75d593832a5419",
       "kind": "file",
       "name": "validate_design.py",
       "qualified_name": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
       "language": "python",
       "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
       "blob": "d0373ddfac014a0e4fa2962576e424431ed219b3",
-      "commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
       "range": {
         "start_byte": 0,
         "end_byte": 10895,
@@ -50,7 +50,7 @@
       ],
       "syntax_warning_ids": [],
       "classification": "page",
-      "owner_page_id": "file-87578f057d5b5135923e3c42ec873018",
+      "owner_page_id": "file-c9da04cd185f5bba9b75d593832a5419",
       "navigation_evidence": [
         "fixed-order-default"
       ],
@@ -63,14 +63,14 @@
       "review_status": "agent-reviewed"
     },
     {
-      "id": "ent-0616db5dcb4650d491ffcf6f8a90b50b",
+      "id": "ent-f50077c0fb495308aa9d65339af8470a",
       "kind": "function",
       "name": "canonical",
       "qualified_name": "canonical",
       "language": "python",
       "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
       "blob": "d0373ddfac014a0e4fa2962576e424431ed219b3",
-      "commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
       "range": {
         "start_byte": 249,
         "end_byte": 383,
@@ -79,7 +79,7 @@
         "name_line": 12,
         "name_column_utf8": 4
       },
-      "parent_id": "file-87578f057d5b5135923e3c42ec873018",
+      "parent_id": "file-c9da04cd185f5bba9b75d593832a5419",
       "candidate_classification": "appendix",
       "classification_evidence": [
         "public-or-exported",
@@ -91,7 +91,7 @@
       "is_partial": false,
       "syntax_warning_ids": [],
       "classification": "appendix",
-      "owner_page_id": "file-87578f057d5b5135923e3c42ec873018",
+      "owner_page_id": "file-c9da04cd185f5bba9b75d593832a5419",
       "navigation_evidence": [
         "public-or-exported",
         "hard-exclusion:single-return-or-call"
@@ -103,14 +103,14 @@
       "review_status": "agent-reviewed"
     },
     {
-      "id": "ent-d679d55cc8275ddeb9799bd18bdc7dae",
+      "id": "ent-e8a8ee1bc1325acbb6aaac1a33d36b34",
       "kind": "function",
       "name": "digest",
       "qualified_name": "digest",
       "language": "python",
       "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
       "blob": "d0373ddfac014a0e4fa2962576e424431ed219b3",
-      "commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
       "range": {
         "start_byte": 386,
         "end_byte": 447,
@@ -119,7 +119,7 @@
         "name_line": 16,
         "name_column_utf8": 4
       },
-      "parent_id": "file-87578f057d5b5135923e3c42ec873018",
+      "parent_id": "file-c9da04cd185f5bba9b75d593832a5419",
       "candidate_classification": "appendix",
       "classification_evidence": [
         "public-or-exported",
@@ -131,7 +131,7 @@
       "is_partial": false,
       "syntax_warning_ids": [],
       "classification": "appendix",
-      "owner_page_id": "file-87578f057d5b5135923e3c42ec873018",
+      "owner_page_id": "file-c9da04cd185f5bba9b75d593832a5419",
       "navigation_evidence": [
         "public-or-exported",
         "hard-exclusion:single-return-or-call"
@@ -143,14 +143,14 @@
       "review_status": "agent-reviewed"
     },
     {
-      "id": "ent-32298d9138215c8b9ec47d6a13594e0c",
+      "id": "ent-6ae2e719850c5b188330838dc51d4d68",
       "kind": "function",
       "name": "is_type",
       "qualified_name": "is_type",
       "language": "python",
       "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
       "blob": "d0373ddfac014a0e4fa2962576e424431ed219b3",
-      "commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
       "range": {
         "start_byte": 450,
         "end_byte": 943,
@@ -159,7 +159,7 @@
         "name_line": 20,
         "name_column_utf8": 4
       },
-      "parent_id": "file-87578f057d5b5135923e3c42ec873018",
+      "parent_id": "file-c9da04cd185f5bba9b75d593832a5419",
       "candidate_classification": "appendix",
       "classification_evidence": [
         "public-or-exported"
@@ -170,7 +170,7 @@
       "is_partial": false,
       "syntax_warning_ids": [],
       "classification": "appendix",
-      "owner_page_id": "file-87578f057d5b5135923e3c42ec873018",
+      "owner_page_id": "file-c9da04cd185f5bba9b75d593832a5419",
       "navigation_evidence": [
         "public-or-exported"
       ],
@@ -181,14 +181,14 @@
       "review_status": "agent-reviewed"
     },
     {
-      "id": "ent-399421baa8ed5e29b11573d10083905d",
+      "id": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "kind": "function",
       "name": "validate",
       "qualified_name": "validate",
       "language": "python",
       "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
       "blob": "d0373ddfac014a0e4fa2962576e424431ed219b3",
-      "commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
       "range": {
         "start_byte": 946,
         "end_byte": 3499,
@@ -197,7 +197,7 @@
         "name_line": 31,
         "name_column_utf8": 4
       },
-      "parent_id": "file-87578f057d5b5135923e3c42ec873018",
+      "parent_id": "file-c9da04cd185f5bba9b75d593832a5419",
       "candidate_classification": "page",
       "classification_evidence": [
         "public-or-exported"
@@ -208,7 +208,7 @@
       "is_partial": false,
       "syntax_warning_ids": [],
       "classification": "page",
-      "owner_page_id": "ent-399421baa8ed5e29b11573d10083905d",
+      "owner_page_id": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "navigation_evidence": [
         "entry-direct-relation",
         "cross-file-reference",
@@ -223,14 +223,14 @@
       "review_status": "agent-reviewed"
     },
     {
-      "id": "ent-374fc791ab2d5d92b35e997b2665b189",
+      "id": "ent-763e5683862358c3abcbc9ed37c1a17d",
       "kind": "function",
       "name": "load",
       "qualified_name": "load",
       "language": "python",
       "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
       "blob": "d0373ddfac014a0e4fa2962576e424431ed219b3",
-      "commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
       "range": {
         "start_byte": 3502,
         "end_byte": 3569,
@@ -239,7 +239,7 @@
         "name_line": 72,
         "name_column_utf8": 4
       },
-      "parent_id": "file-87578f057d5b5135923e3c42ec873018",
+      "parent_id": "file-c9da04cd185f5bba9b75d593832a5419",
       "candidate_classification": "appendix",
       "classification_evidence": [
         "public-or-exported",
@@ -251,7 +251,7 @@
       "is_partial": false,
       "syntax_warning_ids": [],
       "classification": "appendix",
-      "owner_page_id": "file-87578f057d5b5135923e3c42ec873018",
+      "owner_page_id": "file-c9da04cd185f5bba9b75d593832a5419",
       "navigation_evidence": [
         "public-or-exported",
         "hard-exclusion:single-return-or-call"
@@ -263,14 +263,14 @@
       "review_status": "agent-reviewed"
     },
     {
-      "id": "ent-7cccbee186a951cc8d1196798dec4854",
+      "id": "ent-c60ef61fd2815649965cfc5f86a8bd4d",
       "kind": "function",
       "name": "assert_valid",
       "qualified_name": "assert_valid",
       "language": "python",
       "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
       "blob": "d0373ddfac014a0e4fa2962576e424431ed219b3",
-      "commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
       "range": {
         "start_byte": 3571,
         "end_byte": 3753,
@@ -279,7 +279,7 @@
         "name_line": 74,
         "name_column_utf8": 4
       },
-      "parent_id": "file-87578f057d5b5135923e3c42ec873018",
+      "parent_id": "file-c9da04cd185f5bba9b75d593832a5419",
       "candidate_classification": "appendix",
       "classification_evidence": [
         "public-or-exported"
@@ -290,7 +290,7 @@
       "is_partial": false,
       "syntax_warning_ids": [],
       "classification": "appendix",
-      "owner_page_id": "file-87578f057d5b5135923e3c42ec873018",
+      "owner_page_id": "file-c9da04cd185f5bba9b75d593832a5419",
       "navigation_evidence": [
         "public-or-exported"
       ],
@@ -301,14 +301,14 @@
       "review_status": "agent-reviewed"
     },
     {
-      "id": "ent-b6cc9faeed325e858f7951ec0fa37ada",
+      "id": "ent-62942dc77c4e5e0a881a23e754f42132",
       "kind": "function",
       "name": "slug",
       "qualified_name": "slug",
       "language": "python",
       "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
       "blob": "d0373ddfac014a0e4fa2962576e424431ed219b3",
-      "commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
       "range": {
         "start_byte": 3756,
         "end_byte": 3914,
@@ -317,7 +317,7 @@
         "name_line": 79,
         "name_column_utf8": 4
       },
-      "parent_id": "file-87578f057d5b5135923e3c42ec873018",
+      "parent_id": "file-c9da04cd185f5bba9b75d593832a5419",
       "candidate_classification": "appendix",
       "classification_evidence": [
         "public-or-exported"
@@ -328,7 +328,7 @@
       "is_partial": false,
       "syntax_warning_ids": [],
       "classification": "appendix",
-      "owner_page_id": "file-87578f057d5b5135923e3c42ec873018",
+      "owner_page_id": "file-c9da04cd185f5bba9b75d593832a5419",
       "navigation_evidence": [
         "public-or-exported"
       ],
@@ -339,14 +339,14 @@
       "review_status": "agent-reviewed"
     },
     {
-      "id": "ent-11d4c8d4a34f5dcd828c5a16dee8ad7e",
+      "id": "ent-6a81347ac35055458e7fc44402db6aa4",
       "kind": "function",
       "name": "walk",
       "qualified_name": "walk",
       "language": "python",
       "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
       "blob": "d0373ddfac014a0e4fa2962576e424431ed219b3",
-      "commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
       "range": {
         "start_byte": 4408,
         "end_byte": 4661,
@@ -355,7 +355,7 @@
         "name_line": 95,
         "name_column_utf8": 8
       },
-      "parent_id": "file-87578f057d5b5135923e3c42ec873018",
+      "parent_id": "file-c9da04cd185f5bba9b75d593832a5419",
       "candidate_classification": "appendix",
       "classification_evidence": [
         "public-or-exported"
@@ -366,7 +366,7 @@
       "is_partial": false,
       "syntax_warning_ids": [],
       "classification": "appendix",
-      "owner_page_id": "file-87578f057d5b5135923e3c42ec873018",
+      "owner_page_id": "file-c9da04cd185f5bba9b75d593832a5419",
       "navigation_evidence": [
         "cross-file-reference",
         "public-or-exported"
@@ -378,14 +378,14 @@
       "review_status": "agent-reviewed"
     },
     {
-      "id": "ent-e74773a5f6e454d1860d40a6e6bcd44a",
+      "id": "ent-ed097b2d86985dc4b7503051dfef8a02",
       "kind": "function",
       "name": "add",
       "qualified_name": "add",
       "language": "python",
       "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
       "blob": "d0373ddfac014a0e4fa2962576e424431ed219b3",
-      "commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
       "range": {
         "start_byte": 5877,
         "end_byte": 6023,
@@ -394,7 +394,7 @@
         "name_line": 120,
         "name_column_utf8": 4
       },
-      "parent_id": "file-87578f057d5b5135923e3c42ec873018",
+      "parent_id": "file-c9da04cd185f5bba9b75d593832a5419",
       "candidate_classification": "appendix",
       "classification_evidence": [
         "public-or-exported"
@@ -405,7 +405,7 @@
       "is_partial": false,
       "syntax_warning_ids": [],
       "classification": "appendix",
-      "owner_page_id": "file-87578f057d5b5135923e3c42ec873018",
+      "owner_page_id": "file-c9da04cd185f5bba9b75d593832a5419",
       "navigation_evidence": [
         "cross-file-reference",
         "public-or-exported"
@@ -417,14 +417,14 @@
       "review_status": "agent-reviewed"
     },
     {
-      "id": "ent-c1dd396a3668531c93617a73df679019",
+      "id": "ent-08bed70ac99e520c8a354ce891d7b677",
       "kind": "boundary",
       "name": "validate_only",
       "qualified_name": "validate_only",
       "language": "python",
       "path": "prototypes/ckb-canvas-skill/ckb_canvas/commands.py",
       "blob": "31c13b717a56030b81925743282ac8a2d3eeedc9",
-      "commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
       "range": {
         "start_byte": 7717,
         "end_byte": 8304,
@@ -433,7 +433,7 @@
         "name_line": 213,
         "name_column_utf8": 4
       },
-      "parent_id": "file-bd0450081fe853ddad1d8b8fa0717204",
+      "parent_id": "file-5baff586016c5f548019c88362141c50",
       "candidate_classification": "boundary",
       "classification_evidence": [
         "one-hop-outside-selected-scope"
@@ -445,7 +445,7 @@
       "syntax_warning_ids": [],
       "kind_original": "function",
       "classification": "boundary",
-      "owner_page_id": "ent-c1dd396a3668531c93617a73df679019",
+      "owner_page_id": "ent-08bed70ac99e520c8a354ce891d7b677",
       "navigation_evidence": [
         "cross-file-reference",
         "public-or-exported"
@@ -461,10 +461,10 @@
   ],
   "links": [
     {
-      "id": "link-3e281cfcc88450808bacba083be0b32c",
+      "id": "link-b497ba8ad69f5613a620a205bf979bc1",
       "type": "references",
-      "source": "ent-c1dd396a3668531c93617a73df679019",
-      "target": "ent-a666b9960e3358af95d1cc7f4cd26a75",
+      "source": "ent-08bed70ac99e520c8a354ce891d7b677",
+      "target": "ent-aad62aabda2355ceaa0c4cfb9feb1be6",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "CanvasFailure",
@@ -473,10 +473,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-723b53e1660b5988a9a1980d2f142d64",
+      "id": "link-0d1f7797ce2a585da70702b6d9eecd84",
       "type": "references",
-      "source": "ent-c1dd396a3668531c93617a73df679019",
-      "target": "ent-5859fb0c6f9e567fa99362b02f8ae586",
+      "source": "ent-08bed70ac99e520c8a354ce891d7b677",
+      "target": "ent-9a9724f83bfa5111af3867a45685b98b",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "_bundle_bytes",
@@ -485,10 +485,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-1a557125aaa951f9b0395e57283fd052",
+      "id": "link-22d6ad3a57505d5a98d3b74af19964c5",
       "type": "references",
-      "source": "ent-c1dd396a3668531c93617a73df679019",
-      "target": "ent-7d46b8f700a059d3bb26673f22e84985",
+      "source": "ent-08bed70ac99e520c8a354ce891d7b677",
+      "target": "ent-89b4e4326d49517d9172f71eb443d508",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "_render",
@@ -497,10 +497,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-7e4a2e264df05cc0bb925e1ff5594172",
+      "id": "link-12bce87d53645edb94983fd538b48ed7",
       "type": "references",
-      "source": "ent-c1dd396a3668531c93617a73df679019",
-      "target": "ent-e28e4af9ceda5d78a82fa41a5ffc39f6",
+      "source": "ent-08bed70ac99e520c8a354ce891d7b677",
+      "target": "ent-e747afdd18e55b05bbd9c8137070b034",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "capture_baseline",
@@ -509,10 +509,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-65e19f3cc4fd5f50a6a8dcdb9baa0c5e",
+      "id": "link-3f6a522f19765e9bb7d36b8d50aee705",
       "type": "references",
-      "source": "ent-c1dd396a3668531c93617a73df679019",
-      "target": "ent-1e2ed109550e558b8215e90dcbd4f093",
+      "source": "ent-08bed70ac99e520c8a354ce891d7b677",
+      "target": "ent-80147016c5e55ab5aae671ee2902448b",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "load_and_freeze_request",
@@ -521,10 +521,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-9c654e11edea51a7b178d6a2f13ebebe",
+      "id": "link-ac1f9b53171858a481b3fd9d23505857",
       "type": "references",
-      "source": "ent-c1dd396a3668531c93617a73df679019",
-      "target": "ent-9383aef4edd1541cb4114a2a1a0c254f",
+      "source": "ent-08bed70ac99e520c8a354ce891d7b677",
+      "target": "ent-af426833375759fdac2a7adf771b03b9",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "stage_bundle",
@@ -533,10 +533,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-0e9cd6e5e5d65419b3a23bb21807dced",
+      "id": "link-8a44b17e3d915d8fb89b75a1096a59b3",
       "type": "references",
-      "source": "ent-c1dd396a3668531c93617a73df679019",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-08bed70ac99e520c8a354ce891d7b677",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -545,10 +545,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-9df51d8ebd03518b935233303616d1a4",
+      "id": "link-5c0aef7122215909a7b633bd406aad89",
       "type": "references",
-      "source": "ent-c1dd396a3668531c93617a73df679019",
-      "target": "ent-beeeb0155c895d0dbc07ee442416e9ed",
+      "source": "ent-08bed70ac99e520c8a354ce891d7b677",
+      "target": "ent-9a561c6972cb55e5800d49e778994bf9",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validation",
@@ -557,10 +557,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-209b1c958b09538d9dfb406fb20d7cd5",
+      "id": "link-baf686c460f25ac7bab5dcdb0a3f3521",
       "type": "references",
-      "source": "ent-7fe35c17139b5ac2b59da8dc138d0abd",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-23fb99c8257a5c09b91b0c85f359f447",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -569,10 +569,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-526dd7b5fb9251cbb0f8bd2e18cd58d9",
+      "id": "link-25791ab6aca258e3893b4911cf0e6078",
       "type": "references",
-      "source": "ent-0a8a748dd7dd56cc841facbb9c7e4df9",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-f58f6138d011507b85b97cd44d6d187a",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -581,10 +581,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-05cc55828c6d516a8cc7981d3074e8bb",
+      "id": "link-089e888383215281a559d7ecf5024740",
       "type": "references",
-      "source": "ent-561c62d217995c9386476cb94475880c",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-0e533d014a7f51bd99bf818f6c0c2b1b",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -593,10 +593,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-a072c7fbb1fe5d848ededbd46e0b33b1",
+      "id": "link-55493654cab55c66ab9ba97b76fce37b",
       "type": "references",
-      "source": "ent-561c62d217995c9386476cb94475880c",
-      "target": "ent-c1dd396a3668531c93617a73df679019",
+      "source": "ent-0e533d014a7f51bd99bf818f6c0c2b1b",
+      "target": "ent-08bed70ac99e520c8a354ce891d7b677",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_only",
@@ -605,10 +605,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-7a38a25e751252229a44704c1c563d72",
+      "id": "link-a1bee816a039594b846bbd6ae0d5ec18",
       "type": "references",
-      "source": "ent-399421baa8ed5e29b11573d10083905d",
-      "target": "ent-1a1a17f09e115a919cd0d51d95ef598f",
+      "source": "ent-8fd7fc2544565712a7086c8a2438b3e8",
+      "target": "ent-a53d0647c4685885991c6d8f5985c0dc",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "append",
@@ -617,10 +617,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-cb73a7b7365651668c98a4e075f7e400",
+      "id": "link-43cee5c1418257109e49347d35825284",
       "type": "references",
-      "source": "ent-399421baa8ed5e29b11573d10083905d",
-      "target": "ent-32298d9138215c8b9ec47d6a13594e0c",
+      "source": "ent-8fd7fc2544565712a7086c8a2438b3e8",
+      "target": "ent-6ae2e719850c5b188330838dc51d4d68",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "is_type",
@@ -629,10 +629,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-62c760a55de45575a6d3d9872e7a94d0",
+      "id": "link-0bff2d6d249154989a19994990eff6e7",
       "type": "references",
-      "source": "ent-399421baa8ed5e29b11573d10083905d",
-      "target": "ent-7aead372311b54c7b83dc141717d5f3a",
+      "source": "ent-8fd7fc2544565712a7086c8a2438b3e8",
+      "target": "ent-fd5cb03049eb5f638f83c6816e71b610",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "variants",
@@ -641,10 +641,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-fa2129027af85e66a5ee041fee4adf4b",
+      "id": "link-ca455f3fe5715aa18e1ee988e95e5b57",
       "type": "references",
-      "source": "ent-7cccbee186a951cc8d1196798dec4854",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-c60ef61fd2815649965cfc5f86a8bd4d",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -653,10 +653,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-471a420171075bb6ba6e1aaf0ecc737b",
+      "id": "link-150ac32016215a2b8fe0a98ebf7223bb",
       "type": "references",
-      "source": "ent-e74773a5f6e454d1860d40a6e6bcd44a",
-      "target": "ent-1a1a17f09e115a919cd0d51d95ef598f",
+      "source": "ent-ed097b2d86985dc4b7503051dfef8a02",
+      "target": "ent-a53d0647c4685885991c6d8f5985c0dc",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "append",
@@ -665,10 +665,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-ea7955518a395301838a0261d0b19762",
+      "id": "link-d0c6e88ae2035fd891c891250bc7c3c8",
       "type": "references",
-      "source": "ent-81eb320f07b25acc9f8e20fb4273a9c1",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-64aee904371750b28057690c027b7947",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -677,10 +677,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-0f7afc348825544dbaabb273899fd86a",
+      "id": "link-b2cbd81fd2d859fca3c2b95994767c41",
       "type": "references",
-      "source": "ent-98c0f556e88958f48cbe2f6d70c374bf",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-cd306aea54cb5d0e94abe576dcc945ae",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -689,10 +689,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-4a04bc60ca60588288024824271f177d",
+      "id": "link-4b4759ffc22e5f66936b767a24dafb2f",
       "type": "references",
-      "source": "ent-fcf3b005aa9a55e39571bf2d9aeafd5d",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-9510f78c922f5f66a7d092d29187e672",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -701,10 +701,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-2d08a5a5d83751a5b47e390882b290dc",
+      "id": "link-67a4f4697ba453fcbe7a746479c96734",
       "type": "references",
-      "source": "ent-5fccb89338ec5337a2f5416fa96993d9",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-1f5d9cb0da7659d7819b991d764b584d",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -713,10 +713,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-dfee2ed52b0a5f819d10416c29e9a2d8",
+      "id": "link-01b96f226ce45000b8092e1175679e8d",
       "type": "references",
-      "source": "ent-3541033a12c052769ef7ae88be39e36e",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-6bb656cbf7215328ab1c1385d3f7fa59",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -725,10 +725,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-17ae8d2332675fddbddd878662ced446",
+      "id": "link-b75417bec0ea53b1b340652e9c2f2f0e",
       "type": "references",
-      "source": "ent-9609c65716435b6bb81a8f4c3ffbd9c2",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-0e5f6a019c8d58358d6cf1aaad0f05a6",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -737,10 +737,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-98b5cd0331715590934a46a820623d0a",
+      "id": "link-2e3fe63a042f553985484f16848ba867",
       "type": "references",
-      "source": "ent-1032417ade435a47bfc1069bc2f3c1d9",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-f9faea08db7654aeb2fbc4b262e9f650",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -749,10 +749,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-c36160d1e143566e9a3678ab6cddb724",
+      "id": "link-1c64d67c42a15b2d8e8d617cc53f08c3",
       "type": "references",
-      "source": "ent-526f572d68ef5394acccc3bb7fef2ebd",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-70a115ad4ced51a69a1f5847660feadd",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -761,10 +761,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-ab056410e6d05010b736fbf74886b5b3",
+      "id": "link-5c45c3c6140b56be874b087c7be19094",
       "type": "references",
-      "source": "ent-b7ec626933615c6c91d5561e8bdc7531",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-c982eb2fbcdd532b9973debdfbad0943",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -773,10 +773,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-ec66c014c8db5c72902cf1dd4700966b",
+      "id": "link-b4b1e113f6f6519da4d5c42140e7f7cb",
       "type": "references",
-      "source": "ent-84a3c4ce3139515eb5db174a7fd1eada",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-606b099845b65cf3993e6a0925e0e799",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -785,10 +785,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-427d296f4a3b5d978c218b8003128cbd",
+      "id": "link-65aca4d07e3b5847afa196896a47b680",
       "type": "references",
-      "source": "ent-596aeeff850c599aa26f53bff8e6b9f6",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-5ce4e82d131e5b508b773d7871fbcc63",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -797,10 +797,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-da3c058c36175c0a91902cb93fab0812",
+      "id": "link-50e6673ce96c5510a25ce010a001a5d9",
       "type": "references",
-      "source": "ent-6935e1c704e75bda9c40f1830bfa56e4",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-319bdce5e4cf5fa780d64ace20aaeb57",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -809,10 +809,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-126a0fc079745a3abe4f216bef30db99",
+      "id": "link-f4993c1621e55274b03584fffb59334e",
       "type": "references",
-      "source": "ent-eb3d6ca0b36c53dfa4ef05184f5e7924",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-2c66e76ce9d25a9ea3d270680c1911b7",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -821,10 +821,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-de99c9f7c70f586e9bcbe34d470e5aa1",
+      "id": "link-ff79465d979f50b3935c7e5c154e75c0",
       "type": "references",
-      "source": "ent-0610360ff4c950bb8c0c753b3e9d5cfc",
-      "target": "ent-11d4c8d4a34f5dcd828c5a16dee8ad7e",
+      "source": "ent-55f7072878f650718d6b1370fed9edc1",
+      "target": "ent-6a81347ac35055458e7fc44402db6aa4",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "walk",
@@ -833,10 +833,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-9bd55a59c62951aab363c236e02c258d",
+      "id": "link-92e48038171a5c7391659ea753bbd8d6",
       "type": "references",
-      "source": "ent-0eb4d33d5e5b5ef396b8714dd5bcdd47",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-851f40346c92574f93b988aaf8444372",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -845,10 +845,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-364918028c4359d9a296da345f5c073a",
+      "id": "link-6bab63b88c835bffb422ce809b47a6de",
       "type": "references",
-      "source": "ent-604cf4be8f9f59ac8a63fd7614b95138",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-90dc9edd726754cca281bcc38bd78e18",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -857,10 +857,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-e2e6330356c751feb9477bc30a8f6239",
+      "id": "link-cbadf0f29be85a148bb5edc9fff9312b",
       "type": "references",
-      "source": "ent-426ae1c0fe0a51bca49da31f0ed9833c",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-d37537ed7f845e62bed45cf6cf6b75ab",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -869,10 +869,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-ff097298c4ad5bb9b3c191c6e05b2c13",
+      "id": "link-de988e513804550a841b10f1f9c0d8e1",
       "type": "references",
-      "source": "ent-c0d4eea3f8365143b3636e1553c2a4ee",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-cc9f6a83cb1a5c948e34e0c68b5b97e3",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -881,10 +881,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-ab653ee6670253ac874c0039433d7f43",
+      "id": "link-9ab8ee02b7ae584cae04aeec5d493c50",
       "type": "references",
-      "source": "ent-c0d4eea3f8365143b3636e1553c2a4ee",
-      "target": "ent-c1dd396a3668531c93617a73df679019",
+      "source": "ent-cc9f6a83cb1a5c948e34e0c68b5b97e3",
+      "target": "ent-08bed70ac99e520c8a354ce891d7b677",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_only",
@@ -893,10 +893,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-c2b821342aad591f9f4fdf863ac61002",
+      "id": "link-468cdc3b04dd56a9bae6646f9c0059db",
       "type": "references",
-      "source": "ent-d43051d8992558d5a810a5295167e087",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-168038011f0c54b49cb5dc94dcfe3e7e",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -905,10 +905,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-e1256dbf3bcc5e6b82c98e8aa5bdfb8a",
+      "id": "link-274a5eb25c475220950fe2a248b71579",
       "type": "references",
-      "source": "ent-fa35b6cc194352bcb2317051971fbb46",
-      "target": "ent-c1dd396a3668531c93617a73df679019",
+      "source": "ent-9f7bf701fa525214962d48eec8c3d5c9",
+      "target": "ent-08bed70ac99e520c8a354ce891d7b677",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_only",
@@ -917,10 +917,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-d44dbb96767c530aac7561343883aeed",
+      "id": "link-ba0475d92a2455e293a1941b7f7202b0",
       "type": "references",
-      "source": "ent-fdb20f398e6852b28934cd5d39f44bda",
-      "target": "ent-c1dd396a3668531c93617a73df679019",
+      "source": "ent-76268d70dfda5aac8b2caca6bc186559",
+      "target": "ent-08bed70ac99e520c8a354ce891d7b677",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_only",
@@ -929,10 +929,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-2d2af949545956f1be8de948dc5cb9b9",
+      "id": "link-00c11ecab4f05fabbedcedf020dc5d9c",
       "type": "references",
-      "source": "ent-1c22ac37b7fc5f219c0b81bba714e3b4",
-      "target": "ent-c1dd396a3668531c93617a73df679019",
+      "source": "ent-38abb3739808570188402a1e6c5b0541",
+      "target": "ent-08bed70ac99e520c8a354ce891d7b677",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_only",
@@ -941,10 +941,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-0f7fd1317ad65d23a93f9f531579d6df",
+      "id": "link-e80cf8f9241c5a97bacbe709b8bd2164",
       "type": "references",
-      "source": "ent-510b66620aed51d58f4ed45012df9bc8",
-      "target": "ent-c1dd396a3668531c93617a73df679019",
+      "source": "ent-16d8692274925e2082eab84c7c239d66",
+      "target": "ent-08bed70ac99e520c8a354ce891d7b677",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_only",
@@ -953,10 +953,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-1827edff77b45c52975817f83ba20438",
+      "id": "link-576d8ce45c4c5f4393d98c3bb6524dba",
       "type": "references",
-      "source": "ent-beebc1a4dc6859d1ad5128dd845bad26",
-      "target": "ent-c1dd396a3668531c93617a73df679019",
+      "source": "ent-be9d312d8b345f2a9510fa04ab3b8626",
+      "target": "ent-08bed70ac99e520c8a354ce891d7b677",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_only",
@@ -965,10 +965,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-63d30fe8bd2c5cd9af424e66a4fec58b",
+      "id": "link-ce61d2a395f1548ca16ad17de2843302",
       "type": "references",
-      "source": "ent-630a7d0debe05294b340453ef0d72ce9",
-      "target": "ent-c1dd396a3668531c93617a73df679019",
+      "source": "ent-0b2dfa6b6b4454aab3ed863a3615851b",
+      "target": "ent-08bed70ac99e520c8a354ce891d7b677",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_only",
@@ -977,10 +977,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-e29c9a365de5560385d5751330ebbbb8",
+      "id": "link-b33c316150e15369b18fdb838de74368",
       "type": "references",
-      "source": "ent-b82ae2b9d06a532eb3bf39b4a6d2c339",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-4c051d3417fd52c1af700885cbf3afef",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -989,10 +989,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-dfdcc370d55b5589b372cb7e7f295279",
+      "id": "link-c79f892a317b574e8e012de728a2e92f",
       "type": "references",
-      "source": "ent-b82ae2b9d06a532eb3bf39b4a6d2c339",
-      "target": "ent-c1dd396a3668531c93617a73df679019",
+      "source": "ent-4c051d3417fd52c1af700885cbf3afef",
+      "target": "ent-08bed70ac99e520c8a354ce891d7b677",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_only",
@@ -1001,10 +1001,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-d3a0b3e6bc1a54f6a7b79f85bacfbdb1",
+      "id": "link-66561b42c55c5ad9b531880ff81c6f45",
       "type": "references",
-      "source": "ent-400898ee08a75d9a95f670fa8789ded8",
-      "target": "ent-c1dd396a3668531c93617a73df679019",
+      "source": "ent-5ba649ff7a5c5177b51e77dbeeedc681",
+      "target": "ent-08bed70ac99e520c8a354ce891d7b677",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_only",
@@ -1013,10 +1013,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-a238972982205d43bf16d07877b7d07a",
+      "id": "link-888e7f31232457bfbd7dc7919eaec537",
       "type": "references",
-      "source": "ent-64bef57d39dd5591907156fc574703a3",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-142794052a0a5beca592762ee2f14684",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -1025,10 +1025,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-24c0f24b450e5bee8d8eee34128db713",
+      "id": "link-a0c08566b2bf5edbbfab90a5ecbc6c51",
       "type": "references",
-      "source": "ent-c5d49f607848575fa752f3270983ddf3",
-      "target": "ent-c1dd396a3668531c93617a73df679019",
+      "source": "ent-449bedc323665df788444a936ac99e8f",
+      "target": "ent-08bed70ac99e520c8a354ce891d7b677",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_only",
@@ -1037,10 +1037,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-9b9e1d1c9a9f5437908bef7b4b35be28",
+      "id": "link-1068ce7e98ae52ddbe81bcf33041e23c",
       "type": "references",
-      "source": "ent-4a7874b1d83c586c90ec951a29e7c35a",
-      "target": "ent-c1dd396a3668531c93617a73df679019",
+      "source": "ent-6a8c79b16a8154d89b906d69d5640262",
+      "target": "ent-08bed70ac99e520c8a354ce891d7b677",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_only",
@@ -1049,10 +1049,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-2cac029f57965adbaab015f658bccf53",
+      "id": "link-d904d641b060507e88aecd52c31f8256",
       "type": "references",
-      "source": "ent-e6f158891c995574b5ba1dafeef868eb",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-b39b3b998d195ec5b903ee39927882de",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -1061,10 +1061,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-f8f1920e264e5d889f012b5871233699",
+      "id": "link-a1e2fb7e9650586bb190ab41146b4866",
       "type": "references",
-      "source": "ent-e6f158891c995574b5ba1dafeef868eb",
-      "target": "ent-c1dd396a3668531c93617a73df679019",
+      "source": "ent-b39b3b998d195ec5b903ee39927882de",
+      "target": "ent-08bed70ac99e520c8a354ce891d7b677",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_only",
@@ -1073,10 +1073,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-db6490e2d4ff59e7a40f449b449e0db2",
+      "id": "link-ec2fa6c032755454920cfc9caff8d5f5",
       "type": "references",
-      "source": "ent-1c63df9a0ab65133bcd7f6180600ccf9",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-bdd859f7c37d5165b860da11d54b4020",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -1085,10 +1085,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-c90599f5177a5ff6be7a48a4eac1334d",
+      "id": "link-74f33c98434c52d68a313eee10e1ff97",
       "type": "references",
-      "source": "ent-1c63df9a0ab65133bcd7f6180600ccf9",
-      "target": "ent-c1dd396a3668531c93617a73df679019",
+      "source": "ent-bdd859f7c37d5165b860da11d54b4020",
+      "target": "ent-08bed70ac99e520c8a354ce891d7b677",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_only",
@@ -1097,10 +1097,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-3e6101c5f1e556c0a780df95e09cd54b",
+      "id": "link-d6b7cc8c0fbe542bac018222c848e630",
       "type": "references",
-      "source": "ent-ba82f66e24385b9d963b723778d01c7f",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-b4e1d6bdf20e5fafbf2cafbd15b4edd1",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -1109,10 +1109,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-c68027861f9359a5967f48476248e5a7",
+      "id": "link-40e1b2d5b7de57d2be49071c61f83dfd",
       "type": "references",
-      "source": "ent-f7ef678ef7525681b6ec04302a925fbb",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-49ebc062fe1854f69e8bb49a63cc7903",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -1121,10 +1121,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-6f9bf401376d5be98e7ae7ac8be283c1",
+      "id": "link-3af7015051875ac3bd74552efb6acd4b",
       "type": "references",
-      "source": "ent-b6d4125d051b5906b144796f275b373f",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-9f64005e97b950529d7d92a836ce1bc5",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -1133,10 +1133,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-7c2f096d10385828be90ae7abd63b4f4",
+      "id": "link-d9362d4cfc8b5dcfa6717fdb352b08d1",
       "type": "references",
-      "source": "ent-7d5215abc09b5abab9e1236c05f2a6f9",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-8782a01ecf2c5135b344870cf8de821b",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -1145,10 +1145,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-8282ad5b42c957059b53ecdfbf29acc2",
+      "id": "link-1075d01c4c6b5e239cc0940da0d1b49a",
       "type": "references",
-      "source": "ent-2b6033c733f454b0bde3fbbd565e9fbf",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-f365ddfcbbf055848ff3cd05a15ba616",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -1157,10 +1157,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-b31354b970af5e458b23b5443edcf19b",
+      "id": "link-a95e8538cdc859679e71e97ff2a1e451",
       "type": "references",
-      "source": "ent-d4d152765a865ed4b863f3a1a0d27fd3",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-5e2c1223c07e573f9bbfe0fb0b80a447",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -1169,10 +1169,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-f0ab5ef3555c545b9ad2d557fe1e553e",
+      "id": "link-5d70380640355318acdf7908760989cf",
       "type": "references",
-      "source": "ent-ce4c68c532ad59378387d73bda9c5917",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-67564ca414485952a79a189a224eb3d7",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -1181,10 +1181,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-ad287938d98a5cf58e1505307ecae8cb",
+      "id": "link-a24f06e9be0953bfb606d97501599f92",
       "type": "references",
-      "source": "ent-1e8e79ef0bd858bfa5a84ef96eeea4cf",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-4fc0dde247e55e22b3bf23704dc37d2c",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -1193,10 +1193,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-932f843bc6fe593584ec82644f6dd3ba",
+      "id": "link-d27a005066685e11aaeee41b22dad6be",
       "type": "contains",
-      "source": "file-87578f057d5b5135923e3c42ec873018",
-      "target": "ent-0616db5dcb4650d491ffcf6f8a90b50b",
+      "source": "file-c9da04cd185f5bba9b75d593832a5419",
+      "target": "ent-f50077c0fb495308aa9d65339af8470a",
       "provider": "tree-sitter",
       "evidence": {
         "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
@@ -1212,10 +1212,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-d64ec5a8553456d987509c168b7388df",
+      "id": "link-a6e602e3e0af56a58ae1d037fc298262",
       "type": "contains",
-      "source": "file-87578f057d5b5135923e3c42ec873018",
-      "target": "ent-d679d55cc8275ddeb9799bd18bdc7dae",
+      "source": "file-c9da04cd185f5bba9b75d593832a5419",
+      "target": "ent-e8a8ee1bc1325acbb6aaac1a33d36b34",
       "provider": "tree-sitter",
       "evidence": {
         "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
@@ -1231,10 +1231,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-93e2d7832e365e91b517b33b9627f6f0",
+      "id": "link-d83ca95c75475e8c8c39a6aa73c60ac8",
       "type": "contains",
-      "source": "file-87578f057d5b5135923e3c42ec873018",
-      "target": "ent-32298d9138215c8b9ec47d6a13594e0c",
+      "source": "file-c9da04cd185f5bba9b75d593832a5419",
+      "target": "ent-6ae2e719850c5b188330838dc51d4d68",
       "provider": "tree-sitter",
       "evidence": {
         "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
@@ -1250,10 +1250,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-8b513ef6d9f45e8da25de73800dbfef2",
+      "id": "link-23720f88379e571188aa0a8a864860e4",
       "type": "contains",
-      "source": "file-87578f057d5b5135923e3c42ec873018",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "file-c9da04cd185f5bba9b75d593832a5419",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter",
       "evidence": {
         "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
@@ -1269,10 +1269,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-ab4d342ff67f5047b3e6b3d49403b0be",
+      "id": "link-4833657ef80b5f5494b6ec40deb00057",
       "type": "contains",
-      "source": "file-87578f057d5b5135923e3c42ec873018",
-      "target": "ent-374fc791ab2d5d92b35e997b2665b189",
+      "source": "file-c9da04cd185f5bba9b75d593832a5419",
+      "target": "ent-763e5683862358c3abcbc9ed37c1a17d",
       "provider": "tree-sitter",
       "evidence": {
         "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
@@ -1288,10 +1288,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-f1f2d5abd94d51808167b78b640fd9cc",
+      "id": "link-1e9066e451f359b7ac34ed88edf825fd",
       "type": "contains",
-      "source": "file-87578f057d5b5135923e3c42ec873018",
-      "target": "ent-7cccbee186a951cc8d1196798dec4854",
+      "source": "file-c9da04cd185f5bba9b75d593832a5419",
+      "target": "ent-c60ef61fd2815649965cfc5f86a8bd4d",
       "provider": "tree-sitter",
       "evidence": {
         "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
@@ -1307,10 +1307,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-04482eb1a8c557388ea7288abd7ebc2a",
+      "id": "link-35f884ecd2515101bde072e05b4c4e02",
       "type": "contains",
-      "source": "file-87578f057d5b5135923e3c42ec873018",
-      "target": "ent-b6cc9faeed325e858f7951ec0fa37ada",
+      "source": "file-c9da04cd185f5bba9b75d593832a5419",
+      "target": "ent-62942dc77c4e5e0a881a23e754f42132",
       "provider": "tree-sitter",
       "evidence": {
         "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
@@ -1326,10 +1326,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-ba78f52dcc7c522283401f09883f8bee",
+      "id": "link-3328621477005837a44d6af53784ddfd",
       "type": "contains",
-      "source": "file-87578f057d5b5135923e3c42ec873018",
-      "target": "ent-11d4c8d4a34f5dcd828c5a16dee8ad7e",
+      "source": "file-c9da04cd185f5bba9b75d593832a5419",
+      "target": "ent-6a81347ac35055458e7fc44402db6aa4",
       "provider": "tree-sitter",
       "evidence": {
         "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
@@ -1345,10 +1345,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-2d01e48a49c35d02a84b830f781446c5",
+      "id": "link-d75c42dee64c5b1aa491bf3048075d0a",
       "type": "contains",
-      "source": "file-87578f057d5b5135923e3c42ec873018",
-      "target": "ent-e74773a5f6e454d1860d40a6e6bcd44a",
+      "source": "file-c9da04cd185f5bba9b75d593832a5419",
+      "target": "ent-ed097b2d86985dc4b7503051dfef8a02",
       "provider": "tree-sitter",
       "evidence": {
         "path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
@@ -1364,10 +1364,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-0e9cd6e5e5d65419b3a23bb21807dced",
+      "id": "link-8a44b17e3d915d8fb89b75a1096a59b3",
       "type": "references",
-      "source": "ent-c1dd396a3668531c93617a73df679019",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-08bed70ac99e520c8a354ce891d7b677",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -1377,10 +1377,10 @@
       "boundary": true
     },
     {
-      "id": "link-9df51d8ebd03518b935233303616d1a4",
+      "id": "link-5c0aef7122215909a7b633bd406aad89",
       "type": "references",
-      "source": "ent-c1dd396a3668531c93617a73df679019",
-      "target": "ent-beeeb0155c895d0dbc07ee442416e9ed",
+      "source": "ent-08bed70ac99e520c8a354ce891d7b677",
+      "target": "ent-9a561c6972cb55e5800d49e778994bf9",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validation",
@@ -1390,10 +1390,10 @@
       "boundary": true
     },
     {
-      "id": "link-209b1c958b09538d9dfb406fb20d7cd5",
+      "id": "link-baf686c460f25ac7bab5dcdb0a3f3521",
       "type": "references",
-      "source": "ent-7fe35c17139b5ac2b59da8dc138d0abd",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-23fb99c8257a5c09b91b0c85f359f447",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -1403,10 +1403,10 @@
       "boundary": true
     },
     {
-      "id": "link-526dd7b5fb9251cbb0f8bd2e18cd58d9",
+      "id": "link-25791ab6aca258e3893b4911cf0e6078",
       "type": "references",
-      "source": "ent-0a8a748dd7dd56cc841facbb9c7e4df9",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-f58f6138d011507b85b97cd44d6d187a",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -1416,10 +1416,10 @@
       "boundary": true
     },
     {
-      "id": "link-05cc55828c6d516a8cc7981d3074e8bb",
+      "id": "link-089e888383215281a559d7ecf5024740",
       "type": "references",
-      "source": "ent-561c62d217995c9386476cb94475880c",
-      "target": "ent-399421baa8ed5e29b11573d10083905d",
+      "source": "ent-0e533d014a7f51bd99bf818f6c0c2b1b",
+      "target": "ent-8fd7fc2544565712a7086c8a2438b3e8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate",
@@ -1429,10 +1429,10 @@
       "boundary": true
     },
     {
-      "id": "link-ab653ee6670253ac874c0039433d7f43",
+      "id": "link-9ab8ee02b7ae584cae04aeec5d493c50",
       "type": "references",
-      "source": "ent-c0d4eea3f8365143b3636e1553c2a4ee",
-      "target": "ent-c1dd396a3668531c93617a73df679019",
+      "source": "ent-cc9f6a83cb1a5c948e34e0c68b5b97e3",
+      "target": "ent-08bed70ac99e520c8a354ce891d7b677",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_only",
@@ -1442,10 +1442,10 @@
       "boundary": true
     },
     {
-      "id": "link-e1256dbf3bcc5e6b82c98e8aa5bdfb8a",
+      "id": "link-274a5eb25c475220950fe2a248b71579",
       "type": "references",
-      "source": "ent-fa35b6cc194352bcb2317051971fbb46",
-      "target": "ent-c1dd396a3668531c93617a73df679019",
+      "source": "ent-9f7bf701fa525214962d48eec8c3d5c9",
+      "target": "ent-08bed70ac99e520c8a354ce891d7b677",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_only",
@@ -1455,10 +1455,10 @@
       "boundary": true
     },
     {
-      "id": "link-d44dbb96767c530aac7561343883aeed",
+      "id": "link-ba0475d92a2455e293a1941b7f7202b0",
       "type": "references",
-      "source": "ent-fdb20f398e6852b28934cd5d39f44bda",
-      "target": "ent-c1dd396a3668531c93617a73df679019",
+      "source": "ent-76268d70dfda5aac8b2caca6bc186559",
+      "target": "ent-08bed70ac99e520c8a354ce891d7b677",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_only",
@@ -1468,10 +1468,10 @@
       "boundary": true
     },
     {
-      "id": "link-2d2af949545956f1be8de948dc5cb9b9",
+      "id": "link-00c11ecab4f05fabbedcedf020dc5d9c",
       "type": "references",
-      "source": "ent-1c22ac37b7fc5f219c0b81bba714e3b4",
-      "target": "ent-c1dd396a3668531c93617a73df679019",
+      "source": "ent-38abb3739808570188402a1e6c5b0541",
+      "target": "ent-08bed70ac99e520c8a354ce891d7b677",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_only",
@@ -1481,10 +1481,10 @@
       "boundary": true
     },
     {
-      "id": "link-0f7fd1317ad65d23a93f9f531579d6df",
+      "id": "link-e80cf8f9241c5a97bacbe709b8bd2164",
       "type": "references",
-      "source": "ent-510b66620aed51d58f4ed45012df9bc8",
-      "target": "ent-c1dd396a3668531c93617a73df679019",
+      "source": "ent-16d8692274925e2082eab84c7c239d66",
+      "target": "ent-08bed70ac99e520c8a354ce891d7b677",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_only",
@@ -1494,10 +1494,10 @@
       "boundary": true
     },
     {
-      "id": "link-1827edff77b45c52975817f83ba20438",
+      "id": "link-576d8ce45c4c5f4393d98c3bb6524dba",
       "type": "references",
-      "source": "ent-beebc1a4dc6859d1ad5128dd845bad26",
-      "target": "ent-c1dd396a3668531c93617a73df679019",
+      "source": "ent-be9d312d8b345f2a9510fa04ab3b8626",
+      "target": "ent-08bed70ac99e520c8a354ce891d7b677",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_only",
@@ -1507,10 +1507,10 @@
       "boundary": true
     },
     {
-      "id": "link-63d30fe8bd2c5cd9af424e66a4fec58b",
+      "id": "link-ce61d2a395f1548ca16ad17de2843302",
       "type": "references",
-      "source": "ent-630a7d0debe05294b340453ef0d72ce9",
-      "target": "ent-c1dd396a3668531c93617a73df679019",
+      "source": "ent-0b2dfa6b6b4454aab3ed863a3615851b",
+      "target": "ent-08bed70ac99e520c8a354ce891d7b677",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_only",
@@ -1520,10 +1520,10 @@
       "boundary": true
     },
     {
-      "id": "link-dfdcc370d55b5589b372cb7e7f295279",
+      "id": "link-c79f892a317b574e8e012de728a2e92f",
       "type": "references",
-      "source": "ent-b82ae2b9d06a532eb3bf39b4a6d2c339",
-      "target": "ent-c1dd396a3668531c93617a73df679019",
+      "source": "ent-4c051d3417fd52c1af700885cbf3afef",
+      "target": "ent-08bed70ac99e520c8a354ce891d7b677",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_only",
@@ -1533,10 +1533,10 @@
       "boundary": true
     },
     {
-      "id": "link-d3a0b3e6bc1a54f6a7b79f85bacfbdb1",
+      "id": "link-66561b42c55c5ad9b531880ff81c6f45",
       "type": "references",
-      "source": "ent-400898ee08a75d9a95f670fa8789ded8",
-      "target": "ent-c1dd396a3668531c93617a73df679019",
+      "source": "ent-5ba649ff7a5c5177b51e77dbeeedc681",
+      "target": "ent-08bed70ac99e520c8a354ce891d7b677",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_only",
@@ -1546,10 +1546,10 @@
       "boundary": true
     },
     {
-      "id": "link-24c0f24b450e5bee8d8eee34128db713",
+      "id": "link-a0c08566b2bf5edbbfab90a5ecbc6c51",
       "type": "references",
-      "source": "ent-c5d49f607848575fa752f3270983ddf3",
-      "target": "ent-c1dd396a3668531c93617a73df679019",
+      "source": "ent-449bedc323665df788444a936ac99e8f",
+      "target": "ent-08bed70ac99e520c8a354ce891d7b677",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_only",
@@ -1559,10 +1559,10 @@
       "boundary": true
     },
     {
-      "id": "link-9b9e1d1c9a9f5437908bef7b4b35be28",
+      "id": "link-1068ce7e98ae52ddbe81bcf33041e23c",
       "type": "references",
-      "source": "ent-4a7874b1d83c586c90ec951a29e7c35a",
-      "target": "ent-c1dd396a3668531c93617a73df679019",
+      "source": "ent-6a8c79b16a8154d89b906d69d5640262",
+      "target": "ent-08bed70ac99e520c8a354ce891d7b677",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_only",
@@ -1572,10 +1572,10 @@
       "boundary": true
     },
     {
-      "id": "link-f8f1920e264e5d889f012b5871233699",
+      "id": "link-a1e2fb7e9650586bb190ab41146b4866",
       "type": "references",
-      "source": "ent-e6f158891c995574b5ba1dafeef868eb",
-      "target": "ent-c1dd396a3668531c93617a73df679019",
+      "source": "ent-b39b3b998d195ec5b903ee39927882de",
+      "target": "ent-08bed70ac99e520c8a354ce891d7b677",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_only",
@@ -1585,10 +1585,10 @@
       "boundary": true
     },
     {
-      "id": "link-c90599f5177a5ff6be7a48a4eac1334d",
+      "id": "link-74f33c98434c52d68a313eee10e1ff97",
       "type": "references",
-      "source": "ent-1c63df9a0ab65133bcd7f6180600ccf9",
-      "target": "ent-c1dd396a3668531c93617a73df679019",
+      "source": "ent-bdd859f7c37d5165b860da11d54b4020",
+      "target": "ent-08bed70ac99e520c8a354ce891d7b677",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_only",
@@ -1612,15 +1612,15 @@
       "precision": "exact",
       "status": "passed",
       "covered_entity_ids": [
-        "ent-0616db5dcb4650d491ffcf6f8a90b50b",
-        "ent-11d4c8d4a34f5dcd828c5a16dee8ad7e",
-        "ent-32298d9138215c8b9ec47d6a13594e0c",
-        "ent-374fc791ab2d5d92b35e997b2665b189",
-        "ent-399421baa8ed5e29b11573d10083905d",
-        "ent-7cccbee186a951cc8d1196798dec4854",
-        "ent-b6cc9faeed325e858f7951ec0fa37ada",
-        "ent-d679d55cc8275ddeb9799bd18bdc7dae",
-        "ent-e74773a5f6e454d1860d40a6e6bcd44a"
+        "ent-62942dc77c4e5e0a881a23e754f42132",
+        "ent-6a81347ac35055458e7fc44402db6aa4",
+        "ent-6ae2e719850c5b188330838dc51d4d68",
+        "ent-763e5683862358c3abcbc9ed37c1a17d",
+        "ent-8fd7fc2544565712a7086c8a2438b3e8",
+        "ent-c60ef61fd2815649965cfc5f86a8bd4d",
+        "ent-e8a8ee1bc1325acbb6aaac1a33d36b34",
+        "ent-ed097b2d86985dc4b7503051dfef8a02",
+        "ent-f50077c0fb495308aa9d65339af8470a"
       ],
       "document_symbol_counts": {
         "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py": 79
@@ -1703,5 +1703,5 @@
     }
   ],
   "syntax_warnings": [],
-  "built_at_utc": "2026-09-03T01:37:33Z"
+  "built_at_utc": "2026-09-03T22:04:28Z"
 }

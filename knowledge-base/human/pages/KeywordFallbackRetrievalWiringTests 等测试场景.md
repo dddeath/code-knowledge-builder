@@ -16,12 +16,12 @@
 
 - 实现时会用到 [[CkbError]]。
 - 主要代码单元是 [[KeywordFallbackRetrievalWiringTests]]。
+- 实现时会用到 [[ScopeExtensionOfferTests.retrieval]]。
 - 实现时会用到 [[build_case 等测试场景]]。
 - 实现时会用到 [[ckb_canvas 的协作边界]]。
 - 实现时会用到 [[command]]。
 - 实现时会用到 [[ingest_event]]。
 - 实现时会用到 [[retrieve_machine]]。
-- 实现时会用到 [[run_keyword_benchmark]]。
 - 实现时会用到 [[run_keyword_provider]]。
 - 实现时会用到 [[run_keyword_provider 与 KeywordProviderConfig 的协作实现]]。
 
@@ -61,7 +61,7 @@
 - [[package_showcase]] 会使用这里提供的行为。
 - [[parser]] 会使用这里提供的行为。
 - [[preflight 与 git 的协作实现]] 会使用这里提供的行为。
-- [[refresh 等测试场景]] 会使用这里提供的行为。
+- [[refresh 等测试场景]] 关联到这里的验证场景。
 - [[register_obsidian_plugin 与 default_obsidian_plugin_registry 的协作实现]] 会使用这里提供的行为。
 - [[retrieve_machine]] 关联到这里的验证场景。
 - [[retrieve_machine 与 estimated_tokens 的协作实现]] 会使用这里提供的行为。
@@ -72,6 +72,7 @@
 - [[run_keyword_benchmark 与 _text_list 的协作实现]] 关联到这里的验证场景。
 - [[run_keyword_provider]] 关联到这里的验证场景。
 - [[run_keyword_provider 与 KeywordProviderConfig 的协作实现]] 会使用这里提供的行为。
+- [[run_probe 等测试场景]] 会使用这里提供的行为。
 - [[serve_stdio 与 _write_line 的协作实现]] 会使用这里提供的行为。
 - [[start_scope_extension]] 会使用这里提供的行为。
 - [[sync_human_layer]] 会使用这里提供的行为。

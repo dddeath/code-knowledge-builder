@@ -42,13 +42,12 @@
 - [[FactFreshnessStateMachineTest 等测试场景]] 会使用这里提供的行为。
 - [[MigrationTest 等测试场景]] 会使用这里提供的行为。
 - [[PdfReferenceExtractionTests 等测试场景]] 会使用这里提供的行为。
-- [[RecordReplaceTests]] 会使用这里提供的行为。
 - [[ScopeExtensionTest 等测试场景]] 会使用这里提供的行为。
 - [[_Transport.close 与 _StartGate 的协作实现]] 会使用这里提供的行为。
 - [[append 等测试场景]] 会使用这里提供的行为。
 - [[audit_migration 与 _entity_key 的协作实现]] 会使用这里提供的行为。
 - [[audit_operation_journal 与 _root 的协作实现]] 会使用这里提供的行为。
-- [[benchmark 的协作边界（prototypes）]] 会使用这里提供的行为。
+- [[benchmark 的协作边界（16d95d34）]] 会使用这里提供的行为。
 - [[bind_conversation 与 default_management_registry_path 的协作实现]] 会使用这里提供的行为。
 - [[create_knowledge_batch_plan 与 KnowledgeRelease 的协作实现]] 会使用这里提供的行为。
 - [[doctor_report 与 _version_matches 的协作实现]] 会使用这里提供的行为。
@@ -59,12 +58,13 @@
 - [[run 等测试场景]] 会使用这里提供的行为。
 - 可从 [[scripts 职责导览]] 进入本页。
 - [[start_scope_extension]] 会使用这里提供的行为。
+- [[start_scope_extension 与 _error 的协作实现]] 会使用这里提供的行为。
 - [[validate_human_maintenance_invocation 与 ParameterSpec 的协作实现]] 会使用这里提供的行为。
 
 ## 相关测试
 
 - [[AutomationTest.register 等测试场景]]
-- [[CanvasBenchmarkContractTests]]
+- [[ChineseRetrievalEffectRetestFixtureTests]]
 - [[CodeKnowledgeBuilderTests]]
 - [[CodeKnowledgeBuilderTests 等测试场景]]
 - [[FactFreshnessStateMachineTest 等测试场景]]

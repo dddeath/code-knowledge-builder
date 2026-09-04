@@ -226,6 +226,7 @@ def serve_stdio(
     retrieve_value = retrieve or retrieve_machine
     record_value = record_explanation or _record_explanation
     retrievals: dict[str, dict[str, Any]] = {}
+    presented_scope_offers: set[str] = set()
     handled = 0
     succeeded = 0
     failed = 0
@@ -286,9 +287,29 @@ def serve_stdio(
                         profile,
                         keyword_fallback=keyword_fallback,
                     )
-                if result.get("status") != "passed" or not result.get("pack"):
-                    raise CkbError("stdio retrieve did not return a passed Agent pack")
-                retrievals[str(request_id)] = {**result, "request_id": str(request_id)}
+                status = result.get("status")
+                offer = result.get("scope_extension_offer") or {}
+                offer_id = offer.get("offer_id")
+                if isinstance(offer_id, str) and offer_id in presented_scope_offers:
+                    result = dict(result)
+                    result.pop("scope_extension_offer", None)
+                    result["scope_extension_diagnostic"] = {
+                        "schema_version": 1,
+                        "status": "not-offered",
+                        "code": "offer-already-presented",
+                        "message_zh": "同一 stdio 会话已返回过该扩库确认，本次保留窄读结果且不重复询问。",
+                        "candidates": [str((offer.get("selector") or {}).get("value") or "")],
+                    }
+                elif isinstance(offer_id, str):
+                    presented_scope_offers.add(offer_id)
+                if status == "passed":
+                    if not result.get("pack"):
+                        raise CkbError("stdio retrieve did not return a passed Agent pack")
+                    retrievals[str(request_id)] = {**result, "request_id": str(request_id)}
+                elif status == "needs-source-read":
+                    pass
+                else:
+                    raise CkbError("stdio retrieve returned an unsupported status")
                 if method == "brief":
                     result = compact_agent_brief(output, result)
             elif method == "entity":

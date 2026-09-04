@@ -36,7 +36,6 @@
 - [[render_page_author]] 关联到这里的验证场景。
 - [[render_page_author 与 _error 的协作实现]] 关联到这里的验证场景。
 - [[source_value]] 关联到这里的验证场景。
-- [[start_scope_extension 与 _error 的协作实现]] 关联到这里的验证场景。
 - 可从 [[tests 职责导览]] 进入本页。
 
 ## 相关测试

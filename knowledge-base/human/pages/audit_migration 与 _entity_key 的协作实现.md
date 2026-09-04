@@ -27,7 +27,7 @@
 - 实现时会用到 [[ingest_event 与 default_registry_path 的协作实现]]。
 - 实现时会用到 [[module_name 与 estimated_tokens 的协作实现]]。
 - 实现时会用到 [[preflight 与 git 的协作实现]]。
-- 实现时会用到 [[render_integration 与 _looks_windows 的协作实现]]。
+- 实现时会用到 [[render_integration 与 harness_retrieval_contract 的协作实现]]。
 - 实现时会用到 [[validate]]。
 
 ## 谁会来到这里

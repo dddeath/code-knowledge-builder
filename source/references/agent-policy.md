@@ -36,6 +36,22 @@
 
 人类 Obsidian vault 通过忽略规则和本地 CSS 隐藏根目录的三个适配 Markdown 文件，避免把工作协议混入普通知识页导航。
 
+## 项目指令、Skill 与运行时来源矩阵
+
+“自动注入项目指令”只表示 Harness 在文件存在且当前 surface 支持时把对应文件加入上下文；它不等于 `manager context` 自动注入，也不证明 `code-knowledge-builder` Skill 正文已经加载。当前所有生成适配器的 `manager_prompt.automatic_injection` 均为 `false`，完整管理 Prompt 仍由 `manager context --format prompt` 显式取得。
+
+| Harness | 项目指令自动来源 | Skill 精确加载 | 激活／注册 | OUTPUT 发现来源 |
+|---|---|---|---|---|
+| Codex | `AGENTS.md`；文件存在时按项目层级加载 | `$code-knowledge-builder` | 项目一次 `automation register`；原生精确 Skill 证据或 `automation activate` | 当前任务显式绑定 → `AGENTS.md` → `manager context` → `automation registry` |
+| Claude Code | `CLAUDE.md` 自动加载并 `@./AGENTS.md` | `/code-knowledge-builder` | 同上；Skill/Hook 元数据不可见时使用 `automation activate` | 当前任务显式绑定 → `CLAUDE.md`/`AGENTS.md` → manager → registry |
+| OpenCode | `AGENTS.md` | `skill(name=code-knowledge-builder)` | 同上；生成 Plugin 的精确 command 事件可发送 `skill.applied` | 当前任务显式绑定 → `AGENTS.md` → manager → registry |
+| Gemini CLI | `GEMINI.md` 自动加载并 `@./AGENTS.md` | `activate_skill(name=code-knowledge-builder)` | 生命周期 Hook 不冒充 Skill 激活；使用 canonical `skill.applied` 或 `automation activate` | 当前任务显式绑定 → `GEMINI.md`/`AGENTS.md` → manager → registry |
+| GitHub Copilot | `.github/copilot-instructions.md`；具体 surface 以官方支持矩阵为准 | `/code-knowledge-builder` 或 Agent 对同名 Skill 的精确加载 | 生命周期 Hook 不冒充 Skill 激活；使用 canonical `skill.applied` 或 `automation activate` | 当前任务显式绑定 → Copilot instructions → manager → registry |
+| Cursor | `.cursor/rules/code-knowledge-builder.mdc`，`alwaysApply: true` | `/code-knowledge-builder`，按消息附加或作为 active mode | 生命周期 Hook 不冒充 Skill 激活；使用 canonical `skill.applied` 或 `automation activate` | 当前任务显式绑定 → always-on rule → manager → registry |
+| 通用 Harness | 不自动读取；调用方显式加载项目 `AGENTS.md` | 调用方加载精确 `SKILL.md` 正文 | 提交 canonical `skill.applied`，或调用 `automation activate` | 当前任务显式绑定 → manager → registry；不扫描目录猜测 |
+
+宿主发现行为依据各自一手资料：[Codex `AGENTS.md`](https://developers.openai.com/codex/guides/agents-md) 与 [Codex Skills](https://developers.openai.com/codex/skills)、[Claude Code memory](https://docs.anthropic.com/en/docs/claude-code/memory) 与 [Claude Code Skills](https://code.claude.com/docs/en/slash-commands)、[OpenCode instructions](https://opencode.ai/docs/rules/) 与 [OpenCode Skills](https://opencode.ai/docs/skills/)、[Gemini CLI `GEMINI.md`](https://google-gemini.github.io/gemini-cli/docs/cli/gemini-md.html) 与 [Gemini CLI Skills](https://github.com/google-gemini/gemini-cli/blob/main/docs/cli/skills.md)、[GitHub Copilot instructions support](https://docs.github.com/en/copilot/reference/custom-instructions-support) 与 [Copilot Agent Skills](https://docs.github.com/en/copilot/concepts/agents/about-agent-skills)、[Cursor Rules](https://docs.cursor.com/context/rules-for-ai) 与 [Cursor Agent Skills](https://prod.cursor.com/docs/skills)。这些资料证明宿主发现入口；`integration.json.retrieval_contract` 证明 CKB 生成器实际声明；`tests/harness_retrieval_contract_probe.py` 证明 CKB 运行时实际执行，三者不互相替代。
+
 ## 强制读路径
 
 1. `brief --profile fast`；

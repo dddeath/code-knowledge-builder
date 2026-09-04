@@ -780,7 +780,7 @@ sensory保持session scope；可共享的semi/bank使用显式workspace记录、
 ## 相关知识页
 
 - [[retrieve_machine 与 estimated_tokens 的协作实现]]
-- [[render_integration 与 _looks_windows 的协作实现]]
+- [[render_integration 与 harness_retrieval_contract 的协作实现]]
 - [[register_obsidian_plugin 与 default_obsidian_plugin_registry 的协作实现]]
 - [[deploy 的协作边界]]
 - [[build 的协作边界]]

@@ -3,188 +3,12 @@
   "pack_id": "migrated-appendix-review-pack-0005",
   "kind": "appendix-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-03T01:38:46Z",
+  "reviewed_at_utc": "2026-09-03T22:05:37Z",
   "reviews": [
     {
-      "entity_id": "ent-72d3bc35f09e549182d46aadf97bd88c",
+      "entity_id": "ent-1fb8210ca5635c089d2bf650e3565838",
       "classification": "appendix",
-      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
-      "source_path": "scripts/ckb_core/agent_protocol_batch.py",
-      "start_line": 876,
-      "end_line": 881,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/agent_protocol_batch.py` 第 876-881 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_write_bytes_atomic` 是第 876-881 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-7fc4de94b67d555aa5b939308b3e85c5",
-      "classification": "appendix",
-      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
-      "source_path": "scripts/ckb_core/agent_protocol_batch.py",
-      "start_line": 884,
-      "end_line": 897,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/agent_protocol_batch.py` 第 884-897 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_desired_inventory` 是第 884-897 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-e4d5e8c46cb25a0e97048ca754c16e73",
-      "classification": "appendix",
-      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
-      "source_path": "scripts/ckb_core/agent_protocol_batch.py",
-      "start_line": 900,
-      "end_line": 932,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/agent_protocol_batch.py` 第 900-932 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_create_backup` 是第 900-932 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-3027623c142d5f45bbd631792ea487d2",
-      "classification": "appendix",
-      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
-      "source_path": "scripts/ckb_core/agent_protocol_batch.py",
-      "start_line": 935,
-      "end_line": 950,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/agent_protocol_batch.py` 第 935-950 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_restore_backup` 是第 935-950 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-3db77f968d05549c88766b4a64ee682e",
-      "classification": "appendix",
-      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
-      "source_path": "scripts/ckb_core/agent_protocol_batch.py",
-      "start_line": 953,
-      "end_line": 964,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/agent_protocol_batch.py` 第 953-964 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_commit_desired` 是第 953-964 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-a2abb875ae775739aa67b96bf8ab7f26",
-      "classification": "appendix",
-      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
-      "source_path": "scripts/ckb_core/agent_protocol_batch.py",
-      "start_line": 967,
-      "end_line": 984,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/agent_protocol_batch.py` 第 967-984 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_descriptor_lock` 是第 967-984 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-c12edf918e7c5d1790c71720abb945b2",
-      "classification": "appendix",
-      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
-      "source_path": "scripts/ckb_core/agent_protocol_batch.py",
-      "start_line": 987,
-      "end_line": 996,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/agent_protocol_batch.py` 第 987-996 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_descriptor_unlock` 是第 987-996 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-71c62bfc33b2588989a68b89df7b7c98",
-      "classification": "appendix",
-      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
-      "source_path": "scripts/ckb_core/agent_protocol_batch.py",
-      "start_line": 999,
-      "end_line": 1006,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/agent_protocol_batch.py` 第 999-1006 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_descriptor_bytes` 是第 999-1006 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-7109210840205e8ba377bd97c26567f0",
-      "classification": "appendix",
-      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
-      "source_path": "scripts/ckb_core/agent_protocol_batch.py",
-      "start_line": 1009,
-      "end_line": 1016,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/agent_protocol_batch.py` 第 1009-1016 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_write_lock_descriptor` 是第 1009-1016 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-17d3b59f86eb5b9d8c08bdf0b055d202",
-      "classification": "appendix",
-      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
-      "source_path": "scripts/ckb_core/agent_protocol_batch.py",
-      "start_line": 1019,
-      "end_line": 1075,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/agent_protocol_batch.py` 第 1019-1075 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_process_start_identity` 是第 1019-1075 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-017c392ce70f53cf9f22c5b912cb5979",
-      "classification": "appendix",
-      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
-      "source_path": "scripts/ckb_core/agent_protocol_batch.py",
-      "start_line": 1078,
-      "end_line": 1092,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/agent_protocol_batch.py` 第 1078-1092 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_new_output_lock_record` 是第 1078-1092 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-cd4c88074c5852c58bf93c4ae8a943b3",
-      "classification": "appendix",
-      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
-      "source_path": "scripts/ckb_core/agent_protocol_batch.py",
-      "start_line": 1095,
-      "end_line": 1111,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/agent_protocol_batch.py` 第 1095-1111 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_parse_output_lock` 是第 1095-1111 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-5ad8ac7830cc513c849c24a74c817403",
-      "classification": "appendix",
-      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
-      "source_path": "scripts/ckb_core/agent_protocol_batch.py",
-      "start_line": 1114,
-      "end_line": 1124,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/agent_protocol_batch.py` 第 1114-1124 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_lock_owner_state` 是第 1114-1124 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-818de737990957dfb76204633bc41e82",
-      "classification": "appendix",
-      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
-      "source_path": "scripts/ckb_core/agent_protocol_batch.py",
-      "start_line": 1127,
-      "end_line": 1139,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/agent_protocol_batch.py` 第 1127-1139 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_legacy_lock_owner_state` 是第 1127-1139 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-d29bec1de6065634a381389fb0253a47",
-      "classification": "appendix",
-      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
-      "source_path": "scripts/ckb_core/agent_protocol_batch.py",
-      "start_line": 1142,
-      "end_line": 1148,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/agent_protocol_batch.py` 第 1142-1148 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_same_lock_file` 是第 1142-1148 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-ccd805b7923a5122a71a7e9470420a21",
-      "classification": "appendix",
-      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
-      "source_path": "scripts/ckb_core/agent_protocol_batch.py",
-      "start_line": 1151,
-      "end_line": 1174,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/agent_protocol_batch.py` 第 1151-1174 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_release_output_lock` 是第 1151-1174 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-ac78d9680bc95fd4abbfbb68afdcfead",
-      "classification": "appendix",
-      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
+      "owner_page_id": "file-de9c10eb1972522ebcc53ec877fa1a1e",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 1178,
       "end_line": 1256,
@@ -193,9 +17,9 @@
       "description_zh": "`_output_lock` 是第 1178-1256 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-680509a9d0805841a2c69790858d7d16",
+      "entity_id": "ent-0d63433a303657d7bf09fdf4b669486b",
       "classification": "appendix",
-      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
+      "owner_page_id": "file-de9c10eb1972522ebcc53ec877fa1a1e",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 1259,
       "end_line": 1271,
@@ -204,9 +28,9 @@
       "description_zh": "`_append_state_event` 是第 1259-1271 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-c2483fec4d8153d6bb6c43da25e646e4",
+      "entity_id": "ent-d443af91325d53ca8b2fe6637a3a035b",
       "classification": "appendix",
-      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
+      "owner_page_id": "file-de9c10eb1972522ebcc53ec877fa1a1e",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 1274,
       "end_line": 1276,
@@ -215,9 +39,9 @@
       "description_zh": "`_save_state` 是第 1274-1276 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-a9e699b9fd825746a372462a149b9f92",
+      "entity_id": "ent-d261303a245e5adc975067f7f9799718",
       "classification": "appendix",
-      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
+      "owner_page_id": "file-de9c10eb1972522ebcc53ec877fa1a1e",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 1279,
       "end_line": 1290,
@@ -226,9 +50,9 @@
       "description_zh": "`_load_state` 是第 1279-1290 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-4a2bdaf1f858579aa980e187d96b4a16",
+      "entity_id": "ent-11bba76091db5adaa5fbbeaf2bf7078c",
       "classification": "appendix",
-      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
+      "owner_page_id": "file-de9c10eb1972522ebcc53ec877fa1a1e",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 1293,
       "end_line": 1345,
@@ -237,9 +61,9 @@
       "description_zh": "`_new_state` 是第 1293-1345 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-cdedd5de65455664bdc39864fbff0f80",
+      "entity_id": "ent-0458bf2b22575766ad8fad37e6974540",
       "classification": "appendix",
-      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
+      "owner_page_id": "file-de9c10eb1972522ebcc53ec877fa1a1e",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 1348,
       "end_line": 1351,
@@ -248,9 +72,9 @@
       "description_zh": "`_current_digest` 是第 1348-1351 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-3d84091fcd295754bf533a16b7aaf83c",
+      "entity_id": "ent-51df7a54e38f5f36a657b31aa99c6e08",
       "classification": "appendix",
-      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
+      "owner_page_id": "file-de9c10eb1972522ebcc53ec877fa1a1e",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 1354,
       "end_line": 1367,
@@ -259,9 +83,9 @@
       "description_zh": "`_recovery_matches` 是第 1354-1367 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-f7c1523d63b95db89d911c38ce387801",
+      "entity_id": "ent-cf4573e24d275ecfa110fac75c7796a9",
       "classification": "appendix",
-      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
+      "owner_page_id": "file-de9c10eb1972522ebcc53ec877fa1a1e",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 1370,
       "end_line": 1392,
@@ -270,9 +94,9 @@
       "description_zh": "`_write_project_evidence` 是第 1370-1392 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-694e779e89c65635a229246a4057962c",
+      "entity_id": "ent-304d589d49645b54a65c9d52d9d8b344",
       "classification": "appendix",
-      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
+      "owner_page_id": "file-de9c10eb1972522ebcc53ec877fa1a1e",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 1395,
       "end_line": 1400,
@@ -281,9 +105,9 @@
       "description_zh": "`_journal_batch_result` 是第 1395-1400 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-534f6efb099d55ed92c084838a93c54f",
+      "entity_id": "ent-7b43fa27797255d1b8be625def7fe24d",
       "classification": "appendix",
-      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
+      "owner_page_id": "file-de9c10eb1972522ebcc53ec877fa1a1e",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 1403,
       "end_line": 1411,
@@ -292,9 +116,9 @@
       "description_zh": "`_summarize_state` 是第 1403-1411 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-8497519361a559b08a5f29640db1f019",
+      "entity_id": "ent-62cccbfc2b065b9aa4962f09cd4899f2",
       "classification": "appendix",
-      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
+      "owner_page_id": "file-de9c10eb1972522ebcc53ec877fa1a1e",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 1414,
       "end_line": 1516,
@@ -303,9 +127,9 @@
       "description_zh": "`apply_batch_plan` 是第 1414-1516 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-7626dafaf12f58a9b1f3fab1bf228e35",
+      "entity_id": "ent-04b6fb97db165991b3ceac6caa7e632d",
       "classification": "appendix",
-      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
+      "owner_page_id": "file-de9c10eb1972522ebcc53ec877fa1a1e",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 1519,
       "end_line": 1560,
@@ -314,9 +138,9 @@
       "description_zh": "`batch_status` 是第 1519-1560 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-616b983fc8c95e9b88c96ff2da1d341c",
+      "entity_id": "ent-c69deb0edf1452ef84b1c96ddb4b3430",
       "classification": "appendix",
-      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
+      "owner_page_id": "file-de9c10eb1972522ebcc53ec877fa1a1e",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 1563,
       "end_line": 1623,
@@ -325,9 +149,9 @@
       "description_zh": "`audit_batch_state` 是第 1563-1623 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-833c240525cd5b41b3906eccd095ff14",
+      "entity_id": "ent-f8d407182790551f906421064ba3f21e",
       "classification": "appendix",
-      "owner_page_id": "file-eab35caf80795eccb03db81786547298",
+      "owner_page_id": "file-de9c10eb1972522ebcc53ec877fa1a1e",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
       "start_line": 1626,
       "end_line": 1713,
@@ -336,9 +160,9 @@
       "description_zh": "`rollback_batch_state` 是第 1626-1713 行的函数，供所属页面定位实现。"
     },
     {
-      "entity_id": "ent-2a5e814d64745842bcbd6a8b8f87fb57",
+      "entity_id": "ent-b12aca0d89cf50c59ff2f479272050d7",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 128,
       "end_line": 130,
@@ -347,9 +171,9 @@
       "description_zh": "`default_registry_path` 完成多 Harness 会话自动化中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-bbfc6fe975ce5e20a52db8c78e388189",
+      "entity_id": "ent-599b7631df965739a71d5b33b8d34eca",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 133,
       "end_line": 136,
@@ -358,9 +182,9 @@
       "description_zh": "`_path_key` 完成多 Harness 会话自动化中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-8476fdf411ee502f87d9813411757b8b",
+      "entity_id": "ent-e20d438d12105ca4a0811f5bf4fe7531",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 139,
       "end_line": 142,
@@ -369,9 +193,9 @@
       "description_zh": "`_is_within` 完成多 Harness 会话自动化中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-dcd265fec80c59beb88b245d1b2dc4aa",
+      "entity_id": "ent-8e5b3944b2115565bc675c36ce9e5748",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 145,
       "end_line": 172,
@@ -380,9 +204,9 @@
       "description_zh": "`_read_registry` 读取并判定多 Harness 会话自动化所需的数据或状态。"
     },
     {
-      "entity_id": "ent-f3de8399fbfe52508ea5679c9c941d2f",
+      "entity_id": "ent-b26ad9427c12502b9d07d6d8f5f350cd",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 175,
       "end_line": 247,
@@ -391,9 +215,9 @@
       "description_zh": "`register_project` 登记并持久化多 Harness 会话自动化所需的数据或状态。"
     },
     {
-      "entity_id": "ent-2bbea4aca94d5ecb89ff9d5cc7089201",
+      "entity_id": "ent-219e8ac900a557f1872e90228aef07c2",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 250,
       "end_line": 262,
@@ -402,15 +226,147 @@
       "description_zh": "`unregister_project` 完成多 Harness 会话自动化中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-646fff93ef9159f1beac89ebdbd884d6",
+      "entity_id": "ent-881af30c2f8e5afca71672e4e90beabf",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 265,
       "end_line": 274,
       "status": "agent-reviewed",
       "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 265 至 274 行；摘录与 Git blob 44ab87d410ff 一致。",
       "description_zh": "`registry_status` 完成多 Harness 会话自动化中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-eed624d7dade59d58ae6a2d2d7c572ce",
+      "classification": "appendix",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 277,
+      "end_line": 294,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 277 至 294 行；摘录与 Git blob 44ab87d410ff 一致。",
+      "description_zh": "`_registration_for_event` 完成多 Harness 会话自动化中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-9c84c7e7c8e1588a9fe8619cf5de6cae",
+      "classification": "appendix",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 297,
+      "end_line": 325,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 297 至 325 行；摘录与 Git blob 44ab87d410ff 一致。",
+      "description_zh": "`_event_path_text` 完成多 Harness 会话自动化中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-05487b025cd45a3d928e181b0c0be7bb",
+      "classification": "appendix",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 328,
+      "end_line": 336,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 328 至 336 行；摘录与 Git blob 44ab87d410ff 一致。",
+      "description_zh": "`_walk_values` 完成多 Harness 会话自动化中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-3874636232595a8cbf6798fb7b4e6188",
+      "classification": "appendix",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 339,
+      "end_line": 356,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 339 至 356 行；摘录与 Git blob 44ab87d410ff 一致。",
+      "description_zh": "`_first_scalar` 完成多 Harness 会话自动化中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-68b2c3b6964d5e54a9387ce91d3ae246",
+      "classification": "appendix",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 359,
+      "end_line": 374,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 359 至 374 行；摘录与 Git blob 44ab87d410ff 一致。",
+      "description_zh": "`_text_content` 完成多 Harness 会话自动化中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-e2cf6fe6e7e854e3aaae8809737c44cc",
+      "classification": "appendix",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 377,
+      "end_line": 385,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 377 至 385 行；摘录与 Git blob 44ab87d410ff 一致。",
+      "description_zh": "`_event_name` 完成多 Harness 会话自动化中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-6008064370ed5b68a25a97706441b514",
+      "classification": "appendix",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 388,
+      "end_line": 389,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 388 至 389 行；摘录与 Git blob 44ab87d410ff 一致。",
+      "description_zh": "`_message_role` 完成多 Harness 会话自动化中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-c5d22046bb8051c9b93801283722705c",
+      "classification": "appendix",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 392,
+      "end_line": 394,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 392 至 394 行；摘录与 Git blob 44ab87d410ff 一致。",
+      "description_zh": "`_normalized_skill_name` 解析并归一化多 Harness 会话自动化所需的数据或状态。"
+    },
+    {
+      "entity_id": "ent-cc689fc495c65d1abd26efb6235c982c",
+      "classification": "appendix",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 397,
+      "end_line": 414,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 397 至 414 行；摘录与 Git blob 44ab87d410ff 一致。",
+      "description_zh": "`_skill_name` 完成多 Harness 会话自动化中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-f0835826cf6c5e61835758fa30bef8e1",
+      "classification": "appendix",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 417,
+      "end_line": 464,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 417 至 464 行；摘录与 Git blob 44ab87d410ff 一致。",
+      "description_zh": "`_canonical_type` 完成多 Harness 会话自动化中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-69c9581d569e5c6aabd62fd0edb39564",
+      "classification": "appendix",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 467,
+      "end_line": 477,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 467 至 477 行；摘录与 Git blob 44ab87d410ff 一致。",
+      "description_zh": "`_extract_paths` 解析并归一化多 Harness 会话自动化所需的数据或状态。"
+    },
+    {
+      "entity_id": "ent-febcaf0ac18f5f50beebe34c4783af3f",
+      "classification": "appendix",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 480,
+      "end_line": 556,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 480 至 556 行；摘录与 Git blob 44ab87d410ff 一致。",
+      "description_zh": "`normalize_event` 解析并归一化多 Harness 会话自动化所需的数据或状态。"
     }
   ]
 }

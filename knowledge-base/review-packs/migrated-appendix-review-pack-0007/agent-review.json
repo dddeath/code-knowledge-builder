@@ -3,100 +3,12 @@
   "pack_id": "migrated-appendix-review-pack-0007",
   "kind": "appendix-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-03T01:38:49Z",
+  "reviewed_at_utc": "2026-09-03T22:05:40Z",
   "reviews": [
     {
-      "entity_id": "ent-dea6afbb8b17579eb09a1d6197de58b7",
+      "entity_id": "ent-362c5f99c67e5c07b3904a5dd3d359d5",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
-      "source_path": "scripts/ckb_core/automation.py",
-      "start_line": 1318,
-      "end_line": 1364,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 1318 至 1364 行；摘录与 Git blob 44ab87d410ff 一致。",
-      "description_zh": "`drain_automation` 完成多 Harness 会话自动化中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-576a488fc69f516c90fb3439ace1cd09",
-      "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
-      "source_path": "scripts/ckb_core/automation.py",
-      "start_line": 1367,
-      "end_line": 1381,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 1367 至 1381 行；摘录与 Git blob 44ab87d410ff 一致。",
-      "description_zh": "`retry_failed_automation` 完成多 Harness 会话自动化中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-29c8aae372145243a65bb126ac8dcee7",
-      "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
-      "source_path": "scripts/ckb_core/automation.py",
-      "start_line": 1384,
-      "end_line": 1393,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 1384 至 1393 行；摘录与 Git blob 44ab87d410ff 一致。",
-      "description_zh": "`_hook_context` 完成多 Harness 会话自动化中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-0171d80d691550a3a8386bda5ae7ca58",
-      "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
-      "source_path": "scripts/ckb_core/automation.py",
-      "start_line": 1396,
-      "end_line": 1408,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 1396 至 1408 行；摘录与 Git blob 44ab87d410ff 一致。",
-      "description_zh": "`_hook_output` 完成多 Harness 会话自动化中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-603a81cf769c53b291cf6a9b46288aaa",
-      "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
-      "source_path": "scripts/ckb_core/automation.py",
-      "start_line": 1540,
-      "end_line": 1573,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 1540 至 1573 行；摘录与 Git blob 44ab87d410ff 一致。",
-      "description_zh": "`automation_status` 完成多 Harness 会话自动化中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-a3cd08c04f1456b4923c92063826f183",
-      "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
-      "source_path": "scripts/ckb_core/automation.py",
-      "start_line": 1576,
-      "end_line": 1598,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 1576 至 1598 行；摘录与 Git blob 44ab87d410ff 一致。",
-      "description_zh": "`pending_automation_reviews` 完成多 Harness 会话自动化中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-86c3fc40ac515bd285ec4e3b8ba8be37",
-      "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
-      "source_path": "scripts/ckb_core/automation.py",
-      "start_line": 1601,
-      "end_line": 1641,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 1601 至 1641 行；摘录与 Git blob 44ab87d410ff 一致。",
-      "description_zh": "`write_automation_review_template` 生成并写入多 Harness 会话自动化所需的数据或状态。"
-    },
-    {
-      "entity_id": "ent-1375673f59c25b62ab93cd58431e5b49",
-      "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
-      "source_path": "scripts/ckb_core/automation.py",
-      "start_line": 1644,
-      "end_line": 1652,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 1644 至 1652 行；摘录与 Git blob 44ab87d410ff 一致。",
-      "description_zh": "`_heading_errors` 完成多 Harness 会话自动化中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-cccf297f6d8e5b45936b73ce839fd66f",
-      "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 1655,
       "end_line": 1729,
@@ -105,9 +17,9 @@
       "description_zh": "`review_automation` 完成多 Harness 会话自动化中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-0f2123238d435b168fbe1639c81a160a",
+      "entity_id": "ent-f3da5380cb3250a984a46c416f728e28",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 1732,
       "end_line": 1758,
@@ -116,9 +28,9 @@
       "description_zh": "`search_automation` 检索并组织多 Harness 会话自动化所需的数据或状态。"
     },
     {
-      "entity_id": "ent-7c9e56498d12559faf6cd48b070bc936",
+      "entity_id": "ent-5a18d3d548755506b52ce6bf7733f6d3",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 1761,
       "end_line": 1782,
@@ -127,229 +39,9 @@
       "description_zh": "`automation_documents` 完成多 Harness 会话自动化中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-28f0fafa56bf5b788ade975f0bbbf029",
+      "entity_id": "ent-703f04f0e3dc5af3b905795394d5c30d",
       "classification": "appendix",
-      "owner_page_id": "file-dc0316d8fff551c5bd4013f1e1ce59b6",
-      "source_path": "scripts/ckb_core/automation_integrations.py",
-      "start_line": 19,
-      "end_line": 21,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/automation_integrations.py` 第 19-21 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_looks_windows` 是第 19-21 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-1622592c1e6951d0aa9a6351180f5eec",
-      "classification": "appendix",
-      "owner_page_id": "file-dc0316d8fff551c5bd4013f1e1ce59b6",
-      "source_path": "scripts/ckb_core/automation_integrations.py",
-      "start_line": 24,
-      "end_line": 32,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/automation_integrations.py` 第 24-32 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_wsl_launch_path` 是第 24-32 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-d0c3c2dbe3f6586e89e328a50fe792b0",
-      "classification": "appendix",
-      "owner_page_id": "file-dc0316d8fff551c5bd4013f1e1ce59b6",
-      "source_path": "scripts/ckb_core/automation_integrations.py",
-      "start_line": 35,
-      "end_line": 41,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/automation_integrations.py` 第 35-41 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_commands` 是第 35-41 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-d958ce5e2a575bb6a61a24725389344f",
-      "classification": "appendix",
-      "owner_page_id": "file-dc0316d8fff551c5bd4013f1e1ce59b6",
-      "source_path": "scripts/ckb_core/automation_integrations.py",
-      "start_line": 44,
-      "end_line": 62,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/automation_integrations.py` 第 44-62 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_powershell_command` 是第 44-62 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-14014e56cf2250d4ac44d20b494dfa31",
-      "classification": "appendix",
-      "owner_page_id": "file-dc0316d8fff551c5bd4013f1e1ce59b6",
-      "source_path": "scripts/ckb_core/automation_integrations.py",
-      "start_line": 45,
-      "end_line": 46,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/automation_integrations.py` 第 45-46 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_powershell_command.q...` 是第 45-46 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-7f4cdb6f8bdb516dabfcbabc3c25b189",
-      "classification": "appendix",
-      "owner_page_id": "file-dc0316d8fff551c5bd4013f1e1ce59b6",
-      "source_path": "scripts/ckb_core/automation_integrations.py",
-      "start_line": 65,
-      "end_line": 78,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/automation_integrations.py` 第 65-78 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_codex_windows_bridge` 是第 65-78 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-2ae7f90d8f465d1b921139f3fbde0556",
-      "classification": "appendix",
-      "owner_page_id": "file-dc0316d8fff551c5bd4013f1e1ce59b6",
-      "source_path": "scripts/ckb_core/automation_integrations.py",
-      "start_line": 81,
-      "end_line": 90,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/automation_integrations.py` 第 81-90 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_handler` 是第 81-90 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-8b6dc1c41e5451859cafcaa3fa489a18",
-      "classification": "appendix",
-      "owner_page_id": "file-dc0316d8fff551c5bd4013f1e1ce59b6",
-      "source_path": "scripts/ckb_core/automation_integrations.py",
-      "start_line": 93,
-      "end_line": 121,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/automation_integrations.py` 第 93-121 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_codex_hooks` 是第 93-121 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-c9f2cb4374fd5e52a6aa2fc940d78695",
-      "classification": "appendix",
-      "owner_page_id": "file-dc0316d8fff551c5bd4013f1e1ce59b6",
-      "source_path": "scripts/ckb_core/automation_integrations.py",
-      "start_line": 124,
-      "end_line": 143,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/automation_integrations.py` 第 124-143 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_claude_hooks` 是第 124-143 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-dff0b376c690556dbc4b4ec0ac75741a",
-      "classification": "appendix",
-      "owner_page_id": "file-dc0316d8fff551c5bd4013f1e1ce59b6",
-      "source_path": "scripts/ckb_core/automation_integrations.py",
-      "start_line": 125,
-      "end_line": 126,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/automation_integrations.py` 第 125-126 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_claude_hooks.handler` 是第 125-126 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-d7a6e6040acd5d2995e025139bd55f9c",
-      "classification": "appendix",
-      "owner_page_id": "file-dc0316d8fff551c5bd4013f1e1ce59b6",
-      "source_path": "scripts/ckb_core/automation_integrations.py",
-      "start_line": 146,
-      "end_line": 159,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/automation_integrations.py` 第 146-159 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_gemini_hooks` 是第 146-159 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-2dacd1dd28555cdcb4a02f455de414ce",
-      "classification": "appendix",
-      "owner_page_id": "file-dc0316d8fff551c5bd4013f1e1ce59b6",
-      "source_path": "scripts/ckb_core/automation_integrations.py",
-      "start_line": 147,
-      "end_line": 148,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/automation_integrations.py` 第 147-148 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_gemini_hooks.handler` 是第 147-148 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-5388834fb5125782b2ba29f65f21467e",
-      "classification": "appendix",
-      "owner_page_id": "file-dc0316d8fff551c5bd4013f1e1ce59b6",
-      "source_path": "scripts/ckb_core/automation_integrations.py",
-      "start_line": 162,
-      "end_line": 188,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/automation_integrations.py` 第 162-188 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_copilot_hooks` 是第 162-188 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-dd3207e997df56bebe7575b15a63c83e",
-      "classification": "appendix",
-      "owner_page_id": "file-dc0316d8fff551c5bd4013f1e1ce59b6",
-      "source_path": "scripts/ckb_core/automation_integrations.py",
-      "start_line": 163,
-      "end_line": 172,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/automation_integrations.py` 第 163-172 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_copilot_hooks.handler` 是第 163-172 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-bec26dc4a16f5720b6d7c3d851d0b31d",
-      "classification": "appendix",
-      "owner_page_id": "file-dc0316d8fff551c5bd4013f1e1ce59b6",
-      "source_path": "scripts/ckb_core/automation_integrations.py",
-      "start_line": 191,
-      "end_line": 211,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/automation_integrations.py` 第 191-211 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_cursor_hooks` 是第 191-211 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-7d2aa61875355be39447b4eeef49be3a",
-      "classification": "appendix",
-      "owner_page_id": "file-dc0316d8fff551c5bd4013f1e1ce59b6",
-      "source_path": "scripts/ckb_core/automation_integrations.py",
-      "start_line": 192,
-      "end_line": 196,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/automation_integrations.py` 第 192-196 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_cursor_hooks.handler` 是第 192-196 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-5c596d5083f55707b01c76928b03fe6d",
-      "classification": "appendix",
-      "owner_page_id": "file-dc0316d8fff551c5bd4013f1e1ce59b6",
-      "source_path": "scripts/ckb_core/automation_integrations.py",
-      "start_line": 214,
-      "end_line": 292,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/automation_integrations.py` 第 214-292 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_opencode_stable_plugin` 是第 214-292 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-8c64c1277b9e5ed287b724730611da5d",
-      "classification": "appendix",
-      "owner_page_id": "file-dc0316d8fff551c5bd4013f1e1ce59b6",
-      "source_path": "scripts/ckb_core/automation_integrations.py",
-      "start_line": 295,
-      "end_line": 388,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/automation_integrations.py` 第 295-388 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_opencode_v2_plugin` 是第 295-388 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-66396ade77345087be62887da925bfb9",
-      "classification": "appendix",
-      "owner_page_id": "file-dc0316d8fff551c5bd4013f1e1ce59b6",
-      "source_path": "scripts/ckb_core/automation_integrations.py",
-      "start_line": 391,
-      "end_line": 429,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/automation_integrations.py` 第 391-429 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`_generic_schema` 是第 391-429 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-4db9e86bc74454cca4730954d10956c0",
-      "classification": "appendix",
-      "owner_page_id": "ent-4d31abac03bd549a8208089f74d37888",
-      "source_path": "scripts/ckb_core/automation_integrations.py",
-      "start_line": 461,
-      "end_line": 467,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/automation_integrations.py` 第 461-467 行的源码摘录，文件、符号与行范围一致。",
-      "description_zh": "`render_integration.write` 是第 461-467 行的函数，供所属页面定位实现。"
-    },
-    {
-      "entity_id": "ent-ec07136a3d8b523f8931e6c077333f55",
-      "classification": "appendix",
-      "owner_page_id": "file-1dc6dfee206f53b7bca7a94dfc6f3c24",
+      "owner_page_id": "file-d64765d57b2c5f5383e2c42a28294b18",
       "source_path": "scripts/ckb_core/common.py",
       "start_line": 28,
       "end_line": 29,
@@ -358,9 +50,9 @@
       "description_zh": "处理 `dependencyerror` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-38141101666f5fcca1496ad0c54168e4",
+      "entity_id": "ent-bd52b057b2a95b0e823b40cdbfe8147b",
       "classification": "appendix",
-      "owner_page_id": "file-1dc6dfee206f53b7bca7a94dfc6f3c24",
+      "owner_page_id": "file-d64765d57b2c5f5383e2c42a28294b18",
       "source_path": "scripts/ckb_core/common.py",
       "start_line": 32,
       "end_line": 33,
@@ -369,9 +61,9 @@
       "description_zh": "处理 `reviewrequired` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-25d80e382ddc5bcdbc2951976482f901",
+      "entity_id": "ent-9f39fe2affee5232945ca4eba6c6b250",
       "classification": "appendix",
-      "owner_page_id": "file-1dc6dfee206f53b7bca7a94dfc6f3c24",
+      "owner_page_id": "file-d64765d57b2c5f5383e2c42a28294b18",
       "source_path": "scripts/ckb_core/common.py",
       "start_line": 36,
       "end_line": 37,
@@ -380,9 +72,9 @@
       "description_zh": "处理 `auditerror` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-161ab2eaf9865e2894d851d5728fdff4",
+      "entity_id": "ent-5fe1bf78d0f55baba07c483e8e811b43",
       "classification": "appendix",
-      "owner_page_id": "file-1dc6dfee206f53b7bca7a94dfc6f3c24",
+      "owner_page_id": "file-d64765d57b2c5f5383e2c42a28294b18",
       "source_path": "scripts/ckb_core/common.py",
       "start_line": 40,
       "end_line": 41,
@@ -391,9 +83,9 @@
       "description_zh": "处理 `stalesourceerror` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-83072600e257573bae8b7d3738de6ed9",
+      "entity_id": "ent-a9f20c5d8d765b7890288c8570dbd4fe",
       "classification": "appendix",
-      "owner_page_id": "file-1dc6dfee206f53b7bca7a94dfc6f3c24",
+      "owner_page_id": "file-d64765d57b2c5f5383e2c42a28294b18",
       "source_path": "scripts/ckb_core/common.py",
       "start_line": 44,
       "end_line": 45,
@@ -402,9 +94,9 @@
       "description_zh": "处理 `now` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-064b0044680c59b2946fdb3766da854f",
+      "entity_id": "ent-20228b7d702c53b48c262396a114a3dd",
       "classification": "appendix",
-      "owner_page_id": "file-1dc6dfee206f53b7bca7a94dfc6f3c24",
+      "owner_page_id": "file-d64765d57b2c5f5383e2c42a28294b18",
       "source_path": "scripts/ckb_core/common.py",
       "start_line": 48,
       "end_line": 51,
@@ -413,9 +105,9 @@
       "description_zh": "根据固定输入计算 `stable_id` 稳定标识。"
     },
     {
-      "entity_id": "ent-cbbc9ad2585f51e99bf4e6dcc25e8aa9",
+      "entity_id": "ent-868db2c5a4b5575f8e3e1e29c3a343b7",
       "classification": "appendix",
-      "owner_page_id": "file-1dc6dfee206f53b7bca7a94dfc6f3c24",
+      "owner_page_id": "file-d64765d57b2c5f5383e2c42a28294b18",
       "source_path": "scripts/ckb_core/common.py",
       "start_line": 54,
       "end_line": 59,
@@ -424,9 +116,9 @@
       "description_zh": "处理 `file` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-41ce92af2b505540b0bfd4a9d83fb157",
+      "entity_id": "ent-dc1652e4c0505915b016b4f91b521752",
       "classification": "appendix",
-      "owner_page_id": "file-1dc6dfee206f53b7bca7a94dfc6f3c24",
+      "owner_page_id": "file-d64765d57b2c5f5383e2c42a28294b18",
       "source_path": "scripts/ckb_core/common.py",
       "start_line": 62,
       "end_line": 63,
@@ -435,9 +127,9 @@
       "description_zh": "处理 `load` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-84ab841991455be086368ad54628bc9c",
+      "entity_id": "ent-f5478b5e0135525496cbc5f6f5b4653f",
       "classification": "appendix",
-      "owner_page_id": "file-1dc6dfee206f53b7bca7a94dfc6f3c24",
+      "owner_page_id": "file-d64765d57b2c5f5383e2c42a28294b18",
       "source_path": "scripts/ckb_core/common.py",
       "start_line": 66,
       "end_line": 74,
@@ -446,9 +138,9 @@
       "description_zh": "处理 `write` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-710228cedd925ef4bcf78623b2e01f80",
+      "entity_id": "ent-3cd6deac92ef5063a41e3815d7045725",
       "classification": "appendix",
-      "owner_page_id": "file-1dc6dfee206f53b7bca7a94dfc6f3c24",
+      "owner_page_id": "file-d64765d57b2c5f5383e2c42a28294b18",
       "source_path": "scripts/ckb_core/common.py",
       "start_line": 77,
       "end_line": 82,
@@ -457,9 +149,9 @@
       "description_zh": "处理 `process_options` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-6d259154f13a5ab4a2b15d5a8567d11d",
+      "entity_id": "ent-28145ab0f73958458b98369bdec55458",
       "classification": "appendix",
-      "owner_page_id": "file-1dc6dfee206f53b7bca7a94dfc6f3c24",
+      "owner_page_id": "file-d64765d57b2c5f5383e2c42a28294b18",
       "source_path": "scripts/ckb_core/common.py",
       "start_line": 85,
       "end_line": 109,
@@ -468,9 +160,9 @@
       "description_zh": "执行 `run` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-870e6e2b35785bb2b0a82b2c3a478a51",
+      "entity_id": "ent-9359e06a08345b37aae14938089666f6",
       "classification": "appendix",
-      "owner_page_id": "file-1dc6dfee206f53b7bca7a94dfc6f3c24",
+      "owner_page_id": "file-d64765d57b2c5f5383e2c42a28294b18",
       "source_path": "scripts/ckb_core/common.py",
       "start_line": 112,
       "end_line": 124,
@@ -479,9 +171,9 @@
       "description_zh": "处理 `version` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-fceac2ab9ec9568daf32ea7cb0b52fd9",
+      "entity_id": "ent-05284fafb2955444be7b1bd16f201c9f",
       "classification": "appendix",
-      "owner_page_id": "file-1dc6dfee206f53b7bca7a94dfc6f3c24",
+      "owner_page_id": "file-d64765d57b2c5f5383e2c42a28294b18",
       "source_path": "scripts/ckb_core/common.py",
       "start_line": 127,
       "end_line": 135,
@@ -490,9 +182,9 @@
       "description_zh": "处理 `markers` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-29a9894c30d5557c849c17e879688c47",
+      "entity_id": "ent-4d630f9c299d5755b2fedd310ce0e155",
       "classification": "appendix",
-      "owner_page_id": "file-1dc6dfee206f53b7bca7a94dfc6f3c24",
+      "owner_page_id": "file-d64765d57b2c5f5383e2c42a28294b18",
       "source_path": "scripts/ckb_core/common.py",
       "start_line": 138,
       "end_line": 140,
@@ -501,9 +193,9 @@
       "description_zh": "写入 `marker` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-ebb794a2aa315e4c907fdca191afe260",
+      "entity_id": "ent-5c28b79328775800b131ba0fde4809b2",
       "classification": "appendix",
-      "owner_page_id": "file-1dc6dfee206f53b7bca7a94dfc6f3c24",
+      "owner_page_id": "file-d64765d57b2c5f5383e2c42a28294b18",
       "source_path": "scripts/ckb_core/common.py",
       "start_line": 143,
       "end_line": 145,
@@ -512,9 +204,9 @@
       "description_zh": "处理 `title` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-d1594a2532cf5f8d8af878e2c621db0d",
+      "entity_id": "ent-e4e18bcb8bb35491b4cad009e260789b",
       "classification": "appendix",
-      "owner_page_id": "file-1dc6dfee206f53b7bca7a94dfc6f3c24",
+      "owner_page_id": "file-d64765d57b2c5f5383e2c42a28294b18",
       "source_path": "scripts/ckb_core/common.py",
       "start_line": 148,
       "end_line": 153,
@@ -523,9 +215,9 @@
       "description_zh": "生成 `inside` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-fb36f65db4735d2bba345fef88e13115",
+      "entity_id": "ent-d240c114b11554a18e649657e053a73c",
       "classification": "appendix",
-      "owner_page_id": "file-1dc6dfee206f53b7bca7a94dfc6f3c24",
+      "owner_page_id": "file-d64765d57b2c5f5383e2c42a28294b18",
       "source_path": "scripts/ckb_core/common.py",
       "start_line": 156,
       "end_line": 163,
@@ -534,9 +226,9 @@
       "description_zh": "处理 `rmtree` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-641f579a714552fcb26da9b51f2347ef",
+      "entity_id": "ent-2d28ed3a69fb516ca7f641507d8ab5f6",
       "classification": "appendix",
-      "owner_page_id": "file-1dc6dfee206f53b7bca7a94dfc6f3c24",
+      "owner_page_id": "file-d64765d57b2c5f5383e2c42a28294b18",
       "source_path": "scripts/ckb_core/common.py",
       "start_line": 166,
       "end_line": 167,
@@ -545,9 +237,9 @@
       "description_zh": "处理 `directory` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-50da15b9f9515323a19eb1fc202ca4a9",
+      "entity_id": "ent-d1fef3965a355599845b5c8050d0aff5",
       "classification": "appendix",
-      "owner_page_id": "file-053bc608a4625fd096aacccf77e6b529",
+      "owner_page_id": "file-dd9adfce4dc557b498fa8e43dabd5160",
       "source_path": "scripts/ckb_core/feedback.py",
       "start_line": 31,
       "end_line": 32,
@@ -556,9 +248,9 @@
       "description_zh": "判断 `contains_chinese` 所表达的条件。"
     },
     {
-      "entity_id": "ent-75c7b59e6f4a5671be2d9c29f2b79798",
+      "entity_id": "ent-0214f9221edb5435a202cf645bc6a998",
       "classification": "appendix",
-      "owner_page_id": "file-053bc608a4625fd096aacccf77e6b529",
+      "owner_page_id": "file-dd9adfce4dc557b498fa8e43dabd5160",
       "source_path": "scripts/ckb_core/feedback.py",
       "start_line": 35,
       "end_line": 53,
@@ -567,9 +259,9 @@
       "description_zh": "准备 `feedback_store` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-c0be6bf2e5115464bf32caf40217d482",
+      "entity_id": "ent-bd454544812c51f7a27634e7027ac483",
       "classification": "appendix",
-      "owner_page_id": "file-053bc608a4625fd096aacccf77e6b529",
+      "owner_page_id": "file-dd9adfce4dc557b498fa8e43dabd5160",
       "source_path": "scripts/ckb_core/feedback.py",
       "start_line": 56,
       "end_line": 89,
@@ -578,9 +270,9 @@
       "description_zh": "处理 `relative_target` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-d55d526ed6d65041a74875f735c82f9e",
+      "entity_id": "ent-fd012d05ca9c527095afee568935885d",
       "classification": "appendix",
-      "owner_page_id": "file-053bc608a4625fd096aacccf77e6b529",
+      "owner_page_id": "file-dd9adfce4dc557b498fa8e43dabd5160",
       "source_path": "scripts/ckb_core/feedback.py",
       "start_line": 92,
       "end_line": 102,
@@ -589,9 +281,9 @@
       "description_zh": "读取 `chinese_body` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-82a4325429ba5245b4d00dac8543ac32",
+      "entity_id": "ent-c5a5717878815a3ea89cd0f35844e64a",
       "classification": "appendix",
-      "owner_page_id": "file-053bc608a4625fd096aacccf77e6b529",
+      "owner_page_id": "file-dd9adfce4dc557b498fa8e43dabd5160",
       "source_path": "scripts/ckb_core/feedback.py",
       "start_line": 105,
       "end_line": 116,
@@ -600,9 +292,9 @@
       "description_zh": "处理 `selection` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-3d55a53ceb7850b199bebdf5195713b3",
+      "entity_id": "ent-9951fdb0f7ad5123b56144790ab1e191",
       "classification": "appendix",
-      "owner_page_id": "file-053bc608a4625fd096aacccf77e6b529",
+      "owner_page_id": "file-dd9adfce4dc557b498fa8e43dabd5160",
       "source_path": "scripts/ckb_core/feedback.py",
       "start_line": 119,
       "end_line": 129,
@@ -611,9 +303,9 @@
       "description_zh": "根据固定输入计算 `next_feedback_id` 稳定标识。"
     },
     {
-      "entity_id": "ent-905eeb825fcf5d319a3b2ea611849766",
+      "entity_id": "ent-68e81b0237d45addb0b41c73e2d4eaf0",
       "classification": "appendix",
-      "owner_page_id": "file-053bc608a4625fd096aacccf77e6b529",
+      "owner_page_id": "file-dd9adfce4dc557b498fa8e43dabd5160",
       "source_path": "scripts/ckb_core/feedback.py",
       "start_line": 132,
       "end_line": 135,
@@ -622,15 +314,345 @@
       "description_zh": "处理 `of` 对应的数据与约束。"
     },
     {
-      "entity_id": "ent-38729ec8ecd955c8b6afd864f1aa773d",
+      "entity_id": "ent-5745afc3a8155e69a6dc7ebb3ac46b8d",
       "classification": "appendix",
-      "owner_page_id": "file-053bc608a4625fd096aacccf77e6b529",
+      "owner_page_id": "file-dd9adfce4dc557b498fa8e43dabd5160",
       "source_path": "scripts/ckb_core/feedback.py",
       "start_line": 138,
       "end_line": 140,
       "status": "agent-reviewed",
       "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 138 至 140 行，核对 `_blockquote` 的签名、分支和数据流后写出本条简体中文说明。",
       "description_zh": "处理 `blockquote` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-740afa68f7975d1b9701ac09fd6d8ea9",
+      "classification": "appendix",
+      "owner_page_id": "file-dd9adfce4dc557b498fa8e43dabd5160",
+      "source_path": "scripts/ckb_core/feedback.py",
+      "start_line": 143,
+      "end_line": 179,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 143 至 179 行，核对 `_visible_feedback` 的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "处理 `feedback` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-84865d963ba351cf955931c36b59fd0b",
+      "classification": "appendix",
+      "owner_page_id": "file-dd9adfce4dc557b498fa8e43dabd5160",
+      "source_path": "scripts/ckb_core/feedback.py",
+      "start_line": 182,
+      "end_line": 183,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 182 至 183 行，核对 `_record_path` 的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "记录 `path` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-a400734d74f9519abb306c6883c3bf6c",
+      "classification": "appendix",
+      "owner_page_id": "file-dd9adfce4dc557b498fa8e43dabd5160",
+      "source_path": "scripts/ckb_core/feedback.py",
+      "start_line": 186,
+      "end_line": 187,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 186 至 187 行，核对 `_visible_relative` 的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "处理 `relative` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-244c351a518952ebab8957b23d0f59f0",
+      "classification": "appendix",
+      "owner_page_id": "file-dd9adfce4dc557b498fa8e43dabd5160",
+      "source_path": "scripts/ckb_core/feedback.py",
+      "start_line": 190,
+      "end_line": 199,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 190 至 199 行，核对 `_write_visible_mirrors` 的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "写入 `visible_mirrors` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-18b6b10225d35ad9b435634521b44d3a",
+      "classification": "appendix",
+      "owner_page_id": "file-dd9adfce4dc557b498fa8e43dabd5160",
+      "source_path": "scripts/ckb_core/feedback.py",
+      "start_line": 202,
+      "end_line": 254,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 202 至 254 行，核对 `create_feedback` 的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "创建 `feedback` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-b2f02dc275885762b509063c845a3385",
+      "classification": "appendix",
+      "owner_page_id": "file-dd9adfce4dc557b498fa8e43dabd5160",
+      "source_path": "scripts/ckb_core/feedback.py",
+      "start_line": 257,
+      "end_line": 263,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 257 至 263 行，核对 `_load_feedback` 的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "加载 `feedback` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-a112cb1cf79251d1b9a9aebef5062290",
+      "classification": "appendix",
+      "owner_page_id": "file-dd9adfce4dc557b498fa8e43dabd5160",
+      "source_path": "scripts/ckb_core/feedback.py",
+      "start_line": 266,
+      "end_line": 275,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 266 至 275 行，核对 `_all_offsets` 的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "处理 `offsets` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-f25d3b36556050efa3592747750c2728",
+      "classification": "appendix",
+      "owner_page_id": "file-dd9adfce4dc557b498fa8e43dabd5160",
+      "source_path": "scripts/ckb_core/feedback.py",
+      "start_line": 278,
+      "end_line": 279,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 278 至 279 行，核对 `_offset_lines` 的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "处理 `lines` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-46d799804263518c85e035720599049d",
+      "classification": "appendix",
+      "owner_page_id": "file-dd9adfce4dc557b498fa8e43dabd5160",
+      "source_path": "scripts/ckb_core/feedback.py",
+      "start_line": 282,
+      "end_line": 308,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 282 至 308 行，核对 `_locate_anchor` 的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "定位 `anchor` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-6e381747dce55a089bec129454b84f61",
+      "classification": "appendix",
+      "owner_page_id": "file-dd9adfce4dc557b498fa8e43dabd5160",
+      "source_path": "scripts/ckb_core/feedback.py",
+      "start_line": 311,
+      "end_line": 324,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 311 至 324 行，核对 `locate_feedback` 的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "定位 `feedback` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-20d0a6a50fe05e5d94263bd5784ddb22",
+      "classification": "appendix",
+      "owner_page_id": "file-dd9adfce4dc557b498fa8e43dabd5160",
+      "source_path": "scripts/ckb_core/feedback.py",
+      "start_line": 327,
+      "end_line": 351,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 327 至 351 行，核对 `_canonical_applied_record` 的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "处理 `applied_record` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-c492cdb4a01e5851b7a06bd417f381f1",
+      "classification": "appendix",
+      "owner_page_id": "file-dd9adfce4dc557b498fa8e43dabd5160",
+      "source_path": "scripts/ckb_core/feedback.py",
+      "start_line": 354,
+      "end_line": 395,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 354 至 395 行，核对 `resolve_feedback` 的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "解析并确定 `feedback` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-93b9d5e400665f6fa7f368d206c078c5",
+      "classification": "appendix",
+      "owner_page_id": "file-dd9adfce4dc557b498fa8e43dabd5160",
+      "source_path": "scripts/ckb_core/feedback.py",
+      "start_line": 398,
+      "end_line": 434,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 398 至 434 行，核对 `list_feedback` 的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "列出 `feedback` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-ffe39f2499f45d468830c5a912acee54",
+      "classification": "appendix",
+      "owner_page_id": "file-dd9adfce4dc557b498fa8e43dabd5160",
+      "source_path": "scripts/ckb_core/feedback.py",
+      "start_line": 548,
+      "end_line": 553,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 548 至 553 行，核对 `_query_terms` 的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "查询 `terms` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-e20bcccecbf15c568c84b9514afa844d",
+      "classification": "appendix",
+      "owner_page_id": "file-dd9adfce4dc557b498fa8e43dabd5160",
+      "source_path": "scripts/ckb_core/feedback.py",
+      "start_line": 556,
+      "end_line": 594,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/feedback.py` 第 556 至 594 行，核对 `search_feedback` 的签名、分支和数据流后写出本条简体中文说明。",
+      "description_zh": "处理 `feedback` 对应的数据与约束。"
+    },
+    {
+      "entity_id": "ent-bc2f238d5a1458d7ab8662b6919df44c",
+      "classification": "appendix",
+      "owner_page_id": "file-38cfe0331f1954d78abc7b11e14fe86b",
+      "source_path": "scripts/ckb_core/freshness.py",
+      "start_line": 54,
+      "end_line": 58,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 54 至 58 行；摘录与 Git blob adfaca335688 一致。",
+      "description_zh": "`_root` 完成Git 源码事实新鲜度中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-5346c25d56ea5dca97beb79dc0509e7a",
+      "classification": "appendix",
+      "owner_page_id": "file-38cfe0331f1954d78abc7b11e14fe86b",
+      "source_path": "scripts/ckb_core/freshness.py",
+      "start_line": 61,
+      "end_line": 86,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 61 至 86 行；摘录与 Git blob adfaca335688 一致。",
+      "description_zh": "`_pid_alive` 完成Git 源码事实新鲜度中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-c3d112b5980b5c619e1228cb6b13342b",
+      "classification": "appendix",
+      "owner_page_id": "file-38cfe0331f1954d78abc7b11e14fe86b",
+      "source_path": "scripts/ckb_core/freshness.py",
+      "start_line": 89,
+      "end_line": 94,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 89 至 94 行；摘录与 Git blob adfaca335688 一致。",
+      "description_zh": "`_read_lock` 读取并判定Git 源码事实新鲜度所需的数据或状态。"
+    },
+    {
+      "entity_id": "ent-b8d31d8d02345f95823a9d84ba4f05d3",
+      "classification": "appendix",
+      "owner_page_id": "file-38cfe0331f1954d78abc7b11e14fe86b",
+      "source_path": "scripts/ckb_core/freshness.py",
+      "start_line": 97,
+      "end_line": 102,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 97 至 102 行；摘录与 Git blob adfaca335688 一致。",
+      "description_zh": "`_lock_file_identity` 完成Git 源码事实新鲜度中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-c04b2e37075a5781b47e46f817686709",
+      "classification": "appendix",
+      "owner_page_id": "file-38cfe0331f1954d78abc7b11e14fe86b",
+      "source_path": "scripts/ckb_core/freshness.py",
+      "start_line": 105,
+      "end_line": 148,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 105 至 148 行；摘录与 Git blob adfaca335688 一致。",
+      "description_zh": "`_release_owned_state_lock` 受控释放或回滚Git 源码事实新鲜度所需的数据或状态。"
+    },
+    {
+      "entity_id": "ent-a1a7c44b0884571996648a1317737ba5",
+      "classification": "appendix",
+      "owner_page_id": "file-38cfe0331f1954d78abc7b11e14fe86b",
+      "source_path": "scripts/ckb_core/freshness.py",
+      "start_line": 152,
+      "end_line": 217,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 152 至 217 行；摘录与 Git blob adfaca335688 一致。",
+      "description_zh": "`_state_lock` 完成Git 源码事实新鲜度中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-02409a5553265a04a88ab17d7768f98d",
+      "classification": "appendix",
+      "owner_page_id": "file-38cfe0331f1954d78abc7b11e14fe86b",
+      "source_path": "scripts/ckb_core/freshness.py",
+      "start_line": 220,
+      "end_line": 224,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 220 至 224 行；摘录与 Git blob adfaca335688 一致。",
+      "description_zh": "`_bounded_text` 完成Git 源码事实新鲜度中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-d9a3ff21d5d35b87895a909f2d74508a",
+      "classification": "appendix",
+      "owner_page_id": "file-38cfe0331f1954d78abc7b11e14fe86b",
+      "source_path": "scripts/ckb_core/freshness.py",
+      "start_line": 227,
+      "end_line": 247,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 227 至 247 行；摘录与 Git blob adfaca335688 一致。",
+      "description_zh": "`_repository_binding` 完成Git 源码事实新鲜度中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-0e5f911381415e6aa4a26ec91f02cca0",
+      "classification": "appendix",
+      "owner_page_id": "file-38cfe0331f1954d78abc7b11e14fe86b",
+      "source_path": "scripts/ckb_core/freshness.py",
+      "start_line": 250,
+      "end_line": 257,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 250 至 257 行；摘录与 Git blob adfaca335688 一致。",
+      "description_zh": "`_git` 完成Git 源码事实新鲜度中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-c07bb597c92d5fd0943d68d653dc1019",
+      "classification": "appendix",
+      "owner_page_id": "file-38cfe0331f1954d78abc7b11e14fe86b",
+      "source_path": "scripts/ckb_core/freshness.py",
+      "start_line": 260,
+      "end_line": 282,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 260 至 282 行；摘录与 Git blob adfaca335688 一致。",
+      "description_zh": "`_status_records` 读取并判定Git 源码事实新鲜度所需的数据或状态。"
+    },
+    {
+      "entity_id": "ent-40e4d7eb509b50bf9f299793cbb854a4",
+      "classification": "appendix",
+      "owner_page_id": "file-38cfe0331f1954d78abc7b11e14fe86b",
+      "source_path": "scripts/ckb_core/freshness.py",
+      "start_line": 285,
+      "end_line": 308,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 285 至 308 行；摘录与 Git blob adfaca335688 一致。",
+      "description_zh": "`_repository_snapshot` 完成Git 源码事实新鲜度中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-35a27f81a84e5a3fa64a6ac6ea116b22",
+      "classification": "appendix",
+      "owner_page_id": "file-38cfe0331f1954d78abc7b11e14fe86b",
+      "source_path": "scripts/ckb_core/freshness.py",
+      "start_line": 311,
+      "end_line": 352,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 311 至 352 行；摘录与 Git blob adfaca335688 一致。",
+      "description_zh": "`_change_summary` 完成Git 源码事实新鲜度中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-b1d25868b4ee58bf89fd4ac6de3e108f",
+      "classification": "appendix",
+      "owner_page_id": "file-38cfe0331f1954d78abc7b11e14fe86b",
+      "source_path": "scripts/ckb_core/freshness.py",
+      "start_line": 355,
+      "end_line": 356,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 355 至 356 行；摘录与 Git blob adfaca335688 一致。",
+      "description_zh": "`_iso_after` 完成Git 源码事实新鲜度中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-6ac73ffa4efc5c7abd7b70067dce9545",
+      "classification": "appendix",
+      "owner_page_id": "file-38cfe0331f1954d78abc7b11e14fe86b",
+      "source_path": "scripts/ckb_core/freshness.py",
+      "start_line": 359,
+      "end_line": 369,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 359 至 369 行；摘录与 Git blob adfaca335688 一致。",
+      "description_zh": "`_prune_overlays` 完成Git 源码事实新鲜度中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-41781a6f6f8e5c1f951adee4e8f9ea75",
+      "classification": "appendix",
+      "owner_page_id": "file-38cfe0331f1954d78abc7b11e14fe86b",
+      "source_path": "scripts/ckb_core/freshness.py",
+      "start_line": 372,
+      "end_line": 411,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/freshness.py` 第 372 至 411 行；摘录与 Git blob adfaca335688 一致。",
+      "description_zh": "`_write_overlay` 生成并写入Git 源码事实新鲜度所需的数据或状态。"
     }
   ]
 }

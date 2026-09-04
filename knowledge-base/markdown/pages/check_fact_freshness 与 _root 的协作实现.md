@@ -16,6 +16,7 @@
 
 - 实现时会用到 [[CkbError]]。
 - 实现时会用到 [[CkbError 与 DependencyError 的协作实现]]。
+- 实现时会用到 [[ScopeExtensionOfferTests.retrieval]]。
 - 实现时会用到 [[_Transport.close]]。
 - 实现时会用到 [[append]]。
 - 主要代码单元是 [[check_fact_freshness]]。

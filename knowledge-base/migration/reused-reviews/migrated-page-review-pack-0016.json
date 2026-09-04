@@ -3,20 +3,20 @@
   "pack_id": "migrated-page-review-pack-0016",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-03T01:38:30Z",
+  "reviewed_at_utc": "2026-09-03T22:05:25Z",
   "reviews": [
     {
-      "entity_id": "file-604b93f924725232b2e4f8354415cc21",
+      "entity_id": "file-45c870345dbf58ba92f40e54b35073c0",
       "classification": "page",
-      "owner_page_id": "file-604b93f924725232b2e4f8354415cc21",
-      "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
+      "owner_page_id": "file-45c870345dbf58ba92f40e54b35073c0",
+      "source_path": "scripts/ckb_core/human_page_authoring.py",
       "start_line": 1,
-      "end_line": 2010,
+      "end_line": 1445,
       "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_maintenance_prompts.py` 第 1-2010 行，并核对 Git blob `32abdbacb6ff`、分类与所有者。",
-      "meaning_zh": "`scripts/ckb_core/human_maintenance_prompts.py` 页面绑定固定源码第 1-2010 行，说明该文件如何承担参数化人类维护 Prompt 的动作合同、渲染和交付核对。",
-      "role_zh": "该文件负责参数化人类维护 Prompt 的动作合同、渲染和交付核对，并为相关命令、页面生成或测试提供源码入口。",
-      "change_when_zh": "当 `scripts/ckb_core/human_maintenance_prompts.py` 的公开输入、生成结果、状态边界或与其他模块的协作关系变化时，应更新本页。"
+      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_authoring.py` 第 1-1445 行，并核对 Git blob `f99c7f5aa021`、分类与所有者。",
+      "meaning_zh": "`scripts/ckb_core/human_page_authoring.py` 页面绑定固定源码第 1-1445 行，说明该文件如何承担V3 人类页面的初始化、检查、渲染、验证和隔离打包。",
+      "role_zh": "该文件负责V3 人类页面的初始化、检查、渲染、验证和隔离打包，并为相关命令、页面生成或测试提供源码入口。",
+      "change_when_zh": "当 `scripts/ckb_core/human_page_authoring.py` 的公开输入、生成结果、状态边界或与其他模块的协作关系变化时，应更新本页。"
     }
   ]
 }

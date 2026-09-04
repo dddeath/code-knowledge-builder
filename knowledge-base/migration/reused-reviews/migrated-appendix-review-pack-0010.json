@@ -3,331 +3,12 @@
   "pack_id": "migrated-appendix-review-pack-0010",
   "kind": "appendix-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-03T01:38:52Z",
+  "reviewed_at_utc": "2026-09-03T22:05:43Z",
   "reviews": [
     {
-      "entity_id": "ent-c5c5f066281d5a899cc0754d52784aa0",
+      "entity_id": "ent-f4f492e7c5a75c97b457c1843a6313d5",
       "classification": "appendix",
-      "owner_page_id": "file-604b93f924725232b2e4f8354415cc21",
-      "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
-      "start_line": 67,
-      "end_line": 77,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_maintenance_prompts.py` 第 67-77 行，并核对 Git blob `32abdbacb6ff`、分类与所有者。",
-      "description_zh": "`ActionContract` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-2920ba8c8e4a5c8eaaa2e7eb22ef12b9",
-      "classification": "appendix",
-      "owner_page_id": "file-604b93f924725232b2e4f8354415cc21",
-      "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
-      "start_line": 80,
-      "end_line": 89,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_maintenance_prompts.py` 第 80-89 行，并核对 Git blob `32abdbacb6ff`、分类与所有者。",
-      "description_zh": "`_p` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-abaf77b4fe3f5568b81f85b446836772",
-      "classification": "appendix",
-      "owner_page_id": "file-604b93f924725232b2e4f8354415cc21",
-      "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
-      "start_line": 92,
-      "end_line": 118,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_maintenance_prompts.py` 第 92-118 行，并核对 Git blob `32abdbacb6ff`、分类与所有者。",
-      "description_zh": "`_s` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-ee95b68abc1251448e5f24dc0a593c12",
-      "classification": "appendix",
-      "owner_page_id": "file-604b93f924725232b2e4f8354415cc21",
-      "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
-      "start_line": 121,
-      "end_line": 132,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_maintenance_prompts.py` 第 121-132 行，并核对 Git blob `32abdbacb6ff`、分类与所有者。",
-      "description_zh": "`_requirements` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-ef60dbbeb99c5e5e84e532cd5eb2ea8b",
-      "classification": "appendix",
-      "owner_page_id": "file-604b93f924725232b2e4f8354415cc21",
-      "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
-      "start_line": 1223,
-      "end_line": 1254,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_maintenance_prompts.py` 第 1223-1254 行，并核对 Git blob `32abdbacb6ff`、分类与所有者。",
-      "description_zh": "`_check_registry` 用于检查内部不变量并拒绝不一致状态。"
-    },
-    {
-      "entity_id": "ent-ac53973bf316596bbfe2bb29c6a1c622",
-      "classification": "appendix",
-      "owner_page_id": "file-604b93f924725232b2e4f8354415cc21",
-      "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
-      "start_line": 1260,
-      "end_line": 1261,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_maintenance_prompts.py` 第 1260-1261 行，并核对 Git blob `32abdbacb6ff`、分类与所有者。",
-      "description_zh": "`list_human_maintenance_actions` 用于读取、定位并返回现有状态。"
-    },
-    {
-      "entity_id": "ent-6a467c4f1475582b8c4e47f5bdb4f910",
-      "classification": "appendix",
-      "owner_page_id": "file-604b93f924725232b2e4f8354415cc21",
-      "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
-      "start_line": 1264,
-      "end_line": 1269,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_maintenance_prompts.py` 第 1264-1269 行，并核对 Git blob `32abdbacb6ff`、分类与所有者。",
-      "description_zh": "`get_human_maintenance_action` 用于读取、定位并返回现有状态。"
-    },
-    {
-      "entity_id": "ent-a4ca2bc9720358f0ada55e0390a86fc0",
-      "classification": "appendix",
-      "owner_page_id": "file-604b93f924725232b2e4f8354415cc21",
-      "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
-      "start_line": 1272,
-      "end_line": 1280,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_maintenance_prompts.py` 第 1272-1280 行，并核对 Git blob `32abdbacb6ff`、分类与所有者。",
-      "description_zh": "`_parameter_document` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-94abb4a710685f3babe0e174efca16c0",
-      "classification": "appendix",
-      "owner_page_id": "file-604b93f924725232b2e4f8354415cc21",
-      "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
-      "start_line": 1283,
-      "end_line": 1295,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_maintenance_prompts.py` 第 1283-1295 行，并核对 Git blob `32abdbacb6ff`、分类与所有者。",
-      "description_zh": "`_step_document` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-5a0e888d1eac514c857e2d00845b73f6",
-      "classification": "appendix",
-      "owner_page_id": "file-604b93f924725232b2e4f8354415cc21",
-      "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
-      "start_line": 1298,
-      "end_line": 1318,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_maintenance_prompts.py` 第 1298-1318 行，并核对 Git blob `32abdbacb6ff`、分类与所有者。",
-      "description_zh": "`human_maintenance_action_document` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-9b66d109010d5472849581b2b9f4cc64",
-      "classification": "appendix",
-      "owner_page_id": "file-604b93f924725232b2e4f8354415cc21",
-      "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
-      "start_line": 1321,
-      "end_line": 1328,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_maintenance_prompts.py` 第 1321-1328 行，并核对 Git blob `32abdbacb6ff`、分类与所有者。",
-      "description_zh": "`human_maintenance_registry_document` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-e33e7b7c55d45316a5f55fd3f8c847c0",
-      "classification": "appendix",
-      "owner_page_id": "file-604b93f924725232b2e4f8354415cc21",
-      "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
-      "start_line": 1331,
-      "end_line": 1332,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_maintenance_prompts.py` 第 1331-1332 行，并核对 Git blob `32abdbacb6ff`、分类与所有者。",
-      "description_zh": "`serialize_human_maintenance_registry` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-71438c748ac4538ab9f22f7328437691",
-      "classification": "appendix",
-      "owner_page_id": "file-604b93f924725232b2e4f8354415cc21",
-      "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
-      "start_line": 1335,
-      "end_line": 1336,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_maintenance_prompts.py` 第 1335-1336 行，并核对 Git blob `32abdbacb6ff`、分类与所有者。",
-      "description_zh": "`human_maintenance_registry_sha256` 用于生成稳定序列化或内容摘要。"
-    },
-    {
-      "entity_id": "ent-d4236f23927a56ec8ff44721fa988d65",
-      "classification": "appendix",
-      "owner_page_id": "file-604b93f924725232b2e4f8354415cc21",
-      "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
-      "start_line": 1339,
-      "end_line": 1340,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_maintenance_prompts.py` 第 1339-1340 行，并核对 Git blob `32abdbacb6ff`、分类与所有者。",
-      "description_zh": "`_error` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-adeb36061d775b9a8ca1da6cdfd5f063",
-      "classification": "appendix",
-      "owner_page_id": "file-604b93f924725232b2e4f8354415cc21",
-      "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
-      "start_line": 1343,
-      "end_line": 1363,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_maintenance_prompts.py` 第 1343-1363 行，并核对 Git blob `32abdbacb6ff`、分类与所有者。",
-      "description_zh": "`_parse_parameter_items` 用于解析结构化输入并形成规范表示。"
-    },
-    {
-      "entity_id": "ent-f942adca4af35f11872957b64542af72",
-      "classification": "appendix",
-      "owner_page_id": "file-604b93f924725232b2e4f8354415cc21",
-      "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
-      "start_line": 1366,
-      "end_line": 1388,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_maintenance_prompts.py` 第 1366-1388 行，并核对 Git blob `32abdbacb6ff`、分类与所有者。",
-      "description_zh": "`_normalize_value` 用于规范化输入字段并拒绝未知或越界值。"
-    },
-    {
-      "entity_id": "ent-2e894deaa1c85565bf85d359599be205",
-      "classification": "appendix",
-      "owner_page_id": "file-604b93f924725232b2e4f8354415cc21",
-      "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
-      "start_line": 1519,
-      "end_line": 1520,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_maintenance_prompts.py` 第 1519-1520 行，并核对 Git blob `32abdbacb6ff`、分类与所有者。",
-      "description_zh": "`_quote` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-736d35bde1375ea9943c60f1aa399459",
-      "classification": "appendix",
-      "owner_page_id": "file-604b93f924725232b2e4f8354415cc21",
-      "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
-      "start_line": 1523,
-      "end_line": 1540,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_maintenance_prompts.py` 第 1523-1540 行，并核对 Git blob `32abdbacb6ff`、分类与所有者。",
-      "description_zh": "`_format_values` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-489dabb4c13e5b268697ab1b16b1d740",
-      "classification": "appendix",
-      "owner_page_id": "file-604b93f924725232b2e4f8354415cc21",
-      "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
-      "start_line": 1543,
-      "end_line": 1548,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_maintenance_prompts.py` 第 1543-1548 行，并核对 Git blob `32abdbacb6ff`、分类与所有者。",
-      "description_zh": "`active_command_steps` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-82bfd864e75b5b46b3d8b0ab62d2f38d",
-      "classification": "appendix",
-      "owner_page_id": "file-604b93f924725232b2e4f8354415cc21",
-      "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
-      "start_line": 1551,
-      "end_line": 1557,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_maintenance_prompts.py` 第 1551-1557 行，并核对 Git blob `32abdbacb6ff`、分类与所有者。",
-      "description_zh": "`render_step_command` 用于把结构化状态渲染为稳定输出。"
-    },
-    {
-      "entity_id": "ent-fcf3b005aa9a55e39571bf2d9aeafd5d",
-      "classification": "appendix",
-      "owner_page_id": "file-604b93f924725232b2e4f8354415cc21",
-      "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
-      "start_line": 1560,
-      "end_line": 1576,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_maintenance_prompts.py` 第 1560-1576 行，并核对 Git blob `32abdbacb6ff`、分类与所有者。",
-      "description_zh": "`_effective_requirement_state` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-a649940427135081a8c1d3e848741040",
-      "classification": "appendix",
-      "owner_page_id": "file-604b93f924725232b2e4f8354415cc21",
-      "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
-      "start_line": 1579,
-      "end_line": 1584,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_maintenance_prompts.py` 第 1579-1584 行，并核对 Git blob `32abdbacb6ff`、分类与所有者。",
-      "description_zh": "`_effective_rollback_requirement` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-0a022327c1c751bd9cef278659bf2069",
-      "classification": "appendix",
-      "owner_page_id": "file-604b93f924725232b2e4f8354415cc21",
-      "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
-      "start_line": 1587,
-      "end_line": 1597,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_maintenance_prompts.py` 第 1587-1597 行，并核对 Git blob `32abdbacb6ff`、分类与所有者。",
-      "description_zh": "`_effective_rollback_mapping_and_command` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-2ed34fb9dd645becadd58c6c06d2b816",
-      "classification": "appendix",
-      "owner_page_id": "file-604b93f924725232b2e4f8354415cc21",
-      "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
-      "start_line": 1600,
-      "end_line": 1643,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_maintenance_prompts.py` 第 1600-1643 行，并核对 Git blob `32abdbacb6ff`、分类与所有者。",
-      "description_zh": "`_acceptance_template` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-8de81f840c4852708803284b63202e62",
-      "classification": "appendix",
-      "owner_page_id": "file-604b93f924725232b2e4f8354415cc21",
-      "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
-      "start_line": 1646,
-      "end_line": 1653,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_maintenance_prompts.py` 第 1646-1653 行，并核对 Git blob `32abdbacb6ff`、分类与所有者。",
-      "description_zh": "`human_maintenance_delivery_template` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-8d8e25838a9b512dbbdfdd3966b01fae",
-      "classification": "appendix",
-      "owner_page_id": "file-604b93f924725232b2e4f8354415cc21",
-      "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
-      "start_line": 1656,
-      "end_line": 1664,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_maintenance_prompts.py` 第 1656-1664 行，并核对 Git blob `32abdbacb6ff`、分类与所有者。",
-      "description_zh": "该函数识别交付摘要中尚未替换的类型槽和占位值。"
-    },
-    {
-      "entity_id": "ent-a41dd2aec7ff5675957b0bfae89b797f",
-      "classification": "appendix",
-      "owner_page_id": "file-604b93f924725232b2e4f8354415cc21",
-      "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
-      "start_line": 1667,
-      "end_line": 1691,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_maintenance_prompts.py` 第 1667-1691 行，并核对 Git blob `32abdbacb6ff`、分类与所有者。",
-      "description_zh": "`_summary_parameter_items` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-8fe1df313d7d5083a3b64edbb6e442d9",
-      "classification": "appendix",
-      "owner_page_id": "file-604b93f924725232b2e4f8354415cc21",
-      "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
-      "start_line": 1694,
-      "end_line": 1734,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_maintenance_prompts.py` 第 1694-1734 行，并核对 Git blob `32abdbacb6ff`、分类与所有者。",
-      "description_zh": "`_literal_result_error` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-8295b2ccf6ad5e85a314d56134c17334",
-      "classification": "appendix",
-      "owner_page_id": "file-604b93f924725232b2e4f8354415cc21",
-      "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
-      "start_line": 1737,
-      "end_line": 1738,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_maintenance_prompts.py` 第 1737-1738 行，并核对 Git blob `32abdbacb6ff`、分类与所有者。",
-      "description_zh": "`_expected_rollback` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-eed96866a3875f85b4c8b69f846b773f",
-      "classification": "appendix",
-      "owner_page_id": "file-604b93f924725232b2e4f8354415cc21",
+      "owner_page_id": "file-ebdd3de90e1b5029b70a2bcd583a00b3",
       "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
       "start_line": 1741,
       "end_line": 1916,
@@ -336,9 +17,9 @@
       "description_zh": "`audit_human_maintenance_delivery` 用于汇总并判断受控对象是否满足当前合同。"
     },
     {
-      "entity_id": "ent-caa16478bc365cc5b4057ddd4498e323",
+      "entity_id": "ent-3c8ff56b706a545b8eeac29ccfc0a0fe",
       "classification": "appendix",
-      "owner_page_id": "file-604b93f924725232b2e4f8354415cc21",
+      "owner_page_id": "file-ebdd3de90e1b5029b70a2bcd583a00b3",
       "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
       "start_line": 1919,
       "end_line": 1933,
@@ -347,9 +28,9 @@
       "description_zh": "`audit_human_maintenance_delivery_file` 用于汇总并判断受控对象是否满足当前合同。"
     },
     {
-      "entity_id": "ent-b6bb5c689a3951af904bb5e0a59ee1c8",
+      "entity_id": "ent-2570b465a49b589a907ed761ff8cd3c5",
       "classification": "appendix",
-      "owner_page_id": "file-604b93f924725232b2e4f8354415cc21",
+      "owner_page_id": "file-ebdd3de90e1b5029b70a2bcd583a00b3",
       "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
       "start_line": 1936,
       "end_line": 2009,
@@ -358,9 +39,9 @@
       "description_zh": "`render_human_maintenance_prompt` 用于把结构化状态渲染为稳定输出。"
     },
     {
-      "entity_id": "ent-8ac7e797b01d5bbb8647d296c726c1f6",
+      "entity_id": "ent-f65316bca01a57cd8a180f398292b93e",
       "classification": "appendix",
-      "owner_page_id": "file-77744375b39a5082b531f437a7911de9",
+      "owner_page_id": "file-45c870345dbf58ba92f40e54b35073c0",
       "source_path": "scripts/ckb_core/human_page_authoring.py",
       "start_line": 54,
       "end_line": 55,
@@ -369,9 +50,9 @@
       "description_zh": "`_error` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-46be80ea753e57148bd746df395a7692",
+      "entity_id": "ent-7592e8409afb50d889c4c76987f627eb",
       "classification": "appendix",
-      "owner_page_id": "file-77744375b39a5082b531f437a7911de9",
+      "owner_page_id": "file-45c870345dbf58ba92f40e54b35073c0",
       "source_path": "scripts/ckb_core/human_page_authoring.py",
       "start_line": 58,
       "end_line": 64,
@@ -380,9 +61,9 @@
       "description_zh": "`_failed` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-d33b81f08b755c68807d96ceb5cbcb13",
+      "entity_id": "ent-affafa2dcf905a0b85b4cc2bc1d0a60e",
       "classification": "appendix",
-      "owner_page_id": "file-77744375b39a5082b531f437a7911de9",
+      "owner_page_id": "file-45c870345dbf58ba92f40e54b35073c0",
       "source_path": "scripts/ckb_core/human_page_authoring.py",
       "start_line": 67,
       "end_line": 75,
@@ -391,9 +72,9 @@
       "description_zh": "`_missing` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-8c01b35139665c87b53ad4266f51436b",
+      "entity_id": "ent-4d23525c27675155b74e2e33f819f661",
       "classification": "appendix",
-      "owner_page_id": "file-77744375b39a5082b531f437a7911de9",
+      "owner_page_id": "file-45c870345dbf58ba92f40e54b35073c0",
       "source_path": "scripts/ckb_core/human_page_authoring.py",
       "start_line": 78,
       "end_line": 116,
@@ -402,9 +83,9 @@
       "description_zh": "`_contract_result` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-1adfbfadc5cb58c58d9a7ede865cb879",
+      "entity_id": "ent-93e0683ccaa75a60b3969252a4cbc9ff",
       "classification": "appendix",
-      "owner_page_id": "file-77744375b39a5082b531f437a7911de9",
+      "owner_page_id": "file-45c870345dbf58ba92f40e54b35073c0",
       "source_path": "scripts/ckb_core/human_page_authoring.py",
       "start_line": 119,
       "end_line": 120,
@@ -413,9 +94,9 @@
       "description_zh": "`_field_slot` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-2b08c5e5426454f1ba3a7f09b533989c",
+      "entity_id": "ent-ce6a2e6bc9755df8b3a3a65f08d8271f",
       "classification": "appendix",
-      "owner_page_id": "file-77744375b39a5082b531f437a7911de9",
+      "owner_page_id": "file-45c870345dbf58ba92f40e54b35073c0",
       "source_path": "scripts/ckb_core/human_page_authoring.py",
       "start_line": 123,
       "end_line": 134,
@@ -424,9 +105,9 @@
       "description_zh": "`_section_slot` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-0b946de64a115b99a75f5a46e418b1d6",
+      "entity_id": "ent-512e28ab4c9a5730816d952ede0498fe",
       "classification": "appendix",
-      "owner_page_id": "file-77744375b39a5082b531f437a7911de9",
+      "owner_page_id": "file-45c870345dbf58ba92f40e54b35073c0",
       "source_path": "scripts/ckb_core/human_page_authoring.py",
       "start_line": 137,
       "end_line": 227,
@@ -435,9 +116,9 @@
       "description_zh": "`init_page_author` 用于创建受控候选状态而不越过后续确认边界。"
     },
     {
-      "entity_id": "ent-3e078543554250f0bce84d8b93c340c1",
+      "entity_id": "ent-ed2bf6fa0abe5439a89b10eed5634888",
       "classification": "appendix",
-      "owner_page_id": "file-77744375b39a5082b531f437a7911de9",
+      "owner_page_id": "file-45c870345dbf58ba92f40e54b35073c0",
       "source_path": "scripts/ckb_core/human_page_authoring.py",
       "start_line": 230,
       "end_line": 246,
@@ -446,15 +127,213 @@
       "description_zh": "`_resolve_within` 用于解析受控路径、类型或状态映射。"
     },
     {
-      "entity_id": "ent-19382a526a1a5bfe8cd4ef21c8f1784c",
+      "entity_id": "ent-3ab4e4814eca5faaad447274485d4bc7",
       "classification": "appendix",
-      "owner_page_id": "file-77744375b39a5082b531f437a7911de9",
+      "owner_page_id": "file-45c870345dbf58ba92f40e54b35073c0",
       "source_path": "scripts/ckb_core/human_page_authoring.py",
       "start_line": 249,
       "end_line": 250,
       "status": "agent-reviewed",
       "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_authoring.py` 第 249-250 行，并核对 Git blob `f99c7f5aa021`、分类与所有者。",
       "description_zh": "`_sha256_text` 用于处理当前模块的结构化输入或状态。"
+    },
+    {
+      "entity_id": "ent-72e42cfb13675ee49d54c4651e12089d",
+      "classification": "appendix",
+      "owner_page_id": "file-45c870345dbf58ba92f40e54b35073c0",
+      "source_path": "scripts/ckb_core/human_page_authoring.py",
+      "start_line": 253,
+      "end_line": 282,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_authoring.py` 第 253-282 行，并核对 Git blob `f99c7f5aa021`、分类与所有者。",
+      "description_zh": "`_document_sections` 用于处理当前模块的结构化输入或状态。"
+    },
+    {
+      "entity_id": "ent-c9fccde672d750bf80c93bfb4cdf2111",
+      "classification": "appendix",
+      "owner_page_id": "file-45c870345dbf58ba92f40e54b35073c0",
+      "source_path": "scripts/ckb_core/human_page_authoring.py",
+      "start_line": 285,
+      "end_line": 291,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_authoring.py` 第 285-291 行，并核对 Git blob `f99c7f5aa021`、分类与所有者。",
+      "description_zh": "`_matches` 用于处理当前模块的结构化输入或状态。"
+    },
+    {
+      "entity_id": "ent-fd63d607a93b5cf6b78b2fe527f3612c",
+      "classification": "appendix",
+      "owner_page_id": "file-45c870345dbf58ba92f40e54b35073c0",
+      "source_path": "scripts/ckb_core/human_page_authoring.py",
+      "start_line": 294,
+      "end_line": 299,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_authoring.py` 第 294-299 行，并核对 Git blob `f99c7f5aa021`、分类与所有者。",
+      "description_zh": "`_managed_source` 用于处理当前模块的结构化输入或状态。"
+    },
+    {
+      "entity_id": "ent-1f5d9cb0da7659d7819b991d764b584d",
+      "classification": "appendix",
+      "owner_page_id": "file-45c870345dbf58ba92f40e54b35073c0",
+      "source_path": "scripts/ckb_core/human_page_authoring.py",
+      "start_line": 302,
+      "end_line": 390,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_authoring.py` 第 302-390 行，并核对 Git blob `f99c7f5aa021`、分类与所有者。",
+      "description_zh": "`inspect_page_author` 用于读取、定位并返回现有状态。"
+    },
+    {
+      "entity_id": "ent-9292caa70a7d53678ddd4c5ffa56cfe1",
+      "classification": "appendix",
+      "owner_page_id": "file-45c870345dbf58ba92f40e54b35073c0",
+      "source_path": "scripts/ckb_core/human_page_authoring.py",
+      "start_line": 393,
+      "end_line": 398,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_authoring.py` 第 393-398 行，并核对 Git blob `f99c7f5aa021`、分类与所有者。",
+      "description_zh": "`_non_empty` 用于处理当前模块的结构化输入或状态。"
+    },
+    {
+      "entity_id": "ent-45f75fa7546a507281ad29148bcdb423",
+      "classification": "appendix",
+      "owner_page_id": "file-45c870345dbf58ba92f40e54b35073c0",
+      "source_path": "scripts/ckb_core/human_page_authoring.py",
+      "start_line": 401,
+      "end_line": 410,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_authoring.py` 第 401-410 行，并核对 Git blob `f99c7f5aa021`、分类与所有者。",
+      "description_zh": "`_validate_top_level` 用于校验输入、状态、证据或输出合同。"
+    },
+    {
+      "entity_id": "ent-eb258f5cc7405b659da0511c7b8327e3",
+      "classification": "appendix",
+      "owner_page_id": "file-45c870345dbf58ba92f40e54b35073c0",
+      "source_path": "scripts/ckb_core/human_page_authoring.py",
+      "start_line": 413,
+      "end_line": 414,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_authoring.py` 第 413-414 行，并核对 Git blob `f99c7f5aa021`、分类与所有者。",
+      "description_zh": "`_section_by_id` 用于处理当前模块的结构化输入或状态。"
+    },
+    {
+      "entity_id": "ent-1f8a21c59c5d5d19a7dcc3a56de47663",
+      "classification": "appendix",
+      "owner_page_id": "file-45c870345dbf58ba92f40e54b35073c0",
+      "source_path": "scripts/ckb_core/human_page_authoring.py",
+      "start_line": 417,
+      "end_line": 463,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_authoring.py` 第 417-463 行，并核对 Git blob `f99c7f5aa021`、分类与所有者。",
+      "description_zh": "`_normalize_section_input` 用于规范化输入字段并拒绝未知或越界值。"
+    },
+    {
+      "entity_id": "ent-a88e69728f7454d19ce7c8cc9b24aa62",
+      "classification": "appendix",
+      "owner_page_id": "file-45c870345dbf58ba92f40e54b35073c0",
+      "source_path": "scripts/ckb_core/human_page_authoring.py",
+      "start_line": 466,
+      "end_line": 467,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_authoring.py` 第 466-467 行，并核对 Git blob `f99c7f5aa021`、分类与所有者。",
+      "description_zh": "`_render_section` 用于把结构化状态渲染为稳定输出。"
+    },
+    {
+      "entity_id": "ent-8fad4219bd0458138ba2d5c24d292ed0",
+      "classification": "appendix",
+      "owner_page_id": "file-45c870345dbf58ba92f40e54b35073c0",
+      "source_path": "scripts/ckb_core/human_page_authoring.py",
+      "start_line": 470,
+      "end_line": 474,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_authoring.py` 第 470-474 行，并核对 Git blob `f99c7f5aa021`、分类与所有者。",
+      "description_zh": "`_section_validation_context` 用于处理当前模块的结构化输入或状态。"
+    },
+    {
+      "entity_id": "ent-0de69286053c59c1b00535b518921709",
+      "classification": "appendix",
+      "owner_page_id": "file-45c870345dbf58ba92f40e54b35073c0",
+      "source_path": "scripts/ckb_core/human_page_authoring.py",
+      "start_line": 477,
+      "end_line": 486,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_authoring.py` 第 477-486 行，并核对 Git blob `f99c7f5aa021`、分类与所有者。",
+      "description_zh": "`_canonical_reference` 用于处理当前模块的结构化输入或状态。"
+    },
+    {
+      "entity_id": "ent-891cce4ecc4e5c20834a4249632bd753",
+      "classification": "appendix",
+      "owner_page_id": "file-45c870345dbf58ba92f40e54b35073c0",
+      "source_path": "scripts/ckb_core/human_page_authoring.py",
+      "start_line": 489,
+      "end_line": 521,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_authoring.py` 第 489-521 行，并核对 Git blob `f99c7f5aa021`、分类与所有者。",
+      "description_zh": "`_section_evidence_document` 用于处理当前模块的结构化输入或状态。"
+    },
+    {
+      "entity_id": "ent-7574bda691535b1ea185f6bb3797d021",
+      "classification": "appendix",
+      "owner_page_id": "file-45c870345dbf58ba92f40e54b35073c0",
+      "source_path": "scripts/ckb_core/human_page_authoring.py",
+      "start_line": 524,
+      "end_line": 536,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_authoring.py` 第 524-536 行，并核对 Git blob `f99c7f5aa021`、分类与所有者。",
+      "description_zh": "`_base_missing_fields` 用于处理当前模块的结构化输入或状态。"
+    },
+    {
+      "entity_id": "ent-c7ea91271d9359d1a7188d2503ea925a",
+      "classification": "appendix",
+      "owner_page_id": "file-45c870345dbf58ba92f40e54b35073c0",
+      "source_path": "scripts/ckb_core/human_page_authoring.py",
+      "start_line": 539,
+      "end_line": 570,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_authoring.py` 第 539-570 行，并核对 Git blob `f99c7f5aa021`、分类与所有者。",
+      "description_zh": "`_load_source_for_render` 用于读取、定位并返回现有状态。"
+    },
+    {
+      "entity_id": "ent-cac06480b6635db0a3eae404735b1408",
+      "classification": "appendix",
+      "owner_page_id": "file-45c870345dbf58ba92f40e54b35073c0",
+      "source_path": "scripts/ckb_core/human_page_authoring.py",
+      "start_line": 611,
+      "end_line": 691,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_authoring.py` 第 611-691 行，并核对 Git blob `f99c7f5aa021`、分类与所有者。",
+      "description_zh": "`_validate_nested_input` 用于校验输入、状态、证据或输出合同。"
+    },
+    {
+      "entity_id": "ent-6bb656cbf7215328ab1c1385d3f7fa59",
+      "classification": "appendix",
+      "owner_page_id": "file-45c870345dbf58ba92f40e54b35073c0",
+      "source_path": "scripts/ckb_core/human_page_authoring.py",
+      "start_line": 694,
+      "end_line": 780,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_authoring.py` 第 694-780 行，并核对 Git blob `f99c7f5aa021`、分类与所有者。",
+      "description_zh": "`_candidate_validation` 用于处理当前模块的结构化输入或状态。"
+    },
+    {
+      "entity_id": "ent-7fb6a38345a75cfca827943b899ea488",
+      "classification": "appendix",
+      "owner_page_id": "file-45c870345dbf58ba92f40e54b35073c0",
+      "source_path": "scripts/ckb_core/human_page_authoring.py",
+      "start_line": 738,
+      "end_line": 739,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_authoring.py` 第 738-739 行，并核对 Git blob `f99c7f5aa021`、分类与所有者。",
+      "description_zh": "`status_for` 用于处理当前模块的结构化输入或状态。"
+    },
+    {
+      "entity_id": "ent-0e5f6a019c8d58358d6cf1aaad0f05a6",
+      "classification": "appendix",
+      "owner_page_id": "file-45c870345dbf58ba92f40e54b35073c0",
+      "source_path": "scripts/ckb_core/human_page_authoring.py",
+      "start_line": 783,
+      "end_line": 820,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_authoring.py` 第 783-820 行，并核对 Git blob `f99c7f5aa021`、分类与所有者。",
+      "description_zh": "`validate_page_author` 用于校验输入、状态、证据或输出合同。"
     }
   ]
 }

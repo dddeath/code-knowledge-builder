@@ -14,6 +14,7 @@
 
 ## 相关代码
 
+- 实现时会用到 [[ScopeExtensionOfferTests.retrieval]]。
 - 实现时会用到 [[assertions]]。
 - 实现时会用到 [[build_case 等测试场景]]。
 - 实现时会用到 [[ingest 与 connect 的协作实现]]。

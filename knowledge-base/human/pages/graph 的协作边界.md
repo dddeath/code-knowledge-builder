@@ -20,7 +20,7 @@
 - 实现时会用到 [[SourceLinkRenderer.uri]]。
 - 实现时会用到 [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]]。
 - 实现时会用到 [[append]]。
-- 实现时会用到 [[contracts 的协作边界（36093e4a）]]。
+- 实现时会用到 [[contracts 的协作边界（prototypes）]]。
 - 实现时会用到 [[freeze 的协作边界]]。
 - 实现时会用到 [[source_files]]。
 

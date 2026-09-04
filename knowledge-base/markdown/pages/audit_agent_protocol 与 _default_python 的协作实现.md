@@ -10,7 +10,7 @@
 
 ## 在代码中的位置
 
-[打开源码：scripts/ckb_core/agent_protocol.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_protocol.py:1:1)  `scripts/ckb_core/agent_protocol.py:1-507`
+[打开源码：scripts/ckb_core/agent_protocol.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_protocol.py:1:1)  `scripts/ckb_core/agent_protocol.py:1-513`
 
 ## 相关代码
 
@@ -57,7 +57,7 @@
 | `_default_ckb` | 返回默认 `ckb` 对应的数据与约束。 |
 | `_single_quote` | 处理 `quote` 对应的数据与约束。 |
 | `_command_examples` | 处理 `examples` 对应的数据与约束。 |
-| `_protocol_text` | 处理 `text` 对应的数据与约束。 |
+| `_protocol_text` | `_protocol_text` 生成项目级 Agent 工作协议，当前把检索、按任务持久化和条件式维护组织为可自动发现的中文约定。 |
 | `_adapter_texts` | 处理 `texts` 对应的数据与约束。 |
 | `_managed_block` | 处理 `block` 对应的数据与约束。 |
 | `_replace_managed_block` | 替换 `managed_block` 对应的数据与约束。 |

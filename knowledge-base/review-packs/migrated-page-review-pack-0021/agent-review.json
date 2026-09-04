@@ -3,20 +3,72 @@
   "pack_id": "migrated-page-review-pack-0021",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-03T01:38:36Z",
+  "reviewed_at_utc": "2026-09-03T22:05:31Z",
   "reviews": [
     {
-      "entity_id": "ent-407b308ca1bf565ba535b3714a16fe8e",
+      "entity_id": "ent-9212d06a3cc75ddeb9341bd058b78870",
       "classification": "page",
-      "owner_page_id": "ent-407b308ca1bf565ba535b3714a16fe8e",
-      "source_path": "scripts/ckb_core/human_page_template_proposals.py",
-      "start_line": 1121,
-      "end_line": 1178,
+      "owner_page_id": "ent-9212d06a3cc75ddeb9341bd058b78870",
+      "source_path": "scripts/ckb_core/human_page_templates.py",
+      "start_line": 674,
+      "end_line": 693,
       "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_template_proposals.py` 第 1121-1178 行，并核对 Git blob `61d447296464`、分类与所有者。",
-      "meaning_zh": "`propose_template` 位于 `scripts/ckb_core/human_page_template_proposals.py` 第 1121-1178 行，用于把通过校验的模板扩展写入待人工审阅状态，不直接激活模板。",
-      "role_zh": "`propose_template` 在人类页面模板提议、人工审阅、版本化状态和回滚中负责把通过校验的模板扩展写入待人工审阅状态，不直接激活模板。",
-      "change_when_zh": "当 `propose_template` 的输入、输出、状态转换或失败边界变化时，应更新对应说明和测试。"
+      "evidence_note": "已核对固定提交 c533dd7c5322 中 `scripts/ckb_core/human_page_templates.py` 第 674 至 693 行，摘录属于 Git blob efddba7938e6。",
+      "meaning_zh": "代码单元 `get_human_page_template`负责校验 V3 人类页面的章节、信息预算、链接和事实来源合同。",
+      "role_zh": "它属于人类页面可读性约束；实验代码不改变生产检索或稳定页面生成默认行为。",
+      "change_when_zh": "当页面类型、章节合同、披露层级或事实登记规则变化时，应同步复查本页、固定实验协议及直接测试。"
+    },
+    {
+      "entity_id": "file-db1ed541e570565db510dddec627e157",
+      "classification": "page",
+      "owner_page_id": "file-db1ed541e570565db510dddec627e157",
+      "source_path": "scripts/ckb_core/keyword_benchmark.py",
+      "start_line": 1,
+      "end_line": 228,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_benchmark.py` 第 1-228 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`scripts/ckb_core/keyword_benchmark.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
+      "role_zh": "负责运行固定问题集上的检索词项基准并汇总质量与时延证据。",
+      "change_when_zh": "当 `scripts/ckb_core/keyword_benchmark.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "ent-09f7bbd593f7533ca19d0f4d7f02f2a7",
+      "classification": "page",
+      "owner_page_id": "ent-09f7bbd593f7533ca19d0f4d7f02f2a7",
+      "source_path": "scripts/ckb_core/keyword_benchmark.py",
+      "start_line": 139,
+      "end_line": 227,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_benchmark.py` 第 139-227 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`run_keyword_benchmark` 是 `scripts/ckb_core/keyword_benchmark.py` 第 139-227 行定义的函数，本页绑定该固定源码范围。",
+      "role_zh": "负责运行固定问题集上的检索词项基准并汇总质量与时延证据。",
+      "change_when_zh": "当 `run_keyword_benchmark` 的输入、输出、状态转换或失败返回变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "file-205c8f7a3c66553a8d911b829c5f39aa",
+      "classification": "page",
+      "owner_page_id": "file-205c8f7a3c66553a8d911b829c5f39aa",
+      "source_path": "scripts/ckb_core/keyword_fallback.py",
+      "start_line": 1,
+      "end_line": 633,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_fallback.py` 第 1-633 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`scripts/ckb_core/keyword_fallback.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
+      "role_zh": "负责在确定性词项不足时执行受预算约束的 LLM 关键词备选慢路径。",
+      "change_when_zh": "当 `scripts/ckb_core/keyword_fallback.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "ent-a342c8077c5b51df978a9f771889f4cd",
+      "classification": "page",
+      "owner_page_id": "ent-a342c8077c5b51df978a9f771889f4cd",
+      "source_path": "scripts/ckb_core/keyword_fallback.py",
+      "start_line": 380,
+      "end_line": 461,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_fallback.py` 第 380-461 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`run_keyword_provider` 是 `scripts/ckb_core/keyword_fallback.py` 第 380-461 行定义的函数，本页绑定该固定源码范围。",
+      "role_zh": "负责在确定性词项不足时执行受预算约束的 LLM 关键词备选慢路径。",
+      "change_when_zh": "当 `run_keyword_provider` 的输入、输出、状态转换或失败返回变化时，应更新本页并重跑对应测试。"
     }
   ]
 }

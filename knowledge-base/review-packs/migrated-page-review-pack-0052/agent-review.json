@@ -3,20 +3,33 @@
   "pack_id": "migrated-page-review-pack-0052",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-03T01:39:50Z",
+  "reviewed_at_utc": "2026-09-03T22:06:48Z",
   "reviews": [
     {
-      "entity_id": "ent-604cf4be8f9f59ac8a63fd7614b95138",
+      "entity_id": "file-e4da0771569b50a38382b5d37191626f",
       "classification": "page",
-      "owner_page_id": "ent-604cf4be8f9f59ac8a63fd7614b95138",
-      "source_path": "tests/test_ckb.py",
-      "start_line": 199,
-      "end_line": 2232,
+      "owner_page_id": "file-e4da0771569b50a38382b5d37191626f",
+      "source_path": "tests/test_git_fact_freshness.py",
+      "start_line": 1,
+      "end_line": 527,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_ckb.py` 第 199 至 2232 行；摘录与 Git blob ee9f78028022 一致。",
-      "meaning_zh": "代码单元 `setUp`负责验证 CKB 核心构建、检索、投影、参考资料、运行时和 C++ 语法边界。",
-      "role_zh": "它属于项目主要公开合同的综合回归保护，当前说明只覆盖所列固定源码范围。",
-      "change_when_zh": "当任何核心命令、生成协议、运行时边界或跨模块行为变化时，应同步复查本页及其直接关联测试。"
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_git_fact_freshness.py` 第 1 至 527 行；摘录与 Git blob cfe4edffd673 一致。",
+      "meaning_zh": "文件 `tests/test_git_fact_freshness.py`负责验证 Git 驱动的事实新鲜度状态机、迁移计划、并发锁和协作记录。",
+      "role_zh": "它属于过期事实保护与自动同步触发的回归保护，当前说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当Git 状态、迁移证据、锁所有权或协作查询变化时，应同步复查本页及其直接关联测试。"
+    },
+    {
+      "entity_id": "ent-1dce2b93756f51e4bff405cd02933ce2",
+      "classification": "page",
+      "owner_page_id": "ent-1dce2b93756f51e4bff405cd02933ce2",
+      "source_path": "tests/test_git_fact_freshness.py",
+      "start_line": 47,
+      "end_line": 337,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_git_fact_freshness.py` 第 47 至 337 行；摘录与 Git blob cfe4edffd673 一致。",
+      "meaning_zh": "代码单元 `setUp`负责验证 Git 驱动的事实新鲜度状态机、迁移计划、并发锁和协作记录。",
+      "role_zh": "它属于过期事实保护与自动同步触发的回归保护，当前说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当Git 状态、迁移证据、锁所有权或协作查询变化时，应同步复查本页及其直接关联测试。"
     }
   ]
 }

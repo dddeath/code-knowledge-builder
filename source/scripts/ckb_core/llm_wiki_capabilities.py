@@ -399,10 +399,14 @@ def compact_agent_brief(output: Path, retrieval: dict[str, Any]) -> dict[str, An
         ),
         "reading_entries": entries,
         "grep_fallback_required": bool(retrieval.get("grep_fallback_required")),
+        "scope_extension_offer": retrieval.get("scope_extension_offer"),
+        "scope_extension_diagnostic": retrieval.get("scope_extension_diagnostic"),
         "fact_freshness": retrieval.get("fact_freshness"),
         "current_source_grounded": bool(retrieval.get("current_source_grounded")),
         "next": (
-            "open-pack"
+            "await-scope-extension-confirmation"
+            if retrieval.get("scope_extension_offer")
+            else "open-pack"
             if retrieval.get("pack") and (retrieval.get("fact_freshness") or {}).get("state") == "current"
             else "open-pack-and-follow-freshness-action"
             if retrieval.get("pack")
@@ -416,7 +420,7 @@ def compact_agent_brief(output: Path, retrieval: dict[str, Any]) -> dict[str, An
             "related_documents",
             "retrieval_stats",
         ],
-        "full_record_retained": True,
+        "full_record_retained": bool(retrieval.get("record")),
     }
     if retrieval.get("keyword_fallback") is not None:
         result["keyword_fallback"] = retrieval["keyword_fallback"]

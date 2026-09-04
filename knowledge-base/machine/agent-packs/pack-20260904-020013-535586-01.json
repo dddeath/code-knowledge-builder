@@ -1,0 +1,462 @@
+{
+  "schema_version": 3,
+  "status": "passed",
+  "question": "无项目指令时的检索契约与范围外源码扩库确认如何工作？",
+  "profile": "fast",
+  "budget": 1800,
+  "estimated_tokens": 1794,
+  "terms": [
+    "无项目指令时的检索契约与范围外源码扩库确认如何工作",
+    "范围外源码扩库确认如何工作",
+    "无项目指令",
+    "检索契约",
+    "何工作",
+    "围外源",
+    "外源码",
+    "如何工",
+    "库确认",
+    "扩库确",
+    "无项目",
+    "检索契",
+    "源码扩",
+    "目指令",
+    "码扩库",
+    "确认如",
+    "索契约",
+    "范围外",
+    "认如何",
+    "项目指",
+    "何工",
+    "围外",
+    "外源",
+    "契约",
+    "如何",
+    "工作",
+    "库确",
+    "扩库",
+    "指令",
+    "无项",
+    "检索",
+    "源码",
+    "目指",
+    "码扩",
+    "确认",
+    "索契",
+    "范围",
+    "认如",
+    "项目"
+  ],
+  "anchors": [],
+  "seed_entity_ids": [
+    "ent-2c054d4d13df597aa3aed31b2a805ddc",
+    "ent-394967a336ee50a59899f463930bf440",
+    "ent-0112432f3ff059f49a9e18aadec29fe0",
+    "ent-18ff9846de8557fa8cd87d7cc07eb7aa",
+    "ent-c9a6c8efdf4d51138f97a8333ce5e37c"
+  ],
+  "selected_entities": [
+    {
+      "entity_id": "ent-2c054d4d13df597aa3aed31b2a805ddc",
+      "name": "retrieve_machine",
+      "qualified_name": "retrieve_machine",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 1827,
+      "end_line": 1852,
+      "human_page_title": "retrieve_machine",
+      "human_page_file": "pages/retrieve_machine.md",
+      "display_mode": "page",
+      "score": 64.01115874,
+      "score_breakdown": {
+        "entity-fts": 5.51410958,
+        "graph": 0.133236,
+        "metadata": 15.0,
+        "section-fts": 3.36381317,
+        "term": 40.0
+      },
+      "reasons": [
+        "确定性词项 `围外`",
+        "确定性词项 `库确`",
+        "确定性词项 `库确认`",
+        "确定性词项 `扩库`",
+        "确定性词项 `扩库确`",
+        "确定性词项 `检索`",
+        "确定性词项 `源码`",
+        "确定性词项 `确认`",
+        "确定性词项 `范围`",
+        "确定性词项 `范围外`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "ent-0112432f3ff059f49a9e18aadec29fe0",
+      "name": "attach_scope_extension_offer",
+      "qualified_name": "attach_scope_extension_offer",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/scope_extension.py",
+      "start_line": 317,
+      "end_line": 459,
+      "human_page_title": "start_scope_extension 与 _error 的协作实现",
+      "human_page_file": "pages/start_scope_extension 与 _error 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 62.09331883,
+      "score_breakdown": {
+        "entity-fts": 5.77491376,
+        "graph": 0.58007765,
+        "metadata": 15.0,
+        "section-fts": 8.73832741,
+        "term": 32.0
+      },
+      "reasons": [
+        "确定性词项 `围外`",
+        "确定性词项 `围外源`",
+        "确定性词项 `外源`",
+        "确定性词项 `外源码`",
+        "确定性词项 `源码`",
+        "确定性词项 `确认`",
+        "确定性词项 `范围`",
+        "确定性词项 `范围外`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "ent-394967a336ee50a59899f463930bf440",
+      "name": "render_integration",
+      "qualified_name": "render_integration",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/automation_integrations.py",
+      "start_line": 512,
+      "end_line": 655,
+      "human_page_title": "render_integration",
+      "human_page_file": "pages/render_integration.md",
+      "display_mode": "page",
+      "score": 61.75252351,
+      "score_breakdown": {
+        "entity-fts": 4.84955977,
+        "graph": 0.03331072,
+        "metadata": 22.0,
+        "section-fts": 6.86965302,
+        "term": 28.0
+      },
+      "reasons": [
+        "确定性词项 `契约`",
+        "确定性词项 `检索`",
+        "确定性词项 `检索契`",
+        "确定性词项 `检索契约`",
+        "确定性词项 `索契`",
+        "确定性词项 `索契约`",
+        "确定性词项 `项目`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "ent-57b6b5c9b0b950569b674933250b2fd4",
+      "name": "compact_agent_brief",
+      "qualified_name": "compact_agent_brief",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/llm_wiki_capabilities.py",
+      "start_line": 358,
+      "end_line": 428,
+      "human_page_title": "maintenance_check 与 capability_matrix 的协作实现",
+      "human_page_file": "pages/maintenance_check 与 capability_matrix 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 42.65806314,
+      "score_breakdown": {
+        "entity-fts": 5.31040881,
+        "graph": 0.00341766,
+        "metadata": 10.0,
+        "section-fts": 3.34423667,
+        "term": 24.0
+      },
+      "reasons": [
+        "确定性词项 `库确`",
+        "确定性词项 `库确认`",
+        "确定性词项 `扩库`",
+        "确定性词项 `扩库确`",
+        "确定性词项 `检索`",
+        "确定性词项 `确认`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "file-fc7e05d927145343b055c86046762e7b",
+      "name": "test_ckb_core.py",
+      "qualified_name": "tests/test_ckb_core.py",
+      "kind": "file",
+      "source_path": "tests/test_ckb_core.py",
+      "start_line": 1,
+      "end_line": 308,
+      "human_page_title": "ScopeExtensionOfferTests.retrieval 等测试场景",
+      "human_page_file": "pages/ScopeExtensionOfferTests.retrieval 等测试场景.md",
+      "display_mode": "page",
+      "score": 32.06454115,
+      "score_breakdown": {
+        "entity-fts": 5.89438302,
+        "graph": 0.00017163,
+        "metadata": 35.0,
+        "section-fts": 3.44935394,
+        "term": 32.0,
+        "test-discount": -44.27936744
+      },
+      "reasons": [
+        "确定性词项 `围外`",
+        "确定性词项 `围外源`",
+        "确定性词项 `外源`",
+        "确定性词项 `外源码`",
+        "确定性词项 `源码`",
+        "确定性词项 `确认`",
+        "确定性词项 `范围`",
+        "确定性词项 `范围外`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "实现定位查询对测试实体应用固定折扣",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文含义"
+      ],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "ent-f3cd13494d8c552c8bfd5d003f56bbb0",
+      "name": "cleanup_probe_sessions",
+      "qualified_name": "run_probe.cleanup_probe_sessions",
+      "kind": "function",
+      "source_path": "tests/harness_retrieval_contract_probe.py",
+      "start_line": 190,
+      "end_line": 206,
+      "human_page_title": "run_probe",
+      "human_page_file": "pages/run_probe.md",
+      "display_mode": "appendix",
+      "score": 27.58381036,
+      "score_breakdown": {
+        "entity-fts": 4.21212274,
+        "metadata": 27.0,
+        "section-fts": 2.46361622,
+        "term": 32.0,
+        "test-discount": -38.0919286
+      },
+      "reasons": [
+        "确定性词项 `指令`",
+        "确定性词项 `无项`",
+        "确定性词项 `无项目`",
+        "确定性词项 `检索`",
+        "确定性词项 `目指`",
+        "确定性词项 `目指令`",
+        "确定性词项 `项目`",
+        "确定性词项 `项目指`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "实现定位查询对测试实体应用固定折扣"
+      ],
+      "sections": [
+        "中文作用"
+      ],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "file-db1ed541e570565db510dddec627e157",
+      "name": "keyword_benchmark.py",
+      "qualified_name": "scripts/ckb_core/keyword_benchmark.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/keyword_benchmark.py",
+      "start_line": 1,
+      "end_line": 228,
+      "human_page_title": "run_keyword_benchmark 与 _text_list 的协作实现",
+      "human_page_file": "pages/run_keyword_benchmark 与 _text_list 的协作实现.md",
+      "display_mode": "page",
+      "score": 16.001644,
+      "score_breakdown": {
+        "graph": 0.001644,
+        "term": 16.0
+      },
+      "reasons": [
+        "确定性词项 `契约`",
+        "确定性词项 `检索`",
+        "确定性词项 `源码`",
+        "确定性词项 `范围`",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "ent-e85bc7278d625a79babf409a74888054",
+      "name": "audit_agent_protocol",
+      "qualified_name": "audit_agent_protocol",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/agent_protocol.py",
+      "start_line": 426,
+      "end_line": 502,
+      "human_page_title": "audit_agent_protocol",
+      "human_page_file": "pages/audit_agent_protocol.md",
+      "display_mode": "page",
+      "score": 16.00002555,
+      "score_breakdown": {
+        "graph": 2.555e-05,
+        "term": 16.0
+      },
+      "reasons": [
+        "确定性词项 `契约`",
+        "确定性词项 `工作`",
+        "确定性词项 `指令`",
+        "确定性词项 `源码`",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文含义"
+      ],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    }
+  ],
+  "related_documents": [
+    {
+      "document_id": "note:changes:完善无项目指令检索与范围外源码确认",
+      "title": "完善无项目指令检索与范围外源码确认",
+      "kind": "change",
+      "status": "agent-reviewed",
+      "human_file": "changes/完善无项目指令检索与范围外源码确认.md",
+      "source_path": null,
+      "start_line": null,
+      "end_line": null
+    },
+    {
+      "document_id": "note:analysis:自动同步与 LLM Wiki 后续待办",
+      "title": "自动同步与 LLM Wiki 后续待办",
+      "kind": "analysis",
+      "status": "agent-reviewed",
+      "human_file": "analysis/自动同步与 LLM Wiki 后续待办.md",
+      "source_path": null,
+      "start_line": null,
+      "end_line": null
+    },
+    {
+      "document_id": "note:analysis:CKB Agent 方法调用防偏移机制",
+      "title": "CKB Agent 方法调用防偏移机制",
+      "kind": "analysis",
+      "status": "agent-reviewed",
+      "human_file": "analysis/CKB Agent 方法调用防偏移机制.md",
+      "source_path": null,
+      "start_line": null,
+      "end_line": null
+    }
+  ],
+  "open_feedback": 0,
+  "retrieval_stats": {
+    "scored_entities": 1254,
+    "overscan_limit": 32,
+    "materialized_candidates": 32,
+    "selected_entities": 8,
+    "budgeted_entity_limit": 8,
+    "selected_source_paths": 8,
+    "batched_entity_queries": 2,
+    "source_link_cache_entries": 8,
+    "static_cache_hit": false
+  },
+  "pack": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260904-020013-535586-01.md",
+  "record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260904-020013-535586-01.json",
+  "retrieval": "sqlite-exact-fts5-sections-deterministic-weighted-graph",
+  "deterministic": true,
+  "source_grounded": true,
+  "grep_fallback_required": false,
+  "warnings": {
+    "status": "warning",
+    "warning_count": 1,
+    "examples": [
+      {
+        "kind": "compile-commands-unavailable",
+        "language": "cpp",
+        "file": "compile_commands.json",
+        "range": null,
+        "diagnostic_categories": [],
+        "diagnostic_count": 0,
+        "coverage": {},
+        "precision": "bounded-approximate",
+        "build_evidence": {
+          "paths": [
+            "tests/fixtures/cpp-parser-scons/scons-project/SConstruct",
+            "tests/fixtures/cpp-parser-scons/scons-project/src/SConscript"
+          ],
+          "resolution": "build-config-unique",
+          "selected": "c++20"
+        },
+        "affected_entity_count": 0,
+        "absence_inference_allowed": false
+      }
+    ],
+    "omitted_warning_count": 0,
+    "absence_inference_allowed": false,
+    "message_zh": "警告范围或有界近似语义结果不完整，不可据此推断未检出事实在源码中不存在。"
+  },
+  "fact_freshness": {
+    "schema_version": 1,
+    "state": "current",
+    "stable_state": "current",
+    "observed_at_utc": "2026-09-04T02:00:14Z",
+    "trigger": "first-query",
+    "bound_commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+    "current_head": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+    "branch": "codex/reference-ingest-v1",
+    "dirty": {
+      "count": 0,
+      "paths": [],
+      "truncated": false
+    },
+    "change_summary": {
+      "comparison": "bound-commit-to-current-head",
+      "changed": 0,
+      "changed_paths": [],
+      "counts": {},
+      "truncated": false
+    },
+    "migration": null,
+    "overlay": null,
+    "cache_hit": false,
+    "stable_facts_current": true,
+    "next_action": {
+      "action": "reuse-stable-facts",
+      "rebuild": false
+    },
+    "error": null,
+    "state_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\freshness\\state.json"
+  },
+  "current_source_grounded": true
+}

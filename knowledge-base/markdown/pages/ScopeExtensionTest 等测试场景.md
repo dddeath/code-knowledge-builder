@@ -10,7 +10,7 @@
 
 ## 在代码中的位置
 
-[打开源码：tests/test_scope_extension.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_scope_extension.py:1:1)  `tests/test_scope_extension.py:1-423`
+[打开源码：tests/test_scope_extension.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_scope_extension.py:1:1)  `tests/test_scope_extension.py:1-508`
 
 ## 相关代码
 

@@ -10,7 +10,7 @@
 
 ## 在代码中的位置
 
-[打开源码：tests/test_ckb.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_ckb.py:1:1)  `tests/test_ckb.py:1-2467`
+[打开源码：tests/test_ckb.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_ckb.py:1:1)  `tests/test_ckb.py:1-2469`
 
 ## 相关代码
 
@@ -18,7 +18,7 @@
 - 实现时会用到 [[CkbError 与 DependencyError 的协作实现]]。
 - 主要代码单元是 [[CodeKnowledgeBuilderTests]]。
 - 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
-- 实现时会用到 [[_Transport.close]]。
+- 实现时会用到 [[ScopeExtensionOfferTests.retrieval]]。
 - 实现时会用到 [[doctor_report 与 _version_matches 的协作实现]]。
 - 实现时会用到 [[parse_file]]。
 - 实现时会用到 [[parser]]。
@@ -48,7 +48,7 @@
 - [[audit_work_record_index 与 _contains_chinese 的协作实现]] 关联到这里的验证场景。
 - [[bind_conversation]] 关联到这里的验证场景。
 - [[check_fact_freshness 与 _root 的协作实现]] 关联到这里的验证场景。
-- [[contracts 的协作边界（743c915d）]] 关联到这里的验证场景。
+- [[contracts 的协作边界（959fe0e0）]] 关联到这里的验证场景。
 - [[debug_value 等测试场景]] 关联到这里的验证场景。
 - [[doctor_report 与 _version_matches 的协作实现]] 关联到这里的验证场景。
 - [[extract_pdf 与 PdfExtractionError 的协作实现]] 关联到这里的验证场景。

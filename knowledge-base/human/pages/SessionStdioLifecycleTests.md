@@ -15,11 +15,11 @@
 ## 相关代码
 
 - 实现时会用到 [[CkbError]]。
+- 实现时会用到 [[ScopeExtensionOfferTests.retrieval]]。
 - 实现时会用到 [[SessionStdioLifecycleTests 等测试场景]]。
 - 实现时会用到 [[_Transport.close]]。
 - 实现时会用到 [[_Transport.close 与 _StartGate 的协作实现]]。
-- 实现时会用到 [[append]]。
-- 实现时会用到 [[contracts 的协作边界（36093e4a）]]。
+- 实现时会用到 [[contracts 的协作边界（prototypes）]]。
 - 实现时会用到 [[doctor_report 与 _version_matches 的协作实现]]。
 - 实现时会用到 [[ingest_event]]。
 - 实现时会用到 [[ingest_event 与 default_registry_path 的协作实现]]。

@@ -17,7 +17,7 @@
 - 实现时会用到 [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]]。
 - 实现时会用到 [[_Transport.close]]。
 - 实现时会用到 [[build_case 等测试场景]]。
-- 实现时会用到 [[contracts 的协作边界（36093e4a）]]。
+- 实现时会用到 [[contracts 的协作边界（prototypes）]]。
 - 实现时会用到 [[source_files]]。
 
 ## 谁会来到这里

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import io
 import json
 import os
 from pathlib import Path
@@ -25,6 +26,7 @@ from ckb_core.scope_extension import (
     rollback_scope_extension,
     start_scope_extension,
 )
+from ckb_core.stdio_server import serve_stdio
 from ckb_core.workspace_notes import record_note
 
 
@@ -190,6 +192,89 @@ class ScopeExtensionTest(unittest.TestCase):
         for index in range(46):
             note_body.write_text(f"第 {index + 1} 条工作记录说明固定测试行为和实际验证结果。\n", encoding="utf-8")
             record_note(self.output, "session", f"迁移工作记录 {index + 1:02d}", note_body, reindex=False)
+
+    def test_cli_brief_and_stdio_share_scope_offer_schema(self) -> None:
+        environment = os.environ.copy()
+        environment.update({"PYTHONUTF8": "1", "PYTHONIOENCODING": "utf-8", "PYTHONDONTWRITEBYTECODE": "1"})
+        question = "scopeofferxyz987654321 extra.py"
+        compile_warning = {
+            "kind": "compile-commands-unavailable",
+            "language": "cpp",
+            "file": "compile_commands.json",
+            "precision": "bounded-approximate",
+            "build_evidence": {"resolution": "fallback-no-evidence", "selected": None, "paths": []},
+            "absence_inference_allowed": False,
+            "message_zh": "未找到 compile_commands.json，语义提供器继续使用有界近似参数；未检出结果不等于源码事实不存在。",
+        }
+        provider = {
+            "name": "clangd",
+            "language": "cpp",
+            "status": "passed",
+            "precision": "bounded-approximate",
+            "diagnostic_count": 0,
+            "warnings": [compile_warning],
+        }
+        connection = sqlite3.connect(self.output / "machine/knowledge.sqlite")
+        try:
+            connection.execute(
+                "INSERT INTO providers(name,language,status,precision,diagnostic_count,evidence_json) VALUES(?,?,?,?,?,?)",
+                ("clangd", "cpp", "passed", "bounded-approximate", 0, json.dumps(provider, ensure_ascii=False)),
+            )
+            connection.commit()
+        finally:
+            connection.close()
+
+        def invoke(command: str) -> dict:
+            completed = subprocess.run(
+                [
+                    sys.executable,
+                    "-X",
+                    "utf8",
+                    str(SKILL_ROOT / "scripts/ckb.py"),
+                    command,
+                    "--out",
+                    str(self.output),
+                    question,
+                    "--budget",
+                    "1200",
+                    "--profile",
+                    "fast",
+                ],
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                env=environment,
+            )
+            self.assertEqual(completed.returncode, 0, completed.stderr)
+            return json.loads(completed.stdout)
+
+        retrieved = invoke("retrieve")
+        brief = invoke("brief")
+        self.assertEqual(retrieved["status"], "passed", retrieved)
+        self.assertEqual(brief["status"], "passed")
+        self.assertEqual(retrieved["warnings"]["warning_count"], 1)
+        self.assertEqual(retrieved["warnings"]["examples"][0]["kind"], "compile-commands-unavailable")
+        self.assertEqual(brief["scope_extension_offer"], retrieved["scope_extension_offer"])
+        self.assertEqual(brief["next"], "await-scope-extension-confirmation")
+
+        destination = io.StringIO()
+        serve_stdio(
+            self.output,
+            input_stream=io.StringIO(
+                json.dumps({"id": "stdio-offer", "method": "retrieve", "question": question, "budget": 1200})
+                + "\n"
+            ),
+            output_stream=destination,
+        )
+        response = json.loads(destination.getvalue())
+        self.assertTrue(response["ok"])
+        self.assertEqual(response["result"]["scope_extension_offer"], retrieved["scope_extension_offer"])
+        offer = retrieved["scope_extension_offer"]
+        self.assertEqual(offer["selector"]["value"], "python:extra.py#second")
+        self.assertEqual(offer["reason"]["code"], "source-outside-current-scope")
+        self.assertTrue(offer["requires_confirmation"])
 
     def tearDown(self) -> None:
         if self.old_provider is None:

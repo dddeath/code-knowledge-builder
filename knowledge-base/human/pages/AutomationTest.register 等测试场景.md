@@ -10,7 +10,7 @@
 
 ## 在代码中的位置
 
-[打开源码：tests/test_automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_automation.py:1:1)  `tests/test_automation.py:1-956`
+[打开源码：tests/test_automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_automation.py:1:1)  `tests/test_automation.py:1-1001`
 
 ## 相关代码
 
@@ -19,9 +19,9 @@
 - 实现时会用到 [[_Transport.close]]。
 - 实现时会用到 [[command]]。
 - 实现时会用到 [[doctor_report 与 _version_matches 的协作实现]]。
-- 实现时会用到 [[ingest 与 connect 的协作实现]]。
 - 实现时会用到 [[ingest_event]]。
 - 实现时会用到 [[ingest_event 与 default_registry_path 的协作实现]]。
+- 实现时会用到 [[render_integration 与 harness_retrieval_contract 的协作实现]]。
 
 ## 谁会来到这里
 
@@ -29,6 +29,7 @@
 - [[CkbError]] 关联到这里的验证场景。
 - [[CkbError 与 DependencyError 的协作实现]] 关联到这里的验证场景。
 - [[KeywordFallbackRetrievalWiringTests 等测试场景]] 关联到这里的验证场景。
+- [[ScopeExtensionOfferTests.retrieval]] 关联到这里的验证场景。
 - [[SourceLinkRenderer.uri]] 关联到这里的验证场景。
 - [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]] 关联到这里的验证场景。
 - [[_Transport.close]] 关联到这里的验证场景。
@@ -45,7 +46,7 @@
 - [[check_fact_freshness 与 _root 的协作实现]] 关联到这里的验证场景。
 - [[ckb_canvas 的协作边界]] 关联到这里的验证场景。
 - [[command]] 关联到这里的验证场景。
-- [[contracts 的协作边界（36093e4a）]] 关联到这里的验证场景。
+- [[contracts 的协作边界（prototypes）]] 关联到这里的验证场景。
 - [[doctor_report 与 _version_matches 的协作实现]] 关联到这里的验证场景。
 - [[emit]] 关联到这里的验证场景。
 - [[finalize]] 关联到这里的验证场景。
@@ -57,8 +58,9 @@
 - [[ingest_reference 与 _root 的协作实现]] 关联到这里的验证场景。
 - [[record_note]] 关联到这里的验证场景。
 - [[record_note 与 page_tag 的协作实现]] 关联到这里的验证场景。
+- [[refresh 等测试场景]] 关联到这里的验证场景。
 - [[render_integration]] 关联到这里的验证场景。
-- [[render_integration 与 _looks_windows 的协作实现]] 关联到这里的验证场景。
+- [[render_integration 与 harness_retrieval_contract 的协作实现]] 关联到这里的验证场景。
 - [[retrieve]] 关联到这里的验证场景。
 - [[retrieve 与 _tokens 的协作实现]] 关联到这里的验证场景。
 - [[retrieve_machine]] 关联到这里的验证场景。
@@ -67,6 +69,7 @@
 - [[run_keyword_provider 与 KeywordProviderConfig 的协作实现]] 关联到这里的验证场景。
 - [[search_terms]] 关联到这里的验证场景。
 - [[search_terms 与 _split_camel 的协作实现]] 关联到这里的验证场景。
+- [[start_scope_extension 与 _error 的协作实现]] 关联到这里的验证场景。
 - [[sync_human_layer 与 _source_manifest 的协作实现]] 关联到这里的验证场景。
 - 可从 [[tests 职责导览]] 进入本页。
 - [[validate]] 关联到这里的验证场景。
@@ -75,7 +78,7 @@
 
 ## 内部细节
 
-<details><summary>查看本页收纳的 29 个辅助实现</summary>
+<details><summary>查看本页收纳的 30 个辅助实现</summary>
 
 | 代码单元 | 一句话作用 |
 |---|---|
@@ -104,6 +107,7 @@
 | `AutomationTest._prepare_human_projection` | `_prepare_human_projection` 创建并初始化会话自动化回归验证所需的数据或状态。 |
 | `AutomationTest.test_agent_review_promotes_one_chinese_human_note` | 该测试验证“agent review promotes one chi…”场景，保护会话自动化回归验证的预期结果与失败边界。 |
 | `AutomationTest.test_render_all_harness_integrations` | 该测试验证“render all harness integratio…”场景，保护会话自动化回归验证的预期结果与失败边界。 |
+| `AutomationTest.test_harness_retrieval_contract_separates_instruction_skill_activation_and_output_sources` | 该测试验证当前场景的实际结果、来源约束和失败边界。 |
 | `AutomationTest.test_codex_windows_python_uses_wsl_launch_path_for_posix_command` | 该测试验证“codex windows python uses wsl…”场景，保护会话自动化回归验证的预期结果与失败边界。 |
 | `AutomationTest.test_codex_windows_bridge_uses_cmd_and_forward_slash_launcher_path` | 该测试验证“codex windows bridge uses cmd…”场景，保护会话自动化回归验证的预期结果与失败边界。 |
 | `AutomationTest.test_automation_fts_finds_pending_machine_record` | 该测试验证“automation fts finds pending …”场景，保护会话自动化回归验证的预期结果与失败边界。 |

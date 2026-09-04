@@ -1,18 +1,18 @@
 {
   "schema_version": 1,
-  "status": "published-overdefense-review-and-stable-knowledge-remote-verified",
+  "status": "local-verified-ready-for-push",
   "repository": "https://github.com/dddeath/code-knowledge-builder",
   "target_branch": "codex/development-knowledge-builder",
-  "publication_base": "6cf8377dda82081e417fa058ea0fe660912b625c",
-  "integration_commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
-  "integration_tree": "9289ac724bfb6c1a5a76e6160fe57ba11255691e",
+  "publication_base": "6f6ab1547cd9ca2dc365bd187a99a7bc4ecf86ce",
+  "integration_commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+  "integration_tree": "098b3d1b13d3eb40ce74b41a715429493f171d14",
   "history_contract": "发展分支保留既有公开发布历史，并以单独提交更新到已审阅的集成源码与完整稳定知识库；集成分支的开发提交继续保留在本地集成历史中。",
   "knowledge_state": {
     "status": "complete",
     "version": "5.4.0",
     "schema_version": 4,
-    "repository_commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
-    "records": 70,
+    "repository_commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+    "records": 72,
     "references": 1,
     "research_gaps": 7,
     "research_gap_status": {
@@ -24,9 +24,9 @@
   },
   "manifests": {
     "source": "delivery/source-files.json",
-    "source_sha256": "9be8c0c6353a9df5035e4b190166048e185d1fd1d5cb4817e93c8737b408ba38",
+    "source_sha256": "988eaa17cfb4780de63b77b1212e1a49685a86df3e537b148abc6b29addd4268",
     "knowledge": "delivery/knowledge-files.json",
-    "knowledge_sha256": "5dea5e5a7acd0f080783659d55a2cfeaff7f63319205467c6f764279605eedcb"
+    "knowledge_sha256": "f65af30ef78f23e124132a1d5189ace73d4bc50911cd74bd32d5f074050388fd"
   },
   "lfs_patterns": [
     "*.zip",
@@ -35,8 +35,8 @@
   "lfs_files": [
     {
       "path": "delivery/code-knowledge-builder-lite-5.4.0.zip",
-      "size": 3085240,
-      "sha256": "51cbc5fc0b307ff574cb55f6ade1df00c0d837a6f721444162db97a74980099b"
+      "size": 3541907,
+      "sha256": "23ac7ff9575f12f100e541034d204e7fff54565c7db2d744dc6babeae258a11d"
     },
     {
       "path": "knowledge-base/.source-snapshot/worktree/assets/runtime/win-x64/payload.zip",
@@ -45,23 +45,23 @@
     },
     {
       "path": "knowledge-base/agent-index.sqlite",
-      "size": 9969664,
-      "sha256": "46ee4db3faa6f424328c301899e070fe5eefaf444fad9d6577126de2e2f7cb94"
+      "size": 10231808,
+      "sha256": "c047b5917167c0fc462a9e85069bee7b69debc0ffe833c6accf1110a2e780806"
     },
     {
       "path": "knowledge-base/machine/automation.sqlite",
       "size": 208896,
-      "sha256": "0e361589679d22f847e67dcaf1002270f0b38039926a70866bace0a3c9618a97"
+      "sha256": "6cc64098886f3b22b789a70d74ba217e8f286c51c989c3caa963cda626d4f942"
     },
     {
       "path": "knowledge-base/machine/knowledge.sqlite",
-      "size": 64552960,
-      "sha256": "1c253c25ba4c5bd994db2b0f26b20b465bdd7405ceed12ae3ea7b8c08505822e"
+      "size": 65712128,
+      "sha256": "7d67e4098b6f69c7315ac0acf4a8a76549a04dd91f34408f27dce8e2fd471632"
     },
     {
       "path": "knowledge-base/migration/preserved-baseline/machine/automation.sqlite",
       "size": 208896,
-      "sha256": "0e361589679d22f847e67dcaf1002270f0b38039926a70866bace0a3c9618a97"
+      "sha256": "6cc64098886f3b22b789a70d74ba217e8f286c51c989c3caa963cda626d4f942"
     },
     {
       "path": "source/assets/runtime/win-x64/payload.zip",
@@ -97,39 +97,33 @@
   },
   "final_knowledge_trace": {
     "status": "included",
-    "record_count": 70,
+    "record_count": 72,
     "records": [
       "knowledge-base/human/experiments/单文档自动页面扩张对照实验.md",
       "knowledge-base/human/experiments/真实语义向量检索三臂对照实验.md",
-      "knowledge-base/human/changes/调整管理对话绑定的阻塞边界.md"
+      "knowledge-base/human/changes/完善无项目指令检索与范围外源码确认.md",
+      "knowledge-base/human/experiments/研究缺口对账与新增特性增强效果.md"
     ],
     "maintain": "passed"
   },
   "credential_scan": {
     "status": "passed",
     "path": "delivery/credential-scan.json",
-    "scanned_text_files": 4239,
+    "scanned_text_files": 4313,
     "findings": 0
   },
   "local_verification": {
     "status": "passed",
-    "path": "delivery/local-overdefense-verification.json",
-    "sha256": "e65ce0985aa93bbf0f840680ee4196db08e05df3a352ef8de8be26557d7eac9a",
+    "path": "delivery/local-fcad-verification.json",
+    "sha256": "277ce4941dbdf25bcd7ee6646a632da7b4f5e16a89ad25091a88059034f27ee4",
     "checks": 15
   },
   "remote_clone_verification": {
-    "status": "passed",
-    "commit": "f8b6c400c474ff416b79fca2433dc61bc8e93253",
-    "path": "delivery/remote-overdefense-verification.json",
-    "sha256": "cdb1a862682d2861dcde90d957ad7785184fefa2a2f8f4d7f6e8bda68448f422",
-    "checks": 15,
-    "lfs_fsck": "passed",
-    "lfs_evidence": "delivery/remote-overdefense-lfs-fsck.txt",
-    "short_root_required_on_windows": true
+    "status": "pending"
   },
   "rollback": {
-    "baseline": "6cf8377dda82081e417fa058ea0fe660912b625c",
+    "baseline": "6f6ab1547cd9ca2dc365bd187a99a7bc4ecf86ce",
     "script": "delivery/rollback-development-publication.ps1",
-    "stable_knowledge_backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base-backup-c533-before-bdd4-overdefense-20260903"
+    "stable_knowledge_backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base-backup-bdd4-before-fcad-20260904"
   }
 }

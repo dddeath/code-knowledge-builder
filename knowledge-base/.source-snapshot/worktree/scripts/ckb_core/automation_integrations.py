@@ -13,7 +13,87 @@ from .automation import SUPPORTED_HARNESSES
 from .common import CkbError, json_write
 
 
-INTEGRATION_VERSION = "1.2.2"
+INTEGRATION_VERSION = "1.2.3"
+
+
+_PROJECT_INSTRUCTION_DISCOVERY = {
+    "codex": (True, "AGENTS.md"),
+    "claude": (True, "CLAUDE.md imports AGENTS.md"),
+    "opencode": (True, "AGENTS.md"),
+    "opencode-v2": (True, "AGENTS.md"),
+    "dsh": (False, "underlying Harness project instructions when configured"),
+    "gemini": (True, "GEMINI.md imports AGENTS.md"),
+    "copilot": (True, ".github/copilot-instructions.md"),
+    "cursor": (True, ".cursor/rules/code-knowledge-builder.mdc with alwaysApply=true"),
+    "generic": (False, "caller explicitly reads AGENTS.md"),
+}
+
+_EXACT_SKILL_LOADING = {
+    "codex": "$code-knowledge-builder",
+    "claude": "/code-knowledge-builder",
+    "opencode": "skill(name=code-knowledge-builder)",
+    "opencode-v2": "skill(name=code-knowledge-builder)",
+    "dsh": "host loads the exact code-knowledge-builder Skill body",
+    "gemini": "activate_skill(name=code-knowledge-builder)",
+    "copilot": "/code-knowledge-builder",
+    "cursor": "/code-knowledge-builder for the message or active mode",
+    "generic": "caller loads the exact code-knowledge-builder SKILL.md body",
+}
+
+
+def harness_retrieval_contract(harness: str) -> dict[str, Any]:
+    """Return the source-separated retrieval contract for one generated adapter."""
+
+    if harness not in SUPPORTED_HARNESSES:
+        raise CkbError(f"unsupported integration harness: {harness}")
+    automatic, instruction_source = _PROJECT_INSTRUCTION_DISCOVERY[harness]
+    discovery = ["explicit-task-binding"]
+    if automatic:
+        discovery.append(f"project-instruction:{instruction_source}")
+    discovery.extend(("manager-context", "automation-registry"))
+    return {
+        "schema_version": 1,
+        "harness": harness,
+        "declaration_scope": "generated-contract-not-runtime-observation",
+        "project_instruction": {
+            "automatic_injection": automatic,
+            "source": instruction_source,
+            "runtime_observation": "not-observed-by-generator",
+        },
+        "manager_prompt": {
+            "automatic_injection": False,
+            "source": "manager context --format prompt",
+            "runtime_observation": "not-observed-by-generator",
+        },
+        "skill": {
+            "required": True,
+            "exact_load": _EXACT_SKILL_LOADING[harness],
+            "body_loaded_required": True,
+            "runtime_observation": "requires-host-evidence",
+        },
+        "activation_registration": {
+            "project": "automation register",
+            "session": "canonical skill.applied event or automation activate",
+            "required_for": ["event-sync", "resident-stdio"],
+        },
+        "output_discovery": {
+            "ordered_sources": discovery,
+            "directory_scan": False,
+            "required_files": ["state.json", "machine/knowledge.sqlite"],
+        },
+        "execution": {
+            "entry": "brief --profile fast",
+            "pack_reopen_required": True,
+            "record_reopen_required": True,
+            "cli_fallback": True,
+        },
+        "non_blocking_for_retrieval": [
+            "project-instruction-not-injected-when-skill-body-is-loaded",
+            "manager-prompt-not-injected",
+            "unrelated-harness-adapter-missing",
+            "resident-stdio-unavailable",
+        ],
+    }
 
 
 def _looks_windows(path: Path) -> bool:
@@ -556,6 +636,7 @@ def render_integration(
         "required_skill": "code-knowledge-builder",
         "transcript_parsing": False,
         "management_capabilities": harness_capabilities(harness),
+        "retrieval_contract": harness_retrieval_contract(harness),
         "session_stdio_capability": {
             "activation": "exact-skill-application",
             "session_end": harness not in {"dsh"},

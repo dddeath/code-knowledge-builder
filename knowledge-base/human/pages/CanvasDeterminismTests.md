@@ -23,6 +23,7 @@
 - [[CanvasDeterminismTests 等测试场景]] 汇总了本页。
 - [[FactFreshnessStateMachineTest]] 关联到这里的验证场景。
 - [[KeywordFallbackRetrievalWiringTests 等测试场景]] 关联到这里的验证场景。
+- [[ScopeExtensionOfferTests.retrieval]] 关联到这里的验证场景。
 - [[SourceLinkRenderer.uri]] 关联到这里的验证场景。
 - [[build_case]] 关联到这里的验证场景。
 - [[check_fact_freshness]] 关联到这里的验证场景。
@@ -30,7 +31,7 @@
 - [[commands 的协作边界]] 关联到这里的验证场景。
 - [[freeze 的协作边界]] 关联到这里的验证场景。
 - [[graph 的协作边界]] 关联到这里的验证场景。
-- [[render_integration 与 _looks_windows 的协作实现]] 关联到这里的验证场景。
+- [[render_integration 与 harness_retrieval_contract 的协作实现]] 关联到这里的验证场景。
 - [[run_keyword_provider 与 KeywordProviderConfig 的协作实现]] 关联到这里的验证场景。
 - [[source_files]] 关联到这里的验证场景。
 - [[transaction 的协作边界]] 关联到这里的验证场景。

@@ -1833,7 +1833,7 @@ def retrieve_machine(
     *,
     keyword_fallback: KeywordFallbackOptions | None = None,
 ) -> dict[str, Any]:
-    """Retrieve fixed facts and attach a live Git currentness guard."""
+    """Retrieve fixed facts, attach currentness, then assess a bounded scope offer."""
 
     result = _retrieve_machine_without_freshness(
         output,
@@ -1846,7 +1846,10 @@ def retrieve_machine(
     from .freshness import attach_freshness_to_retrieval, check_fact_freshness
 
     freshness = check_fact_freshness(output, trigger="first-query")
-    return attach_freshness_to_retrieval(output, result, freshness)
+    guarded = attach_freshness_to_retrieval(output, result, freshness)
+    from .scope_extension import attach_scope_extension_offer
+
+    return attach_scope_extension_offer(output, guarded)
 
 
 def coverage(output: Path) -> dict[str, Any]:

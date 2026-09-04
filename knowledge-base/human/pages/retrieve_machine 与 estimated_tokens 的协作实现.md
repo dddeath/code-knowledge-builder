@@ -10,13 +10,14 @@
 
 ## 在代码中的位置
 
-[打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1992`
+[打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1995`
 
 ## 相关代码
 
 - 实现时会用到 [[CkbError]]。
 - 实现时会用到 [[CkbError 与 DependencyError 的协作实现]]。
 - 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
+- 实现时会用到 [[ScopeExtensionOfferTests.retrieval]]。
 - 实现时会用到 [[SourceLinkRenderer.uri]]。
 - 实现时会用到 [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]]。
 - 实现时会用到 [[_Transport.close]]。
@@ -25,10 +26,9 @@
 - 实现时会用到 [[audit_gap_register 与 _root 的协作实现]]。
 - 实现时会用到 [[finalize]]。
 - 实现时会用到 [[ingest 与 connect 的协作实现]]。
-- 实现时会用到 [[render_integration 与 _looks_windows 的协作实现]]。
+- 实现时会用到 [[render_integration 与 harness_retrieval_contract 的协作实现]]。
 - 主要代码单元是 [[retrieve_machine]]。
 - 实现时会用到 [[run_keyword_provider]]。
-- 实现时会用到 [[run_keyword_provider 与 KeywordProviderConfig 的协作实现]]。
 - 实现时会用到 [[source_files]]。
 
 ## 谁会来到这里
@@ -37,6 +37,7 @@
 - [[HumanPageAuthoringValidationFailureTests]] 会使用这里提供的行为。
 - [[HumanPageTemplateRegistryTests 等测试场景]] 会使用这里提供的行为。
 - [[KeywordFallbackRetrievalWiringTests]] 会使用这里提供的行为。
+- [[ScopeExtensionOfferTests.retrieval 等测试场景]] 会使用这里提供的行为。
 - [[audit_gap_register 与 _root 的协作实现]] 会使用这里提供的行为。
 - [[audit_operation_journal 与 _root 的协作实现]] 会使用这里提供的行为。
 - [[doctor_report 与 _version_matches 的协作实现]] 会使用这里提供的行为。
@@ -51,6 +52,8 @@
 - [[record_note 与 page_tag 的协作实现]] 会使用这里提供的行为。
 - [[replace_note 与 RecordReplaceLockError 的协作实现]] 会使用这里提供的行为。
 - [[retrieve_machine]] 会使用这里提供的行为。
+- [[run_benchmark]] 会使用这里提供的行为。
+- [[run_benchmark 等测试场景]] 会使用这里提供的行为。
 - 可从 [[scripts 职责导览]] 进入本页。
 - [[serve_stdio]] 会使用这里提供的行为。
 - [[start_session]] 会使用这里提供的行为。

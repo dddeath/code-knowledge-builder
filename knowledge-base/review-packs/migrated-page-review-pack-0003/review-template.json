@@ -6,24 +6,9 @@
   "reviewed_at_utc": null,
   "reviews": [
     {
-      "entity_id": "ent-6b422910038751a98cfc4d6233f69345",
+      "entity_id": "ent-9f57d2df6fe7552ba97de1d704909d88",
       "classification": "boundary",
-      "owner_page_id": "ent-6b422910038751a98cfc4d6233f69345",
-      "source_path": "plugins/obsidian-code-knowledge-builder/scripts/build.py",
-      "start_line": 58,
-      "end_line": 180,
-      "source_blob": "77b322a94dd9c8e53f236a6abaa41825fd9c5ce3",
-      "source_excerpt": "def validate_selection_provider_routing(work: Path) -> None:\n    service = (work / \"src/features/selection-learning/SelectionLearningService.ts\").read_text(\n        encoding=\"utf-8\",\n    )\n    provider = (work / \"src/features/selection-learning/SelectionLearningProvider.ts\").read_text(\n        encoding=\"utf-8\",\n    )\n    settings = (work / \"src/features/settings/ClaudianSettings.ts\").read_text(\n        encoding=\"utf-8\",\n    )\n    registry = (work / \"src/core/providers/ProviderRegistry.ts\").read_text(\n        encoding=\"utf-8\",\n    )\n    inline_edit = (work / \"src/core/auxiliary/InlineEditService.ts\").read_text(\n        encoding=\"utf-8\",\n    )\n    controller = (work / \"src/core/auxiliary/AuxiliarySessionController.ts\").read_text(\n        encoding=\"utf-8\",\n    )\n    view = (work / \"src/features/selection-learning/SelectionLearningView.ts\").read_text(\n        encoding=\"utf-8\",\n    )\n    main = (work / \"src/main.ts\").read_text(encoding=\"utf-8\")\n    codex_support = (work / \"src/providers/codex/runtime/codexAppServerSupport.ts\").read_text(\n        encoding=\"utf-8\",\n    )\n    stdio_client = (work / \"src/features/selection-learning/CkbStdioClient.ts\").read_text(\n        encoding=\"utf-8\",\n    )\n    markers = {\n        \"SelectionLearningService.ts\": (\n            \"resolveSelectionLearningProviderContext(this.plugin.settings)\",\n            \"ProviderRegistry.createSelectionLearningService(\",\n            \"service.setModelOverride?.(providerContext.modelOverride)\",\n            \"providerLabel,\",\n            \"CKB_PRODUCT_NAME = 'CKB'\",\n            \"正在检索知识库\",\n            \"CKB 解释失败：\",\n            \"this.progress.setStage({\",\n            \"this.progress.complete(audited.explanation, learningFile.path)\",\n            \"service.setProgressCallback?.((text)\",\n            \"禁止调用任何工具、Shell、grep、ripgrep、文件读取、Skill 或子 Agent\",\n            \"this.stdio.recordExplanation({\",\n            \"workspace-meta${path.sep}stdio${path.sep}explanations\",\n            \"不得创建 analysis 页面\",\n            \"buildSelectionFollowUpInstruction(\",\n            \"service.continueConversation(\",\n            \"followUp: true\",\n            \"setFollowUpHandler(question => this.followUp(question))\",\n            \"---CKB_AGENT_PACK---\",\n            \"retrievalRequestId: retrieval.requestId\",\n        ),\n        \"SelectionLearningProvider.ts\": (\n            \"resolveNewConversationModel(settings)\",\n            \"source: 'default-model'\",\n            \"source: 'fixed-provider'\",\n        ),\n        \"ClaudianSettings.ts\": (\n            \"右键解释 provider\",\n            \"FOLLOW_DEFAULT_SELECTION_PROVIDER\",\n            \"selectionLearningProvider = value\",\n        ),\n        \"ProviderRegistry.ts\": (\n            \"createSelectionLearningService(\",\n            \"externalWorkspaceRoots: [outputRoot]\",\n            \"toolPolicy: { kind: 'passive' }\",\n        ),\n        \"InlineEditService.ts\": (\n            \"externalWorkspaceRoots: this.externalWorkspaceRoots\",\n            \"options.toolPolicy ?? { kind: 'read-only' }\",\n        ),\n        \"AuxiliarySessionController.ts\": (\n            \"externalWorkspaceRoots?: readonly string[]\",\n            \"externalWorkspaceRoots: request.externalWorkspaceRoots\",\n        ),\n        \"SelectionLearningView.ts\": (\n            \"SELECTION_LEARNING_VIEW_TYPE = 'ckb-selection-learning-view'\",\n            \"workspace.getRightLeaf(true)\",\n            \"MarkdownRenderer.render(\",\n            \"生成中的解释\",\n            \"执行过程\",\n            \"CKB_PRODUCT_NAME = 'CKB'\",\n            \"retrieve --profile fast\",\n            \"知识库检索证据\",\n            \"继续追问\",\n            \"追问并记录\",\n            \"submitFollowUp(question)\",\n        ),\n        \"main.ts\": (\n            \"new SelectionLearningViewController(this.app)\",\n            \"new SelectionLearningView(\",\n            \"id: 'open-selection-learning-view'\",\n        ),\n        \"codexAppServerSupport.ts\": (\n            \"mergeWslEnvironmentPassThrough\",\n            \"WSLENV: wslEnv\",\n            \"normalized === 'PATH'\",\n        ),\n        \"CkbStdioClient.ts\": (\n            \"parseCkbOutputContract\",\n            \"path.join(vaultRoot, '.ckb', 'output-contract.json')\",\n            \"code-knowledge-builder-output\",\n            \"CKB 输出契约无效\",\n            \"PYTHONIOENCODING: 'utf-8'\",\n            \"PYTHONUTF8: '1'\",\n        ),\n    }\n    source_by_name = {\n        \"SelectionLearningService.ts\": service,\n        \"SelectionLearningProvider.ts\": provider,\n        \"ClaudianSettings.ts\": settings,\n        \"ProviderRegistry.ts\": registry,\n        \"InlineEditService.ts\": inline_edit,\n        \"AuxiliarySessionController.ts\": controller,\n        \"SelectionLearningView.ts\": view,\n        \"main.ts\": main,\n        \"codexAppServerSupport.ts\": codex_support,\n        \"CkbStdioClient.ts\": stdio_client,\n    }\n    for name, required in markers.items():\n        for marker in required:\n            if marker not in source_by_name[name]:\n                raise RuntimeError(f\"selection Provider routing marker is missing from {name}: {marker}\")",
-      "status": "draft",
-      "evidence_note": "",
-      "meaning_zh": "",
-      "role_zh": "",
-      "change_when_zh": ""
-    },
-    {
-      "entity_id": "ent-5b97c03a27475e0cb63eb013d037d102",
-      "classification": "boundary",
-      "owner_page_id": "ent-5b97c03a27475e0cb63eb013d037d102",
+      "owner_page_id": "ent-9f57d2df6fe7552ba97de1d704909d88",
       "source_path": "prototypes/ckb-canvas-skill/ckb_canvas/contracts.py",
       "start_line": 239,
       "end_line": 240,
@@ -36,9 +21,9 @@
       "change_when_zh": ""
     },
     {
-      "entity_id": "ent-32279ee8bfa854f3970f521064389511",
+      "entity_id": "ent-6896336a9bcc54cf9a854d95af195be5",
       "classification": "boundary",
-      "owner_page_id": "ent-32279ee8bfa854f3970f521064389511",
+      "owner_page_id": "ent-6896336a9bcc54cf9a854d95af195be5",
       "source_path": "prototypes/ckb-canvas-skill/ckb_canvas/graph.py",
       "start_line": 59,
       "end_line": 66,
@@ -51,9 +36,9 @@
       "change_when_zh": ""
     },
     {
-      "entity_id": "ent-f33353eca4665c2196f840b35945e203",
+      "entity_id": "ent-d516e19085c25571987f900f5d69b82a",
       "classification": "boundary",
-      "owner_page_id": "ent-f33353eca4665c2196f840b35945e203",
+      "owner_page_id": "ent-d516e19085c25571987f900f5d69b82a",
       "source_path": "prototypes/ckb-canvas-skill/scripts/ckb_canvas.py",
       "start_line": 24,
       "end_line": 25,
@@ -66,9 +51,9 @@
       "change_when_zh": ""
     },
     {
-      "entity_id": "ent-f238b99ccabb56caba3e82d46e0f3821",
+      "entity_id": "ent-632fdeefc9c758a5a68e3e73e6ff285b",
       "classification": "boundary",
-      "owner_page_id": "ent-f238b99ccabb56caba3e82d46e0f3821",
+      "owner_page_id": "ent-632fdeefc9c758a5a68e3e73e6ff285b",
       "source_path": "prototypes/ckb-semantic-vector-benchmark/benchmark.py",
       "start_line": 667,
       "end_line": 699,
@@ -81,9 +66,9 @@
       "change_when_zh": ""
     },
     {
-      "entity_id": "ent-3c212127dc6e58d7bcb954a016380fe5",
+      "entity_id": "ent-e442beef6749598093a041a2e6a7542f",
       "classification": "boundary",
-      "owner_page_id": "ent-3c212127dc6e58d7bcb954a016380fe5",
+      "owner_page_id": "ent-e442beef6749598093a041a2e6a7542f",
       "source_path": "prototypes/ckb-semantic-vector-benchmark/recompute.py",
       "start_line": 115,
       "end_line": 179,
@@ -96,9 +81,9 @@
       "change_when_zh": ""
     },
     {
-      "entity_id": "file-cfc82227b39e5d7baea9a463c08b72f3",
+      "entity_id": "file-69a4b4c645895dbd878d3cc04306ebc2",
       "classification": "page",
-      "owner_page_id": "file-cfc82227b39e5d7baea9a463c08b72f3",
+      "owner_page_id": "file-69a4b4c645895dbd878d3cc04306ebc2",
       "source_path": "scripts/build_runtime_payload.py",
       "start_line": 1,
       "end_line": 158,
@@ -111,9 +96,9 @@
       "change_when_zh": ""
     },
     {
-      "entity_id": "ent-8d59c254fa1c55ea93c70c866c681a28",
+      "entity_id": "ent-dac2c88a4e265503b6b3480c4b7c1633",
       "classification": "page",
-      "owner_page_id": "ent-8d59c254fa1c55ea93c70c866c681a28",
+      "owner_page_id": "ent-dac2c88a4e265503b6b3480c4b7c1633",
       "source_path": "scripts/build_runtime_payload.py",
       "start_line": 142,
       "end_line": 153,

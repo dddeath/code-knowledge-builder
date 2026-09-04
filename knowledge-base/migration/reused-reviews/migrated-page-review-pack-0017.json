@@ -3,20 +3,20 @@
   "pack_id": "migrated-page-review-pack-0017",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-03T01:38:31Z",
+  "reviewed_at_utc": "2026-09-03T22:05:26Z",
   "reviews": [
     {
-      "entity_id": "ent-dae84e9d770e5a46a5fc8c69ee79fbca",
+      "entity_id": "ent-f9faea08db7654aeb2fbc4b262e9f650",
       "classification": "page",
-      "owner_page_id": "ent-dae84e9d770e5a46a5fc8c69ee79fbca",
-      "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
-      "start_line": 1391,
-      "end_line": 1516,
+      "owner_page_id": "ent-f9faea08db7654aeb2fbc4b262e9f650",
+      "source_path": "scripts/ckb_core/human_page_authoring.py",
+      "start_line": 823,
+      "end_line": 1097,
       "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_maintenance_prompts.py` 第 1391-1516 行，并核对 Git blob `32abdbacb6ff`、分类与所有者。",
-      "meaning_zh": "`validate_human_maintenance_invocation` 位于 `scripts/ckb_core/human_maintenance_prompts.py` 第 1391-1516 行，用于核对参数化维护动作的必填参数、类型、确认点和停止条件。",
-      "role_zh": "`validate_human_maintenance_invocation` 在参数化人类维护 Prompt 的动作合同、渲染和交付核对中负责核对参数化维护动作的必填参数、类型、确认点和停止条件。",
-      "change_when_zh": "当 `validate_human_maintenance_invocation` 的输入、输出、状态转换或失败边界变化时，应更新对应说明和测试。"
+      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_authoring.py` 第 823-1097 行，并核对 Git blob `f99c7f5aa021`、分类与所有者。",
+      "meaning_zh": "`render_page_author` 位于 `scripts/ckb_core/human_page_authoring.py` 第 823-1097 行，用于把结构化章节输入渲染为人类摘要，同时把机器证据引用留在非正文结构中。",
+      "role_zh": "`render_page_author` 在V3 人类页面的初始化、检查、渲染、验证和隔离打包中负责把结构化章节输入渲染为人类摘要，同时把机器证据引用留在非正文结构中。",
+      "change_when_zh": "当 `render_page_author` 的输入、输出、状态转换或失败边界变化时，应更新对应说明和测试。"
     }
   ]
 }

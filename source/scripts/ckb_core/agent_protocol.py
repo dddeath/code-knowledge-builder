@@ -69,6 +69,11 @@ def _command_examples(output: Path, python: Path, ckb: Path) -> dict[str, str]:
         "reference_audit": f"{prefix} reference audit --out '{out}'",
         "gaps_list": f"{prefix} gaps list --out '{out}' --status open",
         "gaps_audit": f"{prefix} gaps audit --out '{out}'",
+        "automation_registry": f"{prefix} automation registry",
+        "automation_activate": (
+            f"{prefix} automation activate --harness 'HARNESS' --session-id 'SESSION_ID' "
+            "--cwd 'TASK_ROOT'"
+        ),
     }
 
 
@@ -105,7 +110,7 @@ def _protocol_text(output: Path, repository: str, python: Path, ckb: Path) -> st
 ## 受控维护
 
 1. `human/pages`、`markdown/pages`、`human/references`、`markdown/references`、`INDEX.md`、`WIKI.md`、`REFERENCES.md`、投影清单和 SQLite 文件属于生成器管理内容，不直接编辑。
-2. 可复用分析、修改原因、踩坑和实验只通过 `record` 写入；正文使用简体中文，并通过 `--from-pack`、`--from-query` 或唯一 `--link` 回链至少一个知识页。
+2. 只有用户或任务契约要求把分析、修改原因、踩坑或实验持久化到知识库时，才通过 `record` 写入；普通只读回答不创建记录。需要写入时正文使用简体中文，并通过 `--from-pack`、`--from-query` 或唯一 `--link` 回链至少一个知识页。
 3. 创建分析页的标准命令：
 
 ```powershell
@@ -127,7 +132,7 @@ def _protocol_text(output: Path, repository: str, python: Path, ckb: Path) -> st
 ```
 
 生成器管理页面仍不直接编辑；采纳或部分采纳时先修改来源、生成规则或通过 `record` 写入落实记录，再用 `feedback resolve` 归档。拒绝必须写明中文理由；暂缓记录继续留在开放列表。反馈记录不删除。
-8. 结束实质任务前执行聚合维护门；它统一检查反馈、Agent Policy、工作记录、参考资料、研究缺口、机器操作日志、人类可读性、机器知识库和兼容索引，并且不创建知识页面：
+8. 本轮修改了知识库，或任务把维护状态列为验收结果时，才执行聚合维护门；它统一检查反馈、Agent Policy、工作记录、参考资料、研究缺口、机器操作日志、人类可读性、机器知识库和兼容索引，并且不创建知识页面：
 
 ```powershell
 {commands['maintain']}
@@ -139,6 +144,7 @@ def _protocol_text(output: Path, repository: str, python: Path, ckb: Path) -> st
 
 - 优先顺序固定为：`brief fast` → Agent pack → `entity/neighbors/source/changes` → 返回路径的窄范围读取。
 - 不预先加载整个模块、整个 vault 或完整关系图。
+- 非当前 Harness 的适配器缺失可能使维护审计失败，但不是 `brief`、反馈、缺口或窄源码读取的前置条件。
 - 页面正文保持面向人类的简体中文叙述；英文仅保留专有名词、API、类型、函数、变量、命令和路径。
 """
 

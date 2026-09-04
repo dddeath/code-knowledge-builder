@@ -15,6 +15,7 @@
 ## 相关代码
 
 - 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
+- 实现时会用到 [[ScopeExtensionOfferTests.retrieval]]。
 - 实现时会用到 [[append]]。
 - 实现时会用到 [[ckb_canvas 的协作边界]]。
 - 实现时会用到 [[run_keyword_benchmark 与 _text_list 的协作实现]]。
@@ -22,7 +23,6 @@
 
 ## 谁会来到这里
 
-- [[KeywordFallbackRetrievalWiringTests 等测试场景]] 会使用这里提供的行为。
 - [[run_keyword_benchmark 与 _text_list 的协作实现]] 汇总了本页。
 
 ## 相关测试

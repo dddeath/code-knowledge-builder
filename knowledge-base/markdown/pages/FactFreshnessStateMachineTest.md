@@ -16,6 +16,7 @@
 
 - 实现时会用到 [[CkbError]]。
 - 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
+- 实现时会用到 [[ScopeExtensionOfferTests.retrieval]]。
 - 实现时会用到 [[build_case 等测试场景]]。
 - 实现时会用到 [[check_fact_freshness]]。
 - 实现时会用到 [[check_fact_freshness 与 _root 的协作实现]]。

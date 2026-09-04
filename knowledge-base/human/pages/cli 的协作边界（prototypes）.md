@@ -6,16 +6,16 @@
 
 ## 本次未继续展开的代码
 
-- **build_parser**：位于 `prototypes/ckb-tag-navigation/ckb_tag_navigation/cli.py:37-70`。
-- **execute**：位于 `prototypes/ckb-tag-navigation/ckb_tag_navigation/cli.py:73-92`。
+- **build_parser**：位于 `prototypes/ckb-page-fanout-benchmark/ckb_page_fanout/cli.py:14-52`。
+- **execute**：位于 `prototypes/ckb-page-fanout-benchmark/ckb_page_fanout/cli.py:55-103`。
 
 ## 相关代码
 
-- 实现时会用到 [[benchmark 的协作边界（10621f79）]]。
+- 实现时会用到 [[benchmark 的协作边界（8b111775）]]。
 - 实现时会用到 [[build_case 等测试场景]]。
 - 实现时会用到 [[command]]。
-- 实现时会用到 [[contracts 的协作边界（743c915d）]]。
-- 实现时会用到 [[ingest 与 connect 的协作实现]]。
-- 实现时会用到 [[parser]]。
+- 实现时会用到 [[commands 的协作边界]]。
+- 实现时会用到 [[generator 的协作边界]]。
+- 实现时会用到 [[judge 的协作边界]]。
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。

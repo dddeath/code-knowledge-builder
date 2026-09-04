@@ -18,7 +18,7 @@ Obsidian Companion 的 Codex Provider 继续使用默认 WSL 发行版 Ubuntu。
 
 - [[doctor_report 与 _version_matches 的协作实现]]
 - [[audit_obsidian 与 prepare_vault 的协作实现]]
-- [[render_integration 与 _looks_windows 的协作实现]]
+- [[render_integration 与 harness_retrieval_contract 的协作实现]]
 - [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]]
 - [[retrieve_machine 与 estimated_tokens 的协作实现]]
 - [[retrieve 与 _tokens 的协作实现]]

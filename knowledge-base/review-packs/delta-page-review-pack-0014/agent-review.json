@@ -1,0 +1,51 @@
+{
+  "schema_version": 4,
+  "pack_id": "delta-page-review-pack-0014",
+  "kind": "page-review",
+  "reviewer": "管理 Agent",
+  "reviewed_at_utc": "2026-09-03T22:43:20Z",
+  "reviews": [
+    {
+      "entity_id": "file-9fe7a1816df25deeadfedddb1190d7f3",
+      "classification": "page",
+      "owner_page_id": "file-9fe7a1816df25deeadfedddb1190d7f3",
+      "source_path": "tests/test_reference_pdf_effect_benchmark.py",
+      "start_line": 1,
+      "end_line": 87,
+      "source_blob": "323e1f667853e09f63aab45858f6db8215a8e23c",
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `tests/test_reference_pdf_effect_benchmark.py` 第 1-87 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "meaning_zh": "该文件验证 PDF 效果协议、结果重放和解析器版本漂移失败行为。",
+      "role_zh": "该文件承载 `tests/test_reference_pdf_effect_benchmark.py` 所属能力的实现或测试入口。",
+      "change_when_zh": "当 `tests/test_reference_pdf_effect_benchmark.py` 的职责或可见行为变化时，应更新本页并重跑相关测试。"
+    },
+    {
+      "entity_id": "ent-73d8a0466ac853a3af6b9e06d41ebc0b",
+      "classification": "page",
+      "owner_page_id": "ent-73d8a0466ac853a3af6b9e06d41ebc0b",
+      "source_path": "tests/test_reference_pdf_effect_benchmark.py",
+      "start_line": 20,
+      "end_line": 82,
+      "source_blob": "323e1f667853e09f63aab45858f6db8215a8e23c",
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `tests/test_reference_pdf_effect_benchmark.py` 第 20-82 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "meaning_zh": "`ReferencePdfEffectBenchmarkTests` 汇总同一能力的正例、负例和传输一致性测试。",
+      "role_zh": "它组织共享 fixture 和断言，验证实现满足冻结合同。",
+      "change_when_zh": "当 `ReferencePdfEffectBenchmarkTests` 对应能力的验收矩阵变化时，应更新该测试类。"
+    },
+    {
+      "entity_id": "file-e66942688f665d979fb3420cd07875f0",
+      "classification": "page",
+      "owner_page_id": "file-e66942688f665d979fb3420cd07875f0",
+      "source_path": "tests/test_scope_extension.py",
+      "start_line": 1,
+      "end_line": 508,
+      "source_blob": "eae214a07fc5ad284fc90f32f10f204a30fd876a",
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `tests/test_scope_extension.py` 第 1-508 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "meaning_zh": "`tests/test_scope_extension.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
+      "role_zh": "负责以可执行样例验证 `test_scope_extension.py` 覆盖的成功行为、失败边界和回归约束。",
+      "change_when_zh": "当 `tests/test_scope_extension.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
+    }
+  ]
+}

@@ -22,6 +22,7 @@
 - [[PdfReferenceExtractionTests]] 会使用这里提供的行为。
 - [[PdfReferenceExtractionTests 等测试场景]] 会使用这里提供的行为。
 - [[ascii_pdf]] 关联到这里的验证场景。
+- [[run_benchmark]] 会使用这里提供的行为。
 - 可从 [[tests 职责导览]] 进入本页。
 
 ## 相关测试
@@ -29,6 +30,7 @@
 - [[PdfReferenceExtractionTests]]
 - [[PdfReferenceExtractionTests 等测试场景]]
 - [[ascii_pdf]]
+- [[run_benchmark]]
 
 ## 内部细节
 

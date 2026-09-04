@@ -1,0 +1,190 @@
+{
+  "schema_version": 1,
+  "status": "reviewed",
+  "reviewed_at": "2026-09-04",
+  "scope": "research-gap-reconciliation-at-bdd4a667",
+  "source_snapshot": {
+    "commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+    "tree": "9289ac724bfb6c1a5a76e6160fe57ba11255691e",
+    "knowledge_base_state_sha256": "5cf6a89951c10149f1dc65b3cb0922ac6619652f08b1ba2c1c68e5f19d6760a9",
+    "knowledge_base_machine_sha256": "020bb27f618c21b6b22c495556aa43d5aef3375c5567f58542eb51ac5fe4df94",
+    "knowledge_base_agent_index_sha256": "aefc7b71adfd0cab14bab0b8fa91a5425d324c08b70985b111cabeae8652eaa9"
+  },
+  "gap_register": {
+    "index": {
+      "path": "E:/knowledge_builder/self-workspace/knowledge-base/workspace-meta/gaps/index.json",
+      "sha256": "aa600ceb5d3d1dbcdfe1abbe9ed9438433e306ecfec9fa40ae3e9d9f9a13010f"
+    },
+    "records": [
+      {"gap_id": "gap-00b32bb494b250ee9f73b6fdc9937f5b", "status": "open", "sha256": "d7a4a4c3763d17d0aaa648c23e208d719bb6266232dd15687b0976fa771a3f09"},
+      {"gap_id": "gap-6c6eb1a7982550999213f764e115e7ad", "status": "open", "sha256": "8027535f213a7aadbb2eb6a156233528f97fbc81eeeecd179cd085e0c7e6aa0b"},
+      {"gap_id": "gap-8c436abb192752cb90c955c0158d611e", "status": "open", "sha256": "bb4253c421067dca12007fd11b4ecc688f0c893c15f5d59f0efdca93225aaba9"},
+      {"gap_id": "gap-9dc58ab149375bfd98332149a3ba6cb3", "status": "open", "sha256": "ed98327fe3272bbb23c0f49fe97f0a6561ff11fbf1959a2a2ca1784522f30135"},
+      {"gap_id": "gap-bb90bd3314185078a6a0a7cdb8d271e6", "status": "open", "sha256": "94c3a85f33ead64ed9e389fea4606973c11974db9bface4fc004104efbd3fae8"},
+      {"gap_id": "gap-da2148a026de59c2b09fbf2cf3c1eb0b", "status": "resolved", "sha256": "5f21fb8ffafc307a0b7d22e4b43ebc987bacd9dbdf705327b1bbeda39571ec0f"},
+      {"gap_id": "gap-e1a88b6c3b0e57cca58e6bc38daa47b8", "status": "resolved", "sha256": "7bb1c4555ac8f6174f50fca895f49366ca4958fc96ee4ccc70567f3ffb7d616d"}
+    ]
+  },
+  "internal_evidence": [
+    {
+      "id": "semantic-vector-report",
+      "path": "prototypes/ckb-semantic-vector-benchmark/results/fixed-v1/report.json",
+      "sha256": "a2c9d68dbae27e38002cbd73e9e842dd43ee967f56ae871aba315c51fa77af06",
+      "evidence_class": "verified-real-local-model",
+      "use": "SQLite、纯向量与 RRF 三臂质量和资源比较"
+    },
+    {
+      "id": "semantic-vector-provenance",
+      "path": "prototypes/ckb-semantic-vector-benchmark/results/fixed-v1/provenance.json",
+      "sha256": "090ca32da84b7359ff9adbfe90712c2ee21d86cbb115461a12fb6921ca78bcf9",
+      "evidence_class": "execution-provenance",
+      "use": "固定模型、运行时和原始结果来源"
+    },
+    {
+      "id": "keyword-three-arm-report",
+      "path": "references/benchmarks/chinese-retrieval-effect-retest/report.json",
+      "sha256": "51ceada934e5a3a37c93b80568dfa28b1e37a30d7db732620074232eec72ac59",
+      "evidence_class": "same-index-deterministic-and-fixed-replay",
+      "use": "旧词项、当前词项与离线慢路径回放比较"
+    },
+    {
+      "id": "keyword-three-arm-verification",
+      "path": "references/benchmarks/chinese-retrieval-effect-retest/verification.json",
+      "sha256": "ade669f3a18cc25d2dddc67da1f248bc25fd74de5d12236c72f46bc5eff26e23",
+      "evidence_class": "recomputed-verification",
+      "use": "216 行原始记录、独立重算与真实 Provider 未调用边界"
+    },
+    {
+      "id": "keyword-real-canary",
+      "path": "E:/knowledge_builder/artifacts/verification/llm-keyword-slowpath/management-audit.json",
+      "sha256": "21c341bff25fb3642ae7c89918f2a362997d7b94a6fca843113b4644116a845f",
+      "evidence_class": "single-real-provider-canary",
+      "use": "codex-cli/gpt-5.6-luna 接线、27.6 秒 Provider 延迟与费用遥测缺失"
+    },
+    {
+      "id": "tag-navigation-benchmark",
+      "path": "references/design/tag-navigation-research/verification/benchmark.json",
+      "sha256": "6cdd48615893d109b8c71a58333b4206fd935cd56bf2cd3d4ed6ecfa8d874a74",
+      "evidence_class": "isolated-fixture",
+      "use": "无 tag 与确认 tag 的 6 题导航比较"
+    },
+    {
+      "id": "tag-navigation-verification",
+      "path": "references/design/tag-navigation-research/verification/verification.json",
+      "sha256": "b71caaf37712a5859d26d72c6859addc357156fb633e8a28b02dea323969b7b0",
+      "evidence_class": "prototype-verification",
+      "use": "assertion、审计、投影、回滚和生产关闭边界"
+    },
+    {
+      "id": "page-fanout-result",
+      "path": "references/benchmarks/page-fanout/benchmark-result.json",
+      "sha256": "6919fcf58be09ae3a1ef12ab99fbbc628f5788681473469839f58396b06dcfb6",
+      "evidence_class": "isolated-frozen-comparison",
+      "use": "保守投影与自动扩张的正确性、来源、导航和页面成本"
+    },
+    {
+      "id": "page-fanout-rollback",
+      "path": "references/benchmarks/page-fanout/rollback-verification.json",
+      "sha256": "6e76b70dec77e8bddc09ddce5cf4e2e9bd65e82b1f0b21ed785af68a6eaf89e6",
+      "evidence_class": "rollback-verification",
+      "use": "输出删除和字节一致重生成"
+    },
+    {
+      "id": "canvas-prototype-verification",
+      "path": "references/design/obsidian-canvas-agent-visualization/prototype-verification/verification-record.json",
+      "sha256": "1bb93a98b29474f159761c4218fd71201994dd0599fb05266924be4f3c9ebe8e",
+      "evidence_class": "prototype-verification",
+      "use": "Canvas 生成、失败、事务与回滚合同"
+    },
+    {
+      "id": "canvas-example-summary",
+      "path": "references/design/obsidian-canvas-agent-visualization/fixtures/benchmark/benchmark-summary.json",
+      "sha256": "2353cc84681df4d86795cafa9d2bd15754e05d6c5779847871ab779500eff161",
+      "evidence_class": "example-not-real-benchmark",
+      "use": "只用于确认汇总 schema 与阈值，不用于效果结论"
+    },
+    {
+      "id": "pdf-contract-tests",
+      "path": "tests/test_reference_pdf.py",
+      "sha256": "dda612ca45f461c444d1d19ee8b1b7ca69277579d90ad987850583ba2f7abce3",
+      "evidence_class": "fixed-test-fixtures",
+      "use": "原生 PDF、测试 OCR 适配器、Web 边界和端到端回滚"
+    },
+    {
+      "id": "record-replace-tests",
+      "path": "tests/test_record_replace.py",
+      "sha256": "e9558cf0167d5df488685df43b9b6a31890da5abd659316b5d2822be4cb9b9a0",
+      "evidence_class": "transaction-and-rollback-tests",
+      "use": "正文替换、全角色原子性、漂移保护与回滚"
+    }
+  ],
+  "external_primary_sources": [
+    {
+      "name": "QMD",
+      "version": "2.8.3",
+      "tag_commit": "facd35e01359e59d938bc9418e93fb9318addee3",
+      "license": "MIT",
+      "runtime": "Node >=22",
+      "urls": [
+        "https://github.com/tobi/qmd/tree/v2.8.3",
+        "https://github.com/tobi/qmd/blob/v2.8.3/README.md",
+        "https://github.com/tobi/qmd/blob/v2.8.3/package.json"
+      ],
+      "boundary_zh": "官方 README 说明 search、vsearch、query 和 bench；默认向量模型约 300 MB。当前工作机 Node 24.19.0 满足版本要求，但尚未安装 QMD，也未下载模型。"
+    },
+    {
+      "name": "FastEmbed",
+      "version": "0.8.0",
+      "license": "Apache-2.0",
+      "urls": ["https://github.com/qdrant/fastembed/tree/v0.8.0"],
+      "boundary_zh": "只用于既有 BGE 隔离三臂实验，不代表 QMD。完整来源清单位于 references/benchmarks/semantic-vector-retrieval/source-manifest.json。"
+    },
+    {
+      "name": "Qdrant/bge-small-zh-v1.5",
+      "version": "46fbe35fd4374a00fee7de77dfddaeb6dd6a2c59",
+      "license": "MIT",
+      "urls": ["https://huggingface.co/Qdrant/bge-small-zh-v1.5/tree/46fbe35fd4374a00fee7de77dfddaeb6dd6a2c59"],
+      "boundary_zh": "512 维本地模型，只支持既有实验在固定文本合同上的结论。"
+    },
+    {
+      "name": "pypdf",
+      "version": "6.16.2",
+      "license": "BSD-3-Clause",
+      "urls": ["https://pypi.org/project/pypdf/6.16.2/"],
+      "boundary_zh": "Full Windows x64 运行时锁定该版本；OCR 引擎不随项目分发。"
+    },
+    {
+      "name": "Obsidian Tags, Properties, Search and Privacy",
+      "version": "online-help-reviewed-2026-09-03",
+      "license": "Obsidian documentation terms; paraphrase only",
+      "urls": [
+        "https://obsidian.md/help/tags",
+        "https://obsidian.md/help/properties",
+        "https://obsidian.md/help/plugins/search",
+        "https://obsidian.md/privacy"
+      ],
+      "boundary_zh": "只支持 Tag、属性、搜索和本地数据边界；不构成真实 vault 或人类效果证据。"
+    },
+    {
+      "name": "JSON Canvas",
+      "version": "1.0",
+      "license": "MIT",
+      "urls": [
+        "https://github.com/obsidianmd/jsoncanvas/blob/main/spec/1.0.md",
+        "https://github.com/obsidianmd/jsoncanvas"
+      ],
+      "boundary_zh": "只支持 Canvas 文件格式与字段合同；不证明 Obsidian 中的导航收益。"
+    },
+    {
+      "name": "SQLite UPSERT and transactions",
+      "version": "online-docs-reviewed-2026-09-03",
+      "license": "Public Domain",
+      "urls": [
+        "https://www.sqlite.org/lang_upsert.html",
+        "https://www.sqlite.org/lang_transaction.html",
+        "https://www.sqlite.org/copyright.html"
+      ],
+      "boundary_zh": "只支持 Tag assertion 的幂等写入与事务设计。"
+    }
+  ]
+}

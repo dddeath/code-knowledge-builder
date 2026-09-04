@@ -1,0 +1,23 @@
+{
+  "schema_version": 4,
+  "pack_id": "delta-page-review-pack-0015",
+  "kind": "page-review",
+  "reviewer": "管理 Agent",
+  "reviewed_at_utc": "2026-09-03T22:43:20Z",
+  "reviews": [
+    {
+      "entity_id": "ent-495ff9d8a2ac529387caec0aef3cf911",
+      "classification": "page",
+      "owner_page_id": "ent-495ff9d8a2ac529387caec0aef3cf911",
+      "source_path": "tests/test_scope_extension.py",
+      "start_line": 65,
+      "end_line": 503,
+      "source_blob": "eae214a07fc5ad284fc90f32f10f204a30fd876a",
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `tests/test_scope_extension.py` 第 65-503 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "meaning_zh": "`ScopeExtensionTest` 是 `tests/test_scope_extension.py` 第 63-418 行定义的类，本页绑定该固定源码范围。",
+      "role_zh": "该类作为可执行验证入口，检查标识符 `ScopeExtensionTest` 所指的行为与失败边界。",
+      "change_when_zh": "当被测行为、输入夹具、断言或失败条件变化时，应同步更新 `ScopeExtensionTest` 的说明。"
+    }
+  ]
+}

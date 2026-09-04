@@ -12,15 +12,15 @@
     "precision": "exact",
     "status": "passed",
     "covered_entity_ids": [
-      "ent-2e62405e408459b5b64ecd35fda746b6",
-      "ent-2e8c1accd1155d939568ef5e66fb4b1d",
-      "ent-38658ad457665d50bace9927953fe256",
-      "ent-4414e71c248358cb8c9db5985840df2b",
-      "ent-6dbc486adca05df8a165e33e3b6387f7",
-      "ent-bdd7195536fe5802a9631bb3643f6f6c",
-      "ent-c510843bd3975c688af425a9c6f315cb",
-      "ent-dd6136ae2fed593e8fb24222456a2377",
-      "ent-fc8a89ec071e59d5aaa836d70bf8e90b"
+      "ent-024bba07ee1256288edabf5b0b7f8415",
+      "ent-0af32bc83a1856b6b86c9413bb93a5ff",
+      "ent-1d528e8bad2c5ef490353b058232cfe6",
+      "ent-2f9da4ca10c25a009dbf7afae598a857",
+      "ent-3ff68af50d2654b3af5b97fc72b42c38",
+      "ent-455c6c0d41505e97af1d71acc55afbe1",
+      "ent-74a21352d10657d98fb96a85e371a6da",
+      "ent-b3a0b030b9945642899d4623e520283b",
+      "ent-ff5c948d72d15b82b23c2aec9078077d"
     ],
     "document_symbol_counts": {
       "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py": 67
@@ -111,7 +111,7 @@
         "id": 1,
         "method": "initialize",
         "params": {
-          "processId": 79640,
+          "processId": 5228,
           "rootUri": "file:///E:/knowledge_builder/self-workspace/knowledge-base/.source-snapshot/worktree",
           "workspaceFolders": [
             {
@@ -262,7 +262,7 @@
         "params": {
           "items": [
             {
-              "scopeUri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-bdd4a66-overdefense/.source-snapshot/worktree",
+              "scopeUri": "file:///e%3A/knowledge_builder/self-workspace/knowledge-base.staging-fcad08af3dac/.source-snapshot/worktree",
               "section": "python"
             }
           ]
@@ -316,7 +316,7 @@
         "params": {
           "items": [
             {
-              "scopeUri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-bdd4a66-overdefense/.source-snapshot/worktree",
+              "scopeUri": "file:///e%3A/knowledge_builder/self-workspace/knowledge-base.staging-fcad08af3dac/.source-snapshot/worktree",
               "section": "pyright"
             }
           ]
@@ -340,7 +340,7 @@
         "method": "window/logMessage",
         "params": {
           "type": 3,
-          "message": "No include entries specified; assuming e:\\knowledge_builder\\self-workspace\\kb-stg-bdd4a66-overdefense\\.source-snapshot\\worktree"
+          "message": "No include entries specified; assuming e:\\knowledge_builder\\self-workspace\\knowledge-base.staging-fcad08af3dac\\.source-snapshot\\worktree"
         }
       }
     },
@@ -2088,7 +2088,7 @@
         "method": "window/logMessage",
         "params": {
           "type": 3,
-          "message": "Found 710 source files"
+          "message": "Found 714 source files"
         }
       }
     },
@@ -2098,7 +2098,7 @@
         "jsonrpc": "2.0",
         "method": "textDocument/publishDiagnostics",
         "params": {
-          "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-bdd4a66-overdefense/.source-snapshot/worktree/prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
+          "uri": "file:///e%3A/knowledge_builder/self-workspace/knowledge-base.staging-fcad08af3dac/.source-snapshot/worktree/prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
           "version": 1,
           "diagnostics": []
         }
@@ -2128,7 +2128,7 @@
         "id": 3,
         "result": [
           {
-            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-bdd4a66-overdefense/.source-snapshot/worktree/prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
+            "uri": "file:///e%3A/knowledge_builder/self-workspace/knowledge-base.staging-fcad08af3dac/.source-snapshot/worktree/prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
             "range": {
               "start": {
                 "line": 67,
@@ -2170,7 +2170,7 @@
         "id": 4,
         "result": [
           {
-            "uri": "file:///e%3A/knowledge_builder/self-workspace/kb-stg-bdd4a66-overdefense/.source-snapshot/worktree/prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
+            "uri": "file:///e%3A/knowledge_builder/self-workspace/knowledge-base.staging-fcad08af3dac/.source-snapshot/worktree/prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
             "range": {
               "start": {
                 "line": 144,

@@ -15,6 +15,7 @@
 ## 相关代码
 
 - 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
+- 实现时会用到 [[ScopeExtensionOfferTests.retrieval]]。
 - 实现时会用到 [[ingest 与 connect 的协作实现]]。
 - 实现时会用到 [[run_failure_probe]]。
 - 实现时会用到 [[run_failure_probe 等测试场景]]。
@@ -24,6 +25,8 @@
 
 - [[ChineseRetrievalEffectRetestFixtureTests 等测试场景]] 汇总了本页。
 - [[check_fact_freshness 与 _root 的协作实现]] 关联到这里的验证场景。
+- [[finalize 与 _replace_output_prefix 的协作实现]] 关联到这里的验证场景。
+- [[refresh 等测试场景]] 关联到这里的验证场景。
 - [[retrieve_machine]] 关联到这里的验证场景。
 - [[retrieve_machine 与 estimated_tokens 的协作实现]] 关联到这里的验证场景。
 - [[run_failure_probe]] 关联到这里的验证场景。
@@ -31,6 +34,7 @@
 - [[run_keyword_provider]] 关联到这里的验证场景。
 - [[search_terms]] 关联到这里的验证场景。
 - [[search_terms 与 _split_camel 的协作实现]] 关联到这里的验证场景。
+- [[start_scope_extension 与 _error 的协作实现]] 关联到这里的验证场景。
 
 ## 内部细节
 

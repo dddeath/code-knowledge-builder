@@ -17,8 +17,9 @@
 - 实现时会用到 [[CkbError]]。
 - 实现时会用到 [[CkbError 与 DependencyError 的协作实现]]。
 - 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
+- 实现时会用到 [[ScopeExtensionOfferTests.retrieval]]。
 - 主要代码单元是 [[SourceLinkRenderer.uri]]。
-- 实现时会用到 [[render_integration 与 _looks_windows 的协作实现]]。
+- 实现时会用到 [[render_integration 与 harness_retrieval_contract 的协作实现]]。
 
 ## 谁会来到这里
 

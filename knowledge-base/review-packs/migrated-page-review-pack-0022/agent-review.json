@@ -3,20 +3,20 @@
   "pack_id": "migrated-page-review-pack-0022",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-03T01:38:37Z",
+  "reviewed_at_utc": "2026-09-03T22:05:32Z",
   "reviews": [
     {
-      "entity_id": "file-726edaaf3c595f66971613905789cddc",
+      "entity_id": "file-2cfab0921fe654988b23b1499c1b9bfa",
       "classification": "page",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
-      "source_path": "scripts/ckb_core/human_page_templates.py",
+      "owner_page_id": "file-2cfab0921fe654988b23b1499c1b9bfa",
+      "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
       "start_line": 1,
-      "end_line": 1524,
+      "end_line": 2076,
       "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 1-1524 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
-      "meaning_zh": "`scripts/ckb_core/human_page_templates.py` 页面绑定固定源码第 1-1524 行，说明该文件如何承担14 类人类页面的 V3 章节合同、预算和渐进式披露验证。",
-      "role_zh": "该文件负责14 类人类页面的 V3 章节合同、预算和渐进式披露验证，并为相关命令、页面生成或测试提供源码入口。",
-      "change_when_zh": "当 `scripts/ckb_core/human_page_templates.py` 的公开输入、生成结果、状态边界或与其他模块的协作关系变化时，应更新本页。"
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/knowledge_batch_migration.py` 第 1-2076 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`scripts/ckb_core/knowledge_batch_migration.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
+      "role_zh": "负责完整知识库批量迁移的计划、隔离构建、审计、切换和精确回滚。",
+      "change_when_zh": "当 `scripts/ckb_core/knowledge_batch_migration.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
     }
   ]
 }

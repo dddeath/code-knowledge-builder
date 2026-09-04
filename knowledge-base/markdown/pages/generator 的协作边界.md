@@ -15,10 +15,10 @@
 
 - 实现时会用到 [[append]]。
 - 实现时会用到 [[build_case 等测试场景]]。
-- 实现时会用到 [[contracts 的协作边界（prototypes）]]。
+- 实现时会用到 [[contracts 的协作边界（05d22df9）]]。
 
 ## 谁会来到这里
 
 - [[PageFanoutBenchmarkTests]] 会使用这里提供的行为。
 - [[PageFanoutGeneratorTests]] 会使用这里提供的行为。
-- [[cli 的协作边界（20ef2cd4）]] 会使用这里提供的行为。
+- [[cli 的协作边界（prototypes）]] 会使用这里提供的行为。

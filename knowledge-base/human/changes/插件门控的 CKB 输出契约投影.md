@@ -30,7 +30,7 @@ Claudian 固定源码通过 typecheck、lint、5 个测试套件共 33 项测试
 - [[keyword_provider_config 与 parser 的协作实现]]
 - [[__init__ 实现概览]]
 - [[CkbError 与 DependencyError 的协作实现]]
-- [[render_integration 与 _looks_windows 的协作实现]]
+- [[render_integration 与 harness_retrieval_contract 的协作实现]]
 - [[retrieve 与 _tokens 的协作实现]]
 
 ## 源码入口

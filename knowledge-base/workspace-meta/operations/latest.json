@@ -1,28 +1,29 @@
 {
   "schema_version": 1,
   "status": "passed",
-  "updated_at_utc": "2026-09-03T01:50:33Z",
+  "updated_at_utc": "2026-09-04T02:27:51Z",
   "retention_days": 30,
   "max_records_per_shard": 2000,
   "max_shard_bytes": 1048576,
-  "records": 294,
+  "records": 318,
   "counts_by_operation": {
-    "compile": 32,
-    "query": 179,
-    "record": 62,
+    "compile": 33,
+    "query": 197,
+    "record": 65,
     "audit": 13,
-    "maintenance": 8
+    "maintenance": 10
   },
   "counts_by_status": {
-    "agent-reviewed": 36,
-    "complete": 8,
+    "agent-reviewed": 39,
+    "complete": 9,
     "completed": 4,
-    "failed": 8,
+    "failed": 9,
+    "in-progress": 1,
     "not-found": 5,
     "open": 8,
-    "passed": 194,
+    "passed": 210,
     "pending-agent-review": 7,
-    "ready": 3,
+    "ready": 5,
     "ready-to-finalize": 4,
     "replaced": 15,
     "resolved": 1,
@@ -50,130 +51,99 @@
     {
       "date": "2026-09-03",
       "path": "2026-09-03.jsonl",
-      "records": 21,
-      "bytes": 5047
+      "records": 32,
+      "bytes": 8196
+    },
+    {
+      "date": "2026-09-04",
+      "path": "2026-09-04.jsonl",
+      "records": 13,
+      "bytes": 3615
     }
   ],
   "latest": [
     {
       "schema_version": 1,
-      "event_id": "operation-ab8226c9aa4e517bb62c7406d8472abc",
-      "recorded_at_utc": "2026-09-03T00:49:10Z",
-      "operation": "maintenance",
-      "command": "maintain",
+      "event_id": "operation-ed1e132ff7d2544393bb368e6b907067",
+      "recorded_at_utc": "2026-09-03T16:36:16Z",
+      "operation": "query",
+      "command": "entity",
       "result_status": "passed",
+      "evidence_paths": []
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-0b988c2d71a6592db55b6ed73504b67c",
+      "recorded_at_utc": "2026-09-03T16:42:34Z",
+      "operation": "record",
+      "command": "record:analysis",
+      "result_status": "agent-reviewed",
       "evidence_paths": [
-        "workspace-meta/maintenance/latest.json"
+        "human/analysis/自动同步与 LLM Wiki 后续待办.md",
+        "markdown/analysis/自动同步与 LLM Wiki 后续待办.md"
       ]
     },
     {
       "schema_version": 1,
-      "event_id": "operation-9a6f2c1a14485193ba25cdd3b974a7d7",
-      "recorded_at_utc": "2026-09-03T00:50:17Z",
+      "event_id": "operation-bfe9c1bb538157bb887ddb55d05aae4b",
+      "recorded_at_utc": "2026-09-03T16:55:35Z",
       "operation": "query",
       "command": "brief",
       "result_status": "passed",
       "evidence_paths": [
-        "machine/agent-packs/pack-20260903-005016-636896-01.json",
-        "machine/agent-packs/pack-20260903-005016-636896-01.md"
+        "machine/agent-packs/pack-20260903-165534-511108-01.json",
+        "machine/agent-packs/pack-20260903-165534-511108-01.md"
       ]
     },
     {
       "schema_version": 1,
-      "event_id": "operation-4634ff30afdb582497110512b48e927e",
-      "recorded_at_utc": "2026-09-03T00:51:30Z",
+      "event_id": "operation-e3d2ee6752ca53bcad410d24f84efce8",
+      "recorded_at_utc": "2026-09-03T16:58:20Z",
       "operation": "query",
-      "command": "changes",
+      "command": "brief",
       "result_status": "passed",
-      "evidence_paths": []
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-b5927118121957e995082a7457cced15",
-      "recorded_at_utc": "2026-09-03T01:40:39Z",
-      "operation": "compile",
-      "command": "migrate:start",
-      "result_status": "pending-agent-review",
-      "evidence_paths": []
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-d247d1502d0a563e87f83e99b4bad9e7",
-      "recorded_at_utc": "2026-09-03T01:44:22Z",
-      "operation": "compile",
-      "command": "review-pack",
-      "result_status": "passed",
-      "evidence_paths": []
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-37971a32f4f151bba5fc5a4d68170498",
-      "recorded_at_utc": "2026-09-03T01:44:34Z",
-      "operation": "compile",
-      "command": "migrate:status",
-      "result_status": "pending-agent-review",
-      "evidence_paths": []
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-d6c12951f47a55eeb2414fc2299ea658",
-      "recorded_at_utc": "2026-09-03T01:44:36Z",
-      "operation": "compile",
-      "command": "migrate:audit",
-      "result_status": "failed",
-      "evidence_paths": []
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-b6920c2e1e1c5821ab097f81ffbc747c",
-      "recorded_at_utc": "2026-09-03T01:45:33Z",
-      "operation": "compile",
-      "command": "migrate:status",
-      "result_status": "ready-to-finalize",
-      "evidence_paths": []
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-b06aae71544b5e5e8f25db7e010b3b5d",
-      "recorded_at_utc": "2026-09-03T01:45:34Z",
-      "operation": "compile",
-      "command": "merge",
-      "result_status": "completed",
-      "evidence_paths": []
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-d937fc0b0fa951ae978c8213bf8e8eba",
-      "recorded_at_utc": "2026-09-03T01:45:58Z",
-      "operation": "compile",
-      "command": "migrate:audit",
-      "result_status": "passed",
-      "evidence_paths": []
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-688e90a89d4e53eab99545259fbcf5b1",
-      "recorded_at_utc": "2026-09-03T01:47:04Z",
-      "operation": "compile",
-      "command": "finalize",
-      "result_status": "complete",
-      "evidence_paths": []
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-88a144cd962e5913bd9b2fd098a307fe",
-      "recorded_at_utc": "2026-09-03T01:47:08Z",
-      "operation": "maintenance",
-      "command": "maintain",
-      "result_status": "failed",
       "evidence_paths": [
-        "workspace-meta/maintenance/latest.json"
+        "machine/agent-packs/pack-20260903-165819-903701-01.json",
+        "machine/agent-packs/pack-20260903-165819-903701-01.md"
       ]
     },
     {
       "schema_version": 1,
-      "event_id": "operation-74086fdb501655899042fea699b7c6a8",
-      "recorded_at_utc": "2026-09-03T01:47:09Z",
+      "event_id": "operation-8d32ff0225b05b7fa9b15d4d8567ba42",
+      "recorded_at_utc": "2026-09-03T17:34:48Z",
+      "operation": "query",
+      "command": "brief",
+      "result_status": "passed",
+      "evidence_paths": [
+        "machine/agent-packs/pack-20260903-173447-511675-01.json",
+        "machine/agent-packs/pack-20260903-173447-511675-01.md"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-586f996124245a63a2fddea7d54d3e1e",
+      "recorded_at_utc": "2026-09-03T22:03:07Z",
+      "operation": "query",
+      "command": "brief",
+      "result_status": "passed",
+      "evidence_paths": [
+        "machine/agent-packs/pack-20260903-220307-078733-01.json",
+        "machine/agent-packs/pack-20260903-220307-078733-01.md"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-214a4a01413e5ed792cced92c67032ec",
+      "recorded_at_utc": "2026-09-03T22:38:06Z",
+      "operation": "query",
+      "command": "status",
+      "result_status": "in-progress",
+      "evidence_paths": []
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-d431bc23193a5810ba7354e19e3ceb2b",
+      "recorded_at_utc": "2026-09-04T00:19:38Z",
       "operation": "query",
       "command": "status",
       "result_status": "complete",
@@ -181,80 +151,141 @@
     },
     {
       "schema_version": 1,
-      "event_id": "operation-338ba4d9a69653ac9a1ff5063b00867f",
-      "recorded_at_utc": "2026-09-03T01:47:10Z",
+      "event_id": "operation-721f1e73c4bb5c239936e3a4efd7454a",
+      "recorded_at_utc": "2026-09-04T00:20:45Z",
       "operation": "query",
       "command": "brief",
       "result_status": "passed",
       "evidence_paths": [
-        "machine/agent-packs/pack-20260903-014710-228667-01.json",
-        "machine/agent-packs/pack-20260903-014710-228667-01.md"
+        "machine/agent-packs/pack-20260904-002045-375689-01.json",
+        "machine/agent-packs/pack-20260904-002045-375689-01.md"
       ]
     },
     {
       "schema_version": 1,
-      "event_id": "operation-b8fc2c2021bd57d6ac4385b898eceab7",
-      "recorded_at_utc": "2026-09-03T01:47:25Z",
-      "operation": "audit",
-      "command": "gaps:audit",
-      "result_status": "failed",
-      "evidence_paths": []
-    },
-    {
-      "schema_version": 1,
-      "event_id": "operation-4c71af24ddca522ead3114a499c5b1f2",
-      "recorded_at_utc": "2026-09-03T01:47:41Z",
-      "operation": "audit",
-      "command": "gaps:audit",
+      "event_id": "operation-b8994380490c540daf5b5e4cf3267431",
+      "recorded_at_utc": "2026-09-04T00:20:46Z",
+      "operation": "query",
+      "command": "brief",
       "result_status": "passed",
-      "evidence_paths": []
+      "evidence_paths": [
+        "machine/agent-packs/pack-20260904-002046-283267-01.json",
+        "machine/agent-packs/pack-20260904-002046-283267-01.md"
+      ]
     },
     {
       "schema_version": 1,
-      "event_id": "operation-738d8d2390db51479e63734ec2d802ad",
-      "recorded_at_utc": "2026-09-03T01:48:25Z",
+      "event_id": "operation-e0c918045d7c5dcc902206e04a507d2f",
+      "recorded_at_utc": "2026-09-04T00:21:54Z",
       "operation": "record",
       "command": "record:change",
       "result_status": "agent-reviewed",
       "evidence_paths": [
-        "human/changes/调整管理对话绑定的阻塞边界.md",
-        "markdown/changes/调整管理对话绑定的阻塞边界.md"
+        "human/changes/完善无项目指令检索与范围外源码确认.md",
+        "markdown/changes/完善无项目指令检索与范围外源码确认.md"
       ]
     },
     {
       "schema_version": 1,
-      "event_id": "operation-4bb349e86756545690979efdc13a1ae2",
-      "recorded_at_utc": "2026-09-03T01:50:06Z",
+      "event_id": "operation-1d4e3f6e50035b32963dc5fe9858990d",
+      "recorded_at_utc": "2026-09-04T00:22:00Z",
+      "operation": "record",
+      "command": "record:experiment",
+      "result_status": "agent-reviewed",
+      "evidence_paths": [
+        "human/experiments/研究缺口对账与新增特性增强效果.md",
+        "markdown/experiments/研究缺口对账与新增特性增强效果.md"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-68f87cd464415ee98a929edb6b37f41c",
+      "recorded_at_utc": "2026-09-04T00:22:46Z",
+      "operation": "maintenance",
+      "command": "maintain",
+      "result_status": "failed",
+      "evidence_paths": [
+        "workspace-meta/maintenance/latest.json"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-d2c4741e2a485cd5bd2dcbde9517f63c",
+      "recorded_at_utc": "2026-09-04T00:22:47Z",
       "operation": "compile",
-      "command": "relink",
+      "command": "migrate:audit",
       "result_status": "passed",
       "evidence_paths": []
     },
     {
       "schema_version": 1,
-      "event_id": "operation-1f23cbc468a650048bb14f7d23b463a1",
-      "recorded_at_utc": "2026-09-03T01:50:11Z",
+      "event_id": "operation-3836273c2af1529f86937f55d153d542",
+      "recorded_at_utc": "2026-09-04T01:45:52Z",
+      "operation": "query",
+      "command": "entity",
+      "result_status": "passed",
+      "evidence_paths": []
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-adc7cd6ac9d15cfbb2dfbe689a57d6aa",
+      "recorded_at_utc": "2026-09-04T01:47:02Z",
+      "operation": "maintenance",
+      "command": "maintain",
+      "result_status": "passed",
+      "evidence_paths": [
+        "workspace-meta/maintenance/latest.json"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-d745704cbdf75d5dafa6aca94e7ba352",
+      "recorded_at_utc": "2026-09-04T01:47:53Z",
       "operation": "query",
       "command": "brief",
       "result_status": "passed",
       "evidence_paths": [
-        "machine/agent-packs/pack-20260903-015011-551395-01.json",
-        "machine/agent-packs/pack-20260903-015011-551395-01.md"
+        "machine/agent-packs/pack-20260904-014753-338587-01.json",
+        "machine/agent-packs/pack-20260904-014753-338587-01.md"
       ]
     },
     {
       "schema_version": 1,
-      "event_id": "operation-3b20ffb7de66519b8a2bb8a678f640d1",
-      "recorded_at_utc": "2026-09-03T01:50:13Z",
-      "operation": "audit",
-      "command": "reference:audit",
-      "result_status": "passed",
+      "event_id": "operation-c9d1fcd4735756a5b51fa37ef5fb69d0",
+      "recorded_at_utc": "2026-09-04T01:47:54Z",
+      "operation": "query",
+      "command": "gaps:list",
+      "result_status": "ready",
       "evidence_paths": []
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-fa409e05a23f5eb1beff6c33dda3b9a2",
+      "recorded_at_utc": "2026-09-04T02:00:14Z",
+      "operation": "query",
+      "command": "brief",
+      "result_status": "passed",
+      "evidence_paths": [
+        "machine/agent-packs/pack-20260904-020013-535586-01.json",
+        "machine/agent-packs/pack-20260904-020013-535586-01.md"
+      ]
+    },
+    {
+      "schema_version": 1,
+      "event_id": "operation-f7fd9a74453d59ce8fddb7f451679421",
+      "recorded_at_utc": "2026-09-04T02:06:39Z",
+      "operation": "query",
+      "command": "brief",
+      "result_status": "passed",
+      "evidence_paths": [
+        "machine/agent-packs/pack-20260904-020639-028774-01.json",
+        "machine/agent-packs/pack-20260904-020639-028774-01.md"
+      ]
     }
   ],
   "bounded_drops": {
     "size_or_count": 0,
     "retention": 0,
-    "deduplicated": 601
+    "deduplicated": 651
   }
 }

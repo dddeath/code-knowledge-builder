@@ -3,144 +3,12 @@
   "pack_id": "migrated-appendix-review-pack-0006",
   "kind": "appendix-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-03T01:38:48Z",
+  "reviewed_at_utc": "2026-09-03T22:05:38Z",
   "reviews": [
     {
-      "entity_id": "ent-a4acd4b33e9754b3b6aaea8c28776e4d",
+      "entity_id": "ent-c2f89660022753039717decbe91f5290",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
-      "source_path": "scripts/ckb_core/automation.py",
-      "start_line": 277,
-      "end_line": 294,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 277 至 294 行；摘录与 Git blob 44ab87d410ff 一致。",
-      "description_zh": "`_registration_for_event` 完成多 Harness 会话自动化中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-8acdbf274504557ea7a2243cd6d56c90",
-      "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
-      "source_path": "scripts/ckb_core/automation.py",
-      "start_line": 297,
-      "end_line": 325,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 297 至 325 行；摘录与 Git blob 44ab87d410ff 一致。",
-      "description_zh": "`_event_path_text` 完成多 Harness 会话自动化中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-b16a655440f95d0d9a16d25454c3102c",
-      "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
-      "source_path": "scripts/ckb_core/automation.py",
-      "start_line": 328,
-      "end_line": 336,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 328 至 336 行；摘录与 Git blob 44ab87d410ff 一致。",
-      "description_zh": "`_walk_values` 完成多 Harness 会话自动化中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-cc743e0938945959a3f5250ed3cef0af",
-      "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
-      "source_path": "scripts/ckb_core/automation.py",
-      "start_line": 339,
-      "end_line": 356,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 339 至 356 行；摘录与 Git blob 44ab87d410ff 一致。",
-      "description_zh": "`_first_scalar` 完成多 Harness 会话自动化中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-34e37305d9775b8db73955df8deb30a3",
-      "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
-      "source_path": "scripts/ckb_core/automation.py",
-      "start_line": 359,
-      "end_line": 374,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 359 至 374 行；摘录与 Git blob 44ab87d410ff 一致。",
-      "description_zh": "`_text_content` 完成多 Harness 会话自动化中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-c9992e5109285bbebd91db7f684176ba",
-      "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
-      "source_path": "scripts/ckb_core/automation.py",
-      "start_line": 377,
-      "end_line": 385,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 377 至 385 行；摘录与 Git blob 44ab87d410ff 一致。",
-      "description_zh": "`_event_name` 完成多 Harness 会话自动化中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-691b2be5ed3f5a3ba1cb5afbc6a32b5a",
-      "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
-      "source_path": "scripts/ckb_core/automation.py",
-      "start_line": 388,
-      "end_line": 389,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 388 至 389 行；摘录与 Git blob 44ab87d410ff 一致。",
-      "description_zh": "`_message_role` 完成多 Harness 会话自动化中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-82159cd672df5c57bf07695672340bd1",
-      "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
-      "source_path": "scripts/ckb_core/automation.py",
-      "start_line": 392,
-      "end_line": 394,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 392 至 394 行；摘录与 Git blob 44ab87d410ff 一致。",
-      "description_zh": "`_normalized_skill_name` 解析并归一化多 Harness 会话自动化所需的数据或状态。"
-    },
-    {
-      "entity_id": "ent-870e37e30779587dbde09cce0e8b9fe8",
-      "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
-      "source_path": "scripts/ckb_core/automation.py",
-      "start_line": 397,
-      "end_line": 414,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 397 至 414 行；摘录与 Git blob 44ab87d410ff 一致。",
-      "description_zh": "`_skill_name` 完成多 Harness 会话自动化中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-f97c3371799d5f6f97ce0450b54e57de",
-      "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
-      "source_path": "scripts/ckb_core/automation.py",
-      "start_line": 417,
-      "end_line": 464,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 417 至 464 行；摘录与 Git blob 44ab87d410ff 一致。",
-      "description_zh": "`_canonical_type` 完成多 Harness 会话自动化中的一个明确步骤。"
-    },
-    {
-      "entity_id": "ent-40ffe2c1abeb5c4c816c4ca5d4c525a8",
-      "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
-      "source_path": "scripts/ckb_core/automation.py",
-      "start_line": 467,
-      "end_line": 477,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 467 至 477 行；摘录与 Git blob 44ab87d410ff 一致。",
-      "description_zh": "`_extract_paths` 解析并归一化多 Harness 会话自动化所需的数据或状态。"
-    },
-    {
-      "entity_id": "ent-8bf849508564577394cc7622d77572b3",
-      "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
-      "source_path": "scripts/ckb_core/automation.py",
-      "start_line": 480,
-      "end_line": 556,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 480 至 556 行；摘录与 Git blob 44ab87d410ff 一致。",
-      "description_zh": "`normalize_event` 解析并归一化多 Harness 会话自动化所需的数据或状态。"
-    },
-    {
-      "entity_id": "ent-bddb31cb4147563da5557806087b5a98",
-      "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 559,
       "end_line": 583,
@@ -149,9 +17,9 @@
       "description_zh": "`_redact_text` 完成多 Harness 会话自动化中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-f6b1230d34a35e159500493dbbd1b17c",
+      "entity_id": "ent-823a0f21edbb5c5c90551df72219d43a",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 586,
       "end_line": 609,
@@ -160,9 +28,9 @@
       "description_zh": "`redact_event` 完成多 Harness 会话自动化中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-2221b5915ada5e1c824403409ffa028d",
+      "entity_id": "ent-dcfa9f9f20875b958d20236916214f7f",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 590,
       "end_line": 604,
@@ -171,9 +39,9 @@
       "description_zh": "`redact` 完成多 Harness 会话自动化中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-d7dd0ce74db7508fb37ddcf74a67d6b6",
+      "entity_id": "ent-02f8ac2d55915293ab555eabec79f96d",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 612,
       "end_line": 616,
@@ -182,9 +50,9 @@
       "description_zh": "`_automation_root` 完成多 Harness 会话自动化中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-380b1ace804b5518b0894ebd73bc05a8",
+      "entity_id": "ent-a7bbf534646154e69722db8aa74e3e22",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 619,
       "end_line": 731,
@@ -193,9 +61,9 @@
       "description_zh": "`initialize_automation_database` 创建并初始化多 Harness 会话自动化所需的数据或状态。"
     },
     {
-      "entity_id": "ent-78fe311467d950669f7b76a99af04628",
+      "entity_id": "ent-5c0082504c295347ab32cd3df49f8115",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 734,
       "end_line": 754,
@@ -204,9 +72,9 @@
       "description_zh": "`_git_status_paths` 完成多 Harness 会话自动化中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-9e0b07ce286a51d69169447ae27080c4",
+      "entity_id": "ent-4db3b9aeaaad5a12b892b3a9f01daee5",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 757,
       "end_line": 759,
@@ -215,9 +83,9 @@
       "description_zh": "`_change_path_allowed` 完成多 Harness 会话自动化中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-79e62959f3f85dbe82646ede1df7ac8e",
+      "entity_id": "ent-013baebbe6cf5d22a7b2c9e40ecdd858",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 762,
       "end_line": 777,
@@ -226,9 +94,9 @@
       "description_zh": "`_working_file_state` 完成多 Harness 会话自动化中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-c6f9704cdf8a57bea02463c0e2d8f7ec",
+      "entity_id": "ent-cc12f98403d25b0f9e040eaad7c28c1d",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 780,
       "end_line": 811,
@@ -237,9 +105,9 @@
       "description_zh": "`_relative_changed_paths` 完成多 Harness 会话自动化中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-3a49fcee03db5c9993f1a0126e60469a",
+      "entity_id": "ent-597496c7474752ea8a4e967a1085a68d",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 815,
       "end_line": 842,
@@ -248,9 +116,9 @@
       "description_zh": "`_drain_lock` 完成多 Harness 会话自动化中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-2b6b0a8f9533560c812579cd70fae553",
+      "entity_id": "ent-be76fcd057d45ec9aa8f6391c712c302",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 845,
       "end_line": 852,
@@ -259,9 +127,9 @@
       "description_zh": "`enqueue_event` 完成多 Harness 会话自动化中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-6b72b31cf6715f3f86f60c6cc10cd57a",
+      "entity_id": "ent-4c35f18ea8af5a30bf2a8ff655fcf435",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 855,
       "end_line": 856,
@@ -270,9 +138,9 @@
       "description_zh": "`_spool_events` 完成多 Harness 会话自动化中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-f5f88339be8a51358938b00691cf976f",
+      "entity_id": "ent-721d92fdda7a5b92ba7f9f0e6f530742",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 859,
       "end_line": 860,
@@ -281,9 +149,9 @@
       "description_zh": "`_session_key` 完成多 Harness 会话自动化中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-023a3764e7ad536baf53ac9846c1eeb1",
+      "entity_id": "ent-74c8570deb195d19910c831ecbdfb4fd",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 863,
       "end_line": 868,
@@ -292,9 +160,9 @@
       "description_zh": "`default_session_id` 完成多 Harness 会话自动化中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-9656d2abfd4e55109b88c6c40ab98b2a",
+      "entity_id": "ent-ce18ef9391465086a58b99feeb30eaaa",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 871,
       "end_line": 872,
@@ -303,9 +171,9 @@
       "description_zh": "`_activation_key` 完成多 Harness 会话自动化中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-af4411836f2a55d8ae62b98039161b5e",
+      "entity_id": "ent-30f5ac932981588ebe7727115b527eed",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 875,
       "end_line": 912,
@@ -314,9 +182,9 @@
       "description_zh": "`_record_skill_activation` 登记并持久化多 Harness 会话自动化所需的数据或状态。"
     },
     {
-      "entity_id": "ent-bc59e7425ef1539da557bd8b03311a2c",
+      "entity_id": "ent-8a8027ff4a6a502dbdac63d4622149a2",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 915,
       "end_line": 929,
@@ -325,9 +193,9 @@
       "description_zh": "`_skill_activation` 完成多 Harness 会话自动化中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-af093f3f55ed5a4dafacbbf6dda2b123",
+      "entity_id": "ent-7bc59e85ada85221aaeeb8532895e249",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 932,
       "end_line": 981,
@@ -336,9 +204,9 @@
       "description_zh": "`activate_skill_session` 登记并持久化多 Harness 会话自动化所需的数据或状态。"
     },
     {
-      "entity_id": "ent-b691dc5a254b526db6c8d6b04ef54afc",
+      "entity_id": "ent-b417013ae2a3505a9777586d8151c8e6",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 984,
       "end_line": 996,
@@ -347,9 +215,9 @@
       "description_zh": "`_remove_skill_activation` 受控释放或回滚多 Harness 会话自动化所需的数据或状态。"
     },
     {
-      "entity_id": "ent-57d1023417bf5ed9a35e31e7ef8f4d20",
+      "entity_id": "ent-ff989945bfb1590c905023a19d445aed",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 999,
       "end_line": 1009,
@@ -358,9 +226,9 @@
       "description_zh": "`_explicit_skill_application` 完成多 Harness 会话自动化中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-bbecfe3bb19357758a9e079b0c8099e9",
+      "entity_id": "ent-f72f97b8e9bc51b982d7ac5ae5568c33",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 1012,
       "end_line": 1041,
@@ -369,9 +237,9 @@
       "description_zh": "`_ensure_session` 完成多 Harness 会话自动化中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-3f6163bc5a1c561eb82383324f2ec245",
+      "entity_id": "ent-09434887074f58ccae311a4d1d33262b",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 1044,
       "end_line": 1097,
@@ -380,9 +248,9 @@
       "description_zh": "`_resolve_turn` 完成多 Harness 会话自动化中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-a02e525791a650c5a9319453990bfcea",
+      "entity_id": "ent-5e26862ce0745c199935dc1edd967b1d",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 1100,
       "end_line": 1121,
@@ -391,9 +259,9 @@
       "description_zh": "`_event_id` 完成多 Harness 会话自动化中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-d3145ee5cbd853aeb42c31fd920f70a3",
+      "entity_id": "ent-9d3d6993c3e057618f7b8ea84af7db8b",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 1124,
       "end_line": 1150,
@@ -402,9 +270,9 @@
       "description_zh": "`_pending_review_content` 完成多 Harness 会话自动化中的一个明确步骤。"
     },
     {
-      "entity_id": "ent-b716932e0eb450fcb7855acc55de9c6f",
+      "entity_id": "ent-026e798adb735c7eab60ae088179c90d",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 1153,
       "end_line": 1226,
@@ -413,15 +281,103 @@
       "description_zh": "`_create_pending_review` 创建并初始化多 Harness 会话自动化所需的数据或状态。"
     },
     {
-      "entity_id": "ent-c11fc13b6e5353af9afb36a4ff29e739",
+      "entity_id": "ent-e1d52574342958e0a0b99b99b277f502",
       "classification": "appendix",
-      "owner_page_id": "file-49c082b519b85d5f972b444e83a6e1b0",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
       "source_path": "scripts/ckb_core/automation.py",
       "start_line": 1229,
       "end_line": 1315,
       "status": "agent-reviewed",
       "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 1229 至 1315 行；摘录与 Git blob 44ab87d410ff 一致。",
       "description_zh": "`_process_event` 完成多 Harness 会话自动化中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-9d788fa65fc0557d9788ec6e28cb76f0",
+      "classification": "appendix",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 1318,
+      "end_line": 1364,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 1318 至 1364 行；摘录与 Git blob 44ab87d410ff 一致。",
+      "description_zh": "`drain_automation` 完成多 Harness 会话自动化中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-b6669f3fcb335a3985bfcf39743ff573",
+      "classification": "appendix",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 1367,
+      "end_line": 1381,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 1367 至 1381 行；摘录与 Git blob 44ab87d410ff 一致。",
+      "description_zh": "`retry_failed_automation` 完成多 Harness 会话自动化中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-7adb86209ebd5b54958154e9b56c038a",
+      "classification": "appendix",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 1384,
+      "end_line": 1393,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 1384 至 1393 行；摘录与 Git blob 44ab87d410ff 一致。",
+      "description_zh": "`_hook_context` 完成多 Harness 会话自动化中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-a91d35ef1eb053bdb444208e441d83d3",
+      "classification": "appendix",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 1396,
+      "end_line": 1408,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 1396 至 1408 行；摘录与 Git blob 44ab87d410ff 一致。",
+      "description_zh": "`_hook_output` 完成多 Harness 会话自动化中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-86000e5a85fe5bedb887635dc80ecf75",
+      "classification": "appendix",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 1540,
+      "end_line": 1573,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 1540 至 1573 行；摘录与 Git blob 44ab87d410ff 一致。",
+      "description_zh": "`automation_status` 完成多 Harness 会话自动化中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-76b1843ab8da596cb24d4681cd7a09b1",
+      "classification": "appendix",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 1576,
+      "end_line": 1598,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 1576 至 1598 行；摘录与 Git blob 44ab87d410ff 一致。",
+      "description_zh": "`pending_automation_reviews` 完成多 Harness 会话自动化中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-6bb8221189125452ab13bd27ce004bfd",
+      "classification": "appendix",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 1601,
+      "end_line": 1641,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 1601 至 1641 行；摘录与 Git blob 44ab87d410ff 一致。",
+      "description_zh": "`write_automation_review_template` 生成并写入多 Harness 会话自动化所需的数据或状态。"
+    },
+    {
+      "entity_id": "ent-2555b85556e95f76bf43e300c22acbf5",
+      "classification": "appendix",
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 1644,
+      "end_line": 1652,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 1644 至 1652 行；摘录与 Git blob 44ab87d410ff 一致。",
+      "description_zh": "`_heading_errors` 完成多 Harness 会话自动化中的一个明确步骤。"
     }
   ]
 }

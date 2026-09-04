@@ -17,15 +17,15 @@
 - 主要代码单元是 [[DriftAndAvailabilityTests]]。
 - 实现时会用到 [[_Transport.close]]。
 - 实现时会用到 [[append]]。
-- 实现时会用到 [[benchmark 的协作边界（10621f79）]]。
-- 实现时会用到 [[benchmark 的协作边界（9fab5b96）]]。
+- 实现时会用到 [[benchmark 的协作边界（e30cfb0a）]]。
+- 实现时会用到 [[benchmark 的协作边界（prototypes）]]。
 - 实现时会用到 [[ingest 与 connect 的协作实现]]。
 
 ## 谁会来到这里
 
-- [[benchmark 的协作边界（10621f79）]] 关联到这里的验证场景。
-- [[benchmark 的协作边界（9fab5b96）]] 关联到这里的验证场景。
-- [[contracts 的协作边界（743c915d）]] 关联到这里的验证场景。
+- [[benchmark 的协作边界（e30cfb0a）]] 关联到这里的验证场景。
+- [[benchmark 的协作边界（prototypes）]] 关联到这里的验证场景。
+- [[contracts 的协作边界（959fe0e0）]] 关联到这里的验证场景。
 - 可从 [[tests 职责导览]] 进入本页。
 
 ## 内部细节

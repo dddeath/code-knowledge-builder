@@ -1,0 +1,24 @@
+{
+  "schema_version": 4,
+  "pack_id": "delta-page-review-pack-0005",
+  "kind": "page-review",
+  "reviewer": "Agent",
+  "reviewed_at_utc": null,
+  "reviews": [
+    {
+      "entity_id": "ent-2c054d4d13df597aa3aed31b2a805ddc",
+      "classification": "page",
+      "owner_page_id": "ent-2c054d4d13df597aa3aed31b2a805ddc",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 1827,
+      "end_line": 1852,
+      "source_blob": "c2232fa60fc96e60f72ed5ccc9af69463e248517",
+      "source_excerpt": "def retrieve_machine(\n    output: Path,\n    question: str,\n    budget: int = 1500,\n    entity_limit: int = 8,\n    profile: str = \"fast\",\n    *,\n    keyword_fallback: KeywordFallbackOptions | None = None,\n) -> dict[str, Any]:\n    \"\"\"Retrieve fixed facts, attach currentness, then assess a bounded scope offer.\"\"\"\n\n    result = _retrieve_machine_without_freshness(\n        output,\n        question,\n        budget,\n        entity_limit,\n        profile,\n        keyword_fallback=keyword_fallback,\n    )\n    from .freshness import attach_freshness_to_retrieval, check_fact_freshness\n\n    freshness = check_fact_freshness(output, trigger=\"first-query\")\n    guarded = attach_freshness_to_retrieval(output, result, freshness)\n    from .scope_extension import attach_scope_extension_offer\n\n    return attach_scope_extension_offer(output, guarded)",
+      "status": "draft",
+      "evidence_note": "",
+      "meaning_zh": "",
+      "role_zh": "",
+      "change_when_zh": ""
+    }
+  ]
+}

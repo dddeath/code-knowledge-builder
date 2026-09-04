@@ -1,0 +1,69 @@
+{
+  "schema_version": 4,
+  "pack_id": "delta-appendix-review-pack-0011",
+  "kind": "appendix-review",
+  "reviewer": "管理 Agent",
+  "reviewed_at_utc": "2026-09-03T22:43:20Z",
+  "reviews": [
+    {
+      "entity_id": "ent-105606e78d675ddba35604aced7a6983",
+      "classification": "appendix",
+      "owner_page_id": "ent-90dc9edd726754cca281bcc38bd78e18",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 970,
+      "end_line": 1001,
+      "source_blob": "9ec40376466c089d525a8636e97fe8c7499a4ce5",
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `tests/test_ckb.py` 第 970-1001 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "description_zh": "该测试验证“fast run can bootstrap non gi…”场景，保护CKB 核心合同回归验证的预期结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-32001c128de45adaaa985ad109773422",
+      "classification": "appendix",
+      "owner_page_id": "ent-90dc9edd726754cca281bcc38bd78e18",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 1003,
+      "end_line": 1101,
+      "source_blob": "9ec40376466c089d525a8636e97fe8c7499a4ce5",
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `tests/test_ckb.py` 第 1003-1101 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "description_zh": "该测试验证“feedback anchor mirroring aud…”场景，保护CKB 核心合同回归验证的预期结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-b7dfc328eeac5395ba8b08e0fcf0f0f5",
+      "classification": "appendix",
+      "owner_page_id": "ent-90dc9edd726754cca281bcc38bd78e18",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 1103,
+      "end_line": 1143,
+      "source_blob": "9ec40376466c089d525a8636e97fe8c7499a4ce5",
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `tests/test_ckb.py` 第 1103-1143 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "description_zh": "该测试验证“work record index covers ever…”场景，保护CKB 核心合同回归验证的预期结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-0ecab516a54754e1b994122885e9e013",
+      "classification": "appendix",
+      "owner_page_id": "ent-90dc9edd726754cca281bcc38bd78e18",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 1145,
+      "end_line": 1691,
+      "source_blob": "9ec40376466c089d525a8636e97fe8c7499a4ce5",
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `tests/test_ckb.py` 第 1145-1691 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "description_zh": "该测试验证“markdown whole repository and…”场景，保护CKB 核心合同回归验证的预期结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-2675379a3ea45dd6a580d32475e5b9cd",
+      "classification": "appendix",
+      "owner_page_id": "ent-90dc9edd726754cca281bcc38bd78e18",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 1693,
+      "end_line": 1709,
+      "source_blob": "9ec40376466c089d525a8636e97fe8c7499a4ce5",
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `tests/test_ckb.py` 第 1693-1709 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "description_zh": "该测试验证“local scope has one hop bound…”场景，保护CKB 核心合同回归验证的预期结果与失败边界。"
+    }
+  ]
+}

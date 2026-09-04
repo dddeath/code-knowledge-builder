@@ -26,6 +26,7 @@
 - [[CkbError]] 关联到这里的验证场景。
 - [[CkbError 与 DependencyError 的协作实现]] 关联到这里的验证场景。
 - [[KeywordFallbackRetrievalWiringTests 等测试场景]] 关联到这里的验证场景。
+- [[ScopeExtensionOfferTests.retrieval]] 关联到这里的验证场景。
 - [[SourceLinkRenderer.uri]] 关联到这里的验证场景。
 - [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]] 关联到这里的验证场景。
 - [[_Transport.close]] 关联到这里的验证场景。
@@ -36,15 +37,15 @@
 - [[build_case 等测试场景]] 关联到这里的验证场景。
 - [[ckb_canvas 的协作边界]] 关联到这里的验证场景。
 - [[command]] 关联到这里的验证场景。
-- [[contracts 的协作边界（36093e4a）]] 关联到这里的验证场景。
-- [[contracts 的协作边界（743c915d）]] 关联到这里的验证场景。
+- [[contracts 的协作边界（959fe0e0）]] 关联到这里的验证场景。
+- [[contracts 的协作边界（prototypes）]] 关联到这里的验证场景。
 - [[create_batch_plan]] 关联到这里的验证场景。
 - [[create_batch_plan 与 ProtocolRelease 的协作实现]] 关联到这里的验证场景。
 - [[finalize]] 关联到这里的验证场景。
 - [[ingest]] 关联到这里的验证场景。
 - [[ingest 与 connect 的协作实现]] 关联到这里的验证场景。
 - [[module_name 与 estimated_tokens 的协作实现]] 关联到这里的验证场景。
-- [[render_integration 与 _looks_windows 的协作实现]] 关联到这里的验证场景。
+- [[render_integration 与 harness_retrieval_contract 的协作实现]] 关联到这里的验证场景。
 - [[retrieve]] 关联到这里的验证场景。
 - [[retrieve 与 _tokens 的协作实现]] 关联到这里的验证场景。
 - [[search_terms]] 关联到这里的验证场景。

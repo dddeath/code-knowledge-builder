@@ -18,8 +18,10 @@
 
 ## 谁会来到这里
 
+- [[run_benchmark]] 会使用这里提供的行为。
 - [[web_input_adapter_contract 与 ReferenceInputRequest 的协作实现]] 汇总了本页。
 
 ## 相关测试
 
 - [[PdfReferenceExtractionTests]]
+- [[run_benchmark]]

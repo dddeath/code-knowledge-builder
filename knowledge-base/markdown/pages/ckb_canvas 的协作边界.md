@@ -12,10 +12,10 @@
 
 ## 相关代码
 
-- 实现时会用到 [[benchmark 的协作边界（prototypes）]]。
+- 实现时会用到 [[benchmark 的协作边界（16d95d34）]]。
 - 实现时会用到 [[command]]。
 - 实现时会用到 [[commands 的协作边界]]。
-- 实现时会用到 [[contracts 的协作边界（36093e4a）]]。
+- 实现时会用到 [[contracts 的协作边界（prototypes）]]。
 - 实现时会用到 [[parser]]。
 - 实现时会用到 [[validate]]。
 
@@ -26,12 +26,13 @@
 - [[HumanPageTemplateRegistryTests]] 会使用这里提供的行为。
 - [[HumanPageTemplateRegistryTests 等测试场景]] 会使用这里提供的行为。
 - [[KeywordFallbackRetrievalWiringTests 等测试场景]] 会使用这里提供的行为。
+- [[ScopeExtensionOfferTests.retrieval 等测试场景]] 会使用这里提供的行为。
 - [[_Transport.close]] 会使用这里提供的行为。
 - [[_Transport.close 与 _StartGate 的协作实现]] 会使用这里提供的行为。
 - [[append 等测试场景]] 会使用这里提供的行为。
 - [[audit_agent_protocol 与 _default_python 的协作实现]] 会使用这里提供的行为。
 - [[audit_feedback 与 _contains_chinese 的协作实现]] 会使用这里提供的行为。
-- [[benchmark 的协作边界（9fab5b96）]] 会使用这里提供的行为。
+- [[benchmark 的协作边界（e30cfb0a）]] 会使用这里提供的行为。
 - [[bind_conversation]] 会使用这里提供的行为。
 - [[bind_conversation 与 default_management_registry_path 的协作实现]] 会使用这里提供的行为。
 - [[check_fact_freshness]] 会使用这里提供的行为。
@@ -48,9 +49,10 @@
 - [[parse_file 与 _language 的协作实现]] 会使用这里提供的行为。
 - [[parser]] 会使用这里提供的行为。
 - [[propose_template 与 _canonical_bytes 的协作实现]] 会使用这里提供的行为。
-- [[render_integration 与 _looks_windows 的协作实现]] 会使用这里提供的行为。
+- [[render_integration 与 harness_retrieval_contract 的协作实现]] 会使用这里提供的行为。
 - [[render_page_author 与 _error 的协作实现]] 会使用这里提供的行为。
 - [[replace_note]] 会使用这里提供的行为。
+- [[run_benchmark 等测试场景]] 会使用这里提供的行为。
 - [[run_keyword_benchmark]] 会使用这里提供的行为。
 - [[run_keyword_provider 与 KeywordProviderConfig 的协作实现]] 会使用这里提供的行为。
 - [[serve_stdio]] 会使用这里提供的行为。

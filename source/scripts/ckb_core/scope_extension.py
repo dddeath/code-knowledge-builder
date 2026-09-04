@@ -6,6 +6,7 @@ import hashlib
 import json
 import gc
 from pathlib import Path, PurePosixPath
+import re
 import shutil
 import sqlite3
 from typing import Any
@@ -25,10 +26,19 @@ from .pipeline import build_chunk, finalize, initialize, status as pipeline_stat
 
 
 SCOPE_EXTENSION_SCHEMA_VERSION = 1
+SCOPE_EXTENSION_OFFER_SCHEMA_VERSION = 1
 STATE_RELATIVE = Path("scope-extension/state.json")
 PLAN_RELATIVE = Path("scope-extension/plan.json")
 AUDIT_RELATIVE = Path("scope-extension/audit.json")
 SUPPORTED_LANGUAGES = tuple(sorted(set(LANGUAGE_BY_SUFFIX.values())))
+_ENTRY_CANDIDATE = re.compile(
+    r"(?<![A-Za-z0-9_])(?:c|cpp|csharp|javascript|python):[^\s`，。；;！？!?]+#[A-Za-z_][A-Za-z0-9_.$:<>-]*",
+    flags=re.IGNORECASE,
+)
+_PATH_CANDIDATE = re.compile(
+    r"(?<![A-Za-z0-9_.-])(?:[A-Za-z]:[\\/]|[\\/])?(?:[A-Za-z0-9_.-]+[\\/])*[A-Za-z0-9_.-]+\.(?:c|h|cc|cpp|cxx|hpp|js|mjs|cjs|py|cs)(?![A-Za-z0-9_])",
+    flags=re.IGNORECASE,
+)
 
 
 def _error(category: str, message: str) -> CkbError:
@@ -44,14 +54,409 @@ def _canonical_entry(value: str) -> str:
         raise _error("entry-shape", f"new entry must use LANGUAGE:PATH#QUALIFIED_NAME: {value}")
     language, path = left.split(":", 1)
     language = language.strip().casefold()
-    normalized_path = PurePosixPath(path.replace("\\", "/").strip("/"))
+    raw_path = path.replace("\\", "/")
+    normalized_path = PurePosixPath(raw_path.strip("/"))
     if language not in SUPPORTED_LANGUAGES:
         raise _error("unsupported-language", f"entry language is not supported: {language}")
-    if not path or normalized_path.is_absolute() or ".." in normalized_path.parts:
+    if (
+        not path
+        or raw_path.startswith("/")
+        or re.match(r"^[A-Za-z]:/", raw_path)
+        or normalized_path.is_absolute()
+        or ".." in normalized_path.parts
+    ):
         raise _error("entry-path", f"entry path must be a repository-relative source path: {path}")
     if not qualified.strip():
         raise _error("entry-qualified-name", "entry qualified name must not be empty")
     return f"{language}:{normalized_path.as_posix()}#{qualified.strip()}"
+
+
+def _scope_offer_diagnostic(code: str, message_zh: str, candidates: list[str]) -> dict[str, Any]:
+    return {
+        "schema_version": SCOPE_EXTENSION_OFFER_SCHEMA_VERSION,
+        "status": "not-offered",
+        "code": code,
+        "message_zh": message_zh,
+        "candidates": candidates[:8],
+    }
+
+
+def _explicit_scope_candidates(question: str) -> list[str]:
+    """Extract only bounded source selectors explicitly present in one question."""
+
+    if not isinstance(question, str) or not question.strip():
+        return []
+    candidates: list[str] = []
+    masked = question
+    for match in reversed(list(_ENTRY_CANDIDATE.finditer(question))):
+        candidates.append(match.group(0))
+        masked = masked[: match.start()] + (" " * (match.end() - match.start())) + masked[match.end() :]
+    for match in _PATH_CANDIDATE.finditer(masked):
+        candidates.append(match.group(0))
+    return list(dict.fromkeys(value.strip("`'\"()[]{}<>，。；;！？!?") for value in candidates if value.strip()))
+
+
+def _canonical_candidate_path(value: str) -> str:
+    raw = value.strip().replace("\\", "/")
+    if re.match(r"^[A-Za-z]:/", raw) or raw.startswith("/"):
+        raise _error("offer-path", "scope offer path must be repository-relative")
+    normalized = PurePosixPath(raw.strip("/"))
+    if not raw or normalized.is_absolute() or ".." in normalized.parts or "." in normalized.parts:
+        raise _error("offer-path", "scope offer path must be a bounded repository-relative path")
+    return normalized.as_posix()
+
+
+def _catalog_file_records(catalog: dict[str, Any]) -> list[dict[str, Any]]:
+    records: list[dict[str, Any]] = []
+    for item in catalog.get("files") or []:
+        value = item.get("file") if isinstance(item, dict) else None
+        if isinstance(value, dict) and value.get("path"):
+            records.append(value)
+    return records
+
+
+def _resolve_scope_offer_selector(
+    candidate: str,
+    catalog: dict[str, Any],
+    scope: dict[str, Any],
+) -> tuple[dict[str, Any] | None, dict[str, Any] | None]:
+    """Resolve one explicit candidate to the existing scope-extend entry shape."""
+
+    entities = [
+        item
+        for item in catalog.get("entities") or []
+        if isinstance(item, dict) and item.get("kind") != "file"
+    ]
+    files = _catalog_file_records(catalog)
+    file_by_path = {str(item.get("path")): item for item in files}
+    try:
+        if "#" in candidate:
+            canonical = _canonical_entry(candidate)
+            left, qualified = canonical.split("#", 1)
+            language, path = left.split(":", 1)
+            matches = [
+                item
+                for item in entities
+                if item.get("language") == language
+                and (
+                    item.get("path") == path
+                    or any(fragment.get("path") == path for fragment in item.get("fragments") or [])
+                )
+                and item.get("qualified_name") == qualified
+            ]
+        else:
+            path = _canonical_candidate_path(candidate)
+            matched_paths = sorted(
+                value for value in file_by_path if value == path or value.startswith(path + "/")
+            )
+            if not matched_paths:
+                return None, _scope_offer_diagnostic(
+                    "no-fixed-git-evidence",
+                    "候选路径不属于知识库绑定提交中的受支持、已跟踪源码。",
+                    [candidate],
+                )
+            matches = [
+                item
+                for item in entities
+                if item.get("path") in matched_paths
+                or any(fragment.get("path") in matched_paths for fragment in item.get("fragments") or [])
+            ]
+            if len(matches) != 1:
+                return None, _scope_offer_diagnostic(
+                    "ambiguous-path",
+                    "候选路径没有唯一源码中心；请提供完整 LANGUAGE:PATH#QUALIFIED_NAME。",
+                    [candidate],
+                )
+            match = matches[0]
+            language = str(match.get("language") or "")
+            entity_paths = [
+                str(match.get("path") or ""),
+                *[str(item.get("path") or "") for item in match.get("fragments") or []],
+            ]
+            matched_entity_paths = sorted(set(entity_paths) & set(matched_paths))
+            if len(matched_entity_paths) != 1:
+                return None, _scope_offer_diagnostic(
+                    "ambiguous-path",
+                    "候选路径没有唯一源码中心；请提供完整 LANGUAGE:PATH#QUALIFIED_NAME。",
+                    [candidate],
+                )
+            path = matched_entity_paths[0]
+            qualified = str(match.get("qualified_name") or "")
+            canonical = _canonical_entry(f"{language}:{path}#{qualified}")
+        if not matches:
+            return None, _scope_offer_diagnostic(
+                "no-fixed-git-evidence",
+                "候选中心没有在知识库绑定提交中唯一解析。",
+                [candidate],
+            )
+        if len(matches) != 1:
+            return None, _scope_offer_diagnostic(
+                "ambiguous-center",
+                "候选中心在知识库绑定提交中存在多个匹配。",
+                [candidate],
+            )
+    except CkbError:
+        return None, _scope_offer_diagnostic(
+            "invalid-selector",
+            "候选 selector 不是有界的仓库相对路径或完整源码中心。",
+            [candidate],
+        )
+
+    match = matches[0]
+    file_record = file_by_path.get(path)
+    if file_record is None or not file_record.get("blob"):
+        return None, _scope_offer_diagnostic(
+            "no-fixed-git-evidence",
+            "候选中心缺少固定 Git blob 证据。",
+            [candidate],
+        )
+    selected_paths = set(scope.get("selected_file_paths") or [])
+    selected_ids = set(scope.get("selected_entity_ids") or [])
+    if path in selected_paths or match.get("id") in selected_ids:
+        return None, _scope_offer_diagnostic(
+            "already-in-scope",
+            "候选中心已经属于当前 scope，应继续诊断范围内漏检。",
+            [candidate],
+        )
+    selector = {
+        "kind": "entry",
+        "value": canonical,
+        "language": language,
+        "path": path,
+        "qualified_name": qualified,
+        "entity_id": match.get("id"),
+        "blob": file_record.get("blob"),
+        "source_completeness": match.get("source_completeness"),
+        "absence_inference_allowed": match.get("absence_inference_allowed"),
+        "syntax_warning_ids": list(match.get("syntax_warning_ids") or []),
+    }
+    return selector, None
+
+
+def _candidate_warning_evidence(
+    warning_record: dict[str, Any],
+    catalog: dict[str, Any],
+    selector: dict[str, Any],
+) -> list[dict[str, Any]]:
+    """Return only warnings that explicitly make this selector's evidence incomplete."""
+
+    candidate_path = str(selector["path"])
+    candidate_entity_id = str(selector.get("entity_id") or "")
+    relevant: list[dict[str, Any]] = []
+
+    def normalized_path(value: Any) -> str:
+        path = str(value or "").replace("\\", "/")
+        return path[2:] if path.startswith("./") else path
+
+    def add_if_relevant(warning: Any, source: str) -> None:
+        if not isinstance(warning, dict) or warning.get("absence_inference_allowed") is not False:
+            return
+        affected_ids = {str(value) for value in warning.get("affected_entity_ids") or []}
+        affected_paths = {
+            normalized_path(value)
+            for value in warning.get("affected_paths") or []
+            if value is not None
+        }
+        warning_path = normalized_path(warning.get("file"))
+        if (
+            warning_path != candidate_path
+            and candidate_path not in affected_paths
+            and candidate_entity_id not in affected_ids
+        ):
+            return
+        relevant.append(
+            {
+                "source": source,
+                "kind": warning.get("kind"),
+                "language": warning.get("language"),
+                "file": warning.get("file"),
+                "range": warning.get("range"),
+                "diagnostic_categories": warning.get("diagnostic_categories", []),
+                "diagnostic_count": int(warning.get("diagnostic_count", 0)),
+                "affected_entity_count": int(
+                    warning.get("affected_entity_count", len(affected_ids)) or 0
+                ),
+                "absence_inference_allowed": False,
+            }
+        )
+
+    for warning in [
+        *(warning_record.get("examples") or []),
+        *(warning_record.get("warnings") or []),
+    ]:
+        add_if_relevant(warning, "retrieval-warning")
+    for item in catalog.get("files") or []:
+        if not isinstance(item, dict):
+            continue
+        file_record = item.get("file") or {}
+        if normalized_path(file_record.get("path")) != candidate_path:
+            continue
+        for warning in (item.get("parse") or {}).get("warnings") or []:
+            add_if_relevant(warning, "catalog-parse-warning")
+    if selector.get("absence_inference_allowed") is False:
+        relevant.append(
+            {
+                "source": "catalog-entity",
+                "kind": "candidate-source-incomplete",
+                "language": selector.get("language"),
+                "file": candidate_path,
+                "range": None,
+                "diagnostic_categories": [],
+                "diagnostic_count": 0,
+                "affected_entity_count": 1,
+                "absence_inference_allowed": False,
+            }
+        )
+    unique: dict[str, dict[str, Any]] = {}
+    for warning in relevant:
+        key = json.dumps(warning, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+        unique[key] = warning
+    return [unique[key] for key in sorted(unique)]
+
+
+def attach_scope_extension_offer(output: Path, retrieval: dict[str, Any]) -> dict[str, Any]:
+    """Attach one confirmation-only scope offer when every deterministic gate passes."""
+
+    result = dict(retrieval)
+    if result.get("status") not in {"needs-source-read", "passed"}:
+        return result
+    candidates = _explicit_scope_candidates(str(result.get("question") or ""))
+    if not candidates:
+        return result
+    if len(candidates) != 1:
+        result["scope_extension_diagnostic"] = _scope_offer_diagnostic(
+            "multiple-candidates",
+            "问题中出现多个候选路径或中心，当前请求不生成扩库确认。",
+            candidates,
+        )
+        return result
+
+    freshness = result.get("fact_freshness") or {}
+    if freshness.get("state") != "current" or freshness.get("bound_commit") != freshness.get("current_head"):
+        result["scope_extension_diagnostic"] = _scope_offer_diagnostic(
+            "fact-freshness-not-current",
+            "源码事实不是 current，当前请求不生成扩库确认。",
+            candidates,
+        )
+        return result
+    fallback = result.get("keyword_fallback") or {}
+    provider = fallback.get("provider") or {}
+    if fallback.get("status") == "fallback" or provider.get("status") == "failed":
+        result["scope_extension_diagnostic"] = _scope_offer_diagnostic(
+            "retrieval-service-failure",
+            "检索慢路径失败时保留服务诊断，当前请求不生成扩库确认。",
+            candidates,
+        )
+        return result
+
+    output = output.resolve()
+    try:
+        state = json_load(output / "state.json")
+        scope = json_load(output / "scope.json")
+        catalog = json_load(output / "catalog.json")
+    except (CkbError, OSError, UnicodeError, json.JSONDecodeError):
+        result["scope_extension_diagnostic"] = _scope_offer_diagnostic(
+            "scope-evidence-unavailable",
+            "当前知识库缺少可核验的 scope 或固定 Git 目录证据。",
+            candidates,
+        )
+        return result
+    commit = str((state.get("repository") or {}).get("commit") or "")
+    commits = {
+        commit,
+        str((scope.get("repository") or {}).get("commit") or ""),
+        str((catalog.get("repository") or {}).get("commit") or ""),
+        str(freshness.get("bound_commit") or ""),
+    }
+    if len(commits) != 1 or not commit:
+        result["scope_extension_diagnostic"] = _scope_offer_diagnostic(
+            "git-binding-mismatch",
+            "scope、catalog、检索新鲜度没有绑定同一个 Git 提交。",
+            candidates,
+        )
+        return result
+    selector, diagnostic = _resolve_scope_offer_selector(candidates[0], catalog, scope)
+    if diagnostic is not None:
+        result["scope_extension_diagnostic"] = diagnostic
+        return result
+    assert selector is not None
+    warning_evidence = _candidate_warning_evidence(result.get("warnings") or {}, catalog, selector)
+    if warning_evidence:
+        diagnostic = _scope_offer_diagnostic(
+            "source-warning-present",
+            "结构化 warning 明确影响候选源码范围，当前请求保留窄读诊断且不生成扩库确认。",
+            candidates,
+        )
+        diagnostic["evidence"] = {
+            "candidate_path": selector["path"],
+            "candidate_selector": selector["value"],
+            "warnings": warning_evidence[:8],
+            "omitted_relevant_warning_count": max(0, len(warning_evidence) - 8),
+        }
+        result["scope_extension_diagnostic"] = diagnostic
+        return result
+    repository = str((state.get("repository") or {}).get("root") or "")
+    if not repository:
+        result["scope_extension_diagnostic"] = _scope_offer_diagnostic(
+            "repository-binding-missing",
+            "知识库状态没有可用于既有 scope extend 的仓库绑定。",
+            candidates,
+        )
+        return result
+    offer_id = stable_id("scope-offer", commit, selector["value"], result.get("question"))
+    command = [
+        "scope",
+        "extend",
+        "start",
+        "--from-out",
+        str(output),
+        "--repo",
+        repository,
+        "--staging",
+        "STAGING_OUTPUT",
+        "--entry",
+        selector["value"],
+        "--expand-depth",
+        "1",
+        "--expand-direction",
+        "both",
+    ]
+    prompt = (
+        f"当前知识库未展开 `{selector['path']}`，固定 Git 提交中的唯一中心 "
+        f"`{selector['value']}` 与本次问题直接相关。是否确认通过既有 scope extend 将其加入范围？"
+        f"暂不扩展时仍可继续窄读 `{selector['path']}`。"
+    )
+    result["scope_extension_offer"] = {
+        "schema_version": SCOPE_EXTENSION_OFFER_SCHEMA_VERSION,
+        "offer_id": offer_id,
+        "status": "confirmation-required",
+        "reason": {
+            "code": "source-outside-current-scope",
+            "message_zh": "检索证据不足，且固定 Git 证据表明唯一候选中心位于当前 scope 之外。",
+        },
+        "evidence": {
+            "retrieval_status": result.get("status"),
+            "evidence_adequacy": "insufficient-for-explicit-selector",
+            "fact_freshness": "current",
+            "repository_commit": commit,
+            "candidate_source": "user-explicit",
+            "tracked_path": selector["path"],
+            "tracked_blob": selector["blob"],
+            "scope_membership": "outside",
+            "relation_to_question_zh": f"问题显式指定了 `{candidates[0]}`，并唯一解析到该源码中心。",
+        },
+        "selector": {key: selector[key] for key in ("kind", "value", "language", "path", "qualified_name")},
+        "human_prompt_zh": prompt,
+        "requires_confirmation": True,
+        "next": {"action": "await-human-confirmation", "automatic_scope_extension": False},
+        "on_confirmation": {"action": "scope-extend-start", "command": command},
+        "on_defer": {
+            "action": "continue-narrow-source-read",
+            "path": selector["path"],
+            "repeat_key": offer_id,
+        },
+    }
+    return result
 
 
 def _tree_manifest(root: Path) -> dict[str, Any]:

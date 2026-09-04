@@ -3,23 +3,23 @@
   "chunk_id": "batch-0001",
   "repository": {
     "root": "E:\\knowledge_builder\\self-workspace\\source",
-    "commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
-    "tree": "9289ac724bfb6c1a5a76e6160fe57ba11255691e",
+    "commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+    "tree": "098b3d1b13d3eb40ce74b41a715429493f171d14",
     "git_bootstrap": {
       "requested": false,
       "performed": false,
       "repository_created": false,
       "initial_commit_created": false,
       "root": "E:\\knowledge_builder\\self-workspace\\source",
-      "commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
-      "commit_count": 177,
+      "commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+      "commit_count": 190,
       "commit_message": null,
       "author": null
     }
   },
   "files": [
     {
-      "id": "file-2349240c49965442bfce7862be06b74f",
+      "id": "file-f888a563c59558209f540ab8a385a408",
       "path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
       "language": "python",
       "blob": "e0583a6869eb0af327e83f823439d1689b66a2e3",
@@ -29,14 +29,14 @@
   ],
   "entities": [
     {
-      "id": "file-2349240c49965442bfce7862be06b74f",
+      "id": "file-f888a563c59558209f540ab8a385a408",
       "kind": "file",
       "name": "store.py",
       "qualified_name": "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
       "language": "python",
       "path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
       "blob": "e0583a6869eb0af327e83f823439d1689b66a2e3",
-      "commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
       "range": {
         "start_byte": 0,
         "end_byte": 12024,
@@ -53,7 +53,7 @@
       "syntax_warning_ids": [],
       "absence_inference_allowed": true,
       "classification": "page",
-      "owner_page_id": "file-2349240c49965442bfce7862be06b74f",
+      "owner_page_id": "file-f888a563c59558209f540ab8a385a408",
       "navigation_evidence": [
         "fixed-order-default"
       ],
@@ -66,14 +66,14 @@
       "review_status": "agent-reviewed"
     },
     {
-      "id": "ent-38658ad457665d50bace9927953fe256",
+      "id": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "kind": "function",
       "name": "connect",
       "qualified_name": "connect",
       "language": "python",
       "path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
       "blob": "e0583a6869eb0af327e83f823439d1689b66a2e3",
-      "commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
       "range": {
         "start_byte": 697,
         "end_byte": 959,
@@ -82,7 +82,7 @@
         "name_line": 36,
         "name_column_utf8": 4
       },
-      "parent_id": "file-2349240c49965442bfce7862be06b74f",
+      "parent_id": "file-f888a563c59558209f540ab8a385a408",
       "candidate_classification": "appendix",
       "classification_evidence": [
         "public-or-exported",
@@ -97,7 +97,7 @@
       "syntax_warning_ids": [],
       "absence_inference_allowed": true,
       "classification": "appendix",
-      "owner_page_id": "file-2349240c49965442bfce7862be06b74f",
+      "owner_page_id": "file-f888a563c59558209f540ab8a385a408",
       "navigation_evidence": [
         "cross-file-reference",
         "public-or-exported"
@@ -109,14 +109,14 @@
       "review_status": "agent-reviewed"
     },
     {
-      "id": "ent-4414e71c248358cb8c9db5985840df2b",
+      "id": "ent-1d528e8bad2c5ef490353b058232cfe6",
       "kind": "function",
       "name": "initialize",
       "qualified_name": "initialize",
       "language": "python",
       "path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
       "blob": "e0583a6869eb0af327e83f823439d1689b66a2e3",
-      "commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
       "range": {
         "start_byte": 962,
         "end_byte": 1182,
@@ -125,7 +125,7 @@
         "name_line": 44,
         "name_column_utf8": 4
       },
-      "parent_id": "file-2349240c49965442bfce7862be06b74f",
+      "parent_id": "file-f888a563c59558209f540ab8a385a408",
       "candidate_classification": "appendix",
       "classification_evidence": [
         "public-or-exported",
@@ -140,7 +140,7 @@
       "syntax_warning_ids": [],
       "absence_inference_allowed": true,
       "classification": "appendix",
-      "owner_page_id": "file-2349240c49965442bfce7862be06b74f",
+      "owner_page_id": "file-f888a563c59558209f540ab8a385a408",
       "navigation_evidence": [
         "public-or-exported"
       ],
@@ -151,14 +151,14 @@
       "review_status": "agent-reviewed"
     },
     {
-      "id": "ent-2e62405e408459b5b64ecd35fda746b6",
+      "id": "ent-455c6c0d41505e97af1d71acc55afbe1",
       "kind": "function",
       "name": "read_assertion_jsonl",
       "qualified_name": "read_assertion_jsonl",
       "language": "python",
       "path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
       "blob": "e0583a6869eb0af327e83f823439d1689b66a2e3",
-      "commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
       "range": {
         "start_byte": 1185,
         "end_byte": 1962,
@@ -167,7 +167,7 @@
         "name_line": 50,
         "name_column_utf8": 4
       },
-      "parent_id": "file-2349240c49965442bfce7862be06b74f",
+      "parent_id": "file-f888a563c59558209f540ab8a385a408",
       "candidate_classification": "appendix",
       "classification_evidence": [
         "public-or-exported"
@@ -181,7 +181,7 @@
       "syntax_warning_ids": [],
       "absence_inference_allowed": true,
       "classification": "appendix",
-      "owner_page_id": "file-2349240c49965442bfce7862be06b74f",
+      "owner_page_id": "file-f888a563c59558209f540ab8a385a408",
       "navigation_evidence": [
         "cross-file-reference",
         "public-or-exported"
@@ -193,14 +193,14 @@
       "review_status": "agent-reviewed"
     },
     {
-      "id": "ent-c510843bd3975c688af425a9c6f315cb",
+      "id": "ent-0af32bc83a1856b6b86c9413bb93a5ff",
       "kind": "function",
       "name": "ingest",
       "qualified_name": "ingest",
       "language": "python",
       "path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
       "blob": "e0583a6869eb0af327e83f823439d1689b66a2e3",
-      "commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
       "range": {
         "start_byte": 1965,
         "end_byte": 3627,
@@ -209,7 +209,7 @@
         "name_line": 68,
         "name_column_utf8": 4
       },
-      "parent_id": "file-2349240c49965442bfce7862be06b74f",
+      "parent_id": "file-f888a563c59558209f540ab8a385a408",
       "candidate_classification": "page",
       "classification_evidence": [
         "public-or-exported",
@@ -224,7 +224,7 @@
       "syntax_warning_ids": [],
       "absence_inference_allowed": true,
       "classification": "page",
-      "owner_page_id": "ent-c510843bd3975c688af425a9c6f315cb",
+      "owner_page_id": "ent-0af32bc83a1856b6b86c9413bb93a5ff",
       "navigation_evidence": [
         "entry-direct-relation",
         "cross-file-reference",
@@ -239,14 +239,14 @@
       "review_status": "agent-reviewed"
     },
     {
-      "id": "ent-bdd7195536fe5802a9631bb3643f6f6c",
+      "id": "ent-024bba07ee1256288edabf5b0b7f8415",
       "kind": "function",
       "name": "load_assertions",
       "qualified_name": "load_assertions",
       "language": "python",
       "path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
       "blob": "e0583a6869eb0af327e83f823439d1689b66a2e3",
-      "commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
       "range": {
         "start_byte": 3630,
         "end_byte": 3916,
@@ -255,7 +255,7 @@
         "name_line": 107,
         "name_column_utf8": 4
       },
-      "parent_id": "file-2349240c49965442bfce7862be06b74f",
+      "parent_id": "file-f888a563c59558209f540ab8a385a408",
       "candidate_classification": "appendix",
       "classification_evidence": [
         "public-or-exported"
@@ -269,7 +269,7 @@
       "syntax_warning_ids": [],
       "absence_inference_allowed": true,
       "classification": "appendix",
-      "owner_page_id": "file-2349240c49965442bfce7862be06b74f",
+      "owner_page_id": "file-f888a563c59558209f540ab8a385a408",
       "navigation_evidence": [
         "cross-file-reference",
         "public-or-exported"
@@ -281,14 +281,14 @@
       "review_status": "agent-reviewed"
     },
     {
-      "id": "ent-2e8c1accd1155d939568ef5e66fb4b1d",
+      "id": "ent-ff5c948d72d15b82b23c2aec9078077d",
       "kind": "function",
       "name": "integrity",
       "qualified_name": "integrity",
       "language": "python",
       "path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
       "blob": "e0583a6869eb0af327e83f823439d1689b66a2e3",
-      "commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
       "range": {
         "start_byte": 3919,
         "end_byte": 4061,
@@ -297,7 +297,7 @@
         "name_line": 114,
         "name_column_utf8": 4
       },
-      "parent_id": "file-2349240c49965442bfce7862be06b74f",
+      "parent_id": "file-f888a563c59558209f540ab8a385a408",
       "candidate_classification": "appendix",
       "classification_evidence": [
         "public-or-exported"
@@ -311,7 +311,7 @@
       "syntax_warning_ids": [],
       "absence_inference_allowed": true,
       "classification": "appendix",
-      "owner_page_id": "file-2349240c49965442bfce7862be06b74f",
+      "owner_page_id": "file-f888a563c59558209f540ab8a385a408",
       "navigation_evidence": [
         "cross-file-reference",
         "public-or-exported"
@@ -323,14 +323,14 @@
       "review_status": "agent-reviewed"
     },
     {
-      "id": "ent-6dbc486adca05df8a165e33e3b6387f7",
+      "id": "ent-b3a0b030b9945642899d4623e520283b",
       "kind": "function",
       "name": "replay_with_rollback",
       "qualified_name": "replay_with_rollback",
       "language": "python",
       "path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
       "blob": "e0583a6869eb0af327e83f823439d1689b66a2e3",
-      "commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
       "range": {
         "start_byte": 4064,
         "end_byte": 8694,
@@ -339,7 +339,7 @@
         "name_line": 119,
         "name_column_utf8": 4
       },
-      "parent_id": "file-2349240c49965442bfce7862be06b74f",
+      "parent_id": "file-f888a563c59558209f540ab8a385a408",
       "candidate_classification": "appendix",
       "classification_evidence": [
         "public-or-exported"
@@ -353,7 +353,7 @@
       "syntax_warning_ids": [],
       "absence_inference_allowed": true,
       "classification": "appendix",
-      "owner_page_id": "file-2349240c49965442bfce7862be06b74f",
+      "owner_page_id": "file-f888a563c59558209f540ab8a385a408",
       "navigation_evidence": [
         "cross-file-reference",
         "public-or-exported"
@@ -365,14 +365,14 @@
       "review_status": "agent-reviewed"
     },
     {
-      "id": "ent-dd6136ae2fed593e8fb24222456a2377",
+      "id": "ent-74a21352d10657d98fb96a85e371a6da",
       "kind": "function",
       "name": "_rollback_path_within",
       "qualified_name": "_rollback_path_within",
       "language": "python",
       "path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
       "blob": "e0583a6869eb0af327e83f823439d1689b66a2e3",
-      "commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
       "range": {
         "start_byte": 8697,
         "end_byte": 8997,
@@ -381,7 +381,7 @@
         "name_line": 213,
         "name_column_utf8": 4
       },
-      "parent_id": "file-2349240c49965442bfce7862be06b74f",
+      "parent_id": "file-f888a563c59558209f540ab8a385a408",
       "candidate_classification": "appendix",
       "classification_evidence": [
         "attached-by-default"
@@ -395,7 +395,7 @@
       "syntax_warning_ids": [],
       "absence_inference_allowed": true,
       "classification": "appendix",
-      "owner_page_id": "file-2349240c49965442bfce7862be06b74f",
+      "owner_page_id": "file-f888a563c59558209f540ab8a385a408",
       "navigation_evidence": [
         "cross-file-reference"
       ],
@@ -406,14 +406,14 @@
       "review_status": "agent-reviewed"
     },
     {
-      "id": "ent-fc8a89ec071e59d5aaa836d70bf8e90b",
+      "id": "ent-2f9da4ca10c25a009dbf7afae598a857",
       "kind": "function",
       "name": "rollback",
       "qualified_name": "rollback",
       "language": "python",
       "path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
       "blob": "e0583a6869eb0af327e83f823439d1689b66a2e3",
-      "commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
       "range": {
         "start_byte": 9000,
         "end_byte": 12023,
@@ -422,7 +422,7 @@
         "name_line": 220,
         "name_column_utf8": 4
       },
-      "parent_id": "file-2349240c49965442bfce7862be06b74f",
+      "parent_id": "file-f888a563c59558209f540ab8a385a408",
       "candidate_classification": "appendix",
       "classification_evidence": [
         "public-or-exported"
@@ -436,7 +436,7 @@
       "syntax_warning_ids": [],
       "absence_inference_allowed": true,
       "classification": "appendix",
-      "owner_page_id": "file-2349240c49965442bfce7862be06b74f",
+      "owner_page_id": "file-f888a563c59558209f540ab8a385a408",
       "navigation_evidence": [
         "cross-file-reference",
         "public-or-exported"
@@ -448,14 +448,14 @@
       "review_status": "agent-reviewed"
     },
     {
-      "id": "ent-2dad6a91f0ac59728d6b7052a5f4bbdb",
+      "id": "ent-47f7b4f73ee9529e88ad5c06038cd199",
       "kind": "boundary",
       "name": "validate_protocol",
       "qualified_name": "validate_protocol",
       "language": "python",
       "path": "prototypes/ckb-semantic-vector-benchmark/benchmark.py",
       "blob": "215255cc9edf0ba8e5492d50c525168420aa36eb",
-      "commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
       "range": {
         "start_byte": 6713,
         "end_byte": 11060,
@@ -464,7 +464,7 @@
         "name_line": 182,
         "name_column_utf8": 4
       },
-      "parent_id": "file-aea332363b1d5c1f8cb9411ca85aab46",
+      "parent_id": "file-01333a20e1b757b188aa2814aa190d23",
       "candidate_classification": "boundary",
       "classification_evidence": [
         "one-hop-outside-selected-scope"
@@ -479,7 +479,7 @@
       "absence_inference_allowed": true,
       "kind_original": "function",
       "classification": "boundary",
-      "owner_page_id": "ent-2dad6a91f0ac59728d6b7052a5f4bbdb",
+      "owner_page_id": "ent-47f7b4f73ee9529e88ad5c06038cd199",
       "navigation_evidence": [
         "cross-file-reference",
         "public-or-exported"
@@ -493,30 +493,30 @@
       "review_status": "agent-reviewed"
     },
     {
-      "id": "ent-4c3f988a498a58c384b66ae54f52ff23",
+      "id": "ent-85d451e9cc0a5bf391d8d9d4833bcab9",
       "kind": "boundary",
-      "name": "canonical_json_text",
-      "qualified_name": "canonical_json_text",
+      "name": "_sqlite_backup",
+      "qualified_name": "_sqlite_backup",
       "language": "python",
-      "path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/contracts.py",
-      "blob": "d2dede64572482fdc4c8bb4df174da70e00bd148",
-      "commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "path": "prototypes/ckb-semantic-vector-benchmark/benchmark.py",
+      "blob": "215255cc9edf0ba8e5492d50c525168420aa36eb",
+      "commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
       "range": {
-        "start_byte": 998,
-        "end_byte": 1129,
-        "start_line": 36,
-        "end_line": 37,
-        "name_line": 36,
+        "start_byte": 2274,
+        "end_byte": 2490,
+        "start_line": 84,
+        "end_line": 87,
+        "name_line": 84,
         "name_column_utf8": 4
       },
-      "parent_id": "file-39ddf4a64ad9566e924249ccb24b6dcf",
+      "parent_id": "file-01333a20e1b757b188aa2814aa190d23",
       "candidate_classification": "boundary",
       "classification_evidence": [
         "one-hop-outside-selected-scope"
       ],
-      "page_eligible": false,
-      "hard_exclusion": "single-return-or-call",
-      "is_public_or_exported": true,
+      "page_eligible": true,
+      "hard_exclusion": null,
+      "is_public_or_exported": false,
       "is_partial": false,
       "source_completeness": "complete",
       "source_confidence": "high",
@@ -524,38 +524,36 @@
       "absence_inference_allowed": true,
       "kind_original": "function",
       "classification": "boundary",
-      "owner_page_id": "ent-4c3f988a498a58c384b66ae54f52ff23",
+      "owner_page_id": "ent-85d451e9cc0a5bf391d8d9d4833bcab9",
       "navigation_evidence": [
-        "cross-file-reference",
-        "public-or-exported",
-        "hard-exclusion:single-return-or-call"
+        "cross-file-reference"
       ],
       "chunk_id": "batch-0001",
       "parse_batch_id": "batch-0001",
-      "meaning_zh": "代码单元 `canonical_json_text`负责校验 tag assertion、策略、路径和确定性 JSON 合同。",
-      "role_zh": "它属于机器 tag 实验的输入边界，说明只覆盖所列固定源码范围。",
-      "change_when_zh": "当tag 数据结构、隐私字段或路径规则变化时，应同步复查本页及其直接测试。",
-      "evidence_note": "已核对固定提交 bd8519583e3a 中 `prototypes/ckb-tag-navigation/ckb_tag_navigation/contracts.py` 第 36 至 37 行，摘录属于 Git blob d2dede645724。",
+      "meaning_zh": "代码单元 `_sqlite_backup`负责用固定本地模型比较当前 SQLite、语义向量和混合检索，并测量质量与资源。",
+      "role_zh": "它属于语义向量隔离实验的执行与判定层；实验代码不改变生产检索或稳定页面生成默认行为。",
+      "change_when_zh": "当模型身份、向量文档、排序、测量或资源门变化时，应同步复查本页、固定实验协议及直接测试。",
+      "evidence_note": "已核对固定提交 c533dd7c5322 中 `prototypes/ckb-semantic-vector-benchmark/benchmark.py` 第 84 至 87 行，摘录属于 Git blob 215255cc9edf。",
       "review_status": "agent-reviewed"
     },
     {
-      "id": "ent-7117857bb5f2577b83372cedcc942c3b",
+      "id": "ent-900d683229fc5b169122160614b4a21f",
       "kind": "boundary",
-      "name": "validate_assertion",
-      "qualified_name": "validate_assertion",
+      "name": "copy_corpus",
+      "qualified_name": "copy_corpus",
       "language": "python",
-      "path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/contracts.py",
-      "blob": "d2dede64572482fdc4c8bb4df174da70e00bd148",
-      "commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "path": "prototypes/ckb-semantic-vector-benchmark/benchmark.py",
+      "blob": "215255cc9edf0ba8e5492d50c525168420aa36eb",
+      "commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
       "range": {
-        "start_byte": 6357,
-        "end_byte": 8782,
-        "start_line": 145,
-        "end_line": 194,
-        "name_line": 145,
+        "start_byte": 2493,
+        "end_byte": 4108,
+        "start_line": 90,
+        "end_line": 120,
+        "name_line": 90,
         "name_column_utf8": 4
       },
-      "parent_id": "file-39ddf4a64ad9566e924249ccb24b6dcf",
+      "parent_id": "file-01333a20e1b757b188aa2814aa190d23",
       "candidate_classification": "boundary",
       "classification_evidence": [
         "one-hop-outside-selected-scope"
@@ -570,28 +568,73 @@
       "absence_inference_allowed": true,
       "kind_original": "function",
       "classification": "boundary",
-      "owner_page_id": "ent-7117857bb5f2577b83372cedcc942c3b",
+      "owner_page_id": "ent-900d683229fc5b169122160614b4a21f",
       "navigation_evidence": [
         "cross-file-reference",
         "public-or-exported"
       ],
       "chunk_id": "batch-0001",
       "parse_batch_id": "batch-0001",
-      "meaning_zh": "代码单元 `validate_assertion`负责校验 tag assertion、策略、路径和确定性 JSON 合同。",
-      "role_zh": "它属于机器 tag 实验的输入边界，说明只覆盖所列固定源码范围。",
-      "change_when_zh": "当tag 数据结构、隐私字段或路径规则变化时，应同步复查本页及其直接测试。",
-      "evidence_note": "已核对固定提交 bd8519583e3a 中 `prototypes/ckb-tag-navigation/ckb_tag_navigation/contracts.py` 第 145 至 194 行，摘录属于 Git blob d2dede645724。",
+      "meaning_zh": "代码单元 `copy_corpus`负责用固定本地模型比较当前 SQLite、语义向量和混合检索，并测量质量与资源。",
+      "role_zh": "它属于语义向量隔离实验的执行与判定层；实验代码不改变生产检索或稳定页面生成默认行为。",
+      "change_when_zh": "当模型身份、向量文档、排序、测量或资源门变化时，应同步复查本页、固定实验协议及直接测试。",
+      "evidence_note": "已核对固定提交 c533dd7c5322 中 `prototypes/ckb-semantic-vector-benchmark/benchmark.py` 第 90 至 120 行，摘录属于 Git blob 215255cc9edf。",
       "review_status": "agent-reviewed"
     },
     {
-      "id": "ent-ac8d3036bf315831aeb47714341e005d",
+      "id": "ent-9cf77a5232fe5e609f77d55a207f598d",
+      "kind": "boundary",
+      "name": "_readonly_connection",
+      "qualified_name": "_readonly_connection",
+      "language": "python",
+      "path": "prototypes/ckb-semantic-vector-benchmark/benchmark.py",
+      "blob": "215255cc9edf0ba8e5492d50c525168420aa36eb",
+      "commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+      "range": {
+        "start_byte": 2140,
+        "end_byte": 2271,
+        "start_line": 80,
+        "end_line": 81,
+        "name_line": 80,
+        "name_column_utf8": 4
+      },
+      "parent_id": "file-01333a20e1b757b188aa2814aa190d23",
+      "candidate_classification": "boundary",
+      "classification_evidence": [
+        "one-hop-outside-selected-scope"
+      ],
+      "page_eligible": false,
+      "hard_exclusion": "single-return-or-call",
+      "is_public_or_exported": false,
+      "is_partial": false,
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "syntax_warning_ids": [],
+      "absence_inference_allowed": true,
+      "kind_original": "function",
+      "classification": "boundary",
+      "owner_page_id": "ent-9cf77a5232fe5e609f77d55a207f598d",
+      "navigation_evidence": [
+        "cross-file-reference",
+        "hard-exclusion:single-return-or-call"
+      ],
+      "chunk_id": "batch-0001",
+      "parse_batch_id": "batch-0001",
+      "meaning_zh": "代码单元 `_readonly_connection`负责用固定本地模型比较当前 SQLite、语义向量和混合检索，并测量质量与资源。",
+      "role_zh": "它属于语义向量隔离实验的执行与判定层；实验代码不改变生产检索或稳定页面生成默认行为。",
+      "change_when_zh": "当模型身份、向量文档、排序、测量或资源门变化时，应同步复查本页、固定实验协议及直接测试。",
+      "evidence_note": "已核对固定提交 c533dd7c5322 中 `prototypes/ckb-semantic-vector-benchmark/benchmark.py` 第 80 至 81 行，摘录属于 Git blob 215255cc9edf。",
+      "review_status": "agent-reviewed"
+    },
+    {
+      "id": "ent-b5348f49b4e751759d54d0d0b1044614",
       "kind": "boundary",
       "name": "TagNavigationError",
       "qualified_name": "TagNavigationError",
       "language": "python",
       "path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/contracts.py",
       "blob": "d2dede64572482fdc4c8bb4df174da70e00bd148",
-      "commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
       "range": {
         "start_byte": 632,
         "end_byte": 833,
@@ -600,7 +643,7 @@
         "name_line": 25,
         "name_column_utf8": 6
       },
-      "parent_id": "file-39ddf4a64ad9566e924249ccb24b6dcf",
+      "parent_id": "file-9ba7f67272555d2b914eb0861de62aeb",
       "candidate_classification": "boundary",
       "classification_evidence": [
         "one-hop-outside-selected-scope"
@@ -615,7 +658,7 @@
       "absence_inference_allowed": true,
       "kind_original": "class",
       "classification": "boundary",
-      "owner_page_id": "ent-ac8d3036bf315831aeb47714341e005d",
+      "owner_page_id": "ent-b5348f49b4e751759d54d0d0b1044614",
       "navigation_evidence": [
         "cross-file-reference",
         "public-or-exported"
@@ -629,74 +672,30 @@
       "review_status": "agent-reviewed"
     },
     {
-      "id": "ent-baee95b1eb5d5e53a91ef9c7970dc9f2",
+      "id": "ent-cbb14c75b999598692b4e880f0557ed2",
       "kind": "boundary",
-      "name": "_sqlite_backup",
-      "qualified_name": "_sqlite_backup",
+      "name": "canonical_json_text",
+      "qualified_name": "canonical_json_text",
       "language": "python",
-      "path": "prototypes/ckb-semantic-vector-benchmark/benchmark.py",
-      "blob": "215255cc9edf0ba8e5492d50c525168420aa36eb",
-      "commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/contracts.py",
+      "blob": "d2dede64572482fdc4c8bb4df174da70e00bd148",
+      "commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
       "range": {
-        "start_byte": 2274,
-        "end_byte": 2490,
-        "start_line": 84,
-        "end_line": 87,
-        "name_line": 84,
+        "start_byte": 998,
+        "end_byte": 1129,
+        "start_line": 36,
+        "end_line": 37,
+        "name_line": 36,
         "name_column_utf8": 4
       },
-      "parent_id": "file-aea332363b1d5c1f8cb9411ca85aab46",
-      "candidate_classification": "boundary",
-      "classification_evidence": [
-        "one-hop-outside-selected-scope"
-      ],
-      "page_eligible": true,
-      "hard_exclusion": null,
-      "is_public_or_exported": false,
-      "is_partial": false,
-      "source_completeness": "complete",
-      "source_confidence": "high",
-      "syntax_warning_ids": [],
-      "absence_inference_allowed": true,
-      "kind_original": "function",
-      "classification": "boundary",
-      "owner_page_id": "ent-baee95b1eb5d5e53a91ef9c7970dc9f2",
-      "navigation_evidence": [
-        "cross-file-reference"
-      ],
-      "chunk_id": "batch-0001",
-      "parse_batch_id": "batch-0001",
-      "meaning_zh": "代码单元 `_sqlite_backup`负责用固定本地模型比较当前 SQLite、语义向量和混合检索，并测量质量与资源。",
-      "role_zh": "它属于语义向量隔离实验的执行与判定层；实验代码不改变生产检索或稳定页面生成默认行为。",
-      "change_when_zh": "当模型身份、向量文档、排序、测量或资源门变化时，应同步复查本页、固定实验协议及直接测试。",
-      "evidence_note": "已核对固定提交 c533dd7c5322 中 `prototypes/ckb-semantic-vector-benchmark/benchmark.py` 第 84 至 87 行，摘录属于 Git blob 215255cc9edf。",
-      "review_status": "agent-reviewed"
-    },
-    {
-      "id": "ent-f0db7f75205454099887e30829c13b29",
-      "kind": "boundary",
-      "name": "_readonly_connection",
-      "qualified_name": "_readonly_connection",
-      "language": "python",
-      "path": "prototypes/ckb-semantic-vector-benchmark/benchmark.py",
-      "blob": "215255cc9edf0ba8e5492d50c525168420aa36eb",
-      "commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
-      "range": {
-        "start_byte": 2140,
-        "end_byte": 2271,
-        "start_line": 80,
-        "end_line": 81,
-        "name_line": 80,
-        "name_column_utf8": 4
-      },
-      "parent_id": "file-aea332363b1d5c1f8cb9411ca85aab46",
+      "parent_id": "file-9ba7f67272555d2b914eb0861de62aeb",
       "candidate_classification": "boundary",
       "classification_evidence": [
         "one-hop-outside-selected-scope"
       ],
       "page_eligible": false,
       "hard_exclusion": "single-return-or-call",
-      "is_public_or_exported": false,
+      "is_public_or_exported": true,
       "is_partial": false,
       "source_completeness": "complete",
       "source_confidence": "high",
@@ -704,37 +703,38 @@
       "absence_inference_allowed": true,
       "kind_original": "function",
       "classification": "boundary",
-      "owner_page_id": "ent-f0db7f75205454099887e30829c13b29",
+      "owner_page_id": "ent-cbb14c75b999598692b4e880f0557ed2",
       "navigation_evidence": [
         "cross-file-reference",
+        "public-or-exported",
         "hard-exclusion:single-return-or-call"
       ],
       "chunk_id": "batch-0001",
       "parse_batch_id": "batch-0001",
-      "meaning_zh": "代码单元 `_readonly_connection`负责用固定本地模型比较当前 SQLite、语义向量和混合检索，并测量质量与资源。",
-      "role_zh": "它属于语义向量隔离实验的执行与判定层；实验代码不改变生产检索或稳定页面生成默认行为。",
-      "change_when_zh": "当模型身份、向量文档、排序、测量或资源门变化时，应同步复查本页、固定实验协议及直接测试。",
-      "evidence_note": "已核对固定提交 c533dd7c5322 中 `prototypes/ckb-semantic-vector-benchmark/benchmark.py` 第 80 至 81 行，摘录属于 Git blob 215255cc9edf。",
+      "meaning_zh": "代码单元 `canonical_json_text`负责校验 tag assertion、策略、路径和确定性 JSON 合同。",
+      "role_zh": "它属于机器 tag 实验的输入边界，说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当tag 数据结构、隐私字段或路径规则变化时，应同步复查本页及其直接测试。",
+      "evidence_note": "已核对固定提交 bd8519583e3a 中 `prototypes/ckb-tag-navigation/ckb_tag_navigation/contracts.py` 第 36 至 37 行，摘录属于 Git blob d2dede645724。",
       "review_status": "agent-reviewed"
     },
     {
-      "id": "ent-f73f70e3f9d35a4080af76d8663bc14f",
+      "id": "ent-d22c0de98207573d9a233c979710f218",
       "kind": "boundary",
-      "name": "copy_corpus",
-      "qualified_name": "copy_corpus",
+      "name": "validate_assertion",
+      "qualified_name": "validate_assertion",
       "language": "python",
-      "path": "prototypes/ckb-semantic-vector-benchmark/benchmark.py",
-      "blob": "215255cc9edf0ba8e5492d50c525168420aa36eb",
-      "commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+      "path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/contracts.py",
+      "blob": "d2dede64572482fdc4c8bb4df174da70e00bd148",
+      "commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
       "range": {
-        "start_byte": 2493,
-        "end_byte": 4108,
-        "start_line": 90,
-        "end_line": 120,
-        "name_line": 90,
+        "start_byte": 6357,
+        "end_byte": 8782,
+        "start_line": 145,
+        "end_line": 194,
+        "name_line": 145,
         "name_column_utf8": 4
       },
-      "parent_id": "file-aea332363b1d5c1f8cb9411ca85aab46",
+      "parent_id": "file-9ba7f67272555d2b914eb0861de62aeb",
       "candidate_classification": "boundary",
       "classification_evidence": [
         "one-hop-outside-selected-scope"
@@ -749,26 +749,26 @@
       "absence_inference_allowed": true,
       "kind_original": "function",
       "classification": "boundary",
-      "owner_page_id": "ent-f73f70e3f9d35a4080af76d8663bc14f",
+      "owner_page_id": "ent-d22c0de98207573d9a233c979710f218",
       "navigation_evidence": [
         "cross-file-reference",
         "public-or-exported"
       ],
       "chunk_id": "batch-0001",
       "parse_batch_id": "batch-0001",
-      "meaning_zh": "代码单元 `copy_corpus`负责用固定本地模型比较当前 SQLite、语义向量和混合检索，并测量质量与资源。",
-      "role_zh": "它属于语义向量隔离实验的执行与判定层；实验代码不改变生产检索或稳定页面生成默认行为。",
-      "change_when_zh": "当模型身份、向量文档、排序、测量或资源门变化时，应同步复查本页、固定实验协议及直接测试。",
-      "evidence_note": "已核对固定提交 c533dd7c5322 中 `prototypes/ckb-semantic-vector-benchmark/benchmark.py` 第 90 至 120 行，摘录属于 Git blob 215255cc9edf。",
+      "meaning_zh": "代码单元 `validate_assertion`负责校验 tag assertion、策略、路径和确定性 JSON 合同。",
+      "role_zh": "它属于机器 tag 实验的输入边界，说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当tag 数据结构、隐私字段或路径规则变化时，应同步复查本页及其直接测试。",
+      "evidence_note": "已核对固定提交 bd8519583e3a 中 `prototypes/ckb-tag-navigation/ckb_tag_navigation/contracts.py` 第 145 至 194 行，摘录属于 Git blob d2dede645724。",
       "review_status": "agent-reviewed"
     }
   ],
   "links": [
     {
-      "id": "link-c8ec75538c5d51ab9fa0595bb17971c1",
+      "id": "link-a8a4971983135eeb9a949a70b451ee05",
       "type": "references",
-      "source": "ent-2bce64463e9c5f43b9135005dd9ca401",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-8fa41ef68c9d5a12b33016d73169a9df",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -777,10 +777,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-c5a209b9c7cf55f586c0b85c9ccd9757",
+      "id": "link-2d6402660cb9513c87680850258ba5e2",
       "type": "references",
-      "source": "ent-f0db7f75205454099887e30829c13b29",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-9cf77a5232fe5e609f77d55a207f598d",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -789,10 +789,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-bc3a535ce6f75b489e4ba0de77962587",
+      "id": "link-b3e83181a2a25a6e8be325a0177d3632",
       "type": "references",
-      "source": "ent-f0db7f75205454099887e30829c13b29",
-      "target": "ent-5d744e3d0f235a6a8c5f71f6b79f0863",
+      "source": "ent-9cf77a5232fe5e609f77d55a207f598d",
+      "target": "ent-3529d9171c3054cdb5de622993d7f77d",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "uri",
@@ -801,10 +801,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-b51517f6d8b55143ab74d316ada198c3",
+      "id": "link-bd0388fc3aaa579dbd8798a10cbee949",
       "type": "references",
-      "source": "ent-baee95b1eb5d5e53a91ef9c7970dc9f2",
-      "target": "ent-f0db7f75205454099887e30829c13b29",
+      "source": "ent-85d451e9cc0a5bf391d8d9d4833bcab9",
+      "target": "ent-9cf77a5232fe5e609f77d55a207f598d",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "_readonly_connection",
@@ -813,10 +813,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-04c05f0a86995e1d89330519c11f9570",
+      "id": "link-41cb35756f055538b7999b3115913939",
       "type": "references",
-      "source": "ent-baee95b1eb5d5e53a91ef9c7970dc9f2",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-85d451e9cc0a5bf391d8d9d4833bcab9",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -825,10 +825,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-68e9add2f58458959dfdeb923827935c",
+      "id": "link-5d51a707a85651d6888881b61058e44a",
       "type": "references",
-      "source": "ent-f73f70e3f9d35a4080af76d8663bc14f",
-      "target": "ent-f0db7f75205454099887e30829c13b29",
+      "source": "ent-900d683229fc5b169122160614b4a21f",
+      "target": "ent-9cf77a5232fe5e609f77d55a207f598d",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "_readonly_connection",
@@ -837,10 +837,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-08f7a6adc8e75cc38f45b29cc342864a",
+      "id": "link-a119b0827a4d5561b5fb31f95f294be3",
       "type": "references",
-      "source": "ent-f73f70e3f9d35a4080af76d8663bc14f",
-      "target": "ent-2e8c1accd1155d939568ef5e66fb4b1d",
+      "source": "ent-900d683229fc5b169122160614b4a21f",
+      "target": "ent-ff5c948d72d15b82b23c2aec9078077d",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "integrity",
@@ -849,10 +849,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-6327441e179851c880ff270ee8b62b44",
+      "id": "link-111475d73f5d525fb05e747960664747",
       "type": "references",
-      "source": "ent-2dad6a91f0ac59728d6b7052a5f4bbdb",
-      "target": "ent-6f16e5843b365bf29a36222a543dffe3",
+      "source": "ent-47f7b4f73ee9529e88ad5c06038cd199",
+      "target": "ent-5bd5925f1a59509180a8b56bb31127f7",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "ModelUnavailable",
@@ -861,10 +861,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-1ebedb499d4b5cf889d487e1205c4179",
+      "id": "link-e2758ffce2dd5a469519809ee7b07182",
       "type": "references",
-      "source": "ent-2dad6a91f0ac59728d6b7052a5f4bbdb",
-      "target": "ent-f0db7f75205454099887e30829c13b29",
+      "source": "ent-47f7b4f73ee9529e88ad5c06038cd199",
+      "target": "ent-9cf77a5232fe5e609f77d55a207f598d",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "_readonly_connection",
@@ -873,10 +873,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-2770312efa0052ea9b500dcbe0cca999",
+      "id": "link-ce7c2b1ed20954bfb14f35950ce79b80",
       "type": "references",
-      "source": "ent-2dad6a91f0ac59728d6b7052a5f4bbdb",
-      "target": "ent-518d64ff65405d88b64a0b4363be5ed1",
+      "source": "ent-47f7b4f73ee9529e88ad5c06038cd199",
+      "target": "ent-211e35e9cef25218b6475cc28e2e84e3",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "engine_identity",
@@ -885,10 +885,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-06918815444a54f38668ba742aada557",
+      "id": "link-5f0d455361235f11923989de8c61379b",
       "type": "references",
-      "source": "ent-2dad6a91f0ac59728d6b7052a5f4bbdb",
-      "target": "ent-2e8c1accd1155d939568ef5e66fb4b1d",
+      "source": "ent-47f7b4f73ee9529e88ad5c06038cd199",
+      "target": "ent-ff5c948d72d15b82b23c2aec9078077d",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "integrity",
@@ -897,10 +897,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-bb112d133641558a885933820788683b",
+      "id": "link-e03e38525a395f6ea255081dfe965de8",
       "type": "references",
-      "source": "ent-2dad6a91f0ac59728d6b7052a5f4bbdb",
-      "target": "ent-81626c0417ee56d883b4535ae3d65059",
+      "source": "ent-47f7b4f73ee9529e88ad5c06038cd199",
+      "target": "ent-0f826937050e54ca8503fbbe175dab1d",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "source_value",
@@ -909,10 +909,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-bcdee076fca953578797768f4e5eb296",
+      "id": "link-c993828dc9c55f169c04910fd0237a2a",
       "type": "references",
-      "source": "ent-2dad6a91f0ac59728d6b7052a5f4bbdb",
-      "target": "ent-ef42a49cdc3154b193b467a80a9250a1",
+      "source": "ent-47f7b4f73ee9529e88ad5c06038cd199",
+      "target": "ent-aa99965e33fb5ec2bab44c6d112a1fa8",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_model_artifacts",
@@ -921,10 +921,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-a07fc7da30e356fe9612c3c7e3c52273",
+      "id": "link-b090207fb6405ed2ad6c84a1efb9c37c",
       "type": "references",
-      "source": "ent-478d267b12a857728428d78fedea0b5e",
-      "target": "ent-f0db7f75205454099887e30829c13b29",
+      "source": "ent-65a62440efed599bbfc7cacdf39f6597",
+      "target": "ent-9cf77a5232fe5e609f77d55a207f598d",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "_readonly_connection",
@@ -933,10 +933,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-79c48792462456a5b3bcc507dc3d2852",
+      "id": "link-d279cf18c9be59eda85494b07f420be5",
       "type": "references",
-      "source": "ent-28bfc2025d1a576d9b1b72c42a182ce5",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-c6a5a0bfba7954cd98bc4149dc3880df",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -945,10 +945,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-b8450a16cc155174b6894a397794a6b1",
+      "id": "link-a2d4e0cf8d9d57b6b984c7d9dfb6a957",
       "type": "references",
-      "source": "ent-68e0d41ae10c58399d3f859049eca3d1",
-      "target": "ent-2e8c1accd1155d939568ef5e66fb4b1d",
+      "source": "ent-f4e544419b135fdc986c16260b7a030c",
+      "target": "ent-ff5c948d72d15b82b23c2aec9078077d",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "integrity",
@@ -957,10 +957,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-5e60a7f8817752c38248c51de41efe6d",
+      "id": "link-1595c714e33b5ec3a911b8e391728e1f",
       "type": "references",
-      "source": "ent-81a62da2dfab57caafc88c74a2c4ab53",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-09bb730ad6e053a299fc022f88b8d1ef",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -969,10 +969,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-c4075f2d35bc505599bdbee88d67c49f",
+      "id": "link-14da4a728b075e13ba82739006088467",
       "type": "references",
-      "source": "ent-8c047a67f0c05afb9666d97de58bc29f",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-96477e4e0e0150c1a389ea43b9684e96",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -981,10 +981,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-838f1301908755ab9143e3f880d7a7b2",
+      "id": "link-149c7db65b6452f5845a52d7188d83e2",
       "type": "references",
-      "source": "ent-48c37a2b47b056438a8efd12a81ac1ab",
-      "target": "ent-6dbc486adca05df8a165e33e3b6387f7",
+      "source": "ent-d33c53fbe7be5328a2451633d0e949dd",
+      "target": "ent-b3a0b030b9945642899d4623e520283b",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "replay_with_rollback",
@@ -993,10 +993,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-e8bd0e65a076543da41679ce8d041d17",
+      "id": "link-6846511fe3dd57c7b00a0c5a6253c36d",
       "type": "references",
-      "source": "ent-7117857bb5f2577b83372cedcc942c3b",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-d22c0de98207573d9a233c979710f218",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -1005,10 +1005,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-f77472f5227c572ab170b422dbe57c41",
+      "id": "link-0277a94b68f5574fa132d468a9605e6f",
       "type": "references",
-      "source": "ent-b90106bf67b156609d72684efcc1bd41",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-3cbf0801612a5d8595814ff4327e12df",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -1017,10 +1017,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-025439699cda5044aee82935b82ac146",
+      "id": "link-e597939656fd50378ca81dfe4ed14736",
       "type": "references",
-      "source": "ent-2191ac9debc55491a92eca6d7465bb24",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-e9ec52abe7345664a9aef837a411ac64",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -1029,10 +1029,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-eded2ca691a3594597a9192f401b4138",
+      "id": "link-e1376035865c5fde88be70e13c353122",
       "type": "references",
-      "source": "ent-82d5071ac716534bba7259b516241a46",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-18b9e53989d25930ae7e68dc0e5ccbad",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -1041,10 +1041,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-90b28916cf5c537a8636029fb679578e",
+      "id": "link-c2f898f0c23953d9bdd119c36f01366d",
       "type": "references",
-      "source": "ent-86b9ac36c0a2568e84ae6b0ec626011c",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-79f6977ad7705fa4aff41a6bda469b23",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -1053,10 +1053,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-47eb3ae4b671567082c9b9878b8b9778",
+      "id": "link-aa982143104858218be85bb8a9be884f",
       "type": "references",
-      "source": "ent-4dcc506d46e454e6b8dd5cb0aa3f88b1",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-d67b94fd5c2358aca16b8b9241709897",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -1065,10 +1065,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-3ca90cad2b995bd99a18fd2d67cec2bc",
+      "id": "link-359a365cbe3b5dca82453ddbd90456c7",
       "type": "references",
-      "source": "ent-eeaa30b954b35c91a3e4c24fe5112d86",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-fa9d80e1dc8c523daeaf0f6e623a3109",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -1077,10 +1077,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-fcfc8c7be690518082761603e75efc3a",
+      "id": "link-b0d45b85b7d25a00b9bc6f142178807b",
       "type": "references",
-      "source": "ent-eeaa30b954b35c91a3e4c24fe5112d86",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-fa9d80e1dc8c523daeaf0f6e623a3109",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1089,10 +1089,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-159e3cd5451f541db662b9ce9fb16acd",
+      "id": "link-106c51675b315a51b3198df5bed57b1e",
       "type": "references",
-      "source": "ent-eeaa30b954b35c91a3e4c24fe5112d86",
-      "target": "ent-bdd7195536fe5802a9631bb3643f6f6c",
+      "source": "ent-fa9d80e1dc8c523daeaf0f6e623a3109",
+      "target": "ent-024bba07ee1256288edabf5b0b7f8415",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "load_assertions",
@@ -1101,10 +1101,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-0e311f4c73bc532db356313096bb39f0",
+      "id": "link-1893cdb477055aafaa13bef8c673a6bb",
       "type": "references",
-      "source": "ent-2e62405e408459b5b64ecd35fda746b6",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-455c6c0d41505e97af1d71acc55afbe1",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -1113,10 +1113,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-ef63016e86e6588d99a00f187b07f6ba",
+      "id": "link-da994e1e26415fb6af3012b9b5dfdb4d",
       "type": "references",
-      "source": "ent-2e62405e408459b5b64ecd35fda746b6",
-      "target": "ent-1a1a17f09e115a919cd0d51d95ef598f",
+      "source": "ent-455c6c0d41505e97af1d71acc55afbe1",
+      "target": "ent-a53d0647c4685885991c6d8f5985c0dc",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "append",
@@ -1125,10 +1125,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-639fa8992eff5def88c4a19f6d562fca",
+      "id": "link-1627aea69dd3538ba204bb7074d0e3de",
       "type": "references",
-      "source": "ent-2e62405e408459b5b64ecd35fda746b6",
-      "target": "ent-bd2ad1ad0c705602bb6b329f16439c6e",
+      "source": "ent-455c6c0d41505e97af1d71acc55afbe1",
+      "target": "ent-1c42d2495d485fddad4d07ac59924fe9",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "assertions",
@@ -1137,10 +1137,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-5cae660669e35e519e2c1c3e82add195",
+      "id": "link-a5af6c7a3ba45e559d8e1bf5faccb38a",
       "type": "references",
-      "source": "ent-2e62405e408459b5b64ecd35fda746b6",
-      "target": "ent-7117857bb5f2577b83372cedcc942c3b",
+      "source": "ent-455c6c0d41505e97af1d71acc55afbe1",
+      "target": "ent-d22c0de98207573d9a233c979710f218",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_assertion",
@@ -1149,10 +1149,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-af45b1f8f06b5f9eb3ec34a8ed27a36f",
+      "id": "link-5c0ad2bfb9d05d758dbefad29eaeaaca",
       "type": "references",
-      "source": "ent-c510843bd3975c688af425a9c6f315cb",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-0af32bc83a1856b6b86c9413bb93a5ff",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -1161,10 +1161,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-215caf3a8ae15ae7a46f323e0c6b184c",
+      "id": "link-28de516ebe92528e80f7bbe4107b049a",
       "type": "references",
-      "source": "ent-c510843bd3975c688af425a9c6f315cb",
-      "target": "ent-bd2ad1ad0c705602bb6b329f16439c6e",
+      "source": "ent-0af32bc83a1856b6b86c9413bb93a5ff",
+      "target": "ent-1c42d2495d485fddad4d07ac59924fe9",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "assertions",
@@ -1173,10 +1173,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-32b6ef0ebcad5189b176c11f88be52a3",
+      "id": "link-37e0cbe92e7d55959d0910c784ea0bad",
       "type": "references",
-      "source": "ent-c510843bd3975c688af425a9c6f315cb",
-      "target": "ent-4c3f988a498a58c384b66ae54f52ff23",
+      "source": "ent-0af32bc83a1856b6b86c9413bb93a5ff",
+      "target": "ent-cbb14c75b999598692b4e880f0557ed2",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "canonical_json_text",
@@ -1185,10 +1185,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-901511e4235e5ffbacde021e0da17434",
+      "id": "link-0d972371c769545fbdb0b0bdcebcd2d5",
       "type": "references",
-      "source": "ent-bdd7195536fe5802a9631bb3643f6f6c",
-      "target": "ent-bd2ad1ad0c705602bb6b329f16439c6e",
+      "source": "ent-024bba07ee1256288edabf5b0b7f8415",
+      "target": "ent-1c42d2495d485fddad4d07ac59924fe9",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "assertions",
@@ -1197,10 +1197,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-99957009ce2b5b289d420536f6b69051",
+      "id": "link-30d88e91d7575737892c1caf22646b87",
       "type": "references",
-      "source": "ent-bdd7195536fe5802a9631bb3643f6f6c",
-      "target": "ent-7117857bb5f2577b83372cedcc942c3b",
+      "source": "ent-024bba07ee1256288edabf5b0b7f8415",
+      "target": "ent-d22c0de98207573d9a233c979710f218",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_assertion",
@@ -1209,10 +1209,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-24088ded85f858029bdc1775715d7a12",
+      "id": "link-d352455f6ab35bcc8f557e11fdf837e5",
       "type": "references",
-      "source": "ent-6dbc486adca05df8a165e33e3b6387f7",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-b3a0b030b9945642899d4623e520283b",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -1221,10 +1221,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-69e3e18a70565fdd8e3dfde806d8708f",
+      "id": "link-fc2174e4c4b05298abcd3e739bdb607b",
       "type": "references",
-      "source": "ent-6dbc486adca05df8a165e33e3b6387f7",
-      "target": "ent-bd2ad1ad0c705602bb6b329f16439c6e",
+      "source": "ent-b3a0b030b9945642899d4623e520283b",
+      "target": "ent-1c42d2495d485fddad4d07ac59924fe9",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "assertions",
@@ -1233,10 +1233,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-968503d880e454e799ba7f874b805b9b",
+      "id": "link-10ccf1a8574451e2b6d79c1e43c288c0",
       "type": "references",
-      "source": "ent-6dbc486adca05df8a165e33e3b6387f7",
-      "target": "ent-f54fb97490285e46bd5145643ec5b6a9",
+      "source": "ent-b3a0b030b9945642899d4623e520283b",
+      "target": "ent-c90324549e545eb19eb7171ce48e9072",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "close",
@@ -1245,10 +1245,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-0c4bbff593485dda8b5d98bac86fd4e7",
+      "id": "link-c2ecf681d5475e8090c17c9bb9012c39",
       "type": "references",
-      "source": "ent-6dbc486adca05df8a165e33e3b6387f7",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-b3a0b030b9945642899d4623e520283b",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1257,10 +1257,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-1bfe450c2a0a543680e7f7f2659c88ed",
+      "id": "link-fd73d635030058bfb9a2264c764548d4",
       "type": "references",
-      "source": "ent-6dbc486adca05df8a165e33e3b6387f7",
-      "target": "ent-c510843bd3975c688af425a9c6f315cb",
+      "source": "ent-b3a0b030b9945642899d4623e520283b",
+      "target": "ent-0af32bc83a1856b6b86c9413bb93a5ff",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "ingest",
@@ -1269,10 +1269,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-eaa0e7627d785333b51a63821476c4a4",
+      "id": "link-2decddf94f0251e298799fcab3e3a041",
       "type": "references",
-      "source": "ent-6dbc486adca05df8a165e33e3b6387f7",
-      "target": "ent-2e8c1accd1155d939568ef5e66fb4b1d",
+      "source": "ent-b3a0b030b9945642899d4623e520283b",
+      "target": "ent-ff5c948d72d15b82b23c2aec9078077d",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "integrity",
@@ -1281,10 +1281,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-2e5318dabf8b57628dc13484f90e8d72",
+      "id": "link-4aee9e95270f5502ac5b0d51be63fa79",
       "type": "references",
-      "source": "ent-6dbc486adca05df8a165e33e3b6387f7",
-      "target": "ent-2e62405e408459b5b64ecd35fda746b6",
+      "source": "ent-b3a0b030b9945642899d4623e520283b",
+      "target": "ent-455c6c0d41505e97af1d71acc55afbe1",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "read_assertion_jsonl",
@@ -1293,10 +1293,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-12a08181c44c5a1c9766b5c2ed0bb7fb",
+      "id": "link-8c1beb11f12c590dbf79834e1b600851",
       "type": "references",
-      "source": "ent-6dbc486adca05df8a165e33e3b6387f7",
-      "target": "ent-7b73ec4ce15d5591ba417dd98f994050",
+      "source": "ent-b3a0b030b9945642899d4623e520283b",
+      "target": "ent-4ea41097d1ca5ae48ec6a3dfe7df1131",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "rollback_manifest",
@@ -1305,10 +1305,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-0397cb4bea105013a180520cd86e539d",
+      "id": "link-ed96c69572a2588a916ceaf5558ad71d",
       "type": "references",
-      "source": "ent-dd6136ae2fed593e8fb24222456a2377",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-74a21352d10657d98fb96a85e371a6da",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -1317,10 +1317,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-74e813134c44507cacb6be01fe8ec8b6",
+      "id": "link-9cbe0e2262025f83842c218b8e5c272b",
       "type": "references",
-      "source": "ent-fc8a89ec071e59d5aaa836d70bf8e90b",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-2f9da4ca10c25a009dbf7afae598a857",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -1329,10 +1329,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-463ef5bdcb645372b822239e7ab4a970",
+      "id": "link-69a9429f736654898d20f34ddddd84ed",
       "type": "references",
-      "source": "ent-fc8a89ec071e59d5aaa836d70bf8e90b",
-      "target": "ent-dd6136ae2fed593e8fb24222456a2377",
+      "source": "ent-2f9da4ca10c25a009dbf7afae598a857",
+      "target": "ent-74a21352d10657d98fb96a85e371a6da",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "_rollback_path_within",
@@ -1341,10 +1341,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-4e505f2a46625a05bd52ad8801f0f665",
+      "id": "link-d3e4e5acc84a50448e2b28132ac32bcb",
       "type": "references",
-      "source": "ent-81eb320f07b25acc9f8e20fb4273a9c1",
-      "target": "ent-c510843bd3975c688af425a9c6f315cb",
+      "source": "ent-64aee904371750b28057690c027b7947",
+      "target": "ent-0af32bc83a1856b6b86c9413bb93a5ff",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "ingest",
@@ -1353,10 +1353,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-c8eda6bf1fac5b43bfbadfdb7cae5f3c",
+      "id": "link-e8a6bc893d9b5c97bbae8cb75686d17c",
       "type": "references",
-      "source": "ent-98c0f556e88958f48cbe2f6d70c374bf",
-      "target": "ent-c510843bd3975c688af425a9c6f315cb",
+      "source": "ent-cd306aea54cb5d0e94abe576dcc945ae",
+      "target": "ent-0af32bc83a1856b6b86c9413bb93a5ff",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "ingest",
@@ -1365,10 +1365,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-4ff2867fd62d5b52ab1589e4001ea894",
+      "id": "link-fba58622b9ee5a94842724556a87e0e7",
       "type": "references",
-      "source": "ent-90560b10ba2b5ad18c8067675ea2f919",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-21e65b6036cd58b8a6c5f38f2571aa42",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1377,10 +1377,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-bbff81ecf4ef5ab299484db6d25d5e1c",
+      "id": "link-b2db7fb1640d5efd80b3107321d7e699",
       "type": "references",
-      "source": "ent-90560b10ba2b5ad18c8067675ea2f919",
-      "target": "ent-2e8c1accd1155d939568ef5e66fb4b1d",
+      "source": "ent-21e65b6036cd58b8a6c5f38f2571aa42",
+      "target": "ent-ff5c948d72d15b82b23c2aec9078077d",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "integrity",
@@ -1389,10 +1389,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-981d3fa388615238bf17ab901c30b847",
+      "id": "link-6eb2dd8e036f5bf1ad044f028db58a7f",
       "type": "references",
-      "source": "ent-63adccc452675ee593de479fc5482a27",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-09724ac71fa35e39b43b23f8feede32e",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1401,10 +1401,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-9c8db00ac4be550c8c906816dec25c6d",
+      "id": "link-78f5ead55ec250c2aa91b3b9e5ee9f26",
       "type": "references",
-      "source": "ent-63adccc452675ee593de479fc5482a27",
-      "target": "ent-2e8c1accd1155d939568ef5e66fb4b1d",
+      "source": "ent-09724ac71fa35e39b43b23f8feede32e",
+      "target": "ent-ff5c948d72d15b82b23c2aec9078077d",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "integrity",
@@ -1413,10 +1413,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-c45d74d425d35a08956e7f7e28ed9f40",
+      "id": "link-4c244d13cd5f579d94479d8104bad531",
       "type": "references",
-      "source": "ent-10c466e720da5e028e52767bb26c10d4",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-d6b898e30425598da5d042debc7976b7",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1425,10 +1425,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-bcf0bac3398057c292d27defeccd53d1",
+      "id": "link-1bac2a4acf9d5d38bf87cbb0a513bb4c",
       "type": "references",
-      "source": "ent-333f95b341b15c2bac5811a48bf98bf7",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-a88fa321e22d5d1ab6a0b3b2e387d9eb",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1437,10 +1437,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-4f49238464985e41a35d4f138c51b827",
+      "id": "link-2116efc1018f597f810335503cd72561",
       "type": "references",
-      "source": "ent-f9e44d2fe269579c82743a928922d4b0",
-      "target": "ent-c510843bd3975c688af425a9c6f315cb",
+      "source": "ent-0d6b2b371b055b008b4a02269f214137",
+      "target": "ent-0af32bc83a1856b6b86c9413bb93a5ff",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "ingest",
@@ -1449,10 +1449,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-6d525d0463df56dd816380722d920d1a",
+      "id": "link-98e6eb031a9e5a119550360c55822e3b",
       "type": "references",
-      "source": "ent-7c64c7ceddf75857acfc6cf5d7672e0e",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-c45868b755405facb108a19fa0110dc8",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1461,10 +1461,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-c56b2eb62028586bbe3882a280597e5b",
+      "id": "link-bd6af9450d2054eda24a28779d1c861d",
       "type": "references",
-      "source": "ent-7c64c7ceddf75857acfc6cf5d7672e0e",
-      "target": "ent-2e8c1accd1155d939568ef5e66fb4b1d",
+      "source": "ent-c45868b755405facb108a19fa0110dc8",
+      "target": "ent-ff5c948d72d15b82b23c2aec9078077d",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "integrity",
@@ -1473,10 +1473,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-6ac2f575baf358c7b44ee6b9b5ba19d4",
+      "id": "link-5645ae57c149599f9c8727031c4bf181",
       "type": "references",
-      "source": "ent-611be53baa0550b78389c6b5e4907508",
-      "target": "ent-c510843bd3975c688af425a9c6f315cb",
+      "source": "ent-eed9825a6e0456cb99767af3cad4cee0",
+      "target": "ent-0af32bc83a1856b6b86c9413bb93a5ff",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "ingest",
@@ -1485,10 +1485,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-701e181a18f056a3aad61e2cfbce3225",
+      "id": "link-35b12c646b505314905d08d277552590",
       "type": "references",
-      "source": "ent-380b1ace804b5518b0894ebd73bc05a8",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-a7bbf534646154e69722db8aa74e3e22",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1497,10 +1497,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-874afb1c5312519eb640210177a0caea",
+      "id": "link-94218f0ec65d58a69189552ce88aad67",
       "type": "references",
-      "source": "ent-af4411836f2a55d8ae62b98039161b5e",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-30f5ac932981588ebe7727115b527eed",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1509,10 +1509,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-3d10e6422a7c529c945f621c09afef12",
+      "id": "link-08aa1a493f015574aae795bc48a228c1",
       "type": "references",
-      "source": "ent-bc59e7425ef1539da557bd8b03311a2c",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-8a8027ff4a6a502dbdac63d4622149a2",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1521,10 +1521,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-b8319f4c3a72555aa4b9207dc6228f32",
+      "id": "link-e4bc1ea0011b5baab8bd004d47509f71",
       "type": "references",
-      "source": "ent-b691dc5a254b526db6c8d6b04ef54afc",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-b417013ae2a3505a9777586d8151c8e6",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1533,10 +1533,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-e1591b68a42757b0a7c7b498f63ab788",
+      "id": "link-41012649b7985c1f8e42340021a94393",
       "type": "references",
-      "source": "ent-dea6afbb8b17579eb09a1d6197de58b7",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-9d788fa65fc0557d9788ec6e28cb76f0",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1545,10 +1545,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-9b72bb190d2b58dd94176e5e9916d95b",
+      "id": "link-e0c68a1fb56f5606a9a31fbb2a2ac2a0",
       "type": "references",
-      "source": "ent-603a81cf769c53b291cf6a9b46288aaa",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-86000e5a85fe5bedb887635dc80ecf75",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1557,10 +1557,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-ce37239572745b83bc3f345322356738",
+      "id": "link-64f928fa9701560cb441c91cdec39cd4",
       "type": "references",
-      "source": "ent-603a81cf769c53b291cf6a9b46288aaa",
-      "target": "ent-2e8c1accd1155d939568ef5e66fb4b1d",
+      "source": "ent-86000e5a85fe5bedb887635dc80ecf75",
+      "target": "ent-ff5c948d72d15b82b23c2aec9078077d",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "integrity",
@@ -1569,10 +1569,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-1f591d48f48c583ba7197de909499830",
+      "id": "link-8ed8fa99f37d503fa304ec5939caba4e",
       "type": "references",
-      "source": "ent-a3cd08c04f1456b4923c92063826f183",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-76b1843ab8da596cb24d4681cd7a09b1",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1581,10 +1581,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-c86df6abea2c568c934109e38e3d2dd8",
+      "id": "link-584c7d93d63c557d944a9415f8deb899",
       "type": "references",
-      "source": "ent-86c3fc40ac515bd285ec4e3b8ba8be37",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-6bb8221189125452ab13bd27ce004bfd",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1593,10 +1593,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-7f9e18106a2855559fe7cb3468d5b6d9",
+      "id": "link-7830e4e8554757e3874b1ad496a4c8b6",
       "type": "references",
-      "source": "ent-cccf297f6d8e5b45936b73ce839fd66f",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-362c5f99c67e5c07b3904a5dd3d359d5",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1605,10 +1605,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-fe85bd67cc1c5e6eb8335de2c6e2f72b",
+      "id": "link-9aa2f1f5f058513baf96d39ea3e388be",
       "type": "references",
-      "source": "ent-0f2123238d435b168fbe1639c81a160a",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-f3da5380cb3250a984a46c416f728e28",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1617,10 +1617,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-027faa8c0d2c598e825027193af8d79c",
+      "id": "link-ee2702f21d5b52f3b4a1a37c888aaf3a",
       "type": "references",
-      "source": "ent-7c9e56498d12559faf6cd48b070bc936",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-5a18d3d548755506b52ce6bf7733f6d3",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1629,10 +1629,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-4d196bc6c4b651b0aed156dad518469c",
+      "id": "link-d094b32ecb215b0c962d9f8ae64fd04b",
       "type": "references",
-      "source": "ent-3343bf61ffa25122953344a40855553e",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-22a6ee7859235a34abed0c477efc7223",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1641,10 +1641,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-d3c8c5b168df5537bac66adf50d5a07c",
+      "id": "link-0345a4a5dcfc5e38885a567ad4f5b84d",
       "type": "references",
-      "source": "ent-d654846949e05e8d8a2b592dce2c0c14",
-      "target": "ent-2e8c1accd1155d939568ef5e66fb4b1d",
+      "source": "ent-3947280e24c55dbaab837e0ce3c2b7da",
+      "target": "ent-ff5c948d72d15b82b23c2aec9078077d",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "integrity",
@@ -1653,10 +1653,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-0093d2164fab520b923c8e5e16dec5fa",
+      "id": "link-c74f8e3b9a0c5fca8fc5a9fe9d852c58",
       "type": "references",
-      "source": "ent-4f351379e38652e1ab6890418a18bcb2",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-33367521da9d5d689589bc73fbec3d42",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1665,10 +1665,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-846fabf6df7f52d09dcff7db33fbdcab",
+      "id": "link-21c9d22677c656109aed1d69dcbcb6e5",
       "type": "references",
-      "source": "ent-4f351379e38652e1ab6890418a18bcb2",
-      "target": "ent-2e8c1accd1155d939568ef5e66fb4b1d",
+      "source": "ent-33367521da9d5d689589bc73fbec3d42",
+      "target": "ent-ff5c948d72d15b82b23c2aec9078077d",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "integrity",
@@ -1677,10 +1677,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-d0f0160374a45cd1acdd37d10cad3c7a",
+      "id": "link-d540df0233d55ec099e6ebae67cb8051",
       "type": "references",
-      "source": "ent-3006fa55d651576894d027ec839491cd",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-51d13628f0f3585e9ee9c7ca0e940633",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1689,10 +1689,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-28ec069e6ffa5bbb9ea3f64550e287b9",
+      "id": "link-e898126dd33d5946903c1b077f13e795",
       "type": "references",
-      "source": "ent-3006fa55d651576894d027ec839491cd",
-      "target": "ent-2e8c1accd1155d939568ef5e66fb4b1d",
+      "source": "ent-51d13628f0f3585e9ee9c7ca0e940633",
+      "target": "ent-ff5c948d72d15b82b23c2aec9078077d",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "integrity",
@@ -1701,10 +1701,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-162aab2532915e4fa886479d3d11b0c6",
+      "id": "link-0ed17f1adc4d562181affe9738274a6a",
       "type": "references",
-      "source": "ent-ed40911f797353ad9c472a4079e9d8d6",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-0a1e645034ef553083e8a334928d3d09",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1713,10 +1713,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-7eba41de928d50a883e3e101ef5bbecd",
+      "id": "link-9384e9516f0c5dafb5fa163ddc4499d8",
       "type": "references",
-      "source": "ent-c94ce120b6b356c8b0df2e843c12da54",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-99fafe4b970e5d18abb5ac1e7f70aa51",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1725,10 +1725,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-e367f71f25705c78a408c7e0cbc866b8",
+      "id": "link-5c726c06e5a15dc0b49a2461b7534563",
       "type": "references",
-      "source": "ent-1d5fedba346357989ebb9775950f916a",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-7ad39226dfce59629753483bc4d2f31d",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1737,10 +1737,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-ec8384def55c54998feb6d5d51267f34",
+      "id": "link-d6b14753a199593baeef0bb31b8a775f",
       "type": "references",
-      "source": "ent-5bab2f26e9045f0fa325006fe167107c",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-f7743c50e68450ffa4bfcebc3debd5c7",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1749,10 +1749,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-f79f6200e35b51719dc699fecbffde2e",
+      "id": "link-75e39ee2107455e8a04680e352c72ac3",
       "type": "references",
-      "source": "ent-4f271ae128845c6482b3c2fe729212e0",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-e0660ba59ab254cba186a663fc6b1f31",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1761,10 +1761,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-a35974b32d22553f89bbb96716dd1e3e",
+      "id": "link-860b2e21722156b396de5d80312e45c7",
       "type": "references",
-      "source": "ent-94dc69704ce655b2ae72b40d7d333127",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-b31d3396e0335cd79c23a9e4b16925db",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1773,10 +1773,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-0858666c05e95618b5d79f10657922ae",
+      "id": "link-34a232fb75e85d1986f104ba75682b2e",
       "type": "references",
-      "source": "ent-418b00efc70155c09aa1b5c72c1c09c5",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-44089269e2d1552e8681e0e75a2f33ca",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1785,10 +1785,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-679267c6d3cb5d68ab19a8a162f4f1d7",
+      "id": "link-c87f88e84dea51ac979a21070e6732da",
       "type": "references",
-      "source": "ent-2ef103ec8e9d5c3ab4655e71a4ee5c4a",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-2fb6c0819ad25ed3bdadc8dd54b177c7",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1797,10 +1797,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-27f1ba99ef5954a789430a4b8bf2b527",
+      "id": "link-847b1e4aeb9d595fba0b326249efa492",
       "type": "references",
-      "source": "ent-b78e428ef6495a3a96fcc4b332ec62b7",
-      "target": "ent-2e8c1accd1155d939568ef5e66fb4b1d",
+      "source": "ent-335fc73e56ef56fca248e97acf4d6e39",
+      "target": "ent-ff5c948d72d15b82b23c2aec9078077d",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "integrity",
@@ -1809,10 +1809,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-4fc27c28a5c95f219c3628e7128a015a",
+      "id": "link-5cad2b7f923d5341923ac4527e9ac2b8",
       "type": "references",
-      "source": "ent-84a3c4ce3139515eb5db174a7fd1eada",
-      "target": "ent-2e8c1accd1155d939568ef5e66fb4b1d",
+      "source": "ent-606b099845b65cf3993e6a0925e0e799",
+      "target": "ent-ff5c948d72d15b82b23c2aec9078077d",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "integrity",
@@ -1821,10 +1821,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-de7b9fb6105a5455b6c11aa5e8b87767",
+      "id": "link-8d70be7491b55f63a6ce24b4a050b858",
       "type": "references",
-      "source": "ent-6df74ae4c9d2561996457283fa896552",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-7e0787924427582c97a8b4d95b6bdd10",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1833,10 +1833,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-dd4683ff0c6c5aacb1e27b22d2ac0e12",
+      "id": "link-6c4f0d7a4a765896b3e5398cfd455e9d",
       "type": "references",
-      "source": "ent-44cb74a1b17d5cdfb391a022fed81d84",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-5facfd706dc251bbbcaca664e4b0effb",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1845,10 +1845,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-8a60347e6db45680b563d564868a1005",
+      "id": "link-5a870a8659f75fe1b401d2559f761fc9",
       "type": "references",
-      "source": "ent-44cb74a1b17d5cdfb391a022fed81d84",
-      "target": "ent-2e8c1accd1155d939568ef5e66fb4b1d",
+      "source": "ent-5facfd706dc251bbbcaca664e4b0effb",
+      "target": "ent-ff5c948d72d15b82b23c2aec9078077d",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "integrity",
@@ -1857,10 +1857,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-1245a8df227854eaa6c49c97c7fec321",
+      "id": "link-a6efa10fcf2350da9722816b8f5bdd6c",
       "type": "references",
-      "source": "ent-be8515afdc005e5f8943672d4a40a617",
-      "target": "ent-c510843bd3975c688af425a9c6f315cb",
+      "source": "ent-7c81b21d875e51f7b9fb5fd0e905376d",
+      "target": "ent-0af32bc83a1856b6b86c9413bb93a5ff",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "ingest",
@@ -1869,10 +1869,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-5b6ee7763e5f55edab893655f94c08c2",
+      "id": "link-411bc48d118159c9aa831966aac1a456",
       "type": "references",
-      "source": "ent-596aeeff850c599aa26f53bff8e6b9f6",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-5ce4e82d131e5b508b773d7871fbcc63",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1881,10 +1881,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-a458473138a15a138915fefe63e5ca3c",
+      "id": "link-97a9fe1f50ba5b83940577ce44e7930f",
       "type": "references",
-      "source": "ent-596aeeff850c599aa26f53bff8e6b9f6",
-      "target": "ent-2e8c1accd1155d939568ef5e66fb4b1d",
+      "source": "ent-5ce4e82d131e5b508b773d7871fbcc63",
+      "target": "ent-ff5c948d72d15b82b23c2aec9078077d",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "integrity",
@@ -1893,10 +1893,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-7d8a67f15f7c55dea693a1416710dad0",
+      "id": "link-40cde8831487571cabea6d29c2611def",
       "type": "references",
-      "source": "ent-3512ab6626225a7db2c65491e0346f27",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-bbcad92e54ac5ea389e3eda3ee45b12d",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1905,10 +1905,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-4faa605c472f5c3d976b2b1a9f63013d",
+      "id": "link-b7cde026870158f8a6be1f7100822d3f",
       "type": "references",
-      "source": "ent-55e671406169502b92ac0451990821ce",
-      "target": "ent-2e8c1accd1155d939568ef5e66fb4b1d",
+      "source": "ent-253e4e3305555c1a9a67f0b9c2351bea",
+      "target": "ent-ff5c948d72d15b82b23c2aec9078077d",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "integrity",
@@ -1917,10 +1917,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-f09b0b7ed7635d0fb0d29b9cee8af255",
+      "id": "link-7044f2962f9a56caab5032ef953c5572",
       "type": "references",
-      "source": "ent-55d9ac0a740c5ed09e1dccb01d535763",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-951afac0753e572aaee545a893f0b99a",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1929,10 +1929,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-1977f91f23d75783b12e6d7d7ea21d1b",
+      "id": "link-0d97fe6cb8f255798554c06943a64ab2",
       "type": "references",
-      "source": "ent-21559ff4a21c5ee2a36e6ad52ec2f3a8",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-07e24cf136225e16a8c19fca78d0f4e2",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1941,10 +1941,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-45a3d00109025e1fba905f69e5152bd1",
+      "id": "link-f21721e3d35b5a0ca9875dd0c2bb89da",
       "type": "references",
-      "source": "ent-fd493895df7e5314bf9de1f4e5421ff0",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-e9b8d198782c51bfb99d019cd81ff7c1",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1953,10 +1953,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-81cc7bf2763d5e7dbb5db42e65e674c0",
+      "id": "link-89247be0cf495ea8b033aa8ff40cf54b",
       "type": "references",
-      "source": "ent-96feefe745b35423b13532fdb00b1c10",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-46cfaf13ed29513188c5ea651fa5dab5",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1965,10 +1965,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-b685bd081527519bab32758638bfb07a",
+      "id": "link-00accf075f305ad1b30f65277f7a0fca",
       "type": "references",
-      "source": "ent-7b3b79be15a25770ad4155049b1867b3",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-83ddc7bb6a6359c6ae7be9b10cc92c93",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1977,10 +1977,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-00c6a3a57dcc5988a2ec9d0d9df0ccc5",
+      "id": "link-28620636e7fb5026a8999475feb1226a",
       "type": "references",
-      "source": "ent-40e3cd7cf37f503080af76fef3d5a43f",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-cbb9dcde87e45124b439249a4354db73",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -1989,10 +1989,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-f1ec968fdfb35d9f96aa4dc8a5fc9e20",
+      "id": "link-c07abcf7b59b5b6aaab247a71ba66a77",
       "type": "references",
-      "source": "ent-572a2d3fdeb1565880b77894aeeb554f",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-6db46c5fead95d43a89e7e47a0ce7183",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2001,10 +2001,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-fffe8cd25eab5ca7b07283b6c3958066",
+      "id": "link-bc2e3c622ae15e58b8646b0303489694",
       "type": "references",
-      "source": "ent-17772bb547795474ad8840857669a122",
-      "target": "ent-c510843bd3975c688af425a9c6f315cb",
+      "source": "ent-bf008e8f9d87597d9afd3df434ef722e",
+      "target": "ent-0af32bc83a1856b6b86c9413bb93a5ff",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "ingest",
@@ -2013,10 +2013,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-26d773b2d4b35227b9ed474822ad6f22",
+      "id": "link-2c8851d179e75e0599e92f30f3fa8fed",
       "type": "references",
-      "source": "ent-e92266db21095b2e9d84a9975c366bb5",
-      "target": "ent-c510843bd3975c688af425a9c6f315cb",
+      "source": "ent-ae57bb5ecada5463b9bc16b78ed7f418",
+      "target": "ent-0af32bc83a1856b6b86c9413bb93a5ff",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "ingest",
@@ -2025,10 +2025,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-56668668661d5e828170abf42430b575",
+      "id": "link-54c3c818290b5baaa0e1cd52beb26092",
       "type": "references",
-      "source": "ent-3de09fa80eea553a9dcf5303f015e73b",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-e58c20901339524fb3513e7d555c05ad",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2037,10 +2037,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-8205f65b9fe5593c868f3c950ab3e66a",
+      "id": "link-efe454d30d7b5d4192db2c23ab221600",
       "type": "references",
-      "source": "ent-25a09d8e26de5b7c92a2d3507bacfe51",
-      "target": "ent-c510843bd3975c688af425a9c6f315cb",
+      "source": "ent-38fa0d2148655d12b89ea0d1c428ca83",
+      "target": "ent-0af32bc83a1856b6b86c9413bb93a5ff",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "ingest",
@@ -2049,10 +2049,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-17194c8559b25b209ba972e2f31cc2cc",
+      "id": "link-3be22bca99ff58c5b447fde575a31624",
       "type": "references",
-      "source": "ent-05ae42213a8057f1b4a72b9490e6020b",
-      "target": "ent-c510843bd3975c688af425a9c6f315cb",
+      "source": "ent-03c2984c5ec953e598667684e9cc3be8",
+      "target": "ent-0af32bc83a1856b6b86c9413bb93a5ff",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "ingest",
@@ -2061,10 +2061,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-82f37ed0d00b54a7a3a699e19e613ac6",
+      "id": "link-5bd1a9113bdf564fa93bd1042c91a8db",
       "type": "references",
-      "source": "ent-8602c85dc8615f9caf02244190a961c8",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-360ece6e381c536a851239727edc4257",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2073,10 +2073,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-78b859fff8c55ab28f6fbe4948a4d34a",
+      "id": "link-ef9118dc83a25bbba8154104614ad3ea",
       "type": "references",
-      "source": "ent-c4653a67d7955e968c939d38d465631e",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-8a36a002de53503daf2bb9fb23552b90",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2085,10 +2085,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-8a3eb3e6f5f5598598225888b822bfba",
+      "id": "link-663c659a5d6053dbb06a9f84d95ccf33",
       "type": "references",
-      "source": "ent-c4653a67d7955e968c939d38d465631e",
-      "target": "ent-2e8c1accd1155d939568ef5e66fb4b1d",
+      "source": "ent-8a36a002de53503daf2bb9fb23552b90",
+      "target": "ent-ff5c948d72d15b82b23c2aec9078077d",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "integrity",
@@ -2097,10 +2097,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-5a1bc804fdcc5d6eb8c3c48ddcde9a52",
+      "id": "link-d822befb2d5a51709a5cf836b512fc51",
       "type": "references",
-      "source": "ent-7c0bc78941a659b38e87e88bd0c4f93b",
-      "target": "ent-2e8c1accd1155d939568ef5e66fb4b1d",
+      "source": "ent-379a61c9dfca516ca444221a324a5c16",
+      "target": "ent-ff5c948d72d15b82b23c2aec9078077d",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "integrity",
@@ -2109,10 +2109,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-65b8e3b8af1b5839ae9a2d4666ca1815",
+      "id": "link-094a8a2221665e8e9fb4ce7af7e8aa6c",
       "type": "references",
-      "source": "ent-0516d5195653535f9a364f0412a5c2d8",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-c8b886917b0056d1ab828f0c930d4d08",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2121,10 +2121,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-26442800cc465cee89d62f71a8da8690",
+      "id": "link-f38b190cc2c45fe89be31b4edd6f60f7",
       "type": "references",
-      "source": "ent-f15bc6d42fe350b9a0ffb9c92e10125c",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-6bf1ec21deaa53878069a91acdc9de96",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2133,10 +2133,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-1cb1d31583625d4a8e55f0ec9ca27237",
+      "id": "link-0d0bd9f790dc545da8d40aa68e7d85ce",
       "type": "references",
-      "source": "ent-19161d9b99a15bb1a6a4f34911251c5b",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-3c8cc18a2d25510d89f67e903afde862",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2145,10 +2145,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-83e1cbb4cb315117a43e41a5efc0a355",
+      "id": "link-8fe8561a2f7650409dd532db3a4f997f",
       "type": "references",
-      "source": "ent-19161d9b99a15bb1a6a4f34911251c5b",
-      "target": "ent-2e8c1accd1155d939568ef5e66fb4b1d",
+      "source": "ent-3c8cc18a2d25510d89f67e903afde862",
+      "target": "ent-ff5c948d72d15b82b23c2aec9078077d",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "integrity",
@@ -2157,10 +2157,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-259da21f594b59dfb13a7db842454636",
+      "id": "link-e2f9c385238f5f4a8e696b6c8e648483",
       "type": "references",
-      "source": "ent-654cb8f4a0d3565eb5bf8e0b9952d337",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-f3aa295706135f12839741606fbc6839",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2169,10 +2169,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-d28ba406bde954409ad0dc08f9db0ec1",
+      "id": "link-4be00b353b015424a02f926cc3337732",
       "type": "references",
-      "source": "ent-31e0f4e9204a5c7e82addba23aa1866b",
-      "target": "ent-2e8c1accd1155d939568ef5e66fb4b1d",
+      "source": "ent-aa953c46e81850b49ce38f8086b77d50",
+      "target": "ent-ff5c948d72d15b82b23c2aec9078077d",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "integrity",
@@ -2181,10 +2181,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-6387f6ef57bf5300a059a89b7cfc550d",
+      "id": "link-785ad6e11bfe56c0b02ace9398751745",
       "type": "references",
-      "source": "ent-0eb4d33d5e5b5ef396b8714dd5bcdd47",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-851f40346c92574f93b988aaf8444372",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2193,10 +2193,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-9fb266a99a0a57c797232149ebc22ed9",
+      "id": "link-837a4b7c9dde5270882921de8b8cc770",
       "type": "references",
-      "source": "ent-a48f210c5af7597a9026a1c0610d524a",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-df86925e03e65465b1b22e67b7664a64",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2205,10 +2205,22 @@
       "cross_chunk": true
     },
     {
-      "id": "link-96d69e9889d55c538932f9a35cce0da3",
+      "id": "link-1039f0c306dd5a57972559908c5daeb9",
       "type": "references",
-      "source": "ent-71451cf50d4f5acf826a162e065fcbcd",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-ea66ceed92b559a7a56edb3522aa6212",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "connect",
+        "source_path": "tests/harness_retrieval_contract_probe.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-1e0343eb2e6e5f72b74745b016081b88",
+      "type": "references",
+      "source": "ent-fd0aa3c50cd6520bb752e3c09dc69268",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2217,10 +2229,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-179ab305531652fd925c2f9c13ea71c1",
+      "id": "link-8788fb6b54b3524d8fc5d35a9bbdacf3",
       "type": "references",
-      "source": "ent-019aff705cad5f9299ada8e463160765",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-ffc92f6242fb5f20875acb5f5134c093",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2229,10 +2241,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-e2ca7d6ec4025d098b654a08fc508998",
+      "id": "link-4d62ea3e03ba554ea820c5b121369bf8",
       "type": "references",
-      "source": "ent-9ed6117248a7576690b758ab716b0fa0",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-c208e1ac8afe5c53b3476eea617a05cb",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2241,10 +2253,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-3fe900c31bf65c3c9450bcb295140410",
+      "id": "link-d65e838bcf5152a2a30d35c36f380b68",
       "type": "references",
-      "source": "ent-c5cb36b94ab5598782c75e53711c5d3a",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-0d2db8c06b1155da83010a44018a5068",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2253,10 +2265,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-d2d4151b779151fb9176d76a069629ab",
+      "id": "link-96eae8a31ace5ac58eb918e5d14f463d",
       "type": "references",
-      "source": "ent-789a9c07f3a958139663fc9596c0d02e",
-      "target": "ent-2e8c1accd1155d939568ef5e66fb4b1d",
+      "source": "ent-a5e6ca04654e5443a8613ffb379b6a7a",
+      "target": "ent-ff5c948d72d15b82b23c2aec9078077d",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "integrity",
@@ -2265,10 +2277,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-cff68dd9bd2652e38b184bc9335815de",
+      "id": "link-93e34c3e066350e98e9551f84f207df8",
       "type": "references",
-      "source": "ent-65e74512967e58cab0d5208d07f44e10",
-      "target": "ent-2e8c1accd1155d939568ef5e66fb4b1d",
+      "source": "ent-65c9833521b75b5190e2f39700ad638d",
+      "target": "ent-ff5c948d72d15b82b23c2aec9078077d",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "integrity",
@@ -2277,10 +2289,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-3e6c88d2279e55f1aa2178b5d524fda5",
+      "id": "link-56843bee3c1a5d8cbe52184fe42a13f0",
       "type": "references",
-      "source": "ent-316cd1cb09965f9e9ee2c5a5c4204527",
-      "target": "ent-2e8c1accd1155d939568ef5e66fb4b1d",
+      "source": "ent-aca359a9f03b5dcba6f2ff8fac184ac2",
+      "target": "ent-ff5c948d72d15b82b23c2aec9078077d",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "integrity",
@@ -2289,10 +2301,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-f8f0a1451a9257f993c0b8bac90532bb",
+      "id": "link-02a5a2d6783659d7abc261f415f6daab",
       "type": "references",
-      "source": "ent-604cf4be8f9f59ac8a63fd7614b95138",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-90dc9edd726754cca281bcc38bd78e18",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2301,10 +2313,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-9790cd4a2d8557049a14070ce65d0488",
+      "id": "link-463d098d24175e4a8589bfc8c9d8f789",
       "type": "references",
-      "source": "ent-604cf4be8f9f59ac8a63fd7614b95138",
-      "target": "ent-c510843bd3975c688af425a9c6f315cb",
+      "source": "ent-90dc9edd726754cca281bcc38bd78e18",
+      "target": "ent-0af32bc83a1856b6b86c9413bb93a5ff",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "ingest",
@@ -2313,10 +2325,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-5e6b5d787d1a51749692f7915c4619b9",
+      "id": "link-dcf7d9e0b2c556be8fd38fea05d2aa81",
       "type": "references",
-      "source": "ent-2ead9861d18b543689b7c97cdf6a6ecd",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-7b26cca598f1566b987a1dc6cc5a9f37",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2325,10 +2337,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-5b0ad686bbdb524e80e08d5bb7a35d25",
+      "id": "link-43088252e4ed5a379697062121c49a98",
       "type": "references",
-      "source": "ent-2ead9861d18b543689b7c97cdf6a6ecd",
-      "target": "ent-c510843bd3975c688af425a9c6f315cb",
+      "source": "ent-7b26cca598f1566b987a1dc6cc5a9f37",
+      "target": "ent-0af32bc83a1856b6b86c9413bb93a5ff",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "ingest",
@@ -2337,10 +2349,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-f868d228173754bbb4f7dd97452923a0",
+      "id": "link-91258ed3b1f05477b29640352b502153",
       "type": "references",
-      "source": "ent-4dfa16bcb78f5b8180608e508e3c4ad3",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-0ecab516a54754e1b994122885e9e013",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2349,10 +2361,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-4bd1d42f5dd85704983e87b28151ac41",
+      "id": "link-19c2277d22d65db897197429e9162a8f",
       "type": "references",
-      "source": "ent-967dd14637b85847849ea0da86d4fd63",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-31c6b51fd4935502a08b40a9efd59138",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2361,10 +2373,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-5d7054085c2d5242bf287ada4da35c6e",
+      "id": "link-1bde2504a9725a76a3c62e1a61fd4716",
       "type": "references",
-      "source": "ent-8593ee9d3fff5214b7d4b3f50cba5096",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-70315f2974865e3c8f23525aeed51fca",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2373,10 +2385,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-bece4ce830785e46a5403021a06b7e1a",
+      "id": "link-d3852faa28a85f8f9226a9aae8a33346",
       "type": "references",
-      "source": "ent-3e841e941f675c14a1adbcb4b1af44aa",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-3b507529ed5059deaf98f355232e0cb9",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2385,10 +2397,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-cba20599e695593aa5b60042b0a9c4a5",
+      "id": "link-57ac234749af58548b3865841237683a",
       "type": "references",
-      "source": "ent-29b00cafc489598ba6fae5df7c34a09f",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-10821d61f3c35943bd9ac2862acab98f",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2397,10 +2409,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-5ae2c8d1352359318d5c0e251592c937",
+      "id": "link-1750aac36ccc544789fe628515202ef9",
       "type": "references",
-      "source": "ent-ee6def2f9a34555d87b5ee1d1d6be5aa",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-2740b8234b71533fbe63a3d69b2a8c7a",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -2409,10 +2421,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-d53d98af70035bad9ad384251e57ada2",
+      "id": "link-6ad8c05a8c4f5def9057fd1536714846",
       "type": "references",
-      "source": "ent-69f0459f27da53cd96d360377fc97860",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-daab070dd3165e928f47822d037034a6",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -2421,10 +2433,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-8c24b04adb6a5c50ae1a146c628c6476",
+      "id": "link-314492e6f0cd5cbf8552f046791bcc30",
       "type": "references",
-      "source": "ent-64a7a29fbc9a5a98a0540765a0a949d3",
-      "target": "ent-6dbc486adca05df8a165e33e3b6387f7",
+      "source": "ent-6be2a8154fb5599d91a04e466ae3d41a",
+      "target": "ent-b3a0b030b9945642899d4623e520283b",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "replay_with_rollback",
@@ -2433,10 +2445,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-976ec899c8bb5b96821f0cab7b84ab91",
+      "id": "link-0e2a4b652f4a58808f9f2f6a6867d962",
       "type": "references",
-      "source": "ent-10d361257816531f929067d6ef3e67bd",
-      "target": "ent-6dbc486adca05df8a165e33e3b6387f7",
+      "source": "ent-405c5f4df9065949aff930435788546b",
+      "target": "ent-b3a0b030b9945642899d4623e520283b",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "replay_with_rollback",
@@ -2445,10 +2457,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-35c2550f79a559749e98d747b8022ba9",
+      "id": "link-3031abf95fca5e46b897ae9d9eadd2e2",
       "type": "references",
-      "source": "ent-f0d75f0cc2535b63af7b7bd96adb60ae",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-e7cba3a7e73853dbb637606f86f69d23",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -2457,10 +2469,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-1f260f8508115ebd9cd81dcb3f4fa60b",
+      "id": "link-6311fced675458eb976f55c2c1a116ae",
       "type": "references",
-      "source": "ent-f0d75f0cc2535b63af7b7bd96adb60ae",
-      "target": "ent-6dbc486adca05df8a165e33e3b6387f7",
+      "source": "ent-e7cba3a7e73853dbb637606f86f69d23",
+      "target": "ent-b3a0b030b9945642899d4623e520283b",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "replay_with_rollback",
@@ -2469,10 +2481,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-e7678d1a93485530b62e8e74a655dee5",
+      "id": "link-5f601c969d6a5e088a76d652e7b862dd",
       "type": "references",
-      "source": "ent-f0d75f0cc2535b63af7b7bd96adb60ae",
-      "target": "ent-7117857bb5f2577b83372cedcc942c3b",
+      "source": "ent-e7cba3a7e73853dbb637606f86f69d23",
+      "target": "ent-d22c0de98207573d9a233c979710f218",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_assertion",
@@ -2481,10 +2493,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-3c26c769e8a55e36bd1fb3e7ffe4eb42",
+      "id": "link-017ee80423cc53ea97e969579d082cf9",
       "type": "references",
-      "source": "ent-b5404d6150045642ab8f4b9772e39256",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-fa00c99718015a41bd8e672c6e4ea673",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -2493,10 +2505,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-b58fd01213845ad290c94b57016178ff",
+      "id": "link-8452ac91f19850faa4f08ba377c717e8",
       "type": "references",
-      "source": "ent-b5404d6150045642ab8f4b9772e39256",
-      "target": "ent-7117857bb5f2577b83372cedcc942c3b",
+      "source": "ent-fa00c99718015a41bd8e672c6e4ea673",
+      "target": "ent-d22c0de98207573d9a233c979710f218",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_assertion",
@@ -2505,10 +2517,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-c58a6c4e16b457468f40249f732952aa",
+      "id": "link-05d1a0f88bd35a61a359fba67d220957",
       "type": "references",
-      "source": "ent-6d20060b899a5ce68a3dfee6d90e5135",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-66b808ac49e75093a5ad7f87ee57b1aa",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -2517,10 +2529,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-81cb4984c0f85bac83f475fb8bfb07d1",
+      "id": "link-6b0a31507cce5db9a11d2fee0041be0b",
       "type": "references",
-      "source": "ent-6d20060b899a5ce68a3dfee6d90e5135",
-      "target": "ent-7117857bb5f2577b83372cedcc942c3b",
+      "source": "ent-66b808ac49e75093a5ad7f87ee57b1aa",
+      "target": "ent-d22c0de98207573d9a233c979710f218",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_assertion",
@@ -2529,10 +2541,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-5e4a2000085a576ea2201255fb1233d0",
+      "id": "link-e1a649ab5ed45a9592c31596c50eeac7",
       "type": "references",
-      "source": "ent-92428773fedf51e3bba133def7a8a4ab",
-      "target": "ent-6dbc486adca05df8a165e33e3b6387f7",
+      "source": "ent-aaa76de5902c5569bdc8d6b480078d8b",
+      "target": "ent-b3a0b030b9945642899d4623e520283b",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "replay_with_rollback",
@@ -2541,10 +2553,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-4a6eb8a8a99258b8b64d6b2de6f654fa",
+      "id": "link-09a775c3dc335dfab9edda0db14635c2",
       "type": "references",
-      "source": "ent-a9df0baa2e7e54038312b21041f38632",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-1e266c03e51d53a9b668827738fa66f8",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -2553,10 +2565,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-193391b2eda25bd7a00819d02f1dad6d",
+      "id": "link-08b7601b10fd5ab8b69833982ffdf2a7",
       "type": "references",
-      "source": "ent-a9df0baa2e7e54038312b21041f38632",
-      "target": "ent-6dbc486adca05df8a165e33e3b6387f7",
+      "source": "ent-1e266c03e51d53a9b668827738fa66f8",
+      "target": "ent-b3a0b030b9945642899d4623e520283b",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "replay_with_rollback",
@@ -2565,10 +2577,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-a8ef13ca2d0c539289caf0fc24184eac",
+      "id": "link-e2b897cc22e257e0a1ce9f4d57ad6ef4",
       "type": "references",
-      "source": "ent-df26cb35765f510791a82cebf4e884dc",
-      "target": "ent-6dbc486adca05df8a165e33e3b6387f7",
+      "source": "ent-2bfb96941466583586f47c75c7471f3f",
+      "target": "ent-b3a0b030b9945642899d4623e520283b",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "replay_with_rollback",
@@ -2577,10 +2589,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-b4b7dc91168751f0a22089f3f16a312d",
+      "id": "link-8d635017c4915e1fb0b44be3195f14de",
       "type": "references",
-      "source": "ent-604be9772b03588f8ecb3b03dd0d81e6",
-      "target": "ent-6dbc486adca05df8a165e33e3b6387f7",
+      "source": "ent-9c9240f4f247586e9258631d68e41dcf",
+      "target": "ent-b3a0b030b9945642899d4623e520283b",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "replay_with_rollback",
@@ -2589,10 +2601,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-bb05cc0d438d5a1f99ef5cfd94ec9c75",
+      "id": "link-8678d67015125a6c82a9e612eecc48d4",
       "type": "references",
-      "source": "ent-e30a917a43fb54a1b065236c5a8e2b00",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-a357b18028d15117954027a961c34ded",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -2601,10 +2613,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-d8944a01515155fc8b8ea4ca25cb5605",
+      "id": "link-d1f12e8983415494b1c2d212b7a0cbe4",
       "type": "references",
-      "source": "ent-e30a917a43fb54a1b065236c5a8e2b00",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-a357b18028d15117954027a961c34ded",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2613,10 +2625,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-be86ad5cce5654d394fb6b3dea805c72",
+      "id": "link-0e00dced7a775cf98a998a65e4e1258f",
       "type": "references",
-      "source": "ent-e30a917a43fb54a1b065236c5a8e2b00",
-      "target": "ent-6dbc486adca05df8a165e33e3b6387f7",
+      "source": "ent-a357b18028d15117954027a961c34ded",
+      "target": "ent-b3a0b030b9945642899d4623e520283b",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "replay_with_rollback",
@@ -2625,10 +2637,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-5a2c12386986521a8ed4589ba6eb6667",
+      "id": "link-4c3d7885677150139d4008e8b7c7f00e",
       "type": "references",
-      "source": "ent-0622b6ca12a652a98059b23fc37af99d",
-      "target": "ent-6dbc486adca05df8a165e33e3b6387f7",
+      "source": "ent-53b7b414beae58719dd6c1caaa41929d",
+      "target": "ent-b3a0b030b9945642899d4623e520283b",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "replay_with_rollback",
@@ -2637,10 +2649,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-f74edd97b7145f548c1e06ede504865f",
+      "id": "link-ec2383002ef55b6c829c132f14b898a0",
       "type": "references",
-      "source": "ent-e6af970a4e0556858af8994c4efee936",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-e88573fe536851c5b9ad1fd077ef9634",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -2649,10 +2661,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-e0199f0b58a35bce90e5a0232e756f5b",
+      "id": "link-754cefef105e5dd5984f35577131851a",
       "type": "references",
-      "source": "ent-e6af970a4e0556858af8994c4efee936",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-e88573fe536851c5b9ad1fd077ef9634",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2661,10 +2673,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-865f87c2f1d259ac802e7dae5ee351f0",
+      "id": "link-3f173e30d250519c83d4e0bb8b4f5133",
       "type": "references",
-      "source": "ent-e6af970a4e0556858af8994c4efee936",
-      "target": "ent-6dbc486adca05df8a165e33e3b6387f7",
+      "source": "ent-e88573fe536851c5b9ad1fd077ef9634",
+      "target": "ent-b3a0b030b9945642899d4623e520283b",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "replay_with_rollback",
@@ -2673,10 +2685,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-0543e372a0945bb4bf9efadd290d2cd8",
+      "id": "link-ffe9c69c5e615bd39d445b8cff928a08",
       "type": "references",
-      "source": "ent-a8b15723d32c5b08a8814669dba00e0c",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-7f58c04e08a0559dbee8cacf76de2c67",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -2685,10 +2697,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-81cb5b3226e958febf4d96b30739fed3",
+      "id": "link-0cfa8a3079e954a58cabfbbd47791ffa",
       "type": "references",
-      "source": "ent-a8b15723d32c5b08a8814669dba00e0c",
-      "target": "ent-6dbc486adca05df8a165e33e3b6387f7",
+      "source": "ent-7f58c04e08a0559dbee8cacf76de2c67",
+      "target": "ent-b3a0b030b9945642899d4623e520283b",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "replay_with_rollback",
@@ -2697,10 +2709,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-e187b848e8155e6382c86722f27d166a",
+      "id": "link-39f09a72f486569a92c883ccc243a050",
       "type": "references",
-      "source": "ent-57f60a9f29d35b6097a9bed122df0311",
-      "target": "ent-6dbc486adca05df8a165e33e3b6387f7",
+      "source": "ent-a813e2279a2d5a49ba59adf1dd43e27f",
+      "target": "ent-b3a0b030b9945642899d4623e520283b",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "replay_with_rollback",
@@ -2709,10 +2721,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-1be01dc9f8445a17ac5efd5b327c8d63",
+      "id": "link-2db14dab7e685706a4a3d5bb222e4bae",
       "type": "references",
-      "source": "ent-66013d2b69635ca28112c57bf451f3f5",
-      "target": "ent-6dbc486adca05df8a165e33e3b6387f7",
+      "source": "ent-7f505ed0ee4c598b977cb4e0531ef522",
+      "target": "ent-b3a0b030b9945642899d4623e520283b",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "replay_with_rollback",
@@ -2721,10 +2733,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-8b794e454e1d5535b0289365b6fa97d6",
+      "id": "link-71f8907bae0d5f7aac510ad5f698d6a0",
       "type": "references",
-      "source": "ent-ff1660ffbedf526f979abbea322fe170",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-3a4bd92bf0b555619c7594269189ea6d",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2733,10 +2745,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-f3b23c4a242a5b95be6f304d1dea7313",
+      "id": "link-ba14ac7761cb5b889a6e2adf7f7b2c30",
       "type": "references",
-      "source": "ent-ab190a39a47f5c37807c9820bcd5085e",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-d8a13fd445915045a02d1c252baa7f11",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2745,10 +2757,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-8a7da35703da50ecb6edee4d76c6c422",
+      "id": "link-1574e58797895c5caa5a7ae1fbdca17c",
       "type": "references",
-      "source": "ent-4c5aff5b6e16565db6d35eff31d581a8",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-02211daf8c225e3d8a72ec4eeb382327",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2757,10 +2769,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-90fc3c28252957ce88e2180f31fe5a13",
+      "id": "link-65a3a93f7665542eb03afa808dfdea97",
       "type": "references",
-      "source": "ent-1d6a6e07d96b50bc9c18de8ceae2ee93",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-7dd4dace783552789ad5ab6925a3e016",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2769,10 +2781,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-43d5adf114b2569da92e9721e73c5c43",
+      "id": "link-ba6fd493b9c25e9a9323e7c925c6c912",
       "type": "references",
-      "source": "ent-03227bd2c6795edbb5f894fa87680fed",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-f85999e9d850579f928e7544d29d2b86",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2781,10 +2793,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-a196330e4e4758acabf4cd5ff3658119",
+      "id": "link-f8ef14c4ecbd599a82413f871692cff3",
       "type": "references",
-      "source": "ent-733ccbdeea7c50c398932b7d7ff248b6",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-9693068b7978511096854b5b6f521b11",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2793,10 +2805,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-02116bd9b4d75c5f973f8d4a001712a4",
+      "id": "link-ed298c3eb341569394ff597dc27b2087",
       "type": "references",
-      "source": "ent-b3326349c9275d1c964e634173f6f534",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-e98d852b765f5928b585b9626484d8a5",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2805,10 +2817,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-15a5389c09a050bf9370b22f91edd866",
+      "id": "link-866e84340a965db6960d5a53d7fc9665",
       "type": "references",
-      "source": "ent-f972a6ba78b9553d98a7cfda54161f8d",
-      "target": "ent-c510843bd3975c688af425a9c6f315cb",
+      "source": "ent-6d738b5e169e5cf39168604721d51440",
+      "target": "ent-0af32bc83a1856b6b86c9413bb93a5ff",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "ingest",
@@ -2817,10 +2829,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-61553b7c1b045221a125c50ecab29ed1",
+      "id": "link-0a19a8283117542bbb607bc300b0dfb5",
       "type": "references",
-      "source": "ent-4822dec8c62a5a95b8cefd6d00fc530d",
-      "target": "ent-c510843bd3975c688af425a9c6f315cb",
+      "source": "ent-f2a561ac8b4e5eb08e01cf9d7c7d66f6",
+      "target": "ent-0af32bc83a1856b6b86c9413bb93a5ff",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "ingest",
@@ -2829,10 +2841,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-13ff2126f2135f2a817628aabf09a2f3",
+      "id": "link-4456dd8079905a4b8b4b4c935374cc2f",
       "type": "references",
-      "source": "ent-8b2bb549d2c952419e0b810e96298595",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-4dfc586b2f8d54f4b596e36dd7c97f96",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2841,10 +2853,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-35f89afb645a5845a8ae2b2af10c25e9",
+      "id": "link-84ff8191042d564488fb280f5b14f642",
       "type": "references",
-      "source": "ent-8b2bb549d2c952419e0b810e96298595",
-      "target": "ent-c510843bd3975c688af425a9c6f315cb",
+      "source": "ent-4dfc586b2f8d54f4b596e36dd7c97f96",
+      "target": "ent-0af32bc83a1856b6b86c9413bb93a5ff",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "ingest",
@@ -2853,10 +2865,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-71e7008e7d4c53889cdc6331f2ad6f5c",
+      "id": "link-a8f7b91f976452e393a214322cdb2737",
       "type": "references",
-      "source": "ent-41da1cec81345444ba703b4e7ad9890f",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-79da40e82f5c52709800a0e109ed5143",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2865,10 +2877,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-ac617b4a80d753388f30cf5a12d7e6e3",
+      "id": "link-122720ac9bf153ffaaaf1310115ba054",
       "type": "references",
-      "source": "ent-41da1cec81345444ba703b4e7ad9890f",
-      "target": "ent-c510843bd3975c688af425a9c6f315cb",
+      "source": "ent-79da40e82f5c52709800a0e109ed5143",
+      "target": "ent-0af32bc83a1856b6b86c9413bb93a5ff",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "ingest",
@@ -2877,10 +2889,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-1b7b74d63f585a6db651c8ef3838c0b9",
+      "id": "link-075737c451da54f09f781083dacd8f5e",
       "type": "references",
-      "source": "ent-8276274f99ab56f08caa38f3465f0b7e",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-495ff9d8a2ac529387caec0aef3cf911",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2889,10 +2901,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-ef945fa3e6ff5e939efbedc73518eddb",
+      "id": "link-905a105c038b5a0597cba9141353a498",
       "type": "references",
-      "source": "ent-ee93c6a72dea523b891835a14b789a5b",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-05bc217a8db752e990f211d95847e277",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2901,10 +2913,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-2948078f3120563995ca97493ccae15f",
+      "id": "link-a8dee89bc28f524498fe6a5259353f07",
       "type": "references",
-      "source": "ent-d42f7305c7325044be0b4cf3eb12e79b",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-21cd4431234b528abe914cba76a11287",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2913,10 +2925,22 @@
       "cross_chunk": true
     },
     {
-      "id": "link-28c9fdbc527359259dfbef66075d8b08",
+      "id": "link-8b0d68484a545e03bd3b7adc295266cd",
       "type": "references",
-      "source": "ent-b077992aeea55b8984cffef7f3cd3338",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-01ad2dce1a7b50aba8008c3b591ae72e",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
+      "provider": "tree-sitter-lexical-candidate",
+      "evidence": {
+        "name": "connect",
+        "source_path": "tests/test_scope_extension.py"
+      },
+      "cross_chunk": true
+    },
+    {
+      "id": "link-31574c9287e6554b8f4525eb3315f67a",
+      "type": "references",
+      "source": "ent-f19348cfbe9c5a8c893ee47b85ff181a",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2925,10 +2949,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-fa9ac3c0e89657c78c74573de20ae654",
+      "id": "link-3a62204ba1f252158d1ba1aed07293b6",
       "type": "references",
-      "source": "ent-25d43a9ab1ca568a87ca23040a9928d4",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-de26cea570d9545a85b357a91eb4968d",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2937,10 +2961,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-316f9f816fac530cb3d92fca01a39fa5",
+      "id": "link-b3156aba4917561aa07482f3ac27387b",
       "type": "references",
-      "source": "ent-d9061872e0c055d7bf374a7a68bb214c",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-0fcf54bba00d5caa9259cbf84256b5f7",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -2949,10 +2973,10 @@
       "cross_chunk": true
     },
     {
-      "id": "link-f679fa48f9da560f804de77068007d5f",
+      "id": "link-b522086a3ed554668b01c4cee5631e09",
       "type": "contains",
-      "source": "file-2349240c49965442bfce7862be06b74f",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "file-f888a563c59558209f540ab8a385a408",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter",
       "evidence": {
         "path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
@@ -2968,10 +2992,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-09fe090560bc581bad282eea824a0057",
+      "id": "link-4d272fb4a1295ff2ae451dbace6033f9",
       "type": "contains",
-      "source": "file-2349240c49965442bfce7862be06b74f",
-      "target": "ent-4414e71c248358cb8c9db5985840df2b",
+      "source": "file-f888a563c59558209f540ab8a385a408",
+      "target": "ent-1d528e8bad2c5ef490353b058232cfe6",
       "provider": "tree-sitter",
       "evidence": {
         "path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
@@ -2987,10 +3011,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-8d247047ac635b4caf3a57159d7576a9",
+      "id": "link-96fcd17ffdd556b680676bf7c4515a71",
       "type": "contains",
-      "source": "file-2349240c49965442bfce7862be06b74f",
-      "target": "ent-2e62405e408459b5b64ecd35fda746b6",
+      "source": "file-f888a563c59558209f540ab8a385a408",
+      "target": "ent-455c6c0d41505e97af1d71acc55afbe1",
       "provider": "tree-sitter",
       "evidence": {
         "path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
@@ -3006,10 +3030,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-d0c5f00694b65d699abe0d01fa249359",
+      "id": "link-db6cb60b663d5e91923eab1eb692c0aa",
       "type": "contains",
-      "source": "file-2349240c49965442bfce7862be06b74f",
-      "target": "ent-c510843bd3975c688af425a9c6f315cb",
+      "source": "file-f888a563c59558209f540ab8a385a408",
+      "target": "ent-0af32bc83a1856b6b86c9413bb93a5ff",
       "provider": "tree-sitter",
       "evidence": {
         "path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
@@ -3025,10 +3049,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-a773e2b189e15ae0a12d490de9ab8f6a",
+      "id": "link-172d2db39c705929af2532001bdd5117",
       "type": "contains",
-      "source": "file-2349240c49965442bfce7862be06b74f",
-      "target": "ent-bdd7195536fe5802a9631bb3643f6f6c",
+      "source": "file-f888a563c59558209f540ab8a385a408",
+      "target": "ent-024bba07ee1256288edabf5b0b7f8415",
       "provider": "tree-sitter",
       "evidence": {
         "path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
@@ -3044,10 +3068,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-3fc13452b9c6587e9e99a2542c1bd199",
+      "id": "link-398605e7e73f5db197047c1bc077d7b5",
       "type": "contains",
-      "source": "file-2349240c49965442bfce7862be06b74f",
-      "target": "ent-2e8c1accd1155d939568ef5e66fb4b1d",
+      "source": "file-f888a563c59558209f540ab8a385a408",
+      "target": "ent-ff5c948d72d15b82b23c2aec9078077d",
       "provider": "tree-sitter",
       "evidence": {
         "path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
@@ -3063,10 +3087,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-e87fec7a277f5f8ba7ec12cd03e90b7a",
+      "id": "link-95db64f17d0b515cad2c048a264144e2",
       "type": "contains",
-      "source": "file-2349240c49965442bfce7862be06b74f",
-      "target": "ent-6dbc486adca05df8a165e33e3b6387f7",
+      "source": "file-f888a563c59558209f540ab8a385a408",
+      "target": "ent-b3a0b030b9945642899d4623e520283b",
       "provider": "tree-sitter",
       "evidence": {
         "path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
@@ -3082,10 +3106,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-b1b10aa520ec5847bea9efe234cb17ab",
+      "id": "link-f32a9dcff6af5609ab5e58ee08cf6dc8",
       "type": "contains",
-      "source": "file-2349240c49965442bfce7862be06b74f",
-      "target": "ent-dd6136ae2fed593e8fb24222456a2377",
+      "source": "file-f888a563c59558209f540ab8a385a408",
+      "target": "ent-74a21352d10657d98fb96a85e371a6da",
       "provider": "tree-sitter",
       "evidence": {
         "path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
@@ -3101,10 +3125,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-ee09bf9fc9565f3f93fe9bbc0f36a9b2",
+      "id": "link-fccbb1eb648e5df486b24a98c502e7a1",
       "type": "contains",
-      "source": "file-2349240c49965442bfce7862be06b74f",
-      "target": "ent-fc8a89ec071e59d5aaa836d70bf8e90b",
+      "source": "file-f888a563c59558209f540ab8a385a408",
+      "target": "ent-2f9da4ca10c25a009dbf7afae598a857",
       "provider": "tree-sitter",
       "evidence": {
         "path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
@@ -3120,10 +3144,10 @@
       "cross_chunk": false
     },
     {
-      "id": "link-c8ec75538c5d51ab9fa0595bb17971c1",
+      "id": "link-a8a4971983135eeb9a949a70b451ee05",
       "type": "references",
-      "source": "ent-2bce64463e9c5f43b9135005dd9ca401",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-8fa41ef68c9d5a12b33016d73169a9df",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -3133,10 +3157,10 @@
       "boundary": true
     },
     {
-      "id": "link-c5a209b9c7cf55f586c0b85c9ccd9757",
+      "id": "link-2d6402660cb9513c87680850258ba5e2",
       "type": "references",
-      "source": "ent-f0db7f75205454099887e30829c13b29",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-9cf77a5232fe5e609f77d55a207f598d",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -3146,10 +3170,10 @@
       "boundary": true
     },
     {
-      "id": "link-bc3a535ce6f75b489e4ba0de77962587",
+      "id": "link-b3e83181a2a25a6e8be325a0177d3632",
       "type": "references",
-      "source": "ent-f0db7f75205454099887e30829c13b29",
-      "target": "ent-5d744e3d0f235a6a8c5f71f6b79f0863",
+      "source": "ent-9cf77a5232fe5e609f77d55a207f598d",
+      "target": "ent-3529d9171c3054cdb5de622993d7f77d",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "uri",
@@ -3159,10 +3183,10 @@
       "boundary": true
     },
     {
-      "id": "link-04c05f0a86995e1d89330519c11f9570",
+      "id": "link-41cb35756f055538b7999b3115913939",
       "type": "references",
-      "source": "ent-baee95b1eb5d5e53a91ef9c7970dc9f2",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-85d451e9cc0a5bf391d8d9d4833bcab9",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -3172,10 +3196,10 @@
       "boundary": true
     },
     {
-      "id": "link-08f7a6adc8e75cc38f45b29cc342864a",
+      "id": "link-a119b0827a4d5561b5fb31f95f294be3",
       "type": "references",
-      "source": "ent-f73f70e3f9d35a4080af76d8663bc14f",
-      "target": "ent-2e8c1accd1155d939568ef5e66fb4b1d",
+      "source": "ent-900d683229fc5b169122160614b4a21f",
+      "target": "ent-ff5c948d72d15b82b23c2aec9078077d",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "integrity",
@@ -3185,10 +3209,10 @@
       "boundary": true
     },
     {
-      "id": "link-06918815444a54f38668ba742aada557",
+      "id": "link-5f0d455361235f11923989de8c61379b",
       "type": "references",
-      "source": "ent-2dad6a91f0ac59728d6b7052a5f4bbdb",
-      "target": "ent-2e8c1accd1155d939568ef5e66fb4b1d",
+      "source": "ent-47f7b4f73ee9529e88ad5c06038cd199",
+      "target": "ent-ff5c948d72d15b82b23c2aec9078077d",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "integrity",
@@ -3198,10 +3222,10 @@
       "boundary": true
     },
     {
-      "id": "link-bb112d133641558a885933820788683b",
+      "id": "link-e03e38525a395f6ea255081dfe965de8",
       "type": "references",
-      "source": "ent-2dad6a91f0ac59728d6b7052a5f4bbdb",
-      "target": "ent-81626c0417ee56d883b4535ae3d65059",
+      "source": "ent-47f7b4f73ee9529e88ad5c06038cd199",
+      "target": "ent-0f826937050e54ca8503fbbe175dab1d",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "source_value",
@@ -3211,10 +3235,10 @@
       "boundary": true
     },
     {
-      "id": "link-79c48792462456a5b3bcc507dc3d2852",
+      "id": "link-d279cf18c9be59eda85494b07f420be5",
       "type": "references",
-      "source": "ent-28bfc2025d1a576d9b1b72c42a182ce5",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-c6a5a0bfba7954cd98bc4149dc3880df",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -3224,10 +3248,10 @@
       "boundary": true
     },
     {
-      "id": "link-b8450a16cc155174b6894a397794a6b1",
+      "id": "link-a2d4e0cf8d9d57b6b984c7d9dfb6a957",
       "type": "references",
-      "source": "ent-68e0d41ae10c58399d3f859049eca3d1",
-      "target": "ent-2e8c1accd1155d939568ef5e66fb4b1d",
+      "source": "ent-f4e544419b135fdc986c16260b7a030c",
+      "target": "ent-ff5c948d72d15b82b23c2aec9078077d",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "integrity",
@@ -3237,10 +3261,10 @@
       "boundary": true
     },
     {
-      "id": "link-838f1301908755ab9143e3f880d7a7b2",
+      "id": "link-149c7db65b6452f5845a52d7188d83e2",
       "type": "references",
-      "source": "ent-48c37a2b47b056438a8efd12a81ac1ab",
-      "target": "ent-6dbc486adca05df8a165e33e3b6387f7",
+      "source": "ent-d33c53fbe7be5328a2451633d0e949dd",
+      "target": "ent-b3a0b030b9945642899d4623e520283b",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "replay_with_rollback",
@@ -3250,10 +3274,10 @@
       "boundary": true
     },
     {
-      "id": "link-fcfc8c7be690518082761603e75efc3a",
+      "id": "link-b0d45b85b7d25a00b9bc6f142178807b",
       "type": "references",
-      "source": "ent-eeaa30b954b35c91a3e4c24fe5112d86",
-      "target": "ent-38658ad457665d50bace9927953fe256",
+      "source": "ent-fa9d80e1dc8c523daeaf0f6e623a3109",
+      "target": "ent-3ff68af50d2654b3af5b97fc72b42c38",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "connect",
@@ -3263,10 +3287,10 @@
       "boundary": true
     },
     {
-      "id": "link-159e3cd5451f541db662b9ce9fb16acd",
+      "id": "link-106c51675b315a51b3198df5bed57b1e",
       "type": "references",
-      "source": "ent-eeaa30b954b35c91a3e4c24fe5112d86",
-      "target": "ent-bdd7195536fe5802a9631bb3643f6f6c",
+      "source": "ent-fa9d80e1dc8c523daeaf0f6e623a3109",
+      "target": "ent-024bba07ee1256288edabf5b0b7f8415",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "load_assertions",
@@ -3276,10 +3300,10 @@
       "boundary": true
     },
     {
-      "id": "link-0e311f4c73bc532db356313096bb39f0",
+      "id": "link-1893cdb477055aafaa13bef8c673a6bb",
       "type": "references",
-      "source": "ent-2e62405e408459b5b64ecd35fda746b6",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-455c6c0d41505e97af1d71acc55afbe1",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -3289,10 +3313,10 @@
       "boundary": true
     },
     {
-      "id": "link-5cae660669e35e519e2c1c3e82add195",
+      "id": "link-a5af6c7a3ba45e559d8e1bf5faccb38a",
       "type": "references",
-      "source": "ent-2e62405e408459b5b64ecd35fda746b6",
-      "target": "ent-7117857bb5f2577b83372cedcc942c3b",
+      "source": "ent-455c6c0d41505e97af1d71acc55afbe1",
+      "target": "ent-d22c0de98207573d9a233c979710f218",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_assertion",
@@ -3302,10 +3326,10 @@
       "boundary": true
     },
     {
-      "id": "link-af45b1f8f06b5f9eb3ec34a8ed27a36f",
+      "id": "link-5c0ad2bfb9d05d758dbefad29eaeaaca",
       "type": "references",
-      "source": "ent-c510843bd3975c688af425a9c6f315cb",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-0af32bc83a1856b6b86c9413bb93a5ff",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -3315,10 +3339,10 @@
       "boundary": true
     },
     {
-      "id": "link-32b6ef0ebcad5189b176c11f88be52a3",
+      "id": "link-37e0cbe92e7d55959d0910c784ea0bad",
       "type": "references",
-      "source": "ent-c510843bd3975c688af425a9c6f315cb",
-      "target": "ent-4c3f988a498a58c384b66ae54f52ff23",
+      "source": "ent-0af32bc83a1856b6b86c9413bb93a5ff",
+      "target": "ent-cbb14c75b999598692b4e880f0557ed2",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "canonical_json_text",
@@ -3328,10 +3352,10 @@
       "boundary": true
     },
     {
-      "id": "link-99957009ce2b5b289d420536f6b69051",
+      "id": "link-30d88e91d7575737892c1caf22646b87",
       "type": "references",
-      "source": "ent-bdd7195536fe5802a9631bb3643f6f6c",
-      "target": "ent-7117857bb5f2577b83372cedcc942c3b",
+      "source": "ent-024bba07ee1256288edabf5b0b7f8415",
+      "target": "ent-d22c0de98207573d9a233c979710f218",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_assertion",
@@ -3341,10 +3365,10 @@
       "boundary": true
     },
     {
-      "id": "link-24088ded85f858029bdc1775715d7a12",
+      "id": "link-d352455f6ab35bcc8f557e11fdf837e5",
       "type": "references",
-      "source": "ent-6dbc486adca05df8a165e33e3b6387f7",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-b3a0b030b9945642899d4623e520283b",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -3354,10 +3378,10 @@
       "boundary": true
     },
     {
-      "id": "link-0397cb4bea105013a180520cd86e539d",
+      "id": "link-ed96c69572a2588a916ceaf5558ad71d",
       "type": "references",
-      "source": "ent-dd6136ae2fed593e8fb24222456a2377",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-74a21352d10657d98fb96a85e371a6da",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -3367,10 +3391,10 @@
       "boundary": true
     },
     {
-      "id": "link-74e813134c44507cacb6be01fe8ec8b6",
+      "id": "link-9cbe0e2262025f83842c218b8e5c272b",
       "type": "references",
-      "source": "ent-fc8a89ec071e59d5aaa836d70bf8e90b",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-2f9da4ca10c25a009dbf7afae598a857",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -3380,10 +3404,10 @@
       "boundary": true
     },
     {
-      "id": "link-5ae2c8d1352359318d5c0e251592c937",
+      "id": "link-1750aac36ccc544789fe628515202ef9",
       "type": "references",
-      "source": "ent-ee6def2f9a34555d87b5ee1d1d6be5aa",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-2740b8234b71533fbe63a3d69b2a8c7a",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -3393,10 +3417,10 @@
       "boundary": true
     },
     {
-      "id": "link-d53d98af70035bad9ad384251e57ada2",
+      "id": "link-6ad8c05a8c4f5def9057fd1536714846",
       "type": "references",
-      "source": "ent-69f0459f27da53cd96d360377fc97860",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-daab070dd3165e928f47822d037034a6",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -3406,10 +3430,10 @@
       "boundary": true
     },
     {
-      "id": "link-35c2550f79a559749e98d747b8022ba9",
+      "id": "link-3031abf95fca5e46b897ae9d9eadd2e2",
       "type": "references",
-      "source": "ent-f0d75f0cc2535b63af7b7bd96adb60ae",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-e7cba3a7e73853dbb637606f86f69d23",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -3419,10 +3443,10 @@
       "boundary": true
     },
     {
-      "id": "link-e7678d1a93485530b62e8e74a655dee5",
+      "id": "link-5f601c969d6a5e088a76d652e7b862dd",
       "type": "references",
-      "source": "ent-f0d75f0cc2535b63af7b7bd96adb60ae",
-      "target": "ent-7117857bb5f2577b83372cedcc942c3b",
+      "source": "ent-e7cba3a7e73853dbb637606f86f69d23",
+      "target": "ent-d22c0de98207573d9a233c979710f218",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_assertion",
@@ -3432,10 +3456,10 @@
       "boundary": true
     },
     {
-      "id": "link-3c26c769e8a55e36bd1fb3e7ffe4eb42",
+      "id": "link-017ee80423cc53ea97e969579d082cf9",
       "type": "references",
-      "source": "ent-b5404d6150045642ab8f4b9772e39256",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-fa00c99718015a41bd8e672c6e4ea673",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -3445,10 +3469,10 @@
       "boundary": true
     },
     {
-      "id": "link-b58fd01213845ad290c94b57016178ff",
+      "id": "link-8452ac91f19850faa4f08ba377c717e8",
       "type": "references",
-      "source": "ent-b5404d6150045642ab8f4b9772e39256",
-      "target": "ent-7117857bb5f2577b83372cedcc942c3b",
+      "source": "ent-fa00c99718015a41bd8e672c6e4ea673",
+      "target": "ent-d22c0de98207573d9a233c979710f218",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_assertion",
@@ -3458,10 +3482,10 @@
       "boundary": true
     },
     {
-      "id": "link-c58a6c4e16b457468f40249f732952aa",
+      "id": "link-05d1a0f88bd35a61a359fba67d220957",
       "type": "references",
-      "source": "ent-6d20060b899a5ce68a3dfee6d90e5135",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-66b808ac49e75093a5ad7f87ee57b1aa",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -3471,10 +3495,10 @@
       "boundary": true
     },
     {
-      "id": "link-81cb4984c0f85bac83f475fb8bfb07d1",
+      "id": "link-6b0a31507cce5db9a11d2fee0041be0b",
       "type": "references",
-      "source": "ent-6d20060b899a5ce68a3dfee6d90e5135",
-      "target": "ent-7117857bb5f2577b83372cedcc942c3b",
+      "source": "ent-66b808ac49e75093a5ad7f87ee57b1aa",
+      "target": "ent-d22c0de98207573d9a233c979710f218",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "validate_assertion",
@@ -3484,10 +3508,10 @@
       "boundary": true
     },
     {
-      "id": "link-4a6eb8a8a99258b8b64d6b2de6f654fa",
+      "id": "link-09a775c3dc335dfab9edda0db14635c2",
       "type": "references",
-      "source": "ent-a9df0baa2e7e54038312b21041f38632",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-1e266c03e51d53a9b668827738fa66f8",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -3497,10 +3521,10 @@
       "boundary": true
     },
     {
-      "id": "link-bb05cc0d438d5a1f99ef5cfd94ec9c75",
+      "id": "link-8678d67015125a6c82a9e612eecc48d4",
       "type": "references",
-      "source": "ent-e30a917a43fb54a1b065236c5a8e2b00",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-a357b18028d15117954027a961c34ded",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -3510,10 +3534,10 @@
       "boundary": true
     },
     {
-      "id": "link-f74edd97b7145f548c1e06ede504865f",
+      "id": "link-ec2383002ef55b6c829c132f14b898a0",
       "type": "references",
-      "source": "ent-e6af970a4e0556858af8994c4efee936",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-e88573fe536851c5b9ad1fd077ef9634",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -3523,10 +3547,10 @@
       "boundary": true
     },
     {
-      "id": "link-0543e372a0945bb4bf9efadd290d2cd8",
+      "id": "link-ffe9c69c5e615bd39d445b8cff928a08",
       "type": "references",
-      "source": "ent-a8b15723d32c5b08a8814669dba00e0c",
-      "target": "ent-ac8d3036bf315831aeb47714341e005d",
+      "source": "ent-7f58c04e08a0559dbee8cacf76de2c67",
+      "target": "ent-b5348f49b4e751759d54d0d0b1044614",
       "provider": "tree-sitter-lexical-candidate",
       "evidence": {
         "name": "TagNavigationError",
@@ -3550,15 +3574,15 @@
       "precision": "exact",
       "status": "passed",
       "covered_entity_ids": [
-        "ent-2e62405e408459b5b64ecd35fda746b6",
-        "ent-2e8c1accd1155d939568ef5e66fb4b1d",
-        "ent-38658ad457665d50bace9927953fe256",
-        "ent-4414e71c248358cb8c9db5985840df2b",
-        "ent-6dbc486adca05df8a165e33e3b6387f7",
-        "ent-bdd7195536fe5802a9631bb3643f6f6c",
-        "ent-c510843bd3975c688af425a9c6f315cb",
-        "ent-dd6136ae2fed593e8fb24222456a2377",
-        "ent-fc8a89ec071e59d5aaa836d70bf8e90b"
+        "ent-024bba07ee1256288edabf5b0b7f8415",
+        "ent-0af32bc83a1856b6b86c9413bb93a5ff",
+        "ent-1d528e8bad2c5ef490353b058232cfe6",
+        "ent-2f9da4ca10c25a009dbf7afae598a857",
+        "ent-3ff68af50d2654b3af5b97fc72b42c38",
+        "ent-455c6c0d41505e97af1d71acc55afbe1",
+        "ent-74a21352d10657d98fb96a85e371a6da",
+        "ent-b3a0b030b9945642899d4623e520283b",
+        "ent-ff5c948d72d15b82b23c2aec9078077d"
       ],
       "document_symbol_counts": {
         "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py": 67
@@ -3641,5 +3665,5 @@
     }
   ],
   "syntax_warnings": [],
-  "built_at_utc": "2026-09-03T01:37:30Z"
+  "built_at_utc": "2026-09-03T22:04:25Z"
 }

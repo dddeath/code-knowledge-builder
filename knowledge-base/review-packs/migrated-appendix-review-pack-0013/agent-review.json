@@ -3,298 +3,12 @@
   "pack_id": "migrated-appendix-review-pack-0013",
   "kind": "appendix-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-03T01:38:56Z",
+  "reviewed_at_utc": "2026-09-03T22:05:47Z",
   "reviews": [
     {
-      "entity_id": "ent-113e9d3ec6325b4e98cfae317275d483",
+      "entity_id": "ent-ea8350b024135f26ad68143f09fcc33c",
       "classification": "appendix",
-      "owner_page_id": "file-4b22509e15cf50228842138a30204288",
-      "source_path": "scripts/ckb_core/human_page_template_proposals.py",
-      "start_line": 1243,
-      "end_line": 1360,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_template_proposals.py` 第 1243-1360 行，并核对 Git blob `61d447296464`、分类与所有者。",
-      "description_zh": "`audit_template_proposal` 用于汇总并判断受控对象是否满足当前合同。"
-    },
-    {
-      "entity_id": "ent-997be9ea5b4d5d4d894268b26f993771",
-      "classification": "appendix",
-      "owner_page_id": "file-4b22509e15cf50228842138a30204288",
-      "source_path": "scripts/ckb_core/human_page_template_proposals.py",
-      "start_line": 1363,
-      "end_line": 1451,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_template_proposals.py` 第 1363-1451 行，并核对 Git blob `61d447296464`、分类与所有者。",
-      "description_zh": "`rollback_template_extension` 用于执行范围受控的恢复或撤销。"
-    },
-    {
-      "entity_id": "ent-21449a6ef2505075bc4c0a015bedad1b",
-      "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
-      "source_path": "scripts/ckb_core/human_page_templates.py",
-      "start_line": 29,
-      "end_line": 47,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 29-47 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
-      "description_zh": "`SectionContract` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-30ae94cbfaf953298dde530416cb8560",
-      "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
-      "source_path": "scripts/ckb_core/human_page_templates.py",
-      "start_line": 51,
-      "end_line": 56,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 51-56 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
-      "description_zh": "`CountBudget` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-d92cd6c94aa95fb4afa68ccaa7f95194",
-      "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
-      "source_path": "scripts/ckb_core/human_page_templates.py",
-      "start_line": 60,
-      "end_line": 67,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 60-67 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
-      "description_zh": "`LengthBudget` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-d28b8cfcf98e5288babaff63bb9f1f34",
-      "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
-      "source_path": "scripts/ckb_core/human_page_templates.py",
-      "start_line": 71,
-      "end_line": 76,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 71-76 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
-      "description_zh": "`LinkBudget` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-01c4c19de0b85b1f8ec6aac66bc557b5",
-      "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
-      "source_path": "scripts/ckb_core/human_page_templates.py",
-      "start_line": 80,
-      "end_line": 83,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 80-83 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
-      "description_zh": "`FirstScreenContract` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-73613d50c3a0547aa4f8b97113fd0243",
-      "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
-      "source_path": "scripts/ckb_core/human_page_templates.py",
-      "start_line": 87,
-      "end_line": 90,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 87-90 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
-      "description_zh": "`EvidenceContract` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-4404d084b280534199e9cdbc2b5338de",
-      "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
-      "source_path": "scripts/ckb_core/human_page_templates.py",
-      "start_line": 94,
-      "end_line": 107,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 94-107 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
-      "description_zh": "`HumanPageTemplateContract` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-3bbd17f444425f1fa88b5dc2de369c25",
-      "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
-      "source_path": "scripts/ckb_core/human_page_templates.py",
-      "start_line": 110,
-      "end_line": 199,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 110-199 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
-      "description_zh": "`_section` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-b629e903b86057cbbe1ee947bf10b3a1",
-      "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
-      "source_path": "scripts/ckb_core/human_page_templates.py",
-      "start_line": 202,
-      "end_line": 216,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 202-216 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
-      "description_zh": "`_optional_section` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-208485f6686954b5b8b3d494ac529e53",
-      "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
-      "source_path": "scripts/ckb_core/human_page_templates.py",
-      "start_line": 219,
-      "end_line": 227,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 219-227 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
-      "description_zh": "`_budget` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-49c6330d6cb5526c895224476a2eb3c5",
-      "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
-      "source_path": "scripts/ckb_core/human_page_templates.py",
-      "start_line": 230,
-      "end_line": 231,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 230-231 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
-      "description_zh": "`_section_entity_budget` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-3f595831a3be5e498528367357ef01d0",
-      "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
-      "source_path": "scripts/ckb_core/human_page_templates.py",
-      "start_line": 234,
-      "end_line": 248,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 234-248 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
-      "description_zh": "`_section_length_budget` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-2dc678ca5c165ef68212ccce163ae963",
-      "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
-      "source_path": "scripts/ckb_core/human_page_templates.py",
-      "start_line": 251,
-      "end_line": 263,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 251-263 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
-      "description_zh": "`_section_link_budget` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-6b5b46da5a4e567997433b016db52cb5",
-      "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
-      "source_path": "scripts/ckb_core/human_page_templates.py",
-      "start_line": 266,
-      "end_line": 267,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 266-267 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
-      "description_zh": "`_first` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-ace73ad10a0457a7a004a1d73c135f88",
-      "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
-      "source_path": "scripts/ckb_core/human_page_templates.py",
-      "start_line": 270,
-      "end_line": 271,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 270-271 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
-      "description_zh": "`_evidence` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-cef46e56ce5a52d8a49e51ef1cb4c6cb",
-      "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
-      "source_path": "scripts/ckb_core/human_page_templates.py",
-      "start_line": 609,
-      "end_line": 655,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 609-655 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
-      "description_zh": "`_check_registry` 用于检查内部不变量并拒绝不一致状态。"
-    },
-    {
-      "entity_id": "ent-38bafff053ac59b29dd7f4ce97c35db1",
-      "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
-      "source_path": "scripts/ckb_core/human_page_templates.py",
-      "start_line": 661,
-      "end_line": 664,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 661-664 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
-      "description_zh": "`list_human_page_types` 用于读取、定位并返回现有状态。"
-    },
-    {
-      "entity_id": "ent-369a43a5de2a59be94be481b2d2a824a",
-      "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
-      "source_path": "scripts/ckb_core/human_page_templates.py",
-      "start_line": 667,
-      "end_line": 671,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 667-671 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
-      "description_zh": "`_compatible_version` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-198ea585797851369a22f168dc9de052",
-      "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
-      "source_path": "scripts/ckb_core/human_page_templates.py",
-      "start_line": 696,
-      "end_line": 728,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 696-728 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
-      "description_zh": "`human_page_section_document` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-78e629518da651d8b90d6a580db5ca70",
-      "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
-      "source_path": "scripts/ckb_core/human_page_templates.py",
-      "start_line": 731,
-      "end_line": 738,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 731-738 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
-      "description_zh": "`_budget_document` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-53db50cb5f4e580dabe24558a9cc0f90",
-      "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
-      "source_path": "scripts/ckb_core/human_page_templates.py",
-      "start_line": 741,
-      "end_line": 766,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 741-766 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
-      "description_zh": "`human_page_template_document` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-351a97ed38c85910b8c6e626dfdda405",
-      "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
-      "source_path": "scripts/ckb_core/human_page_templates.py",
-      "start_line": 769,
-      "end_line": 785,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 769-785 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
-      "description_zh": "`human_page_template_registry_document` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-35df15013c9b59d5a740f5db1eca1dc3",
-      "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
-      "source_path": "scripts/ckb_core/human_page_templates.py",
-      "start_line": 788,
-      "end_line": 798,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 788-798 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
-      "description_zh": "`serialize_human_page_template_registry` 用于处理当前模块的结构化输入或状态。"
-    },
-    {
-      "entity_id": "ent-f200b4c19e52515994b8e371073d271b",
-      "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
-      "source_path": "scripts/ckb_core/human_page_templates.py",
-      "start_line": 801,
-      "end_line": 802,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 801-802 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
-      "description_zh": "`human_page_template_registry_sha256` 用于生成稳定序列化或内容摘要。"
-    },
-    {
-      "entity_id": "ent-2eb1ddf76db25446994524e5d7601f0f",
-      "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
+      "owner_page_id": "file-6426593f066c5250bc619cbc3cd904f7",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 865,
       "end_line": 879,
@@ -303,9 +17,9 @@
       "description_zh": "`_visible_lines` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-07df9de58f4657de834c1107ab802db1",
+      "entity_id": "ent-8d95d6c4951f5497919664a4e0cd0639",
       "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
+      "owner_page_id": "file-6426593f066c5250bc619cbc3cd904f7",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 882,
       "end_line": 888,
@@ -314,9 +28,9 @@
       "description_zh": "`_headings` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-f9a3850331f55bbbae26eb1b6a2267da",
+      "entity_id": "ent-b8c2b82bd2085705bc484808ec20ec2e",
       "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
+      "owner_page_id": "file-6426593f066c5250bc619cbc3cd904f7",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 891,
       "end_line": 902,
@@ -325,9 +39,9 @@
       "description_zh": "`_section_bodies` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-3491f92e07805e1b99e6ed3ae0066da5",
+      "entity_id": "ent-704f924ff5c95721b6a7f8cc84bb85e4",
       "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
+      "owner_page_id": "file-6426593f066c5250bc619cbc3cd904f7",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 905,
       "end_line": 911,
@@ -336,9 +50,9 @@
       "description_zh": "`_matches_section` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-06200de8eab155829cdfbd5d164ec3c4",
+      "entity_id": "ent-48571c934f7c516bb13118074ada5665",
       "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
+      "owner_page_id": "file-6426593f066c5250bc619cbc3cd904f7",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 914,
       "end_line": 925,
@@ -347,9 +61,9 @@
       "description_zh": "`_effective_budget` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-3f360d4866b45336841b342c3ed7ef43",
+      "entity_id": "ent-fa64ff0a8725506983eabe9a15bbf502",
       "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
+      "owner_page_id": "file-6426593f066c5250bc619cbc3cd904f7",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 928,
       "end_line": 931,
@@ -358,9 +72,9 @@
       "description_zh": "`_normalize_fact_line` 用于规范化输入字段并拒绝未知或越界值。"
     },
     {
-      "entity_id": "ent-68f872d88b7e50ef964eecd651cdff0b",
+      "entity_id": "ent-06bd91abbf815d3c9917012aaeb6e70a",
       "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
+      "owner_page_id": "file-6426593f066c5250bc619cbc3cd904f7",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 934,
       "end_line": 935,
@@ -369,9 +83,9 @@
       "description_zh": "`_validation_error` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-2630a81a69ee552aa815ad75aabf9aa2",
+      "entity_id": "ent-44caccc7eac258ac8d14767909d53b63",
       "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
+      "owner_page_id": "file-6426593f066c5250bc619cbc3cd904f7",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 938,
       "end_line": 943,
@@ -380,9 +94,9 @@
       "description_zh": "`_context_sequence` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-b91bd9e9b75252e5bbe4b1b190221eee",
+      "entity_id": "ent-fcbb69c560495df68f037bf9aac9df7b",
       "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
+      "owner_page_id": "file-6426593f066c5250bc619cbc3cd904f7",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 946,
       "end_line": 955,
@@ -391,9 +105,9 @@
       "description_zh": "`_link_occurrences` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-f3a501662a815ed9818da6b7d97378e4",
+      "entity_id": "ent-92e58e1af6875c7ba839e59b15dc36cd",
       "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
+      "owner_page_id": "file-6426593f066c5250bc619cbc3cd904f7",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 958,
       "end_line": 959,
@@ -402,9 +116,9 @@
       "description_zh": "`_paragraph_count` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-5e48e45b9960584b8a912f21781823a4",
+      "entity_id": "ent-87e548aa647050af8e9f41049db469e1",
       "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
+      "owner_page_id": "file-6426593f066c5250bc619cbc3cd904f7",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 962,
       "end_line": 963,
@@ -413,9 +127,9 @@
       "description_zh": "`_list_item_count` 用于处理当前模块的结构化输入或状态。"
     },
     {
-      "entity_id": "ent-3e3b04d5a48c5ab68c3b87de074042d9",
+      "entity_id": "ent-2b6bd59a6f0d5144928e4506fe466aa6",
       "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
+      "owner_page_id": "file-6426593f066c5250bc619cbc3cd904f7",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 966,
       "end_line": 976,
@@ -424,15 +138,279 @@
       "description_zh": "`_normalized_text_list` 用于规范化输入字段并拒绝未知或越界值。"
     },
     {
-      "entity_id": "ent-80a48c0fa9a45993bda7a74005a43924",
+      "entity_id": "ent-15ac0ea32e1d5389a306f513f9687370",
       "classification": "appendix",
-      "owner_page_id": "file-726edaaf3c595f66971613905789cddc",
+      "owner_page_id": "file-6426593f066c5250bc619cbc3cd904f7",
       "source_path": "scripts/ckb_core/human_page_templates.py",
       "start_line": 979,
       "end_line": 1042,
       "status": "agent-reviewed",
       "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 979-1042 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
       "description_zh": "`_normalized_ref_list` 用于规范化输入字段并拒绝未知或越界值。"
+    },
+    {
+      "entity_id": "ent-8dd5e813580c5df6a83b68fd9c4ad98b",
+      "classification": "appendix",
+      "owner_page_id": "file-6426593f066c5250bc619cbc3cd904f7",
+      "source_path": "scripts/ckb_core/human_page_templates.py",
+      "start_line": 1045,
+      "end_line": 1441,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 c533dd7c5322 中 `scripts/ckb_core/human_page_templates.py` 第 1045 至 1441 行，摘录属于 Git blob efddba7938e6。",
+      "description_zh": "`validate_human_page` 校验人类页面模板校验所需的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-8134467327225fbdb7200a1b67eb2adf",
+      "classification": "appendix",
+      "owner_page_id": "file-6426593f066c5250bc619cbc3cd904f7",
+      "source_path": "scripts/ckb_core/human_page_templates.py",
+      "start_line": 1443,
+      "end_line": 1452,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 1443-1452 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
+      "description_zh": "`_load_context` 用于读取、定位并返回现有状态。"
+    },
+    {
+      "entity_id": "ent-c982eb2fbcdd532b9973debdfbad0943",
+      "classification": "appendix",
+      "owner_page_id": "file-6426593f066c5250bc619cbc3cd904f7",
+      "source_path": "scripts/ckb_core/human_page_templates.py",
+      "start_line": 1455,
+      "end_line": 1471,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 1455-1471 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
+      "description_zh": "`_parser` 用于解析结构化输入并形成规范表示。"
+    },
+    {
+      "entity_id": "ent-a08adf2400a3531da4f65ac3af8c8aa8",
+      "classification": "appendix",
+      "owner_page_id": "file-6426593f066c5250bc619cbc3cd904f7",
+      "source_path": "scripts/ckb_core/human_page_templates.py",
+      "start_line": 1474,
+      "end_line": 1519,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_templates.py` 第 1474-1519 行，并核对 Git blob `efddba7938e6`、分类与所有者。",
+      "description_zh": "`main` 用于根据已解析子命令调用对应 CKB 能力并返回稳定退出状态。"
+    },
+    {
+      "entity_id": "ent-2f09c2389af55992a08ea4665ad5cb3e",
+      "classification": "appendix",
+      "owner_page_id": "file-db1ed541e570565db510dddec627e157",
+      "source_path": "scripts/ckb_core/keyword_benchmark.py",
+      "start_line": 26,
+      "end_line": 31,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_benchmark.py` 第 26-31 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_text_list` 是第 26-31 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-500b62213a3653cd8e677e4aedb5f5a4",
+      "classification": "appendix",
+      "owner_page_id": "file-db1ed541e570565db510dddec627e157",
+      "source_path": "scripts/ckb_core/keyword_benchmark.py",
+      "start_line": 34,
+      "end_line": 78,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_benchmark.py` 第 34-78 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`load_keyword_benchmark` 是第 34-78 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-4e1fb66232f45fc28a08b22a2b441cc0",
+      "classification": "appendix",
+      "owner_page_id": "file-db1ed541e570565db510dddec627e157",
+      "source_path": "scripts/ckb_core/keyword_benchmark.py",
+      "start_line": 81,
+      "end_line": 108,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_benchmark.py` 第 81-108 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_location` 是第 81-108 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-cd4be1bb29875c389744f382959b7f12",
+      "classification": "appendix",
+      "owner_page_id": "file-db1ed541e570565db510dddec627e157",
+      "source_path": "scripts/ckb_core/keyword_benchmark.py",
+      "start_line": 111,
+      "end_line": 126,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_benchmark.py` 第 111-126 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_timed_retrieval` 是第 111-126 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-e81de14472565e698e5bed19ca27bd3b",
+      "classification": "appendix",
+      "owner_page_id": "file-db1ed541e570565db510dddec627e157",
+      "source_path": "scripts/ckb_core/keyword_benchmark.py",
+      "start_line": 129,
+      "end_line": 136,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_benchmark.py` 第 129-136 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_restore_cache` 是第 129-136 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-217346a430115b9a8ab35fbc4da39f86",
+      "classification": "appendix",
+      "owner_page_id": "file-205c8f7a3c66553a8d911b829c5f39aa",
+      "source_path": "scripts/ckb_core/keyword_fallback.py",
+      "start_line": 81,
+      "end_line": 90,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_fallback.py` 第 81-90 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`KeywordProviderConfig` 是第 81-90 行的类，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-c5b96eb67aa65205919cec3e4362e72e",
+      "classification": "appendix",
+      "owner_page_id": "file-205c8f7a3c66553a8d911b829c5f39aa",
+      "source_path": "scripts/ckb_core/keyword_fallback.py",
+      "start_line": 94,
+      "end_line": 99,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_fallback.py` 第 94-99 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`KeywordFallbackOptions` 是第 94-99 行的类，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-835d42c10d2f5afaa5613c4ff780950c",
+      "classification": "appendix",
+      "owner_page_id": "file-205c8f7a3c66553a8d911b829c5f39aa",
+      "source_path": "scripts/ckb_core/keyword_fallback.py",
+      "start_line": 102,
+      "end_line": 103,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_fallback.py` 第 102-103 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`keyword_input_hash` 是第 102-103 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-e0d811e99d655cc7bf9188a2fd322e88",
+      "classification": "appendix",
+      "owner_page_id": "file-205c8f7a3c66553a8d911b829c5f39aa",
+      "source_path": "scripts/ckb_core/keyword_fallback.py",
+      "start_line": 106,
+      "end_line": 107,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_fallback.py` 第 106-107 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`keyword_request_id` 是第 106-107 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-787b42b2d67959f6a52f5774e0280b9f",
+      "classification": "appendix",
+      "owner_page_id": "file-205c8f7a3c66553a8d911b829c5f39aa",
+      "source_path": "scripts/ckb_core/keyword_fallback.py",
+      "start_line": 110,
+      "end_line": 120,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_fallback.py` 第 110-120 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`keyword_cache_key` 是第 110-120 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-007a9a6c7ca15f9494782a3e04473b20",
+      "classification": "appendix",
+      "owner_page_id": "file-205c8f7a3c66553a8d911b829c5f39aa",
+      "source_path": "scripts/ckb_core/keyword_fallback.py",
+      "start_line": 123,
+      "end_line": 140,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_fallback.py` 第 123-140 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`canonical_keyword_req...` 是第 123-140 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-12ee5a30abe35241a79459fdb5f29db7",
+      "classification": "appendix",
+      "owner_page_id": "file-205c8f7a3c66553a8d911b829c5f39aa",
+      "source_path": "scripts/ckb_core/keyword_fallback.py",
+      "start_line": 143,
+      "end_line": 146,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_fallback.py` 第 143-146 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_machine_token` 是第 143-146 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-3e89c62751d155778a1255bfb8e115c6",
+      "classification": "appendix",
+      "owner_page_id": "file-205c8f7a3c66553a8d911b829c5f39aa",
+      "source_path": "scripts/ckb_core/keyword_fallback.py",
+      "start_line": 149,
+      "end_line": 161,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_fallback.py` 第 149-161 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`validate_provider_config` 是第 149-161 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-9b7354b59b945ad994e06feb37a546eb",
+      "classification": "appendix",
+      "owner_page_id": "file-205c8f7a3c66553a8d911b829c5f39aa",
+      "source_path": "scripts/ckb_core/keyword_fallback.py",
+      "start_line": 164,
+      "end_line": 193,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_fallback.py` 第 164-193 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_bounded_strings` 是第 164-193 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-de9802c265fb56ee880f306f81b23e60",
+      "classification": "appendix",
+      "owner_page_id": "file-205c8f7a3c66553a8d911b829c5f39aa",
+      "source_path": "scripts/ckb_core/keyword_fallback.py",
+      "start_line": 196,
+      "end_line": 216,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_fallback.py` 第 196-216 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_usage` 是第 196-216 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-934bf2d409cb5d6a930089d7b32316df",
+      "classification": "appendix",
+      "owner_page_id": "file-205c8f7a3c66553a8d911b829c5f39aa",
+      "source_path": "scripts/ckb_core/keyword_fallback.py",
+      "start_line": 219,
+      "end_line": 300,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_fallback.py` 第 219-300 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`validate_provider_res...` 是第 219-300 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-c5360804fbc75e9c98a89688d66d0528",
+      "classification": "appendix",
+      "owner_page_id": "file-205c8f7a3c66553a8d911b829c5f39aa",
+      "source_path": "scripts/ckb_core/keyword_fallback.py",
+      "start_line": 303,
+      "end_line": 307,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_fallback.py` 第 303-307 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`parse_provider_json` 是第 303-307 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-5aa90dfe98915bb6a85d43a2b40b51b7",
+      "classification": "appendix",
+      "owner_page_id": "file-205c8f7a3c66553a8d911b829c5f39aa",
+      "source_path": "scripts/ckb_core/keyword_fallback.py",
+      "start_line": 310,
+      "end_line": 323,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_fallback.py` 第 310-323 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_failure` 是第 310-323 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-445d6a52ecbb5facab78053c7530ba58",
+      "classification": "appendix",
+      "owner_page_id": "file-205c8f7a3c66553a8d911b829c5f39aa",
+      "source_path": "scripts/ckb_core/keyword_fallback.py",
+      "start_line": 326,
+      "end_line": 327,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_fallback.py` 第 326-327 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`keyword_cache_path` 是第 326-327 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-fe84c7d267695416a55d49393a1f5771",
+      "classification": "appendix",
+      "owner_page_id": "file-205c8f7a3c66553a8d911b829c5f39aa",
+      "source_path": "scripts/ckb_core/keyword_fallback.py",
+      "start_line": 330,
+      "end_line": 331,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/keyword_fallback.py` 第 330-331 行的源码摘录，文件、符号与行范围一致。",
+      "description_zh": "`_cache_path` 是第 330-331 行的函数，供所属页面定位实现。"
     }
   ]
 }

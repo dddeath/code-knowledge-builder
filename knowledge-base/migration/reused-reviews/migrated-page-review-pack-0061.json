@@ -3,33 +3,33 @@
   "pack_id": "migrated-page-review-pack-0061",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-03T01:40:15Z",
+  "reviewed_at_utc": "2026-09-03T22:06:59Z",
   "reviews": [
     {
-      "entity_id": "file-50eba802e38e5dc2b1b8754d0cd6846d",
+      "entity_id": "ent-6d738b5e169e5cf39168604721d51440",
       "classification": "page",
-      "owner_page_id": "file-50eba802e38e5dc2b1b8754d0cd6846d",
-      "source_path": "tests/test_human_page_authoring.py",
-      "start_line": 1,
-      "end_line": 622,
+      "owner_page_id": "ent-6d738b5e169e5cf39168604721d51440",
+      "source_path": "tests/test_reference_pdf.py",
+      "start_line": 25,
+      "end_line": 311,
       "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `tests/test_human_page_authoring.py` 第 1-622 行，并核对 Git blob `8d9bf128c828`、分类与所有者。",
-      "meaning_zh": "`tests/test_human_page_authoring.py` 页面绑定固定源码第 1-622 行，说明该文件如何承担V3 页面 authoring、证据分离和 package 行为测试。",
-      "role_zh": "该文件负责V3 页面 authoring、证据分离和 package 行为测试，并为相关命令、页面生成或测试提供源码入口。",
-      "change_when_zh": "当 `tests/test_human_page_authoring.py` 的公开输入、生成结果、状态边界或与其他模块的协作关系变化时，应更新本页。"
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_reference_pdf.py` 第 25 至 311 行；摘录与 Git blob 0fbf3a9d83ee 一致。",
+      "meaning_zh": "代码单元 `setUp`负责验证 PDF 页级提取、中文、代码表格、OCR 待处理状态、审阅和回滚。",
+      "role_zh": "它属于PDF 参考资料完整生命周期的回归保护，当前说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当提取质量、页级证据、OCR 边界、索引或回滚合同变化时，应同步复查本页及其直接关联测试。"
     },
     {
-      "entity_id": "ent-e49549827d155e6c9bd10eb3ef1ed947",
+      "entity_id": "file-78c2837c8e3b570bba39fc987886c4ff",
       "classification": "page",
-      "owner_page_id": "ent-e49549827d155e6c9bd10eb3ef1ed947",
-      "source_path": "tests/test_human_page_authoring.py",
-      "start_line": 311,
-      "end_line": 494,
+      "owner_page_id": "file-78c2837c8e3b570bba39fc987886c4ff",
+      "source_path": "tests/test_session_stdio.py",
+      "start_line": 1,
+      "end_line": 541,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 bd8519583e3a 中 `tests/test_human_page_authoring.py` 第 311 至 494 行，摘录属于 Git blob 8d9bf128c828。",
-      "meaning_zh": "代码单元 `_validation_payload`负责验证 V3 人类页面结构、披露层级、证据和受控写入。",
-      "role_zh": "它属于人类页面生成协议的回归保护，说明只覆盖所列固定源码范围。",
-      "change_when_zh": "当模板标题、信息预算或写入边界变化时，应同步复查本页及其直接测试。"
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 1-541 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`tests/test_session_stdio.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
+      "role_zh": "负责以可执行样例验证 `test_session_stdio.py` 覆盖的成功行为、失败边界和回归约束。",
+      "change_when_zh": "当 `tests/test_session_stdio.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
     }
   ]
 }

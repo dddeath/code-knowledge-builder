@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "plan_id": "freshness-migration-fd79c080639652309268feb4631e4b70",
+  "status": "pending",
+  "stable_output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+  "repository": "E:\\knowledge_builder\\self-workspace\\source",
+  "bound_commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+  "target_commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+  "staging_output": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-fcad08af3dac",
+  "created_at_utc": "2026-09-03T22:03:34Z",
+  "created_by_session": "01a057dd-b47d-74f1-af32-b0dcc775891c",
+  "command": [
+    "migrate",
+    "start",
+    "--from-out",
+    "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+    "--repo",
+    "E:\\knowledge_builder\\self-workspace\\source",
+    "--out",
+    "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-fcad08af3dac"
+  ],
+  "automatic_cutover": false,
+  "stable_output_overwritten": false
+}

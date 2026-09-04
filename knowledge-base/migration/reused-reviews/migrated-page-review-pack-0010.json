@@ -3,20 +3,20 @@
   "pack_id": "migrated-page-review-pack-0010",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-03T01:38:23Z",
+  "reviewed_at_utc": "2026-09-03T22:05:18Z",
   "reviews": [
     {
-      "entity_id": "ent-fc889410a84a56beb411c95e47e840d5",
+      "entity_id": "file-463595b01a7c50e0a997044691293f0e",
       "classification": "page",
-      "owner_page_id": "ent-fc889410a84a56beb411c95e47e840d5",
-      "source_path": "scripts/ckb_core/agent_protocol_batch.py",
-      "start_line": 657,
-      "end_line": 714,
+      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 1,
+      "end_line": 1783,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/agent_protocol_batch.py` 第 657-714 行的源码摘录，文件、符号与行范围一致。",
-      "meaning_zh": "`create_batch_plan` 是 `scripts/ckb_core/agent_protocol_batch.py` 第 657-714 行定义的函数，本页绑定该固定源码范围。",
-      "role_zh": "负责批量升级 Agent Protocol，包括计划、锁、备份、审计、切换和回滚。",
-      "change_when_zh": "当 `create_batch_plan` 的输入、输出、状态转换或失败返回变化时，应更新本页并重跑对应测试。"
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 1 至 1783 行；摘录与 Git blob 44ab87d410ff 一致。",
+      "meaning_zh": "文件 `scripts/ckb_core/automation.py`负责接收多 Harness 事件，维持会话级 Skill 激活状态，并把待审阅事实写入机器层。",
+      "role_zh": "它属于自动采集与受控人类投影之间的会话生命周期边界，当前说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当事件格式、会话身份、激活规则、并发锁或审阅流程变化时，应同步复查本页及其直接关联测试。"
     }
   ]
 }

@@ -6,17 +6,35 @@
 
 ## 本次未继续展开的代码
 
-- **FanoutError**：位于 `prototypes/ckb-page-fanout-benchmark/ckb_page_fanout/contracts.py:16-20`。
-- **tree_manifest**：位于 `prototypes/ckb-page-fanout-benchmark/ckb_page_fanout/contracts.py:101-109`。
+- **validate_instance**：位于 `prototypes/ckb-canvas-skill/ckb_canvas/contracts.py:165-168`。
+- **CanvasFailure**：位于 `prototypes/ckb-canvas-skill/ckb_canvas/contracts.py:225-264`。
+- **CanvasFailure.exit_code**：位于 `prototypes/ckb-canvas-skill/ckb_canvas/contracts.py:239-240`。
 
 ## 相关代码
 
-- 实现时会用到 [[append]]。
+- 实现时会用到 [[commands 的协作边界]]。
 
 ## 谁会来到这里
 
-- [[PageFanoutBenchmarkTests]] 会使用这里提供的行为。
-- [[PageFanoutGeneratorTests]] 会使用这里提供的行为。
-- [[benchmark 的协作边界（92b0cf7f）]] 会使用这里提供的行为。
-- [[generator 的协作边界]] 会使用这里提供的行为。
-- [[judge 的协作边界]] 会使用这里提供的行为。
+- [[CanvasBenchmarkContractTests]] 会使用这里提供的行为。
+- [[CanvasContractTests]] 会使用这里提供的行为。
+- [[CanvasGraphTests]] 会使用这里提供的行为。
+- [[CanvasPathTests]] 会使用这里提供的行为。
+- [[CanvasRollbackTests]] 会使用这里提供的行为。
+- [[CanvasTransactionTests]] 会使用这里提供的行为。
+- [[CkbError]] 会使用这里提供的行为。
+- [[CkbError 与 DependencyError 的协作实现]] 会使用这里提供的行为。
+- [[SessionStdioLifecycleTests]] 会使用这里提供的行为。
+- [[TagNavigationCanvasCompatibilityTests]] 会使用这里提供的行为。
+- [[_Transport.close]] 会使用这里提供的行为。
+- [[_Transport.close 与 _StartGate 的协作实现]] 会使用这里提供的行为。
+- [[benchmark 的协作边界（16d95d34）]] 会使用这里提供的行为。
+- [[ckb_canvas 的协作边界]] 会使用这里提供的行为。
+- [[commands 的协作边界]] 会使用这里提供的行为。
+- [[create_batch_plan 与 ProtocolRelease 的协作实现]] 会使用这里提供的行为。
+- [[freeze 的协作边界]] 会使用这里提供的行为。
+- [[graph 的协作边界]] 会使用这里提供的行为。
+- [[serve_stdio]] 会使用这里提供的行为。
+- [[transaction 的协作边界]] 会使用这里提供的行为。
+
+> 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。

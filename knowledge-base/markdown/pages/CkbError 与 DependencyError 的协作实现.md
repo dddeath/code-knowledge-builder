@@ -16,7 +16,7 @@
 
 - 主要代码单元是 [[CkbError]]。
 - 实现时会用到 [[command]]。
-- 实现时会用到 [[contracts 的协作边界（36093e4a）]]。
+- 实现时会用到 [[contracts 的协作边界（prototypes）]]。
 
 ## 谁会来到这里
 

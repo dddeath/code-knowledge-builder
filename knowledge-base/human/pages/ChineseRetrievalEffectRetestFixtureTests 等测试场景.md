@@ -15,6 +15,7 @@
 ## 相关代码
 
 - 主要代码单元是 [[ChineseRetrievalEffectRetestFixtureTests]]。
+- 实现时会用到 [[ScopeExtensionOfferTests.retrieval]]。
 
 ## 谁会来到这里
 

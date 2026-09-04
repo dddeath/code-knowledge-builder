@@ -1,0 +1,23 @@
+{
+  "schema_version": 4,
+  "pack_id": "delta-page-review-pack-0009",
+  "kind": "page-review",
+  "reviewer": "管理 Agent",
+  "reviewed_at_utc": "2026-09-03T22:43:20Z",
+  "reviews": [
+    {
+      "entity_id": "ent-30dd68734a155ddab555a9aad32ccffd",
+      "classification": "page",
+      "owner_page_id": "ent-30dd68734a155ddab555a9aad32ccffd",
+      "source_path": "tests/harness_retrieval_contract_probe.py",
+      "start_line": 170,
+      "end_line": 496,
+      "source_blob": "ca422a4d6c0b5c0c28d1068b2b6bae69e3fa8a4f",
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `tests/harness_retrieval_contract_probe.py` 第 170-496 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "meaning_zh": "`run_probe` 在没有项目指令的隔离仓库中验证 Skill 未加载与精确加载两条路径，并执行 brief、pack、窄读、新鲜度、维护和 CLI fallback。",
+      "role_zh": "它提供跨 Harness 契约的真实运行证据，并检查 stdio 生命周期对象最终归零。",
+      "change_when_zh": "当 Skill 激活、检索传输、OUTPUT 发现或维护触发规则变化时，应更新本探针和冻结基线。"
+    }
+  ]
+}

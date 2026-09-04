@@ -17,10 +17,10 @@
 - 实现时会用到 [[CkbError]]。
 - 实现时会用到 [[CodeKnowledgeBuilderTests 等测试场景]]。
 - 实现时会用到 [[RecordReplaceTests 等测试场景]]。
+- 实现时会用到 [[ScopeExtensionOfferTests.retrieval]]。
 - 实现时会用到 [[append]]。
 - 实现时会用到 [[build_case 等测试场景]]。
 - 实现时会用到 [[finalize]]。
-- 实现时会用到 [[finalize 与 _replace_output_prefix 的协作实现]]。
 - 实现时会用到 [[replace_note]]。
 
 ## 谁会来到这里

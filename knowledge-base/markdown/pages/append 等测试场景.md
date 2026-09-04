@@ -33,7 +33,7 @@
 - [[maintenance_check]] 关联到这里的验证场景。
 - [[maintenance_check 与 capability_matrix 的协作实现]] 关联到这里的验证场景。
 - [[parser]] 会使用这里提供的行为。
-- [[preflight]] 关联到这里的验证场景。
+- [[run_benchmark]] 会使用这里提供的行为。
 - 可从 [[tests 职责导览]] 进入本页。
 
 ## 相关测试
@@ -41,9 +41,9 @@
 - [[CodeKnowledgeBuilderTests 等测试场景]]
 - [[PdfReferenceExtractionTests]]
 - [[PdfReferenceExtractionTests 等测试场景]]
+- [[ReferencePdfEffectBenchmarkTests]]
 - [[command 等测试场景]]
 - [[main（benchmark_obsidian_canvas_navigation 测试）]]
-- [[main（generate_large_fixture 测试）]]
 
 > 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 

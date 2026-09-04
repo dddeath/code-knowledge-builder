@@ -18,12 +18,11 @@
 - 实现时会用到 [[append]]。
 - 实现时会用到 [[assertions]]。
 - 实现时会用到 [[build_case 等测试场景]]。
-- 实现时会用到 [[contracts 的协作边界（743c915d）]]。
+- 实现时会用到 [[contracts 的协作边界（959fe0e0）]]。
 - 主要代码单元是 [[ingest]]。
 
 ## 谁会来到这里
 
-- [[AutomationTest.register 等测试场景]] 会使用这里提供的行为。
 - [[ChineseRetrievalEffectRetestFixtureTests]] 会使用这里提供的行为。
 - [[DriftAndAvailabilityTests 等测试场景]] 会使用这里提供的行为。
 - [[MigrationTest]] 会使用这里提供的行为。
@@ -40,9 +39,9 @@
 - [[audit_gap_register]] 会使用这里提供的行为。
 - [[audit_migration]] 会使用这里提供的行为。
 - [[audit_migration 与 _entity_key 的协作实现]] 会使用这里提供的行为。
-- [[benchmark 的协作边界（9fab5b96）]] 会使用这里提供的行为。
+- [[benchmark 的协作边界（e30cfb0a）]] 会使用这里提供的行为。
 - [[build_case]] 会使用这里提供的行为。
-- [[cli 的协作边界（prototypes）]] 会使用这里提供的行为。
+- [[cli 的协作边界（99938c49）]] 会使用这里提供的行为。
 - [[create_knowledge_batch_plan 与 KnowledgeRelease 的协作实现]] 会使用这里提供的行为。
 - [[doctor_report]] 会使用这里提供的行为。
 - [[ingest_event 与 default_registry_path 的协作实现]] 会使用这里提供的行为。
@@ -54,6 +53,7 @@
 - [[retrieve 与 _tokens 的协作实现]] 会使用这里提供的行为。
 - [[retrieve_machine 与 estimated_tokens 的协作实现]] 会使用这里提供的行为。
 - [[run_failure_probe 等测试场景]] 会使用这里提供的行为。
+- [[run_probe 等测试场景]] 会使用这里提供的行为。
 - [[start_scope_extension 与 _error 的协作实现]] 会使用这里提供的行为。
 - [[state_machine 的协作边界]] 会使用这里提供的行为。
 

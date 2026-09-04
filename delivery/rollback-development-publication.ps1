@@ -1,11 +1,11 @@
 param(
   [Parameter(Mandatory=$true)][string]$ExpectedHead,
-  [string]$Worktree = 'E:\knowledge_builder\self-workspace\publish-worktrees\development-knowledge-builder'
+  [string]$Worktree = 'E:\knowledge_builder\self-workspace\publish-worktrees\development-knowledge-builder',
+  [string]$Branch = 'codex/development-knowledge-builder'
 )
 $ErrorActionPreference = 'Stop'
 $GitPath = 'C:\Program Files\Git\cmd\git.exe'
-$Branch = 'codex/development-knowledge-builder'
-$Baseline = '6cf8377dda82081e417fa058ea0fe660912b625c'
+$Baseline = '6f6ab1547cd9ca2dc365bd187a99a7bc4ecf86ce'
 $GitOptions = @(
   '-c','filter.lfs.process=',
   '-c','filter.lfs.smudge=cat',

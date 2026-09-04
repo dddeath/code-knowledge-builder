@@ -16,6 +16,7 @@
 
 - 实现时会用到 [[CkbError]]。
 - 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
+- 实现时会用到 [[ScopeExtensionOfferTests.retrieval]]。
 - 实现时会用到 [[append]]。
 - 实现时会用到 [[ckb_canvas 的协作边界]]。
 - 实现时会用到 [[command]]。
@@ -30,7 +31,6 @@
 - [[keyword_provider_config 与 parser 的协作实现]] 会使用这里提供的行为。
 - [[maintenance_check]] 会使用这里提供的行为。
 - [[retrieve_machine]] 会使用这里提供的行为。
-- [[retrieve_machine 与 estimated_tokens 的协作实现]] 会使用这里提供的行为。
 - [[run_failure_probe]] 会使用这里提供的行为。
 - [[run_failure_probe 等测试场景]] 会使用这里提供的行为。
 - [[run_keyword_benchmark]] 会使用这里提供的行为。

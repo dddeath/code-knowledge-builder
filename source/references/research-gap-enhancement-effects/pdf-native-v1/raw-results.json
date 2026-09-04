@@ -1,0 +1,218 @@
+{
+  "baseline": {
+    "cat_file_exit": 128,
+    "commit": "8ac58b93435f99a621c9751040e4c8a38990851f",
+    "feature_present": false,
+    "implementation_path": "scripts/ckb_core/reference_pdf.py"
+  },
+  "benchmark": "ckb-pdf-native-effect-v1",
+  "checks": {
+    "baseline_feature_absent": true,
+    "current_implementation_matches_snapshot": true,
+    "parser_identity_matches_protocol": true
+  },
+  "coverage": {
+    "boundary_zh": "本次只测原生 PDF 与已有失败分类；测试适配器不计作真实 OCR，Web 合同不计作抓取实现。",
+    "diagnostic_cases": 7,
+    "native_pdf_cases": 4,
+    "real_ocr_calls": 0,
+    "web_fetch_calls": 0
+  },
+  "current": {
+    "implementation_path": "scripts/ckb_core/reference_pdf.py",
+    "parser": {
+      "actual": {
+        "distribution_name": "pypdf",
+        "distribution_version": "6.16.2",
+        "module_name": "pypdf",
+        "module_version": "6.16.2"
+      },
+      "expected": {
+        "name": "pypdf",
+        "version": "6.16.2"
+      },
+      "extraction_manifest": {
+        "mode": "layout",
+        "name": "pypdf",
+        "version": "6.16.2"
+      },
+      "matches_protocol": true
+    },
+    "snapshot_blob": "1b3237f4acf34979de0e96aae339e3c0e7f09ef9",
+    "source_commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+    "working_blob": "1b3237f4acf34979de0e96aae339e3c0e7f09ef9"
+  },
+  "feature_merge_commit": "252dbb4298ecb451d41b5e1dd0883fa8d5598bdb",
+  "measured_at_utc": "2026-09-04T00:00:00Z",
+  "metrics": {
+    "code_indent_accuracy": 1.0,
+    "code_line_accuracy": 1.0,
+    "diagnostic_accuracy": 1.0,
+    "direct_pdf_capability": {
+      "baseline": 0.0,
+      "current": 1.0,
+      "delta": 1.0
+    },
+    "page_locator_accuracy": 1.0,
+    "table_line_accuracy": 1.0,
+    "unicode_line_recall": 1.0
+  },
+  "observations": {
+    "diagnostics": [
+      {
+        "diagnostic_id": "blank-native-page",
+        "expected_fragment": "native-text-below-usable-threshold",
+        "observed": "native-text-below-usable-threshold",
+        "passed": true
+      },
+      {
+        "diagnostic_id": "missing-ocr-adapter",
+        "expected_fragment": "ocr-adapter-not-configured",
+        "observed": "ocr-adapter-not-configured",
+        "passed": true
+      },
+      {
+        "diagnostic_id": "invalid-pdf-header",
+        "expected_fragment": "does not start with a PDF header",
+        "observed": "PDF source does not start with a PDF header",
+        "passed": true
+      },
+      {
+        "diagnostic_id": "corrupt-pdf",
+        "expected_fragment": "corrupt or unsupported PDF source",
+        "observed": "corrupt or unsupported PDF source (PdfStreamError): Stream has ended unexpectedly",
+        "passed": true
+      },
+      {
+        "diagnostic_id": "encrypted-pdf",
+        "expected_fragment": "encrypted PDF sources",
+        "observed": "encrypted PDF sources require decryption before reference ingest",
+        "passed": true
+      },
+      {
+        "diagnostic_id": "pdf-byte-limit",
+        "expected_fragment": "must contain",
+        "observed": "PDF source must contain 5..10 bytes",
+        "passed": true
+      },
+      {
+        "diagnostic_id": "pdf-page-limit",
+        "expected_fragment": "exceeds limit",
+        "observed": "PDF page count 2 exceeds limit 1",
+        "passed": true
+      }
+    ],
+    "layout": {
+      "code_checks": [
+        {
+          "line": "def calculate(value):",
+          "passed": true
+        },
+        {
+          "line": "    return value + 1",
+          "passed": true
+        }
+      ],
+      "code_indent_check": {
+        "leading_spaces_expected": 4,
+        "line": "    return value + 1",
+        "passed": true
+      },
+      "page_count": 2,
+      "page_locator_checks": [
+        {
+          "marker": "PDF STRUCTURE TEST",
+          "page_number": 1,
+          "passed": true
+        },
+        {
+          "marker": "SECOND PAGE",
+          "page_number": 2,
+          "passed": true
+        }
+      ],
+      "page_text_sha256": [
+        "ea8d66bac1fc6cb9a6f8dc2ee2e735e31a7e5f41485a4047f807027a89b25fe1",
+        "ae1f77734fb52dc1486832bbcb83f93a5cca6a0816bdb1adde8dddd8d494bf70"
+      ],
+      "status": "ready",
+      "table_checks": [
+        {
+          "line": "Name          Value",
+          "passed": true
+        },
+        {
+          "line": "alpha         10",
+          "passed": true
+        },
+        {
+          "line": "beta          20",
+          "passed": true
+        }
+      ]
+    },
+    "unicode": {
+      "checks": [
+        {
+          "line": "中文资料页标题",
+          "passed": true
+        },
+        {
+          "line": "这段中文原生文本用于验证页级提取与原文定位。",
+          "passed": true
+        }
+      ],
+      "status": "ready",
+      "text_sha256": "5d823651fcb8f63679bda7eb336a54e7a90f44effaf217757c6460535d5131b8"
+    }
+  },
+  "protocol_gates": {
+    "baseline_feature_absent": true,
+    "code_indent_accuracy": 1.0,
+    "code_line_accuracy": 1.0,
+    "current_implementation_matches_snapshot": true,
+    "diagnostic_accuracy": 1.0,
+    "page_locator_accuracy": 1.0,
+    "parser_identity_matches_protocol": true,
+    "real_ocr_calls": 0,
+    "table_line_accuracy": 1.0,
+    "unicode_line_recall": 1.0,
+    "web_implementation_status": "not-implemented"
+  },
+  "schema_version": 1,
+  "status": "passed",
+  "web": {
+    "adapter_id": "web-snapshot-v1",
+    "boundary": [
+      "adapter-only-produces-local-artifact",
+      "redirects-and-network-policy-are-caller-owned",
+      "output-still-requires-reference-ingest-and-agent-review",
+      "web-content-never-becomes-a-code-entity"
+    ],
+    "implementation_status": "not-implemented",
+    "input": {
+      "max_response_bytes": "positive-integer",
+      "request_headers_allowlist": [
+        "Accept",
+        "Accept-Language",
+        "User-Agent"
+      ],
+      "requested_at_utc": "rfc3339",
+      "timeout_seconds": "positive-integer",
+      "url": "absolute-http-or-https-url"
+    },
+    "output": {
+      "local_file": "immutable-response-body",
+      "media_type": "validated-content-type",
+      "provenance": [
+        "requested_url",
+        "final_url",
+        "retrieved_at_utc",
+        "response_sha256",
+        "response_size",
+        "status_code"
+      ]
+    },
+    "schema_version": 1
+  }
+}

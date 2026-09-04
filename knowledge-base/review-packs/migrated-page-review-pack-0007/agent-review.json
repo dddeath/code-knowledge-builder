@@ -3,12 +3,12 @@
   "pack_id": "migrated-page-review-pack-0007",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-03T01:38:19Z",
+  "reviewed_at_utc": "2026-09-03T22:05:15Z",
   "reviews": [
     {
-      "entity_id": "file-f434916549e8505ca97f3d123f0635c3",
+      "entity_id": "file-b3758eee8e675a9ba55480ca3d388558",
       "classification": "page",
-      "owner_page_id": "file-f434916549e8505ca97f3d123f0635c3",
+      "owner_page_id": "file-b3758eee8e675a9ba55480ca3d388558",
       "source_path": "scripts/ckb_core/agent_index.py",
       "start_line": 1,
       "end_line": 555,
@@ -19,9 +19,9 @@
       "change_when_zh": "当 `scripts/ckb_core/agent_index.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
     },
     {
-      "entity_id": "ent-333f95b341b15c2bac5811a48bf98bf7",
+      "entity_id": "ent-a88fa321e22d5d1ab6a0b3b2e387d9eb",
       "classification": "page",
-      "owner_page_id": "ent-333f95b341b15c2bac5811a48bf98bf7",
+      "owner_page_id": "ent-a88fa321e22d5d1ab6a0b3b2e387d9eb",
       "source_path": "scripts/ckb_core/agent_index.py",
       "start_line": 426,
       "end_line": 554,
@@ -32,9 +32,9 @@
       "change_when_zh": "当 `retrieve` 的输入、输出、状态转换或失败返回变化时，应更新本页并重跑对应测试。"
     },
     {
-      "entity_id": "file-31aa1d158e8a5002a8121895094d6880",
+      "entity_id": "file-a0f7a337c72659a5a4b3f3ff5b7c6505",
       "classification": "page",
-      "owner_page_id": "file-31aa1d158e8a5002a8121895094d6880",
+      "owner_page_id": "file-a0f7a337c72659a5a4b3f3ff5b7c6505",
       "source_path": "scripts/ckb_core/agent_maintenance.py",
       "start_line": 1,
       "end_line": 255,
@@ -45,9 +45,9 @@
       "change_when_zh": "当Agent 任务会话、构建中笔记排队、修改总结和生命周期状态的输入、输出、状态门或验证契约发生变化时，需要同步修改该文件并运行对应测试。"
     },
     {
-      "entity_id": "ent-38e89bde1596567a82079f56f71e04d4",
+      "entity_id": "ent-890db9f9655754b8af8870a4d4b6837a",
       "classification": "page",
-      "owner_page_id": "ent-38e89bde1596567a82079f56f71e04d4",
+      "owner_page_id": "ent-890db9f9655754b8af8870a4d4b6837a",
       "source_path": "scripts/ckb_core/agent_maintenance.py",
       "start_line": 70,
       "end_line": 142,

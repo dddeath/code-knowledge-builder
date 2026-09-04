@@ -16,6 +16,7 @@
 
 - 实现时会用到 [[CkbError]]。
 - 实现时会用到 [[CkbError 与 DependencyError 的协作实现]]。
+- 实现时会用到 [[ScopeExtensionOfferTests.retrieval]]。
 - 实现时会用到 [[SourceLinkRenderer.uri]]。
 - 实现时会用到 [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]]。
 - 实现时会用到 [[_Transport.close]]。

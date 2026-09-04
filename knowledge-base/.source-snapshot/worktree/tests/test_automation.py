@@ -34,7 +34,12 @@ from ckb_core.automation import (
     search_automation,
     write_automation_review_template,
 )
-from ckb_core.automation_integrations import _codex_windows_bridge, _commands, render_integration
+from ckb_core.automation_integrations import (
+    _codex_windows_bridge,
+    _commands,
+    harness_retrieval_contract,
+    render_integration,
+)
 from ckb_core.common import CkbError
 from ckb_core.machine_knowledge import change_documents, retrieve_machine
 from ckb_core.obsidian import NOTE_DIRECTORIES
@@ -814,6 +819,7 @@ class AutomationTest(unittest.TestCase):
                 set(manifest["management_capabilities"]),
                 {"binding", "prompt_injection", "event_sync", "task_dispatch"},
             )
+            self.assertEqual(manifest["retrieval_contract"], harness_retrieval_contract(harness))
             for relative in manifest["files"]:
                 self.assertTrue((destination / relative).is_file(), relative)
         codex = json.loads((self.root / "integrations/codex/hooks/hooks.json").read_text(encoding="utf-8"))
@@ -861,6 +867,45 @@ class AutomationTest(unittest.TestCase):
             manifest = json.loads((self.root / "integrations" / harness / "integration.json").read_text(encoding="utf-8"))
             self.assertTrue(manifest["session_skill_activation_required"])
             self.assertEqual(manifest["required_skill"], "code-knowledge-builder")
+
+    def test_harness_retrieval_contract_separates_instruction_skill_activation_and_output_sources(self) -> None:
+        required = {"codex", "claude", "opencode", "gemini", "copilot", "cursor", "generic"}
+        matrix = {harness: harness_retrieval_contract(harness) for harness in sorted(SUPPORTED_HARNESSES)}
+        self.assertTrue(required <= set(matrix))
+        for harness, contract in matrix.items():
+            self.assertEqual(contract["harness"], harness)
+            self.assertEqual(contract["declaration_scope"], "generated-contract-not-runtime-observation")
+            self.assertFalse(contract["manager_prompt"]["automatic_injection"])
+            self.assertEqual(contract["project_instruction"]["runtime_observation"], "not-observed-by-generator")
+            self.assertEqual(contract["manager_prompt"]["runtime_observation"], "not-observed-by-generator")
+            self.assertTrue(contract["skill"]["required"])
+            self.assertTrue(contract["skill"]["body_loaded_required"])
+            self.assertEqual(contract["skill"]["runtime_observation"], "requires-host-evidence")
+            self.assertIn("code-knowledge-builder", contract["skill"]["exact_load"])
+            self.assertEqual(contract["activation_registration"]["project"], "automation register")
+            self.assertEqual(
+                contract["activation_registration"]["session"],
+                "canonical skill.applied event or automation activate",
+            )
+            self.assertEqual(contract["output_discovery"]["ordered_sources"][0], "explicit-task-binding")
+            self.assertFalse(contract["output_discovery"]["directory_scan"])
+            self.assertEqual(
+                contract["output_discovery"]["required_files"],
+                ["state.json", "machine/knowledge.sqlite"],
+            )
+            self.assertEqual(contract["execution"]["entry"], "brief --profile fast")
+            self.assertTrue(contract["execution"]["cli_fallback"])
+            self.assertIn(
+                "unrelated-harness-adapter-missing",
+                contract["non_blocking_for_retrieval"],
+            )
+        for harness in required - {"generic"}:
+            self.assertTrue(matrix[harness]["project_instruction"]["automatic_injection"])
+        self.assertFalse(matrix["generic"]["project_instruction"]["automatic_injection"])
+        self.assertNotIn(
+            "project-instruction:caller explicitly reads AGENTS.md",
+            matrix["generic"]["output_discovery"]["ordered_sources"],
+        )
 
     def test_codex_windows_python_uses_wsl_launch_path_for_posix_command(self) -> None:
         python = Path(r"C:\Program Files\CKB Runtime\python.exe")

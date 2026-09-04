@@ -15,6 +15,7 @@
 ## 相关代码
 
 - 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
+- 实现时会用到 [[ScopeExtensionOfferTests.retrieval]]。
 - 实现时会用到 [[command]]。
 - 实现时会用到 [[parser]]。
 - 实现时会用到 [[retrieve]]。
