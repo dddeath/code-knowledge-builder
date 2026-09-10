@@ -1,0 +1,195 @@
+{
+  "document": [
+    [
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界",
+      "change",
+      "Lite、Full 与 Obsidian 插件发行边界",
+      "#类型/变更",
+      "changes/Lite、Full 与 Obsidian 插件发行边界.md",
+      null,
+      "# Lite、Full 与 Obsidian 插件发行边界\n\n标签：#类型/变更\n\n## 修改内容\n\n发行体系固定为三个独立类别。`lite` 保留完整核心功能，包括源码扫描、分段恢复、局部范围、机器 SQLite、人类 Markdown/Obsidian vault、Logseq 投影、确定性检索、Agent 审阅、审计、迁移和自动化适配，但不携带离线运行时和 `plugins/`。`full-win-x64` 与 lite 使用相同的核心版本，并且文件集合严格等于 lite 加 `assets/runtime/win-x64/`；任何其他增量或 `plugins/` 成员都会使打包失败。`obsidian-plugin` 使用插件 `manifest.json` 中的独立版本，只包含六个 Obsidian 安装文件，不包含核心 Skill 或离线运行时。\n\n`scripts/package_release.py` 新增 `obsidian-plugin` 和 `all` 类型；`both` 仍只生成 lite 与 full。核心 manifest 写入功能矩阵、禁止前缀和 full 的唯一增量前缀，插件 manifest 写入独立版本、核心知识库依赖和固定 Claudian 上游提交。`references/distributions.md` 记录发行矩阵、版本关系、安装位置和命令。\n\n## 修改原因\n\n原打包器遍历源码根目录时会把 `plugins/` 同时纳入 lite 和 full，导致核心 Skill、离线运行时和 Obsidian GUI 插件的版本及安装边界混在一起。Lite 也缺少可机检的能力声明，无法明确表达“功能完整但不捆绑运行时”。\n\n## 验证结果\n\n该历史版本实际生成了 lite、full 和独立插件包，验证了文件集合、运行时边界、安装可用性与恢复行为。核心包不夹带插件，full 相比 lite 仅增加锁定运行时；具体版本和逐文件结果保留在原始记录。\n\n\n\n## 原始记录\n\n[按需核对历史原文与完整复现明细](../../machine/historical-records/legacy-20260910-08.md)。\n\n## 相关知识页\n\n- [[build_core 与 sha256 的协作实现]]\n- [[audit_obsidian 与 prepare_vault 的协作实现]]\n- [[deploy 与 skill_root 的协作实现]]\n- [[package_showcase]]\n- [[ensure_local_openers 与 SourceLinkRenderer 的协作实现]]\n- [[build_machine_knowledge 与 estimated_tokens 的协作实现]]\n- [[build 与 sha256 的协作实现]]\n- [[review_automation 与 default_registry_path 的协作实现]]\n\n## 源码入口\n\n- [打开源码：scripts/package_release.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/package_release.py:1:1)  `scripts/package_release.py:1-307`\n- [打开源码：scripts/ckb_core/obsidian.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/obsidian.py:1:1)  `scripts/ckb_core/obsidian.py:1-166`\n- [打开源码：scripts/ckb_core/runtime.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/runtime.py:1:1)  `scripts/ckb_core/runtime.py:1-153`\n- [打开源码：scripts/ckb_core/showcase.py 第 66 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/showcase.py:66:1)  `scripts/ckb_core/showcase.py:66-172`\n- [打开源码：scripts/ckb_core/source_links.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/source_links.py:1:1)  `scripts/ckb_core/source_links.py:1-184`\n- [打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1995`\n- [打开源码：scripts/build_runtime_payload.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/build_runtime_payload.py:1:1)  `scripts/build_runtime_payload.py:1-158`\n- [打开源码：scripts/ckb_core/automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation.py:1:1)  `scripts/ckb_core/automation.py:1-1783`\n",
+      1270
+    ]
+  ],
+  "sections": [
+    [
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界:0",
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界",
+      0,
+      "Lite、Full 与 Obsidian 插件发行边界",
+      "标签：#类型/变更",
+      8,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界:1",
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界",
+      1,
+      "修改内容",
+      "发行体系固定为三个独立类别。`lite` 保留完整核心功能，包括源码扫描、分段恢复、局部范围、机器 SQLite、人类 Markdown/Obsidian vault、Logseq 投影、确定性检索、Agent 审阅、审计、迁移和自动化适配，但不携带离线运行时和 `plugins/`。`full-win-x64` 与 lite 使用相同的核心版本，并且文件集合严格等于 lite 加 `assets/runtime/win-x64/`；任何其他增量或 `plugins/` 成员都会使打包失败。`obsidian-plugin` 使用插件 `manifest.json` 中的独立版本，只包含六个 Obsidian 安装文件，不包含核心 Skill 或离线运行时。\n\n`scripts/package_release.py` 新增 `obsidian-plugin` 和 `all` 类型；`both` 仍只生成 lite 与 full。核心 manifest 写入功能矩阵、禁止前缀和 full 的唯一增量前缀，插件 manifest 写入独立版本、核心知识库依赖和固定 Claudian 上游提交。`references/distributions.md` 记录发行矩阵、版本关系、安装位置和命令。",
+      339,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界:2",
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界",
+      2,
+      "修改原因",
+      "原打包器遍历源码根目录时会把 `plugins/` 同时纳入 lite 和 full，导致核心 Skill、离线运行时和 Obsidian GUI 插件的版本及安装边界混在一起。Lite 也缺少可机检的能力声明，无法明确表达“功能完整但不捆绑运行时”。",
+      94,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界:3",
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界",
+      3,
+      "验证结果",
+      "该历史版本实际生成了 lite、full 和独立插件包，验证了文件集合、运行时边界、安装可用性与恢复行为。核心包不夹带插件，full 相比 lite 仅增加锁定运行时；具体版本和逐文件结果保留在原始记录。",
+      88,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界:4",
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界",
+      4,
+      "原始记录",
+      "[按需核对历史原文与完整复现明细](../../machine/historical-records/legacy-20260910-08.md)。",
+      36,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界:5",
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界",
+      5,
+      "相关知识页",
+      "- [[build_core 与 sha256 的协作实现]]\n- [[audit_obsidian 与 prepare_vault 的协作实现]]\n- [[deploy 与 skill_root 的协作实现]]\n- [[package_showcase]]\n- [[ensure_local_openers 与 SourceLinkRenderer 的协作实现]]\n- [[build_machine_knowledge 与 estimated_tokens 的协作实现]]\n- [[build 与 sha256 的协作实现]]\n- [[review_automation 与 default_registry_path 的协作实现]]",
+      135,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界:6",
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界",
+      6,
+      "源码入口",
+      "- [打开源码：scripts/package_release.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/package_release.py:1:1)  `scripts/package_release.py:1-307`\n- [打开源码：scripts/ckb_core/obsidian.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/obsidian.py:1:1)  `scripts/ckb_core/obsidian.py:1-166`\n- [打开源码：scripts/ckb_core/runtime.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/runtime.py:1:1)  `scripts/ckb_core/runtime.py:1-153`\n- [打开源码：scripts/ckb_core/showcase.py 第 66 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/showcase.py:66:1)  `scripts/ckb_core/showcase.py:66-172`\n- [打开源码：scripts/ckb_core/source_links.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/source_links.py:1:1)  `scripts/ckb_core/source_links.py:1-184`\n- [打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1995`\n- [打开源码：scripts/build_runtime_payload.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/build_runtime_payload.py:1:1)  `scripts/build_runtime_payload.py:1-158`\n- [打开源码：scripts/ckb_core/automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation.py:1:1)  `scripts/ckb_core/automation.py:1-1783`",
+      516,
+      null,
+      null,
+      null
+    ]
+  ],
+  "section_sources": [],
+  "links": [
+    [
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界",
+      null,
+      "audit_obsidian 与 prepare_vault 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界",
+      null,
+      "build 与 sha256 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界",
+      null,
+      "build_core 与 sha256 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界",
+      null,
+      "build_machine_knowledge 与 estimated_tokens 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界",
+      null,
+      "deploy 与 skill_root 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界",
+      null,
+      "ensure_local_openers 与 SourceLinkRenderer 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界",
+      null,
+      "package_showcase",
+      "wikilink"
+    ],
+    [
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界",
+      null,
+      "review_automation 与 default_registry_path 的协作实现",
+      "wikilink"
+    ]
+  ],
+  "fts": [
+    [
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界:0",
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界",
+      "Lite、Full 与 Obsidian 插件发行边界",
+      "标签：#类型/变更",
+      ""
+    ],
+    [
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界:1",
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界",
+      "修改内容",
+      "发行体系固定为三个独立类别。`lite` 保留完整核心功能，包括源码扫描、分段恢复、局部范围、机器 SQLite、人类 Markdown/Obsidian vault、Logseq 投影、确定性检索、Agent 审阅、审计、迁移和自动化适配，但不携带离线运行时和 `plugins/`。`full-win-x64` 与 lite 使用相同的核心版本，并且文件集合严格等于 lite 加 `assets/runtime/win-x64/`；任何其他增量或 `plugins/` 成员都会使打包失败。`obsidian-plugin` 使用插件 `manifest.json` 中的独立版本，只包含六个 Obsidian 安装文件，不包含核心 Skill 或离线运行时。\n\n`scripts/package_release.py` 新增 `obsidian-plugin` 和 `all` 类型；`both` 仍只生成 lite 与 full。核心 manifest 写入功能矩阵、禁止前缀和 full 的唯一增量前缀，插件 manifest 写入独立版本、核心知识库依赖和固定 Claudian 上游提交。`references/distributions.md` 记录发行矩阵、版本关系、安装位置和命令。",
+      ""
+    ],
+    [
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界:2",
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界",
+      "修改原因",
+      "原打包器遍历源码根目录时会把 `plugins/` 同时纳入 lite 和 full，导致核心 Skill、离线运行时和 Obsidian GUI 插件的版本及安装边界混在一起。Lite 也缺少可机检的能力声明，无法明确表达“功能完整但不捆绑运行时”。",
+      ""
+    ],
+    [
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界:3",
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界",
+      "验证结果",
+      "该历史版本实际生成了 lite、full 和独立插件包，验证了文件集合、运行时边界、安装可用性与恢复行为。核心包不夹带插件，full 相比 lite 仅增加锁定运行时；具体版本和逐文件结果保留在原始记录。",
+      ""
+    ],
+    [
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界:4",
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界",
+      "原始记录",
+      "[按需核对历史原文与完整复现明细](../../machine/historical-records/legacy-20260910-08.md)。",
+      ""
+    ],
+    [
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界:5",
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界",
+      "相关知识页",
+      "- [[build_core 与 sha256 的协作实现]]\n- [[audit_obsidian 与 prepare_vault 的协作实现]]\n- [[deploy 与 skill_root 的协作实现]]\n- [[package_showcase]]\n- [[ensure_local_openers 与 SourceLinkRenderer 的协作实现]]\n- [[build_machine_knowledge 与 estimated_tokens 的协作实现]]\n- [[build 与 sha256 的协作实现]]\n- [[review_automation 与 default_registry_path 的协作实现]]",
+      ""
+    ],
+    [
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界:6",
+      "note:changes:Lite、Full 与 Obsidian 插件发行边界",
+      "源码入口",
+      "- [打开源码：scripts/package_release.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/package_release.py:1:1)  `scripts/package_release.py:1-307`\n- [打开源码：scripts/ckb_core/obsidian.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/obsidian.py:1:1)  `scripts/ckb_core/obsidian.py:1-166`\n- [打开源码：scripts/ckb_core/runtime.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/runtime.py:1:1)  `scripts/ckb_core/runtime.py:1-153`\n- [打开源码：scripts/ckb_core/showcase.py 第 66 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/showcase.py:66:1)  `scripts/ckb_core/showcase.py:66-172`\n- [打开源码：scripts/ckb_core/source_links.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/source_links.py:1:1)  `scripts/ckb_core/source_links.py:1-184`\n- [打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1995`\n- [打开源码：scripts/build_runtime_payload.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/build_runtime_payload.py:1:1)  `scripts/build_runtime_payload.py:1-158`\n- [打开源码：scripts/ckb_core/automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation.py:1:1)  `scripts/ckb_core/automation.py:1-1783`",
+      ""
+    ]
+  ]
+}

@@ -1,0 +1,303 @@
+{
+  "document": [
+    [
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      "experiment",
+      "常驻 stdio 检索性能复测（Flask 3.1.3）",
+      "#类型/实验",
+      "experiments/常驻 stdio 检索性能复测（Flask 3.1.3）.md",
+      null,
+      "# 常驻 stdio 检索性能复测（Flask 3.1.3）\n\n标签：#类型/实验\n\n## 结论\n\nCode Knowledge Builder 现提供本地常驻 JSONL stdio 检索命令。它在一个 Agent 会话内复用 Windows Python 进程、SQLite 数据和静态检索缓存，不打开网络端口，也不改变现有排序、token 预算、来源链接或 Agent pack 契约。\n\n在 Flask 3.1.3 的冻结十题上，常驻请求中位往返延迟为 23.5 ms，P95 为 45.1 ms；同轮一次性 CLI 分别为 321.6 ms 和 361.2 ms。常驻模式的中位速度提升为 13.71 倍，结果签名与一次性 CLI 完全一致。收益成立于进程已驻留的会话内检索，不代表精确符号召回已经改善。\n\n## 使用方式\n\n启动服务：\n\n```text\n请让 Agent 使用已安装的 code-knowledge-builder 完成本节所述操作，并返回结果与阅读入口。\n```\n\n调用方通过 stdin 每次写入一个 JSON 对象，并从 stdout 读取一行响应：\n\n```json\n{\"id\":\"ready\",\"method\":\"ping\"}\n{\"id\":\"q1\",\"method\":\"retrieve\",\"question\":\"修改订单失败后的库存回滚\",\"budget\":1800,\"max_pages\":8,\"profile\":\"fast\"}\n{\"id\":\"stop\",\"method\":\"shutdown\"}\n```\n\n服务支持 `ping`、`retrieve` 和 `shutdown`。请求与响应严格各占一行。格式错误、未知方法或无效参数只返回 `ok:false`，不会终止服务；EOF 或 `shutdown` 会结束进程。\n\n## 冻结测试协议\n\n- 仓库：Flask 3.1.3。\n- 问题：10 个真实修改意图。\n- 方法：一次性 `ckb.py retrieve` 与常驻 `ckb.py serve --stdio`。\n- 档位：`fast`。\n- 预算：2,400 tokens。\n- 最大结果：8。\n- 每种方法每题预热 1 次，正式重复 7 次。\n- 正式记录共 140 条，两种方法按题号轮换执行顺序。\n- 常驻进程启动到第一次 `ping` 单独计量，不混入正式稳态请求延迟。\n\n只有结果签名、文件召回、符号召回、确定性、回退率、缓存命中、P95、速度、错误隔离和干净关闭全部通过，才确认会话内延迟收益。\n\n## 正式结果\n\n| 指标 | 一次性 CLI | 常驻 stdio |\n|---|---:|---:|\n| 正式请求数 | 70 | 70 |\n| 请求往返中位数 | 321.6 ms | 23.5 ms |\n| 请求往返 P95 | 361.2 ms | 45.1 ms |\n| 服务端检索中位数 | 不适用 | 23.1 ms |\n| 目标文件 Recall@8 | 100% | 100% |\n| 精确目标符号召回 | 40% | 40% |\n| 结果签名一致率 | 不适用 | 100% |\n| 确定性 | 100% | 100% |\n| 回退率 | 0% | 0% |\n| 正式请求缓存命中率 | 0% | 100% |\n| 可见上下文中位数 | 2,294 tokens | 2,294 tokens |\n\n常驻模式中位延迟减少 92.7%。70 次正式请求的累计时间从约 22.64 秒降到约 2.18 秒，后者已包含一次进程启动，累计减少约 90.4%。JSONL 管道中位开销约为 0.33 ms，剩余时间主要来自 SQLite 查询、确定性评分和 Agent pack 生成。\n\n## 首次请求成本\n\n十个独立新会话的中位结果为：\n\n| 阶段 | 中位时间 |\n|---|---:|\n| 启动到 `ping` 返回 | 201.9 ms |\n| 第一次 `retrieve`，缓存未命中 | 79.2 ms |\n| 启动加第一次检索 | 281.1 ms |\n| 第二次相同检索，缓存命中 | 39.1 ms |\n| 一次性 CLI | 321.6 ms |\n\n本机样本中，启动服务后只查询一次的总时间仍低于一次性 CLI，因此摊销拐点为 1 个请求。第一次请求的 `retrieval_stats.static_cache_hit` 为 `false`，后续请求为 `true`。\n\n## 当前实现\n\n- `scripts/ckb_core/stdio_server.py`：JSONL 协议、参数校验、错误隔离和关闭逻辑。\n- `scripts/ckb.py`：新增 `serve --stdio --out OUTPUT` 命令。\n- `tests/test_ckb.py`：验证单行协议、错误后继续服务和关闭边界。\n- `references/agent-retrieval.md`：记录启动方式、请求格式、缓存与延迟口径。\n\n该轮验证了源码与安装版本一致、真实常驻请求、索引有效性和隔离恢复行为；具体执行明细保留在原始记录。\n\n## 边界\n\n- 服务只使用本地 stdin/stdout，不提供网络或 MCP 端口。\n- 当前单线程串行执行，每次处理一个请求。\n- `retrieve` 仍生成 Markdown 和 JSON Agent pack。\n- 数据库或 `local-openers.json` 被原子替换后，下一次请求会通过修改时间失效键重建缓存。\n- 当前没有接入 Codex、Claude、OpenCode 等 Harness 的 SessionStart/SessionEnd 自动拉起和关闭。\n- 没有实现进程池、并发请求或多知识库调度。\n- 精确目标符号召回仍为 40%，常驻模式只解决延迟，不改变检索质量。\n- 当前没有重新打包发行 ZIP，也没有自动创建 Git commit。\n\n## 验证证据\n\n- 冻结协议：`E:\\knowledge_builder\\evaluations\\flask-3.1.3-stdio-benchmark\\protocol.json`\n- 复测摘要：`E:\\knowledge_builder\\evaluations\\flask-3.1.3-stdio-benchmark\\summary.json`\n- 140 条正式记录：`E:\\knowledge_builder\\evaluations\\flask-3.1.3-stdio-benchmark\\formal-records.jsonl`\n- 新会话启动探针：`E:\\knowledge_builder\\evaluations\\flask-3.1.3-stdio-benchmark\\startup-probe.json`\n- 已安装版 canary：`E:\\knowledge_builder\\evaluations\\flask-3.1.3-stdio-benchmark\\installed-canary.json`\n- 总验证记录：`E:\\knowledge_builder\\evaluations\\flask-3.1.3-stdio-benchmark\\verification-record.json`\n- 源码 patch：`E:\\knowledge_builder\\evaluations\\flask-3.1.3-stdio-benchmark\\delivery\\stdio-server.patch`\n- 可执行回滚：`E:\\knowledge_builder\\evaluations\\flask-3.1.3-stdio-benchmark\\delivery\\rollback.ps1`\n\n## 延伸阅读\n\n- [[Flask 3.1.3 知识库与 grep 对比测试（秋招版）]]\n- [[LLM Wiki 快速检索性能复验（5.1.4）]]\n\n\n\n## 原始记录\n\n[按需核对历史原文与完整复现明细](../../machine/historical-records/legacy-20260910-14.md)。\n\n## 相关知识页\n\n- [[doctor_report 与 _version_matches 的协作实现]]\n- [[audit_global 与 _replace_output_prefix 的协作实现]]\n- [[build_agent_index 与 _tokens 的协作实现]]\n- [[ensure_local_openers 与 SourceLinkRenderer 的协作实现]]\n- [[build_machine_knowledge 与 estimated_tokens 的协作实现]]\n- [[invoke 等测试场景（test_ckb 测试）]]\n- [[CkbError 与 DependencyError 的协作实现]]\n- [[parse_file 与 _language 的协作实现]]\n\n## 源码入口\n\n- [打开源码：scripts/ckb_core/providers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/providers.py:1:1)  `scripts/ckb_core/providers.py:1-638`\n- [打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3637`\n- [打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-555`\n- [打开源码：scripts/ckb_core/source_links.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/source_links.py:1:1)  `scripts/ckb_core/source_links.py:1-184`\n- [打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1995`\n- [打开源码：tests/test_ckb.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_ckb.py:1:1)  `tests/test_ckb.py:1-2499`\n- [打开源码：scripts/ckb_core/common.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/common.py:1:1)  `scripts/ckb_core/common.py:1-168`\n- [打开源码：scripts/ckb_core/parsers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/parsers.py:1:1)  `scripts/ckb_core/parsers.py:1-1020`\n",
+      2549
+    ]
+  ],
+  "sections": [
+    [
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）:0",
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      0,
+      "常驻 stdio 检索性能复测（Flask 3.1.3）",
+      "标签：#类型/实验",
+      8,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）:1",
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      1,
+      "结论",
+      "Code Knowledge Builder 现提供本地常驻 JSONL stdio 检索命令。它在一个 Agent 会话内复用 Windows Python 进程、SQLite 数据和静态检索缓存，不打开网络端口，也不改变现有排序、token 预算、来源链接或 Agent pack 契约。\n\n在 Flask 3.1.3 的冻结十题上，常驻请求中位往返延迟为 23.5 ms，P95 为 45.1 ms；同轮一次性 CLI 分别为 321.6 ms 和 361.2 ms。常驻模式的中位速度提升为 13.71 倍，结果签名与一次性 CLI 完全一致。收益成立于进程已驻留的会话内检索，不代表精确符号召回已经改善。",
+      204,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）:2",
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      2,
+      "使用方式",
+      "启动服务：\n\n```text\n请让 Agent 使用已安装的 code-knowledge-builder 完成本节所述操作，并返回结果与阅读入口。\n```\n\n调用方通过 stdin 每次写入一个 JSON 对象，并从 stdout 读取一行响应：\n\n```json\n{\"id\":\"ready\",\"method\":\"ping\"}\n{\"id\":\"q1\",\"method\":\"retrieve\",\"question\":\"修改订单失败后的库存回滚\",\"budget\":1800,\"max_pages\":8,\"profile\":\"fast\"}\n{\"id\":\"stop\",\"method\":\"shutdown\"}\n```\n\n服务支持 `ping`、`retrieve` 和 `shutdown`。请求与响应严格各占一行。格式错误、未知方法或无效参数只返回 `ok:false`，不会终止服务；EOF 或 `shutdown` 会结束进程。",
+      218,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）:3",
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      3,
+      "冻结测试协议",
+      "- 仓库：Flask 3.1.3。\n- 问题：10 个真实修改意图。\n- 方法：一次性 `ckb.py retrieve` 与常驻 `ckb.py serve --stdio`。\n- 档位：`fast`。\n- 预算：2,400 tokens。\n- 最大结果：8。\n- 每种方法每题预热 1 次，正式重复 7 次。\n- 正式记录共 140 条，两种方法按题号轮换执行顺序。\n- 常驻进程启动到第一次 `ping` 单独计量，不混入正式稳态请求延迟。\n\n只有结果签名、文件召回、符号召回、确定性、回退率、缓存命中、P95、速度、错误隔离和干净关闭全部通过，才确认会话内延迟收益。",
+      204,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）:4",
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      4,
+      "正式结果",
+      "| 指标 | 一次性 CLI | 常驻 stdio |\n|---|---:|---:|\n| 正式请求数 | 70 | 70 |\n| 请求往返中位数 | 321.6 ms | 23.5 ms |\n| 请求往返 P95 | 361.2 ms | 45.1 ms |\n| 服务端检索中位数 | 不适用 | 23.1 ms |\n| 目标文件 Recall@8 | 100% | 100% |\n| 精确目标符号召回 | 40% | 40% |\n| 结果签名一致率 | 不适用 | 100% |\n| 确定性 | 100% | 100% |\n| 回退率 | 0% | 0% |\n| 正式请求缓存命中率 | 0% | 100% |\n| 可见上下文中位数 | 2,294 tokens | 2,294 tokens |\n\n常驻模式中位延迟减少 92.7%。70 次正式请求的累计时间从约 22.64 秒降到约 2.18 秒，后者已包含一次进程启动，累计减少约 90.4%。JSONL 管道中位开销约为 0.33 ms，剩余时间主要来自 SQLite 查询、确定性评分和 Agent pack 生成。",
+      267,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）:5",
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      5,
+      "首次请求成本",
+      "十个独立新会话的中位结果为：\n\n| 阶段 | 中位时间 |\n|---|---:|\n| 启动到 `ping` 返回 | 201.9 ms |\n| 第一次 `retrieve`，缓存未命中 | 79.2 ms |\n| 启动加第一次检索 | 281.1 ms |\n| 第二次相同检索，缓存命中 | 39.1 ms |\n| 一次性 CLI | 321.6 ms |\n\n本机样本中，启动服务后只查询一次的总时间仍低于一次性 CLI，因此摊销拐点为 1 个请求。第一次请求的 `retrieval_stats.static_cache_hit` 为 `false`，后续请求为 `true`。",
+      170,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）:6",
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      6,
+      "当前实现",
+      "- `scripts/ckb_core/stdio_server.py`：JSONL 协议、参数校验、错误隔离和关闭逻辑。\n- `scripts/ckb.py`：新增 `serve --stdio --out OUTPUT` 命令。\n- `tests/test_ckb.py`：验证单行协议、错误后继续服务和关闭边界。\n- `references/agent-retrieval.md`：记录启动方式、请求格式、缓存与延迟口径。\n\n该轮验证了源码与安装版本一致、真实常驻请求、索引有效性和隔离恢复行为；具体执行明细保留在原始记录。",
+      166,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）:7",
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      7,
+      "边界",
+      "- 服务只使用本地 stdin/stdout，不提供网络或 MCP 端口。\n- 当前单线程串行执行，每次处理一个请求。\n- `retrieve` 仍生成 Markdown 和 JSON Agent pack。\n- 数据库或 `local-openers.json` 被原子替换后，下一次请求会通过修改时间失效键重建缓存。\n- 当前没有接入 Codex、Claude、OpenCode 等 Harness 的 SessionStart/SessionEnd 自动拉起和关闭。\n- 没有实现进程池、并发请求或多知识库调度。\n- 精确目标符号召回仍为 40%，常驻模式只解决延迟，不改变检索质量。\n- 当前没有重新打包发行 ZIP，也没有自动创建 Git commit。",
+      216,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）:8",
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      8,
+      "验证证据",
+      "- 冻结协议：`E:\\knowledge_builder\\evaluations\\flask-3.1.3-stdio-benchmark\\protocol.json`\n- 复测摘要：`E:\\knowledge_builder\\evaluations\\flask-3.1.3-stdio-benchmark\\summary.json`\n- 140 条正式记录：`E:\\knowledge_builder\\evaluations\\flask-3.1.3-stdio-benchmark\\formal-records.jsonl`\n- 新会话启动探针：`E:\\knowledge_builder\\evaluations\\flask-3.1.3-stdio-benchmark\\startup-probe.json`\n- 已安装版 canary：`E:\\knowledge_builder\\evaluations\\flask-3.1.3-stdio-benchmark\\installed-canary.json`\n- 总验证记录：`E:\\knowledge_builder\\evaluations\\flask-3.1.3-stdio-benchmark\\verification-record.json`\n- 源码 patch：`E:\\knowledge_builder\\evaluations\\flask-3.1.3-stdio-benchmark\\delivery\\stdio-server.patch`\n- 可执行回滚：`E:\\knowledge_builder\\evaluations\\flask-3.1.3-stdio-benchmark\\delivery\\rollback.ps1`",
+      278,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）:9",
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      9,
+      "延伸阅读",
+      "- [[Flask 3.1.3 知识库与 grep 对比测试（秋招版）]]\n- [[LLM Wiki 快速检索性能复验（5.1.4）]]",
+      38,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）:10",
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      10,
+      "原始记录",
+      "[按需核对历史原文与完整复现明细](../../machine/historical-records/legacy-20260910-14.md)。",
+      36,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）:11",
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      11,
+      "相关知识页",
+      "- [[doctor_report 与 _version_matches 的协作实现]]\n- [[audit_global 与 _replace_output_prefix 的协作实现]]\n- [[build_agent_index 与 _tokens 的协作实现]]\n- [[ensure_local_openers 与 SourceLinkRenderer 的协作实现]]\n- [[build_machine_knowledge 与 estimated_tokens 的协作实现]]\n- [[invoke 等测试场景（test_ckb 测试）]]\n- [[CkbError 与 DependencyError 的协作实现]]\n- [[parse_file 与 _language 的协作实现]]",
+      151,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）:12",
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      12,
+      "源码入口",
+      "- [打开源码：scripts/ckb_core/providers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/providers.py:1:1)  `scripts/ckb_core/providers.py:1-638`\n- [打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3637`\n- [打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-555`\n- [打开源码：scripts/ckb_core/source_links.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/source_links.py:1:1)  `scripts/ckb_core/source_links.py:1-184`\n- [打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1995`\n- [打开源码：tests/test_ckb.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_ckb.py:1:1)  `tests/test_ckb.py:1-2499`\n- [打开源码：scripts/ckb_core/common.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/common.py:1:1)  `scripts/ckb_core/common.py:1-168`\n- [打开源码：scripts/ckb_core/parsers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/parsers.py:1:1)  `scripts/ckb_core/parsers.py:1-1020`",
+      503,
+      null,
+      null,
+      null
+    ]
+  ],
+  "section_sources": [],
+  "links": [
+    [
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      null,
+      "CkbError 与 DependencyError 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      null,
+      "audit_global 与 _replace_output_prefix 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      null,
+      "build_agent_index 与 _tokens 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      null,
+      "build_machine_knowledge 与 estimated_tokens 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      null,
+      "doctor_report 与 _version_matches 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      null,
+      "ensure_local_openers 与 SourceLinkRenderer 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      null,
+      "invoke 等测试场景（test_ckb 测试）",
+      "wikilink"
+    ],
+    [
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      null,
+      "parse_file 与 _language 的协作实现",
+      "wikilink"
+    ]
+  ],
+  "fts": [
+    [
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）:0",
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      "常驻 stdio 检索性能复测（Flask 3.1.3）",
+      "标签：#类型/实验",
+      ""
+    ],
+    [
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）:1",
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      "结论",
+      "Code Knowledge Builder 现提供本地常驻 JSONL stdio 检索命令。它在一个 Agent 会话内复用 Windows Python 进程、SQLite 数据和静态检索缓存，不打开网络端口，也不改变现有排序、token 预算、来源链接或 Agent pack 契约。\n\n在 Flask 3.1.3 的冻结十题上，常驻请求中位往返延迟为 23.5 ms，P95 为 45.1 ms；同轮一次性 CLI 分别为 321.6 ms 和 361.2 ms。常驻模式的中位速度提升为 13.71 倍，结果签名与一次性 CLI 完全一致。收益成立于进程已驻留的会话内检索，不代表精确符号召回已经改善。",
+      ""
+    ],
+    [
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）:2",
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      "使用方式",
+      "启动服务：\n\n```text\n请让 Agent 使用已安装的 code-knowledge-builder 完成本节所述操作，并返回结果与阅读入口。\n```\n\n调用方通过 stdin 每次写入一个 JSON 对象，并从 stdout 读取一行响应：\n\n```json\n{\"id\":\"ready\",\"method\":\"ping\"}\n{\"id\":\"q1\",\"method\":\"retrieve\",\"question\":\"修改订单失败后的库存回滚\",\"budget\":1800,\"max_pages\":8,\"profile\":\"fast\"}\n{\"id\":\"stop\",\"method\":\"shutdown\"}\n```\n\n服务支持 `ping`、`retrieve` 和 `shutdown`。请求与响应严格各占一行。格式错误、未知方法或无效参数只返回 `ok:false`，不会终止服务；EOF 或 `shutdown` 会结束进程。",
+      ""
+    ],
+    [
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）:3",
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      "冻结测试协议",
+      "- 仓库：Flask 3.1.3。\n- 问题：10 个真实修改意图。\n- 方法：一次性 `ckb.py retrieve` 与常驻 `ckb.py serve --stdio`。\n- 档位：`fast`。\n- 预算：2,400 tokens。\n- 最大结果：8。\n- 每种方法每题预热 1 次，正式重复 7 次。\n- 正式记录共 140 条，两种方法按题号轮换执行顺序。\n- 常驻进程启动到第一次 `ping` 单独计量，不混入正式稳态请求延迟。\n\n只有结果签名、文件召回、符号召回、确定性、回退率、缓存命中、P95、速度、错误隔离和干净关闭全部通过，才确认会话内延迟收益。",
+      ""
+    ],
+    [
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）:4",
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      "正式结果",
+      "| 指标 | 一次性 CLI | 常驻 stdio |\n|---|---:|---:|\n| 正式请求数 | 70 | 70 |\n| 请求往返中位数 | 321.6 ms | 23.5 ms |\n| 请求往返 P95 | 361.2 ms | 45.1 ms |\n| 服务端检索中位数 | 不适用 | 23.1 ms |\n| 目标文件 Recall@8 | 100% | 100% |\n| 精确目标符号召回 | 40% | 40% |\n| 结果签名一致率 | 不适用 | 100% |\n| 确定性 | 100% | 100% |\n| 回退率 | 0% | 0% |\n| 正式请求缓存命中率 | 0% | 100% |\n| 可见上下文中位数 | 2,294 tokens | 2,294 tokens |\n\n常驻模式中位延迟减少 92.7%。70 次正式请求的累计时间从约 22.64 秒降到约 2.18 秒，后者已包含一次进程启动，累计减少约 90.4%。JSONL 管道中位开销约为 0.33 ms，剩余时间主要来自 SQLite 查询、确定性评分和 Agent pack 生成。",
+      ""
+    ],
+    [
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）:5",
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      "首次请求成本",
+      "十个独立新会话的中位结果为：\n\n| 阶段 | 中位时间 |\n|---|---:|\n| 启动到 `ping` 返回 | 201.9 ms |\n| 第一次 `retrieve`，缓存未命中 | 79.2 ms |\n| 启动加第一次检索 | 281.1 ms |\n| 第二次相同检索，缓存命中 | 39.1 ms |\n| 一次性 CLI | 321.6 ms |\n\n本机样本中，启动服务后只查询一次的总时间仍低于一次性 CLI，因此摊销拐点为 1 个请求。第一次请求的 `retrieval_stats.static_cache_hit` 为 `false`，后续请求为 `true`。",
+      ""
+    ],
+    [
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）:6",
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      "当前实现",
+      "- `scripts/ckb_core/stdio_server.py`：JSONL 协议、参数校验、错误隔离和关闭逻辑。\n- `scripts/ckb.py`：新增 `serve --stdio --out OUTPUT` 命令。\n- `tests/test_ckb.py`：验证单行协议、错误后继续服务和关闭边界。\n- `references/agent-retrieval.md`：记录启动方式、请求格式、缓存与延迟口径。\n\n该轮验证了源码与安装版本一致、真实常驻请求、索引有效性和隔离恢复行为；具体执行明细保留在原始记录。",
+      ""
+    ],
+    [
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）:7",
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      "边界",
+      "- 服务只使用本地 stdin/stdout，不提供网络或 MCP 端口。\n- 当前单线程串行执行，每次处理一个请求。\n- `retrieve` 仍生成 Markdown 和 JSON Agent pack。\n- 数据库或 `local-openers.json` 被原子替换后，下一次请求会通过修改时间失效键重建缓存。\n- 当前没有接入 Codex、Claude、OpenCode 等 Harness 的 SessionStart/SessionEnd 自动拉起和关闭。\n- 没有实现进程池、并发请求或多知识库调度。\n- 精确目标符号召回仍为 40%，常驻模式只解决延迟，不改变检索质量。\n- 当前没有重新打包发行 ZIP，也没有自动创建 Git commit。",
+      ""
+    ],
+    [
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）:8",
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      "验证证据",
+      "- 冻结协议：`E:\\knowledge_builder\\evaluations\\flask-3.1.3-stdio-benchmark\\protocol.json`\n- 复测摘要：`E:\\knowledge_builder\\evaluations\\flask-3.1.3-stdio-benchmark\\summary.json`\n- 140 条正式记录：`E:\\knowledge_builder\\evaluations\\flask-3.1.3-stdio-benchmark\\formal-records.jsonl`\n- 新会话启动探针：`E:\\knowledge_builder\\evaluations\\flask-3.1.3-stdio-benchmark\\startup-probe.json`\n- 已安装版 canary：`E:\\knowledge_builder\\evaluations\\flask-3.1.3-stdio-benchmark\\installed-canary.json`\n- 总验证记录：`E:\\knowledge_builder\\evaluations\\flask-3.1.3-stdio-benchmark\\verification-record.json`\n- 源码 patch：`E:\\knowledge_builder\\evaluations\\flask-3.1.3-stdio-benchmark\\delivery\\stdio-server.patch`\n- 可执行回滚：`E:\\knowledge_builder\\evaluations\\flask-3.1.3-stdio-benchmark\\delivery\\rollback.ps1`",
+      ""
+    ],
+    [
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）:9",
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      "延伸阅读",
+      "- [[Flask 3.1.3 知识库与 grep 对比测试（秋招版）]]\n- [[LLM Wiki 快速检索性能复验（5.1.4）]]",
+      ""
+    ],
+    [
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）:10",
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      "原始记录",
+      "[按需核对历史原文与完整复现明细](../../machine/historical-records/legacy-20260910-14.md)。",
+      ""
+    ],
+    [
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）:11",
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      "相关知识页",
+      "- [[doctor_report 与 _version_matches 的协作实现]]\n- [[audit_global 与 _replace_output_prefix 的协作实现]]\n- [[build_agent_index 与 _tokens 的协作实现]]\n- [[ensure_local_openers 与 SourceLinkRenderer 的协作实现]]\n- [[build_machine_knowledge 与 estimated_tokens 的协作实现]]\n- [[invoke 等测试场景（test_ckb 测试）]]\n- [[CkbError 与 DependencyError 的协作实现]]\n- [[parse_file 与 _language 的协作实现]]",
+      ""
+    ],
+    [
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）:12",
+      "note:experiments:常驻 stdio 检索性能复测（Flask 3.1.3）",
+      "源码入口",
+      "- [打开源码：scripts/ckb_core/providers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/providers.py:1:1)  `scripts/ckb_core/providers.py:1-638`\n- [打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3637`\n- [打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-555`\n- [打开源码：scripts/ckb_core/source_links.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/source_links.py:1:1)  `scripts/ckb_core/source_links.py:1-184`\n- [打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1995`\n- [打开源码：tests/test_ckb.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_ckb.py:1:1)  `tests/test_ckb.py:1-2499`\n- [打开源码：scripts/ckb_core/common.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/common.py:1:1)  `scripts/ckb_core/common.py:1-168`\n- [打开源码：scripts/ckb_core/parsers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/parsers.py:1:1)  `scripts/ckb_core/parsers.py:1-1020`",
+      ""
+    ]
+  ]
+}

@@ -13,12 +13,8 @@ CKB 5.4.0 的可验证交付已发布到 GitHub 分支 [`codex/release-5.4.0-sta
 
 ## 获取与验证
 
-```powershell
-git clone --branch codex/release-5.4.0-stable-knowledge --single-branch https://github.com/dddeath/code-knowledge-builder.git
-Set-Location .\code-knowledge-builder
-git lfs pull
-python .\delivery\verify-publication.py --root . --write .\delivery\verification.json
-git lfs fsck
+```text
+请让 Agent 使用已安装的 code-knowledge-builder 完成本节所述操作，并返回结果与阅读入口。
 ```
 
 校验程序会逐文件核对 `source/` 与 `knowledge-base/`，并检查完成标记、双 SQLite 完整性、human/markdown 镜像、readability、工作记录、reference、research gap、学习笔记原始字节和 Git LFS 对象。发布后从 GitHub 新克隆的副本已通过全部 12 项只读检查，`git lfs fsck` 也已通过。
@@ -32,6 +28,12 @@ git lfs fsck
 ## 回滚
 
 远端回滚脚本位于 `delivery/rollback-github-release-5.4.0.ps1`。具备目标分支推送权限的维护者可在发布仓库中运行该脚本；它会创建新的 revert commit 并推送，不执行 force push，也不改写公开历史。
+
+
+
+## 原始记录
+
+[按需核对历史原文与完整复现明细](../../machine/historical-records/legacy-20260910-07.md)。
 
 ## 相关知识页
 

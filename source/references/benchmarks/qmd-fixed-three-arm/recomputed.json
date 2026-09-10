@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "checks": {
+    "raw_row_count_exact": true,
+    "all_aggregate_fields_exact": true,
+    "question_ids_exact": true,
+    "arm_ids_exact": true,
+    "one_cold_five_hot_per_arm_question": true
+  },
+  "comparisons": {
+    "sqlite-current": {
+      "exact": true,
+      "recomputed": {
+        "questions": 12,
+        "runs": 72,
+        "recall_at_8": 0.75,
+        "mrr_at_8": 0.569444444,
+        "ndcg_at_8": 0.616065772,
+        "first_pack_estimated_tokens": 605.5,
+        "cold_latency_ms_p50": 3136.3908,
+        "cold_latency_ms_p95": 10564.24788,
+        "hot_latency_ms_p50": 429.3082,
+        "hot_latency_ms_p95": 2169.216785,
+        "worker_process_starts": 12,
+        "peak_rss_bytes": 106786816,
+        "peak_extra_child_processes": 3,
+        "deterministic_question_rate": 1
+      },
+      "reported": {
+        "questions": 12,
+        "runs": 72,
+        "recall_at_8": 0.75,
+        "mrr_at_8": 0.569444444,
+        "ndcg_at_8": 0.616065772,
+        "first_pack_estimated_tokens": 605.5,
+        "cold_latency_ms_p50": 3136.3908,
+        "cold_latency_ms_p95": 10564.24788,
+        "hot_latency_ms_p50": 429.3082,
+        "hot_latency_ms_p95": 2169.216785,
+        "worker_process_starts": 12,
+        "peak_rss_bytes": 106786816,
+        "peak_extra_child_processes": 3,
+        "deterministic_question_rate": 1
+      }
+    },
+    "semantic-vector": {
+      "exact": true,
+      "recomputed": {
+        "questions": 12,
+        "runs": 72,
+        "recall_at_8": 0.583333333,
+        "mrr_at_8": 0.221527778,
+        "ndcg_at_8": 0.307883379,
+        "first_pack_estimated_tokens": 644.5,
+        "cold_latency_ms_p50": 1425.84785,
+        "cold_latency_ms_p95": 1959.237745,
+        "hot_latency_ms_p50": 13.8342,
+        "hot_latency_ms_p95": 17.320725,
+        "worker_process_starts": 12,
+        "peak_rss_bytes": 223051776,
+        "peak_extra_child_processes": 1,
+        "deterministic_question_rate": 1
+      },
+      "reported": {
+        "questions": 12,
+        "runs": 72,
+        "recall_at_8": 0.583333333,
+        "mrr_at_8": 0.221527778,
+        "ndcg_at_8": 0.307883379,
+        "first_pack_estimated_tokens": 644.5,
+        "cold_latency_ms_p50": 1425.84785,
+        "cold_latency_ms_p95": 1959.237745,
+        "hot_latency_ms_p50": 13.8342,
+        "hot_latency_ms_p95": 17.320725,
+        "worker_process_starts": 12,
+        "peak_rss_bytes": 223051776,
+        "peak_extra_child_processes": 1,
+        "deterministic_question_rate": 1
+      }
+    },
+    "qmd-vsearch": {
+      "exact": true,
+      "recomputed": {
+        "questions": 12,
+        "runs": 72,
+        "recall_at_8": 1.0,
+        "mrr_at_8": 0.875,
+        "ndcg_at_8": 0.907732438,
+        "first_pack_estimated_tokens": 560.5,
+        "cold_latency_ms_p50": 15924.3999,
+        "cold_latency_ms_p95": 24178.11326,
+        "hot_latency_ms_p50": 638.39625,
+        "hot_latency_ms_p95": 2421.31927,
+        "worker_process_starts": 12,
+        "peak_rss_bytes": 795459584,
+        "peak_extra_child_processes": 1,
+        "deterministic_question_rate": 1
+      },
+      "reported": {
+        "questions": 12,
+        "runs": 72,
+        "recall_at_8": 1.0,
+        "mrr_at_8": 0.875,
+        "ndcg_at_8": 0.907732438,
+        "first_pack_estimated_tokens": 560.5,
+        "cold_latency_ms_p50": 15924.3999,
+        "cold_latency_ms_p95": 24178.11326,
+        "hot_latency_ms_p50": 638.39625,
+        "hot_latency_ms_p95": 2421.31927,
+        "worker_process_starts": 12,
+        "peak_rss_bytes": 795459584,
+        "peak_extra_child_processes": 1,
+        "deterministic_question_rate": 1
+      }
+    }
+  }
+}

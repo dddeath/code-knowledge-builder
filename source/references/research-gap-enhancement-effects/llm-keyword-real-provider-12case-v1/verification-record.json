@@ -1,0 +1,274 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "task": "llm-keyword-real-provider-12case",
+  "branch": "codex/llm-keyword-real-provider-12case",
+  "baseline_commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+  "verification_subject": "ea63179487201466458f4b407c03f70868484456",
+  "commits": [
+    {
+      "commit": "cb29cbead7019f073656a9c85bedc49a79bc1dfa",
+      "subject": "feat: validate real keyword provider output"
+    },
+    {
+      "commit": "47544b9d360a325be28e36d40567af0e946fb019",
+      "subject": "test: freeze real provider 12-case benchmark"
+    },
+    {
+      "commit": "a6cc2b17cc2ecb0f31f301b68056e4d4a9a0d110",
+      "subject": "fix: count timed-out provider attempts"
+    },
+    {
+      "commit": "547b383e74bb1f6fbcbee927dfe62310b9dc876d",
+      "subject": "fix: separate recall and ranking regressions"
+    },
+    {
+      "commit": "ea63179487201466458f4b407c03f70868484456",
+      "subject": "docs: record real provider 12-case results"
+    }
+  ],
+  "inputs": {
+    "published_protocol": "protocol.json",
+    "published_protocol_sha256": "19f84674c402a56280cf1ae7fa2bb1b5a6a679ec38c2fb4f25386b4fbd44a516",
+    "execution_protocol_sha256": "3e192d31ba7650f850676fbf9e2385267a167a6ed685f6f3e91a0c73df2d2c2d",
+    "protocol_json_semantically_equal_after_lf_normalization": true,
+    "source_corpus": "E:\\knowledge_builder\\artifacts\\handoffs\\20260903-remaining-wave2\\chinese-retrieval-effect-retest\\frozen-corpus",
+    "source_machine_sha256": "c139d27233703e3fee09011134d90729ce23b7129aeadb5f5b23312dc59c9bbe",
+    "source_legacy_sha256": "e5aba4daec7e34b54dc93bbae6da9750bee87448d48749dc0aaed64dd568349f",
+    "provider": {
+      "status": "executed",
+      "name": "codex-cli",
+      "model": "gpt-5.6-luna",
+      "version": "real-12case-v1",
+      "actual_calls": 12,
+      "effect_claim": "measured-gain",
+      "usage_source": "codex-exec-turn.completed",
+      "cost_source": "not-reported-by-provider-cli"
+    }
+  },
+  "confirmed_facts": {
+    "default_provider_process_starts": 0,
+    "force_real_provider_actual_calls": 12,
+    "force_real_provider_successful_calls": 12,
+    "hot_cache_hits": 12,
+    "baseline_recall_at_8": 0.75,
+    "real_provider_recall_at_8": 1.0,
+    "recall_delta": 0.25,
+    "recall_gain_cases": 3,
+    "recall_regression_cases": 0,
+    "mrr_regression_cases": 1,
+    "provider_latency_ms_p50": 20451.89305,
+    "provider_latency_ms_p95": 22569.100855,
+    "additional_latency_ms_p50": 20405.4905,
+    "additional_latency_ms_p95": 22919.51358,
+    "input_tokens": 176041,
+    "output_tokens": 2714,
+    "fault_types": {
+      "irrelevant-output": null,
+      "timeout": "timeout",
+      "invalid-json": "invalid-json",
+      "empty-output": "invalid-output",
+      "too-many-keywords": "invalid-output",
+      "missing-credentials": "missing-credentials"
+    },
+    "all_failure_fallback_signatures_equal": true,
+    "tests": [
+      {
+        "name": "test_keyword_fallback",
+        "exit": 0,
+        "elapsed_seconds": 7.268
+      },
+      {
+        "name": "test_keyword_real_provider_benchmark",
+        "exit": 0,
+        "elapsed_seconds": 0.204
+      },
+      {
+        "name": "test_chinese_retrieval_fixture",
+        "exit": 0,
+        "elapsed_seconds": 0.701
+      },
+      {
+        "name": "test_query_terms",
+        "exit": 0,
+        "elapsed_seconds": 0.314
+      },
+      {
+        "name": "test_ckb",
+        "exit": 0,
+        "elapsed_seconds": 1112.144
+      }
+    ]
+  },
+  "inference": "召回增益只适用于冻结的 12 题、语料、Provider、Model、Prompt 与版本；q11 显示召回保持不代表排序逐题改善。",
+  "unverified": [
+    "Provider CLI 不返回账单金额，因此 cost_usd 为 null。",
+    "本任务没有在其他 Provider、模型、语料或问题分布上外推效果。"
+  ],
+  "commands": [
+    {
+      "name": "initial-state",
+      "command": "git branch --show-current; git rev-parse HEAD; git status --short --branch",
+      "cwd": "E:\\knowledge_builder\\self-workspace\\worktrees\\llm-keyword-real-provider-12case",
+      "exit_status": 0,
+      "literal_output": "codex/llm-keyword-real-provider-12case\nfcad08af3dac7ecf341f2833c1bfc8f352131a3b\n## codex/llm-keyword-real-provider-12case\n"
+    },
+    {
+      "name": "baseline-keyword-tests",
+      "command": "& \"C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe\" -X utf8 tests/test_keyword_fallback.py -v",
+      "cwd": "E:\\knowledge_builder\\self-workspace\\worktrees\\llm-keyword-real-provider-12case",
+      "exit_status": 0,
+      "literal_output": "test_cache_audit_rejects_secret_shaped_content (__main__.KeywordFallbackAdapterTests.test_cache_audit_rejects_secret_shaped_content) ... ok\ntest_command_adapter_caches_only_validated_output_under_identity_key (__main__.KeywordFallbackAdapterTests.test_command_adapter_caches_only_validated_output_under_identity_key) ... ok\ntest_invalid_json_output_and_process_failures_fall_back (__main__.KeywordFallbackAdapterTests.test_invalid_json_output_and_process_failures_fall_back) ... ok\ntest_missing_credentials_prevents_process_start (__main__.KeywordFallbackAdapterTests.test_missing_credentials_prevents_process_start) ... ok\ntest_timeout_is_bounded_and_retried_at_most_once (__main__.KeywordFallbackAdapterTests.test_timeout_is_bounded_and_retried_at_most_once) ... ok\ntest_fixed_benchmark_compares_quality_latency_context_usage_and_restores_cache (__main__.KeywordFallbackBenchmarkTests.test_fixed_benchmark_compares_quality_latency_context_usage_and_restores_cache) ... ok\ntest_allow_mode_does_not_start_provider_after_passed_result (__main__.KeywordFallbackRetrievalWiringTests.test_allow_mode_does_not_start_provider_after_passed_result) ... ok\ntest_default_result_adds_unavailable_freshness_without_starting_provider (__main__.KeywordFallbackRetrievalWiringTests.test_default_result_adds_unavailable_freshness_without_starting_provider) ... ok\ntest_needs_source_read_uses_validated_terms_then_deterministic_selection (__main__.KeywordFallbackRetrievalWiringTests.test_needs_source_read_uses_validated_terms_then_deterministic_selection) ... ok\ntest_provider_failure_returns_original_result_with_structured_reason (__main__.KeywordFallbackRetrievalWiringTests.test_provider_failure_returns_original_result_with_structured_reason) ... ok\ntest_stdio_exposes_the_same_nested_canonical_options (__main__.KeywordFallbackRetrievalWiringTests.test_stdio_exposes_the_same_nested_canonical_options) ... ok\ntest_canonical_failure_types_are_preserved_without_candidates (__main__.KeywordFallbackSchemaTests.test_canonical_failure_types_are_preserved_without_candidates) ... ok\ntest_canonical_fixture_output_is_bounded_and_normalized (__main__.KeywordFallbackSchemaTests.test_canonical_fixture_output_is_bounded_and_normalized) ... ok\ntest_chinese_retrieval_replay_is_keyed_by_the_canonical_input_hash (__main__.KeywordFallbackSchemaTests.test_chinese_retrieval_replay_is_keyed_by_the_canonical_input_hash) ... ok\ntest_invalid_json_is_rejected (__main__.KeywordFallbackSchemaTests.test_invalid_json_is_rejected) ... ok\ntest_oversized_duplicate_injected_and_invalid_candidates_are_rejected (__main__.KeywordFallbackSchemaTests.test_oversized_duplicate_injected_and_invalid_candidates_are_rejected) ... ok\n\n----------------------------------------------------------------------\nRan 16 tests in 8.929s\n\nOK\n"
+    },
+    {
+      "name": "baseline-protocol-tests",
+      "command": "& \"C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe\" -X utf8 -c \"<runpy wrapper>\"",
+      "cwd": "E:\\knowledge_builder\\self-workspace\\worktrees\\llm-keyword-real-provider-12case",
+      "exit_status": 0,
+      "literal_output": "test_legacy_arm_preserves_the_exact_mechanical_fragments (__main__.ChineseRetrievalEffectRetestFixtureTests.test_legacy_arm_preserves_the_exact_mechanical_fragments) ... ok\ntest_questions_have_fixed_relevance_labels_and_replay_responses (__main__.ChineseRetrievalEffectRetestFixtureTests.test_questions_have_fixed_relevance_labels_and_replay_responses) ... ok\ntest_rank_metrics_are_computed_from_document_order_and_fixed_grades (__main__.ChineseRetrievalEffectRetestFixtureTests.test_rank_metrics_are_computed_from_document_order_and_fixed_grades) ... ok\ntest_replay_is_declared_separately_from_real_provider_evidence (__main__.ChineseRetrievalEffectRetestFixtureTests.test_replay_is_declared_separately_from_real_provider_evidence) ... ok\ntest_source_corpus_drift_fails_without_damaging_copied_index (__main__.ChineseRetrievalEffectRetestFixtureTests.test_source_corpus_drift_fails_without_damaging_copied_index) ... ok\ntest_three_arm_protocol_is_frozen_at_the_fixed_knowledge_base_commit (__main__.ChineseRetrievalEffectRetestFixtureTests.test_three_arm_protocol_is_frozen_at_the_fixed_knowledge_base_commit) ... ok\ntest_baseline_corpus_and_recall_are_complete (__main__.ChineseRetrievalFixtureTests.test_baseline_corpus_and_recall_are_complete) ... ok\ntest_baseline_records_all_mechanical_fragments (__main__.ChineseRetrievalFixtureTests.test_baseline_records_all_mechanical_fragments) ... ok\ntest_frozen_protocol_shape (__main__.ChineseRetrievalFixtureTests.test_frozen_protocol_shape) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 0.309s\n\nOK\n"
+    },
+    {
+      "name": "real-provider-execution",
+      "command": "& \"C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe\" -X utf8 tests/benchmark_keyword_real_provider.py --protocol tests/fixtures/keyword_real_provider_12case.json --source-corpus \"E:\\knowledge_builder\\artifacts\\handoffs\\20260903-remaining-wave2\\chinese-retrieval-effect-retest\\frozen-corpus\" --output work/real-provider-run-20260904T173415Z --provider-executable \"C:\\Users\\19739\\AppData\\Local\\OpenAI\\Codex\\bin\\1e3e57cdf0634c02\\codex.exe\"",
+      "cwd": "E:\\knowledge_builder\\self-workspace\\worktrees\\llm-keyword-real-provider-12case",
+      "exit_status": 1,
+      "literal_output": "REAL_BENCHMARK_EXIT=1\ncases=12\nreal_provider_actual_calls=12\nreal_provider_successful_calls=12\nbaseline_recall_at_8=0.75\nreal_provider_recall_at_8=1.0\nquality_claim=measured-gain\nfault_probes_passed=false\nreason=timeout marker raced process startup; measured Provider attempts and all 12 real rows were retained\n",
+      "full_stdout_sha256": "b07ca5354f11bfb7c433b733844a8775935d673198e81b4afe032ce4b03075af",
+      "retained_result": "12 real Provider rows, usage, latency and rankings were complete; only the timeout marker check was false"
+    },
+    {
+      "name": "recompute-after-attempt-count-fix",
+      "command": "python -X utf8 <recompute fault checks and aggregate summary from retained report rows>",
+      "cwd": "E:\\knowledge_builder\\self-workspace\\worktrees\\llm-keyword-real-provider-12case",
+      "exit_status": 0,
+      "literal_output": "{\n  \"status\": \"passed\",\n  \"checks\": {\n    \"protocol_frozen\": true,\n    \"real_provider_configured\": true,\n    \"case_count_exact\": true,\n    \"default_started_no_provider\": true,\n    \"allow_passed_started_no_provider\": true,\n    \"allow_needs_source_read_started_provider\": true,\n    \"force_started_once_per_case\": true,\n    \"real_provider_calls_exact\": true,\n    \"real_provider_successes_exact\": true,\n    \"hot_cache_used_without_provider_start\": true,\n    \"fault_probe_count_exact\": true,\n    \"fault_probes_passed\": true,\n    \"source_corpus_unchanged\": true,\n    \"benchmark_indexes_unchanged\": true,\n    \"copied_sqlite_integrity\": true\n  },\n  \"summary\": {\n    \"cases\": 12,\n    \"baseline_quality\": {\n      \"recall_at_8\": 0.75,\n      \"mrr_at_8\": 0.611111111,\n      \"ndcg_at_8\": 0.646821626\n    },\n    \"real_provider_quality\": {\n      \"recall_at_8\": 1.0,\n      \"mrr_at_8\": 0.649404762,\n      \"ndcg_at_8\": 0.733297918\n    },\n    \"quality_delta\": {\n      \"recall_at_8\": 0.25,\n      \"mrr_at_8\": 0.038293651,\n      \"ndcg_at_8\": 0.086476292\n    },\n    \"quality_claim\": \"measured-gain\",\n    \"quality_gain_cases\": 3,\n    \"quality_regression_cases\": 0,\n    \"real_provider_actual_calls\": 12,\n    \"real_provider_successful_calls\": 12,\n    \"input_tokens\": 176041,\n    \"output_tokens\": 2714,\n    \"total_tokens\": 178755,\n    \"cost_usd\": null,\n    \"cost_status\": \"not-reported-by-provider-cli\",\n    \"provider_latency_ms_p50\": 20451.89305,\n    \"provider_latency_ms_p95\": 22569.100855,\n    \"additional_latency_ms_p50\": 20405.4905,\n    \"additional_latency_ms_p95\": 22919.51358,\n    \"hot_cache_hits\": 12\n  }\n}\n"
+    },
+    {
+      "name": "result-logical-audit",
+      "command": "python -X utf8 work/result_audit.py references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1",
+      "cwd": "E:\\knowledge_builder\\self-workspace\\worktrees\\llm-keyword-real-provider-12case",
+      "exit_status": 0,
+      "literal_output": "{\n  \"schema_version\": 1,\n  \"status\": \"passed\",\n  \"checks\": {\n    \"protocol_hash\": true,\n    \"case_ids\": true,\n    \"report_raw_cases\": true,\n    \"metric-q01-baseline\": true,\n    \"metric-q01-real_provider_cold\": true,\n    \"metric-q01-real_provider_hot\": true,\n    \"metric-q02-baseline\": true,\n    \"metric-q02-real_provider_cold\": true,\n    \"metric-q02-real_provider_hot\": true,\n    \"metric-q03-baseline\": true,\n    \"metric-q03-real_provider_cold\": true,\n    \"metric-q03-real_provider_hot\": true,\n    \"metric-q04-baseline\": true,\n    \"metric-q04-real_provider_cold\": true,\n    \"metric-q04-real_provider_hot\": true,\n    \"metric-q05-baseline\": true,\n    \"metric-q05-real_provider_cold\": true,\n    \"metric-q05-real_provider_hot\": true,\n    \"metric-q06-baseline\": true,\n    \"metric-q06-real_provider_cold\": true,\n    \"metric-q06-real_provider_hot\": true,\n    \"metric-q07-baseline\": true,\n    \"metric-q07-real_provider_cold\": true,\n    \"metric-q07-real_provider_hot\": true,\n    \"metric-q08-baseline\": true,\n    \"metric-q08-real_provider_cold\": true,\n    \"metric-q08-real_provider_hot\": true,\n    \"metric-q09-baseline\": true,\n    \"metric-q09-real_provider_cold\": true,\n    \"metric-q09-real_provider_hot\": true,\n    \"metric-q10-baseline\": true,\n    \"metric-q10-real_provider_cold\": true,\n    \"metric-q10-real_provider_hot\": true,\n    \"metric-q11-baseline\": true,\n    \"metric-q11-real_provider_cold\": true,\n    \"metric-q11-real_provider_hot\": true,\n    \"metric-q12-baseline\": true,\n    \"metric-q12-real_provider_cold\": true,\n    \"metric-q12-real_provider_hot\": true,\n    \"provider_identity\": true,\n    \"calls\": true,\n    \"output_terms\": true,\n    \"hot_cache\": true,\n    \"real_marker\": true,\n    \"token_sum\": true,\n    \"aggregate-recall_at_8\": true,\n    \"aggregate-mrr_at_8\": true,\n    \"aggregate-ndcg_at_8\": true,\n    \"recall_gain\": true,\n    \"ranking_boundary\": true,\n    \"fault_modes\": true,\n    \"faults\": true,\n    \"fallback_signatures\": true,\n    \"not_configured\": true,\n    \"all_report_checks\": true\n  },\n  \"hashes\": {\n    \"protocol.json\": \"19f84674c402a56280cf1ae7fa2bb1b5a6a679ec38c2fb4f25386b4fbd44a516\",\n    \"report.json\": \"470a2ce391141d15705e706a7c9b1f58d973cc966127423610e9f616262edaf9\",\n    \"raw-results.json\": \"5c3791e4386e32384edc375150e6dc974045f76c8f5234a31a16a307613cd7ea\",\n    \"real-provider-starts.log\": \"1e617ddaf48a29889802394d18856ae901b6350fa0f9fec26c8307578fc485ce\",\n    \"fault-provider-starts.log\": \"ee9ab8a891497e115d9faff752279465cc87282de9106cbc3b5c70caca143250\",\n    \"not-configured-report.json\": \"93092e6d75bce16a7fc7a455e05dc2bc53af55a56cd3afccc08d00ff8a88d367\",\n    \"summary.md\": \"9e0bfa010723bbcc151feef38ae8badb83501a765d174cfc2a1042c111736975\"\n  }\n}\n"
+    },
+    {
+      "name": "modified-keyword-tests",
+      "command": "& \"C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe\" -X utf8 tests/test_keyword_fallback.py -v",
+      "cwd": "E:\\knowledge_builder\\self-workspace\\worktrees\\llm-keyword-real-provider-12case",
+      "exit_status": 0,
+      "literal_output": "test_cache_audit_rejects_secret_shaped_content (__main__.KeywordFallbackAdapterTests.test_cache_audit_rejects_secret_shaped_content) ... ok\ntest_command_adapter_caches_only_validated_output_under_identity_key (__main__.KeywordFallbackAdapterTests.test_command_adapter_caches_only_validated_output_under_identity_key) ... ok\ntest_invalid_json_output_and_process_failures_fall_back (__main__.KeywordFallbackAdapterTests.test_invalid_json_output_and_process_failures_fall_back) ... ok\ntest_missing_credentials_prevents_process_start (__main__.KeywordFallbackAdapterTests.test_missing_credentials_prevents_process_start) ... ok\ntest_timeout_is_bounded_and_retried_at_most_once (__main__.KeywordFallbackAdapterTests.test_timeout_is_bounded_and_retried_at_most_once) ... ok\ntest_fixed_benchmark_compares_quality_latency_context_usage_and_restores_cache (__main__.KeywordFallbackBenchmarkTests.test_fixed_benchmark_compares_quality_latency_context_usage_and_restores_cache) ... ok\ntest_allow_mode_does_not_start_provider_after_passed_result (__main__.KeywordFallbackRetrievalWiringTests.test_allow_mode_does_not_start_provider_after_passed_result) ... ok\ntest_default_result_adds_unavailable_freshness_without_starting_provider (__main__.KeywordFallbackRetrievalWiringTests.test_default_result_adds_unavailable_freshness_without_starting_provider) ... ok\ntest_needs_source_read_uses_validated_terms_then_deterministic_selection (__main__.KeywordFallbackRetrievalWiringTests.test_needs_source_read_uses_validated_terms_then_deterministic_selection) ... ok\ntest_provider_failure_returns_original_result_with_structured_reason (__main__.KeywordFallbackRetrievalWiringTests.test_provider_failure_returns_original_result_with_structured_reason) ... ok\ntest_stdio_exposes_the_same_nested_canonical_options (__main__.KeywordFallbackRetrievalWiringTests.test_stdio_exposes_the_same_nested_canonical_options) ... ok\ntest_canonical_failure_types_are_preserved_without_candidates (__main__.KeywordFallbackSchemaTests.test_canonical_failure_types_are_preserved_without_candidates) ... ok\ntest_canonical_fixture_output_is_bounded_and_normalized (__main__.KeywordFallbackSchemaTests.test_canonical_fixture_output_is_bounded_and_normalized) ... ok\ntest_chinese_retrieval_replay_is_keyed_by_the_canonical_input_hash (__main__.KeywordFallbackSchemaTests.test_chinese_retrieval_replay_is_keyed_by_the_canonical_input_hash) ... ok\ntest_invalid_json_is_rejected (__main__.KeywordFallbackSchemaTests.test_invalid_json_is_rejected) ... ok\ntest_oversized_duplicate_injected_and_invalid_candidates_are_rejected (__main__.KeywordFallbackSchemaTests.test_oversized_duplicate_injected_and_invalid_candidates_are_rejected) ... ok\n\n----------------------------------------------------------------------\nRan 16 tests in 6.632s\n\nOK\n"
+    },
+    {
+      "name": "modified-real-benchmark-tests",
+      "command": "& \"C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe\" -X utf8 tests/test_keyword_real_provider_benchmark.py -v",
+      "cwd": "E:\\knowledge_builder\\self-workspace\\worktrees\\llm-keyword-real-provider-12case",
+      "exit_status": 0,
+      "literal_output": "test_missing_real_provider_is_recorded_as_not_executed (__main__.KeywordRealProviderBenchmarkTests.test_missing_real_provider_is_recorded_as_not_executed) ... ok\ntest_protocol_freezes_twelve_real_cases_and_six_fault_probes (__main__.KeywordRealProviderBenchmarkTests.test_protocol_freezes_twelve_real_cases_and_six_fault_probes) ... ok\ntest_timeout_uses_adapter_attempt_when_start_marker_races_process_startup (__main__.KeywordRealProviderBenchmarkTests.test_timeout_uses_adapter_attempt_when_start_marker_races_process_startup) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.011s\n\nOK\n"
+    },
+    {
+      "name": "modified-protocol-tests",
+      "command": "& \"C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe\" -X utf8 -c \"<runpy wrapper>\"",
+      "cwd": "E:\\knowledge_builder\\self-workspace\\worktrees\\llm-keyword-real-provider-12case",
+      "exit_status": 0,
+      "literal_output": "test_legacy_arm_preserves_the_exact_mechanical_fragments (__main__.ChineseRetrievalEffectRetestFixtureTests.test_legacy_arm_preserves_the_exact_mechanical_fragments) ... ok\ntest_questions_have_fixed_relevance_labels_and_replay_responses (__main__.ChineseRetrievalEffectRetestFixtureTests.test_questions_have_fixed_relevance_labels_and_replay_responses) ... ok\ntest_rank_metrics_are_computed_from_document_order_and_fixed_grades (__main__.ChineseRetrievalEffectRetestFixtureTests.test_rank_metrics_are_computed_from_document_order_and_fixed_grades) ... ok\ntest_replay_is_declared_separately_from_real_provider_evidence (__main__.ChineseRetrievalEffectRetestFixtureTests.test_replay_is_declared_separately_from_real_provider_evidence) ... ok\ntest_source_corpus_drift_fails_without_damaging_copied_index (__main__.ChineseRetrievalEffectRetestFixtureTests.test_source_corpus_drift_fails_without_damaging_copied_index) ... ok\ntest_three_arm_protocol_is_frozen_at_the_fixed_knowledge_base_commit (__main__.ChineseRetrievalEffectRetestFixtureTests.test_three_arm_protocol_is_frozen_at_the_fixed_knowledge_base_commit) ... ok\ntest_baseline_corpus_and_recall_are_complete (__main__.ChineseRetrievalFixtureTests.test_baseline_corpus_and_recall_are_complete) ... ok\ntest_baseline_records_all_mechanical_fragments (__main__.ChineseRetrievalFixtureTests.test_baseline_records_all_mechanical_fragments) ... ok\ntest_frozen_protocol_shape (__main__.ChineseRetrievalFixtureTests.test_frozen_protocol_shape) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 0.314s\n\nOK\n"
+    },
+    {
+      "name": "query-term-regression",
+      "command": "& \"C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe\" -X utf8 tests/test_query_terms.py -v",
+      "cwd": "E:\\knowledge_builder\\self-workspace\\worktrees\\llm-keyword-real-provider-12case",
+      "exit_status": 0,
+      "literal_output": "test_compatibility_index_uses_the_same_rules_and_negative_boundary (__main__.QueryTermsTests.test_compatibility_index_uses_the_same_rules_and_negative_boundary) ... ok\ntest_complete_phrase_and_content_grams_are_preserved (__main__.QueryTermsTests.test_complete_phrase_and_content_grams_are_preserved) ... ok\ntest_deduplication_keeps_best_priority (__main__.QueryTermsTests.test_deduplication_keeps_best_priority) ... ok\ntest_empty_punctuation_and_single_han_boundaries (__main__.QueryTermsTests.test_empty_punctuation_and_single_han_boundaries) ... ok\ntest_fts_limit_and_order_are_explicit (__main__.QueryTermsTests.test_fts_limit_and_order_are_explicit) ... ok\ntest_mechanical_fragments_do_not_enter_fts_terms (__main__.QueryTermsTests.test_mechanical_fragments_do_not_enter_fts_terms) ... ok\ntest_mixed_camel_identifier_order_is_fixed (__main__.QueryTermsTests.test_mixed_camel_identifier_order_is_fixed) ... ok\ntest_negative_limits_fail_closed (__main__.QueryTermsTests.test_negative_limits_fail_closed) ... ok\ntest_nfkc_is_deterministic (__main__.QueryTermsTests.test_nfkc_is_deterministic) ... ok\ntest_no_synonym_is_synthesized_without_overlap (__main__.QueryTermsTests.test_no_synonym_is_synthesized_without_overlap) ... ok\ntest_path_api_and_digits_are_preserved (__main__.QueryTermsTests.test_path_api_and_digits_are_preserved) ... ok\ntest_query_terms_are_bounded_but_index_terms_are_complete (__main__.QueryTermsTests.test_query_terms_are_bounded_but_index_terms_are_complete) ... ok\n\n----------------------------------------------------------------------\nRan 12 tests in 0.005s\n\nOK\n"
+    },
+    {
+      "name": "cli-integration-regression",
+      "command": "& \"C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe\" -X utf8 tests/test_ckb.py -v",
+      "cwd": "E:\\knowledge_builder\\self-workspace\\worktrees\\llm-keyword-real-provider-12case",
+      "exit_status": 0,
+      "literal_output": "test_both_projection_parity_with_cli_contract_double (__main__.CodeKnowledgeBuilderTests.test_both_projection_parity_with_cli_contract_double) ... ok\ntest_bounded_machine_operation_journal_is_private_deduplicated_and_audited (__main__.CodeKnowledgeBuilderTests.test_bounded_machine_operation_journal_is_private_deduplicated_and_audited) ... ok\ntest_csharp_project_selection_partial_types_and_generated_exclusions (__main__.CodeKnowledgeBuilderTests.test_csharp_project_selection_partial_types_and_generated_exclusions) ... ok\ntest_csharp_property_and_enum_land_in_class_or_file_aggregation (__main__.CodeKnowledgeBuilderTests.test_csharp_property_and_enum_land_in_class_or_file_aggregation) ... ok\ntest_empty_document_symbols_are_not_a_provider_failure (__main__.CodeKnowledgeBuilderTests.test_empty_document_symbols_are_not_a_provider_failure) ... ok\ntest_english_only_agent_review_is_rejected (__main__.CodeKnowledgeBuilderTests.test_english_only_agent_review_is_rejected) ... ok\ntest_entry_scope_uses_fixed_snapshot_while_live_worktree_changes (__main__.CodeKnowledgeBuilderTests.test_entry_scope_uses_fixed_snapshot_while_live_worktree_changes) ... ok\ntest_fallback_standard_derivation_and_stable_ids (__main__.CodeKnowledgeBuilderTests.test_fallback_standard_derivation_and_stable_ids) ... ok\ntest_fast_run_can_bootstrap_non_git_source_and_stops_for_review (__main__.CodeKnowledgeBuilderTests.test_fast_run_can_bootstrap_non_git_source_and_stops_for_review) ... ok\ntest_feedback_anchor_mirroring_audit_and_archive_are_deterministic (__main__.CodeKnowledgeBuilderTests.test_feedback_anchor_mirroring_audit_and_archive_are_deterministic) ... ok\ntest_llm_wiki_capability_matrix_has_closed_four_state_boundaries (__main__.CodeKnowledgeBuilderTests.test_llm_wiki_capability_matrix_has_closed_four_state_boundaries) ... ok\ntest_local_scope_has_one_hop_boundary (__main__.CodeKnowledgeBuilderTests.test_local_scope_has_one_hop_boundary) ... ok\ntest_logseq_only_projection_has_format_neutral_agent_index (__main__.CodeKnowledgeBuilderTests.test_logseq_only_projection_has_format_neutral_agent_index) ... ok\ntest_markdown_whole_repository_and_completion_gate (__main__.CodeKnowledgeBuilderTests.test_markdown_whole_repository_and_completion_gate) ... ok\ntest_navigation_page_quota_relation_budget_and_context_bundle (__main__.CodeKnowledgeBuilderTests.test_navigation_page_quota_relation_budget_and_context_bundle) ... ok\ntest_non_git_path_reminds_then_opt_in_creates_one_initial_commit (__main__.CodeKnowledgeBuilderTests.test_non_git_path_reminds_then_opt_in_creates_one_initial_commit) ... ok\ntest_noninteractive_subprocesses_use_the_platform_background_flag (__main__.CodeKnowledgeBuilderTests.test_noninteractive_subprocesses_use_the_platform_background_flag) ... ok\ntest_obsidian_companion_distribution_reuses_pinned_claudian (__main__.CodeKnowledgeBuilderTests.test_obsidian_companion_distribution_reuses_pinned_claudian) ... ok\ntest_obsidian_output_contract_is_not_required_without_installed_plugin (__main__.CodeKnowledgeBuilderTests.test_obsidian_output_contract_is_not_required_without_installed_plugin) ... ok\ntest_obsidian_plugin_deploy_falls_back_when_vault_directory_is_locked (__main__.CodeKnowledgeBuilderTests.test_obsidian_plugin_deploy_falls_back_when_vault_directory_is_locked) ... ok\ntest_obsidian_plugin_package_can_be_registered_deployed_and_removed (__main__.CodeKnowledgeBuilderTests.test_obsidian_plugin_package_can_be_registered_deployed_and_removed) ... ok\ntest_oversized_file_splits_on_declarations_without_duplicate_ids (__main__.CodeKnowledgeBuilderTests.test_oversized_file_splits_on_declarations_without_duplicate_ids) ... ok\ntest_page_configuration_controls_quotas_content_and_is_pinned (__main__.CodeKnowledgeBuilderTests.test_page_configuration_controls_quotas_content_and_is_pinned) ... ok\ntest_python_attribute_accessors_stay_in_the_file_appendix (__main__.CodeKnowledgeBuilderTests.test_python_attribute_accessors_stay_in_the_file_appendix) ... ok\ntest_record_explanation_writes_utf8_machine_evidence_not_analysis_page (__main__.CodeKnowledgeBuilderTests.test_record_explanation_writes_utf8_machine_evidence_not_analysis_page) ... ok\ntest_required_format_duplicate_entry_and_syntax_stage (__main__.CodeKnowledgeBuilderTests.test_required_format_duplicate_entry_and_syntax_stage) ... ok\ntest_research_gap_register_is_machine_only_deduplicated_and_resolvable (__main__.CodeKnowledgeBuilderTests.test_research_gap_register_is_machine_only_deduplicated_and_resolvable) ... ok\ntest_review_set_mismatch_fails (__main__.CodeKnowledgeBuilderTests.test_review_set_mismatch_fails) ... ok\ntest_reviewed_text_reference_is_searchable_revisioned_and_reversible (__main__.CodeKnowledgeBuilderTests.test_reviewed_text_reference_is_searchable_revisioned_and_reversible) ... ok\ntest_runtime_plan_lite (__main__.CodeKnowledgeBuilderTests.test_runtime_plan_lite) ... ok\ntest_stdio_retrieval_protocol_is_jsonl_and_errors_do_not_stop_server (__main__.CodeKnowledgeBuilderTests.test_stdio_retrieval_protocol_is_jsonl_and_errors_do_not_stop_server) ... ok\ntest_unborn_git_repo_requires_opt_in_and_existing_dirty_repo_is_not_committed (__main__.CodeKnowledgeBuilderTests.test_unborn_git_repo_requires_opt_in_and_existing_dirty_repo_is_not_committed) ... ok\ntest_work_record_index_covers_every_note_with_one_chinese_summary (__main__.CodeKnowledgeBuilderTests.test_work_record_index_covers_every_note_with_one_chinese_summary) ... ok\ntest_cpp_broad_syntax_error_still_blocks_syntax_stage (__main__.CppParserAndSconsTests.test_cpp_broad_syntax_error_still_blocks_syntax_stage) ... ok\ntest_cpp_conditional_compilation_valid_and_incomplete (__main__.CppParserAndSconsTests.test_cpp_conditional_compilation_valid_and_incomplete) ... ok\ntest_cpp_explicit_template_instantiation_has_no_pseudo_entities (__main__.CppParserAndSconsTests.test_cpp_explicit_template_instantiation_has_no_pseudo_entities) ... ok\ntest_cpp_local_diagnostic_contract_marks_only_affected_ranges_and_blocks_broad_errors (__main__.CppParserAndSconsTests.test_cpp_local_diagnostic_contract_marks_only_affected_ranges_and_blocks_broad_errors) ... ok\ntest_cpp_local_warning_reaches_status_machine_index_and_brief (__main__.CppParserAndSconsTests.test_cpp_local_warning_reaches_status_machine_index_and_brief) ... ok\ntest_cpp_parser_dependency_and_root_unavailable_still_fail (__main__.CppParserAndSconsTests.test_cpp_parser_dependency_and_root_unavailable_still_fail) ... ok\ntest_cpp_reference_direct_initialization_is_declaration_not_function (__main__.CppParserAndSconsTests.test_cpp_reference_direct_initialization_is_declaration_not_function) ... ok\ntest_scons_fallback_is_auditable_and_compile_database_stays_exact (__main__.CppParserAndSconsTests.test_scons_fallback_is_auditable_and_compile_database_stays_exact) ... ok\n\n----------------------------------------------------------------------\nRan 41 tests in 1111.222s\n\nOK\n"
+    },
+    {
+      "name": "patch-and-archive-verification",
+      "command": "git apply --unidiff-zero --check --directory=work/PATCH_REPLAY implementation-and-results.patch; git apply --unidiff-zero --directory=work/PATCH_REPLAY implementation-and-results.patch; python -X utf8 work/verify_artifacts.py",
+      "cwd": "E:\\knowledge_builder\\self-workspace\\worktrees\\llm-keyword-real-provider-12case",
+      "exit_status": 0,
+      "literal_output": "{\n  \"schema_version\": 1,\n  \"status\": \"passed\",\n  \"patch_replay\": {\n    \"paths_exact\": true,\n    \"all_bytes_equal\": true,\n    \"checks\": {\n      \"references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/fault-provider-starts.log\": true,\n      \"references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/not-configured-report.json\": true,\n      \"references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/protocol.json\": true,\n      \"references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/raw-results.json\": true,\n      \"references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/real-provider-starts.log\": true,\n      \"references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/report.json\": true,\n      \"references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/result-audit.json\": true,\n      \"references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/summary.md\": true,\n      \"scripts/ckb_core/keyword_fallback.py\": true,\n      \"tests/benchmark_keyword_real_provider.py\": true,\n      \"tests/fixtures/keyword_provider.py\": true,\n      \"tests/fixtures/keyword_real_provider_12case.json\": true,\n      \"tests/test_keyword_fallback.py\": true,\n      \"tests/test_keyword_real_provider_benchmark.py\": true\n    }\n  },\n  \"modified_archive\": {\n    \"paths_exact\": true,\n    \"all_bytes_equal\": true,\n    \"checks\": {\n      \"references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/fault-provider-starts.log\": true,\n      \"references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/not-configured-report.json\": true,\n      \"references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/protocol.json\": true,\n      \"references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/raw-results.json\": true,\n      \"references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/real-provider-starts.log\": true,\n      \"references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/report.json\": true,\n      \"references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/result-audit.json\": true,\n      \"references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/summary.md\": true,\n      \"scripts/ckb_core/keyword_fallback.py\": true,\n      \"tests/benchmark_keyword_real_provider.py\": true,\n      \"tests/fixtures/keyword_provider.py\": true,\n      \"tests/fixtures/keyword_real_provider_12case.json\": true,\n      \"tests/test_keyword_fallback.py\": true,\n      \"tests/test_keyword_real_provider_benchmark.py\": true\n    }\n  },\n  \"artifacts\": {\n    \"patch_sha256\": \"7c6bb64ea0582bf32d2ce5cb957e1a146896bf55fca283d4acaf919b3f60c838\",\n    \"archive_sha256\": \"90fc467a84cbf60c5cedb5740494739bd69801cf470f5995205bb6f1c657c09f\",\n    \"manifest_sha256\": \"80ea41c560134c36844e4ea97956ac972c34c9f88df953eb85b2cb21caef8e91\"\n  }\n}\n"
+    },
+    {
+      "name": "rollback-verification",
+      "command": "git clone --shared --no-checkout . work/ROLLBACK_PROBE; git checkout --detach ea63179487201466458f4b407c03f70868484456; pwsh -File rollback.ps1 -Apply; git write-tree",
+      "cwd": "E:\\knowledge_builder\\self-workspace\\worktrees\\llm-keyword-real-provider-12case",
+      "exit_status": 0,
+      "literal_output": "rollback-check=passed base=fcad08af3dac7ecf341f2833c1bfc8f352131a3b head=ea63179487201466458f4b407c03f70868484456 paths=14\nrollback-apply=passed staged-tree=fcad08af3dac7ecf341f2833c1bfc8f352131a3b\n"
+    }
+  ],
+  "artifact_roles": {
+    "modified_artifact": "modified-artifacts.zip",
+    "patch": "implementation-and-results.patch",
+    "verification_record": "verification-record.json",
+    "rollback": "rollback.ps1"
+  },
+  "artifact_verification": {
+    "schema_version": 1,
+    "status": "passed",
+    "patch_replay": {
+      "paths_exact": true,
+      "all_bytes_equal": true,
+      "checks": {
+        "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/fault-provider-starts.log": true,
+        "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/not-configured-report.json": true,
+        "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/protocol.json": true,
+        "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/raw-results.json": true,
+        "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/real-provider-starts.log": true,
+        "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/report.json": true,
+        "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/result-audit.json": true,
+        "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/summary.md": true,
+        "scripts/ckb_core/keyword_fallback.py": true,
+        "tests/benchmark_keyword_real_provider.py": true,
+        "tests/fixtures/keyword_provider.py": true,
+        "tests/fixtures/keyword_real_provider_12case.json": true,
+        "tests/test_keyword_fallback.py": true,
+        "tests/test_keyword_real_provider_benchmark.py": true
+      }
+    },
+    "modified_archive": {
+      "paths_exact": true,
+      "all_bytes_equal": true,
+      "checks": {
+        "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/fault-provider-starts.log": true,
+        "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/not-configured-report.json": true,
+        "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/protocol.json": true,
+        "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/raw-results.json": true,
+        "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/real-provider-starts.log": true,
+        "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/report.json": true,
+        "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/result-audit.json": true,
+        "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/summary.md": true,
+        "scripts/ckb_core/keyword_fallback.py": true,
+        "tests/benchmark_keyword_real_provider.py": true,
+        "tests/fixtures/keyword_provider.py": true,
+        "tests/fixtures/keyword_real_provider_12case.json": true,
+        "tests/test_keyword_fallback.py": true,
+        "tests/test_keyword_real_provider_benchmark.py": true
+      }
+    },
+    "artifacts": {
+      "patch_sha256": "7c6bb64ea0582bf32d2ce5cb957e1a146896bf55fca283d4acaf919b3f60c838",
+      "archive_sha256": "90fc467a84cbf60c5cedb5740494739bd69801cf470f5995205bb6f1c657c09f",
+      "manifest_sha256": "80ea41c560134c36844e4ea97956ac972c34c9f88df953eb85b2cb21caef8e91"
+    }
+  },
+  "rollback_verification": {
+    "status": "passed",
+    "subject": "ea63179487201466458f4b407c03f70868484456",
+    "baseline_tree": "098b3d1b13d3eb40ce74b41a715429493f171d14",
+    "rolled_back_tree": "098b3d1b13d3eb40ce74b41a715429493f171d14",
+    "tree_equal": true,
+    "reverted_paths": 14
+  },
+  "artifact_hashes": {
+    "modified-artifacts.zip": "90fc467a84cbf60c5cedb5740494739bd69801cf470f5995205bb6f1c657c09f",
+    "implementation-and-results.patch": "7c6bb64ea0582bf32d2ce5cb957e1a146896bf55fca283d4acaf919b3f60c838",
+    "rollback.ps1": "0b5695fb90de06283ece346b2d7a13d3d36f43b2d6f10bc0deeb2a083cba531d",
+    "baseline-manifest.json": "80ea41c560134c36844e4ea97956ac972c34c9f88df953eb85b2cb21caef8e91",
+    "report.json": "470a2ce391141d15705e706a7c9b1f58d973cc966127423610e9f616262edaf9",
+    "raw-results.json": "5c3791e4386e32384edc375150e6dc974045f76c8f5234a31a16a307613cd7ea"
+  }
+}

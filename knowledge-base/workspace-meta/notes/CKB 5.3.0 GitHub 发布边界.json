@@ -8,12 +8,12 @@
   "linked_pages": [
     "create_knowledge_batch_plan 与 KnowledgeRelease 的协作实现",
     "serve_stdio 与 _write_line 的协作实现",
-    "start_session 与 _session_directory 的协作实现",
-    "_Transport.close 与 _StartGate 的协作实现",
-    "run_keyword_provider 与 KeywordProviderConfig 的协作实现",
+    "finish_session 与 _session_directory 的协作实现",
+    "close_session 与 _StartGate 的协作实现",
+    "KeywordFallbackOptions 与 KeywordProviderConfig 的协作实现",
     "parse_file 与 _language 的协作实现",
     "maintenance_check 与 capability_matrix 的协作实现",
-    "audit_migration 与 _entity_key 的协作实现"
+    "migrate_output 与 _entity_key 的协作实现"
   ],
   "source_links": [
     "[打开源码：scripts/ckb_core/knowledge_batch_migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/knowledge_batch_migration.py:1:1)  `scripts/ckb_core/knowledge_batch_migration.py:1-2076`",

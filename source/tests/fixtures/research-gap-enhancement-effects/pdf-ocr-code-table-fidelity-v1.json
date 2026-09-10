@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "status": "frozen",
+  "benchmark": "ckb-reference-pdf-real-ocr-fidelity-v1",
+  "measured_at_utc": "2026-09-05T00:00:00Z",
+  "baseline_commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+  "implementation_path": "scripts/ckb_core/reference_pdf.py",
+  "implementation_sha256": "72a4a9bf7bac14f9bd4d534c4cdfb434f85723337f2d171f402b3c524401d1d4",
+  "adapter_path": "tests/real_ocr_adapter.py",
+  "adapter_sha256": "af8e2fb40f2074b7461f288457602784fd21a9b3f2fe122f2712af62eb6b28b2",
+  "fixture_manifest": "tests/fixtures/reference-pdf-ocr/fixture-ground-truth.json",
+  "fixture_manifest_sha256": "038375b2823d0f36323a9a35cd7126e26bd7d2ba67a9f647dea5086f29853085",
+  "fixture_sha256": {
+    "native": "36a8239d450634f94ea2ac179e6cd00f1bbfc1b67b6faa8c9ca22a2afb50fbef",
+    "scanned": "80119dccf7d371f1b2602078b36dab963424a46ed8a73d1d9fb580d54bd7dd1d",
+    "hybrid": "376a3beedd89135547a61a07dcce266402ed3c1b8c3ad007d08afb2bc608748b"
+  },
+  "runtime": {
+    "python": "3.12.14",
+    "pypdf": "6.16.2",
+    "rapidocr_onnxruntime": "1.4.4",
+    "onnxruntime": "1.29.0",
+    "pdftoppm": "26.07.0"
+  },
+  "quality_gates": {
+    "text_coverage_min": 0.95,
+    "code_exact_line_recall_min": 0.66,
+    "code_symbol_accuracy_min": 1.0,
+    "code_indentation_accuracy_min": 1.0,
+    "table_cell_recall_min": 1.0,
+    "table_row_alignment_min": 1.0,
+    "table_column_order_min": 1.0,
+    "table_wrapped_cell": true,
+    "table_fragment_detected": true,
+    "source_page_locator_min": 1.0,
+    "hybrid_methods_match": true
+  },
+  "failure_cases": [
+    "ocr-tool-missing",
+    "ocr-timeout",
+    "ocr-empty-output",
+    "ocr-page-limit",
+    "corrupt-pdf"
+  ]
+}

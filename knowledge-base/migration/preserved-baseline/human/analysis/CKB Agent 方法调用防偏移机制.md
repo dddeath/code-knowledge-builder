@@ -84,22 +84,34 @@ brief --profile fast
 
 如果 Agent 绕过上述顺序，现有审计可以发现协议文件、记录、镜像和索引不一致，但对“先运行了哪一个读取命令”的完整强制仍依赖 Harness 会话管理和调用轨迹，这也是后续管理 Agent 与会话级 stdio 任务需要补齐的运行时层。
 
+## 后续补充
+
+### 2026年9月6日历史来源修复
+
+原文保留。原查询阅读包未能从现有归档恢复，不重建同名文件，也不把本次定位当作当年的原始证据。当前来源改为本次新的定位阅读包。
+
+方法调用契约的存在与具体 Harness 是否实际注入是不同问题；新阅读包仅重建相关实现的定位入口，不保证每个会话都已应用契约。
+
+
+## 历史源码定位
+
+原关联页面未进入当前建库范围，以下链接保留到此前已发布源码，不表示这些历史结论已重新测量。
+
+- [ckb_canvas 的协作边界的历史源码](https://github.com/dddeath/code-knowledge-builder/blob/4ead5dc/source/prototypes/ckb-canvas-skill/scripts/ckb_canvas.py)
+
+## 原始记录
+
+[按需核对历史原文与完整复现明细](../../machine/historical-records/legacy-links-20260910-2.md)。
+
 ## 相关知识页
 
 - [[audit_agent_protocol 与 _default_python 的协作实现]]
-- [[maintenance_check 与 capability_matrix 的协作实现]]
-- [[audit_work_record_index 与 _contains_chinese 的协作实现]]
-- [[retrieve 与 _tokens 的协作实现]]
-- [[start_session 与 _session_directory 的协作实现]]
-- [[serve_stdio 与 _write_line 的协作实现]]
-- [[audit_agent_protocol]]
+- [[build_agent_index 与 _tokens 的协作实现]]
+- [[finish_session 与 _session_directory 的协作实现]]
+- [[freeze 的协作边界]]
 
 ## 源码入口
 
-- [打开源码：scripts/ckb_core/agent_protocol.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_protocol.py:1:1)  `scripts/ckb_core/agent_protocol.py:1-507`
-- [打开源码：scripts/ckb_core/llm_wiki_capabilities.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/llm_wiki_capabilities.py:1:1)  `scripts/ckb_core/llm_wiki_capabilities.py:1-453`
-- [打开源码：scripts/ckb_core/work_record_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/work_record_index.py:1:1)  `scripts/ckb_core/work_record_index.py:1-242`
-- [打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-569`
+- [打开源码：scripts/ckb_core/agent_protocol.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_protocol.py:1:1)  `scripts/ckb_core/agent_protocol.py:1-513`
+- [打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-555`
 - [打开源码：scripts/ckb_core/agent_maintenance.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_maintenance.py:1:1)  `scripts/ckb_core/agent_maintenance.py:1-255`
-- [打开源码：scripts/ckb_core/stdio_server.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/stdio_server.py:1:1)  `scripts/ckb_core/stdio_server.py:1-283`
-- [打开源码：scripts/ckb_core/agent_protocol.py 第 420 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_protocol.py:420:1)  `scripts/ckb_core/agent_protocol.py:420-496`

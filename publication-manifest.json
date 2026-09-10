@@ -1,32 +1,32 @@
 {
   "schema_version": 1,
-  "status": "published-retrieval-contract-and-stable-knowledge-remote-verified",
+  "status": "reviewed-source-and-synchronized-knowledge",
   "repository": "https://github.com/dddeath/code-knowledge-builder",
-  "target_branch": "codex/development-knowledge-builder",
-  "publication_base": "6f6ab1547cd9ca2dc365bd187a99a7bc4ecf86ce",
-  "integration_commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
-  "integration_tree": "098b3d1b13d3eb40ce74b41a715429493f171d14",
+  "target_branch": "codex/release-5.4.0-stable-knowledge",
+  "publication_base": "4ead5dc1a56487c4d70b6d549e01759be075b09c",
+  "integration_commit": "962814483bea0a9611a7d73eccf2781cee4f7b6a",
+  "integration_tree": "ac466f4f605bc1ccf35b80926310499f0c8855a0",
   "history_contract": "发展分支保留既有公开发布历史，并以单独提交更新到已审阅的集成源码与完整稳定知识库；集成分支的开发提交继续保留在本地集成历史中。",
   "knowledge_state": {
     "status": "complete",
     "version": "5.4.0",
     "schema_version": 4,
-    "repository_commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
-    "records": 72,
+    "repository_commit": "962814483bea0a9611a7d73eccf2781cee4f7b6a",
+    "records": 80,
     "references": 1,
-    "research_gaps": 7,
+    "research_gaps": 9,
     "research_gap_status": {
-      "open": 5,
+      "open": 6,
       "deferred": 0,
-      "resolved": 2
+      "resolved": 3
     },
     "learning_notes": 2
   },
   "manifests": {
     "source": "delivery/source-files.json",
-    "source_sha256": "988eaa17cfb4780de63b77b1212e1a49685a86df3e537b148abc6b29addd4268",
+    "source_sha256": "730095e038def2c9d30872becbc3db2793afac96440156dda3856210c120f09d",
     "knowledge": "delivery/knowledge-files.json",
-    "knowledge_sha256": "f65af30ef78f23e124132a1d5189ace73d4bc50911cd74bd32d5f074050388fd"
+    "knowledge_sha256": "300808f3cbb69754bae4299fdde16559430b6d7c85d142d67485493d6cff223a"
   },
   "lfs_patterns": [
     "*.zip",
@@ -35,8 +35,13 @@
   "lfs_files": [
     {
       "path": "delivery/code-knowledge-builder-lite-5.4.0.zip",
-      "size": 3541907,
-      "sha256": "23ac7ff9575f12f100e541034d204e7fff54565c7db2d744dc6babeae258a11d"
+      "size": 5160650,
+      "sha256": "a8e407ff692bcbf74693b65abb00b7c6f55a6a5afe9d2cb18a3803c8f6a93422"
+    },
+    {
+      "path": "delivery/code-knowledge-builder-obsidian-0.9.1.zip",
+      "size": 1618929,
+      "sha256": "4e04b80d5caba107d46ad70d303ab3fce153e7b2a65f393eaa54b1c3d7761169"
     },
     {
       "path": "knowledge-base/.source-snapshot/worktree/assets/runtime/win-x64/payload.zip",
@@ -44,29 +49,69 @@
       "sha256": "f3400234850aa767fbe4e53c11dafdf14eeb7f0d9597f77653b7748c17b8cd63"
     },
     {
+      "path": "knowledge-base/.source-snapshot/worktree/references/recruitment/migration-integrity/modified-files.zip",
+      "size": 95718,
+      "sha256": "1673b6d023f733de1dea15b42f34947198274f3a3793dce6d1cb3d1b5b4470ec"
+    },
+    {
+      "path": "knowledge-base/.source-snapshot/worktree/references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/modified-artifacts.zip",
+      "size": 82539,
+      "sha256": "90fc467a84cbf60c5cedb5740494739bd69801cf470f5995205bb6f1c657c09f"
+    },
+    {
+      "path": "knowledge-base/.source-snapshot/worktree/references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/tags.sqlite",
+      "size": 77824,
+      "sha256": "9dac61b9bda3e1a46f7e14ce1dfb5d400107049ff7d4939cca742088260840b6"
+    },
+    {
+      "path": "knowledge-base/.source-snapshot/worktree/references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/modified-artifacts.zip",
+      "size": 46467,
+      "sha256": "efd34c332f76c757e088cf81550ff1c556e9a4e6dac35341ba7f8706e945c3e0"
+    },
+    {
       "path": "knowledge-base/agent-index.sqlite",
-      "size": 10231808,
-      "sha256": "c047b5917167c0fc462a9e85069bee7b69debc0ffe833c6accf1110a2e780806"
+      "size": 13361152,
+      "sha256": "474c3dba3216807406f4e169d917c6d193093797573c607bb4f6631b135f3d23"
     },
     {
       "path": "knowledge-base/machine/automation.sqlite",
       "size": 208896,
-      "sha256": "6cc64098886f3b22b789a70d74ba217e8f286c51c989c3caa963cda626d4f942"
+      "sha256": "d7ce226b2caba70b5a8e857b1ef05ed233a41882bd63d766b50fe893fe83bf31"
     },
     {
       "path": "knowledge-base/machine/knowledge.sqlite",
-      "size": 65712128,
-      "sha256": "7d67e4098b6f69c7315ac0acf4a8a76549a04dd91f34408f27dce8e2fd471632"
+      "size": 79126528,
+      "sha256": "736813a27fb4ccffcac6209ff2cc77c96403f7a311e5046848e8f4c702917177"
     },
     {
       "path": "knowledge-base/migration/preserved-baseline/machine/automation.sqlite",
       "size": 208896,
-      "sha256": "6cc64098886f3b22b789a70d74ba217e8f286c51c989c3caa963cda626d4f942"
+      "sha256": "d7ce226b2caba70b5a8e857b1ef05ed233a41882bd63d766b50fe893fe83bf31"
     },
     {
       "path": "source/assets/runtime/win-x64/payload.zip",
       "size": 622653009,
       "sha256": "f3400234850aa767fbe4e53c11dafdf14eeb7f0d9597f77653b7748c17b8cd63"
+    },
+    {
+      "path": "source/references/recruitment/migration-integrity/modified-files.zip",
+      "size": 95718,
+      "sha256": "1673b6d023f733de1dea15b42f34947198274f3a3793dce6d1cb3d1b5b4470ec"
+    },
+    {
+      "path": "source/references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/modified-artifacts.zip",
+      "size": 82539,
+      "sha256": "90fc467a84cbf60c5cedb5740494739bd69801cf470f5995205bb6f1c657c09f"
+    },
+    {
+      "path": "source/references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/tags.sqlite",
+      "size": 77824,
+      "sha256": "9dac61b9bda3e1a46f7e14ce1dfb5d400107049ff7d4939cca742088260840b6"
+    },
+    {
+      "path": "source/references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/modified-artifacts.zip",
+      "size": 46467,
+      "sha256": "efd34c332f76c757e088cf81550ff1c556e9a4e6dac35341ba7f8706e945c3e0"
     }
   ],
   "include": [
@@ -78,7 +123,9 @@
     "开发 worktree 与废弃 staging",
     "模型缓存和虚拟环境",
     "活动锁、SQLite WAL/SHM/journal 和临时文件",
-    "凭据与嵌套 .git 管理文件"
+    "凭据与嵌套 .git 管理文件",
+    "Obsidian provider settings, private Claudian sessions, trash, and window state",
+    "Python bytecode and dependency caches"
   ],
   "experiments": {
     "page_fanout": {
@@ -92,45 +139,39 @@
       "production_default_changed": false
     },
     "obsidian_canvas": {
-      "status": "experimental-awaiting-user-feedback"
+      "status": "experimental-awaiting-user-feedback",
+      "plugin_version": "0.9.1",
+      "generation": "full-functional-hierarchy",
+      "provider_required_for_generation": false
     }
   },
   "final_knowledge_trace": {
     "status": "included",
-    "record_count": 72,
+    "record_count": 80,
     "records": [
-      "knowledge-base/human/experiments/单文档自动页面扩张对照实验.md",
-      "knowledge-base/human/experiments/真实语义向量检索三臂对照实验.md",
-      "knowledge-base/human/changes/完善无项目指令检索与范围外源码确认.md",
-      "knowledge-base/human/experiments/研究缺口对账与新增特性增强效果.md"
+      "knowledge-base/human/changes/增加原生白板功能总览与跨版本编辑保留.md"
     ],
     "maintain": "passed"
   },
   "credential_scan": {
     "status": "passed",
     "path": "delivery/credential-scan.json",
-    "scanned_text_files": 4315,
+    "scanned_text_files": 5728,
     "findings": 0
   },
   "local_verification": {
     "status": "passed",
-    "path": "delivery/local-fcad-verification.json",
-    "sha256": "277ce4941dbdf25bcd7ee6646a632da7b4f5e16a89ad25091a88059034f27ee4",
-    "checks": 15
+    "path": "delivery/local-release-20260910-verification.json",
+    "sha256": "6098e14c4ce5bc35a5ccd8e4d67869ffbf8e23c503f05bb589f38d1714a2c38b"
   },
   "remote_clone_verification": {
-    "status": "passed",
-    "commit": "8985254b8a108969ede960b7b91f9068d32d0b12",
-    "path": "delivery/remote-fcad-verification.json",
-    "sha256": "2f457c49c9e5e25e862741bd455fa06c1261dd8fd7aca6a57e3d07e382116e8f",
-    "checks": 15,
-    "lfs_fsck": "passed",
-    "lfs_evidence": "delivery/remote-fcad-lfs-fsck.txt",
-    "short_root_required_on_windows": true
+    "verification_phase": "after-push-before-release-publication",
+    "evidence": "https://github.com/dddeath/code-knowledge-builder/releases/download/v5.4.0/remote-publication-verification.json"
   },
   "rollback": {
-    "baseline": "6f6ab1547cd9ca2dc365bd187a99a7bc4ecf86ce",
-    "script": "delivery/rollback-development-publication.ps1",
-    "stable_knowledge_backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base-backup-bdd4-before-fcad-20260904"
-  }
+    "baseline": "4ead5dc1a56487c4d70b6d549e01759be075b09c",
+    "script": "delivery/rollback-release-20260910.ps1",
+    "stable_knowledge_backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.backup-before-release-20260910"
+  },
+  "also_publish_branch": "codex/development-knowledge-builder"
 }

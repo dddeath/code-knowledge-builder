@@ -12,36 +12,6 @@
 
 [打开源码：tests/test_automation.py 第 84 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_automation.py:84:1)  `tests/test_automation.py:84-86`
 
-## 相关代码
-
-- 实现时会用到 [[ingest_event 与 default_registry_path 的协作实现]]。
-
 ## 谁会来到这里
 
 - [[AutomationTest.register 等测试场景]] 汇总了本页。
-- [[CkbError]] 关联到这里的验证场景。
-- [[CkbError 与 DependencyError 的协作实现]] 关联到这里的验证场景。
-- [[_Transport.close]] 关联到这里的验证场景。
-- [[append]] 关联到这里的验证场景。
-- [[bind_conversation 与 default_management_registry_path 的协作实现]] 关联到这里的验证场景。
-- [[ckb_canvas 的协作边界]] 关联到这里的验证场景。
-- [[contracts 的协作边界（prototypes）]] 关联到这里的验证场景。
-- [[ingest 与 connect 的协作实现]] 关联到这里的验证场景。
-- [[ingest_event 与 default_registry_path 的协作实现]] 关联到这里的验证场景。
-- [[main（ckb 实现）]] 会使用这里提供的行为。
-- [[parser]] 会使用这里提供的行为。
-- [[register_obsidian_plugin 与 default_obsidian_plugin_registry 的协作实现]] 会使用这里提供的行为。
-- [[render_integration 与 harness_retrieval_contract 的协作实现]] 会使用这里提供的行为。
-- [[run_probe]] 会使用这里提供的行为。
-- [[source_files 与 sha256 的协作实现]] 会使用这里提供的行为。
-
-## 相关测试
-
-- [[AutomationTest.register 等测试场景]]
-- [[CodeKnowledgeBuilderTests]]
-- [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[PdfReferenceExtractionTests]]
-- [[PdfReferenceExtractionTests 等测试场景]]
-- [[ReferencePdfEffectBenchmarkTests]]
-
-> 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。

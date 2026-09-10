@@ -12,11 +12,6 @@
 
 [打开源码：tests/generate_large_fixture.py 第 8 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/generate_large_fixture.py:8:1)  `tests/generate_large_fixture.py:8-37`
 
-## 相关代码
-
-- 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
-- 实现时会用到 [[parser]]。
-
 ## 谁会来到这里
 
 - [[main 等测试场景（generate_large_fixture 测试）]] 汇总了本页。

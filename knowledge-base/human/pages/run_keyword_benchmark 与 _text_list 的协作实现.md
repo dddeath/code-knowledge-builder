@@ -14,20 +14,16 @@
 
 ## 相关代码
 
-- 实现时会用到 [[CkbError]]。
-- 实现时会用到 [[append]]。
-- 实现时会用到 [[retrieve_machine]]。
+- 与 [[CkbError]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[CkbError 与 DependencyError 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[KeywordFallbackOptions]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[build_machine_knowledge 与 estimated_tokens 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 - 主要代码单元是 [[run_keyword_benchmark]]。
-- 实现时会用到 [[run_keyword_provider 与 KeywordProviderConfig 的协作实现]]。
 
 ## 谁会来到这里
 
-- [[run_keyword_benchmark]] 会使用这里提供的行为。
+- 与 [[run_keyword_benchmark]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 - 可从 [[scripts 职责导览]] 进入本页。
-
-## 相关测试
-
-- [[KeywordFallbackRetrievalWiringTests 等测试场景]]
 
 ## 内部细节
 

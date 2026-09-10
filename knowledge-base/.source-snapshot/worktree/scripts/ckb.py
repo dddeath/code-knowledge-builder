@@ -183,11 +183,13 @@ from ckb_core.runtime import deployment_plan, remove as remove_runtime
 from ckb_core.reference_documents import (
     audit_references,
     ingest_reference,
+    ingest_web_reference,
     list_references,
     rollback_reference,
     submit_reference_review,
     write_reference_review_template,
 )
+from ckb_core.reference_inputs import DEFAULT_WEB_MAX_RESPONSE_BYTES, DEFAULT_WEB_TIMEOUT_SECONDS
 from ckb_core.reference_pdf import (
     DEFAULT_MAX_PDF_BYTES,
     DEFAULT_MAX_PDF_PAGES,
@@ -572,6 +574,34 @@ def parser() -> argparse.ArgumentParser:
     reference_ingest.add_argument("--pdf-ocr-timeout-seconds", type=int, default=DEFAULT_OCR_TIMEOUT_SECONDS)
     reference_ingest.add_argument("--pdf-ocr-max-input-bytes", type=int, default=DEFAULT_OCR_MAX_INPUT_BYTES)
     reference_ingest.add_argument("--pdf-ocr-cancel-file", type=Path)
+    reference_web_snapshot = reference_sub.add_parser("web-snapshot")
+    reference_web_snapshot.add_argument("--out", type=Path, required=True)
+    reference_web_snapshot.add_argument("--snapshot", type=Path, required=True)
+    reference_web_snapshot.add_argument("--source-root", type=Path)
+    reference_web_snapshot.add_argument("--requested-url", required=True)
+    reference_web_snapshot.add_argument("--final-url", required=True)
+    reference_web_snapshot.add_argument("--retrieved-at", dest="retrieved_at_utc", required=True)
+    reference_web_snapshot.add_argument("--status-code", type=int, required=True)
+    reference_web_snapshot.add_argument("--content-type", required=True)
+    reference_web_snapshot.add_argument("--response-header", action="append", default=[])
+    reference_web_snapshot.add_argument("--max-response-bytes", type=int, default=DEFAULT_WEB_MAX_RESPONSE_BYTES)
+    reference_web_snapshot.add_argument("--title", required=True)
+    reference_web_snapshot.add_argument("--origin", required=True)
+    reference_web_snapshot.add_argument("--license", dest="license_name", required=True)
+    reference_web_snapshot.add_argument("--author")
+    reference_web_snapshot.add_argument("--revision-of")
+    reference_web_fetch = reference_sub.add_parser("web-fetch")
+    reference_web_fetch.add_argument("--out", type=Path, required=True)
+    reference_web_fetch.add_argument("--url", required=True)
+    reference_web_fetch.add_argument("--timeout-seconds", type=int, default=DEFAULT_WEB_TIMEOUT_SECONDS)
+    reference_web_fetch.add_argument("--max-response-bytes", type=int, default=DEFAULT_WEB_MAX_RESPONSE_BYTES)
+    reference_web_fetch.add_argument("--accept-language")
+    reference_web_fetch.add_argument("--user-agent", default="Code-Knowledge-Builder/web-snapshot-v1")
+    reference_web_fetch.add_argument("--title", required=True)
+    reference_web_fetch.add_argument("--origin", required=True)
+    reference_web_fetch.add_argument("--license", dest="license_name", required=True)
+    reference_web_fetch.add_argument("--author")
+    reference_web_fetch.add_argument("--revision-of")
     reference_template = reference_sub.add_parser("review-template")
     reference_template.add_argument("--out", type=Path, required=True)
     reference_template.add_argument("--reference", required=True)
@@ -1322,6 +1352,46 @@ def main() -> int:
                 pdf_ocr_timeout_seconds=args.pdf_ocr_timeout_seconds,
                 pdf_ocr_max_input_bytes=args.pdf_ocr_max_input_bytes,
                 pdf_ocr_cancel_file=args.pdf_ocr_cancel_file.resolve() if args.pdf_ocr_cancel_file else None,
+            )
+            emit(result)
+            return 4 if result.get("status") == "pending-agent-review" else 0
+        if args.reference_command == "web-snapshot":
+            response_headers: dict[str, list[str]] = {}
+            for value in args.response_header:
+                if ":" not in value:
+                    raise CkbError("--response-header must use NAME:VALUE syntax")
+                name, header_value = value.split(":", 1)
+                name = name.strip()
+                header_value = header_value.strip()
+                if not name or not header_value:
+                    raise CkbError("--response-header must use a non-empty NAME:VALUE")
+                response_headers.setdefault(name, []).append(header_value)
+            result = ingest_web_reference(
+                args.out.resolve(), args.title, args.origin, args.license_name,
+                snapshot=args.snapshot.resolve(),
+                requested_url=args.requested_url,
+                final_url=args.final_url,
+                retrieved_at_utc=args.retrieved_at_utc,
+                status_code=args.status_code,
+                content_type=args.content_type,
+                response_headers=response_headers,
+                author=args.author,
+                revision_of=args.revision_of,
+                source_root=args.source_root.resolve() if args.source_root else None,
+                max_response_bytes=args.max_response_bytes,
+            )
+            emit(result)
+            return 4 if result.get("status") == "pending-agent-review" else 0
+        if args.reference_command == "web-fetch":
+            result = ingest_web_reference(
+                args.out.resolve(), args.title, args.origin, args.license_name,
+                url=args.url,
+                author=args.author,
+                revision_of=args.revision_of,
+                timeout_seconds=args.timeout_seconds,
+                max_response_bytes=args.max_response_bytes,
+                accept_language=args.accept_language,
+                user_agent=args.user_agent,
             )
             emit(result)
             return 4 if result.get("status") == "pending-agent-review" else 0

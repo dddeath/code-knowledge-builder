@@ -13,8 +13,8 @@
       "schema_version": 1,
       "status": "deployed",
       "plugin_id": "code-knowledge-builder-companion",
-      "version": "0.8.0",
-      "install_mode": "atomic-replace",
+      "version": "0.9.1",
+      "install_mode": "atomic-file-replace",
       "vault": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human",
       "destination": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human\\.obsidian\\plugins\\code-knowledge-builder-companion",
       "community_plugins": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human\\.obsidian\\community-plugins.json",
@@ -27,7 +27,7 @@
         "build-record.json",
         "deploy.py"
       ],
-      "deployed_at_utc": "2026-09-03T23:48:01Z",
+      "deployed_at_utc": "2026-09-10T03:47:16Z",
       "output_contract": {
         "schema_version": 1,
         "contract": "code-knowledge-builder-output",
@@ -64,5 +64,5 @@
   },
   "readability": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown\\readability-audit.json",
   "global_audit": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\audit\\global.json",
-  "completed_at_utc": "2026-09-03T23:48:09Z"
+  "completed_at_utc": "2026-09-10T03:47:26Z"
 }

@@ -22,8 +22,8 @@ Codex Desktop 的 `app-server` 当前运行于 WSL，而 CKB Hook 通过 WSL int
 
 ## 相关知识页
 
-- [[ingest_event 与 default_registry_path 的协作实现]]
-- [[ingest_event]]
+- [[review_automation 与 default_registry_path 的协作实现]]
+- [[review_automation 与 default_registry_path 的协作实现]]
 
 ## 源码入口
 

@@ -1,0 +1,60 @@
+{
+  "schema_version": 2,
+  "adapter_id": "web-snapshot-v1",
+  "implementation_status": "implemented",
+  "input_modes": {
+    "provided-static-snapshot": {
+      "network_access": "not-used",
+      "required": [
+        "snapshot",
+        "requested_url",
+        "final_url",
+        "retrieved_at_utc",
+        "status_code",
+        "content_type"
+      ]
+    },
+    "live-url-fetch": {
+      "network_access": "explicit-only",
+      "required": [
+        "url",
+        "timeout_seconds",
+        "max_response_bytes"
+      ]
+    }
+  },
+  "output": {
+    "local_file": "immutable-raw-response-body",
+    "media_type": [
+      "application/xhtml+xml",
+      "text/html"
+    ],
+    "provenance": [
+      "acquisition_mode",
+      "requested_url",
+      "final_url",
+      "requested_at_utc",
+      "retrieved_at_utc",
+      "status_code",
+      "content_type",
+      "response_headers",
+      "response_size",
+      "raw_snapshot_sha256",
+      "body_snapshot_sha256",
+      "redirect_chain"
+    ],
+    "extraction": [
+      "body_boundary",
+      "excluded_regions",
+      "fragments",
+      "source_range"
+    ]
+  },
+  "boundary": [
+    "local-reference-ingest-never-fetches",
+    "live-fetch-requires-explicit-command",
+    "network-failure-commits-no-reference-artifact",
+    "output-still-requires-reference-ingest-and-agent-review",
+    "web-content-never-becomes-a-code-entity"
+  ]
+}

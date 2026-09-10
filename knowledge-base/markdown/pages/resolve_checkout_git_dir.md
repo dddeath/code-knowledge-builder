@@ -14,13 +14,8 @@
 
 ## 相关代码
 
-- 实现时会用到 [[resolve_checkout_git_dir 等测试场景]]。
+- 与 [[resolve_checkout_git_dir 等测试场景]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 
 ## 谁会来到这里
 
 - [[resolve_checkout_git_dir 等测试场景]] 汇总了本页。
-
-## 相关测试
-
-- [[refresh 等测试场景]]
-- [[resolve_checkout_git_dir 等测试场景]]

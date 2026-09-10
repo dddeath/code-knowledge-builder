@@ -2,28 +2,19 @@
 
 标签：#类型/代码
 
-> 代码单元 `test_core_packages_exclude_plugins_and_full_only_adds_runtime`负责验证 Lite、Full 和插件发行边界以及 PDF 运行时依赖清单。 它属于发行物内容、体积责任和许可证边界的回归保护，当前说明只覆盖所列固定源码范围。
+> 组织核心与插件发行包的结构和运行能力测试。 比较轻量与完整版内容，构建归档检查清单，验证锁定的 PDF 解析器载荷和独立插件版本；用安装后的命令检查会话入口。
 
 ## 什么时候需要修改
 
-当发行类型、运行时锁、依赖或插件独立版本变化时，应同步复查本页及其直接关联测试。
+修改包类型边界、运行时来源或会话模块打包规则时修改对应断言。
 
 ## 在代码中的位置
 
 [打开源码：tests/test_package_release.py 第 30 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_package_release.py:30:1)  `tests/test_package_release.py:30-116`
 
-## 相关代码
-
-- 实现时会用到 [[build_case 等测试场景]]。
-- 实现时会用到 [[main 与 sha256 的协作实现]]。
-- 实现时会用到 [[source_files]]。
-- 实现时会用到 [[source_files 与 sha256 的协作实现]]。
-
 ## 谁会来到这里
 
 - [[PackageReleaseTests 等测试场景]] 汇总了本页。
-- [[main 与 sha256 的协作实现]] 关联到这里的验证场景。
-- [[source_files 与 sha256 的协作实现]] 关联到这里的验证场景。
 
 ## 内部细节
 
@@ -31,9 +22,9 @@
 
 | 代码单元 | 一句话作用 |
 |---|---|
-| `PackageReleaseTests.test_core_packages_exclude_plugins_and_full_only_adds_runtime` | 该测试验证“core packages exclude plugins…”场景，保护发行边界回归验证的预期结果与失败边界。 |
-| `PackageReleaseTests.test_lite_manifest_retains_core_capabilities` | 该测试验证“lite manifest retains core ca…”场景，保护发行边界回归验证的预期结果与失败边界。 |
-| `PackageReleaseTests.test_full_runtime_locks_pypdf_without_expanding_lite_runtime_boundary` | 该测试验证“full runtime locks pypdf with…”场景，保护发行边界回归验证的预期结果与失败边界。 |
-| `PackageReleaseTests.test_obsidian_plugin_is_independently_versioned` | 该测试验证“obsidian plugin is independen…”场景，保护发行边界回归验证的预期结果与失败边界。 |
+| `PackageReleaseTests.test_core_packages_exclude_plugins_and_full_only_adds_runtime` | 比较核心轻量与完整版文件集合，断言插件排除且完整版仅增加运行时文件。 |
+| `PackageReleaseTests.test_lite_manifest_retains_core_capabilities` | 构建并解压轻量包，核对核心能力清单并运行会话命令帮助作为安装冒烟检查。 |
+| `PackageReleaseTests.test_full_runtime_locks_pypdf_without_expanding_lite_runtime_boundary` | 核对完整版锁定的 PDF 解析器文件、许可和摘要，并断言轻量包不带运行时。 |
+| `PackageReleaseTests.test_obsidian_plugin_is_independently_versioned` | 构建独立插件归档，检查版本、完整文件清单及与核心 Skill 的分离。 |
 
 </details>

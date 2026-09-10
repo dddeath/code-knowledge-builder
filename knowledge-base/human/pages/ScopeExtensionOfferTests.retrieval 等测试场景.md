@@ -15,23 +15,10 @@
 ## 相关代码
 
 - 主要代码单元是 [[ScopeExtensionOfferTests.retrieval]]。
-- 实现时会用到 [[build_case 等测试场景]]。
-- 实现时会用到 [[ckb_canvas 的协作边界]]。
-- 实现时会用到 [[command]]。
-- 实现时会用到 [[doctor_report 与 _version_matches 的协作实现]]。
-- 实现时会用到 [[maintenance_check 与 capability_matrix 的协作实现]]。
-- 实现时会用到 [[retrieve]]。
-- 实现时会用到 [[retrieve_machine 与 estimated_tokens 的协作实现]]。
-- 实现时会用到 [[start_scope_extension 与 _error 的协作实现]]。
 
 ## 谁会来到这里
 
-- [[maintenance_check 与 capability_matrix 的协作实现]] 关联到这里的验证场景。
-- [[serve_stdio]] 关联到这里的验证场景。
-- [[serve_stdio 与 _write_line 的协作实现]] 关联到这里的验证场景。
 - 可从 [[tests 职责导览]] 进入本页。
-
-> 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 
 ## 内部细节
 

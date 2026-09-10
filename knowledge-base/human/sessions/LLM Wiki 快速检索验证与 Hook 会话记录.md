@@ -29,16 +29,16 @@
 ## 会话关联
 
 - [[LLM Wiki 快速检索性能验证（5.1.2）]]
-- [[retrieve_machine]]
-- [[retrieve_machine 与 estimated_tokens 的协作实现]]
-- [[retrieve 与 _tokens 的协作实现]]
+- [[build_machine_knowledge 与 estimated_tokens 的协作实现]]
+- [[build_machine_knowledge 与 estimated_tokens 的协作实现]]
+- [[build_agent_index 与 _tokens 的协作实现]]
 - [[自动同步与 LLM Wiki 后续待办]]
 
 ## 相关知识页
 
-- [[retrieve_machine]]
-- [[retrieve_machine 与 estimated_tokens 的协作实现]]
-- [[retrieve 与 _tokens 的协作实现]]
+- [[build_machine_knowledge 与 estimated_tokens 的协作实现]]
+- [[build_machine_knowledge 与 estimated_tokens 的协作实现]]
+- [[build_agent_index 与 _tokens 的协作实现]]
 
 ## 源码入口
 

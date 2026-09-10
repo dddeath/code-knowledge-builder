@@ -2,76 +2,21 @@
 
 标签：#类型/代码
 
-> 代码单元 `parser`负责解析 CKB 命令行输入并把请求分派到检索、迁移、参考资料和管理能力。 它属于所有 Harness 调用 CKB 的统一公开入口，当前说明只覆盖所列固定源码范围。
+> 构造完整的 argparse 命令树，定义建库、检索、来源审阅、迁移、页面候选文稿、会话及管理操作所接受的参数。 使用必选子命令、类型转换、固定 choices 和互斥组约束输入；例如审计范围、记录追加/替换和页面配置写入/校验各有明确互斥入口。它只描述并返回解析器，不执行知识库操作。
 
 ## 什么时候需要修改
 
-当公开命令、参数合同、退出状态或子系统入口变化时，应同步复查本页及其直接关联测试。
+核心接口增加字段或默认行为改变时，同步调整参数声明、main 分派、帮助文案和命令行契约测试；保持源路径与格式等必填条件及互斥关系一致。
 
 ## 在代码中的位置
 
-[打开源码：scripts/ckb.py 第 323 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:323:1)  `scripts/ckb.py:323-919`
+[打开源码：scripts/ckb.py 第 325 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:325:1)  `scripts/ckb.py:325-949`
 
 ## 相关代码
 
-- 实现时会用到 [[AutomationTest.register]]。
-- 实现时会用到 [[FactFreshnessStateMachineTest]]。
-- 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
-- 实现时会用到 [[_Transport.close]]。
-- 实现时会用到 [[append]]。
-- 实现时会用到 [[append 等测试场景]]。
-- 实现时会用到 [[bind_conversation 与 default_management_registry_path 的协作实现]]。
-- 实现时会用到 [[build_case 等测试场景]]。
-- 实现时会用到 [[ckb_canvas 的协作边界]]。
-- 实现时会用到 [[command]]。
-- 实现时会用到 [[finalize]]。
-- 实现时会用到 [[finalize 与 _replace_output_prefix 的协作实现]]。
-- 实现时会用到 [[graph 的协作边界]]。
-- 实现时会用到 [[ingest]]。
-- 实现时会用到 [[ingest_event 与 default_registry_path 的协作实现]]。
-- 实现时会用到 [[keyword_provider_config 与 parser 的协作实现]]。
-- 实现时会用到 [[refresh]]。
+- 与 [[keyword_provider_config 与 keyword_fallback_options 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 
 ## 谁会来到这里
 
-- [[CodeKnowledgeBuilderTests 等测试场景]] 会使用这里提供的行为。
-- [[ReferencePdfEffectBenchmarkTests]] 会使用这里提供的行为。
-- [[build 的协作边界]] 会使用这里提供的行为。
-- [[ckb_canvas 的协作边界]] 会使用这里提供的行为。
-- [[cli 的协作边界（99938c49）]] 会使用这里提供的行为。
-- [[command 等测试场景]] 会使用这里提供的行为。
-- [[deploy 的协作边界]] 会使用这里提供的行为。
-- [[extract_pdf]] 会使用这里提供的行为。
-- [[extract_pdf 与 PdfExtractionError 的协作实现]] 会使用这里提供的行为。
-- [[get_human_page_template 与 SectionContract 的协作实现]] 会使用这里提供的行为。
-- [[keyword_provider_config 与 parser 的协作实现]] 汇总了本页。
-- [[main（benchmark_obsidian_canvas_navigation 测试）]] 会使用这里提供的行为。
-- [[main（build_runtime_payload 实现）]] 会使用这里提供的行为。
-- [[main（generate_large_fixture 测试）]] 会使用这里提供的行为。
-- [[main（make_source_patch 实现）]] 会使用这里提供的行为。
-- [[main（provider_integration 测试）]] 会使用这里提供的行为。
-- [[main（recompute 测试）]] 会使用这里提供的行为。
-- [[main（session_stdio_harness_probe 测试）]] 会使用这里提供的行为。
-- [[main（session_stdio_reactivation_probe 测试）]] 会使用这里提供的行为。
-- [[one_cycle 等测试场景]] 会使用这里提供的行为。
-- [[parse_file]] 会使用这里提供的行为。
-- [[parse_file 与 _language 的协作实现]] 会使用这里提供的行为。
-- [[preflight 与 git 的协作实现]] 会使用这里提供的行为。
-- [[recompute 的协作边界]] 会使用这里提供的行为。
-- [[run 等测试场景]] 会使用这里提供的行为。
-- [[run_benchmark]] 会使用这里提供的行为。
-- [[run_benchmark 等测试场景]] 会使用这里提供的行为。
-- [[run_failure_probe 等测试场景]] 会使用这里提供的行为。
-- [[run_probe 等测试场景]] 会使用这里提供的行为。
-- [[source_files 与 sha256 的协作实现]] 会使用这里提供的行为。
-
-## 相关测试
-
-- [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[PdfReferenceExtractionTests]]
-- [[PdfReferenceExtractionTests 等测试场景]]
-- [[ReferencePdfEffectBenchmarkTests]]
-- [[command 等测试场景]]
-- [[main（benchmark_obsidian_canvas_navigation 测试）]]
-
-> 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
+- [[keyword_provider_config 与 keyword_fallback_options 的协作实现]] 汇总了本页。
+- 与 [[main（ckb 实现）]] 存在待核验的词法关联；是否调用或依赖需查看源码。

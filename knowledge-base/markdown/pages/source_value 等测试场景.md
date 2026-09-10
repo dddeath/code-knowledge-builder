@@ -18,12 +18,7 @@
 
 ## 谁会来到这里
 
-- [[source_value]] 关联到这里的验证场景。
 - 可从 [[tests 职责导览]] 进入本页。
-
-## 相关测试
-
-- [[CodeKnowledgeBuilderTests 等测试场景]]
 
 ## 内部细节
 

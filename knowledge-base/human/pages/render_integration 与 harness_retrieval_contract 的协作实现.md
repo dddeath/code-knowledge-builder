@@ -14,38 +14,13 @@
 
 ## 相关代码
 
-- 实现时会用到 [[AutomationTest.register]]。
-- 实现时会用到 [[CkbError]]。
-- 实现时会用到 [[ScopeExtensionOfferTests.retrieval]]。
-- 实现时会用到 [[append]]。
-- 实现时会用到 [[ckb_canvas 的协作边界]]。
-- 实现时会用到 [[command]]。
-- 实现时会用到 [[doctor_report 与 _version_matches 的协作实现]]。
-- 实现时会用到 [[emit]]。
+- 与 [[CkbError]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 - 主要代码单元是 [[render_integration]]。
 
 ## 谁会来到这里
 
-- [[AutomationTest.register 等测试场景]] 会使用这里提供的行为。
-- [[SourceLinkRenderer.uri]] 会使用这里提供的行为。
-- [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]] 会使用这里提供的行为。
-- [[audit_migration 与 _entity_key 的协作实现]] 会使用这里提供的行为。
-- [[doctor_report 与 _version_matches 的协作实现]] 会使用这里提供的行为。
-- [[ingest_reference 与 _root 的协作实现]] 会使用这里提供的行为。
-- [[render_integration]] 会使用这里提供的行为。
-- [[retrieve_machine 与 estimated_tokens 的协作实现]] 会使用这里提供的行为。
+- 与 [[render_integration]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 - 可从 [[scripts 职责导览]] 进入本页。
-
-## 相关测试
-
-- [[AgentProtocolBatchApplyTests]]
-- [[AgentProtocolBatchApplyTests 等测试场景]]
-- [[AutomationTest.register 等测试场景]]
-- [[CanvasContractTests]]
-- [[CanvasContractTests 等测试场景]]
-- [[CanvasDeterminismTests]]
-
-> 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 
 ## 内部细节
 

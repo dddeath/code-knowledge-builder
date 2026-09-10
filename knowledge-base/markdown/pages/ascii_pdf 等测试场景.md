@@ -14,23 +14,12 @@
 
 ## 相关代码
 
-- 实现时会用到 [[append]]。
 - 主要代码单元是 [[ascii_pdf]]。
 
 ## 谁会来到这里
 
-- [[PdfReferenceExtractionTests]] 会使用这里提供的行为。
-- [[PdfReferenceExtractionTests 等测试场景]] 会使用这里提供的行为。
-- [[ascii_pdf]] 关联到这里的验证场景。
-- [[run_benchmark]] 会使用这里提供的行为。
+- 与 [[ascii_pdf]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 - 可从 [[tests 职责导览]] 进入本页。
-
-## 相关测试
-
-- [[PdfReferenceExtractionTests]]
-- [[PdfReferenceExtractionTests 等测试场景]]
-- [[ascii_pdf]]
-- [[run_benchmark]]
 
 ## 内部细节
 

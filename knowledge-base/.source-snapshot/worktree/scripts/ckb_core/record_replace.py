@@ -645,12 +645,62 @@ def _verify_roles(output: Path, roles: list[dict[str, Any]], state_name: str) ->
     return errors
 
 
-def _candidate_contract(candidate_output: Path, relative: Path) -> dict[str, Any]:
+def _relative_note_error(error: dict[str, Any], output: Path) -> dict[str, Any]:
+    value = dict(error)
+    if isinstance(value.get("path"), str):
+        path = Path(value["path"].replace("\\", "/"))
+        if not path.is_absolute():
+            path = output / path
+        try:
+            value["path"] = path.resolve().relative_to(output.resolve()).as_posix()
+        except ValueError:
+            pass  # An unbound diagnostic can never match an eligible note.
+    return value
+
+
+def _note_error_baseline(output: Path, relative: Path) -> dict[str, Any]:
+    errors = [_relative_note_error(error, output) for error in audit_notes(output)]
+    unchanged_notes = {}
+    for error in errors:
+        path = Path(str(error.get("path", "")))
+        if (error.get("reason") != "note-link-dangling" or len(path.parts) != 3
+                or path.parts[0] != "markdown" or path.parts[1] not in NOTE_DIRECTORIES
+                or path.suffix != ".md" or path == Path("markdown") / relative):
+            continue
+        human = output / "human" / Path(*path.parts[1:])
+        markdown = output / path
+        if human.is_file() and markdown.is_file() and human.read_bytes() == markdown.read_bytes():
+            unchanged_notes[path.as_posix()] = sha256_file(markdown)
+    return {"errors": errors, "unchanged_notes": unchanged_notes}
+
+
+def _replacement_note_errors(output: Path, baseline: dict[str, Any]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    # Only identical diagnostics on byte-identical OTHER mirrored notes survive
+    # as unresolved debt. Target notes and every other error remain strict.
+    remaining = list(baseline["errors"])
+    blocking, unresolved = [], []
+    for error in audit_notes(output):
+        normalized = _relative_note_error(error, output)
+        path = str(normalized.get("path", ""))
+        digest = baseline["unchanged_notes"].get(path)
+        markdown = output / path
+        human = output / "human" / Path(*Path(path).parts[1:])
+        if (normalized.get("reason") == "note-link-dangling" and digest
+                and normalized in remaining and markdown.is_file() and human.is_file()
+                and sha256_file(markdown) == digest and sha256_file(human) == digest):
+            remaining.remove(normalized)
+            unresolved.append(normalized)
+        else:
+            blocking.append(normalized)
+    return blocking, unresolved
+
+
+def _candidate_contract(candidate_output: Path, relative: Path, baseline: dict[str, Any]) -> dict[str, Any]:
     human = candidate_output / "human" / relative
     markdown = candidate_output / "markdown" / relative
     records_human = candidate_output / "human/RECORDS.md"
     records_markdown = candidate_output / "markdown/RECORDS.md"
-    errors = audit_notes(candidate_output)
+    errors, unresolved = _replacement_note_errors(candidate_output, baseline)
     work_records = audit_work_record_index(candidate_output)
     if human.read_bytes() != markdown.read_bytes():
         errors.append({"reason": "candidate-note-mirror-differs", "path": relative.as_posix()})
@@ -660,7 +710,9 @@ def _candidate_contract(candidate_output: Path, relative: Path) -> dict[str, Any
         errors.extend(work_records["errors"])
     if errors:
         raise CkbError(f"record replace candidate audit failed: {errors[:10]}")
-    return {"status": "passed", "note_errors": [], "work_record_index": work_records}
+    return {"status": "passed", "note_errors": [], "work_record_index": work_records,
+            "verification_scope": "record-replacement", "maintenance_verified": False,
+            "unresolved_baseline_diagnostics": unresolved}
 
 
 def _prepare_replacement(
@@ -676,8 +728,15 @@ def _prepare_replacement(
     fault: str | None,
 ) -> tuple[dict[str, Any], list[dict[str, Any]], dict[str, Any], dict[str, Any]]:
     body = read_note_body(body_path)
+    from .workspace_notes import note_contract_metadata
+
+    contract_metadata = note_contract_metadata(body_path, kind, body)
     _markdown_root(output)
     relative, human_target, markdown_target, previous = _locate_existing(output, kind, title)
+    manifest["note_error_baseline"] = _note_error_baseline(output, relative)
+    json_write(manifest_path, manifest)
+    if previous.get("section_evidence") and not contract_metadata["human_output_contract"]["v3_validated"]:
+        raise CkbError("a V3 record replacement requires a validated authoring package; legacy downgrade is not implicit")
     explicit_evidence = bool(selectors) or query_record is not None
     if explicit_evidence:
         linked_titles = _resolve_page_titles(output, selectors, query_record)
@@ -691,7 +750,7 @@ def _prepare_replacement(
         query_value = previous.get("query_record")
         if kind != "session" and not linked_titles:
             raise CkbError(f"record replace cannot preserve an empty reviewed evidence set: {title}")
-    text = render_note_text(kind, title, body, linked_titles, source_links)
+    text = render_note_text(kind, title, body, linked_titles, source_links, v3=contract_metadata["human_output_contract"]["v3_validated"])
     candidate_output = directory / "candidate-output"
     _copy_candidate_note_roots(output, candidate_output)
     for root_name in ("human", "markdown"):
@@ -702,7 +761,7 @@ def _prepare_replacement(
     if fault == "candidate-mirror-diff":
         with (candidate_output / "human" / relative).open("a", encoding="utf-8", newline="\n") as handle:
             handle.write("候选镜像故障注入。\n")
-    candidate_audit = _candidate_contract(candidate_output, relative)
+    candidate_audit = _candidate_contract(candidate_output, relative, manifest["note_error_baseline"])
     now = utc_now()
     record_id = previous.get("record_id") or stable_id("work-record", kind, title.casefold(), relative.as_posix())
     replacement = {
@@ -714,6 +773,7 @@ def _prepare_replacement(
     }
     metadata = {
         **previous,
+        **contract_metadata,
         "schema_version": max(1, int(previous.get("schema_version", 1))),
         "status": "agent-reviewed",
         "record_id": record_id,
@@ -730,6 +790,9 @@ def _prepare_replacement(
         "replacement": replacement,
         "obsidian_uri": obsidian_open_uri(markdown_target),
     }
+    if not contract_metadata["human_output_contract"]["v3_validated"]:
+        for field in ("section_evidence", "section_evidence_sha256", "validation_context", "authoring_package"):
+            metadata.pop(field, None)
     metadata_candidate = candidate_output / "workspace-meta/notes" / (safe_title(title) + ".json")
     json_write(metadata_candidate, metadata)
     role_sources = (
@@ -880,7 +943,7 @@ def _promotion(
             if fault == f"after-{role['name']}":
                 raise CkbError(f"injected record replace promotion failure after {role['name']}")
         verification_errors = _verify_roles(output, roles, "modified")
-        note_errors = audit_notes(output)
+        note_errors, unresolved = _replacement_note_errors(output, manifest["note_error_baseline"])
         record_audit = audit_work_record_index(output)
         agent_audit = audit_agent_index(output)
         if verification_errors or note_errors or record_audit["status"] != "passed" or agent_audit["status"] != "passed":
@@ -897,6 +960,9 @@ def _promotion(
                     "status": "passed",
                     "role_errors": [],
                     "note_errors": [],
+                    "verification_scope": "record-replacement",
+                    "maintenance_verified": False,
+                    "unresolved_baseline_diagnostics": unresolved,
                     "work_record_index": record_audit,
                     "agent_index": agent_audit,
                 },
@@ -974,6 +1040,9 @@ def replace_note(
                 "after_page_sha256": manifest["roles"][0]["modified"]["sha256"],
                 "operation_journal": journal,
                 "operation_journal_recorded": True,
+                "verification_scope": "record-replacement",
+                "maintenance_verified": False,
+                "unresolved_baseline_diagnostics": manifest["verification"]["unresolved_baseline_diagnostics"],
             }
         except Exception as exc:
             current = json_load(manifest_path) if manifest_path.is_file() else manifest

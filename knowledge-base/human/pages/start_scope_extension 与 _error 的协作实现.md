@@ -14,50 +14,21 @@
 
 ## 相关代码
 
-- 实现时会用到 [[CkbError]]。
-- 实现时会用到 [[CkbError 与 DependencyError 的协作实现]]。
-- 实现时会用到 [[ScopeExtensionOfferTests.retrieval]]。
-- 实现时会用到 [[SourceLinkRenderer.uri]]。
-- 实现时会用到 [[_Transport.close]]。
-- 实现时会用到 [[append]]。
-- 实现时会用到 [[audit_migration 与 _entity_key 的协作实现]]。
-- 实现时会用到 [[command]]。
-- 实现时会用到 [[finalize]]。
-- 实现时会用到 [[finalize 与 _replace_output_prefix 的协作实现]]。
-- 实现时会用到 [[ingest 与 connect 的协作实现]]。
-- 实现时会用到 [[maintenance_check]]。
-- 实现时会用到 [[preflight]]。
+- 与 [[CkbError]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[CkbError 与 DependencyError 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[audit_global 与 _replace_output_prefix 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[maintenance_check]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[migrate_output 与 _entity_key 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[preflight]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 - 主要代码单元是 [[start_scope_extension]]。
-- 实现时会用到 [[validate]]。
 
 ## 谁会来到这里
 
-- [[ScopeExtensionOfferTests.retrieval 等测试场景]] 会使用这里提供的行为。
-- [[ScopeExtensionTest]] 会使用这里提供的行为。
-- [[_Transport.close 与 _StartGate 的协作实现]] 会使用这里提供的行为。
-- [[audit_agent_protocol 与 _default_python 的协作实现]] 会使用这里提供的行为。
-- [[command 等测试场景]] 会使用这里提供的行为。
-- [[create_batch_plan 与 ProtocolRelease 的协作实现]] 会使用这里提供的行为。
-- [[create_knowledge_batch_plan 与 KnowledgeRelease 的协作实现]] 会使用这里提供的行为。
-- [[keyword_provider_config 与 parser 的协作实现]] 会使用这里提供的行为。
-- [[query_graph]] 会使用这里提供的行为。
-- [[refresh]] 会使用这里提供的行为。
-- [[refresh 等测试场景]] 会使用这里提供的行为。
-- [[retrieve_machine]] 会使用这里提供的行为。
+- 与 [[build_machine_knowledge 与 estimated_tokens 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[create_knowledge_batch_plan 与 KnowledgeRelease 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[qmd_adapter 的协作边界]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 - 可从 [[scripts 职责导览]] 进入本页。
-- [[serve_stdio]] 会使用这里提供的行为。
-- [[start_scope_extension]] 会使用这里提供的行为。
-
-## 相关测试
-
-- [[AgentProtocolBatchApplyTests]]
-- [[AgentProtocolBatchApplyTests 等测试场景]]
-- [[AutomationTest.register 等测试场景]]
-- [[ChineseRetrievalEffectRetestFixtureTests]]
-- [[CodeKnowledgeBuilderTests]]
-- [[CodeKnowledgeBuilderTests 等测试场景]]
-
-> 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
+- 与 [[start_scope_extension]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 
 ## 内部细节
 

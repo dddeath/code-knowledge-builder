@@ -670,6 +670,298 @@ def merge_csharp_partials(repository: dict[str, Any], entities: list[dict[str, A
     return result
 
 
+def _python_lexical_pairs(entities: list[dict[str, Any]], sources: dict[str, bytes]) -> list[tuple[dict[str, Any], dict[str, Any], dict[str, Any]]]:
+    """Resolve bounded Python bindings, never repository-wide spelling matches.
+
+    Unknown receivers/rebindings remain unresolved (no internal target edge).
+    AST is used only for lexical binding context; entity IDs/ranges still come
+    from the pinned Tree-sitter extraction. No execution or type inference.
+    """
+    import ast
+
+    by_id = {entity["id"]: entity for entity in entities}
+    declarations = {(e["path"], e["range"].get("start_line"), e["name"]): e
+                    for e in entities if e["kind"] != "file" and e.get("language") == "python"}
+    modules: dict[str, list[dict[str, Any]]] = {}
+    frames: list[dict[str, Any]] = []
+    uses: list[tuple[Any, dict[str, Any]]] = []
+    member_writes: list[tuple[Any, dict[str, Any]]] = []
+
+    def bind(frame, name, value):
+        frame["bindings"].setdefault(name, []).append(value)
+
+    class Collector(ast.NodeVisitor):
+        def __init__(self, frame):
+            self.frame = frame
+
+        def visit_Name(self, node):
+            if isinstance(node.ctx, (ast.Store, ast.Del)):
+                bind(self.frame, node.id, None)
+            elif isinstance(node.ctx, ast.Load):
+                uses.append((node, self.frame))
+
+        def visit_Attribute(self, node):
+            if isinstance(node.ctx, ast.Load):
+                uses.append((node, self.frame))
+            elif isinstance(node.ctx, (ast.Store, ast.Del)):
+                member_writes.append((node, self.frame))
+            # Do not resolve the member spelling or emit a second receiver edge.
+            base = node.value
+            while isinstance(base, ast.Attribute):
+                base = base.value
+            if not isinstance(base, ast.Name):
+                self.visit(base)
+
+        def visit_Global(self, node):
+            self.frame["globals"].update(node.names)
+
+        def visit_Nonlocal(self, node):
+            self.frame["nonlocals"].update(node.names)
+
+        def visit_Import(self, node):
+            for alias in node.names:
+                bind(self.frame, alias.asname or alias.name.split(".")[0],
+                     ("module", alias.name if alias.asname else alias.name.split(".")[0]))
+
+        def visit_ImportFrom(self, node):
+            module = node.module or ""
+            if node.level:
+                package = self.frame["module"].split(".")
+                if not self.frame["path"].endswith("/__init__.py"):
+                    package = package[:-1]
+                if node.level > len(package):
+                    module = ""
+                else:
+                    module = ".".join(package[:len(package) - node.level + 1] + ([module] if module else []))
+            for alias in node.names:
+                if alias.name == "*":
+                    self.frame["star"] = True
+                else:
+                    bind(self.frame, alias.asname or alias.name, ("import", module, alias.name))
+
+        def definition(self, node, kind):
+            entity = declarations.get((self.frame["path"], node.lineno, node.name))
+            bind(self.frame, node.name, ("entity", entity["id"]) if entity else None)
+            header = Collector({**self.frame, "owner": entity})
+            for decorator in node.decorator_list:
+                header.visit(decorator)
+            if kind == "class":
+                for base in node.bases:
+                    header.visit(base)
+                for keyword in node.keywords:
+                    header.visit(keyword.value)
+            else:
+                for default in [*node.args.defaults, *node.args.kw_defaults]:
+                    if default is not None:
+                        header.visit(default)
+                for arg in [*node.args.posonlyargs, *node.args.args, *node.args.kwonlyargs, node.args.vararg, node.args.kwarg]:
+                    if arg is not None and arg.annotation is not None:
+                        header.visit(arg.annotation)
+                if node.returns is not None:
+                    header.visit(node.returns)
+            child = new_frame(self.frame, kind, entity)
+            if kind == "function":
+                parameters(child, node.args)
+                args = node.args.posonlyargs + node.args.args
+                # Only ordinary instance methods and classmethods have a known
+                # implicit class receiver. Arbitrary decorators stay unresolved.
+                decorators = [d.id if isinstance(d, ast.Name) else "?" for d in node.decorator_list]
+                if self.frame["kind"] == "class" and args and decorators in ([], ["classmethod"]):
+                    cls = self.frame["owner"]
+                    if cls:
+                        child["bindings"][args[0].arg] = [("entity", cls["id"])]
+            visitor = Collector(child)
+            for statement in node.body:
+                visitor.visit(statement)
+
+        def visit_FunctionDef(self, node):
+            self.definition(node, "function")
+
+        visit_AsyncFunctionDef = visit_FunctionDef
+
+        def visit_ClassDef(self, node):
+            self.definition(node, "class")
+
+        def visit_Lambda(self, node):
+            for default in [*node.args.defaults, *node.args.kw_defaults]:
+                if default is not None:
+                    self.visit(default)
+            child = new_frame(self.frame, "function", self.frame["owner"])
+            parameters(child, node.args)
+            Collector(child).visit(node.body)
+
+        def comprehension(self, node):
+            # The first iterable is evaluated in the enclosing scope.
+            self.visit(node.generators[0].iter)
+            child = new_frame(self.frame, "comprehension", self.frame["owner"])
+            visitor = Collector(child)
+            for index, generator in enumerate(node.generators):
+                visitor.visit(generator.target)
+                if index:
+                    visitor.visit(generator.iter)
+                for condition in generator.ifs:
+                    visitor.visit(condition)
+            for field in ("elt", "key", "value"):
+                if hasattr(node, field):
+                    visitor.visit(getattr(node, field))
+
+        visit_ListComp = comprehension
+        visit_SetComp = comprehension
+        visit_DictComp = comprehension
+        visit_GeneratorExp = comprehension
+
+        def visit_NamedExpr(self, node):
+            frame = self.frame
+            while frame["kind"] == "comprehension":
+                frame = frame["parent"]
+            if isinstance(node.target, ast.Name):
+                bind(frame, node.target.id, None)
+            self.visit(node.value)
+
+        def visit_ExceptHandler(self, node):
+            if node.name:
+                bind(self.frame, node.name, None)
+            self.generic_visit(node)
+
+        def visit_MatchAs(self, node):
+            if node.name:
+                bind(self.frame, node.name, None)
+            self.generic_visit(node)
+
+        visit_MatchStar = visit_MatchAs
+
+        def visit_MatchMapping(self, node):
+            if node.rest:
+                bind(self.frame, node.rest, None)
+            self.generic_visit(node)
+
+    def new_frame(parent, kind, owner, path="", module=""):
+        frame = {"parent": parent, "kind": kind, "owner": owner, "bindings": {},
+                 "globals": set(), "nonlocals": set(), "star": False, "invalid_members": set(),
+                 "path": parent["path"] if parent else path,
+                 "module": parent["module"] if parent else module}
+        frames.append(frame)
+        return frame
+
+    def parameters(frame, args):
+        for arg in [*args.posonlyargs, *args.args, *args.kwonlyargs, args.vararg, args.kwarg]:
+            if arg is not None:
+                bind(frame, arg.arg, None)
+
+    for path in sorted({e["path"] for e in entities if e.get("language") == "python"}):
+        try:
+            tree = ast.parse(sources.get(path, b""))
+        except (SyntaxError, ValueError, UnicodeError):
+            # Unsupported/incomplete syntax never falls back to unsafe regex.
+            continue
+        module = path.removesuffix(".py").replace("/", ".")
+        module = module.removesuffix(".__init__")
+        frame = new_frame(None, "module", None, path, module)
+        modules.setdefault(module, []).append(frame)
+        Collector(frame).visit(tree)
+
+    def enclosing(frame, name):
+        parent = frame["parent"]
+        while parent and parent["kind"] == "class":
+            parent = parent["parent"]
+        if name in frame["globals"]:
+            while parent and parent["parent"]:
+                parent = parent["parent"]
+        return parent
+
+    # Writes declared global/nonlocal invalidate the outer binding as well.
+    for frame in frames:
+        for name in frame["globals"] | frame["nonlocals"]:
+            if name not in frame["bindings"]:
+                continue
+            parent = enclosing(frame, name)
+            while parent and name not in parent["bindings"] and parent["parent"]:
+                parent = enclosing(parent, name)
+            if parent:
+                bind(parent, name, None)
+            frame["bindings"][name] = [None]
+
+    def module_frame(name):
+        matches = modules.get(name, [])
+        return matches[0] if len(matches) == 1 else None
+
+    def lookup(frame, name, trail=frozenset()):
+        if frame is None or (id(frame), name) in trail:
+            return None
+        trail = trail | {(id(frame), name)}
+        values = frame["bindings"].get(name)
+        if values is None:
+            if frame["star"]:
+                return None
+            return lookup(enclosing(frame, name), name, trail)
+        if len(values) != 1 or values[0] is None:
+            return None
+        value = values[0]
+        if value[0] == "import":
+            target_frame = module_frame(value[1])
+            target = lookup(target_frame, value[2], trail) if target_frame else None
+            if target:
+                return target
+            if target_frame and value[2] in target_frame["bindings"]:
+                return None
+            name = value[1] + "." + value[2]
+            return ("module", name) if module_frame(name) else None
+        return value
+
+    def resolve(node, frame, *, ignore_member_writes=False):
+        if isinstance(node, ast.Name):
+            return lookup(frame, node.id)
+        if not isinstance(node, ast.Attribute):
+            return None
+        receiver = resolve(node.value, frame, ignore_member_writes=ignore_member_writes)
+        if receiver is None:
+            return None
+        if not ignore_member_writes:
+            scope = frame
+            while scope is not None:
+                if (receiver, node.attr) in scope["invalid_members"]:
+                    return None
+                scope = scope["parent"]
+        if receiver[0] == "module":
+            target_frame = module_frame(receiver[1])
+            target = lookup(target_frame, node.attr) if target_frame else None
+            if target:
+                return target
+            if target_frame and node.attr in target_frame["bindings"]:
+                return None
+            module = receiver[1] + "." + node.attr
+            return ("module", module) if module_frame(module) else None
+        entity = by_id[receiver[1]]
+        if entity["kind"] == "class":
+            cls_frames = [f for f in frames if f["kind"] == "class" and f["owner"] == entity]
+            if len(cls_frames) == 1:
+                values = cls_frames[0]["bindings"].get(node.attr, [])
+                if len(values) == 1:
+                    return values[0]
+        return None
+
+    # Attribute writes invalidate only this lexical scope and its descendants,
+    # keyed by the resolved receiver and member, not by a global method name.
+    # Collect against unmodified bindings so write order cannot change the set.
+    # This is conservative within a scope, not interprocedural execution order.
+    for node, frame in member_writes:
+        receiver = resolve(node.value, frame, ignore_member_writes=True)
+        if receiver is not None:
+            frame["invalid_members"].add((receiver, node.attr))
+
+    pairs = []
+    for node, frame in uses:
+        owner = frame["owner"]
+        target = resolve(node, frame)
+        if owner and target and target[0] == "entity" and target[1] != owner["id"]:
+            pairs.append((owner, by_id[target[1]], {
+                "name": ast.unparse(node), "source_path": frame["path"],
+                "line": node.lineno, "column_utf8": node.col_offset,
+                "resolution": "python-lexical-binding", "runtime_dispatch_confirmed": False,
+            }))
+    return pairs
+
+
 def lexical_links(entities: list[dict[str, Any]], sources: dict[str, bytes]) -> list[dict[str, Any]]:
     by_name: dict[str, list[dict[str, Any]]] = {}
     for entity in entities:
@@ -677,8 +969,17 @@ def lexical_links(entities: list[dict[str, Any]], sources: dict[str, bytes]) -> 
             by_name.setdefault(entity["name"], []).append(entity)
     links: list[dict[str, Any]] = []
     seen: set[tuple[str, str, str]] = set()
+    for source_entity, target, evidence in _python_lexical_pairs(entities, sources):
+        key = (source_entity["id"], target["id"], "references")
+        if key not in seen:
+            seen.add(key)
+            links.append({
+                "id": stable_id("link", *key), "type": "references",
+                "source": source_entity["id"], "target": target["id"],
+                "provider": "tree-sitter-lexical-candidate", "evidence": evidence,
+            })
     for source_entity in entities:
-        if source_entity["kind"] == "file":
+        if source_entity["kind"] == "file" or source_entity.get("language") == "python":
             continue
         data = sources.get(source_entity["path"], b"")
         region = data[source_entity["range"]["start_byte"] : source_entity["range"]["end_byte"]].decode("utf-8", errors="replace")

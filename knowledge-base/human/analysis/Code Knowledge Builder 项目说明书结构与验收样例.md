@@ -181,14 +181,14 @@ Code Knowledge Builder 同时从这两种困难出发。
 
 ## 相关知识页
 
-- [[retrieve 与 _tokens 的协作实现]]
-- [[retrieve_machine 与 estimated_tokens 的协作实现]]
-- [[start_session 与 _session_directory 的协作实现]]
+- [[build_agent_index 与 _tokens 的协作实现]]
+- [[build_machine_knowledge 与 estimated_tokens 的协作实现]]
+- [[finish_session 与 _session_directory 的协作实现]]
 - [[sync_human_layer 与 _source_manifest 的协作实现]]
-- [[audit_migration 与 _entity_key 的协作实现]]
-- [[query_graph 与 _networkx_modules 的协作实现]]
+- [[migrate_output 与 _entity_key 的协作实现]]
+- [[project_graphify 与 _networkx_modules 的协作实现]]
 - [[module_name 与 estimated_tokens 的协作实现]]
-- [[keyword_provider_config 与 parser 的协作实现]]
+- [[keyword_provider_config 与 keyword_fallback_options 的协作实现]]
 
 ## 源码入口
 

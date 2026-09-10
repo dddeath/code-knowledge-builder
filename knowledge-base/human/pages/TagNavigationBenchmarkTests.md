@@ -12,16 +12,9 @@
 
 [打开源码：tests/test_ckb_tag_navigation_benchmark.py 第 19 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_ckb_tag_navigation_benchmark.py:19:1)  `tests/test_ckb_tag_navigation_benchmark.py:19-50`
 
-## 相关代码
-
-- 实现时会用到 [[append]]。
-- 实现时会用到 [[benchmark 的协作边界（prototypes）]]。
-- 实现时会用到 [[contracts 的协作边界（959fe0e0）]]。
-
 ## 谁会来到这里
 
 - [[TagNavigationBenchmarkTests 等测试场景]] 汇总了本页。
-- [[benchmark 的协作边界（prototypes）]] 关联到这里的验证场景。
 
 ## 内部细节
 

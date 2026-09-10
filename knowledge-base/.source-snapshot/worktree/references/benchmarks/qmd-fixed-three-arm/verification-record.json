@@ -1,0 +1,192 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "branch": "codex/qmd-fixed-three-arm-benchmark",
+  "baseline_commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+  "implementation_commit": "cb3996c",
+  "protocol": {
+    "benchmark": "ckb-qmd-fixed-three-arm-v2",
+    "sha256": "8281de7fb6b0e4a85ec3cef2fef10f2796156b6df63201d48da193626e75a49f",
+    "corpus_commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+    "questions": 12,
+    "rows": 216,
+    "arms": [
+      "sqlite-current",
+      "semantic-vector",
+      "qmd-vsearch"
+    ],
+    "budget_tokens": 2400,
+    "max_results": 8,
+    "cold_runs": 1,
+    "hot_runs": 5
+  },
+  "measured_behaviors": {
+    "baseline": {
+      "arm": "sqlite-current",
+      "recall_at_8": 0.75,
+      "mrr_at_8": 0.569444444,
+      "ndcg_at_8": 0.616065772
+    },
+    "semantic_vector": {
+      "arm": "semantic-vector",
+      "recall_at_8": 0.583333333,
+      "mrr_at_8": 0.221527778,
+      "ndcg_at_8": 0.307883379,
+      "comparison": {
+        "evidence_class": "verified-real-local-model",
+        "functional_status": "available",
+        "quality_delta": {
+          "recall_at_8": -0.166666667,
+          "mrr_at_8": -0.347916666,
+          "ndcg_at_8": -0.308182393
+        },
+        "quality_claim": "regression-observed"
+      }
+    },
+    "qmd": {
+      "arm": "qmd-vsearch",
+      "recall_at_8": 1.0,
+      "mrr_at_8": 0.875,
+      "ndcg_at_8": 0.907732438,
+      "comparison": {
+        "evidence_class": "verified-real-local-model",
+        "functional_status": "available",
+        "quality_delta": {
+          "recall_at_8": 0.25,
+          "mrr_at_8": 0.305555556,
+          "ndcg_at_8": 0.291666666
+        },
+        "quality_claim": "improvement-demonstrated"
+      }
+    },
+    "production_default_changed": false
+  },
+  "benchmark_run": {
+    "command_file": "run-command.ps1.txt",
+    "exit_status": 0,
+    "literal_output": "status=passed; checks_passed=20/20; rows=216; decision=worth-entering-production-experiment"
+  },
+  "commands": [
+    {
+      "id": "qmd-focused-tests",
+      "command": "E:\\knowledge_builder\\self-workspace\\worktrees\\qmd-fixed-three-arm-benchmark\\prototypes\\ckb-semantic-vector-benchmark\\.venv\\Scripts\\python.exe -X utf8 -m unittest discover -s tests -p test_ckb_qmd_three_arm_benchmark.py -v",
+      "literal_output": "test_common_truncation_deduplicates_then_applies_budget_and_top_k (test_ckb_qmd_three_arm_benchmark.CommonJudgeAndRecomputeTests.test_common_truncation_deduplicates_then_applies_budget_and_top_k) ... ok\ntest_quality_claims_distinguish_non_inferiority_improvement_and_regression (test_ckb_qmd_three_arm_benchmark.CommonJudgeAndRecomputeTests.test_quality_claims_distinguish_non_inferiority_improvement_and_regression) ... ok\ntest_recompute_accepts_qmd_as_the_third_arm (test_ckb_qmd_three_arm_benchmark.CommonJudgeAndRecomputeTests.test_recompute_accepts_qmd_as_the_third_arm) ... ok\ntest_protocol_reuses_exact_corpus_questions_budget_and_judge (test_ckb_qmd_three_arm_benchmark.FrozenQmdContractTests.test_protocol_reuses_exact_corpus_questions_budget_and_judge) ... ok\ntest_qmd_runtime_lock_and_model_are_pinned (test_ckb_qmd_three_arm_benchmark.FrozenQmdContractTests.test_qmd_runtime_lock_and_model_are_pinned) ... ok\ntest_missing_qmd_package_is_structured_unavailable (test_ckb_qmd_three_arm_benchmark.QmdAvailabilityAndFailureTests.test_missing_qmd_package_is_structured_unavailable) ... ok\ntest_qmd_build_output_format_drift_is_rejected (test_ckb_qmd_three_arm_benchmark.QmdAvailabilityAndFailureTests.test_qmd_build_output_format_drift_is_rejected) ... ok\ntest_qmd_process_failure_is_not_treated_as_a_result (test_ckb_qmd_three_arm_benchmark.QmdAvailabilityAndFailureTests.test_qmd_process_failure_is_not_treated_as_a_result) ... ok\ntest_qmd_query_result_format_drift_is_rejected (test_ckb_qmd_three_arm_benchmark.QmdAvailabilityAndFailureTests.test_qmd_query_result_format_drift_is_rejected) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 0.267s\n\nOK\n",
+      "exit_status": 0
+    },
+    {
+      "id": "semantic-vector-regression",
+      "command": "E:\\knowledge_builder\\self-workspace\\worktrees\\qmd-fixed-three-arm-benchmark\\prototypes\\ckb-semantic-vector-benchmark\\.venv\\Scripts\\python.exe -X utf8 -m unittest discover -s tests -p test_ckb_semantic_vector_benchmark.py -v",
+      "literal_output": "test_hybrid_ties_have_stable_path_order (test_ckb_semantic_vector_benchmark.DeterministicMetricTests.test_hybrid_ties_have_stable_path_order) ... ok\ntest_independent_aggregate_recomputes_report_fields (test_ckb_semantic_vector_benchmark.DeterministicMetricTests.test_independent_aggregate_recomputes_report_fields) ... ok\ntest_rank_metrics_and_missing_reason_are_recomputed (test_ckb_semantic_vector_benchmark.DeterministicMetricTests.test_rank_metrics_and_missing_reason_are_recomputed) ... ok\ntest_index_digest_drift_is_rejected (test_ckb_semantic_vector_benchmark.DriftAndAvailabilityTests.test_index_digest_drift_is_rejected) ... ok\ntest_index_size_is_reported_after_final_manifest_serialization (test_ckb_semantic_vector_benchmark.DriftAndAvailabilityTests.test_index_size_is_reported_after_final_manifest_serialization) ... ok\ntest_missing_engine_has_structured_unavailable_evidence (test_ckb_semantic_vector_benchmark.DriftAndAvailabilityTests.test_missing_engine_has_structured_unavailable_evidence) ... ok\ntest_model_identity_drift_is_rejected (test_ckb_semantic_vector_benchmark.DriftAndAvailabilityTests.test_model_identity_drift_is_rejected) ... ok\ntest_model_manifest_is_revision_and_file_hash_pinned (test_ckb_semantic_vector_benchmark.FrozenContractTests.test_model_manifest_is_revision_and_file_hash_pinned) ... ok\ntest_protocol_freezes_three_arms_and_existing_twelve_labels (test_ckb_semantic_vector_benchmark.FrozenContractTests.test_protocol_freezes_three_arms_and_existing_twelve_labels) ... ok\ntest_protocol_schema_drift_is_rejected_before_external_reads (test_ckb_semantic_vector_benchmark.FrozenContractTests.test_protocol_schema_drift_is_rejected_before_external_reads) ... ok\ntest_json_writer_uses_utf8_lf_on_windows (test_ckb_semantic_vector_benchmark.ResourceAndIsolationTests.test_json_writer_uses_utf8_lf_on_windows) ... ok\ntest_network_guard_blocks_and_records_connection_attempt (test_ckb_semantic_vector_benchmark.ResourceAndIsolationTests.test_network_guard_blocks_and_records_connection_attempt) ... ok\ntest_resource_limits_have_positive_and_negative_cases (test_ckb_semantic_vector_benchmark.ResourceAndIsolationTests.test_resource_limits_have_positive_and_negative_cases) ... ok\n\n----------------------------------------------------------------------\nRan 13 tests in 0.136s\n\nOK\n",
+      "exit_status": 0
+    },
+    {
+      "id": "frozen-retrieval-fixture-regression",
+      "command": "E:\\knowledge_builder\\self-workspace\\worktrees\\qmd-fixed-three-arm-benchmark\\prototypes\\ckb-semantic-vector-benchmark\\.venv\\Scripts\\python.exe -X utf8 -m unittest discover -s tests -p test_chinese_retrieval_fixture.py -v",
+      "literal_output": "test_legacy_arm_preserves_the_exact_mechanical_fragments (test_chinese_retrieval_fixture.ChineseRetrievalEffectRetestFixtureTests.test_legacy_arm_preserves_the_exact_mechanical_fragments) ... ok\ntest_questions_have_fixed_relevance_labels_and_replay_responses (test_chinese_retrieval_fixture.ChineseRetrievalEffectRetestFixtureTests.test_questions_have_fixed_relevance_labels_and_replay_responses) ... ok\ntest_rank_metrics_are_computed_from_document_order_and_fixed_grades (test_chinese_retrieval_fixture.ChineseRetrievalEffectRetestFixtureTests.test_rank_metrics_are_computed_from_document_order_and_fixed_grades) ... ok\ntest_replay_is_declared_separately_from_real_provider_evidence (test_chinese_retrieval_fixture.ChineseRetrievalEffectRetestFixtureTests.test_replay_is_declared_separately_from_real_provider_evidence) ... ok\ntest_source_corpus_drift_fails_without_damaging_copied_index (test_chinese_retrieval_fixture.ChineseRetrievalEffectRetestFixtureTests.test_source_corpus_drift_fails_without_damaging_copied_index) ... ok\ntest_three_arm_protocol_is_frozen_at_the_fixed_knowledge_base_commit (test_chinese_retrieval_fixture.ChineseRetrievalEffectRetestFixtureTests.test_three_arm_protocol_is_frozen_at_the_fixed_knowledge_base_commit) ... ok\ntest_baseline_corpus_and_recall_are_complete (test_chinese_retrieval_fixture.ChineseRetrievalFixtureTests.test_baseline_corpus_and_recall_are_complete) ... ok\ntest_baseline_records_all_mechanical_fragments (test_chinese_retrieval_fixture.ChineseRetrievalFixtureTests.test_baseline_records_all_mechanical_fragments) ... ok\ntest_frozen_protocol_shape (test_chinese_retrieval_fixture.ChineseRetrievalFixtureTests.test_frozen_protocol_shape) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 0.590s\n\nOK\n",
+      "exit_status": 0
+    },
+    {
+      "id": "independent-recompute",
+      "command": "E:\\knowledge_builder\\self-workspace\\worktrees\\qmd-fixed-three-arm-benchmark\\prototypes\\ckb-semantic-vector-benchmark\\.venv\\Scripts\\python.exe -X utf8 E:\\knowledge_builder\\self-workspace\\worktrees\\qmd-fixed-three-arm-benchmark\\prototypes\\ckb-semantic-vector-benchmark\\qmd_recompute.py --protocol E:\\knowledge_builder\\self-workspace\\worktrees\\qmd-fixed-three-arm-benchmark\\tests\\fixtures\\qmd-fixed-three-arm\\protocol.json --raw E:\\knowledge_builder\\self-workspace\\worktrees\\qmd-fixed-three-arm-benchmark\\references\\benchmarks\\qmd-fixed-three-arm\\raw-results.json --reported E:\\knowledge_builder\\self-workspace\\worktrees\\qmd-fixed-three-arm-benchmark\\references\\benchmarks\\qmd-fixed-three-arm\\report.json --output C:\\Users\\19739\\Documents\\Codex\\2026-09-05\\qmd\\work\\recomputed-from-committed.json",
+      "literal_output": "{\n  \"schema_version\": 1,\n  \"status\": \"passed\",\n  \"checks\": {\n    \"raw_row_count_exact\": true,\n    \"all_aggregate_fields_exact\": true,\n    \"question_ids_exact\": true,\n    \"arm_ids_exact\": true,\n    \"one_cold_five_hot_per_arm_question\": true\n  },\n  \"comparisons\": {\n    \"sqlite-current\": {\n      \"exact\": true,\n      \"recomputed\": {\n        \"questions\": 12,\n        \"runs\": 72,\n        \"recall_at_8\": 0.75,\n        \"mrr_at_8\": 0.569444444,\n        \"ndcg_at_8\": 0.616065772,\n        \"first_pack_estimated_tokens\": 605.5,\n        \"cold_latency_ms_p50\": 3136.3908,\n        \"cold_latency_ms_p95\": 10564.24788,\n        \"hot_latency_ms_p50\": 429.3082,\n        \"hot_latency_ms_p95\": 2169.216785,\n        \"worker_process_starts\": 12,\n        \"peak_rss_bytes\": 106786816,\n        \"peak_extra_child_processes\": 3,\n        \"deterministic_question_rate\": 1\n      },\n      \"reported\": {\n        \"questions\": 12,\n        \"runs\": 72,\n        \"recall_at_8\": 0.75,\n        \"mrr_at_8\": 0.569444444,\n        \"ndcg_at_8\": 0.616065772,\n        \"first_pack_estimated_tokens\": 605.5,\n        \"cold_latency_ms_p50\": 3136.3908,\n        \"cold_latency_ms_p95\": 10564.24788,\n        \"hot_latency_ms_p50\": 429.3082,\n        \"hot_latency_ms_p95\": 2169.216785,\n        \"worker_process_starts\": 12,\n        \"peak_rss_bytes\": 106786816,\n        \"peak_extra_child_processes\": 3,\n        \"deterministic_question_rate\": 1\n      }\n    },\n    \"semantic-vector\": {\n      \"exact\": true,\n      \"recomputed\": {\n        \"questions\": 12,\n        \"runs\": 72,\n        \"recall_at_8\": 0.583333333,\n        \"mrr_at_8\": 0.221527778,\n        \"ndcg_at_8\": 0.307883379,\n        \"first_pack_estimated_tokens\": 644.5,\n        \"cold_latency_ms_p50\": 1425.84785,\n        \"cold_latency_ms_p95\": 1959.237745,\n        \"hot_latency_ms_p50\": 13.8342,\n        \"hot_latency_ms_p95\": 17.320725,\n        \"worker_process_starts\": 12,\n        \"peak_rss_bytes\": 223051776,\n        \"peak_extra_child_processes\": 1,\n        \"deterministic_question_rate\": 1\n      },\n      \"reported\": {\n        \"questions\": 12,\n        \"runs\": 72,\n        \"recall_at_8\": 0.583333333,\n        \"mrr_at_8\": 0.221527778,\n        \"ndcg_at_8\": 0.307883379,\n        \"first_pack_estimated_tokens\": 644.5,\n        \"cold_latency_ms_p50\": 1425.84785,\n        \"cold_latency_ms_p95\": 1959.237745,\n        \"hot_latency_ms_p50\": 13.8342,\n        \"hot_latency_ms_p95\": 17.320725,\n        \"worker_process_starts\": 12,\n        \"peak_rss_bytes\": 223051776,\n        \"peak_extra_child_processes\": 1,\n        \"deterministic_question_rate\": 1\n      }\n    },\n    \"qmd-vsearch\": {\n      \"exact\": true,\n      \"recomputed\": {\n        \"questions\": 12,\n        \"runs\": 72,\n        \"recall_at_8\": 1.0,\n        \"mrr_at_8\": 0.875,\n        \"ndcg_at_8\": 0.907732438,\n        \"first_pack_estimated_tokens\": 560.5,\n        \"cold_latency_ms_p50\": 15924.3999,\n        \"cold_latency_ms_p95\": 24178.11326,\n        \"hot_latency_ms_p50\": 638.39625,\n        \"hot_latency_ms_p95\": 2421.31927,\n        \"worker_process_starts\": 12,\n        \"peak_rss_bytes\": 795459584,\n        \"peak_extra_child_processes\": 1,\n        \"deterministic_question_rate\": 1\n      },\n      \"reported\": {\n        \"questions\": 12,\n        \"runs\": 72,\n        \"recall_at_8\": 1.0,\n        \"mrr_at_8\": 0.875,\n        \"ndcg_at_8\": 0.907732438,\n        \"first_pack_estimated_tokens\": 560.5,\n        \"cold_latency_ms_p50\": 15924.3999,\n        \"cold_latency_ms_p95\": 24178.11326,\n        \"hot_latency_ms_p50\": 638.39625,\n        \"hot_latency_ms_p95\": 2421.31927,\n        \"worker_process_starts\": 12,\n        \"peak_rss_bytes\": 795459584,\n        \"peak_extra_child_processes\": 1,\n        \"deterministic_question_rate\": 1\n      }\n    }\n  }\n}\n",
+      "exit_status": 0
+    },
+    {
+      "id": "git-diff-check",
+      "command": "git diff --check",
+      "literal_output": "",
+      "exit_status": 0
+    }
+  ],
+  "artifact_checks": {
+    "report_passed": true,
+    "all_report_checks_passed": true,
+    "raw_rows_216": true,
+    "recomputed_passed": true,
+    "recomputed_bytes_repeat": true,
+    "production_default_unchanged": true,
+    "source_machine_sha256_unchanged": true,
+    "source_legacy_sha256_unchanged": true,
+    "commands_exit_zero": true
+  },
+  "report_checks": {
+    "raw_row_count_exact": true,
+    "copied_sqlite_integrity": true,
+    "source_corpus_unchanged": true,
+    "copied_sqlite_unchanged": true,
+    "real_model_verified": true,
+    "qmd_runtime_and_model_verified": true,
+    "index_build_passed": true,
+    "qmd_index_build_passed": true,
+    "same_document_projection": true,
+    "index_size_accounting_exact": true,
+    "all_rankings_deterministic": true,
+    "same_budget_and_top_k": true,
+    "qmd_candidate_depth_exact": true,
+    "network_attempts_zero": true,
+    "index_build_within_limit": true,
+    "peak_rss_within_limit": true,
+    "index_bytes_within_limit": true,
+    "runtime_and_model_bytes_within_limit": true,
+    "extra_child_processes_within_limit": true,
+    "network_attempts_within_limit": true
+  },
+  "recompute_checks": {
+    "raw_row_count_exact": true,
+    "all_aggregate_fields_exact": true,
+    "question_ids_exact": true,
+    "arm_ids_exact": true,
+    "one_cold_five_hot_per_arm_question": true
+  },
+  "failure_samples": {
+    "missing-qmd.json": {
+      "status": "qmd-unavailable",
+      "effect_claim": "not-measured",
+      "error_type": "QmdUnavailable",
+      "error": "QMD package directory is missing: TARGET"
+    },
+    "qmd-output-drift.json": {
+      "status": "qmd-output-drift",
+      "effect_claim": "not-measured",
+      "error_type": "QmdOutputDrift",
+      "error": "QMD build output envelope drift"
+    },
+    "qmd-process-failure.json": {
+      "status": "qmd-execution-failed",
+      "effect_claim": "not-measured",
+      "error_type": "QmdExecutionFailed",
+      "error": "QMD build failed with exit 7: fixture QMD process failure\n"
+    }
+  },
+  "repeat_run_rankings_equal": {
+    "sqlite-current": true,
+    "semantic-vector": true,
+    "qmd-vsearch": true
+  },
+  "source_after_run": {
+    "machine_sha256": "7d67e4098b6f69c7315ac0acf4a8a76549a04dd91f34408f27dce8e2fd471632",
+    "agent_index_sha256": "c047b5917167c0fc462a9e85069bee7b69debc0ffe833c6accf1110a2e780806",
+    "unchanged": true
+  },
+  "delivery_roles": {
+    "modified_artifacts": [
+      "prototypes/ckb-semantic-vector-benchmark/qmd_benchmark.py",
+      "references/benchmarks/qmd-fixed-three-arm/report.json"
+    ],
+    "patch": "references/benchmarks/qmd-fixed-three-arm/changes.patch",
+    "verification": "references/benchmarks/qmd-fixed-three-arm/verification-record.json",
+    "rollback": "references/benchmarks/qmd-fixed-three-arm/rollback.ps1"
+  },
+  "patch_replay": {
+    "command": "git checkout fcad08af3dac7ecf341f2833c1bfc8f352131a3b; git apply --check changes.patch; git apply changes.patch; git add -A; git diff --cached --quiet 5ae4c81; python -m unittest discover -s tests -p test_ckb_qmd_three_arm_benchmark.py -v",
+    "exit_status": 0,
+    "literal_output": "PATCH_TREE_COMPARE_EXIT=0; Ran 10 tests; OK; PATCH_REPLAY=PASSED",
+    "tree_equals_commit": "5ae4c81"
+  },
+  "rollback_replay": {
+    "command": "powershell -File references/benchmarks/qmd-fixed-three-arm/rollback.ps1",
+    "exit_status": 0,
+    "literal_output": "ROLLBACK_VERIFIED=tree-equals-fcad08af3dac7ecf341f2833c1bfc8f352131a3b; ROLLBACK_REPLAY=PASSED",
+    "tree_equals_commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b"
+  }
+}

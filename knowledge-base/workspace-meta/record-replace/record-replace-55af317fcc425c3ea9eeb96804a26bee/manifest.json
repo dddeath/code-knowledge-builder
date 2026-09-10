@@ -1,0 +1,327 @@
+{
+  "schema_version": 1,
+  "operation_id": "record-replace-55af317fcc425c3ea9eeb96804a26bee",
+  "operation": "record-replace",
+  "status": "completed",
+  "output": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757",
+  "kind": "analysis",
+  "title": "Obsidian 解释流式过程与快速路径实施计划",
+  "created_at_utc": "2026-09-10T03:14:03Z",
+  "rollback_manifest": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-55af317fcc425c3ea9eeb96804a26bee\\manifest.json",
+  "rollback_argv": [
+    "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe",
+    "E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py",
+    "record-rollback",
+    "--out",
+    "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757",
+    "--manifest",
+    "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-55af317fcc425c3ea9eeb96804a26bee\\manifest.json"
+  ],
+  "rollback_command": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe' 'E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py' 'record-rollback' '--out' 'E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757' '--manifest' 'E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-55af317fcc425c3ea9eeb96804a26bee\\manifest.json'",
+  "roles": [
+    {
+      "name": "human-note",
+      "kind": "file",
+      "path": "human/analysis/Obsidian 解释流式过程与快速路径实施计划.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "b89f921df70a2de34d4ec1142c1831b86c5196567efab2ac2a8b209abeb12787",
+        "size": 8742,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-55af317fcc425c3ea9eeb96804a26bee\\backup\\files\\human\\analysis\\Obsidian 解释流式过程与快速路径实施计划.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "4f12a813a303b70f2b986efcc40f37068ada0a73d3476f1081f1fade5af9513a",
+        "size": 8831,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-55af317fcc425c3ea9eeb96804a26bee\\staging\\files\\human\\analysis\\Obsidian 解释流式过程与快速路径实施计划.md"
+      }
+    },
+    {
+      "name": "markdown-note",
+      "kind": "file",
+      "path": "markdown/analysis/Obsidian 解释流式过程与快速路径实施计划.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "b89f921df70a2de34d4ec1142c1831b86c5196567efab2ac2a8b209abeb12787",
+        "size": 8742,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-55af317fcc425c3ea9eeb96804a26bee\\backup\\files\\markdown\\analysis\\Obsidian 解释流式过程与快速路径实施计划.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "4f12a813a303b70f2b986efcc40f37068ada0a73d3476f1081f1fade5af9513a",
+        "size": 8831,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-55af317fcc425c3ea9eeb96804a26bee\\staging\\files\\markdown\\analysis\\Obsidian 解释流式过程与快速路径实施计划.md"
+      }
+    },
+    {
+      "name": "note-metadata",
+      "kind": "file",
+      "path": "workspace-meta/notes/Obsidian 解释流式过程与快速路径实施计划.json",
+      "baseline": {
+        "exists": true,
+        "sha256": "a243d5bd64ef3b446911cf7396094b5dfaf7214db53c137addb370f0eea590d2",
+        "size": 3136,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-55af317fcc425c3ea9eeb96804a26bee\\backup\\files\\workspace-meta\\notes\\Obsidian 解释流式过程与快速路径实施计划.json"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "9bd9f3711deb3bab4409396f4a9d3b4d504ec378f525a5bf0d9a7ee4772f966a",
+        "size": 3836,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-55af317fcc425c3ea9eeb96804a26bee\\staging\\files\\workspace-meta\\notes\\Obsidian 解释流式过程与快速路径实施计划.json"
+      }
+    },
+    {
+      "name": "human-records",
+      "kind": "file",
+      "path": "human/RECORDS.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "701fcc96911031ef8d26d4364e55fc73b9bb85dfe9a44ca9bbebb121fea336df",
+        "size": 25259,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-55af317fcc425c3ea9eeb96804a26bee\\backup\\files\\human\\RECORDS.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "701fcc96911031ef8d26d4364e55fc73b9bb85dfe9a44ca9bbebb121fea336df",
+        "size": 25259,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-55af317fcc425c3ea9eeb96804a26bee\\staging\\files\\human\\RECORDS.md"
+      }
+    },
+    {
+      "name": "markdown-records",
+      "kind": "file",
+      "path": "markdown/RECORDS.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "701fcc96911031ef8d26d4364e55fc73b9bb85dfe9a44ca9bbebb121fea336df",
+        "size": 25259,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-55af317fcc425c3ea9eeb96804a26bee\\backup\\files\\markdown\\RECORDS.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "701fcc96911031ef8d26d4364e55fc73b9bb85dfe9a44ca9bbebb121fea336df",
+        "size": 25259,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-55af317fcc425c3ea9eeb96804a26bee\\staging\\files\\markdown\\RECORDS.md"
+      }
+    },
+    {
+      "name": "work-record-index-audit",
+      "kind": "file",
+      "path": "workspace-meta/work-record-index-audit.json",
+      "baseline": {
+        "exists": true,
+        "sha256": "806c0655dfcaab421130c6a1993f935970d22448707b025ca62263195fc6f7fa",
+        "size": 217,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-55af317fcc425c3ea9eeb96804a26bee\\backup\\files\\workspace-meta\\work-record-index-audit.json"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "806c0655dfcaab421130c6a1993f935970d22448707b025ca62263195fc6f7fa",
+        "size": 217,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-55af317fcc425c3ea9eeb96804a26bee\\staging\\files\\workspace-meta\\work-record-index-audit.json"
+      }
+    },
+    {
+      "name": "agent-index-note",
+      "kind": "sqlite-logical",
+      "path": "agent-index.sqlite",
+      "selector": "Obsidian 解释流式过程与快速路径实施计划",
+      "baseline": {
+        "sha256": "1167e2c8984866c28abd7de1991669eaf24a30523dd1c4e0151332c410de42d5",
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-55af317fcc425c3ea9eeb96804a26bee\\backup\\agent-index-note.json"
+      },
+      "modified": {
+        "sha256": "12efd9fe824964d4158edb947c4e5c81dda039986b2591f7d6570d35d2a2245e",
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-55af317fcc425c3ea9eeb96804a26bee\\staging\\agent-index-note.json"
+      }
+    },
+    {
+      "name": "machine-knowledge-note",
+      "kind": "sqlite-logical",
+      "path": "machine/knowledge.sqlite",
+      "selector": "note:analysis:Obsidian 解释流式过程与快速路径实施计划",
+      "baseline": {
+        "sha256": "10b53239a31cd887cf1b9d06aa343f7df5b55eead0506051017436abf557814d",
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-55af317fcc425c3ea9eeb96804a26bee\\backup\\machine-knowledge-note.json"
+      },
+      "modified": {
+        "sha256": "b5f1d8004bf964dd44b0052ceb3afcdb9a200bcb66f85ac46a0b897bbd4fd5a0",
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-55af317fcc425c3ea9eeb96804a26bee\\staging\\machine-knowledge-note.json"
+      }
+    }
+  ],
+  "note_error_baseline": {
+    "errors": [
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/中文检索词项同索引补测.md",
+        "target": "state_machine 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/机器 Tag 导航隔离实验.md",
+        "target": "ingest 与 connect 的协作实现"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/机器 Tag 导航隔离实验.md",
+        "target": "state_machine 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/研究缺口对账与新增特性增强效果.md",
+        "target": "validate 与 canonical 的协作实现"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/研究缺口对账与新增特性增强效果.md",
+        "target": "ingest 与 connect 的协作实现"
+      }
+    ],
+    "unchanged_notes": {
+      "markdown/experiments/中文检索词项同索引补测.md": "203925c2b32c519c51a7fb32b7c30a4a3e3ce38f4a0faa61ff1dba2438a7d6ae",
+      "markdown/experiments/机器 Tag 导航隔离实验.md": "bcf71852690b72212ffce7a6905c8ad37e6da906f05cb4f25fbf082e68f03253",
+      "markdown/experiments/研究缺口对账与新增特性增强效果.md": "08852138919af5ff7718d30994210da8945279e896616606a146b52762bbb040"
+    }
+  },
+  "prepared_at_utc": "2026-09-10T03:14:05Z",
+  "record_id": "work-record-3306933799d151b7a7eb4bac9d4e6185",
+  "relative_note": "analysis/Obsidian 解释流式过程与快速路径实施计划.md",
+  "explicit_evidence_replacement": true,
+  "linked_pages": [
+    "audit_obsidian 与 prepare_vault 的协作实现",
+    "build_agent_index 与 _tokens 的协作实现",
+    "finish_session 与 _session_directory 的协作实现",
+    "build_machine_knowledge 与 estimated_tokens 的协作实现",
+    "module_name 与 estimated_tokens 的协作实现",
+    "record_note",
+    "audit_global 与 _replace_output_prefix 的协作实现",
+    "ensure_local_openers 与 SourceLinkRenderer 的协作实现"
+  ],
+  "body_sha256": "2e1125e90e6f4f114baeb5119d872f80b05e76762c90babd4bf801715ff7506e",
+  "candidate_audit": {
+    "status": "passed",
+    "note_errors": [],
+    "work_record_index": {
+      "status": "passed",
+      "record_count": 80,
+      "linked_record_count": 80,
+      "section_counts": {
+        "analysis": 24,
+        "changes": 40,
+        "pitfalls": 0,
+        "experiments": 9,
+        "sessions": 7
+      },
+      "errors": []
+    },
+    "verification_scope": "record-replacement",
+    "maintenance_verified": false,
+    "unresolved_baseline_diagnostics": [
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/中文检索词项同索引补测.md",
+        "target": "state_machine 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/机器 Tag 导航隔离实验.md",
+        "target": "ingest 与 connect 的协作实现"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/机器 Tag 导航隔离实验.md",
+        "target": "state_machine 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/研究缺口对账与新增特性增强效果.md",
+        "target": "validate 与 canonical 的协作实现"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/研究缺口对账与新增特性增强效果.md",
+        "target": "ingest 与 connect 的协作实现"
+      }
+    ]
+  },
+  "promotion_order": [
+    "human-note",
+    "markdown-note",
+    "note-metadata",
+    "human-records",
+    "markdown-records",
+    "work-record-index-audit",
+    "agent-index-note",
+    "machine-knowledge-note"
+  ],
+  "completed_at_utc": "2026-09-10T03:14:06Z",
+  "verification": {
+    "status": "passed",
+    "role_errors": [],
+    "note_errors": [],
+    "verification_scope": "record-replacement",
+    "maintenance_verified": false,
+    "unresolved_baseline_diagnostics": [
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/中文检索词项同索引补测.md",
+        "target": "state_machine 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/机器 Tag 导航隔离实验.md",
+        "target": "ingest 与 connect 的协作实现"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/机器 Tag 导航隔离实验.md",
+        "target": "state_machine 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/研究缺口对账与新增特性增强效果.md",
+        "target": "validate 与 canonical 的协作实现"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/研究缺口对账与新增特性增强效果.md",
+        "target": "ingest 与 connect 的协作实现"
+      }
+    ],
+    "work_record_index": {
+      "status": "passed",
+      "record_count": 80,
+      "linked_record_count": 80,
+      "section_counts": {
+        "analysis": 24,
+        "changes": 40,
+        "pitfalls": 0,
+        "experiments": 9,
+        "sessions": 7
+      },
+      "errors": []
+    },
+    "agent_index": {
+      "schema_version": 1,
+      "status": "passed",
+      "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\agent-index.sqlite",
+      "integrity": "ok",
+      "counts": {
+        "pages": 266,
+        "symbols": 2395,
+        "edges": 733,
+        "terms": 39955,
+        "notes": 80
+      },
+      "projection_format": "markdown",
+      "errors": []
+    }
+  },
+  "operation_journal": {
+    "status": "passed",
+    "event_id": "operation-e6fba817364956ddb1a66b53de778a1b",
+    "idempotent": false,
+    "journal": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\operations\\2026-09-10.jsonl"
+  }
+}

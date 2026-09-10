@@ -1,0 +1,458 @@
+{
+  "schema_version": 3,
+  "status": "passed",
+  "question": "工作记录 正文替换",
+  "profile": "fast",
+  "budget": 1800,
+  "estimated_tokens": 1765,
+  "terms": [
+    "工作记录",
+    "正文替换",
+    "作记录",
+    "工作记",
+    "文替换",
+    "正文替",
+    "作记",
+    "工作",
+    "文替",
+    "替换",
+    "正文",
+    "记录"
+  ],
+  "anchors": [],
+  "seed_entity_ids": [
+    "file-3d8ef221e5b857fcad3e1ad0d145240a",
+    "file-d19b488587b05cde994e72555b208eab",
+    "file-9b96ba14628856979dbf5abde3605a7e",
+    "file-ba74d551d01f51a3a22887ea63e75b27",
+    "file-c33bf8f550ff56ebb94186bc2244f547"
+  ],
+  "selected_entities": [
+    {
+      "entity_id": "file-3d8ef221e5b857fcad3e1ad0d145240a",
+      "name": "machine_knowledge.py",
+      "qualified_name": "scripts/ckb_core/machine_knowledge.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 1,
+      "end_line": 1995,
+      "human_page_title": "build_machine_knowledge 与 estimated_tokens 的协作实现",
+      "human_page_file": "pages/build_machine_knowledge 与 estimated_tokens 的协作实现.md",
+      "display_mode": "page",
+      "score": 75.12993795,
+      "score_breakdown": {
+        "entity-fts": 5.38978856,
+        "graph": 0.04927637,
+        "metadata": 42.0,
+        "section-fts": 3.69087303,
+        "term": 24.0
+      },
+      "reasons": [
+        "确定性词项 `作记`",
+        "确定性词项 `作记录`",
+        "确定性词项 `工作`",
+        "确定性词项 `工作记`",
+        "确定性词项 `工作记录`",
+        "确定性词项 `记录`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文含义"
+      ],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "file-d19b488587b05cde994e72555b208eab",
+      "name": "record_replace.py",
+      "qualified_name": "scripts/ckb_core/record_replace.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/record_replace.py",
+      "start_line": 1,
+      "end_line": 1225,
+      "human_page_title": "rollback_replacement 与 RecordReplaceLockError 的协作实现",
+      "human_page_file": "pages/rollback_replacement 与 RecordReplaceLockError 的协作实现.md",
+      "display_mode": "page",
+      "score": 74.80961257,
+      "score_breakdown": {
+        "entity-fts": 5.22489557,
+        "graph": 0.02757998,
+        "metadata": 42.0,
+        "section-fts": 3.55713702,
+        "term": 24.0
+      },
+      "reasons": [
+        "确定性词项 `作记`",
+        "确定性词项 `作记录`",
+        "确定性词项 `工作`",
+        "确定性词项 `工作记`",
+        "确定性词项 `替换`",
+        "确定性词项 `记录`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "file-9b96ba14628856979dbf5abde3605a7e",
+      "name": "work_record_index.py",
+      "qualified_name": "scripts/ckb_core/work_record_index.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/work_record_index.py",
+      "start_line": 1,
+      "end_line": 242,
+      "human_page_title": "audit_work_record_index 与 _contains_chinese 的协作实现",
+      "human_page_file": "pages/audit_work_record_index 与 _contains_chinese 的协作实现.md",
+      "display_mode": "page",
+      "score": 71.22492816,
+      "score_breakdown": {
+        "entity-fts": 5.52136221,
+        "graph": 0.06735306,
+        "metadata": 42.0,
+        "section-fts": 3.63621289,
+        "term": 20.0
+      },
+      "reasons": [
+        "确定性词项 `作记`",
+        "确定性词项 `作记录`",
+        "确定性词项 `工作`",
+        "确定性词项 `工作记`",
+        "确定性词项 `记录`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文含义"
+      ],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "file-ba74d551d01f51a3a22887ea63e75b27",
+      "name": "research_gaps.py",
+      "qualified_name": "scripts/ckb_core/research_gaps.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/research_gaps.py",
+      "start_line": 1,
+      "end_line": 274,
+      "human_page_title": "create_gap 与 _root 的协作实现",
+      "human_page_file": "pages/create_gap 与 _root 的协作实现.md",
+      "display_mode": "page",
+      "score": 71.05957943,
+      "score_breakdown": {
+        "entity-fts": 5.41722467,
+        "graph": 0.03045749,
+        "metadata": 42.0,
+        "section-fts": 3.61189727,
+        "term": 20.0
+      },
+      "reasons": [
+        "确定性词项 `作记`",
+        "确定性词项 `作记录`",
+        "确定性词项 `工作`",
+        "确定性词项 `工作记`",
+        "确定性词项 `记录`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "file-c33bf8f550ff56ebb94186bc2244f547",
+      "name": "ckb.py",
+      "qualified_name": "scripts/ckb.py",
+      "kind": "file",
+      "source_path": "scripts/ckb.py",
+      "start_line": 1,
+      "end_line": 1850,
+      "human_page_title": "keyword_provider_config 与 keyword_fallback_options 的协作实现",
+      "human_page_file": "pages/keyword_provider_config 与 keyword_fallback_options 的协作实现.md",
+      "display_mode": "page",
+      "score": 63.72561114,
+      "score_breakdown": {
+        "entity-fts": 16.16413288,
+        "graph": 0.07874187,
+        "metadata": 25.0,
+        "section-fts": 10.48273639,
+        "term": 12.0
+      },
+      "reasons": [
+        "确定性词项 `作记`",
+        "确定性词项 `作记录`",
+        "确定性词项 `记录`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文职责"
+      ],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "ent-9286f2809c235f02967edd14584cdc58",
+      "name": "record_note",
+      "qualified_name": "record_note",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/workspace_notes.py",
+      "start_line": 197,
+      "end_line": 273,
+      "human_page_title": "record_note",
+      "human_page_file": "pages/record_note.md",
+      "display_mode": "page",
+      "score": 62.31294359,
+      "score_breakdown": {
+        "entity-fts": 4.80503537,
+        "graph": 0.002553,
+        "metadata": 22.0,
+        "section-fts": 3.50535522,
+        "term": 32.0
+      },
+      "reasons": [
+        "确定性词项 `作记`",
+        "确定性词项 `作记录`",
+        "确定性词项 `工作`",
+        "确定性词项 `工作记`",
+        "确定性词项 `工作记录`",
+        "确定性词项 `替换`",
+        "确定性词项 `正文`",
+        "确定性词项 `记录`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "file-f2d252a1d4fb5174bf4e83eb403955d0",
+      "name": "freshness.py",
+      "qualified_name": "scripts/ckb_core/freshness.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/freshness.py",
+      "start_line": 1,
+      "end_line": 1037,
+      "human_page_title": "check_fact_freshness 与 _root 的协作实现",
+      "human_page_file": "pages/check_fact_freshness 与 _root 的协作实现.md",
+      "display_mode": "page",
+      "score": 62.1892921,
+      "score_breakdown": {
+        "entity-fts": 14.99720907,
+        "metadata": 25.0,
+        "section-fts": 10.19208303,
+        "term": 12.0
+      },
+      "reasons": [
+        "确定性词项 `作记`",
+        "确定性词项 `作记录`",
+        "确定性词项 `记录`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "ent-fb7ca50de2d45e8b8920df9286fab5b5",
+      "name": "_wiki_document",
+      "qualified_name": "_wiki_document",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2373,
+      "end_line": 2396,
+      "human_page_title": "audit_global 与 _replace_output_prefix 的协作实现",
+      "human_page_file": "pages/audit_global 与 _replace_output_prefix 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 59.68233772,
+      "score_breakdown": {
+        "entity-fts": 4.77269109,
+        "metadata": 22.0,
+        "section-fts": 8.90964664,
+        "term": 24.0
+      },
+      "reasons": [
+        "确定性词项 `作记`",
+        "确定性词项 `作记录`",
+        "确定性词项 `工作`",
+        "确定性词项 `工作记`",
+        "确定性词项 `工作记录`",
+        "确定性词项 `记录`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    }
+  ],
+  "related_documents": [
+    {
+      "document_id": "note:changes:增加受控的工作记录正文替换与回滚",
+      "title": "增加受控的工作记录正文替换与回滚",
+      "kind": "change",
+      "status": "agent-reviewed",
+      "human_file": "changes/增加受控的工作记录正文替换与回滚.md",
+      "source_path": null,
+      "start_line": null,
+      "end_line": null
+    },
+    {
+      "document_id": "gap:gap-e1a88b6c3b0e57cca58e6bc38daa47b8",
+      "title": "研究缺口：现有 `record` 更新已有 change 页面时只提供追加语义，会保留已经被人类否定的旧正文并增加“后续补充”。五个 change 页面需要使用受控替换语",
+      "kind": "gap",
+      "status": "pending-evidence",
+      "human_file": null,
+      "source_path": null,
+      "start_line": null,
+      "end_line": null
+    },
+    {
+      "document_id": "note:experiments:研究缺口对账与新增特性增强效果",
+      "title": "研究缺口对账与新增特性增强效果",
+      "kind": "experiment",
+      "status": "agent-reviewed",
+      "human_file": "experiments/研究缺口对账与新增特性增强效果.md",
+      "source_path": null,
+      "start_line": null,
+      "end_line": null
+    },
+    {
+      "document_id": "note:changes:稳定知识库恢复与当前 HEAD 同步",
+      "title": "稳定知识库恢复与当前 HEAD 同步",
+      "kind": "change",
+      "human_file": "changes/稳定知识库恢复与当前 HEAD 同步.md"
+    },
+    {
+      "document_id": "note:changes:发布 README 人类入口并迁移既有 Change 页",
+      "title": "发布 README 人类入口并迁移既有 Change 页",
+      "kind": "change",
+      "human_file": "changes/发布 README 人类入口并迁移既有 Change 页.md"
+    },
+    {
+      "document_id": "note:sessions:人类可读性样例确认与第一开发波次派发",
+      "title": "人类可读性样例确认与第一开发波次派发",
+      "kind": "session",
+      "human_file": "sessions/人类可读性样例确认与第一开发波次派发.md"
+    },
+    {
+      "document_id": "note:analysis:Code Knowledge Builder 项目说明书结构与验收样例",
+      "title": "Code Knowledge Builder 项目说明书结构与验收样例",
+      "kind": "analysis",
+      "human_file": "analysis/Code Knowledge Builder 项目说明书结构与验收样例.md"
+    },
+    {
+      "document_id": "note:analysis:CKB 人类知识库投影生成流程",
+      "title": "CKB 人类知识库投影生成流程",
+      "kind": "analysis",
+      "human_file": "analysis/CKB 人类知识库投影生成流程.md"
+    }
+  ],
+  "open_feedback": 0,
+  "retrieval_stats": {
+    "scored_entities": 449,
+    "overscan_limit": 32,
+    "materialized_candidates": 32,
+    "selected_entities": 8,
+    "budgeted_entity_limit": 8,
+    "selected_source_paths": 8,
+    "batched_entity_queries": 2,
+    "source_link_cache_entries": 13,
+    "static_cache_hit": true
+  },
+  "pack": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260910-034351-154993-01.md",
+  "record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260910-034351-154993-01.json",
+  "retrieval": "sqlite-exact-fts5-sections-deterministic-weighted-graph",
+  "deterministic": true,
+  "source_grounded": true,
+  "grep_fallback_required": false,
+  "warnings": {
+    "status": "warning",
+    "warning_count": 1,
+    "examples": [
+      {
+        "kind": "compile-commands-unavailable",
+        "language": "cpp",
+        "file": "compile_commands.json",
+        "range": null,
+        "diagnostic_categories": [],
+        "diagnostic_count": 0,
+        "coverage": {},
+        "precision": "bounded-approximate",
+        "build_evidence": {
+          "paths": [
+            "tests/fixtures/cpp-parser-scons/scons-project/SConstruct",
+            "tests/fixtures/cpp-parser-scons/scons-project/src/SConscript"
+          ],
+          "resolution": "build-config-unique",
+          "selected": "c++20"
+        },
+        "affected_entity_count": 0,
+        "absence_inference_allowed": false
+      }
+    ],
+    "omitted_warning_count": 0,
+    "absence_inference_allowed": false,
+    "message_zh": "警告范围或有界近似语义结果不完整，不可据此推断未检出事实在源码中不存在。"
+  },
+  "fact_freshness": {
+    "schema_version": 1,
+    "state": "current",
+    "stable_state": "current",
+    "observed_at_utc": "2026-09-10T03:43:51Z",
+    "trigger": "first-query",
+    "bound_commit": "962814483bea0a9611a7d73eccf2781cee4f7b6a",
+    "current_head": "962814483bea0a9611a7d73eccf2781cee4f7b6a",
+    "branch": "codex/reference-ingest-v1",
+    "dirty": {
+      "count": 0,
+      "paths": [],
+      "truncated": false
+    },
+    "change_summary": {
+      "comparison": "bound-commit-to-current-head",
+      "changed": 0,
+      "changed_paths": [],
+      "counts": {},
+      "truncated": false
+    },
+    "migration": null,
+    "overlay": null,
+    "cache_hit": true,
+    "stable_facts_current": true,
+    "next_action": {
+      "action": "reuse-stable-facts",
+      "rebuild": false
+    },
+    "error": null,
+    "state_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\freshness\\state.json"
+  },
+  "current_source_grounded": true
+}

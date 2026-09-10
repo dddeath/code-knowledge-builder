@@ -1,0 +1,560 @@
+diff --git a/scripts/ckb_core/gitrepo.py b/scripts/ckb_core/gitrepo.py
+index 1ff7557..22c09d4 100644
+--- a/scripts/ckb_core/gitrepo.py
++++ b/scripts/ckb_core/gitrepo.py
+@@ -302,7 +302,12 @@ def relocate_source_snapshot(repository: dict[str, Any], snapshot: dict[str, Any
+     if (admin / "HEAD").read_text().startswith("ref:"):
+         raise StaleSourceError(f"fixed source snapshot is not detached: {root}")
+     if not pointer.is_absolute() and (root / pointer).resolve() != admin:
+-        gitfile.write_text("gitdir: " + os.path.relpath(admin, root).replace("\\", "/") + "\n", encoding="utf-8")
++        # Windows hidden gitfiles reject truncating creation (open "w").
++        # Update the existing file without replacing it or changing attributes.
++        with gitfile.open("r+", encoding="utf-8", newline="") as stream:
++            stream.seek(0)
++            stream.write("gitdir: " + os.path.relpath(admin, root).replace("\\", "/") + "\n")
++            stream.truncate()
+     backlink.write_text(str(gitfile.resolve()) + "\n", encoding="utf-8")
+     if not (admin / "locked").is_file():
+         git(repo, "worktree", "lock", "--reason", "CKB fixed source snapshot", str(root))
+diff --git a/scripts/ckb_core/knowledge_batch_migration.py b/scripts/ckb_core/knowledge_batch_migration.py
+index f3f3c65..aa51f00 100644
+--- a/scripts/ckb_core/knowledge_batch_migration.py
++++ b/scripts/ckb_core/knowledge_batch_migration.py
+@@ -34,6 +34,7 @@ from .migration import (
+     _preserve_mutable_layers,
+     _replace_review_packs,
+     audit_migration,
++    authoring_package_inventory,
+     migrate_output,
+ )
+ from .pipeline import build_chunk, finalize, initialize, status as pipeline_status
+@@ -1161,6 +1162,7 @@ def _cold_build(project: dict[str, Any]) -> dict[str, Any]:
+     previous_output = Path(project["output"]).resolve()
+     repository = Path(project["repository"]).resolve()
+     staging = Path(project["staging"]).resolve()
++    packages = authoring_package_inventory(previous_output)
+     selectors = project["scope_selectors"]
+     initialize(
+         repository,
+@@ -1176,7 +1178,7 @@ def _cold_build(project: dict[str, Any]) -> dict[str, Any]:
+         allow_dotnet_restore=bool(selectors.get("allow_dotnet_restore", False)),
+         page_config_path=previous_output / "page-config.json",
+     )
+-    preserved = _preserve_mutable_layers(previous_output, staging)
++    preserved = _preserve_mutable_layers(previous_output, staging, authoring_packages=packages)
+     state = json_load(staging / "state.json")
+     for batch in state["parse_batches"]:
+         build_chunk(staging, batch["id"], "all")
+diff --git a/scripts/ckb_core/migration.py b/scripts/ckb_core/migration.py
+index 1f6c47a..09b07a6 100644
+--- a/scripts/ckb_core/migration.py
++++ b/scripts/ckb_core/migration.py
+@@ -2,6 +2,7 @@
+ 
+ from __future__ import annotations
+ 
++import hashlib
+ import json
+ import re
+ from pathlib import Path
+@@ -95,7 +96,11 @@ def _add_mutable_baseline(output: Path, record: dict[str, Any]) -> dict[str, Any
+     """
+     relative_target = str(record["relative_target"])
+     live_target = _mutable_target(output, relative_target)
+-    baseline_relative = f"{MUTABLE_BASELINE_DIRECTORY}/{relative_target}"
++    baseline_relative = (
++        f"{MUTABLE_BASELINE_DIRECTORY}/authoring/{sha256_file(live_target)}"
++        if record.get("kind") == "authoring-package-file"
++        else f"{MUTABLE_BASELINE_DIRECTORY}/{relative_target}"
++    )
+     baseline = _mutable_target(output, baseline_relative)
+     baseline.parent.mkdir(parents=True, exist_ok=True)
+     shutil.copy2(live_target, baseline)
+@@ -182,7 +187,72 @@ def _referenced_machine_evidence(previous_output: Path) -> list[Path]:
+     return sorted(required)
+ 
+ 
+-def _preserve_mutable_layers(previous_output: Path, output: Path) -> list[dict[str, Any]]:
++def authoring_package_inventory(previous_output: Path) -> list[dict[str, Any]]:
++    """Validate retained V3 records and enumerate only their package dependencies."""
++    from .workspace_notes import note_contract_metadata, read_note_body
++
++    packages: list[dict[str, Any]] = []
++    for note_path in sorted((previous_output / "workspace-meta/notes").glob("*.json")):
++        metadata = json_load(note_path)
++        contract = metadata.get("human_output_contract") or {}
++        if not (metadata.get("authoring_package") or metadata.get("section_evidence")
++                or contract.get("v3_validated")):
++            continue
++        try:
++            manifest_path = Path(metadata["authoring_package"]).resolve()
++            if manifest_path.name != "manifest.json" or not manifest_path.is_file():
++                raise CkbError("V3 authoring manifest is missing or not manifest.json")
++            body_path = manifest_path.parent / "body.md"
++            body = read_note_body(body_path)
++            if hashlib.sha256((body.rstrip() + "\n").encode("utf-8")).hexdigest() != metadata.get("body_sha256"):
++                raise CkbError("V3 record body digest differs from its authoring package")
++            verified = note_contract_metadata(body_path, metadata["kind"], body)
++            if not verified["human_output_contract"]["v3_validated"]:
++                raise CkbError("retained V3 record has no validated authoring package")
++            for field in ("validation_context", "section_evidence", "section_evidence_sha256"):
++                if metadata.get(field) != verified[field]:
++                    raise CkbError(f"V3 record and authoring package metadata drift: {field}")
++            files: dict[str, dict[str, Any]] = {}
++
++            def add(path: Path, role: str) -> None:
++                if not path.resolve().is_relative_to(manifest_path.parent):
++                    raise CkbError(f"V3 authoring file escapes its package: {path}")
++                relative = path.relative_to(manifest_path.parent).as_posix()
++                if relative not in files:
++                    files[relative] = {"source": str(path), "relative_path": relative,
++                                       "sha256": sha256_file(path), "roles": []}
++                if role not in files[relative]["roles"]:
++                    files[relative]["roles"].append(role)
++
++            add(manifest_path, "manifest")
++            add(body_path, "body")
++            for section in verified["section_evidence"].get("sections", []):
++                for field in ("source_refs", "machine_evidence_refs"):
++                    for ref in section.get(field, []):
++                        if ref.get("target_basis") == "uri":
++                            continue
++                        # The shared validator already checked containment and the declared digest.
++                        add((manifest_path.parent / ref["target"]).resolve(), field)
++            digest = files["manifest.json"]["sha256"]
++            if (manifest_path.parent.parent == (previous_output / "machine/authoring").resolve()
++                    and manifest_path.parent.name != digest[:20]):
++                raise CkbError("V3 archived authoring manifest digest drift")
++            packages.append({
++                "note_relative": note_path.relative_to(previous_output).as_posix(),
++                "source_manifest": str(manifest_path),
++                "archive_relative": f"machine/authoring/{digest[:20]}",
++                "files": [files[key] for key in sorted(files)],
++            })
++        except (CkbError, OSError, KeyError, TypeError, ValueError) as exc:
++            raise CkbError(f"V3 authoring package preflight failed for {note_path.name}: {exc}") from exc
++    return packages
++
++
++def _preserve_mutable_layers(
++    previous_output: Path, output: Path, *, authoring_packages: list[dict[str, Any]] | None = None,
++) -> list[dict[str, Any]]:
++    packages = authoring_package_inventory(previous_output) if authoring_packages is None else authoring_packages
++    package_sources = {item["source"] for package in packages for item in package["files"]}
+     evidence = _referenced_machine_evidence(previous_output)
+     records: list[dict[str, Any]] = []
+     for root_name in ("human", "markdown"):
+@@ -209,7 +279,7 @@ def _preserve_mutable_layers(previous_output: Path, output: Path) -> list[dict[s
+             relative = source.relative_to(source_root)
+             target = output / "workspace-meta" / relative
+             record = _copy_file(source, target)
+-            record["kind"] = "workspace-mutable-file"
++            record["kind"] = "authoring-package-file" if record["source"] in package_sources else "workspace-mutable-file"
+             record["relative_target"] = target.relative_to(output).as_posix()
+             records.append(_add_mutable_baseline(output, record))
+     # Reviewed external references own archived raw bytes, manifests and Agent
+@@ -263,17 +333,47 @@ def _preserve_mutable_layers(previous_output: Path, output: Path) -> list[dict[s
+         record = _copy_file(source, target)
+         record.update(kind="referenced-machine-evidence", relative_target=relative)
+         records.append(_add_mutable_baseline(output, record))
++    # Archive selected package files byte-for-byte; neither the signed manifest
++    # nor its context/evidence is a mutable output-path document.
++    archived: set[str] = set()
++    for package in packages:
++        for item in package["files"]:
++            source = Path(item["source"])
++            if not source.is_file() or sha256_file(source) != item["sha256"]:
++                raise CkbError(f"V3 authoring package changed during migration: {source}")
++            relative = package["archive_relative"] + "/" + item["relative_path"]
++            target = _mutable_target(output, relative)
++            if target.exists() and sha256_file(target) != item["sha256"]:
++                raise CkbError(f"V3 authoring archive conflicts with target: {relative}")
++            if relative in archived:
++                continue
++            record = _copy_file(source, target)
++            record.update(kind="authoring-package-file", relative_target=relative,
++                          roles=item["roles"], package_manifest=package["archive_relative"] + "/manifest.json")
++            records.append(_add_mutable_baseline(output, record))
++            archived.add(relative)
++    # Existing OUTPUT-owned copies remain frozen too, even if the note now
++    # points to the selected archive instead of its old workspace directory.
++    for record in records:
++        if record["source"] in package_sources:
++            record["kind"] = "authoring-package-file"
+     # Rebase live metadata only. Baselines, archived originals and evidence keep
+     # their original bytes; historical prose is not a serialized path.
+     for record in records:
+         relative = str(record["relative_target"])
+-        if not relative.endswith(".json") or not relative.startswith("workspace-meta/"):
++        if (record["kind"] == "authoring-package-file" or not relative.endswith(".json")
++                or not relative.startswith("workspace-meta/")):
+             continue
+         target = output / relative
+         document = json_load(target)
+         updated = _replace_output_prefix(document, str(previous_output), str(output))
+         if updated != document:
+             json_write(target, updated)
++    for package in packages:
++        note_path = output / package["note_relative"]
++        metadata = json_load(note_path)
++        metadata["authoring_package"] = str((output / package["archive_relative"] / "manifest.json").resolve())
++        json_write(note_path, metadata)
+     if (output / "references/manifests").is_dir():
+         from .reference_documents import relocate_reference_paths
+ 
+@@ -363,6 +463,7 @@ def migrate_output(previous_output: Path, repository: Path, output: Path, format
+     old_graph = json_load(previous_output / "graph.json")
+     if old_state.get("status") != "complete" or json_load(previous_output / "audit" / "global.json").get("status") != "passed":
+         raise CkbError(f"migration origin is not globally audited: {previous_output}")
++    packages = authoring_package_inventory(previous_output)
+     _referenced_machine_evidence(previous_output)
+     selectors = old_scope.get("selectors", {})
+     initialize(
+@@ -380,7 +481,7 @@ def migrate_output(previous_output: Path, repository: Path, output: Path, format
+         page_config_path=previous_output / "page-config.json",
+         reuse_from_output=previous_output,
+     )
+-    preserved = _preserve_mutable_layers(previous_output, output)
++    preserved = _preserve_mutable_layers(previous_output, output, authoring_packages=packages)
+     state = json_load(output / "state.json")
+     catalog = json_load(output / "catalog.json")
+     reuse_paths = set((catalog.get("migration_reuse") or {}).get("reused_file_paths", []))
+@@ -519,7 +620,7 @@ def audit_migration(output: Path, *, require_complete_reviews: bool = True) -> d
+         if not target.is_file():
+             mutable_errors.append({"path": relative_target, "reason": "live-mutable-file-missing"})
+             continue
+-        if item.get("kind") == "referenced-machine-evidence" and sha256_file(target) != expected_baseline:
++        if item.get("kind") in {"referenced-machine-evidence", "authoring-package-file"} and sha256_file(target) != expected_baseline:
+             mutable_errors.append({"path": relative_target, "reason": "referenced-machine-evidence-changed"})
+             continue
+         try:
+diff --git a/scripts/ckb_core/pipeline.py b/scripts/ckb_core/pipeline.py
+index 6a759de..3bc96e8 100644
+--- a/scripts/ckb_core/pipeline.py
++++ b/scripts/ckb_core/pipeline.py
+@@ -104,7 +104,8 @@ def _replace_output_prefix(value: Any, old_output: str, new_output: str) -> Any:
+ 
+     if isinstance(value, dict):
+         return {
+-            key: item if key.endswith("_zh") or key in {"source_text", "text", "content", "evidence_note", "question", "origin"}
++            key: item if key.endswith("_zh") or key in {"source_text", "text", "content", "evidence_note", "question", "origin",
++                                                       "validation_context", "section_evidence"}
+             else _replace_output_prefix(item, old_output, new_output)
+             for key, item in value.items()
+         }
+@@ -155,7 +156,7 @@ def _relocate_completed_output(output: Path, state: dict[str, Any]) -> dict[str,
+     plan_path = output / "migration/plan.json"
+     immutable_evidence = {
+         item["relative_target"] for item in json_load(plan_path).get("mutable_files", [])
+-        if item.get("kind") == "referenced-machine-evidence"
++        if item.get("kind") in {"referenced-machine-evidence", "authoring-package-file"}
+     } if plan_path.is_file() else set()
+     candidates = list(output.rglob("*.json"))
+     candidates.extend(output / name for name in (".complete", ".machine.complete", ".human.complete") if (output / name).is_file())
+diff --git a/tests/test_knowledge_batch_migration.py b/tests/test_knowledge_batch_migration.py
+index 3a4249a..d5f5414 100644
+--- a/tests/test_knowledge_batch_migration.py
++++ b/tests/test_knowledge_batch_migration.py
+@@ -341,6 +341,62 @@ class KnowledgeBatchWorkflowTests(unittest.TestCase):
+         assert_registration(self.output)
+         assert_registration(Path(rolled["projects"][0]["modified_output"]))
+ 
++    def test_v3_authoring_archives_survive_two_batch_cutovers_and_exact_rollback(self):
++        from ckb_core.common import json_load, json_write
++        from ckb_core.knowledge_batch_migration import (
++            apply_knowledge_batch_plan, create_knowledge_batch_plan,
++            cutover_knowledge_batch_state, rollback_knowledge_batch_state,
++        )
++        from ckb_core.migration import migrate_output, authoring_package_inventory
++        from ckb_core.pipeline import finalize
++        from ckb_core.llm_wiki_capabilities import maintenance_check
++        from ckb_core.scope_extension import _tree_manifest
++        from test_scope_extension import review_all
++        from test_recruitment_migration_provenance import create_v3_record
++
++        package = self.root / "external-author/package"
++        create_v3_record(self, self.output, package)
++        original_note = (self.output / "human/changes/作者包迁移记录.md").read_bytes()
++        inventory = authoring_package_inventory(self.output)
++        self.assertEqual(len(inventory), 1)
++        self.assertEqual({role for item in inventory[0]["files"] for role in item["roles"]},
++                         {"manifest", "body", "machine_evidence_refs"})
++        bootstrap = self.root / "v3-origin"
++        migrate_output(self.output, self.repo, bootstrap)
++        review_all(bootstrap)
++        finalize(bootstrap)
++        shutil.rmtree(package.parent)
++        (self.root / "local-evidence.json").unlink()
++        self.output = bootstrap
++        self.assertEqual(maintenance_check(self.output)["status"], "passed")
++        original_tree = _tree_manifest(self.output)
++        states = []
++        for number in (1, 2):
++            manifest_path = self.root / f"v3-manifest-{number}.json"
++            json_write(manifest_path, {
++                "schema_version": 1, "batch_id": f"v3-batch-{number}",
++                "allowed_roots": [str(self.root), str(ROOT)],
++                "projects": [self._project_document("v3", self.output, self.repo, self.staging)],
++            })
++            plan_path, state_path = self.root / f"v3-plan-{number}.json", self.root / f"v3-state-{number}.json"
++            planned = create_knowledge_batch_plan(manifest_path, plan_path)
++            self.assertEqual(planned["status"], "ready", planned)
++            applied = apply_knowledge_batch_plan(plan_path, state_path)
++            self.assertEqual(applied["status"], "ready", applied)
++            cutover = cutover_knowledge_batch_state(state_path)
++            self.assertEqual(cutover["status"], "passed", cutover)
++            self.assertEqual(json_load(self.output / "workspace-meta/maintenance/latest.json")["status"], "passed")
++            authoring_package_inventory(self.output)  # Reopens every required file and validates V3.
++            self.assertEqual((self.output / "human/changes/作者包迁移记录.md").read_bytes(), original_note)
++            states.append(state_path)
++        for state_path in reversed(states):
++            result = rollback_knowledge_batch_state(state_path)
++            self.assertEqual(result["status"], "passed", result)
++            authoring_package_inventory(self.output)
++        self.assertEqual(_tree_manifest(self.output), original_tree)
++        self.assertEqual(maintenance_check(self.output)["status"], "passed")
++        self.assertFalse(package.exists())
++
+     def test_partial_apply_failure_can_resume_without_touching_origin(self) -> None:
+         from ckb_core.knowledge_batch_migration import (
+             apply_knowledge_batch_plan,
+diff --git a/tests/test_recruitment_migration_provenance.py b/tests/test_recruitment_migration_provenance.py
+index a696723..b49b0db 100644
+--- a/tests/test_recruitment_migration_provenance.py
++++ b/tests/test_recruitment_migration_provenance.py
+@@ -72,7 +72,10 @@ class ProvenanceTests(unittest.TestCase):
+         snapshot = create_source_snapshot(repository, self.old)
+         root = Path(snapshot["root"])
+         admin = Path(git(root, "rev-parse", "--absolute-git-dir").stdout.strip())
+-        (root / ".git").write_text("gitdir: " + os.path.relpath(admin, root) + "\n")
++        with (root / ".git").open("r+", encoding="utf-8", newline="") as stream:
++            stream.seek(0)
++            stream.write("gitdir: " + os.path.relpath(admin, root).replace("\\", "/") + "\n")
++            stream.truncate()
+         moved = self.root / "nested" / "moved"
+         moved.parent.mkdir()
+         self.old.rename(moved)
+@@ -300,5 +303,223 @@ class ProvenanceTests(unittest.TestCase):
+             current = destination
+ 
+ 
++
++
++def create_v3_record(test, output, package):
++    import hashlib
++    from ckb_core.human_page_authoring import package_page_author
++    from ckb_core.workspace_notes import record_note
++    from test_human_page_authoring import _change_payload
++
++    payload = _change_payload()
++    payload["title"] = "作者包迁移记录"
++    payload["sections"]["deep-reading"]["human_summary"] = "[让 Agent 定位迁移实现](../INDEX.md#让-Agent-精确定位)。"
++    payload["sections"]["deep-reading"]["links"][0]["target"] = "../INDEX.md#让-Agent-精确定位"
++    source = test.root / "local-evidence.json"
++    json_write(source, {"path": str(output / "original-path"), "result": "原证据字节保持不变"})
++    payload["sections"]["result"]["machine_evidence_refs"] = [{
++        "kind": "log", "target": str(source), "purpose": "复核作者包本地证据",
++        "sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
++    }]
++    # A historical URI inside the signed evidence must not be rewritten.
++    payload["sections"]["result"]["source_refs"] = [{
++        "kind": "source", "target": (output / "historical-source.txt").as_uri(),
++        "purpose": "保留历史来源标识，不将 URI 当作本地文件归档",
++    }]
++    packed = package_page_author(payload, package, workspace_root=test.root)
++    test.assertEqual(packed["status"], "ready", packed)
++    selector = json_load(output / "markdown/projection.json")["pages"][0]["title"]
++    record = record_note(output, "change", payload["title"], package / "body.md", selectors=[selector])
++    test.assertTrue(record["human_output_contract"]["v3_validated"])
++    return record
++
++
++class V3AuthoringMigrationTests(unittest.TestCase):
++    def setUp(self):
++        ProvenanceTests.setUp(self)
++        previous = os.environ.get("CKB_TEST_PROVIDER")
++        os.environ["CKB_TEST_PROVIDER"] = "deterministic-fixture"
++        self.addCleanup(lambda: os.environ.pop("CKB_TEST_PROVIDER", None) if previous is None
++                        else os.environ.__setitem__("CKB_TEST_PROVIDER", previous))
++        initialize(self.repo, self.old, "markdown", [], [], 1, "both", [])
++        review_all(self.old)
++        finalize(self.old)
++        self.package = self.root / "external-authoring/package"
++        self.record = create_v3_record(self, self.old, self.package)
++        self.package_bytes = {p.relative_to(self.package).as_posix(): p.read_bytes()
++                              for p in self.package.rglob("*") if p.is_file()}
++        (self.package / "unreferenced.json").write_text('{"must_not_copy":true}')
++        (self.package.parent / "unrelated.txt").write_text("not part of authoring package")
++
++    def assert_package(self, output):
++        from ckb_core.workspace_notes import note_contract_metadata, read_note_body
++
++        meta = json_load(output / "workspace-meta/notes/作者包迁移记录.json")
++        manifest = Path(meta["authoring_package"])
++        self.assertTrue(manifest.is_relative_to(output), meta)
++        self.assertTrue(manifest.is_file(), meta)
++        actual = {p.relative_to(manifest.parent).as_posix(): p.read_bytes()
++                  for p in manifest.parent.rglob("*") if p.is_file()}
++        self.assertEqual(actual, self.package_bytes)
++        verified = note_contract_metadata(manifest.parent / "body.md", meta["kind"],
++                                          read_note_body(manifest.parent / "body.md"))
++        for field in ("validation_context", "section_evidence", "section_evidence_sha256"):
++            self.assertEqual(meta[field], self.record[field])
++            self.assertEqual(meta[field], verified[field])
++        return manifest
++
++    def test_real_v3_record_survives_two_migrations_rename_maintain_and_rollback(self):
++        from ckb_core.llm_wiki_capabilities import maintenance_check
++        from ckb_core.pipeline import status
++        from ckb_core.migration import audit_migration
++
++        original_note = (self.old / "human/changes/作者包迁移记录.md").read_bytes()
++        current = self.old
++        for n in (1, 2):
++            staging = self.root / f"v3-staging-{n}"
++            migrate_output(current, self.repo, staging)
++            self.assert_package(staging)
++            if n == 1:
++                shutil.rmtree(self.package.parent)
++                (self.root / "local-evidence.json").unlink()
++            else:
++                # The second migration must not depend on the first archive either.
++                shutil.rmtree(self.assert_package(current).parent)
++            review_all(staging)
++            finalize(staging)
++            self.assertEqual(maintenance_check(staging)["status"], "passed")
++            promoted = self.root / f"v3-promoted-{n}"
++            staging.rename(promoted)
++            status(promoted)
++            self.assert_package(promoted)
++            self.assertEqual((promoted / "human/changes/作者包迁移记录.md").read_bytes(), original_note)
++            self.assertEqual(maintenance_check(promoted)["status"], "passed")
++            self.assertEqual(audit_migration(promoted)["status"], "passed")
++            # Roll directory promotion back, then promote again; keep frozen bytes.
++            promoted.rename(staging)
++            status(staging)
++            self.assert_package(staging)
++            self.assertEqual(maintenance_check(staging)["status"], "passed")
++            staging.rename(promoted)
++            status(promoted)
++            current = promoted
++        # Verification is rerun, not inferred from retained record counts.
++        manifest = self.assert_package(current)
++        (manifest.parent / "body.md").write_text("已漂移正文", encoding="utf-8")
++        self.assertEqual(audit_migration(current)["status"], "failed")
++        self.assertEqual(maintenance_check(current)["status"], "failed")
++
++    def test_missing_drifted_or_detached_metadata_fails_before_staging_write(self):
++        body = self.package / "body.md"
++        evidence = next(path for path in self.package.rglob("*.json") if path.name not in {"manifest.json", "unreferenced.json"})
++        for label, operation in (
++            ("missing-body", lambda: body.unlink()),
++            ("drifted-body", lambda: body.write_bytes(b"changed")),
++            ("missing-manifest", lambda: (self.package / "manifest.json").unlink()),
++            ("missing-local-evidence", lambda: evidence.unlink()),
++            ("drifted-local-evidence", lambda: evidence.write_bytes(b"changed")),
++        ):
++            with self.subTest(label=label):
++                for relative, data in self.package_bytes.items():
++                    target = self.package / relative
++                    target.parent.mkdir(parents=True, exist_ok=True)
++                    target.write_bytes(data)
++                operation()
++                target = self.root / label
++                with self.assertRaises(CkbError):
++                    migrate_output(self.old, self.repo, target)
++                self.assertFalse(target.exists())
++                from ckb_core.knowledge_batch_migration import _cold_build
++                cold = self.root / (label + "-cold")
++                with self.assertRaises(CkbError):
++                    _cold_build({"output": str(self.old), "repository": str(self.repo),
++                                 "staging": str(cold), "scope_selectors": {}})
++                self.assertFalse(cold.exists())
++        for relative, data in self.package_bytes.items():
++            (self.package / relative).write_bytes(data)
++        meta_path = self.old / "workspace-meta/notes/作者包迁移记录.json"
++        meta = json_load(meta_path)
++        meta["validation_context"] = {"sections": {}, "current_facts": ["not the signed context"]}
++        json_write(meta_path, meta)
++        with self.assertRaises(CkbError):
++            migrate_output(self.old, self.repo, self.root / "metadata-drift")
++        self.assertFalse((self.root / "metadata-drift").exists())
++        # Ordinary history reading remains available even when authoring evidence is broken.
++        from ckb_core.machine_knowledge import retrieve_machine
++        self.assertIn(retrieve_machine(self.old, "double", 1000)["status"], {"passed", "needs-source-read"})
++
++    def test_workspace_package_is_preserved_without_mutating_signed_context(self):
++        internal = self.old / "workspace-meta/authoring/package"
++        shutil.copytree(self.package, internal)
++        meta_path = self.old / "workspace-meta/notes/作者包迁移记录.json"
++        meta = json_load(meta_path)
++        meta["authoring_package"] = str(internal / "manifest.json")
++        json_write(meta_path, meta)
++        migrate_output(self.old, self.repo, self.new)
++        self.assert_package(self.new)
++
++
++class WindowsHiddenSnapshotTests(unittest.TestCase):
++    setUp = ProvenanceTests.setUp
++
++    def test_existing_gitfile_update_uses_nontruncating_open(self):
++        from unittest.mock import patch
++        repository = preflight(self.repo)
++        snapshot = create_source_snapshot(repository, self.old)
++        root = Path(snapshot["root"])
++        admin = Path(git(root, "rev-parse", "--absolute-git-dir").stdout.strip())
++        with (root / ".git").open("r+", encoding="utf-8") as stream:
++            stream.seek(0)
++            stream.write("gitdir: " + os.path.relpath(admin, root).replace("\\", "/") + "\n")
++            stream.truncate()
++        moved = self.root / "deeper" / "promoted"
++        moved.parent.mkdir()
++        self.old.rename(moved)
++        gitfile = moved / ".source-snapshot/worktree/.git"
++        original_open = Path.open
++        modes = []
++
++        def open_existing(path, mode="r", *args, **kwargs):
++            if path == gitfile:
++                modes.append(mode)
++                if "w" in mode:
++                    raise PermissionError("fixture models hidden-file truncating-open denial")
++            return original_open(path, mode, *args, **kwargs)
++
++        with patch.object(Path, "open", open_existing):
++            state = _relocate_completed_output(moved, {"repository": repository, "source_snapshot": snapshot})
++        self.assertIn("r+", modes)
++        self.assertEqual(git(Path(state["source_snapshot"]["root"]), "rev-parse", "HEAD").stdout.strip(), repository["commit"])
++
++    @unittest.skipUnless(os.name == "nt", "requires native Windows hidden file attribute")
++    def test_hidden_relative_gitfile_survives_depth_change_and_keeps_attribute(self):
++        import ctypes
++        repository = preflight(self.repo)
++        snapshot = create_source_snapshot(repository, self.old)
++        root = Path(snapshot["root"])
++        admin = Path(git(root, "rev-parse", "--absolute-git-dir").stdout.strip())
++        gitfile = root / ".git"
++        with gitfile.open("r+", encoding="utf-8") as stream:
++            stream.seek(0)
++            stream.write("gitdir: " + os.path.relpath(admin, root).replace("\\", "/") + "\n")
++            stream.truncate()
++        kernel = ctypes.WinDLL("kernel32", use_last_error=True)
++        kernel.GetFileAttributesW.argtypes = [ctypes.c_wchar_p]
++        kernel.GetFileAttributesW.restype = ctypes.c_uint32
++        kernel.SetFileAttributesW.argtypes = [ctypes.c_wchar_p, ctypes.c_uint32]
++        kernel.SetFileAttributesW.restype = ctypes.c_int
++        attributes = kernel.GetFileAttributesW(str(gitfile))
++        self.assertNotEqual(attributes, 0xFFFFFFFF)
++        self.assertTrue(kernel.SetFileAttributesW(str(gitfile), attributes | 2))
++        moved = self.root / "deeper" / "promoted"
++        moved.parent.mkdir()
++        self.old.rename(moved)
++        state = _relocate_completed_output(moved, {"repository": repository, "source_snapshot": snapshot})
++        new_root = Path(state["source_snapshot"]["root"])
++        self.assertTrue(kernel.GetFileAttributesW(str(new_root / ".git")) & 2)
++        self.assertEqual(git(new_root, "rev-parse", "HEAD").stdout.strip(), repository["commit"])
++        self.assertEqual(Path((admin / "gitdir").read_text().strip()).resolve(), (new_root / ".git").resolve())
++
++
+ if __name__ == "__main__":
+     unittest.main(verbosity=2)

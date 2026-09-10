@@ -1,0 +1,358 @@
+{
+  "schema_version": 1,
+  "operation_id": "record-replace-cf737cc4ff595c9ea648e5a5563c06e0",
+  "operation": "record-replace",
+  "status": "completed",
+  "output": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757",
+  "kind": "change",
+  "title": "Lite、Full 与 Obsidian 插件发行边界",
+  "created_at_utc": "2026-09-10T03:13:52Z",
+  "rollback_manifest": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-cf737cc4ff595c9ea648e5a5563c06e0\\manifest.json",
+  "rollback_argv": [
+    "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe",
+    "E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py",
+    "record-rollback",
+    "--out",
+    "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757",
+    "--manifest",
+    "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-cf737cc4ff595c9ea648e5a5563c06e0\\manifest.json"
+  ],
+  "rollback_command": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe' 'E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py' 'record-rollback' '--out' 'E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757' '--manifest' 'E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-cf737cc4ff595c9ea648e5a5563c06e0\\manifest.json'",
+  "roles": [
+    {
+      "name": "human-note",
+      "kind": "file",
+      "path": "human/changes/Lite、Full 与 Obsidian 插件发行边界.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "2eb712461d3ab0e646b7265d333628cc9c954ae0f09627bb5a50816e020da351",
+        "size": 4167,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-cf737cc4ff595c9ea648e5a5563c06e0\\backup\\files\\human\\changes\\Lite、Full 与 Obsidian 插件发行边界.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "a9ebf934e0013fc463130207e4d4299d3a17de3b413daf5c25008f8200b987a9",
+        "size": 3809,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-cf737cc4ff595c9ea648e5a5563c06e0\\staging\\files\\human\\changes\\Lite、Full 与 Obsidian 插件发行边界.md"
+      }
+    },
+    {
+      "name": "markdown-note",
+      "kind": "file",
+      "path": "markdown/changes/Lite、Full 与 Obsidian 插件发行边界.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "2eb712461d3ab0e646b7265d333628cc9c954ae0f09627bb5a50816e020da351",
+        "size": 4167,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-cf737cc4ff595c9ea648e5a5563c06e0\\backup\\files\\markdown\\changes\\Lite、Full 与 Obsidian 插件发行边界.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "a9ebf934e0013fc463130207e4d4299d3a17de3b413daf5c25008f8200b987a9",
+        "size": 3809,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-cf737cc4ff595c9ea648e5a5563c06e0\\staging\\files\\markdown\\changes\\Lite、Full 与 Obsidian 插件发行边界.md"
+      }
+    },
+    {
+      "name": "note-metadata",
+      "kind": "file",
+      "path": "workspace-meta/notes/Lite、Full 与 Obsidian 插件发行边界.json",
+      "baseline": {
+        "exists": true,
+        "sha256": "5ee12f678842d06825590d5a38e8035cd4955c74b6d79e0a1316950fb0d549f8",
+        "size": 2949,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-cf737cc4ff595c9ea648e5a5563c06e0\\backup\\files\\workspace-meta\\notes\\Lite、Full 与 Obsidian 插件发行边界.json"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "21753d8b264626515a5bca0dcb0ff51d502907a5ef5033a3dd25b7c1794b64a5",
+        "size": 3661,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-cf737cc4ff595c9ea648e5a5563c06e0\\staging\\files\\workspace-meta\\notes\\Lite、Full 与 Obsidian 插件发行边界.json"
+      }
+    },
+    {
+      "name": "human-records",
+      "kind": "file",
+      "path": "human/RECORDS.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "701fcc96911031ef8d26d4364e55fc73b9bb85dfe9a44ca9bbebb121fea336df",
+        "size": 25259,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-cf737cc4ff595c9ea648e5a5563c06e0\\backup\\files\\human\\RECORDS.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "701fcc96911031ef8d26d4364e55fc73b9bb85dfe9a44ca9bbebb121fea336df",
+        "size": 25259,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-cf737cc4ff595c9ea648e5a5563c06e0\\staging\\files\\human\\RECORDS.md"
+      }
+    },
+    {
+      "name": "markdown-records",
+      "kind": "file",
+      "path": "markdown/RECORDS.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "701fcc96911031ef8d26d4364e55fc73b9bb85dfe9a44ca9bbebb121fea336df",
+        "size": 25259,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-cf737cc4ff595c9ea648e5a5563c06e0\\backup\\files\\markdown\\RECORDS.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "701fcc96911031ef8d26d4364e55fc73b9bb85dfe9a44ca9bbebb121fea336df",
+        "size": 25259,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-cf737cc4ff595c9ea648e5a5563c06e0\\staging\\files\\markdown\\RECORDS.md"
+      }
+    },
+    {
+      "name": "work-record-index-audit",
+      "kind": "file",
+      "path": "workspace-meta/work-record-index-audit.json",
+      "baseline": {
+        "exists": true,
+        "sha256": "806c0655dfcaab421130c6a1993f935970d22448707b025ca62263195fc6f7fa",
+        "size": 217,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-cf737cc4ff595c9ea648e5a5563c06e0\\backup\\files\\workspace-meta\\work-record-index-audit.json"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "806c0655dfcaab421130c6a1993f935970d22448707b025ca62263195fc6f7fa",
+        "size": 217,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-cf737cc4ff595c9ea648e5a5563c06e0\\staging\\files\\workspace-meta\\work-record-index-audit.json"
+      }
+    },
+    {
+      "name": "agent-index-note",
+      "kind": "sqlite-logical",
+      "path": "agent-index.sqlite",
+      "selector": "Lite、Full 与 Obsidian 插件发行边界",
+      "baseline": {
+        "sha256": "3fff82ee9a32623a51a1776cc26eb548ffee631fea42042b43345fc0491136ce",
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-cf737cc4ff595c9ea648e5a5563c06e0\\backup\\agent-index-note.json"
+      },
+      "modified": {
+        "sha256": "0ec1960c37ddf67a4601c734058bcac49cd10391a12cae779c1da72148495ea5",
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-cf737cc4ff595c9ea648e5a5563c06e0\\staging\\agent-index-note.json"
+      }
+    },
+    {
+      "name": "machine-knowledge-note",
+      "kind": "sqlite-logical",
+      "path": "machine/knowledge.sqlite",
+      "selector": "note:changes:Lite、Full 与 Obsidian 插件发行边界",
+      "baseline": {
+        "sha256": "b6e955885d5c7ea0b58757d1ee113a43951a162e1e18e465d5129efae9826dae",
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-cf737cc4ff595c9ea648e5a5563c06e0\\backup\\machine-knowledge-note.json"
+      },
+      "modified": {
+        "sha256": "430bd9a855543c1667564b8217e6174783de4f58ae5e1271170ee77b5d4616f9",
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-cf737cc4ff595c9ea648e5a5563c06e0\\staging\\machine-knowledge-note.json"
+      }
+    }
+  ],
+  "note_error_baseline": {
+    "errors": [
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/changes/LLM 关键词备选慢路径合并审计.md",
+        "target": "build 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/changes/LLM 关键词备选慢路径合并审计.md",
+        "target": "deploy 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/中文检索词项同索引补测.md",
+        "target": "state_machine 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/机器 Tag 导航隔离实验.md",
+        "target": "ingest 与 connect 的协作实现"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/机器 Tag 导航隔离实验.md",
+        "target": "state_machine 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/研究缺口对账与新增特性增强效果.md",
+        "target": "validate 与 canonical 的协作实现"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/研究缺口对账与新增特性增强效果.md",
+        "target": "ingest 与 connect 的协作实现"
+      }
+    ],
+    "unchanged_notes": {
+      "markdown/changes/LLM 关键词备选慢路径合并审计.md": "81eaf14d2580b7b9f38c32a2392dcc8128bced854c1e5a1f3df551c7b663b391",
+      "markdown/experiments/中文检索词项同索引补测.md": "203925c2b32c519c51a7fb32b7c30a4a3e3ce38f4a0faa61ff1dba2438a7d6ae",
+      "markdown/experiments/机器 Tag 导航隔离实验.md": "bcf71852690b72212ffce7a6905c8ad37e6da906f05cb4f25fbf082e68f03253",
+      "markdown/experiments/研究缺口对账与新增特性增强效果.md": "08852138919af5ff7718d30994210da8945279e896616606a146b52762bbb040"
+    }
+  },
+  "prepared_at_utc": "2026-09-10T03:13:54Z",
+  "record_id": "work-record-39519557a7b95488a5235628d6bb9095",
+  "relative_note": "changes/Lite、Full 与 Obsidian 插件发行边界.md",
+  "explicit_evidence_replacement": true,
+  "linked_pages": [
+    "build_core 与 sha256 的协作实现",
+    "audit_obsidian 与 prepare_vault 的协作实现",
+    "deploy 与 skill_root 的协作实现",
+    "package_showcase",
+    "ensure_local_openers 与 SourceLinkRenderer 的协作实现",
+    "build_machine_knowledge 与 estimated_tokens 的协作实现",
+    "build 与 sha256 的协作实现",
+    "review_automation 与 default_registry_path 的协作实现"
+  ],
+  "body_sha256": "47fdd00d4231fd7bf2b572a351f69a4ca70c1b5d5ea478df3fc326ab84c28aea",
+  "candidate_audit": {
+    "status": "passed",
+    "note_errors": [],
+    "work_record_index": {
+      "status": "passed",
+      "record_count": 80,
+      "linked_record_count": 80,
+      "section_counts": {
+        "analysis": 24,
+        "changes": 40,
+        "pitfalls": 0,
+        "experiments": 9,
+        "sessions": 7
+      },
+      "errors": []
+    },
+    "verification_scope": "record-replacement",
+    "maintenance_verified": false,
+    "unresolved_baseline_diagnostics": [
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/changes/LLM 关键词备选慢路径合并审计.md",
+        "target": "build 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/changes/LLM 关键词备选慢路径合并审计.md",
+        "target": "deploy 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/中文检索词项同索引补测.md",
+        "target": "state_machine 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/机器 Tag 导航隔离实验.md",
+        "target": "ingest 与 connect 的协作实现"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/机器 Tag 导航隔离实验.md",
+        "target": "state_machine 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/研究缺口对账与新增特性增强效果.md",
+        "target": "validate 与 canonical 的协作实现"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/研究缺口对账与新增特性增强效果.md",
+        "target": "ingest 与 connect 的协作实现"
+      }
+    ]
+  },
+  "promotion_order": [
+    "human-note",
+    "markdown-note",
+    "note-metadata",
+    "human-records",
+    "markdown-records",
+    "work-record-index-audit",
+    "agent-index-note",
+    "machine-knowledge-note"
+  ],
+  "completed_at_utc": "2026-09-10T03:13:56Z",
+  "verification": {
+    "status": "passed",
+    "role_errors": [],
+    "note_errors": [],
+    "verification_scope": "record-replacement",
+    "maintenance_verified": false,
+    "unresolved_baseline_diagnostics": [
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/changes/LLM 关键词备选慢路径合并审计.md",
+        "target": "build 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/changes/LLM 关键词备选慢路径合并审计.md",
+        "target": "deploy 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/中文检索词项同索引补测.md",
+        "target": "state_machine 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/机器 Tag 导航隔离实验.md",
+        "target": "ingest 与 connect 的协作实现"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/机器 Tag 导航隔离实验.md",
+        "target": "state_machine 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/研究缺口对账与新增特性增强效果.md",
+        "target": "validate 与 canonical 的协作实现"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/研究缺口对账与新增特性增强效果.md",
+        "target": "ingest 与 connect 的协作实现"
+      }
+    ],
+    "work_record_index": {
+      "status": "passed",
+      "record_count": 80,
+      "linked_record_count": 80,
+      "section_counts": {
+        "analysis": 24,
+        "changes": 40,
+        "pitfalls": 0,
+        "experiments": 9,
+        "sessions": 7
+      },
+      "errors": []
+    },
+    "agent_index": {
+      "schema_version": 1,
+      "status": "passed",
+      "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\agent-index.sqlite",
+      "integrity": "ok",
+      "counts": {
+        "pages": 266,
+        "symbols": 2395,
+        "edges": 733,
+        "terms": 39955,
+        "notes": 80
+      },
+      "projection_format": "markdown",
+      "errors": []
+    }
+  },
+  "operation_journal": {
+    "status": "passed",
+    "event_id": "operation-7f1aab7e87795c61ad0976dd95d9005f",
+    "idempotent": false,
+    "journal": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\operations\\2026-09-10.jsonl"
+  }
+}

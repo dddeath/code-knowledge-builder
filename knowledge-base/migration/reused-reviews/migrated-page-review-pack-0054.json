@@ -3,33 +3,33 @@
   "pack_id": "migrated-page-review-pack-0054",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-03T22:06:50Z",
+  "reviewed_at_utc": "2026-09-10T03:35:02Z",
   "reviews": [
     {
-      "entity_id": "file-25216ec61db45653bb4a2015aacea246",
+      "entity_id": "file-1388a7ddf39754b0a43607e65a9782b9",
       "classification": "page",
-      "owner_page_id": "file-25216ec61db45653bb4a2015aacea246",
-      "source_path": "tests/test_human_page_authoring.py",
+      "owner_page_id": "file-1388a7ddf39754b0a43607e65a9782b9",
+      "source_path": "tests/test_automation.py",
       "start_line": 1,
-      "end_line": 622,
+      "end_line": 1001,
       "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `tests/test_human_page_authoring.py` 第 1-622 行，并核对 Git blob `8d9bf128c828`、分类与所有者。",
-      "meaning_zh": "`tests/test_human_page_authoring.py` 页面绑定固定源码第 1-622 行，说明该文件如何承担V3 页面 authoring、证据分离和 package 行为测试。",
-      "role_zh": "该文件负责V3 页面 authoring、证据分离和 package 行为测试，并为相关命令、页面生成或测试提供源码入口。",
-      "change_when_zh": "当 `tests/test_human_page_authoring.py` 的公开输入、生成结果、状态边界或与其他模块的协作关系变化时，应更新本页。"
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `tests/test_automation.py` 第 1-1001 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "meaning_zh": "文件 `tests/test_automation.py`负责验证多 Harness 事件归一化、会话激活、并发采集和受控投影。",
+      "role_zh": "它属于会话自动化生命周期的回归保护，当前说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当自动化事件、会话状态、并发行为或人类投影规则变化时，应同步复查本页及其直接关联测试。"
     },
     {
-      "entity_id": "ent-dbd0efd822c459849fc2cc1656239698",
+      "entity_id": "ent-076ce80d383a5d978a44c489704e9b8f",
       "classification": "page",
-      "owner_page_id": "ent-dbd0efd822c459849fc2cc1656239698",
-      "source_path": "tests/test_human_page_authoring.py",
-      "start_line": 311,
-      "end_line": 494,
+      "owner_page_id": "ent-076ce80d383a5d978a44c489704e9b8f",
+      "source_path": "tests/test_automation.py",
+      "start_line": 84,
+      "end_line": 86,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 bd8519583e3a 中 `tests/test_human_page_authoring.py` 第 311 至 494 行，摘录属于 Git blob 8d9bf128c828。",
-      "meaning_zh": "代码单元 `_validation_payload`负责验证 V3 人类页面结构、披露层级、证据和受控写入。",
-      "role_zh": "它属于人类页面生成协议的回归保护，说明只覆盖所列固定源码范围。",
-      "change_when_zh": "当模板标题、信息预算或写入边界变化时，应同步复查本页及其直接测试。"
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `tests/test_automation.py` 第 84-86 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "meaning_zh": "代码单元 `register`负责验证多 Harness 事件归一化、会话激活、并发采集和受控投影。",
+      "role_zh": "它属于会话自动化生命周期的回归保护，当前说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当自动化事件、会话状态、并发行为或人类投影规则变化时，应同步复查本页及其直接关联测试。"
     }
   ]
 }

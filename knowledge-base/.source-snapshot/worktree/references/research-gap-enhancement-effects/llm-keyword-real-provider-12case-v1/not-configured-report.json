@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "status": "not-executed",
+  "benchmark": "ckb-keyword-real-provider-12case-v1",
+  "protocol": "protocol.json",
+  "protocol_sha256": "19f84674c402a56280cf1ae7fa2bb1b5a6a679ec38c2fb4f25386b4fbd44a516",
+  "checks": {
+    "protocol_frozen": true,
+    "real_provider_configured": false
+  },
+  "cases": [],
+  "fault_probes": [],
+  "invocation_observations": {},
+  "summary": {
+    "cases": 12,
+    "real_provider_actual_calls": 0,
+    "quality_claim": "not-executed",
+    "reason_zh": "未传入真实 Provider 可执行文件；未启动模型，也不生成效果结论。"
+  },
+  "real_provider": {
+    "status": "not-executed",
+    "actual_calls": 0,
+    "effect_claim": "not-executed"
+  },
+  "artifacts": {
+    "report": "not-configured-report.json"
+  }
+}

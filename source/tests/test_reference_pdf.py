@@ -15,7 +15,14 @@ from test_ckb import invoke, make_repo, review_all
 from ckb_core.common import CkbError
 from ckb_core.reference_documents import ingest_reference
 from ckb_core.reference_inputs import WEB_INPUT_ADAPTER_ID, web_input_adapter_contract
-from ckb_core.reference_pdf import PdfExtractionError, _load_pypdf, extract_pdf, inspect_pdf, validate_pdf_extraction
+from ckb_core.reference_pdf import (
+    PdfExtractionError,
+    _load_pypdf,
+    extract_pdf,
+    inspect_pdf,
+    segment_page_text,
+    validate_pdf_extraction,
+)
 
 
 def _commands(*lines: tuple[float, float, str]) -> list[tuple[float, float, str]]:
@@ -145,6 +152,101 @@ class PdfReferenceExtractionTests(unittest.TestCase):
         self.assertIn("中文资料页标题", page_text)
         self.assertIn("页级提取与原文定位", page_text)
 
+    def test_wrapped_table_continuation_remains_a_table_fragment(self) -> None:
+        text = (
+            "Module              Status              Note\n"
+            "parser              READY               保留页码\n"
+            "                                        page 2\n"
+            "ocr                 CHECK               code + table\n"
+            "trace               PASS                source-page=2"
+        )
+        fragments = segment_page_text("wrapped-table", 2, "ocr", "high", text, "fixture.pdf")
+        self.assertEqual(len(fragments), 1)
+        self.assertEqual(fragments[0]["structure"], "table")
+        self.assertEqual(
+            fragments[0]["warnings"],
+            ["layout-derived-table-boundary", "wrapped-table-row-inferred"],
+        )
+        code = (
+            "if enabled  and  ready:\n"
+            "result      =  build(items)\n"
+            "    return {\"value\": result}"
+        )
+        code_fragments = segment_page_text("aligned-code", 1, "ocr", "high", code, "fixture.pdf")
+        self.assertEqual(len(code_fragments), 1)
+        self.assertEqual(code_fragments[0]["structure"], "code")
+        self.assertEqual(code_fragments[0]["warnings"], ["layout-derived-code-boundary"])
+
+    def test_ocr_output_hash_and_runtime_metadata_are_audited(self) -> None:
+        output = self.root / "managed-ocr-output"
+        reference_id = "reference-ocr-provenance"
+        source = blank_pdf(output / "references" / "raw" / "scan.pdf")
+        adapter = self.root / "provenance_adapter.py"
+        adapter.write_text(
+            "import argparse, json\n"
+            "p=argparse.ArgumentParser(); p.add_argument('--source'); p.add_argument('--page',type=int); "
+            "p.add_argument('--output'); p.add_argument('--schema-version',type=int); p.add_argument('--cancel-file')\n"
+            "a=p.parse_args(); value={'schema_version':a.schema_version,'status':'extracted','page_number':a.page,"
+            "'text':'OCR provenance text contains enough deterministic characters.','confidence':0.97,"
+            "'engine':{'name':'fixture-engine','version':'1.0'},'renderer':{'name':'fixture-renderer','dpi':250},"
+            "'detection_count':4}\n"
+            "open(a.output,'w',encoding='utf-8').write(json.dumps(value,sort_keys=True))\n",
+            encoding="utf-8",
+        )
+        result = extract_pdf(
+            source,
+            reference_id,
+            output / "references" / "extractions" / reference_id,
+            ocr_enabled=True,
+            ocr_adapter=adapter,
+            ocr_timeout_seconds=5,
+        )
+        ocr = result["pages"][0]["ocr"]
+        self.assertEqual(ocr["metadata"]["engine"], {"name": "fixture-engine", "version": "1.0"})
+        self.assertEqual(ocr["metadata"]["renderer"]["dpi"], 250)
+        self.assertEqual(ocr["metadata"]["detection_count"], 4)
+        ocr_output = Path(ocr["output_file"])
+        self.assertEqual(hashlib.sha256(ocr_output.read_bytes()).hexdigest(), ocr["output_sha256"])
+        manifest = {
+            "reference_id": reference_id,
+            "source_file": str(source.resolve()),
+            "source_sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
+            "extraction_file": result["manifest"],
+            "extraction_sha256": result["manifest_sha256"],
+            "extraction_status": "ready",
+            "page_count": 1,
+            "pending_pages": [],
+        }
+        _extraction, errors = validate_pdf_extraction(output, manifest, require_ready=True)
+        self.assertEqual(errors, [])
+        self.assertEqual(_extraction["pages"][0]["ocr"]["evidence_validation"]["status"], "verified")
+
+        extraction_path = Path(result["manifest"])
+        current_extraction = extraction_path.read_bytes()
+        legacy = json.loads(current_extraction)
+        legacy_ocr = legacy["pages"][0]["ocr"]
+        legacy_ocr.pop("output_file")
+        legacy_ocr.pop("output_sha256")
+        legacy_ocr.pop("metadata")
+        extraction_path.write_text(json.dumps(legacy, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        manifest["extraction_sha256"] = hashlib.sha256(extraction_path.read_bytes()).hexdigest()
+        legacy_extraction, errors = validate_pdf_extraction(output, manifest, require_ready=True)
+        self.assertEqual(errors, [])
+        self.assertEqual(
+            legacy_extraction["pages"][0]["ocr"]["evidence_validation"],
+            {
+                "status": "legacy-unavailable",
+                "reason": "legacy-schema-v1-ocr-output-evidence-not-recorded",
+            },
+        )
+
+        extraction_path.write_bytes(current_extraction)
+        manifest["extraction_sha256"] = hashlib.sha256(current_extraction).hexdigest()
+        ocr_output.write_bytes(ocr_output.read_bytes() + b" ")
+        drifted_extraction, errors = validate_pdf_extraction(output, manifest, require_ready=True)
+        self.assertIn("reference-pdf-ocr-output-drift", {item["reason"] for item in errors})
+        self.assertEqual(drifted_extraction["pages"][0]["ocr"]["evidence_validation"]["status"], "failed")
+
     def test_scanned_mixed_and_bounded_ocr_states_are_explicit(self) -> None:
         scanned = blank_pdf(self.root / "scanned.pdf")
         pending = extract_pdf(scanned, "reference-scan", self.root / "scan-extraction")
@@ -186,7 +288,8 @@ class PdfReferenceExtractionTests(unittest.TestCase):
             "parser.add_argument('--cancel-file')\n"
             "args=parser.parse_args()\n"
             "value={'schema_version':args.schema_version,'status':'extracted','page_number':args.page,"
-            "'text':'OCR recovered page text with sufficient deterministic characters.','confidence':0.96}\n"
+            "'text':'OCR recovered page text with sufficient deterministic characters.','confidence':0.96,"
+            "'engine':{'name':'fixture','version':'1'},'detection_count':1}\n"
             "open(args.output,'w',encoding='utf-8').write(json.dumps(value,ensure_ascii=False))\n",
             encoding="utf-8",
         )
@@ -202,6 +305,8 @@ class PdfReferenceExtractionTests(unittest.TestCase):
         self.assertEqual(recovered["status"], "ready")
         self.assertEqual(recovered["pages"][0]["method"], "ocr")
         self.assertEqual(recovered["ocr"]["attempted_pages"], 1)
+        self.assertEqual(recovered["pages"][0]["ocr"]["metadata"]["engine"]["name"], "fixture")
+        self.assertEqual(recovered["pages"][0]["ocr"]["metadata"]["detection_count"], 1)
 
         size_bounded = extract_pdf(
             scanned,
@@ -304,10 +409,12 @@ class PdfReferenceExtractionTests(unittest.TestCase):
                 source_root=allowed,
             )
 
-    def test_web_adapter_boundary_is_frozen_without_fetch_implementation(self) -> None:
+    def test_web_adapter_boundary_requires_explicit_fetch_and_agent_review(self) -> None:
         contract = web_input_adapter_contract()
         self.assertEqual(contract["adapter_id"], WEB_INPUT_ADAPTER_ID)
-        self.assertEqual(contract["implementation_status"], "not-implemented")
+        self.assertEqual(contract["implementation_status"], "implemented")
+        self.assertEqual(contract["input_modes"]["provided-static-snapshot"]["network_access"], "not-used")
+        self.assertEqual(contract["input_modes"]["live-url-fetch"]["network_access"], "explicit-only")
         self.assertIn("output-still-requires-reference-ingest-and-agent-review", contract["boundary"])
 
 
@@ -413,8 +520,30 @@ class PdfReferenceEndToEndTests(unittest.TestCase):
         reingested_result = json.loads(reingested_with_ocr.stdout)
         self.assertFalse(reingested_result["idempotent"])
         self.assertEqual(reingested_result["extraction"]["status"], "ready")
-        reingested_manifest = json.loads(Path(reingested_result["extraction"]["manifest"]).read_text(encoding="utf-8"))
+        reingested_extraction_path = Path(reingested_result["extraction"]["manifest"])
+        reingested_manifest = json.loads(reingested_extraction_path.read_text(encoding="utf-8"))
         self.assertEqual(reingested_manifest["pages"][0]["method"], "ocr")
+        legacy_manifest = json.loads(reingested_extraction_path.read_text(encoding="utf-8"))
+        legacy_ocr = legacy_manifest["pages"][0]["ocr"]
+        legacy_ocr.pop("output_file")
+        legacy_ocr.pop("output_sha256")
+        legacy_ocr.pop("metadata")
+        reingested_extraction_path.write_text(
+            json.dumps(legacy_manifest, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        reference_manifest_path = Path(reingested_result["manifest"])
+        reference_manifest = json.loads(reference_manifest_path.read_text(encoding="utf-8"))
+        reference_manifest["extraction_sha256"] = hashlib.sha256(reingested_extraction_path.read_bytes()).hexdigest()
+        reference_manifest_path.write_text(
+            json.dumps(reference_manifest, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        legacy_audit = invoke("reference", "audit", "--out", str(output))
+        self.assertEqual(legacy_audit.returncode, 4, legacy_audit.stderr)
+        legacy_audit_result = json.loads(legacy_audit.stdout)
+        self.assertEqual(legacy_audit_result["status"], "pending-agent-review")
+        self.assertEqual(legacy_audit_result["errors"], [])
         reingested_rollback = invoke(
             "reference", "rollback", "--out", str(output), "--reference", reingested_result["reference_id"]
         )

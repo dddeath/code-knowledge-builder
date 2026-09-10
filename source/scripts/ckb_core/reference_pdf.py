@@ -143,6 +143,16 @@ def _classify_block(lines: list[str]) -> tuple[str, str, list[str]]:
         return "table", "medium", ["layout-derived-table-boundary"]
     indented = sum(1 for line in nonblank if len(line) - len(line.lstrip(" ")) >= 4)
     signals = sum(1 for line in nonblank if _CODE_SIGNAL.search(line))
+    if len(nonblank) >= 2 and signals >= 2:
+        return "code", "medium", ["layout-derived-code-boundary"]
+    column_rows = sum(1 for pipes, gaps in zip(pipe_columns, gap_columns) if pipes >= 2 or gaps >= 1)
+    continuation_rows = sum(
+        1
+        for line, pipes, gaps in zip(nonblank, pipe_columns, gap_columns)
+        if pipes < 2 and gaps < 1 and len(line) - len(line.lstrip(" ")) >= 4
+    )
+    if len(nonblank) >= 3 and column_rows >= 2 and column_rows + continuation_rows == len(nonblank):
+        return "table", "medium", ["layout-derived-table-boundary", "wrapped-table-row-inferred"]
     if len(nonblank) >= 2 and (indented >= max(1, len(nonblank) // 2) or signals >= 2):
         return "code", "medium", ["layout-derived-code-boundary"]
     if len(nonblank) == 1:
@@ -305,7 +315,24 @@ def _run_ocr_page(
     score = result.get("confidence")
     if not isinstance(score, (int, float)) or isinstance(score, bool) or not 0.0 <= float(score) <= 1.0:
         return None, {"status": "pending", "reason": "ocr-confidence-invalid", "elapsed_seconds": elapsed}
-    return result, {"status": "completed", "elapsed_seconds": elapsed, "confidence_score": round(float(score), 6)}
+    metadata: dict[str, Any] = {}
+    for name in ("engine", "renderer"):
+        value = result.get(name)
+        if isinstance(value, dict) and all(
+            isinstance(key, str) and isinstance(item, (str, int, float, bool, type(None)))
+            for key, item in value.items()
+        ):
+            metadata[name] = value
+    if isinstance(result.get("detection_count"), int) and not isinstance(result.get("detection_count"), bool):
+        metadata["detection_count"] = result["detection_count"]
+    return result, {
+        "status": "completed",
+        "elapsed_seconds": elapsed,
+        "confidence_score": round(float(score), 6),
+        "output_file": str(output_path.resolve()),
+        "output_sha256": sha256_file(output_path),
+        "metadata": metadata,
+    }
 
 
 def inspect_pdf(source: Path, max_bytes: int, max_pages: int):
@@ -574,6 +601,7 @@ def validate_pdf_extraction(
         errors.append({"reason": "reference-pdf-manifest-page-count", "reference_id": reference_id})
     fragment_ids: set[str] = set()
     expected_page_files: set[Path] = set()
+    expected_ocr_files: set[Path] = set()
     for page in pages:
         if not isinstance(page, dict):
             continue
@@ -650,6 +678,54 @@ def validate_pdf_extraction(
             errors.append({"reason": "reference-pdf-fragment-overlap", "reference_id": reference_id, "page_number": page_number})
         if page.get("status") == "extracted" and (not text.strip() or not fragments):
             errors.append({"reason": "reference-pdf-empty-extracted-page", "reference_id": reference_id, "page_number": page_number})
+        ocr = page.get("ocr") if isinstance(page.get("ocr"), dict) else {}
+        if (
+            page.get("method") == "ocr"
+            and ocr.get("status") == "completed"
+            and isinstance(page_number, int)
+            and not isinstance(page_number, bool)
+        ):
+            output_file = ocr.get("output_file")
+            output_sha256 = ocr.get("output_sha256")
+            if output_file is None and output_sha256 is None:
+                ocr["evidence_validation"] = {
+                    "status": "legacy-unavailable",
+                    "reason": "legacy-schema-v1-ocr-output-evidence-not-recorded",
+                }
+            elif (
+                not isinstance(output_file, str)
+                or not output_file
+                or not isinstance(output_sha256, str)
+                or re.fullmatch(r"[0-9a-f]{64}", output_sha256) is None
+            ):
+                ocr["evidence_validation"] = {"status": "failed", "reason": "ocr-output-evidence-contract"}
+                errors.append(
+                    {
+                        "reason": "reference-pdf-ocr-output-evidence-contract",
+                        "reference_id": reference_id,
+                        "page_number": page_number,
+                    }
+                )
+            else:
+                ocr_path = Path(output_file)
+                expected_ocr_path = (expected_root / "ocr" / f"page-{int(page_number):04d}.json").resolve()
+                expected_ocr_files.add(expected_ocr_path)
+                if (
+                    ocr_path.resolve() != expected_ocr_path
+                    or not path_inside(ocr_path, expected_root / "ocr")
+                    or not ocr_path.is_file()
+                    or sha256_file(ocr_path) != output_sha256
+                ):
+                    ocr["evidence_validation"] = {"status": "failed", "reason": "ocr-output-drift"}
+                    errors.append(
+                        {
+                            "reason": "reference-pdf-ocr-output-drift",
+                            "reference_id": reference_id,
+                            "page_number": page_number,
+                        }
+                    )
+                else:
+                    ocr["evidence_validation"] = {"status": "verified", "reason": None}
     pages_directory = expected_root / "pages"
     actual_page_files = {path.resolve() for path in pages_directory.glob("page-*.txt")} if pages_directory.is_dir() else set()
     if actual_page_files != expected_page_files:
@@ -659,6 +735,16 @@ def validate_pdf_extraction(
                 "reference_id": reference_id,
                 "missing": sorted(str(path) for path in expected_page_files - actual_page_files),
                 "extra": sorted(str(path) for path in actual_page_files - expected_page_files),
+            }
+        )
+    ocr_directory = expected_root / "ocr"
+    actual_ocr_files = {path.resolve() for path in ocr_directory.glob("page-*.json")} if ocr_directory.is_dir() else set()
+    if expected_ocr_files - actual_ocr_files:
+        errors.append(
+            {
+                "reason": "reference-pdf-ocr-output-file-set",
+                "reference_id": reference_id,
+                "missing": sorted(str(path) for path in expected_ocr_files - actual_ocr_files),
             }
         )
     pending_pages = [page.get("page_number") for page in pages if isinstance(page, dict) and page.get("status") != "extracted"]

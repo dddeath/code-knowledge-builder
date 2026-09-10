@@ -12,101 +12,75 @@
 
 [打开源码：scripts/ckb_core/common.py 第 24 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/common.py:24:1)  `scripts/ckb_core/common.py:24-25`
 
-## 相关代码
-
-- 实现时会用到 [[contracts 的协作边界（prototypes）]]。
-
 ## 谁会来到这里
 
-- [[AgentProtocolBatchApplyTests 等测试场景]] 会使用这里提供的行为。
+- [[BatchProjectError]] 会使用这里提供的行为。
+- 与 [[BatchProjectError 与 ProtocolRelease 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 - [[CkbError 与 DependencyError 的协作实现]] 汇总了本页。
-- [[CodeKnowledgeBuilderTests 等测试场景]] 会使用这里提供的行为。
-- [[FactFreshnessStateMachineTest]] 会使用这里提供的行为。
-- [[HumanMaintenancePromptRegistryTests 等测试场景]] 会使用这里提供的行为。
-- [[HumanPageTemplateRegistryTests]] 会使用这里提供的行为。
-- [[KeywordFallbackRetrievalWiringTests 等测试场景]] 会使用这里提供的行为。
-- [[PdfReferenceExtractionTests]] 会使用这里提供的行为。
-- [[RecordReplaceTests]] 会使用这里提供的行为。
-- [[ScopeExtensionTest]] 会使用这里提供的行为。
-- [[SessionStdioLifecycleTests]] 会使用这里提供的行为。
-- [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]] 会使用这里提供的行为。
-- [[TemplateProposalStoreTests]] 会使用这里提供的行为。
-- [[_Transport.close 与 _StartGate 的协作实现]] 会使用这里提供的行为。
-- [[append 等测试场景]] 会使用这里提供的行为。
-- [[audit_agent_protocol 与 _default_python 的协作实现]] 会使用这里提供的行为。
-- [[audit_feedback]] 会使用这里提供的行为。
-- [[audit_feedback 与 _contains_chinese 的协作实现]] 会使用这里提供的行为。
-- [[audit_gap_register 与 _root 的协作实现]] 会使用这里提供的行为。
-- [[audit_migration]] 会使用这里提供的行为。
-- [[audit_migration 与 _entity_key 的协作实现]] 会使用这里提供的行为。
-- [[audit_obsidian]] 会使用这里提供的行为。
-- [[audit_operation_journal 与 _root 的协作实现]] 会使用这里提供的行为。
-- [[audit_work_record_index 与 _contains_chinese 的协作实现]] 会使用这里提供的行为。
-- [[bind_conversation]] 会使用这里提供的行为。
-- [[bind_conversation 与 default_management_registry_path 的协作实现]] 会使用这里提供的行为。
-- [[check_fact_freshness 与 _root 的协作实现]] 会使用这里提供的行为。
-- [[create_batch_plan]] 会使用这里提供的行为。
-- [[create_batch_plan 与 ProtocolRelease 的协作实现]] 会使用这里提供的行为。
-- [[create_knowledge_batch_plan]] 会使用这里提供的行为。
-- [[create_knowledge_batch_plan 与 KnowledgeRelease 的协作实现]] 会使用这里提供的行为。
-- [[deployment_plan 与 skill_root 的协作实现]] 会使用这里提供的行为。
-- [[doctor_report 与 _version_matches 的协作实现]] 会使用这里提供的行为。
-- [[extract_pdf]] 会使用这里提供的行为。
-- [[extract_pdf 与 PdfExtractionError 的协作实现]] 会使用这里提供的行为。
-- [[finalize 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
-- [[get_human_page_template]] 会使用这里提供的行为。
-- [[get_human_page_template 与 SectionContract 的协作实现]] 会使用这里提供的行为。
-- [[ingest_event]] 会使用这里提供的行为。
-- [[ingest_event 与 default_registry_path 的协作实现]] 会使用这里提供的行为。
-- [[ingest_reference]] 会使用这里提供的行为。
-- [[ingest_reference 与 _root 的协作实现]] 会使用这里提供的行为。
-- [[keyword_provider_config]] 会使用这里提供的行为。
-- [[keyword_provider_config 与 parser 的协作实现]] 会使用这里提供的行为。
-- [[load_page_config]] 会使用这里提供的行为。
-- [[load_page_config 与 _merge_known 的协作实现]] 会使用这里提供的行为。
-- [[maintenance_check]] 会使用这里提供的行为。
-- [[maintenance_check 与 capability_matrix 的协作实现]] 会使用这里提供的行为。
-- [[main（ckb 实现）]] 会使用这里提供的行为。
-- [[package_showcase]] 会使用这里提供的行为。
-- [[package_showcase 与 _parse_sample 的协作实现]] 会使用这里提供的行为。
-- [[parse_file]] 会使用这里提供的行为。
-- [[preflight 与 git 的协作实现]] 会使用这里提供的行为。
-- [[propose_template]] 会使用这里提供的行为。
-- [[propose_template 与 _canonical_bytes 的协作实现]] 会使用这里提供的行为。
-- [[query_graph]] 会使用这里提供的行为。
-- [[query_graph 与 _networkx_modules 的协作实现]] 会使用这里提供的行为。
-- [[record_note]] 会使用这里提供的行为。
-- [[record_note 与 page_tag 的协作实现]] 会使用这里提供的行为。
-- [[refresh 等测试场景]] 会使用这里提供的行为。
-- [[register_obsidian_plugin 与 default_obsidian_plugin_registry 的协作实现]] 会使用这里提供的行为。
-- [[render_integration]] 会使用这里提供的行为。
-- [[render_integration 与 harness_retrieval_contract 的协作实现]] 会使用这里提供的行为。
-- [[render_page_author 与 _error 的协作实现]] 会使用这里提供的行为。
-- [[replace_note]] 会使用这里提供的行为。
-- [[replace_note 与 RecordReplaceLockError 的协作实现]] 会使用这里提供的行为。
-- [[retrieve]] 会使用这里提供的行为。
-- [[retrieve 与 _tokens 的协作实现]] 会使用这里提供的行为。
-- [[retrieve_machine 与 estimated_tokens 的协作实现]] 会使用这里提供的行为。
-- [[run_keyword_benchmark 与 _text_list 的协作实现]] 会使用这里提供的行为。
-- [[run_keyword_provider]] 会使用这里提供的行为。
-- [[run_keyword_provider 与 KeywordProviderConfig 的协作实现]] 会使用这里提供的行为。
-- [[serve_stdio]] 会使用这里提供的行为。
-- [[serve_stdio 与 _write_line 的协作实现]] 会使用这里提供的行为。
-- [[start_scope_extension]] 会使用这里提供的行为。
-- [[start_scope_extension 与 _error 的协作实现]] 会使用这里提供的行为。
-- [[start_session]] 会使用这里提供的行为。
-- [[start_session 与 _session_directory 的协作实现]] 会使用这里提供的行为。
-- [[sync_human_layer]] 会使用这里提供的行为。
-- [[sync_human_layer 与 _source_manifest 的协作实现]] 会使用这里提供的行为。
-- [[validate_human_maintenance_invocation 与 ParameterSpec 的协作实现]] 会使用这里提供的行为。
-
-## 相关测试
-
-- [[AgentProtocolBatchApplyTests]]
-- [[AgentProtocolBatchApplyTests 等测试场景]]
-- [[AutomationTest.register]]
-- [[AutomationTest.register 等测试场景]]
-- [[CanvasBenchmarkContractTests]]
-- [[CanvasBenchmarkContractTests 等测试场景]]
-
-> 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
+- 与 [[HumanPageTemplateContract 与 SectionContract 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[KeywordFallbackOptions 与 KeywordProviderConfig 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[audit_agent_protocol 与 _default_python 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[audit_feedback]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[audit_feedback 与 _contains_chinese 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[audit_global]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[audit_global 与 _replace_output_prefix 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[audit_obsidian]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[audit_work_record_index 与 _contains_chinese 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[build_agent_index]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[build_agent_index 与 _tokens 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[build_machine_knowledge]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[build_machine_knowledge 与 estimated_tokens 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[check_fact_freshness 与 _root 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[close_session 与 _StartGate 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[create_gap]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[create_gap 与 _root 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[create_knowledge_batch_plan]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[create_knowledge_batch_plan 与 KnowledgeRelease 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[deploy]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[deploy 与 skill_root 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[deploy_obsidian_plugin_to_vault]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[deploy_obsidian_plugin_to_vault 与 default_obsidian_plugin_registry 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[doctor_report 与 _version_matches 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[ensure_local_openers 与 SourceLinkRenderer 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[finish_session]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[finish_session 与 _session_directory 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[ingest_web_reference]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[ingest_web_reference 与 _root 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[init_page_author 与 _error 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[maintenance_check]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[maintenance_check 与 capability_matrix 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[migrate_output]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[migrate_output 与 _entity_key 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[normalize_page_config]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[normalize_page_config 与 _merge_known 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[package_showcase]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[package_showcase 与 _parse_sample 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[parse_file]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[preflight 与 git 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[project_graphify 与 _networkx_modules 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[propose_template]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[propose_template 与 _canonical_bytes 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[record_note]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[record_note 与 page_tag 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[record_operation]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[record_operation 与 _root 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[render_human_maintenance_prompt]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[render_human_maintenance_prompt 与 ParameterSpec 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[render_integration]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[render_integration 与 harness_retrieval_contract 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[review_automation]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[review_automation 与 default_registry_path 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[review_management_task]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[review_management_task 与 default_management_registry_path 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[rollback_replacement]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[rollback_replacement 与 RecordReplaceLockError 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[run_keyword_benchmark 与 _text_list 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[serve_stdio]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[serve_stdio 与 _write_line 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[start_scope_extension]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[start_scope_extension 与 _error 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[sync_human_layer]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[sync_human_layer 与 _source_manifest 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[validate_pdf_extraction 与 PdfExtractionError 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[validate_web_extraction]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[validate_web_extraction 与 WebSnapshotError 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。

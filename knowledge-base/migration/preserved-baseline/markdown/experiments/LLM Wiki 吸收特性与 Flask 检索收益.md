@@ -160,17 +160,17 @@ LLM Wiki 的核心方法是把材料预先编译成可查询的知识结构。CK
 ## 相关知识页
 
 - [[audit_obsidian 与 prepare_vault 的协作实现]]
-- [[audit_migration 与 _entity_key 的协作实现]]
+- [[migrate_output 与 _entity_key 的协作实现]]
 - [[package_showcase 与 _parse_sample 的协作实现]]
-- [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]]
-- [[finalize 与 _replace_output_prefix 的协作实现]]
-- [[retrieve_machine 与 estimated_tokens 的协作实现]]
-- [[query_graph 与 _networkx_modules 的协作实现]]
+- [[ensure_local_openers 与 SourceLinkRenderer 的协作实现]]
+- [[audit_global 与 _replace_output_prefix 的协作实现]]
+- [[build_machine_knowledge 与 estimated_tokens 的协作实现]]
+- [[project_graphify 与 _networkx_modules 的协作实现]]
 - [[record_note]]
-- [[keyword_provider_config 与 parser 的协作实现]]
+- [[keyword_provider_config 与 keyword_fallback_options 的协作实现]]
 - [[sync_human_layer]]
 - [[module_name 与 estimated_tokens 的协作实现]]
-- [[MigrationTest 等测试场景]]
+- [[git 等测试场景（test_migration 测试）]]
 
 ## 源码入口
 

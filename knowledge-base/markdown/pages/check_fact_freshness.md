@@ -14,27 +14,13 @@
 
 ## 相关代码
 
-- 实现时会用到 [[CkbError 与 DependencyError 的协作实现]]。
-- 实现时会用到 [[check_fact_freshness 与 _root 的协作实现]]。
-- 实现时会用到 [[ckb_canvas 的协作边界]]。
+- 与 [[CkbError 与 DependencyError 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[check_fact_freshness 与 _root 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 
 ## 谁会来到这里
 
-- [[FactFreshnessStateMachineTest]] 会使用这里提供的行为。
-- [[bind_conversation 与 default_management_registry_path 的协作实现]] 会使用这里提供的行为。
+- 与 [[build_machine_knowledge 与 estimated_tokens 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 - [[check_fact_freshness 与 _root 的协作实现]] 汇总了本页。
-- [[ingest_event]] 会使用这里提供的行为。
-- [[ingest_event 与 default_registry_path 的协作实现]] 会使用这里提供的行为。
-- [[retrieve_machine]] 会使用这里提供的行为。
-- [[run_probe]] 会使用这里提供的行为。
-
-## 相关测试
-
-- [[AutomationTest.register 等测试场景]]
-- [[CanvasContractTests]]
-- [[CanvasDeterminismTests]]
-- [[CanvasGraphTests]]
-- [[CanvasPathTests]]
-- [[CanvasRollbackTests]]
-
-> 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
+- 与 [[maintenance_check]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[review_automation 与 default_registry_path 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[review_management_task 与 default_management_registry_path 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。

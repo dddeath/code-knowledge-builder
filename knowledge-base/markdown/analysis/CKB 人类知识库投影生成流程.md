@@ -89,10 +89,10 @@ CKB 的人类知识库不是机器实体清单的 Markdown 导出，而是从完
 - [[sync_human_layer]]
 - [[audit_agent_protocol]]
 - [[maintenance_check]]
-- [[ingest_reference 与 _root 的协作实现]]
+- [[ingest_web_reference 与 _root 的协作实现]]
 - [[module_name 与 estimated_tokens 的协作实现]]
-- [[load_page_config 与 _merge_known 的协作实现]]
-- [[finalize 与 _replace_output_prefix 的协作实现]]
+- [[normalize_page_config 与 _merge_known 的协作实现]]
+- [[audit_global 与 _replace_output_prefix 的协作实现]]
 
 ## 源码入口
 
@@ -104,3 +104,11 @@ CKB 的人类知识库不是机器实体清单的 Markdown 导出，而是从完
 - [打开源码：scripts/ckb_core/navigation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/navigation.py:1:1)  `scripts/ckb_core/navigation.py:1-456`
 - [打开源码：scripts/ckb_core/page_config.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/page_config.py:1:1)  `scripts/ckb_core/page_config.py:1-244`
 - [打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3482`
+
+## 后续补充
+
+### 2026年9月6日历史来源修复
+
+原文保留。原查询阅读包未能从现有归档恢复，不重建同名文件，也不把本次定位当作当年的原始证据。当前来源改为本次新的定位阅读包。
+
+新阅读包用于重新定位页面投影实现。历史说明不替代当前生成结果；最新可读性修复另有变更与实际测试记录。

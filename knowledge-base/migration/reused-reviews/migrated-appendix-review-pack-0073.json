@@ -1,0 +1,174 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-appendix-review-pack-0073",
+  "kind": "appendix-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-10T03:35:45Z",
+  "reviews": [
+    {
+      "entity_id": "ent-afd98d49147b5469a3fbd62cb72f739b",
+      "classification": "appendix",
+      "owner_page_id": "file-99849ba249645cada446f1a668fdd95f",
+      "source_path": "tests/test_reference_web.py",
+      "start_line": 164,
+      "end_line": 175,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0041审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "从本地重定向端点获取网页，核对请求与最终地址、状态、跳转链和保留或省略的响应头。"
+    },
+    {
+      "entity_id": "ent-97fd2f9222e25991bd6ef2ddb24872d9",
+      "classification": "appendix",
+      "owner_page_id": "file-99849ba249645cada446f1a668fdd95f",
+      "source_path": "tests/test_reference_web.py",
+      "start_line": 177,
+      "end_line": 191,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0041审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "通过本地故障端点和不可用连接替身，要求非 HTML、超量、超时和网络失败均返回明确错误。"
+    },
+    {
+      "entity_id": "ent-1414b027b9dc5eb3a6a0f8aae0bdcf48",
+      "classification": "appendix",
+      "owner_page_id": "file-99849ba249645cada446f1a668fdd95f",
+      "source_path": "tests/test_reference_web.py",
+      "start_line": 185,
+      "end_line": 187,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0041审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "定义始终抛出网络不可用异常的连接替身，供网页获取失败测试。"
+    },
+    {
+      "entity_id": "ent-a53203c9ae6752d19ba02092e2d7284a",
+      "classification": "appendix",
+      "owner_page_id": "file-99849ba249645cada446f1a668fdd95f",
+      "source_path": "tests/test_reference_web.py",
+      "start_line": 186,
+      "end_line": 187,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0041审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "无论请求参数为何都抛出网络不可用错误，模拟连接建立失败。"
+    },
+    {
+      "entity_id": "ent-ba57a1112fcb5dcba9547ca89baabace",
+      "classification": "appendix",
+      "owner_page_id": "file-99849ba249645cada446f1a668fdd95f",
+      "source_path": "tests/test_reference_web.py",
+      "start_line": 193,
+      "end_line": 198,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0041审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "核对适配器合同保留本地静态与显式联网模式，并声明输出仍需要来源审阅。"
+    },
+    {
+      "entity_id": "ent-491c9246b62a5bc99319722c72ab3dbd",
+      "classification": "appendix",
+      "owner_page_id": "file-99849ba249645cada446f1a668fdd95f",
+      "source_path": "tests/test_reference_web.py",
+      "start_line": 200,
+      "end_line": 209,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0041审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "向默认本地导入传入 HTML，要求按不支持格式拒绝且不调用网页获取函数。"
+    },
+    {
+      "entity_id": "ent-2b968a4b22215d2cb2409117f6e330e1",
+      "classification": "appendix",
+      "owner_page_id": "file-99849ba249645cada446f1a668fdd95f",
+      "source_path": "tests/test_reference_web.py",
+      "start_line": 212,
+      "end_line": 412,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0041审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "验证静态及显式联网网页导入、精确引用、修订和重复内容审计，并确保网络失败不改动已有参考。"
+    },
+    {
+      "entity_id": "ent-e25e0917086b5695b9d42f8b2746e46e",
+      "classification": "appendix",
+      "owner_page_id": "file-99849ba249645cada446f1a668fdd95f",
+      "source_path": "tests/test_reference_web.py",
+      "start_line": 213,
+      "end_line": 220,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0041审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "创建临时知识库仓库并启动本地 HTTP 服务，为网页参考端到端测试提供隔离输入。"
+    },
+    {
+      "entity_id": "ent-634a0d07f2af5592a2c73483c4cfdd7c",
+      "classification": "appendix",
+      "owner_page_id": "file-99849ba249645cada446f1a668fdd95f",
+      "source_path": "tests/test_reference_web.py",
+      "start_line": 222,
+      "end_line": 226,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0041审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "停止网页参考测试的 HTTP 服务和线程，再清理临时目录。"
+    },
+    {
+      "entity_id": "ent-378834964094535692f83167ee5d105d",
+      "classification": "appendix",
+      "owner_page_id": "file-99849ba249645cada446f1a668fdd95f",
+      "source_path": "tests/test_reference_web.py",
+      "start_line": 228,
+      "end_line": 237,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0041审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "构建并审阅完成测试知识库，逐步核对初始化、合并和收尾退出状态。"
+    },
+    {
+      "entity_id": "ent-3e48f00b655955069d22561d58f994ca",
+      "classification": "appendix",
+      "owner_page_id": "file-99849ba249645cada446f1a668fdd95f",
+      "source_path": "tests/test_reference_web.py",
+      "start_line": 239,
+      "end_line": 255,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0041审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "调用静态网页导入命令并传入固定来源根、响应元数据及许可，允许测试追加修订参数。"
+    },
+    {
+      "entity_id": "ent-4561eb1d9eb351828c5e8d73a30fddce",
+      "classification": "appendix",
+      "owner_page_id": "file-99849ba249645cada446f1a668fdd95f",
+      "source_path": "tests/test_reference_web.py",
+      "start_line": 366,
+      "end_line": 412,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0041审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "显式抓取本地重定向网页并停在待审门，再注入网络失败，核对整个既有参考文件集合及哈希未变。"
+    },
+    {
+      "entity_id": "ent-1700db36143c519fa58f4fba5a1a75ad",
+      "classification": "appendix",
+      "owner_page_id": "file-c7c67e2f064b53b7b7a58b0cd87d1a02",
+      "source_path": "tests/test_scope_extension.py",
+      "start_line": 33,
+      "end_line": 37,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `tests/test_scope_extension.py` 第 33-37 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "description_zh": "`git` 是第 31-35 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-fe425371c4195ce3877319631bf6804d",
+      "classification": "appendix",
+      "owner_page_id": "file-c7c67e2f064b53b7b7a58b0cd87d1a02",
+      "source_path": "tests/test_scope_extension.py",
+      "start_line": 65,
+      "end_line": 503,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0041审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "验证范围扩展的确认提示、入口并集、增量审阅和可变层保留，覆盖切换故障及可逐级撤销的连续扩展链。"
+    },
+    {
+      "entity_id": "ent-56673548b9395c56b352ef1876ec636d",
+      "classification": "appendix",
+      "owner_page_id": "file-c7c67e2f064b53b7b7a58b0cd87d1a02",
+      "source_path": "tests/test_scope_extension.py",
+      "start_line": 66,
+      "end_line": 93,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `tests/test_scope_extension.py` 第 66-93 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "description_zh": "`ScopeExtensionTest.setUp` 是第 64-91 行的函数，供所属页面定位实现。"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "status": "passed",
+  "source": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+  "target": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+  "stable_baseline_unchanged": true,
+  "records": 80,
+  "layers": {
+    "references/raw": {
+      "files": 1,
+      "byte_equal": true
+    },
+    "references/manifests": {
+      "files": 1,
+      "byte_equal": false
+    },
+    "references/reviews": {
+      "files": 1,
+      "byte_equal": false
+    },
+    "workspace-meta/gaps/records": {
+      "files": 9,
+      "byte_equal": true
+    }
+  },
+  "learning_originals": [
+    {
+      "path": "human\\学习笔记\\2026-08-29.md",
+      "sha256": "62059c19c42a0969e116c66d747627c6fae1b9fef3ef412e2c0ed03ced45ceeb"
+    },
+    {
+      "path": "human\\学习笔记\\2026-08-30.md",
+      "sha256": "deda3a69bfd3da78eb382890b86bed779fc8fdb268e60a3c782ee8fbce6d9a43"
+    },
+    {
+      "path": "markdown\\学习笔记\\2026-08-29.md",
+      "sha256": "62059c19c42a0969e116c66d747627c6fae1b9fef3ef412e2c0ed03ced45ceeb"
+    },
+    {
+      "path": "markdown\\学习笔记\\2026-08-30.md",
+      "sha256": "deda3a69bfd3da78eb382890b86bed779fc8fdb268e60a3c782ee8fbce6d9a43"
+    }
+  ],
+  "historical_replacements_originals": "machine/historical-records"
+}

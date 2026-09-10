@@ -1,0 +1,243 @@
+{
+  "document": [
+    [
+      "note:experiments:机器 Tag 导航隔离实验",
+      "experiment",
+      "机器 Tag 导航隔离实验",
+      "#类型/实验",
+      "experiments/机器 Tag 导航隔离实验.md",
+      null,
+      "# 机器 Tag 导航隔离实验\n\n标签：#类型/实验\n\n## 实验问题\n\n能否把 tag 事实先保存在机器层，让 Agent 只提交支持票、反对票或撤销，再由确定性审计决定哪些 tag 值得进入人类导航，从而减少查找步骤而不增加页面。\n\n## 固定范围\n\n实验只在独立原型中运行，不接入生产 CKB、稳定人类页面或 Obsidian 插件。机器记录包含结构化来源、固定提交、时间、Agent 身份类别和幂等键，不保存对话原文、Prompt、凭据或自由文本证据。\n\n## 实验方法\n\n审计把 tag 分为候选、已确认、争议和废弃四态，同时检查支持票数、独立 Agent、独立来源、反对比例、证据时效和提交漂移。同一 Agent 的重复投票只保留最后一票。只有已确认 tag 进入独立导航 JSON，每页最多三个，超额项保留在机器审计中。\n\n## 实验结果\n\n固定样例写入 25 条唯一事件并忽略 1 条幂等重复，得到 1 个候选、5 个已确认、1 个争议和 3 个废弃 tag。六个隔离导航任务的总步骤从 `19` 降到 `7`，误导链接从 `5` 降到 `1`，两组页面数都为 `11`，没有新增页面或 tag 冲突。\n\n## 如何解释\n\n结果说明“机器 assertion、确定性审计、人类层只投影已确认 tag”在固定样例中具有导航信号，同时保持页面数量不变。它不等同于真实人类在 Obsidian 中的使用效果，也没有证明当前阈值适合生产知识库。\n\n## 适用边界\n\n生产接入保持关闭。原型只读取本地 JSONL、SQLite 和 JSON；Properties 与 Canvas 仅作为对照能力，没有被写入稳定页面。回滚路径对工作区外目标、目标漂移、manifest 写入失败和恢复失败均有保护，恢复失败时保留 baseline 备份。\n\n## 下一步决定\n\n进入生产前仍需确定三个问题：使用独立 `#导航/...` 还是与 `#类型/...` 并存；如何登记独立 Agent 与独立来源；tag 投影由生成器管理、允许人类编辑，还是只读导出。真实 Obsidian 人工对照应在这些边界确定后进行。\n\n\n\n## 历史源码定位\n\n原关联页面未进入当前建库范围，以下链接保留到此前已发布源码，不表示这些历史结论已重新测量。\n\n- [ingest 与 connect 的协作实现的历史源码](https://github.com/dddeath/code-knowledge-builder/blob/4ead5dc/source/prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py)\n- [state_machine 的协作边界的历史源码](https://github.com/dddeath/code-knowledge-builder/blob/4ead5dc/source/prototypes/ckb-tag-navigation/ckb_tag_navigation/state_machine.py)\n\n## 原始记录\n\n[按需核对历史原文与完整复现明细](../../machine/historical-records/legacy-links-20260910-16.md)。\n\n## 相关知识页\n\n- [[TagNavigationStateMachineTests.by_tag 等测试场景]]\n\n## 源码入口\n\n- [打开源码：tests/test_ckb_tag_navigation_state_machine.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_ckb_tag_navigation_state_machine.py:1:1)  `tests/test_ckb_tag_navigation_state_machine.py:1-69`\n",
+      1039
+    ]
+  ],
+  "sections": [
+    [
+      "note:experiments:机器 Tag 导航隔离实验:0",
+      "note:experiments:机器 Tag 导航隔离实验",
+      0,
+      "机器 Tag 导航隔离实验",
+      "标签：#类型/实验",
+      8,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:experiments:机器 Tag 导航隔离实验:1",
+      "note:experiments:机器 Tag 导航隔离实验",
+      1,
+      "实验问题",
+      "能否把 tag 事实先保存在机器层，让 Agent 只提交支持票、反对票或撤销，再由确定性审计决定哪些 tag 值得进入人类导航，从而减少查找步骤而不增加页面。",
+      69,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:experiments:机器 Tag 导航隔离实验:2",
+      "note:experiments:机器 Tag 导航隔离实验",
+      2,
+      "固定范围",
+      "实验只在独立原型中运行，不接入生产 CKB、稳定人类页面或 Obsidian 插件。机器记录包含结构化来源、固定提交、时间、Agent 身份类别和幂等键，不保存对话原文、Prompt、凭据或自由文本证据。",
+      85,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:experiments:机器 Tag 导航隔离实验:3",
+      "note:experiments:机器 Tag 导航隔离实验",
+      3,
+      "实验方法",
+      "审计把 tag 分为候选、已确认、争议和废弃四态，同时检查支持票数、独立 Agent、独立来源、反对比例、证据时效和提交漂移。同一 Agent 的重复投票只保留最后一票。只有已确认 tag 进入独立导航 JSON，每页最多三个，超额项保留在机器审计中。",
+      108,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:experiments:机器 Tag 导航隔离实验:4",
+      "note:experiments:机器 Tag 导航隔离实验",
+      4,
+      "实验结果",
+      "固定样例写入 25 条唯一事件并忽略 1 条幂等重复，得到 1 个候选、5 个已确认、1 个争议和 3 个废弃 tag。六个隔离导航任务的总步骤从 `19` 降到 `7`，误导链接从 `5` 降到 `1`，两组页面数都为 `11`，没有新增页面或 tag 冲突。",
+      98,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:experiments:机器 Tag 导航隔离实验:5",
+      "note:experiments:机器 Tag 导航隔离实验",
+      5,
+      "如何解释",
+      "结果说明“机器 assertion、确定性审计、人类层只投影已确认 tag”在固定样例中具有导航信号，同时保持页面数量不变。它不等同于真实人类在 Obsidian 中的使用效果，也没有证明当前阈值适合生产知识库。",
+      90,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:experiments:机器 Tag 导航隔离实验:6",
+      "note:experiments:机器 Tag 导航隔离实验",
+      6,
+      "适用边界",
+      "生产接入保持关闭。原型只读取本地 JSONL、SQLite 和 JSON；Properties 与 Canvas 仅作为对照能力，没有被写入稳定页面。回滚路径对工作区外目标、目标漂移、manifest 写入失败和恢复失败均有保护，恢复失败时保留 baseline 备份。",
+      98,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:experiments:机器 Tag 导航隔离实验:7",
+      "note:experiments:机器 Tag 导航隔离实验",
+      7,
+      "下一步决定",
+      "进入生产前仍需确定三个问题：使用独立 `#导航/...` 还是与 `#类型/...` 并存；如何登记独立 Agent 与独立来源；tag 投影由生成器管理、允许人类编辑，还是只读导出。真实 Obsidian 人工对照应在这些边界确定后进行。",
+      94,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:experiments:机器 Tag 导航隔离实验:8",
+      "note:experiments:机器 Tag 导航隔离实验",
+      8,
+      "历史源码定位",
+      "原关联页面未进入当前建库范围，以下链接保留到此前已发布源码，不表示这些历史结论已重新测量。\n\n- [ingest 与 connect 的协作实现的历史源码](https://github.com/dddeath/code-knowledge-builder/blob/4ead5dc/source/prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py)\n- [state_machine 的协作边界的历史源码](https://github.com/dddeath/code-knowledge-builder/blob/4ead5dc/source/prototypes/ckb-tag-navigation/ckb_tag_navigation/state_machine.py)",
+      169,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:experiments:机器 Tag 导航隔离实验:9",
+      "note:experiments:机器 Tag 导航隔离实验",
+      9,
+      "原始记录",
+      "[按需核对历史原文与完整复现明细](../../machine/historical-records/legacy-links-20260910-16.md)。",
+      38,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:experiments:机器 Tag 导航隔离实验:10",
+      "note:experiments:机器 Tag 导航隔离实验",
+      10,
+      "相关知识页",
+      "- [[TagNavigationStateMachineTests.by_tag 等测试场景]]",
+      20,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:experiments:机器 Tag 导航隔离实验:11",
+      "note:experiments:机器 Tag 导航隔离实验",
+      11,
+      "源码入口",
+      "- [打开源码：tests/test_ckb_tag_navigation_state_machine.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_ckb_tag_navigation_state_machine.py:1:1)  `tests/test_ckb_tag_navigation_state_machine.py:1-69`",
+      80,
+      null,
+      null,
+      null
+    ]
+  ],
+  "section_sources": [],
+  "links": [
+    [
+      "note:experiments:机器 Tag 导航隔离实验",
+      null,
+      "TagNavigationStateMachineTests.by_tag 等测试场景",
+      "wikilink"
+    ]
+  ],
+  "fts": [
+    [
+      "note:experiments:机器 Tag 导航隔离实验:0",
+      "note:experiments:机器 Tag 导航隔离实验",
+      "机器 Tag 导航隔离实验",
+      "标签：#类型/实验",
+      ""
+    ],
+    [
+      "note:experiments:机器 Tag 导航隔离实验:1",
+      "note:experiments:机器 Tag 导航隔离实验",
+      "实验问题",
+      "能否把 tag 事实先保存在机器层，让 Agent 只提交支持票、反对票或撤销，再由确定性审计决定哪些 tag 值得进入人类导航，从而减少查找步骤而不增加页面。",
+      ""
+    ],
+    [
+      "note:experiments:机器 Tag 导航隔离实验:2",
+      "note:experiments:机器 Tag 导航隔离实验",
+      "固定范围",
+      "实验只在独立原型中运行，不接入生产 CKB、稳定人类页面或 Obsidian 插件。机器记录包含结构化来源、固定提交、时间、Agent 身份类别和幂等键，不保存对话原文、Prompt、凭据或自由文本证据。",
+      ""
+    ],
+    [
+      "note:experiments:机器 Tag 导航隔离实验:3",
+      "note:experiments:机器 Tag 导航隔离实验",
+      "实验方法",
+      "审计把 tag 分为候选、已确认、争议和废弃四态，同时检查支持票数、独立 Agent、独立来源、反对比例、证据时效和提交漂移。同一 Agent 的重复投票只保留最后一票。只有已确认 tag 进入独立导航 JSON，每页最多三个，超额项保留在机器审计中。",
+      ""
+    ],
+    [
+      "note:experiments:机器 Tag 导航隔离实验:4",
+      "note:experiments:机器 Tag 导航隔离实验",
+      "实验结果",
+      "固定样例写入 25 条唯一事件并忽略 1 条幂等重复，得到 1 个候选、5 个已确认、1 个争议和 3 个废弃 tag。六个隔离导航任务的总步骤从 `19` 降到 `7`，误导链接从 `5` 降到 `1`，两组页面数都为 `11`，没有新增页面或 tag 冲突。",
+      ""
+    ],
+    [
+      "note:experiments:机器 Tag 导航隔离实验:5",
+      "note:experiments:机器 Tag 导航隔离实验",
+      "如何解释",
+      "结果说明“机器 assertion、确定性审计、人类层只投影已确认 tag”在固定样例中具有导航信号，同时保持页面数量不变。它不等同于真实人类在 Obsidian 中的使用效果，也没有证明当前阈值适合生产知识库。",
+      ""
+    ],
+    [
+      "note:experiments:机器 Tag 导航隔离实验:6",
+      "note:experiments:机器 Tag 导航隔离实验",
+      "适用边界",
+      "生产接入保持关闭。原型只读取本地 JSONL、SQLite 和 JSON；Properties 与 Canvas 仅作为对照能力，没有被写入稳定页面。回滚路径对工作区外目标、目标漂移、manifest 写入失败和恢复失败均有保护，恢复失败时保留 baseline 备份。",
+      ""
+    ],
+    [
+      "note:experiments:机器 Tag 导航隔离实验:7",
+      "note:experiments:机器 Tag 导航隔离实验",
+      "下一步决定",
+      "进入生产前仍需确定三个问题：使用独立 `#导航/...` 还是与 `#类型/...` 并存；如何登记独立 Agent 与独立来源；tag 投影由生成器管理、允许人类编辑，还是只读导出。真实 Obsidian 人工对照应在这些边界确定后进行。",
+      ""
+    ],
+    [
+      "note:experiments:机器 Tag 导航隔离实验:8",
+      "note:experiments:机器 Tag 导航隔离实验",
+      "历史源码定位",
+      "原关联页面未进入当前建库范围，以下链接保留到此前已发布源码，不表示这些历史结论已重新测量。\n\n- [ingest 与 connect 的协作实现的历史源码](https://github.com/dddeath/code-knowledge-builder/blob/4ead5dc/source/prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py)\n- [state_machine 的协作边界的历史源码](https://github.com/dddeath/code-knowledge-builder/blob/4ead5dc/source/prototypes/ckb-tag-navigation/ckb_tag_navigation/state_machine.py)",
+      ""
+    ],
+    [
+      "note:experiments:机器 Tag 导航隔离实验:9",
+      "note:experiments:机器 Tag 导航隔离实验",
+      "原始记录",
+      "[按需核对历史原文与完整复现明细](../../machine/historical-records/legacy-links-20260910-16.md)。",
+      ""
+    ],
+    [
+      "note:experiments:机器 Tag 导航隔离实验:10",
+      "note:experiments:机器 Tag 导航隔离实验",
+      "相关知识页",
+      "- [[TagNavigationStateMachineTests.by_tag 等测试场景]]",
+      ""
+    ],
+    [
+      "note:experiments:机器 Tag 导航隔离实验:11",
+      "note:experiments:机器 Tag 导航隔离实验",
+      "源码入口",
+      "- [打开源码：tests/test_ckb_tag_navigation_state_machine.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_ckb_tag_navigation_state_machine.py:1:1)  `tests/test_ckb_tag_navigation_state_machine.py:1-69`",
+      ""
+    ]
+  ]
+}

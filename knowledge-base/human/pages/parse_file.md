@@ -2,11 +2,11 @@
 
 标签：#类型/代码
 
-> 代码单元 `parse_file`负责从固定源码提取结构，并把可局部归因的 C++ 语法问题降级为有边界警告。 它属于源码图谱事实生成与语法失败边界的第一层判断，当前说明只覆盖所列固定源码范围。
+> 将固定源码解析为带范围、父子归属和来源完整性标记的实体集合。 从 Tree-sitter 声明提取候选实体并保留诊断；局部语法问题附带警告与低置信度标记，整体不可用时仍返回失败。
 
 ## 什么时候需要修改
 
-当语言语法、实体分类、警告标识、影响范围或失败升级规则变化时，应同步复查本页及其直接关联测试。
+调整 C++ 声明识别、页面候选分类、解析对象生命周期或局部错误传播时修改。
 
 ## 在代码中的位置
 
@@ -14,20 +14,11 @@
 
 ## 相关代码
 
-- 实现时会用到 [[CkbError]]。
-- 实现时会用到 [[CkbError 与 DependencyError 的协作实现]]。
-- 实现时会用到 [[append]]。
-- 实现时会用到 [[doctor_report 与 _version_matches 的协作实现]]。
-- 实现时会用到 [[parse_file 与 _language 的协作实现]]。
-- 实现时会用到 [[parser]]。
-- 实现时会用到 [[retrieve_machine 与 estimated_tokens 的协作实现]]。
+- 与 [[CkbError]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[CkbError 与 DependencyError 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[parse_file 与 _language 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 
 ## 谁会来到这里
 
-- [[CodeKnowledgeBuilderTests 等测试场景]] 会使用这里提供的行为。
-- [[finalize 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
+- 与 [[audit_global 与 _replace_output_prefix 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 - [[parse_file 与 _language 的协作实现]] 汇总了本页。
-
-## 相关测试
-
-- [[CodeKnowledgeBuilderTests 等测试场景]]

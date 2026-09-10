@@ -1,0 +1,235 @@
+{
+  "schema_version": 1,
+  "operation_id": "record-replace-a6ca8f9d37db57bca3408181b7356e6c",
+  "operation": "record-replace",
+  "status": "completed",
+  "output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+  "kind": "experiment",
+  "title": "中文检索词项同索引补测",
+  "created_at_utc": "2026-09-06T04:45:19Z",
+  "rollback_manifest": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-a6ca8f9d37db57bca3408181b7356e6c\\manifest.json",
+  "rollback_argv": [
+    "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe",
+    "E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py",
+    "record-rollback",
+    "--out",
+    "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+    "--manifest",
+    "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-a6ca8f9d37db57bca3408181b7356e6c\\manifest.json"
+  ],
+  "rollback_command": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe' 'E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py' 'record-rollback' '--out' 'E:\\knowledge_builder\\self-workspace\\knowledge-base' '--manifest' 'E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-a6ca8f9d37db57bca3408181b7356e6c\\manifest.json'",
+  "roles": [
+    {
+      "name": "human-note",
+      "kind": "file",
+      "path": "human/experiments/中文检索词项同索引补测.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "2ad6d9b0d762399d1579c63dd8e5518eda71ad1833ae8611bbd7d0b2c9cd72ec",
+        "size": 3868,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-a6ca8f9d37db57bca3408181b7356e6c\\backup\\files\\human\\experiments\\中文检索词项同索引补测.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "f805d38c3f33444729e40718d2fb79c3ca7326e8427ae355e04d419ddfc3a0a4",
+        "size": 4191,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-a6ca8f9d37db57bca3408181b7356e6c\\staging\\files\\human\\experiments\\中文检索词项同索引补测.md"
+      }
+    },
+    {
+      "name": "markdown-note",
+      "kind": "file",
+      "path": "markdown/experiments/中文检索词项同索引补测.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "2ad6d9b0d762399d1579c63dd8e5518eda71ad1833ae8611bbd7d0b2c9cd72ec",
+        "size": 3868,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-a6ca8f9d37db57bca3408181b7356e6c\\backup\\files\\markdown\\experiments\\中文检索词项同索引补测.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "f805d38c3f33444729e40718d2fb79c3ca7326e8427ae355e04d419ddfc3a0a4",
+        "size": 4191,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-a6ca8f9d37db57bca3408181b7356e6c\\staging\\files\\markdown\\experiments\\中文检索词项同索引补测.md"
+      }
+    },
+    {
+      "name": "note-metadata",
+      "kind": "file",
+      "path": "workspace-meta/notes/中文检索词项同索引补测.json",
+      "baseline": {
+        "exists": true,
+        "sha256": "d9e5ec34f1e2625d5ad1963dd4148dab3fe2a19ad2709d3ab634a921b1bbdbea",
+        "size": 3019,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-a6ca8f9d37db57bca3408181b7356e6c\\backup\\files\\workspace-meta\\notes\\中文检索词项同索引补测.json"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "2002f8445f6aa5b12b2b24f1d363e85f72eccf454903248b2f916fa4c219227f",
+        "size": 3439,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-a6ca8f9d37db57bca3408181b7356e6c\\staging\\files\\workspace-meta\\notes\\中文检索词项同索引补测.json"
+      }
+    },
+    {
+      "name": "human-records",
+      "kind": "file",
+      "path": "human/RECORDS.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "39312e1ff568ff037bd40f718b19b1b44278425f540ad20e5f5324f4ac719d43",
+        "size": 24033,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-a6ca8f9d37db57bca3408181b7356e6c\\backup\\files\\human\\RECORDS.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "39312e1ff568ff037bd40f718b19b1b44278425f540ad20e5f5324f4ac719d43",
+        "size": 24033,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-a6ca8f9d37db57bca3408181b7356e6c\\staging\\files\\human\\RECORDS.md"
+      }
+    },
+    {
+      "name": "markdown-records",
+      "kind": "file",
+      "path": "markdown/RECORDS.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "39312e1ff568ff037bd40f718b19b1b44278425f540ad20e5f5324f4ac719d43",
+        "size": 24033,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-a6ca8f9d37db57bca3408181b7356e6c\\backup\\files\\markdown\\RECORDS.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "39312e1ff568ff037bd40f718b19b1b44278425f540ad20e5f5324f4ac719d43",
+        "size": 24033,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-a6ca8f9d37db57bca3408181b7356e6c\\staging\\files\\markdown\\RECORDS.md"
+      }
+    },
+    {
+      "name": "work-record-index-audit",
+      "kind": "file",
+      "path": "workspace-meta/work-record-index-audit.json",
+      "baseline": {
+        "exists": true,
+        "sha256": "e99b4ba91a667c89357ab6dba7c870a0f23823b84b568fb17309daa14f3f8d58",
+        "size": 217,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-a6ca8f9d37db57bca3408181b7356e6c\\backup\\files\\workspace-meta\\work-record-index-audit.json"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "e99b4ba91a667c89357ab6dba7c870a0f23823b84b568fb17309daa14f3f8d58",
+        "size": 217,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-a6ca8f9d37db57bca3408181b7356e6c\\staging\\files\\workspace-meta\\work-record-index-audit.json"
+      }
+    },
+    {
+      "name": "agent-index-note",
+      "kind": "sqlite-logical",
+      "path": "agent-index.sqlite",
+      "selector": "中文检索词项同索引补测",
+      "baseline": {
+        "sha256": "651a53c47367c35cab414cea425ce7d81b8964722c6421a24b5a3e3c85661c0b",
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-a6ca8f9d37db57bca3408181b7356e6c\\backup\\agent-index-note.json"
+      },
+      "modified": {
+        "sha256": "d238545e92706e701ac3be2e08fe499893ae360cb8a4f0ee90c84835243013ce",
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-a6ca8f9d37db57bca3408181b7356e6c\\staging\\agent-index-note.json"
+      }
+    },
+    {
+      "name": "machine-knowledge-note",
+      "kind": "sqlite-logical",
+      "path": "machine/knowledge.sqlite",
+      "selector": "note:experiments:中文检索词项同索引补测",
+      "baseline": {
+        "sha256": "ef134e9932a98a7848a175f1996de5eeabab80daa73768b9ba977069eff1e02f",
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-a6ca8f9d37db57bca3408181b7356e6c\\backup\\machine-knowledge-note.json"
+      },
+      "modified": {
+        "sha256": "03899f52eb9b49c53cf5a57fa5b2c898e3053e2aa82b9c5ffde1e5dc9d3da7dc",
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-a6ca8f9d37db57bca3408181b7356e6c\\staging\\machine-knowledge-note.json"
+      }
+    }
+  ],
+  "prepared_at_utc": "2026-09-06T04:45:20Z",
+  "record_id": "work-record-46f07b8ade5757fcb5272937262a3c89",
+  "relative_note": "experiments/中文检索词项同索引补测.md",
+  "explicit_evidence_replacement": true,
+  "linked_pages": [
+    "run_keyword_provider 与 KeywordProviderConfig 的协作实现",
+    "module_name 与 estimated_tokens 的协作实现",
+    "search_terms 与 _split_camel 的协作实现",
+    "retrieve 与 _tokens 的协作实现",
+    "audit_gap_register 与 _root 的协作实现",
+    "query_graph 与 _networkx_modules 的协作实现",
+    "ChineseRetrievalEffectRetestFixtureTests",
+    "state_machine 的协作边界"
+  ],
+  "body_sha256": "674ee2b80de1c84003f2780cd929d07d9c2c644cd62f6025cc68c819aac53dca",
+  "candidate_audit": {
+    "status": "passed",
+    "note_errors": [],
+    "work_record_index": {
+      "status": "passed",
+      "record_count": 73,
+      "linked_record_count": 73,
+      "section_counts": {
+        "analysis": 18,
+        "changes": 39,
+        "pitfalls": 0,
+        "experiments": 9,
+        "sessions": 7
+      },
+      "errors": []
+    }
+  },
+  "promotion_order": [
+    "human-note",
+    "markdown-note",
+    "note-metadata",
+    "human-records",
+    "markdown-records",
+    "work-record-index-audit",
+    "agent-index-note",
+    "machine-knowledge-note"
+  ],
+  "completed_at_utc": "2026-09-06T04:45:22Z",
+  "verification": {
+    "status": "passed",
+    "role_errors": [],
+    "note_errors": [],
+    "work_record_index": {
+      "status": "passed",
+      "record_count": 73,
+      "linked_record_count": 73,
+      "section_counts": {
+        "analysis": 18,
+        "changes": 39,
+        "pitfalls": 0,
+        "experiments": 9,
+        "sessions": 7
+      },
+      "errors": []
+    },
+    "agent_index": {
+      "schema_version": 1,
+      "status": "passed",
+      "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\agent-index.sqlite",
+      "integrity": "ok",
+      "counts": {
+        "pages": 251,
+        "symbols": 2090,
+        "edges": 2007,
+        "terms": 29007,
+        "notes": 73
+      },
+      "projection_format": "markdown",
+      "errors": []
+    }
+  },
+  "operation_journal": {
+    "status": "passed",
+    "event_id": "operation-f1d8666341a359aead3c849659619712",
+    "idempotent": false,
+    "journal": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\operations\\2026-09-06.jsonl"
+  }
+}

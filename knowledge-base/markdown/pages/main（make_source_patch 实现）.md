@@ -12,11 +12,6 @@
 
 [打开源码：scripts/make_source_patch.py 第 19 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/make_source_patch.py:19:1)  `scripts/make_source_patch.py:19-42`
 
-## 相关代码
-
-- 实现时会用到 [[append]]。
-- 实现时会用到 [[parser]]。
-
 ## 谁会来到这里
 
 - [[main 相关实现]] 汇总了本页。

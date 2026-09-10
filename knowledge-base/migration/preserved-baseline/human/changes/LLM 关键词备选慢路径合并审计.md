@@ -17,7 +17,7 @@
 
 合并前实际通过慢路径专项 15 项、核心 33 项、Harness 22 项和发行 3 项。解决三处冲突并合并后，实际通过中文词项 12 项、慢路径 15 项、管理 Agent 18 项、核心 37 项、Harness 22 项和发行 3 项。
 
-管理任务还以真实 `codex-cli` 与 `gpt-5.6-luna` 执行一次强制 canary：单次 Provider 调用通过，验证后的扩展词项重新进入确定性检索；request record 审计、`machine/knowledge.sqlite` 完整性与外键检查通过。完整命令、字面输出、冲突决策和退出状态位于 `E:\knowledge_builder\artifacts\verification\llm-keyword-slowpath\management-audit.json`。
+该轮使用真实 Codex 与所选模型执行了强制关键词回退，确认有效扩展词项重新进入确定性检索，并检查请求记录与机器索引的一致性。该次调用不替代完整题集的效果评估，详细结果保留在原始记录。
 
 ## 已测量边界
 
@@ -27,20 +27,42 @@
 
 集成回滚脚本位于 `E:\knowledge_builder\artifacts\verification\llm-keyword-slowpath\rollback-integration-merge.sh`。该脚本已在隔离 clone 中实际创建反向提交，验证回滚后的整树与合并前集成提交一致且工作树干净。
 
+## 后续补充
+
+### 2026年9月6日来源修复
+
+原文保留。原2026年8月31日查询阅读包未能从保留归档恢复，当前来源改为本次重新生成的定位阅读包；新包不冒充历史原始查询，也不据此重新确认上文旧版本的实验指标。
+
+本次中文检索补测实际运行了现有关键词固定回放路径。它验证显式启用、关键词进入检索和缓存复用等测试合同，但没有调用真实模型，不作为真实 LLM 效果证明。该边界与原功能是否存在是两件事。其他真实 Provider 历史实验应按各自固定语料和原记录核对，不与本次回放合并计量。
+
+
+## 历史源码定位
+
+原关联页面未进入当前建库范围，以下链接保留到此前已发布源码，不表示这些历史结论已重新测量。
+
+- [build 的协作边界的历史源码](https://github.com/dddeath/code-knowledge-builder/blob/4ead5dc/source/plugins/obsidian-code-knowledge-builder/scripts/build.py)
+- [deploy 的协作边界的历史源码](https://github.com/dddeath/code-knowledge-builder/blob/4ead5dc/source/plugins/obsidian-code-knowledge-builder/deploy.py)
+
+## 原始记录
+
+[按需核对历史原文与完整复现明细](../../machine/historical-records/legacy-20260910-09.md)。
+
 ## 相关知识页
 
+- [[KeywordFallbackOptions 与 KeywordProviderConfig 的协作实现]]
+- [[build_machine_knowledge 与 estimated_tokens 的协作实现]]
+- [[keyword_provider_config 与 keyword_fallback_options 的协作实现]]
 - [[serve_stdio 与 _write_line 的协作实现]]
-- [[build 的协作边界]]
+- [[run_keyword_benchmark 与 _text_list 的协作实现]]
 - [[maintenance_check 与 capability_matrix 的协作实现]]
-- [[doctor_report 与 _version_matches 的协作实现]]
-- [[deploy 的协作边界]]
-- [[keyword_provider_config 与 parser 的协作实现]]
-- [[serve_stdio]]
+- [[fixture_output 等测试场景]]
 
 ## 源码入口
 
-- [打开源码：scripts/ckb_core/stdio_server.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/stdio_server.py:1:1)  `scripts/ckb_core/stdio_server.py:1-283`
-- [打开源码：scripts/ckb_core/llm_wiki_capabilities.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/llm_wiki_capabilities.py:1:1)  `scripts/ckb_core/llm_wiki_capabilities.py:1-453`
-- [打开源码：scripts/ckb_core/providers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/providers.py:1:1)  `scripts/ckb_core/providers.py:1-611`
-- [打开源码：scripts/ckb.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:1:1)  `scripts/ckb.py:1-788`
-- [打开源码：scripts/ckb_core/stdio_server.py 第 146 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/stdio_server.py:146:1)  `scripts/ckb_core/stdio_server.py:146-282`
+- [打开源码：scripts/ckb_core/keyword_fallback.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/keyword_fallback.py:1:1)  `scripts/ckb_core/keyword_fallback.py:1-638`
+- [打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1995`
+- [打开源码：scripts/ckb.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:1:1)  `scripts/ckb.py:1-1850`
+- [打开源码：scripts/ckb_core/stdio_server.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/stdio_server.py:1:1)  `scripts/ckb_core/stdio_server.py:1-413`
+- [打开源码：scripts/ckb_core/keyword_benchmark.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/keyword_benchmark.py:1:1)  `scripts/ckb_core/keyword_benchmark.py:1-228`
+- [打开源码：scripts/ckb_core/llm_wiki_capabilities.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/llm_wiki_capabilities.py:1:1)  `scripts/ckb_core/llm_wiki_capabilities.py:1-528`
+- [打开源码：tests/test_keyword_fallback.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_keyword_fallback.py:1:1)  `tests/test_keyword_fallback.py:1-471`

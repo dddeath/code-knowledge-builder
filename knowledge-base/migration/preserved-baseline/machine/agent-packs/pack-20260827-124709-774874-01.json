@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "question": "当前 Hook 会触发哪些流程：会话激活、事件归一化、队列、待审阅与人类投影",
+  "profile": "fast",
+  "budget": 2600,
+  "estimated_tokens": 2590,
+  "terms": [
+    "待审阅与人类投影",
+    "会触发哪些流程",
+    "事件归一化",
+    "hook",
+    "会话激活",
+    "一化",
+    "与人",
+    "事件",
+    "些流",
+    "人类",
+    "件归",
+    "会触",
+    "会话",
+    "发哪",
+    "哪些",
+    "审阅",
+    "归一",
+    "当前",
+    "待审",
+    "投影",
+    "流程",
+    "激活",
+    "类投",
+    "触发",
+    "话激",
+    "阅与",
+    "队列"
+  ],
+  "anchors": [],
+  "seed_entity_ids": [
+    "ent-f65c7bf0577b50478813d0a56b87bb61",
+    "ent-7bc1cbaf2fba5e4381fecb3b0d2ec59b",
+    "ent-f67814a694c75797ae039817a5535050",
+    "ent-20269a6b1e1752948592671b79780bff",
+    "ent-6f512ee229715b1996f24f17514e890f"
+  ],
+  "selected_entities": [
+    {
+      "entity_id": "ent-f65c7bf0577b50478813d0a56b87bb61",
+      "name": "test_exact_blob_facts_and_agent_reviews_are_reused",
+      "qualified_name": "MigrationTest.test_exact_blob_facts_and_agent_reviews_are_reused",
+      "kind": "function",
+      "source_path": "tests/test_migration.py",
+      "start_line": 85,
+      "end_line": 176,
+      "human_page_title": "MigrationTest",
+      "human_page_file": "pages/MigrationTest.md",
+      "display_mode": "appendix",
+      "score": 79.56684593,
+      "score_breakdown": {
+        "entity-fts": 24.05901986,
+        "graph": 0.00645698,
+        "section-fts": 47.50136908,
+        "term": 8.0
+      },
+      "reasons": [
+        "确定性词项 `hook`",
+        "确定性词项 `审阅`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "固定源码摘录",
+        "中文作用",
+        "来源核对"
+      ]
+    },
+    {
+      "entity_id": "ent-6f512ee229715b1996f24f17514e890f",
+      "name": "test_concurrent_hooks_are_serialized_without_event_loss",
+      "qualified_name": "AutomationTest.test_concurrent_hooks_are_serialized_without_event_loss",
+      "kind": "function",
+      "source_path": "tests/test_automation.py",
+      "start_line": 544,
+      "end_line": 570,
+      "human_page_title": "AutomationTest.event 等测试场景",
+      "human_page_file": "pages/AutomationTest.event 等测试场景.md",
+      "display_mode": "appendix",
+      "score": 59.68595359,
+      "score_breakdown": {
+        "entity-fts": 17.74347899,
+        "graph": 0.1951273,
+        "section-fts": 33.7473473,
+        "term": 8.0
+      },
+      "reasons": [
+        "确定性词项 `hook`",
+        "确定性词项 `事件`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "固定源码摘录",
+        "中文作用",
+        "来源核对"
+      ]
+    },
+    {
+      "entity_id": "ent-ce895c45d6625cfa8e012aa54626b9a8",
+      "name": "CodeKnowledgeBuilderTests",
+      "qualified_name": "CodeKnowledgeBuilderTests",
+      "kind": "class",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 170,
+      "end_line": 1132,
+      "human_page_title": "CodeKnowledgeBuilderTests",
+      "human_page_file": "pages/CodeKnowledgeBuilderTests.md",
+      "display_mode": "page",
+      "score": 8.00046092,
+      "score_breakdown": {
+        "graph": 0.00046092,
+        "term": 8.0
+      },
+      "reasons": [
+        "确定性词项 `审阅`",
+        "确定性词项 `投影`",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文含义",
+        "中文职责",
+        "什么时候需要修改",
+        "来源核对"
+      ]
+    }
+  ],
+  "related_documents": [
+    {
+      "document_id": "note:changes:跨 Harness 会话与修改自动同步实现",
+      "title": "跨 Harness 会话与修改自动同步实现",
+      "kind": "change",
+      "human_file": "changes/跨 Harness 会话与修改自动同步实现.md"
+    }
+  ],
+  "pack": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260827-124709-774874-01.md",
+  "record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260827-124709-774874-01.json",
+  "retrieval": "sqlite-exact-fts5-sections-deterministic-weighted-graph",
+  "deterministic": true,
+  "source_grounded": true,
+  "grep_fallback_required": false
+}

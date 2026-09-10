@@ -30,11 +30,23 @@
 
 进入生产前仍需确定三个问题：使用独立 `#导航/...` 还是与 `#类型/...` 并存；如何登记独立 Agent 与独立来源；tag 投影由生成器管理、允许人类编辑，还是只读导出。真实 Obsidian 人工对照应在这些边界确定后进行。
 
+
+
+## 历史源码定位
+
+原关联页面未进入当前建库范围，以下链接保留到此前已发布源码，不表示这些历史结论已重新测量。
+
+- [ingest 与 connect 的协作实现的历史源码](https://github.com/dddeath/code-knowledge-builder/blob/4ead5dc/source/prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py)
+- [state_machine 的协作边界的历史源码](https://github.com/dddeath/code-knowledge-builder/blob/4ead5dc/source/prototypes/ckb-tag-navigation/ckb_tag_navigation/state_machine.py)
+
+## 原始记录
+
+[按需核对历史原文与完整复现明细](../../machine/historical-records/legacy-links-20260910-16.md)。
+
 ## 相关知识页
 
-- [[ingest 与 connect 的协作实现]]
-- [[state_machine 的协作边界]]
+- [[TagNavigationStateMachineTests.by_tag 等测试场景]]
 
 ## 源码入口
 
-- [打开源码：prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py:1:1)  `prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py:1-269`
+- [打开源码：tests/test_ckb_tag_navigation_state_machine.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_ckb_tag_navigation_state_machine.py:1:1)  `tests/test_ckb_tag_navigation_state_machine.py:1-69`

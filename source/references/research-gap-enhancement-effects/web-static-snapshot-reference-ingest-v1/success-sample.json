@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "status": "prepared",
+  "input_mode": "provided-static-snapshot",
+  "input_sha256": "bcf726e6d73fbcc6854726040f7148bc996ad1e270d7b6a7436b730b79fac34e",
+  "provenance": {
+    "schema_version": 1,
+    "adapter_id": "web-snapshot-v1",
+    "acquisition_mode": "provided-static-snapshot",
+    "network_access": "not-used",
+    "requested_url": "https://example.test/start",
+    "final_url": "https://example.test/article",
+    "requested_at_utc": null,
+    "retrieved_at_utc": "2026-09-05T01:02:03Z",
+    "status_code": 200,
+    "content_type": "text/html; charset=utf-8",
+    "media_type": "text/html",
+    "charset": "utf-8",
+    "response_headers": {
+      "content-type": [
+        "text/html; charset=utf-8"
+      ],
+      "etag": [
+        "\"fixture-v1\""
+      ]
+    },
+    "omitted_response_headers": [
+      "set-cookie"
+    ],
+    "response_size": 380,
+    "raw_snapshot_sha256": "bcf726e6d73fbcc6854726040f7148bc996ad1e270d7b6a7436b730b79fac34e",
+    "body_snapshot_sha256": "d78bbc7716f1184c6ad0d382e80350882ee2c323996976717fab99c460741ed5",
+    "redirect_chain": [],
+    "max_response_bytes": 2097152
+  },
+  "extraction": {
+    "schema_version": 1,
+    "status": "ready",
+    "extractor": "stdlib-html-parser-v1",
+    "body_boundary": {
+      "start_line": 4,
+      "end_line": 13
+    },
+    "body_snapshot_sha256": "d78bbc7716f1184c6ad0d382e80350882ee2c323996976717fab99c460741ed5",
+    "body_snapshot_size": 80,
+    "fragments": [
+      {
+        "fragment_id": "web-fragment-0001",
+        "structure": "h1",
+        "text": "许可可追溯快照",
+        "source_range": {
+          "start_line": 8,
+          "end_line": 8
+        },
+        "source_text_sha256": "3052f27dc3fadd33c5c7c0f3c7564419c1b07787a92c6f72a5a6c49bc14c0d2c",
+        "boundary_basis": "html-parser-data-node"
+      },
+      {
+        "fragment_id": "web-fragment-0002",
+        "structure": "p",
+        "text": "正文结论可由归档 HTML 的精确行范围复核。",
+        "source_range": {
+          "start_line": 9,
+          "end_line": 9
+        },
+        "source_text_sha256": "afb1d1ee90cbcb35adea7c4f3fadea1525d80f622800d6a501f357a165c552ee",
+        "boundary_basis": "html-parser-data-node"
+      }
+    ],
+    "excluded_regions": [
+      {
+        "tag": "script",
+        "reason": "non-content-tag",
+        "source_range": {
+          "start_line": 3,
+          "end_line": 3
+        }
+      },
+      {
+        "tag": "style",
+        "reason": "non-content-tag",
+        "source_range": {
+          "start_line": 3,
+          "end_line": 3
+        }
+      },
+      {
+        "tag": "header",
+        "reason": "navigation-container",
+        "source_range": {
+          "start_line": 5,
+          "end_line": 5
+        }
+      },
+      {
+        "tag": "nav",
+        "reason": "navigation-container",
+        "source_range": {
+          "start_line": 6,
+          "end_line": 6
+        }
+      },
+      {
+        "tag": "div",
+        "reason": "navigation-role",
+        "source_range": {
+          "start_line": 10,
+          "end_line": 10
+        }
+      },
+      {
+        "tag": "footer",
+        "reason": "navigation-container",
+        "source_range": {
+          "start_line": 12,
+          "end_line": 12
+        }
+      }
+    ]
+  },
+  "extracted_body": "许可可追溯快照\n正文结论可由归档 HTML 的精确行范围复核。\n",
+  "review_status_after_ingest": "pending-agent-review"
+}

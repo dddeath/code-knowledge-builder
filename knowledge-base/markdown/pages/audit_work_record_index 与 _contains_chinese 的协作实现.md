@@ -2,11 +2,11 @@
 
 标签：#类型/代码
 
-> `scripts/ckb_core/work_record_index.py` 是 `scripts/ckb_core/work_record_index.py` 中负责汇总并提供工作记录的完整分组、中文摘要、导航生成与审计的文件入口。 它按源码所示的参数、条件分支和数据结构完成汇总并提供工作记录的完整分组、中文摘要、导航生成与审计，并把确定结果交给调用方或后续审计、索引、投影阶段。
+> 该模块从全部工作记录生成按任务分类的中文导览，提取标题和有界摘要，统一呈现分析、修改、实验、问题和会话记录，并可加入研究缺口的单一计数入口。 它为人类阅读提供完整记录集合的稳定入口，不按单次检索问题挑选记录；写入和审计函数核对预期内容、标题唯一性、中文摘要以及两份导览镜像一致性。
 
 ## 什么时候需要修改
 
-当工作记录的完整分组、中文摘要、导航生成与审计的输入格式、状态规则、错误处理或输出契约变化时，需要修改该代码单元并复核对应测试。
+记录分类顺序、摘要选择、最新追加内容、缺口入口或导览审计合同变化时修改此模块，并检查每条已有记录都有且仅有对应导航标题。
 
 ## 在代码中的位置
 
@@ -14,29 +14,19 @@
 
 ## 相关代码
 
-- 实现时会用到 [[CkbError]]。
-- 实现时会用到 [[append]]。
-- 实现时会用到 [[audit_gap_register 与 _root 的协作实现]]。
+- 与 [[CkbError]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[CkbError 与 DependencyError 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 - 主要代码单元是 [[audit_work_record_index]]。
+- 与 [[create_gap 与 _root 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 
 ## 谁会来到这里
 
-- [[audit_gap_register 与 _root 的协作实现]] 会使用这里提供的行为。
-- [[audit_work_record_index]] 会使用这里提供的行为。
-- [[record_note]] 会使用这里提供的行为。
-- [[replace_note 与 RecordReplaceLockError 的协作实现]] 会使用这里提供的行为。
+- 与 [[audit_global 与 _replace_output_prefix 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[audit_work_record_index]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[create_gap 与 _root 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[record_note]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[rollback_replacement 与 RecordReplaceLockError 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 - 可从 [[scripts 职责导览]] 进入本页。
-
-## 相关测试
-
-- [[AgentProtocolBatchApplyTests]]
-- [[AutomationTest.register 等测试场景]]
-- [[CodeKnowledgeBuilderTests]]
-- [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[MigrationTest]]
-- [[PageFanoutBenchmarkTests]]
-
-> 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 
 ## 内部细节
 
@@ -44,14 +34,14 @@
 
 | 代码单元 | 一句话作用 |
 |---|---|
-| `_contains_chinese` | 判断 `contains_chinese` 所表达的条件。 |
-| `_title` | 处理 `title` 对应的数据与约束。 |
-| `_plain_text` | 处理 `text` 对应的数据与约束。 |
-| `_first_narrative` | 处理 `narrative` 对应的数据与约束。 |
-| `collect_work_records` | 处理 `work_records` 对应的数据与约束。 |
-| `render_work_record_index` | 渲染 `work_record_index` 对应的数据与约束。 |
-| `write_work_record_index` | 写入 `work_record_index` 对应的数据与约束。 |
-| `refresh_work_record_index` | `refresh_work_record_i...` 是第 173-185 行的函数，供所属页面定位实现。 |
-| `audit_work_record_root` | 审计 `work_record_root` 对应的数据与约束。 |
+| `_contains_chinese` | 判断字符串是否至少包含两个中文字符，供记录摘要语言检查。 |
+| `_title` | 从文本首行提取标题并去除一级标题前缀，结果为空时采用备用名称。 |
+| `_plain_text` | 去除图片、链接目标与部分 Markdown 标记，压缩空白并保留可读链接文字。 |
+| `_first_narrative` | 优先从最新追加段落提取中文叙述，跳过代码与结构行，按句子或长度截断，无有效段落时返回默认摘要。 |
+| `collect_work_records` | 按固定类别顺序收集全部记录标题、路径和摘要，拒绝重复标题及与生成导览重名的记录。 |
+| `render_work_record_index` | 按任务类别生成完整工作记录导览，附中文摘要，并在缺口索引存在时加入单一缺口计数入口。 |
+| `write_work_record_index` | 将完整工作记录导览写入指定人类根目录，返回文件位置、总数和各类别数量。 |
+| `refresh_work_record_index` | 由 Markdown 记录全集生成同字节的两份导览，再审计并保存结果，失败时中止。 |
+| `audit_work_record_root` | 重新生成预期导览，核对正文、标签、无哈希泄漏、完整链接集合及中文摘要，返回分类数量与错误。 |
 
 </details>

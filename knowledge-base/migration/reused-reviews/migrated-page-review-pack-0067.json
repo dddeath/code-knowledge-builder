@@ -1,0 +1,113 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0067",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-10T03:35:25Z",
+  "reviews": [
+    {
+      "entity_id": "ent-3930017cb4815c3a8c8494e768c40869",
+      "classification": "page",
+      "owner_page_id": "ent-3930017cb4815c3a8c8494e768c40869",
+      "source_path": "tests/test_obsidian_deployment_preservation.py",
+      "start_line": 56,
+      "end_line": 62,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新读取固定提交 4617928a67576fc4d2630584e70f3e2a104e17fc 的 tests/test_obsidian_deployment_preservation.py 第 56-62 行，并核对新版本整文件上下文；Git blob 与提案一致，目录字节范围与摘录相等，描述依据源码分支与数据流，不把测试断言当作运行结果。",
+      "meaning_zh": "对比升级前后非包文件的原始字节，并断言部署暂存目录已清理。",
+      "role_zh": "从目录快照中仅排除声明的包文件，让设置、白板和其他插件继续接受逐文件保留断言。",
+      "change_when_zh": "需要改变升级测试的用户状态保护范围或暂存清理要求时修改。"
+    },
+    {
+      "entity_id": "file-5cd268963feb560d86dceee64fbfca65",
+      "classification": "page",
+      "owner_page_id": "file-5cd268963feb560d86dceee64fbfca65",
+      "source_path": "tests/test_package_release.py",
+      "start_line": 1,
+      "end_line": 121,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新读取固定提交 4617928a67576fc4d2630584e70f3e2a104e17fc 的 tests/test_package_release.py 第 1-121 行，并核对新版本整文件上下文；Git blob 与提案一致，目录字节范围与摘录相等，描述依据源码分支与数据流，不把测试断言当作运行结果。",
+      "meaning_zh": "验证核心轻量包、完整版运行时与独立插件的发行边界。",
+      "role_zh": "动态加载发行脚本，检查归档能力、运行时锁定与许可，并从解压后的轻量包运行会话帮助命令以防漏发模块。",
+      "change_when_zh": "调整发行文件集合、PDF 运行时锁定、插件独立版本或安装冒烟检查时修改。"
+    },
+    {
+      "entity_id": "ent-1f00128f56ca5a0897aa927d0c7a4d9b",
+      "classification": "page",
+      "owner_page_id": "ent-1f00128f56ca5a0897aa927d0c7a4d9b",
+      "source_path": "tests/test_package_release.py",
+      "start_line": 30,
+      "end_line": 116,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新读取固定提交 4617928a67576fc4d2630584e70f3e2a104e17fc 的 tests/test_package_release.py 第 30-116 行，并核对新版本整文件上下文；Git blob 与提案一致，目录字节范围与摘录相等，描述依据源码分支与数据流，不把测试断言当作运行结果。",
+      "meaning_zh": "组织核心与插件发行包的结构和运行能力测试。",
+      "role_zh": "比较轻量与完整版内容，构建归档检查清单，验证锁定的 PDF 解析器载荷和独立插件版本；用安装后的命令检查会话入口。",
+      "change_when_zh": "修改包类型边界、运行时来源或会话模块打包规则时修改对应断言。"
+    },
+    {
+      "entity_id": "file-ff5229e8e31f55beb5f90558b8eda981",
+      "classification": "page",
+      "owner_page_id": "file-ff5229e8e31f55beb5f90558b8eda981",
+      "source_path": "tests/test_query_terms.py",
+      "start_line": 1,
+      "end_line": 112,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_query_terms.py` 第 1-112 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`tests/test_query_terms.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
+      "role_zh": "负责以可执行样例验证 `test_query_terms.py` 覆盖的成功行为、失败边界和回归约束。",
+      "change_when_zh": "当 `tests/test_query_terms.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "ent-93c9907021ec587998a60bc2378c3a61",
+      "classification": "page",
+      "owner_page_id": "ent-93c9907021ec587998a60bc2378c3a61",
+      "source_path": "tests/test_query_terms.py",
+      "start_line": 25,
+      "end_line": 107,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_query_terms.py` 第 25-107 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`QueryTermsTests` 是 `tests/test_query_terms.py` 第 25-107 行定义的类，本页绑定该固定源码范围。",
+      "role_zh": "该类作为可执行验证入口，检查标识符 `QueryTermsTests` 所指的行为与失败边界。",
+      "change_when_zh": "当被测行为、输入夹具、断言或失败条件变化时，应同步更新 `QueryTermsTests` 的说明。"
+    },
+    {
+      "entity_id": "file-8f343303b5315f27824d5fe7b7450f33",
+      "classification": "page",
+      "owner_page_id": "file-8f343303b5315f27824d5fe7b7450f33",
+      "source_path": "tests/test_readme_human_entry.py",
+      "start_line": 1,
+      "end_line": 99,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新读取固定提交 4617928a67576fc4d2630584e70f3e2a104e17fc 的 tests/test_readme_human_entry.py 第 1-99 行，并核对新版本整文件上下文；Git blob 与提案一致，目录字节范围与摘录相等，描述依据源码分支与数据流，不把测试断言当作运行结果。",
+      "meaning_zh": "用现行人类入口合同检验 README，并保留历史夹具作为不可变对照。",
+      "role_zh": "校验三项任务入口、提示可复制性、锚点与操作边界，再通过删除和替换反例验证检查器；不把旧标题结构作为现行要求。",
+      "change_when_zh": "用户确认 README 结构或提示边界变化时同步现行合同和测试，历史夹具保持原始内容。"
+    },
+    {
+      "entity_id": "ent-db051aea6f9f50018212155736f9907d",
+      "classification": "page",
+      "owner_page_id": "ent-db051aea6f9f50018212155736f9907d",
+      "source_path": "tests/test_readme_human_entry.py",
+      "start_line": 19,
+      "end_line": 57,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新读取固定提交 4617928a67576fc4d2630584e70f3e2a104e17fc 的 tests/test_readme_human_entry.py 第 19-57 行，并核对新版本整文件上下文；Git blob 与提案一致，目录字节范围与摘录相等，描述依据源码分支与数据流，不把测试断言当作运行结果。",
+      "meaning_zh": "将 README 中不符合现行结构、提示和边界要求的内容转换为去重错误代码。",
+      "role_zh": "从标题、任务表、内部链接和文本围栏提取证据，检查安装范围、解释范围、完成结果及白板可选性。",
+      "change_when_zh": "需要调整现行文档入口、提示长度、填参识别或操作边界时修改，并同步负例验证。"
+    },
+    {
+      "entity_id": "file-6b580fc026885d08bfb55d67ecf06cd7",
+      "classification": "page",
+      "owner_page_id": "file-6b580fc026885d08bfb55d67ecf06cd7",
+      "source_path": "tests/test_record_replace.py",
+      "start_line": 1,
+      "end_line": 530,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `94bf22015243` 中 `tests/test_record_replace.py` 第 1-530 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "meaning_zh": "`tests/test_record_replace.py` 页面绑定固定源码第 1-530 行，说明该文件在工作记录正文替换、候选验证、原子 promotion 和回滚中的整体职责。",
+      "role_zh": "该文件负责工作记录正文替换、候选验证、原子 promotion 和回滚，并为相关命令或测试提供可复查实现入口。",
+      "change_when_zh": "当 `tests/test_record_replace.py` 中 `tests/test_record_replace.py` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
+    }
+  ]
+}

@@ -30,9 +30,9 @@ Code Knowledge Builder 5.0.0 把固定 Git 来源中的完整代码事实、Agen
 ## 相关知识页
 
 - [[sync_human_layer 与 _source_manifest 的协作实现]]
-- [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[retrieve 与 _tokens 的协作实现]]
-- [[start_session 与 _session_directory 的协作实现]]
+- [[invoke 等测试场景（test_ckb 测试）]]
+- [[build_agent_index 与 _tokens 的协作实现]]
+- [[finish_session 与 _session_directory 的协作实现]]
 
 ## 源码入口
 

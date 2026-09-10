@@ -14,29 +14,18 @@
 
 ## 相关代码
 
-- 实现时会用到 [[append]]。
-- 实现时会用到 [[audit_agent_protocol 与 _default_python 的协作实现]]。
-- 实现时会用到 [[audit_feedback]]。
-- 实现时会用到 [[audit_output_contract]]。
-- 实现时会用到 [[audit_work_record_index]]。
+- 与 [[CkbError 与 DependencyError 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[audit_agent_protocol 与 _default_python 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[audit_feedback]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[audit_work_record_index]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[project_output_contract 与 _default_ckb 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 
 ## 谁会来到这里
 
-- [[AgentProtocolBatchApplyTests]] 会使用这里提供的行为。
+- 与 [[BatchProjectError 与 ProtocolRelease 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 - [[audit_agent_protocol 与 _default_python 的协作实现]] 汇总了本页。
-- [[create_batch_plan 与 ProtocolRelease 的协作实现]] 会使用这里提供的行为。
-- [[create_knowledge_batch_plan 与 KnowledgeRelease 的协作实现]] 会使用这里提供的行为。
-- [[maintenance_check]] 会使用这里提供的行为。
-- [[main（ckb 实现）]] 会使用这里提供的行为。
-- [[serve_stdio 与 _write_line 的协作实现]] 会使用这里提供的行为。
-
-## 相关测试
-
-- [[AgentProtocolBatchApplyTests]]
-- [[CodeKnowledgeBuilderTests]]
-- [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[KeywordFallbackRetrievalWiringTests]]
-- [[MigrationTest]]
-- [[PageFanoutBenchmarkTests]]
-
-> 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
+- 与 [[audit_global]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[audit_global 与 _replace_output_prefix 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[create_knowledge_batch_plan 与 KnowledgeRelease 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[maintenance_check]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[serve_stdio 与 _write_line 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。

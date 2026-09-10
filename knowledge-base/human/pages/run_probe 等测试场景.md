@@ -14,23 +14,12 @@
 
 ## 相关代码
 
-- 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
-- 实现时会用到 [[SourceLinkRenderer.uri]]。
-- 实现时会用到 [[_Transport.close]]。
-- 实现时会用到 [[ingest 与 connect 的协作实现]]。
-- 实现时会用到 [[parser]]。
 - 主要代码单元是 [[run_probe]]。
 
 ## 谁会来到这里
 
-- [[ingest_event]] 关联到这里的验证场景。
-- [[run_probe]] 关联到这里的验证场景。
+- 与 [[run_probe]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 - 可从 [[tests 职责导览]] 进入本页。
-- [[web_input_adapter_contract 与 ReferenceInputRequest 的协作实现]] 关联到这里的验证场景。
-
-## 相关测试
-
-- [[run_probe]]
 
 ## 内部细节
 

@@ -2,23 +2,28 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
+import re
 from pathlib import Path
 import shutil
 import sqlite3
 from typing import Any
-from urllib.parse import quote
+from urllib.parse import quote, unquote
 
 from . import SCHEMA_VERSION, VERSION
 from .automation import initialize_automation_database
 from .common import CkbError, json_load, json_write, safe_rmtree, sha256_file, utc_now, write_marker
 from .gitrepo import blob_bytes_many
 from .navigation import build_review_packs
-from .pipeline import _write_review_pack_templates, build_chunk, initialize, review_pack
+from .pipeline import _replace_output_prefix, _write_review_pack_templates, build_chunk, initialize, review_pack
 
 
 MIGRATION_SCHEMA_VERSION = 1
 MUTABLE_BASELINE_DIRECTORY = "migration/preserved-baseline"
+REFERENCE_STATUS_MARKERS = frozenset({
+    "references/.failed", "references/.pending-agent-review", "references/.complete",
+})
 
 
 def _entity_key(entity: dict[str, Any]) -> tuple[Any, ...]:
@@ -94,7 +99,12 @@ def _add_mutable_baseline(output: Path, record: dict[str, Any]) -> dict[str, Any
     """
     relative_target = str(record["relative_target"])
     live_target = _mutable_target(output, relative_target)
-    baseline_relative = f"{MUTABLE_BASELINE_DIRECTORY}/{relative_target}"
+    if record.get("kind") == "authoring-package-file":
+        baseline_relative = f"{MUTABLE_BASELINE_DIRECTORY}/authoring/{sha256_file(live_target)}"
+    elif record.get("kind") == "transaction-archive-file":
+        baseline_relative = f"{MUTABLE_BASELINE_DIRECTORY}/transactions/{sha256_file(live_target)}"
+    else:
+        baseline_relative = f"{MUTABLE_BASELINE_DIRECTORY}/{relative_target}"
     baseline = _mutable_target(output, baseline_relative)
     baseline.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(live_target, baseline)
@@ -106,12 +116,163 @@ def _add_mutable_baseline(output: Path, record: dict[str, Any]) -> dict[str, Any
 
 def _generated_paths(vault: Path) -> set[str]:
     manifest = vault / ".ckb-generated-files.json"
-    if not manifest.is_file():
-        return set()
-    return {str(value).replace("\\", "/") for value in json_load(manifest).get("files", [])}
+    files = set(json_load(manifest).get("files", [])) if manifest.is_file() else set()
+    references = vault.parent / "references/projection.json"
+    if references.is_file():
+        files.update(json_load(references).get("files", []))
+    return {str(value).replace("\\", "/") for value in files}
 
 
-def _preserve_mutable_layers(previous_output: Path, output: Path) -> list[dict[str, Any]]:
+def _referenced_machine_evidence(previous_output: Path) -> list[Path]:
+    """Collect the file closure referenced by retained records, not a history tree."""
+    previous_output = previous_output.resolve()
+    required: set[Path] = set()
+    visited: set[Path] = set()
+    pending: list[Path] = []
+    # Canonical record stores are dependency roots; transaction snapshots and
+    # generated reports under workspace-meta are retained, not reactivated.
+    for directory in (
+        "workspace-meta/notes", "workspace-meta/gaps/records",
+        "workspace-meta/feedback/open", "workspace-meta/feedback/resolved",
+        "references/manifests", "references/reviews",
+    ):
+        pending.extend(sorted((previous_output / directory).glob("*.json")))
+    for path in sorted((previous_output / "workspace-meta/pending-notes").glob("*.json")):
+        document = json_load(path)
+        if isinstance(document, dict) and document.get("status") == "materialized":
+            continue
+        pending.append(path)
+        if path.with_suffix(".md").is_file():
+            pending.append(path.with_suffix(".md"))
+    for vault in ("human", "markdown"):
+        generated = _generated_paths(previous_output / vault)
+        pending.extend(path for path in sorted((previous_output / vault).rglob("*.md"))
+                       if path.relative_to(previous_output / vault).as_posix() not in generated)
+
+    def consider(value: str, *, explicit: bool = False) -> None:
+        value = unquote(value).replace("\\", "/")
+        old = previous_output.as_posix()
+        if value.startswith(old + "/"):
+            value = value[len(old) + 1:]
+        # External record queries remain external. Gap evidence is OUTPUT-relative.
+        if not value.startswith("machine/"):
+            if explicit and not Path(value).is_absolute() and not re.match(r"^[A-Za-z]:/", value):
+                path = _mutable_target(previous_output, value)
+                if not path.is_file():
+                    raise CkbError(f"required migration evidence is missing: {value}")
+            return
+        path = _mutable_target(previous_output, value)
+        if not path.is_file():
+            raise CkbError(f"required migration evidence is missing: {value}")
+        if path not in required:
+            required.add(path)
+            pending.append(path)
+
+    def visit(value: Any, key: str = "") -> None:
+        if isinstance(value, dict):
+            for name, item in value.items():
+                visit(item, name)
+        elif isinstance(value, list):
+            for item in value:
+                visit(item, key)
+        elif isinstance(value, str) and key in {
+            "evidence_paths", "resolution_evidence_paths", "query_record",
+            "from_pack", "from_query", "pack_path", "record_path", "evidence_file",
+        }:
+            consider(value, explicit=key in {"evidence_paths", "resolution_evidence_paths"})
+
+    while pending:
+        path = pending.pop()
+        if path in visited:
+            continue
+        visited.add(path)
+        if path.suffix.casefold() == ".json":
+            visit(json_load(path))
+        elif path.suffix.casefold() == ".md":
+            text = path.read_text(encoding="utf-8")
+            # Backtick-delimited code is exposition, not a file dependency.
+            text = re.sub(r"(?<!`)(`+)(?!`)[\s\S]*?(?<!`)\1(?!`)", "", text)
+            for value in re.findall(r"\[[^\]]*\]\(([^)]+)\)", text):
+                link = unquote(value).split("#", 1)[0]
+                if link.startswith("vscode://file/"):
+                    link = re.sub(r":\d+:\d+$", "", link[len("vscode://file/"):])
+                elif link.startswith("file://"):
+                    link = link[len("file://"):]
+                    if re.match(r"^/[A-Za-z]:/", link):
+                        link = link[1:]
+                elif link.startswith(("../", "./")):
+                    link = str((path.parent / link).resolve())
+                consider(link)
+    return sorted(required)
+
+
+def authoring_package_inventory(previous_output: Path) -> list[dict[str, Any]]:
+    """Validate retained V3 records and enumerate only their package dependencies."""
+    from .workspace_notes import note_contract_metadata, read_note_body
+
+    packages: list[dict[str, Any]] = []
+    for note_path in sorted((previous_output / "workspace-meta/notes").glob("*.json")):
+        metadata = json_load(note_path)
+        contract = metadata.get("human_output_contract") or {}
+        if not (metadata.get("authoring_package") or metadata.get("section_evidence")
+                or contract.get("v3_validated")):
+            continue
+        try:
+            manifest_path = Path(metadata["authoring_package"]).resolve()
+            if manifest_path.name != "manifest.json" or not manifest_path.is_file():
+                raise CkbError("V3 authoring manifest is missing or not manifest.json")
+            body_path = manifest_path.parent / "body.md"
+            body = read_note_body(body_path)
+            if hashlib.sha256((body.rstrip() + "\n").encode("utf-8")).hexdigest() != metadata.get("body_sha256"):
+                raise CkbError("V3 record body digest differs from its authoring package")
+            verified = note_contract_metadata(body_path, metadata["kind"], body)
+            if not verified["human_output_contract"]["v3_validated"]:
+                raise CkbError("retained V3 record has no validated authoring package")
+            for field in ("validation_context", "section_evidence", "section_evidence_sha256"):
+                if metadata.get(field) != verified[field]:
+                    raise CkbError(f"V3 record and authoring package metadata drift: {field}")
+            files: dict[str, dict[str, Any]] = {}
+
+            def add(path: Path, role: str) -> None:
+                if not path.resolve().is_relative_to(manifest_path.parent):
+                    raise CkbError(f"V3 authoring file escapes its package: {path}")
+                relative = path.relative_to(manifest_path.parent).as_posix()
+                if relative not in files:
+                    files[relative] = {"source": str(path), "relative_path": relative,
+                                       "sha256": sha256_file(path), "roles": []}
+                if role not in files[relative]["roles"]:
+                    files[relative]["roles"].append(role)
+
+            add(manifest_path, "manifest")
+            add(body_path, "body")
+            for section in verified["section_evidence"].get("sections", []):
+                for field in ("source_refs", "machine_evidence_refs"):
+                    for ref in section.get(field, []):
+                        if ref.get("target_basis") == "uri":
+                            continue
+                        # The shared validator already checked containment and the declared digest.
+                        add((manifest_path.parent / ref["target"]).resolve(), field)
+            digest = files["manifest.json"]["sha256"]
+            if (manifest_path.parent.parent == (previous_output / "machine/authoring").resolve()
+                    and manifest_path.parent.name != digest[:20]):
+                raise CkbError("V3 archived authoring manifest digest drift")
+            packages.append({
+                "note_relative": note_path.relative_to(previous_output).as_posix(),
+                "source_manifest": str(manifest_path),
+                "archive_relative": f"machine/authoring/{digest[:20]}",
+                "files": [files[key] for key in sorted(files)],
+            })
+        except (CkbError, OSError, KeyError, TypeError, ValueError) as exc:
+            raise CkbError(f"V3 authoring package preflight failed for {note_path.name}: {exc}") from exc
+    return packages
+
+
+def _preserve_mutable_layers(
+    previous_output: Path, output: Path, *, authoring_packages: list[dict[str, Any]] | None = None,
+) -> list[dict[str, Any]]:
+    packages = authoring_package_inventory(previous_output) if authoring_packages is None else authoring_packages
+    package_sources = {item["source"] for package in packages for item in package["files"]}
+    evidence = _referenced_machine_evidence(previous_output)
     records: list[dict[str, Any]] = []
     for root_name in ("human", "markdown"):
         source_root = previous_output / root_name
@@ -137,7 +298,10 @@ def _preserve_mutable_layers(previous_output: Path, output: Path) -> list[dict[s
             relative = source.relative_to(source_root)
             target = output / "workspace-meta" / relative
             record = _copy_file(source, target)
-            record["kind"] = "workspace-mutable-file"
+            record["kind"] = (
+                "transaction-archive-file" if relative.parts[:1] == ("record-replace",)
+                else "authoring-package-file" if record["source"] in package_sources else "workspace-mutable-file"
+            )
             record["relative_target"] = target.relative_to(output).as_posix()
             records.append(_add_mutable_baseline(output, record))
     # Reviewed external references own archived raw bytes, manifests and Agent
@@ -149,7 +313,10 @@ def _preserve_mutable_layers(previous_output: Path, output: Path) -> list[dict[s
             relative = source.relative_to(source_root)
             target = output / "references" / relative
             record = _copy_file(source, target)
-            record["kind"] = "reviewed-reference-source"
+            record["kind"] = (
+                "reference-status-marker" if target.relative_to(output).as_posix() in REFERENCE_STATUS_MARKERS
+                else "reviewed-reference-source"
+            )
             record["relative_target"] = target.relative_to(output).as_posix()
             records.append(_add_mutable_baseline(output, record))
     old_database = previous_output / "machine" / "automation.sqlite"
@@ -178,6 +345,68 @@ def _preserve_mutable_layers(previous_output: Path, output: Path) -> list[dict[s
                 },
             )
         )
+    copied = {record["relative_target"] for record in records}
+    for source in evidence:
+        relative = source.relative_to(previous_output).as_posix()
+        if relative in copied:
+            continue
+        target = output / relative
+        if relative == "machine/knowledge.sqlite":
+            raise CkbError("required migration evidence is a rebuilt live index; archive a fixed evidence file first")
+        if target.is_file() and sha256_file(target) != sha256_file(source):
+            raise CkbError(f"required migration evidence conflicts with target artifact: {relative}")
+        record = _copy_file(source, target)
+        record.update(kind="referenced-machine-evidence", relative_target=relative)
+        records.append(_add_mutable_baseline(output, record))
+    # Archive selected package files byte-for-byte; neither the signed manifest
+    # nor its context/evidence is a mutable output-path document.
+    archived: set[str] = set()
+    for package in packages:
+        for item in package["files"]:
+            source = Path(item["source"])
+            if not source.is_file() or sha256_file(source) != item["sha256"]:
+                raise CkbError(f"V3 authoring package changed during migration: {source}")
+            relative = package["archive_relative"] + "/" + item["relative_path"]
+            target = _mutable_target(output, relative)
+            if target.exists() and sha256_file(target) != item["sha256"]:
+                raise CkbError(f"V3 authoring archive conflicts with target: {relative}")
+            if relative in archived:
+                continue
+            record = _copy_file(source, target)
+            record.update(kind="authoring-package-file", relative_target=relative,
+                          roles=item["roles"], package_manifest=package["archive_relative"] + "/manifest.json")
+            records.append(_add_mutable_baseline(output, record))
+            archived.add(relative)
+    # Existing OUTPUT-owned copies remain frozen too, even if the note now
+    # points to the selected archive instead of its old workspace directory.
+    for record in records:
+        if record["source"] in package_sources:
+            record["kind"] = "authoring-package-file"
+    # Rebase live metadata only. Baselines, archived originals and evidence keep
+    # their original bytes; historical prose is not a serialized path.
+    for record in records:
+        relative = str(record["relative_target"])
+        if (record["kind"] in {"authoring-package-file", "transaction-archive-file"} or not relative.endswith(".json")
+                or not relative.startswith("workspace-meta/")):
+            continue
+        target = output / relative
+        document = json_load(target)
+        updated = _replace_output_prefix(document, str(previous_output), str(output))
+        if updated != document:
+            json_write(target, updated)
+    for package in packages:
+        note_path = output / package["note_relative"]
+        metadata = json_load(note_path)
+        metadata["authoring_package"] = str((output / package["archive_relative"] / "manifest.json").resolve())
+        json_write(note_path, metadata)
+    if (output / "references/manifests").is_dir():
+        from .reference_documents import relocate_reference_paths
+
+        relocate_reference_paths(output, str(previous_output), str(output))
+    if (output / "references/manifests").is_dir() and (output / "state.json").is_file():
+        from .reference_documents import _project_reference_pages
+
+        _project_reference_pages(output)
     return records
 
 
@@ -259,6 +488,8 @@ def migrate_output(previous_output: Path, repository: Path, output: Path, format
     old_graph = json_load(previous_output / "graph.json")
     if old_state.get("status") != "complete" or json_load(previous_output / "audit" / "global.json").get("status") != "passed":
         raise CkbError(f"migration origin is not globally audited: {previous_output}")
+    packages = authoring_package_inventory(previous_output)
+    _referenced_machine_evidence(previous_output)
     selectors = old_scope.get("selectors", {})
     initialize(
         repository,
@@ -275,7 +506,7 @@ def migrate_output(previous_output: Path, repository: Path, output: Path, format
         page_config_path=previous_output / "page-config.json",
         reuse_from_output=previous_output,
     )
-    preserved = _preserve_mutable_layers(previous_output, output)
+    preserved = _preserve_mutable_layers(previous_output, output, authoring_packages=packages)
     state = json_load(output / "state.json")
     catalog = json_load(output / "catalog.json")
     reuse_paths = set((catalog.get("migration_reuse") or {}).get("reused_file_paths", []))
@@ -398,6 +629,7 @@ def audit_migration(output: Path, *, require_complete_reviews: bool = True) -> d
     ]
     check("reused-files-carry-rekey-proof", not reuse_errors, reuse_errors)
     mutable_errors: list[dict[str, Any]] = []
+    retired_reference_status_markers: list[str] = []
     for item in plan.get("mutable_files", []):
         relative_target = str(item.get("relative_target") or "")
         baseline_relative = str(item.get("baseline_relative_target") or "")
@@ -411,12 +643,25 @@ def audit_migration(output: Path, *, require_complete_reviews: bool = True) -> d
         if not baseline.is_file() or not expected_baseline or sha256_file(baseline) != expected_baseline:
             mutable_errors.append({"path": relative_target, "reason": "preserved-baseline-missing-or-changed"})
             continue
+        # Reference audits replace these three mutually exclusive generated
+        # markers. Keep their original bytes, not their obsolete live presence.
+        # Legacy staging plans classified the same paths as reference sources.
+        reference_marker = (
+            target.relative_to(output).as_posix() in REFERENCE_STATUS_MARKERS
+            and item.get("kind") in {"reference-status-marker", "reviewed-reference-source"}
+        )
+        if reference_marker and not target.exists():
+            retired_reference_status_markers.append(target.relative_to(output).as_posix())
+            continue
         if not target.is_file():
             mutable_errors.append({"path": relative_target, "reason": "live-mutable-file-missing"})
             continue
+        if item.get("kind") in {"referenced-machine-evidence", "authoring-package-file", "transaction-archive-file"} and sha256_file(target) != expected_baseline:
+            mutable_errors.append({"path": relative_target, "reason": "referenced-machine-evidence-changed"})
+            continue
         try:
             suffix = target.suffix.casefold()
-            if suffix == ".json":
+            if suffix == ".json" or reference_marker:
                 json_load(target)
             elif suffix == ".md":
                 target.read_text(encoding="utf-8")
@@ -468,6 +713,7 @@ def audit_migration(output: Path, *, require_complete_reviews: bool = True) -> d
         "status": status,
         "checks": checks,
         "counts": {"passed": sum(item["passed"] for item in checks), "total": len(checks)},
+        "retired_reference_status_markers": sorted(retired_reference_status_markers),
         "audited_at_utc": utc_now(),
     }
     if status == "passed":
@@ -499,36 +745,96 @@ def relink_preserved_notes(output: Path, graph: dict[str, Any], projection: dict
     old_graph = json_load(old_graph_path)
     old_projection = json_load(old_projection_path)
     old_entities = {entity["id"]: entity for entity in old_graph.get("entities", [])}
-    new_by_key = {_semantic_page_key(entity): entity for entity in graph.get("entities", [])}
-    new_title_by_id = {page["id"]: page["title"] for page in projection.get("pages", [])}
+    new_by_key: dict[tuple[str, str, str], list[dict[str, Any]]] = {}
+    for entity in graph.get("entities", []):
+        new_by_key.setdefault(_semantic_page_key(entity), []).append(entity)
+    new_pages = {page["id"]: page for page in projection.get("pages", [])}
+    old_owners = old_projection.get("entity_owner_pages", {})
+    new_owners = projection.get("entity_owner_pages", {})
     title_map: dict[str, str] = {}
+    unresolved: list[dict[str, Any]] = []
+
+    def owner_for(old_entity: dict[str, Any]) -> str | None:
+        matches = new_by_key.get(_semantic_page_key(old_entity), [])
+        if len(matches) != 1:
+            return None
+        entity = matches[0]
+        owner = new_owners.get(entity["id"]) or entity.get("owner_page_id") or entity["id"]
+        return owner if owner in new_pages else None
+
+    new_modules: dict[str, set[str]] = {}
+    for link in projection.get("links", []):
+        if link.get("type") == "contains-file":
+            new_modules.setdefault(link["target"], set()).add(link["source"])
     for page in old_projection.get("pages", []):
-        old_entity = old_entities.get(page.get("id"))
-        if not old_entity:
-            continue
-        new_entity = new_by_key.get(_semantic_page_key(old_entity))
-        new_title = new_title_by_id.get(new_entity.get("id")) if new_entity else None
         old_title = page.get("title")
-        if old_title and new_title and old_title != new_title:
+        if not old_title:
+            continue
+        old_entity = old_entities.get(page.get("id"))
+        candidates: list[str | None] = []
+        if old_entity:
+            candidates = [owner_for(old_entity)]
+        elif page.get("page_type") == "boundary":
+            members = [entity for entity in old_entities.values() if old_owners.get(entity["id"]) == page["id"]]
+            candidates = [owner_for(entity) for entity in members]
+        elif page.get("page_type") == "module":
+            members = [old_entities.get(link["target"]) for link in old_projection.get("links", [])
+                       if link.get("type") == "contains-file" and link.get("source") == page["id"]]
+            for entity in members:
+                modules = new_modules.get(owner_for(entity), set()) if entity else set()
+                candidates.append(next(iter(modules)) if len(modules) == 1 else None)
+        elif page.get("page_type") == "repository":
+            old_root = old_graph.get("repository", {}).get("root")
+            new_root = graph.get("repository", {}).get("root")
+            if old_root and new_root and Path(old_root).resolve() == Path(new_root).resolve():
+                candidates = [key for key, value in new_pages.items() if value.get("page_type") == "repository"]
+        if not candidates or None in candidates or len(set(candidates)) != 1:
+            unresolved.append({"old_title": old_title, "reason": "no-unique-semantic-owner"})
+            continue
+        new_title = new_pages[candidates[0]]["title"]
+        if old_title != new_title:
             title_map[str(old_title)] = str(new_title)
 
     def replace_links(text: str) -> str:
-        result = text
-        for old_title, new_title in sorted(title_map.items(), key=lambda item: (-len(item[0]), item[0])):
-            result = result.replace(f"[[{old_title}]]", f"[[{new_title}]]")
-            result = result.replace(f"[[{old_title}|", f"[[{new_title}|")
-        return result
+        # One substitution pass avoids A->B->C cascades. Only actual Wiki-link
+        # targets change; prose, aliases, inline code and fenced examples stay.
+        lines = []
+        fence = None
+        for line in text.splitlines(keepends=True):
+            marker = re.match(r"^\s*(`{3,}|~{3,})", line)
+            if marker:
+                token = marker.group(1)
+                if fence is None:
+                    fence = token
+                elif token[0] == fence[0] and len(token) >= len(fence):
+                    fence = None
+                lines.append(line)
+                continue
+            if fence is not None:
+                lines.append(line)
+                continue
+            parts = re.split(r"(`+[^`]*`+)", line)
+            for index in range(0, len(parts), 2):
+                parts[index] = re.sub(r"\[\[([^\]|#]+)([^\]]*)\]\]",
+                    lambda match: "[[" + title_map.get(match.group(1), match.group(1)) + match.group(2) + "]]", parts[index])
+            lines.append("".join(parts))
+        return "".join(lines)
 
     changed: list[str] = []
     for item in plan.get("mutable_files", []):
+        if item.get("kind") in {"referenced-machine-evidence", "authoring-package-file", "transaction-archive-file"}:
+            continue
         target = _mutable_target(output, str(item["relative_target"]))
         if not target.is_file():
             continue
+        if (plan.get("note_relink", {}).get("title_map") == title_map
+                and item.get("post_migration_sha256") == sha256_file(target)):
+            continue
         if target.suffix.casefold() == ".md":
-            text = target.read_text(encoding="utf-8")
+            text = target.read_bytes().decode("utf-8")
             updated = replace_links(text)
             if updated != text:
-                target.write_text(updated, encoding="utf-8", newline="\n")
+                target.write_bytes(updated.encode("utf-8"))
                 changed.append(item["relative_target"])
         elif target.suffix.casefold() == ".json" and "workspace-meta" in target.parts:
             try:
@@ -566,6 +872,7 @@ def relink_preserved_notes(output: Path, graph: dict[str, Any], projection: dict
     plan["note_relink"] = {
         "status": "passed",
         "title_map": title_map,
+        "unresolved_titles": unresolved,
         "changed_files": sorted(set(changed)),
         "updated_at_utc": utc_now(),
     }
@@ -576,6 +883,7 @@ def relink_preserved_notes(output: Path, graph: dict[str, Any], projection: dict
         "title_map_count": len(title_map),
         "changed_files": sorted(set(changed)),
         "title_map": title_map,
+        "unresolved_titles": unresolved,
     }
     json_write(output / "migration" / "note-relink.json", result)
     return result

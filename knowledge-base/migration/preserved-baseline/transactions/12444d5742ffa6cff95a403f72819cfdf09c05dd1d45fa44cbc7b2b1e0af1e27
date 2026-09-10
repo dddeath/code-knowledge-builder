@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "status": "agent-reviewed",
+  "kind": "analysis",
+  "title": "Code Knowledge Builder：一份代码，两种读法",
+  "file": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\human\\analysis\\Code Knowledge Builder：一份代码，两种读法.md",
+  "compatibility_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\markdown\\analysis\\Code Knowledge Builder：一份代码，两种读法.md",
+  "linked_pages": [
+    "build_agent_index 与 _tokens 的协作实现",
+    "build_machine_knowledge 与 estimated_tokens 的协作实现",
+    "finish_session 与 _session_directory 的协作实现",
+    "sync_human_layer 与 _source_manifest 的协作实现",
+    "migrate_output 与 _entity_key 的协作实现",
+    "project_graphify 与 _networkx_modules 的协作实现",
+    "module_name 与 estimated_tokens 的协作实现",
+    "keyword_provider_config 与 keyword_fallback_options 的协作实现"
+  ],
+  "source_links": [
+    "[打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-555`",
+    "[打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1995`",
+    "[打开源码：scripts/ckb_core/agent_maintenance.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_maintenance.py:1:1)  `scripts/ckb_core/agent_maintenance.py:1-255`",
+    "[打开源码：scripts/ckb_core/knowledge_layers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/knowledge_layers.py:1:1)  `scripts/ckb_core/knowledge_layers.py:1-262`",
+    "[打开源码：scripts/ckb_core/migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/migration.py:1:1)  `scripts/ckb_core/migration.py:1-894`",
+    "[打开源码：scripts/ckb_core/graphify_core.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/graphify_core.py:1:1)  `scripts/ckb_core/graphify_core.py:1-676`",
+    "[打开源码：scripts/ckb_core/navigation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/navigation.py:1:1)  `scripts/ckb_core/navigation.py:1-456`",
+    "[打开源码：scripts/ckb.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:1:1)  `scripts/ckb.py:1-1850`"
+  ],
+  "query_record": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\machine\\agent-packs\\pack-20260830-112611-944448-01.json",
+  "updated_at_utc": "2026-09-10T03:13:45Z",
+  "obsidian_uri": "obsidian://open?path=E%3A%5Cknowledge_builder%5Cself-workspace%5Cknowledge-base.staging-4617928a6757%5Cmarkdown%5Canalysis%5CCode%20Knowledge%20Builder%EF%BC%9A%E4%B8%80%E4%BB%BD%E4%BB%A3%E7%A0%81%EF%BC%8C%E4%B8%A4%E7%A7%8D%E8%AF%BB%E6%B3%95.md",
+  "human_output_contract": {
+    "status": "legacy-content-checked",
+    "v3_validated": false
+  },
+  "record_id": "work-record-4bbd37472c975629b73e45eff4cf24b9",
+  "created_at_utc": "2026-08-30T12:24:36Z",
+  "body_sha256": "d8e7f655975f4ef0fec0e0640e1e07fd3110eb90c58b6cd8f2687b978f9fe163",
+  "replacement": {
+    "operation_id": "record-replace-f5644ed009de56158ba66b3b310497ff",
+    "replaced_at_utc": "2026-09-10T03:13:45Z",
+    "previous_page_sha256": "7d7d629a907cdf9e7f236b98e8a9295ef94c2e58ddd3548cbebbdc525936fb7a",
+    "previous_body_sha256": "7d7d629a907cdf9e7f236b98e8a9295ef94c2e58ddd3548cbebbdc525936fb7a",
+    "body_sha256": "d8e7f655975f4ef0fec0e0640e1e07fd3110eb90c58b6cd8f2687b978f9fe163"
+  }
+}

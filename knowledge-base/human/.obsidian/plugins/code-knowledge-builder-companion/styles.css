@@ -9313,3 +9313,70 @@ button.claudian-image-modal-close:hover {
 .claudian-visible-flex.claudian-visible-flex {
   display: flex;
 }
+
+
+/* ============================================
+   features/interactive-canvas.css
+   ============================================ */
+.ckb-function-input {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid var(--background-modifier-border);
+  background: var(--background-modifier-form-field);
+  box-shadow: none;
+  color: var(--text-normal);
+  font: inherit;
+  resize: none;
+  overflow-y: auto;
+}
+
+.ckb-function-input:focus {
+  outline: none;
+  border-color: var(--interactive-accent);
+  box-shadow: none;
+}
+
+.ckb-function-panel pre,
+.ckb-function-answer {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.ckb-function-panel label {
+  display: block;
+  margin-top: 12px;
+}
+
+.ckb-function-panel button {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--text-muted);
+}
+
+.ckb-function-panel button:hover,
+.ckb-function-panel button:focus-visible {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--text-normal);
+}
+
+.ckb-function-panel {
+  min-width: 0;
+  overflow-x: hidden;
+  overflow-wrap: anywhere;
+}
+
+.ckb-function-panel [data-function-node] {
+  display: block;
+  width: 100%;
+  height: auto;
+  padding: 6px 0;
+  white-space: normal;
+  text-align: left;
+}
+
+.ckb-function-panel input {
+  max-width: 100%;
+}

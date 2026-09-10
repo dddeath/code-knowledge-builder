@@ -23,12 +23,6 @@
    - 每项候选功能先封闭输入、输出、依赖、许可证、数据边界和完成门，再按小批次整合，并为人类可读性、机器检索、中文叙述及回滚补齐测试。
    - 优先吸收能降低 Agent 检索成本、改善知识维护闭环且不会显著增加页面数量的能力；其余能力保留为有证据的后续候选。
 
-## 相关知识页
-
-- [[start_session]]
-- [[retrieve_machine]]
-- [[record_note]]
-
 ## 源码入口
 
 - [打开 `retrieve_machine`](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:942:1)  `scripts/ckb_core/machine_knowledge.py:942-1315`
@@ -191,7 +185,7 @@ tags rollback
 
 ### 验收门
 
-- 现有 `#类型/...` 唯一性、页面数量和人类可读性门保持通过；
+- 保持类型标签唯一、页面数量受控和正文可理解；
 - candidate/rejected/deprecated tag 不出现在普通人类页面；
 - confirmed tag 的 human/markdown 集合与机器 `tag_assignments` 完全一致；
 - 同一会话重复投票、缺证据投票和过期来源证据具有失败样例；
@@ -217,7 +211,7 @@ tags rollback
 
 目标是提供正式的中心扩展接口，在隔离 staging 中计算“旧 entries 与新增 entries 的并集”，默认保留全部旧中心，复用未变化 blob 和兼容审阅，只为新增范围生成 delta review。任务必须输出 retained、added、removed 的 entry、源码路径、实体、关系和页面差异；正常追加时 removed 集合为空。工作记录、reference、research gap、学习笔记、feedback、automation、Agent Protocol 和用户 Obsidian 状态全部进入保留门。
 
-失败样例覆盖中心零匹配或多匹配、重复新增、未跟踪源码、范围重叠、旧中心丢失、页面配额退化、staging/cutover/rollback 失败。同一输入重复运行必须幂等；原中心和新中心检索、双 SQLite、human/markdown、readability、status、maintain 与回滚探针全部通过后才具备合并资格。
+失败样例覆盖中心未匹配或匹配不唯一、重复追加、范围重叠、旧中心遗漏及切换失败。同步必须保留既有内容，重复输入结果一致，并验证新旧中心检索、阅读镜像和恢复行为后再集成。
 
 ### 任务七：低版本 Agent Protocol 批量升级
 
@@ -251,7 +245,7 @@ tags rollback
 
 开发分支只保留隔离 benchmark 模块、fixture、锁文件、报告和负例测试。`scripts/ckb.py`、默认机器检索、reference ingest、导航、pipeline、功能矩阵和发行入口均未修改，三项 `production_wiring` 均为 `absent`。三项现有 research gap 继续保持 open，不将固定门失败解释为生产能力完成。
 
-管理复验字面结果为：三个专项各 `Ran 2 tests ... OK`，核心 `Ran 33 tests ... OK`，Harness `Ran 22 tests ... OK`，迁移 `Ran 1 test ... OK`，发行 `Ran 3 tests ... OK`。页面扩散 benchmark 已完整重跑并再次只失败人类查找收益门。OCR 隔离依赖在开发任务完成后按清理清单删除；管理任务重新打开已提交报告、原始命令、许可与哈希锁、fixture 摘要和事务回滚结果，没有重新下载已清理依赖或重复执行长时间向量索引。
+该轮管理复验覆盖专项、核心、会话接入、迁移与发行。页面扩散实验仍未表现出人类查找收益。OCR 隔离依赖按原计划清理，管理复读已提交的报告、来源与恢复证据，没有重跑已结束的长时间实验。
 
 完整审计位于 `E:\knowledge_builder\artifacts\verification\llm-wiki-remaining-absorption\management-audit.json`。分支和 worktree 作为可复查证据保留，等待用户以后决定是否以新的冻结语料、OCR 代码布局策略或更困难的人类查找任务重新 benchmark。
 
@@ -290,7 +284,7 @@ tags rollback
 
 ## 最终源码与知识库 GitHub 推送门（2026-09-01）
 
-用户已确认：九项开发任务完成管理审计与实际合并、合并后回归通过，并且最终稳定知识库在隔离 staging 完成同步、切换和回滚探针后，把最终 integration 源码与切换后的稳定知识库一并推送到 GitHub。该动作是队列终态发布阶段，不提前推送开发中分支或未通过维护门的知识库。
+既定发布顺序是先完成开发集成和知识库同步，确认切换与恢复可用，再一并推送源码和知识库；不提前发布开发中版本。
 
 发布沿用既有“同一私有 GitHub 仓库”边界，SQLite 与 ZIP 使用 Git LFS。稳定知识库的发布范围包含 human/markdown 镜像、facts、机器 SQLite、兼容 SQLite、工作记录、reference、research gap、operation journal 和审计元数据；排除其他 worktree、构建下载缓存、临时 migration/publish staging、活动锁、运行时进程状态、原始敏感事件和凭据。
 
@@ -302,7 +296,7 @@ tags rollback
 
 ## stdio 生命周期首轮管理审计退回修复（2026-09-01）
 
-开发任务已提交六个独立 commit、结构化交接、锁定 Windows runtime 测试、压力探针和回滚证据，但管理任务没有直接采用其完成结论。独立复查确认变更路径和提交边界正确、交接时工作树干净、普通首次激活可以创建并复用 stdio，所有本轮执行过的关闭探针最终活动进程和对象计数均为零；同时发现三个尚未通过的门，因此当前不允许合并。
+当时独立复查确认首次激活可以创建并复用常驻服务，已执行的关闭场景完成资源清理；仍有边界问题待修正，因此当时没有合并。
 
 第一，同一 `harness + session_id + OUTPUT` 执行 `activate -> close -> 立即 activate` 时，第二轮可能先读到上一代 `lease.json` 的 closed 状态，把旧 `close_reason` 误判为本次启动失败并返回逐命令 CLI fallback。该行为违反“相同外部会话标识的新生命周期必须在首次精确 Skill 调用直接常驻，且不复用旧 PID 或缓存”的固定边界。
 
@@ -369,3 +363,26 @@ Windows lease 原子写临时名已缩短，并增加明确目录路径预算。
 ### 新增特性的增强效果
 
 清点当前已合并特性，明确各自相对哪种旧实现或无特性路径进行比较，复用已有实验，只补测缺少的证据。分别评价功能收益、任务质量、检索与导航效率、延迟和资源成本；真实模型调用与固定回放、隔离样例与实际使用分开。最终逐项说明已证实增强、仅功能可用、无增益或退化、证据不足，不把功能测试通过等同于效果提升。
+
+
+## 原始记录
+
+[按需核对历史原文与完整复现明细](../../machine/historical-records/legacy-20260910-06.md)。
+
+## 相关知识页
+
+- [[review_management_task 与 default_management_registry_path 的协作实现]]
+- [[keyword_provider_config 与 keyword_fallback_options 的协作实现]]
+- [[review_automation 与 default_registry_path 的协作实现]]
+- [[render_integration 与 harness_retrieval_contract 的协作实现]]
+- [[main 等测试场景（session_stdio_harness_probe 测试）]]
+- [[audit_agent_protocol 与 _default_python 的协作实现]]
+
+## 源码入口
+
+- [打开源码：scripts/ckb_core/management_agent.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/management_agent.py:1:1)  `scripts/ckb_core/management_agent.py:1-1399`
+- [打开源码：scripts/ckb.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:1:1)  `scripts/ckb.py:1-1850`
+- [打开源码：scripts/ckb_core/automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation.py:1:1)  `scripts/ckb_core/automation.py:1-1783`
+- [打开源码：scripts/ckb_core/automation_integrations.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation_integrations.py:1:1)  `scripts/ckb_core/automation_integrations.py:1-656`
+- [打开源码：tests/session_stdio_harness_probe.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/session_stdio_harness_probe.py:1:1)  `tests/session_stdio_harness_probe.py:1-35`
+- [打开源码：scripts/ckb_core/agent_protocol.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_protocol.py:1:1)  `scripts/ckb_core/agent_protocol.py:1-513`

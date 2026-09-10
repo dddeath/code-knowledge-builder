@@ -12,12 +12,6 @@
 
 [打开源码：tests/test_query_terms.py 第 25 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_query_terms.py:25:1)  `tests/test_query_terms.py:25-107`
 
-## 相关代码
-
-- 实现时会用到 [[retrieve]]。
-- 实现时会用到 [[search_terms]]。
-- 实现时会用到 [[search_terms 与 _split_camel 的协作实现]]。
-
 ## 谁会来到这里
 
 - [[QueryTermsTests 等测试场景]] 汇总了本页。

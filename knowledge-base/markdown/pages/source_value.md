@@ -14,12 +14,4 @@
 
 ## 谁会来到这里
 
-- [[render_page_author 与 _error 的协作实现]] 会使用这里提供的行为。
 - [[source_value 等测试场景]] 汇总了本页。
-
-## 相关测试
-
-- [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[HumanPageAuthoringValidationFailureTests]]
-- [[HumanPageAuthoringValidationFailureTests 等测试场景]]
-- [[source_value 等测试场景]]

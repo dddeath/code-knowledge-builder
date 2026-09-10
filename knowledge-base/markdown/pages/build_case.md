@@ -14,31 +14,8 @@
 
 ## 相关代码
 
-- 实现时会用到 [[ScopeExtensionOfferTests.retrieval]]。
-- 实现时会用到 [[SourceLinkRenderer.uri]]。
-- 实现时会用到 [[_Transport.close]]。
-- 实现时会用到 [[append]]。
-- 实现时会用到 [[build_case 等测试场景]]。
-- 实现时会用到 [[ingest 与 connect 的协作实现]]。
-- 实现时会用到 [[source_files]]。
+- 与 [[build_case 等测试场景]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 
 ## 谁会来到这里
 
-- [[CanvasContractTests]] 会使用这里提供的行为。
-- [[CanvasDeterminismTests]] 会使用这里提供的行为。
-- [[CanvasGraphTests]] 会使用这里提供的行为。
-- [[CanvasPathTests]] 会使用这里提供的行为。
-- [[CanvasRollbackTests]] 会使用这里提供的行为。
-- [[CanvasTransactionTests]] 会使用这里提供的行为。
 - [[build_case 等测试场景]] 汇总了本页。
-
-## 相关测试
-
-- [[CanvasContractTests]]
-- [[CanvasContractTests 等测试场景]]
-- [[CanvasDeterminismTests]]
-- [[CanvasGraphTests]]
-- [[CanvasPathTests]]
-- [[CanvasRollbackTests]]
-
-> 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。

@@ -2,11 +2,11 @@
 
 标签：#类型/代码
 
-> `preflight` 是 `scripts/ckb_core/gitrepo.py` 第 194-217 行定义的函数，本页绑定该固定源码范围。 负责验证固定 Git 快照，并读取提交、树、文件模式和对象内容。
+> 确认可用 Git 仓库并拒绝任何已跟踪或未跟踪的工作树改动，返回规范化仓库根、HEAD 提交、tree 及初始化记录。 先通过 prepare_git_repository 处理已有仓库或显式首次初始化，再执行包含未跟踪文件的 porcelain 状态检查；脏工作树抛出 StaleSourceError，不生成可用基线描述。
 
 ## 什么时候需要修改
 
-当 `preflight` 的输入、输出、状态转换或失败返回变化时，应更新本页并重跑对应测试。
+修改 Git 首次初始化、干净状态定义或仓库根定位时，联动 prepare_git_repository 与使用返回 commit/tree 的快照创建和来源一致性检查。
 
 ## 在代码中的位置
 
@@ -14,26 +14,12 @@
 
 ## 相关代码
 
-- 实现时会用到 [[CkbError 与 DependencyError 的协作实现]]。
-- 实现时会用到 [[preflight 与 git 的协作实现]]。
+- 与 [[CkbError 与 DependencyError 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[preflight 与 git 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 
 ## 谁会来到这里
 
-- [[bind_conversation]] 会使用这里提供的行为。
-- [[check_fact_freshness 与 _root 的协作实现]] 会使用这里提供的行为。
-- [[command 等测试场景]] 会使用这里提供的行为。
-- [[finalize 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
+- 与 [[audit_global 与 _replace_output_prefix 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 - [[preflight 与 git 的协作实现]] 汇总了本页。
-- [[start_scope_extension]] 会使用这里提供的行为。
-- [[start_scope_extension 与 _error 的协作实现]] 会使用这里提供的行为。
-
-## 相关测试
-
-- [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[FactFreshnessStateMachineTest]]
-- [[PdfReferenceExtractionTests]]
-- [[PdfReferenceExtractionTests 等测试场景]]
-- [[ReferencePdfEffectBenchmarkTests]]
-- [[ScopeExtensionTest]]
-
-> 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
+- 与 [[start_scope_extension]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[start_scope_extension 与 _error 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。

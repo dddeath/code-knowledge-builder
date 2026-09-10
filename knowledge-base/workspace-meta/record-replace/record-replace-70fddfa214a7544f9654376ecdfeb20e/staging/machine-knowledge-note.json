@@ -1,0 +1,261 @@
+{
+  "document": [
+    [
+      "note:changes:中文检索确定性词项合并审计",
+      "change",
+      "中文检索确定性词项合并审计",
+      "#类型/变更",
+      "changes/中文检索确定性词项合并审计.md",
+      null,
+      "# 中文检索确定性词项合并审计\n\n标签：#类型/变更\n\n## 合并结果\n\n开发分支 `codex/chinese-retrieval-tokenizer` 的 5 个独立提交已由管理任务以非 squash 方式合并到集成分支 `codex/reference-ingest-v1`；开发 HEAD 与合并提交由管理验证记录精确保存。\n\n## 已确认行为\n\n- 新增离线确定性的 `query_terms.py`：保留完整中文短语、代码连续段、路径/API、CamelCase 分段、数字和显式锚点，再按内容三元组、二元组补充召回；按优先级、长度降序和字典序固定排序并去重。\n- 查询词项最多 64 项；机器 FTS 取前 16 个长度至少为 3 的词项。机器知识索引与兼容页面索引共用同一建库、查询和 FTS 词项规则。\n- `包不满`、`否会回`、`回的检` 不再成为独立查询或 FTS 子句，完整短语仍保留。\n- 冻结问题集的独立进程运行保留了目标源码召回与排序一致性，详细逐次结果在原始记录中。\n\n## 管理任务独立复查\n\n合并前后均实际验证中文词项、冻结协议、核心检索、会话接入及发行行为；没有把启动提示当作完成，完整执行明细保留在原始记录。\n\n## 已测量边界\n\n兼容页面索引在冻结十二问中的 `Recall@8` 为 `33.33%`，低于旧词项表的 `41.67%`。该指标不属于本任务七项主索引完成门，因此本记录只确认词项规则一致和主索引门通过，不声明兼容页面索引的检索质量提升。修改后绝对延迟与 baseline 采集时主机负载不同，也不据此声明跨轮绝对延迟加速。\n\n## 回滚\n\n开发分支回滚脚本为 `E:\\knowledge_builder\\artifacts\\execution-queues\\20260901-retrieval-llm\\chinese-retrieval-tokenizer-result\\rollback-chinese-retrieval-tokenizer.sh`；隔离 clone 已按 5 个开发提交逆序执行，并验证整树回到任务基线。在集成分支回滚时应以本次合并提交为边界创建反向提交，保留后续任务历史。\n\n## 后续补充\n\n### 2026年9月6日来源修复\n\n原合并记录的正文保留。它引用的2026年8月31日查询阅读包已缺失，在保留归档及发布历史中未找到；本次没有重建同名文件，也不把新的查询结果当作当年的原始证据。\n\n本次重新核对了当前集成源码中的中文词项生成规则、机器知识数据库和兼容页面索引。中文片段、代码标识及确定性排序的实现已经存在，实际中文全文查询可以命中，词项专项测试通过。因此无需重新实现这项功能。\n\n记录的当前来源改为本次生成的阅读包；它只支撑本次源码与数据库核验。上文旧版本指标保留为历史记录，不作为当前版本的性能承诺。中文检索效果补测使用单独冻结的语料和协议，结果另行归档。\n\n\n## 历史源码定位\n\n原关联页面未进入当前建库范围，以下链接保留到此前已发布源码，不表示这些历史结论已重新测量。\n\n- [state_machine 的协作边界的历史源码](https://github.com/dddeath/code-knowledge-builder/blob/4ead5dc/source/prototypes/ckb-tag-navigation/ckb_tag_navigation/state_machine.py)\n\n## 原始记录\n\n[按需核对历史原文与完整复现明细](../../machine/historical-records/legacy-20260910-11.md)。\n\n## 相关知识页\n\n- [[KeywordFallbackOptions 与 KeywordProviderConfig 的协作实现]]\n- [[module_name 与 estimated_tokens 的协作实现]]\n- [[search_terms 与 _split_camel 的协作实现]]\n- [[build_agent_index 与 _tokens 的协作实现]]\n- [[create_gap 与 _root 的协作实现]]\n- [[project_graphify 与 _networkx_modules 的协作实现]]\n- [[ChineseRetrievalEffectRetestFixtureTests.test_source_corpus_drift_fails_without_dam…（tests/test_chinese_retrieval_fixture.py:1）]]\n\n## 源码入口\n\n- [打开源码：scripts/ckb_core/keyword_fallback.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/keyword_fallback.py:1:1)  `scripts/ckb_core/keyword_fallback.py:1-638`\n- [打开源码：scripts/ckb_core/navigation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/navigation.py:1:1)  `scripts/ckb_core/navigation.py:1-456`\n- [打开源码：scripts/ckb_core/query_terms.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/query_terms.py:1:1)  `scripts/ckb_core/query_terms.py:1-106`\n- [打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-555`\n- [打开源码：scripts/ckb_core/research_gaps.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/research_gaps.py:1:1)  `scripts/ckb_core/research_gaps.py:1-274`\n- [打开源码：scripts/ckb_core/graphify_core.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/graphify_core.py:1:1)  `scripts/ckb_core/graphify_core.py:1-676`\n- [打开源码：tests/test_chinese_retrieval_fixture.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_chinese_retrieval_fixture.py:1:1)  `tests/test_chinese_retrieval_fixture.py:1-214`\n",
+      1747
+    ]
+  ],
+  "sections": [
+    [
+      "note:changes:中文检索确定性词项合并审计:0",
+      "note:changes:中文检索确定性词项合并审计",
+      0,
+      "中文检索确定性词项合并审计",
+      "标签：#类型/变更",
+      8,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:中文检索确定性词项合并审计:1",
+      "note:changes:中文检索确定性词项合并审计",
+      1,
+      "合并结果",
+      "开发分支 `codex/chinese-retrieval-tokenizer` 的 5 个独立提交已由管理任务以非 squash 方式合并到集成分支 `codex/reference-ingest-v1`；开发 HEAD 与合并提交由管理验证记录精确保存。",
+      75,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:中文检索确定性词项合并审计:2",
+      "note:changes:中文检索确定性词项合并审计",
+      2,
+      "已确认行为",
+      "- 新增离线确定性的 `query_terms.py`：保留完整中文短语、代码连续段、路径/API、CamelCase 分段、数字和显式锚点，再按内容三元组、二元组补充召回；按优先级、长度降序和字典序固定排序并去重。\n- 查询词项最多 64 项；机器 FTS 取前 16 个长度至少为 3 的词项。机器知识索引与兼容页面索引共用同一建库、查询和 FTS 词项规则。\n- `包不满`、`否会回`、`回的检` 不再成为独立查询或 FTS 子句，完整短语仍保留。\n- 冻结问题集的独立进程运行保留了目标源码召回与排序一致性，详细逐次结果在原始记录中。",
+      222,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:中文检索确定性词项合并审计:3",
+      "note:changes:中文检索确定性词项合并审计",
+      3,
+      "管理任务独立复查",
+      "合并前后均实际验证中文词项、冻结协议、核心检索、会话接入及发行行为；没有把启动提示当作完成，完整执行明细保留在原始记录。",
+      60,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:中文检索确定性词项合并审计:4",
+      "note:changes:中文检索确定性词项合并审计",
+      4,
+      "已测量边界",
+      "兼容页面索引在冻结十二问中的 `Recall@8` 为 `33.33%`，低于旧词项表的 `41.67%`。该指标不属于本任务七项主索引完成门，因此本记录只确认词项规则一致和主索引门通过，不声明兼容页面索引的检索质量提升。修改后绝对延迟与 baseline 采集时主机负载不同，也不据此声明跨轮绝对延迟加速。",
+      128,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:中文检索确定性词项合并审计:5",
+      "note:changes:中文检索确定性词项合并审计",
+      5,
+      "回滚",
+      "开发分支回滚脚本为 `E:\\knowledge_builder\\artifacts\\execution-queues\\20260901-retrieval-llm\\chinese-retrieval-tokenizer-result\\rollback-chinese-retrieval-tokenizer.sh`；隔离 clone 已按 5 个开发提交逆序执行，并验证整树回到任务基线。在集成分支回滚时应以本次合并提交为边界创建反向提交，保留后续任务历史。",
+      124,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:中文检索确定性词项合并审计:6",
+      "note:changes:中文检索确定性词项合并审计",
+      6,
+      "2026年9月6日来源修复",
+      "原合并记录的正文保留。它引用的2026年8月31日查询阅读包已缺失，在保留归档及发布历史中未找到；本次没有重建同名文件，也不把新的查询结果当作当年的原始证据。\n\n本次重新核对了当前集成源码中的中文词项生成规则、机器知识数据库和兼容页面索引。中文片段、代码标识及确定性排序的实现已经存在，实际中文全文查询可以命中，词项专项测试通过。因此无需重新实现这项功能。\n\n记录的当前来源改为本次生成的阅读包；它只支撑本次源码与数据库核验。上文旧版本指标保留为历史记录，不作为当前版本的性能承诺。中文检索效果补测使用单独冻结的语料和协议，结果另行归档。",
+      262,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:中文检索确定性词项合并审计:7",
+      "note:changes:中文检索确定性词项合并审计",
+      7,
+      "历史源码定位",
+      "原关联页面未进入当前建库范围，以下链接保留到此前已发布源码，不表示这些历史结论已重新测量。\n\n- [state_machine 的协作边界的历史源码](https://github.com/dddeath/code-knowledge-builder/blob/4ead5dc/source/prototypes/ckb-tag-navigation/ckb_tag_navigation/state_machine.py)",
+      108,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:中文检索确定性词项合并审计:8",
+      "note:changes:中文检索确定性词项合并审计",
+      8,
+      "原始记录",
+      "[按需核对历史原文与完整复现明细](../../machine/historical-records/legacy-20260910-11.md)。",
+      36,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:中文检索确定性词项合并审计:9",
+      "note:changes:中文检索确定性词项合并审计",
+      9,
+      "相关知识页",
+      "- [[KeywordFallbackOptions 与 KeywordProviderConfig 的协作实现]]\n- [[module_name 与 estimated_tokens 的协作实现]]\n- [[search_terms 与 _split_camel 的协作实现]]\n- [[build_agent_index 与 _tokens 的协作实现]]\n- [[create_gap 与 _root 的协作实现]]\n- [[project_graphify 与 _networkx_modules 的协作实现]]\n- [[ChineseRetrievalEffectRetestFixtureTests.test_source_corpus_drift_fails_without_dam…（tests/test_chinese_retrieval_fixture.py:1）]]",
+      158,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:中文检索确定性词项合并审计:10",
+      "note:changes:中文检索确定性词项合并审计",
+      10,
+      "源码入口",
+      "- [打开源码：scripts/ckb_core/keyword_fallback.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/keyword_fallback.py:1:1)  `scripts/ckb_core/keyword_fallback.py:1-638`\n- [打开源码：scripts/ckb_core/navigation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/navigation.py:1:1)  `scripts/ckb_core/navigation.py:1-456`\n- [打开源码：scripts/ckb_core/query_terms.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/query_terms.py:1:1)  `scripts/ckb_core/query_terms.py:1-106`\n- [打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-555`\n- [打开源码：scripts/ckb_core/research_gaps.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/research_gaps.py:1:1)  `scripts/ckb_core/research_gaps.py:1-274`\n- [打开源码：scripts/ckb_core/graphify_core.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/graphify_core.py:1:1)  `scripts/ckb_core/graphify_core.py:1-676`\n- [打开源码：tests/test_chinese_retrieval_fixture.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_chinese_retrieval_fixture.py:1:1)  `tests/test_chinese_retrieval_fixture.py:1-214`",
+      473,
+      null,
+      null,
+      null
+    ]
+  ],
+  "section_sources": [],
+  "links": [
+    [
+      "note:changes:中文检索确定性词项合并审计",
+      null,
+      "ChineseRetrievalEffectRetestFixtureTests.test_source_corpus_drift_fails_without_dam…（tests/test_chinese_retrieval_fixture.py:1）",
+      "wikilink"
+    ],
+    [
+      "note:changes:中文检索确定性词项合并审计",
+      null,
+      "KeywordFallbackOptions 与 KeywordProviderConfig 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:changes:中文检索确定性词项合并审计",
+      null,
+      "build_agent_index 与 _tokens 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:changes:中文检索确定性词项合并审计",
+      null,
+      "create_gap 与 _root 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:changes:中文检索确定性词项合并审计",
+      null,
+      "module_name 与 estimated_tokens 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:changes:中文检索确定性词项合并审计",
+      null,
+      "project_graphify 与 _networkx_modules 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:changes:中文检索确定性词项合并审计",
+      null,
+      "search_terms 与 _split_camel 的协作实现",
+      "wikilink"
+    ]
+  ],
+  "fts": [
+    [
+      "note:changes:中文检索确定性词项合并审计:0",
+      "note:changes:中文检索确定性词项合并审计",
+      "中文检索确定性词项合并审计",
+      "标签：#类型/变更",
+      ""
+    ],
+    [
+      "note:changes:中文检索确定性词项合并审计:1",
+      "note:changes:中文检索确定性词项合并审计",
+      "合并结果",
+      "开发分支 `codex/chinese-retrieval-tokenizer` 的 5 个独立提交已由管理任务以非 squash 方式合并到集成分支 `codex/reference-ingest-v1`；开发 HEAD 与合并提交由管理验证记录精确保存。",
+      ""
+    ],
+    [
+      "note:changes:中文检索确定性词项合并审计:2",
+      "note:changes:中文检索确定性词项合并审计",
+      "已确认行为",
+      "- 新增离线确定性的 `query_terms.py`：保留完整中文短语、代码连续段、路径/API、CamelCase 分段、数字和显式锚点，再按内容三元组、二元组补充召回；按优先级、长度降序和字典序固定排序并去重。\n- 查询词项最多 64 项；机器 FTS 取前 16 个长度至少为 3 的词项。机器知识索引与兼容页面索引共用同一建库、查询和 FTS 词项规则。\n- `包不满`、`否会回`、`回的检` 不再成为独立查询或 FTS 子句，完整短语仍保留。\n- 冻结问题集的独立进程运行保留了目标源码召回与排序一致性，详细逐次结果在原始记录中。",
+      ""
+    ],
+    [
+      "note:changes:中文检索确定性词项合并审计:3",
+      "note:changes:中文检索确定性词项合并审计",
+      "管理任务独立复查",
+      "合并前后均实际验证中文词项、冻结协议、核心检索、会话接入及发行行为；没有把启动提示当作完成，完整执行明细保留在原始记录。",
+      ""
+    ],
+    [
+      "note:changes:中文检索确定性词项合并审计:4",
+      "note:changes:中文检索确定性词项合并审计",
+      "已测量边界",
+      "兼容页面索引在冻结十二问中的 `Recall@8` 为 `33.33%`，低于旧词项表的 `41.67%`。该指标不属于本任务七项主索引完成门，因此本记录只确认词项规则一致和主索引门通过，不声明兼容页面索引的检索质量提升。修改后绝对延迟与 baseline 采集时主机负载不同，也不据此声明跨轮绝对延迟加速。",
+      ""
+    ],
+    [
+      "note:changes:中文检索确定性词项合并审计:5",
+      "note:changes:中文检索确定性词项合并审计",
+      "回滚",
+      "开发分支回滚脚本为 `E:\\knowledge_builder\\artifacts\\execution-queues\\20260901-retrieval-llm\\chinese-retrieval-tokenizer-result\\rollback-chinese-retrieval-tokenizer.sh`；隔离 clone 已按 5 个开发提交逆序执行，并验证整树回到任务基线。在集成分支回滚时应以本次合并提交为边界创建反向提交，保留后续任务历史。",
+      ""
+    ],
+    [
+      "note:changes:中文检索确定性词项合并审计:6",
+      "note:changes:中文检索确定性词项合并审计",
+      "2026年9月6日来源修复",
+      "原合并记录的正文保留。它引用的2026年8月31日查询阅读包已缺失，在保留归档及发布历史中未找到；本次没有重建同名文件，也不把新的查询结果当作当年的原始证据。\n\n本次重新核对了当前集成源码中的中文词项生成规则、机器知识数据库和兼容页面索引。中文片段、代码标识及确定性排序的实现已经存在，实际中文全文查询可以命中，词项专项测试通过。因此无需重新实现这项功能。\n\n记录的当前来源改为本次生成的阅读包；它只支撑本次源码与数据库核验。上文旧版本指标保留为历史记录，不作为当前版本的性能承诺。中文检索效果补测使用单独冻结的语料和协议，结果另行归档。",
+      ""
+    ],
+    [
+      "note:changes:中文检索确定性词项合并审计:7",
+      "note:changes:中文检索确定性词项合并审计",
+      "历史源码定位",
+      "原关联页面未进入当前建库范围，以下链接保留到此前已发布源码，不表示这些历史结论已重新测量。\n\n- [state_machine 的协作边界的历史源码](https://github.com/dddeath/code-knowledge-builder/blob/4ead5dc/source/prototypes/ckb-tag-navigation/ckb_tag_navigation/state_machine.py)",
+      ""
+    ],
+    [
+      "note:changes:中文检索确定性词项合并审计:8",
+      "note:changes:中文检索确定性词项合并审计",
+      "原始记录",
+      "[按需核对历史原文与完整复现明细](../../machine/historical-records/legacy-20260910-11.md)。",
+      ""
+    ],
+    [
+      "note:changes:中文检索确定性词项合并审计:9",
+      "note:changes:中文检索确定性词项合并审计",
+      "相关知识页",
+      "- [[KeywordFallbackOptions 与 KeywordProviderConfig 的协作实现]]\n- [[module_name 与 estimated_tokens 的协作实现]]\n- [[search_terms 与 _split_camel 的协作实现]]\n- [[build_agent_index 与 _tokens 的协作实现]]\n- [[create_gap 与 _root 的协作实现]]\n- [[project_graphify 与 _networkx_modules 的协作实现]]\n- [[ChineseRetrievalEffectRetestFixtureTests.test_source_corpus_drift_fails_without_dam…（tests/test_chinese_retrieval_fixture.py:1）]]",
+      ""
+    ],
+    [
+      "note:changes:中文检索确定性词项合并审计:10",
+      "note:changes:中文检索确定性词项合并审计",
+      "源码入口",
+      "- [打开源码：scripts/ckb_core/keyword_fallback.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/keyword_fallback.py:1:1)  `scripts/ckb_core/keyword_fallback.py:1-638`\n- [打开源码：scripts/ckb_core/navigation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/navigation.py:1:1)  `scripts/ckb_core/navigation.py:1-456`\n- [打开源码：scripts/ckb_core/query_terms.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/query_terms.py:1:1)  `scripts/ckb_core/query_terms.py:1-106`\n- [打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-555`\n- [打开源码：scripts/ckb_core/research_gaps.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/research_gaps.py:1:1)  `scripts/ckb_core/research_gaps.py:1-274`\n- [打开源码：scripts/ckb_core/graphify_core.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/graphify_core.py:1:1)  `scripts/ckb_core/graphify_core.py:1-676`\n- [打开源码：tests/test_chinese_retrieval_fixture.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_chinese_retrieval_fixture.py:1:1)  `tests/test_chinese_retrieval_fixture.py:1-214`",
+      ""
+    ]
+  ]
+}

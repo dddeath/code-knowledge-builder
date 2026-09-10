@@ -14,13 +14,9 @@
 
 ## 相关代码
 
-- 实现时会用到 [[CkbError 与 DependencyError 的协作实现]]。
-- 实现时会用到 [[_Transport.close]]。
-- 实现时会用到 [[append]]。
-- 实现时会用到 [[command]]。
-- 实现时会用到 [[doctor_report 与 _version_matches 的协作实现]]。
-- 实现时会用到 [[ingest 与 connect 的协作实现]]。
-- 实现时会用到 [[query_graph 与 _networkx_modules 的协作实现]]。
+- 与 [[CkbError 与 DependencyError 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[doctor_report 与 _version_matches 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[project_graphify 与 _networkx_modules 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 
 ## 谁会来到这里
 

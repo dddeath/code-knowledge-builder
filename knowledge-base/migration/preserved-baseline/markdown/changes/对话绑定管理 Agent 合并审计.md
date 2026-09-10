@@ -36,7 +36,7 @@
 
 ## 相关知识页
 
-- [[ingest_event 与 default_registry_path 的协作实现]]
+- [[review_automation 与 default_registry_path 的协作实现]]
 
 ## 源码入口
 

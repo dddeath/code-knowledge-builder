@@ -1,0 +1,101 @@
+{
+  "description_zh": "冻结的原生文本、纯图像扫描和原生加扫描混合 PDF，用于分别测量文本覆盖、代码保真、表格结构与来源页定位。",
+  "documents": {
+    "hybrid": {
+      "page_text_modes": [
+        "native",
+        "image-only"
+      ],
+      "path": "hybrid-native-scanned.pdf",
+      "sha256": "376a3beedd89135547a61a07dcce266402ed3c1b8c3ad007d08afb2bc608748b"
+    },
+    "native": {
+      "page_text_modes": [
+        "native",
+        "native"
+      ],
+      "path": "native-code-table-mixed.pdf",
+      "sha256": "36a8239d450634f94ea2ac179e6cd00f1bbfc1b67b6faa8c9ca22a2afb50fbef"
+    },
+    "scanned": {
+      "page_text_modes": [
+        "image-only",
+        "image-only"
+      ],
+      "path": "scanned-code-table-mixed.pdf",
+      "sha256": "80119dccf7d371f1b2602078b36dab963424a46ed8a73d1d9fb580d54bd7dd1d"
+    }
+  },
+  "fixture_id": "ckb-reference-pdf-ocr-code-table-v1",
+  "kind_evidence": {
+    "hybrid_text_pages": [
+      true,
+      false
+    ],
+    "native_text_pages": [
+      true,
+      true
+    ],
+    "scanned_text_pages": [
+      false,
+      false
+    ]
+  },
+  "noise": {
+    "footer_page_number": true,
+    "repeated_header": true
+  },
+  "pages": [
+    {
+      "body": "中英文混排 Mixed Chinese and English 2026.",
+      "code_lines": [
+        "def normalize(items):",
+        "    total = sum(x[\"value\"] for x in items)",
+        "    return {\"count\": len(items), \"total\": total}"
+      ],
+      "footer": "FIXTURE ONLY | Page 1 / 2",
+      "header": "CKB OCR REFERENCE | CODE PAGE",
+      "page_number": 1,
+      "title": "扫描 OCR 基准 / Scan OCR Benchmark"
+    },
+    {
+      "footer": "FIXTURE ONLY | Page 2 / 2",
+      "header": "CKB OCR REFERENCE | TABLE PAGE",
+      "page_number": 2,
+      "table_rows": [
+        [
+          "模块 Module",
+          "状态 Status",
+          "说明 Note"
+        ],
+        [
+          "parser",
+          "READY",
+          "保留页码 / page 2"
+        ],
+        [
+          "ocr",
+          "CHECK",
+          "code + table"
+        ],
+        [
+          "trace",
+          "PASS",
+          "source-page=2"
+        ]
+      ],
+      "title": "跨行表格 / Multi-line Table",
+      "wrapped_cell": [
+        "保留页码",
+        "page 2"
+      ]
+    }
+  ],
+  "quality_dimensions": [
+    "text_coverage",
+    "code_fidelity",
+    "table_structure",
+    "source_page_locator"
+  ],
+  "schema_version": 1
+}

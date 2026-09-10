@@ -181,7 +181,28 @@ def review_all(output: Path) -> None:
         review = json.loads(template_path.read_text(encoding="utf-8"))
         for item in review["reviews"]:
             if pack["kind"] == "appendix-review":
-                item["description_zh"] = "该附属实体在固定源码范围内完成一项明确的局部处理。"
+                excerpt = item.get("source_excerpt", "")
+                if "handle.write" in excerpt:
+                    description = "将订单值追加写入文件，再返回辅助函数的正数判断。"
+                elif "return OrderService()" in excerpt:
+                    description = "创建订单服务，并转交调用方传入的保存请求。"
+                elif "return saveValue(value)" in excerpt:
+                    description = "将启动输入转交保存函数，并返回该函数的结果。"
+                elif "return left + right" in excerpt:
+                    description = "返回两个输入整数相加的结果。"
+                elif "return value > 0" in excerpt:
+                    description = "判断传入数值是否大于零，并返回布尔结果。"
+                elif "return value + 1" in excerpt:
+                    description = "将传入数值加一后返回，供调用入口复用。"
+                elif "FAST" in excerpt:
+                    description = "声明快速运行模式及其枚举值，供调用方选择。"
+                elif "value;" in excerpt:
+                    description = "保存对象携带的整数值，供所属类型读取和赋值。"
+                elif "return value" in excerpt:
+                    description = "原样返回传入数值，作为调用路径中的转发实现。"
+                else:
+                    description = "声明局部调用签名，供所属实现引用并检查参数匹配。"
+                item["description_zh"] = description
             else:
                 item.update({
                     "meaning_zh": "该实体表示测试仓库中可从固定 Git 来源定位的代码定义。",
@@ -1131,8 +1152,8 @@ def __getattr__(name):
         self.assertEqual(result["status"], "passed")
         self.assertEqual(result["record_count"], 2)
         text = (output / "human/RECORDS.md").read_text(encoding="utf-8")
-        self.assertIn("## 分析与决策", text)
-        self.assertIn("## 实验与量化结果", text)
+        self.assertIn("## 分析与方案", text)
+        self.assertIn("## 实验与性能", text)
         self.assertEqual(text.count("[[方案判断]]"), 1)
         self.assertEqual(text.count("[[性能复测]]"), 1)
         self.assertIn("适用边界和下一步判断入口", text)
@@ -1293,13 +1314,14 @@ def __getattr__(name):
         selected_relative_paths = {path.relative_to(output).as_posix() for path in output.rglob("*") if path.is_file()}
         self.assertIn("logseq/config.edn", selected_relative_paths)
         index_text = (output / "markdown" / "INDEX.md").read_text(encoding="utf-8")
-        self.assertIn("## 按任务选择入口", index_text)
+        self.assertIn("## 先选择你要完成的任务", index_text)
         self.assertIn("[工作记录导览](RECORDS.md)", index_text)
-        self.assertIn("[logseq/config.edn](logseq/config.edn)", index_text)
+        self.assertIn("[阅读方法](WIKI.md)", index_text)
+        self.assertIn("Logseq", index_text)
         wiki_text = (output / "markdown" / "WIKI.md").read_text(encoding="utf-8")
-        self.assertIn("## 页面只保留什么", wiki_text)
-        self.assertIn("## 工作记录如何查找", wiki_text)
-        self.assertIn("## Graphify 关系导览", wiki_text)
+        self.assertIn("## 各类页面负责什么", wiki_text)
+        self.assertIn("## 如何追踪方案与实现变化", wiki_text)
+        self.assertIn("[查看项目关系导览](../graphify-out/GRAPH_REPORT.md)", wiki_text)
         readability = json.loads((output / "markdown" / "readability-audit.json").read_text(encoding="utf-8"))
         self.assertEqual(readability["status"], "passed")
         self.assertFalse(readability["errors"])
@@ -1310,12 +1332,12 @@ def __getattr__(name):
         owner_page = next(page for page in projection["pages"] if page["id"] == projection["entity_owner_pages"][helper["id"]])
         owner_text = (output / "markdown" / owner_page["file"]).read_text(encoding="utf-8")
         self.assertIn("<details><summary>", owner_text)
-        self.assertIn("该附属实体在固定源码范围内完成一项明确的局部处理。", owner_text)
+        self.assertIn("判断传入数值是否大于零，并返回布尔结果。", owner_text)
         self.assertNotIn(helper["id"], owner_text)
         self.assertFalse(owner_text.startswith("---\n"))
         self.assertNotIn("条机器关系", owner_text)
         self.assertRegex(owner_text, r"标签：#类型/(?:代码|职责|边界)")
-        self.assertIn("vscode://file/", owner_text)
+        self.assertIn("vscode://file/" if os.name == "nt" else "file:///", owner_text)
         self.assertTrue((output / "markdown/.obsidian/app.json").is_file())
         self.assertTrue((output / "markdown/.obsidian/core-plugins.json").is_file())
         self.assertIn(
@@ -1800,7 +1822,7 @@ def __getattr__(name):
         manifest = json.loads((root / "manifest.json").read_text(encoding="utf-8"))
         lock = json.loads((root / "upstream.lock.json").read_text(encoding="utf-8"))
         self.assertEqual(manifest["id"], "code-knowledge-builder-companion")
-        self.assertEqual(manifest["version"], "0.8.0")
+        self.assertEqual(manifest["version"], "0.9.1")
         self.assertEqual(manifest["author"], "DDDeath")
         self.assertTrue(manifest["isDesktopOnly"])
         self.assertEqual(lock["claudian"]["commit"], "f4bbba7fd326cbc68a6c8f0edfea6d14ea9ba0ac")
@@ -1901,6 +1923,10 @@ def __getattr__(name):
         self.assertEqual(invoke("merge", "--out", str(output)).returncode, 0)
         fake_cmd = self.root / "fake-logseq.cmd"
         fake_cmd.write_text(f'@"{PYTHON}" "{SKILL_ROOT / "tests" / "fake_logseq.py"}" %*\n', encoding="utf-8")
+        if os.name != "nt":
+            fake_cmd = fake_cmd.with_suffix(".sh")
+            fake_cmd.write_text(f'#!/bin/sh\nexec "{PYTHON}" "{SKILL_ROOT / "tests" / "fake_logseq.py"}" "$@"\n', encoding="utf-8")
+            fake_cmd.chmod(0o755)
         final = invoke("finalize", "--out", str(output), env={"CKB_LOGSEQ_COMMAND": str(fake_cmd)})
         self.assertEqual(final.returncode, 0, final.stderr)
         audit = json.loads((output / "audit" / "global.json").read_text(encoding="utf-8"))
@@ -1924,6 +1950,10 @@ def __getattr__(name):
         self.assertEqual(invoke("merge", "--out", str(output)).returncode, 0)
         fake_cmd = self.root / "fake-logseq-only.cmd"
         fake_cmd.write_text(f'@"{PYTHON}" "{SKILL_ROOT / "tests" / "fake_logseq.py"}" %*\n', encoding="utf-8")
+        if os.name != "nt":
+            fake_cmd = fake_cmd.with_suffix(".sh")
+            fake_cmd.write_text(f'#!/bin/sh\nexec "{PYTHON}" "{SKILL_ROOT / "tests" / "fake_logseq.py"}" "$@"\n', encoding="utf-8")
+            fake_cmd.chmod(0o755)
         final = invoke("finalize", "--out", str(output), env={"CKB_LOGSEQ_COMMAND": str(fake_cmd)})
         self.assertEqual(final.returncode, 0, final.stderr)
         self.assertTrue((output / "markdown/INDEX.md").is_file())
@@ -1940,7 +1970,7 @@ def __getattr__(name):
         self.assertEqual(record["status"], "passed")
         self.assertTrue(record["selected_entities"])
         self.assertTrue(all(entity["human_page_title"] for entity in record["selected_entities"]))
-        self.assertIn("vscode://file/", Path(record["pack"]).read_text(encoding="utf-8"))
+        self.assertIn("vscode://file/" if os.name == "nt" else "file:///", Path(record["pack"]).read_text(encoding="utf-8"))
 
     def test_english_only_agent_review_is_rejected(self) -> None:
         output = self.root / "english-review"

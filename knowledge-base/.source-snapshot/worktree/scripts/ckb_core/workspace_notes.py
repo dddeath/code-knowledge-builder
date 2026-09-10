@@ -120,10 +120,22 @@ def read_note_body(body_path: Path) -> str:
         raise CkbError("knowledge note descriptions must use Simplified Chinese; English proper nouns and code identifiers are allowed")
     if body.startswith("---\n") or LONG_HEX.search(body):
         raise CkbError("human knowledge notes must omit frontmatter and hash-like identifiers")
+    from .human_page_templates import human_output_errors
+
+    errors = human_output_errors(body)
+    if errors:
+        raise CkbError(f"human output contract failed before note write: {errors[:10]}")
     return body
 
 
-def render_note_text(kind: str, title: str, body: str, linked_titles: list[str], source_links: list[str]) -> str:
+def render_note_text(kind: str, title: str, body: str, linked_titles: list[str], source_links: list[str], *, v3: bool = False) -> str:
+    # A typed authoring package already has a complete title and V3 sections.
+    # Links not selected by its author remain metadata, never extra sections.
+    if v3:
+        first, _, remainder = body.partition("\n")
+        if first != f"# {title.strip()}":
+            raise CkbError("authoring title must match the record title")
+        return f"{first}\n\n标签：{TAG_BY_KIND[kind]}\n\n{remainder.strip()}\n"
     sections = [f"# {title.strip()}", "", f"标签：{TAG_BY_KIND[kind]}", "", body]
     if linked_titles:
         sections.extend(["", "## 相关知识页", "", *[f"- [[{value}]]" for value in linked_titles]])
@@ -133,6 +145,53 @@ def render_note_text(kind: str, title: str, body: str, linked_titles: list[str],
     if LONG_HEX.search(text):
         raise CkbError("generated human knowledge note contains a hash-like identifier")
     return text
+
+
+def note_contract_metadata(body_path: Path, kind: str, body: str) -> dict[str, Any]:
+    """Recheck an explicit V3 package; never label a legacy body as V3 reviewed."""
+    from .human_page_templates import validate_human_page, human_page_template_registry_sha256
+
+    manifest_path = body_path.parent / "manifest.json"
+    if not manifest_path.is_file():
+        return {"human_output_contract": {"status": "legacy-content-checked", "v3_validated": False}}
+    manifest = json_load(manifest_path)
+    if not isinstance(manifest, dict) or not {"page_type", "contract_version"}.issubset(manifest):
+        return {"human_output_contract": {"status": "legacy-content-checked", "v3_validated": False}}
+    if not {"body", "section_evidence", "section_evidence_sha256"}.issubset(manifest):
+        raise CkbError("record authoring manifest is missing its body or section evidence")
+    if manifest.get("page_type") != kind or manifest.get("contract_version") != "3.0.0":
+        raise CkbError("record authoring package type or contract version differs")
+    if manifest.get("registry_sha256") != human_page_template_registry_sha256():
+        raise CkbError("record authoring package registry is stale; validate and package again")
+    if manifest.get("body", {}).get("sha256") != hashlib.sha256(body_path.read_bytes()).hexdigest():
+        raise CkbError("record authoring body differs from its manifest")
+    context = manifest.get("validation_context")
+    if not isinstance(context, dict):
+        raise CkbError("record authoring package needs replayable V3 validation context")
+    validation = validate_human_page(kind, body, context=context)
+    if validation["status"] != "passed":
+        raise CkbError(f"record V3 contract failed: {validation['errors'][:10]}")
+    evidence = manifest.get("section_evidence", {})
+    digest = hashlib.sha256((json.dumps(evidence, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n").encode()).hexdigest()
+    if digest != manifest.get("section_evidence_sha256"):
+        raise CkbError("record section evidence differs from its manifest")
+    for section in evidence.get("sections", []):
+        for field in ("source_refs", "machine_evidence_refs"):
+            for ref in section.get(field, []):
+                if ref.get("target_basis") == "uri":
+                    continue
+                target = (manifest_path.parent / ref["target"]).resolve()
+                if manifest_path.parent.resolve() not in target.parents:
+                    raise CkbError("record package evidence escapes its package")
+                if not target.is_file() or hashlib.sha256(target.read_bytes()).hexdigest() != ref.get("sha256"):
+                    raise CkbError("record package evidence is missing or drifted")
+    return {
+        "human_output_contract": {"status": "v3-validated", "v3_validated": True},
+        "section_evidence": evidence,
+        "section_evidence_sha256": digest,
+        "validation_context": context,
+        "authoring_package": str(manifest_path.resolve()),
+    }
 
 
 def record_note(
@@ -148,6 +207,7 @@ def record_note(
     if kind not in TAG_BY_KIND:
         raise CkbError(f"note kind must be one of: {sorted(TAG_BY_KIND)}")
     body = read_note_body(body_path)
+    contract_metadata = note_contract_metadata(body_path, kind, body)
     root = _markdown_root(output)
     linked_titles = _resolve_page_titles(output, selectors or [], query_record)
     if kind != "session" and not linked_titles:
@@ -159,11 +219,13 @@ def record_note(
     target = directory / filename
     if target.exists() and not append:
         raise CkbError(f"knowledge note already exists: {target}; use --append to add a revision")
-    text = render_note_text(kind, title, body, linked_titles, source_links)
+    text = render_note_text(kind, title, body, linked_titles, source_links, v3=contract_metadata["human_output_contract"]["v3_validated"])
     previous_record = None
     previous_record_path = output / "workspace-meta" / "notes" / (safe_title(title) + ".json")
     if append and previous_record_path.is_file():
         previous_record = json_load(previous_record_path)
+    if append and (contract_metadata["human_output_contract"]["v3_validated"] or (previous_record or {}).get("section_evidence")):
+        raise CkbError("V3 sections require a complete validated replacement; append is reserved for legacy notes")
     if append and target.exists():
         existing = target.read_text(encoding="utf-8")
         text = existing.rstrip() + "\n\n## 后续补充\n\n" + body + "\n"
@@ -192,6 +254,7 @@ def record_note(
         "updated_at_utc": now,
         "body_sha256": hashlib.sha256((body.rstrip() + "\n").encode("utf-8")).hexdigest(),
         "obsidian_uri": obsidian_open_uri(target),
+        **contract_metadata,
     }
     json_write(meta_dir / (safe_title(title) + ".json"), record)
     refresh_work_record_index(output)

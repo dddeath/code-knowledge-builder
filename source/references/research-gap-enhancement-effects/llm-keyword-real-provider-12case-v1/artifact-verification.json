@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "patch_replay": {
+    "paths_exact": true,
+    "all_bytes_equal": true,
+    "checks": {
+      "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/fault-provider-starts.log": true,
+      "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/not-configured-report.json": true,
+      "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/protocol.json": true,
+      "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/raw-results.json": true,
+      "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/real-provider-starts.log": true,
+      "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/report.json": true,
+      "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/result-audit.json": true,
+      "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/summary.md": true,
+      "scripts/ckb_core/keyword_fallback.py": true,
+      "tests/benchmark_keyword_real_provider.py": true,
+      "tests/fixtures/keyword_provider.py": true,
+      "tests/fixtures/keyword_real_provider_12case.json": true,
+      "tests/test_keyword_fallback.py": true,
+      "tests/test_keyword_real_provider_benchmark.py": true
+    }
+  },
+  "modified_archive": {
+    "paths_exact": true,
+    "all_bytes_equal": true,
+    "checks": {
+      "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/fault-provider-starts.log": true,
+      "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/not-configured-report.json": true,
+      "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/protocol.json": true,
+      "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/raw-results.json": true,
+      "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/real-provider-starts.log": true,
+      "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/report.json": true,
+      "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/result-audit.json": true,
+      "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/summary.md": true,
+      "scripts/ckb_core/keyword_fallback.py": true,
+      "tests/benchmark_keyword_real_provider.py": true,
+      "tests/fixtures/keyword_provider.py": true,
+      "tests/fixtures/keyword_real_provider_12case.json": true,
+      "tests/test_keyword_fallback.py": true,
+      "tests/test_keyword_real_provider_benchmark.py": true
+    }
+  },
+  "artifacts": {
+    "patch_sha256": "7c6bb64ea0582bf32d2ce5cb957e1a146896bf55fca283d4acaf919b3f60c838",
+    "archive_sha256": "90fc467a84cbf60c5cedb5740494739bd69801cf470f5995205bb6f1c657c09f",
+    "manifest_sha256": "80ea41c560134c36844e4ea97956ac972c34c9f88df953eb85b2cb21caef8e91"
+  }
+}

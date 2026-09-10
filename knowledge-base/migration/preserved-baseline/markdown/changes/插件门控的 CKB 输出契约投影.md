@@ -20,26 +20,32 @@ Obsidian 插件启动时优先读取并校验该契约，不再把解析 `AGENTS
 
 ## 验证
 
-Claudian 固定源码通过 typecheck、lint、5 个测试套件共 33 项测试和生产构建；CKB 核心 26 项、自动化 22 项、发行 3 项测试通过。独立插件包完成带显式 OUTPUT/runtime 参数的部署和状态探针。额外 plugin-free 实例在用户级 0.7.1 已登记的条件下仍返回 `not-required`，证明审计依据 vault 实际安装状态而不是全局登记状态。
+该轮验证了插件构建、核心接线、自动化、发行和带显式知识库绑定的部署。没有安装插件的实例仍不要求输出契约，说明判定依据是该实例的实际安装状态，而非全局包登记。
+
+
+
+## 原始记录
+
+[按需核对历史原文与完整复现明细](../../machine/historical-records/legacy-20260910-12.md)。
 
 ## 相关知识页
 
 - [[audit_obsidian 与 prepare_vault 的协作实现]]
-- [[finalize 与 _replace_output_prefix 的协作实现]]
+- [[audit_global 与 _replace_output_prefix 的协作实现]]
 - [[preflight 与 git 的协作实现]]
-- [[keyword_provider_config 与 parser 的协作实现]]
+- [[keyword_provider_config 与 keyword_fallback_options 的协作实现]]
 - [[__init__ 实现概览]]
 - [[CkbError 与 DependencyError 的协作实现]]
-- [[render_integration 与 _looks_windows 的协作实现]]
-- [[retrieve 与 _tokens 的协作实现]]
+- [[render_integration 与 harness_retrieval_contract 的协作实现]]
+- [[build_agent_index 与 _tokens 的协作实现]]
 
 ## 源码入口
 
-- [打开源码：scripts/ckb_core/obsidian.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/obsidian.py:1:1)  `scripts/ckb_core/obsidian.py:1-134`
-- [打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3314`
-- [打开源码：scripts/ckb_core/gitrepo.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/gitrepo.py:1:1)  `scripts/ckb_core/gitrepo.py:1-417`
-- [打开源码：scripts/ckb.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:1:1)  `scripts/ckb.py:1-495`
+- [打开源码：scripts/ckb_core/obsidian.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/obsidian.py:1:1)  `scripts/ckb_core/obsidian.py:1-166`
+- [打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3637`
+- [打开源码：scripts/ckb_core/gitrepo.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/gitrepo.py:1:1)  `scripts/ckb_core/gitrepo.py:1-476`
+- [打开源码：scripts/ckb.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:1:1)  `scripts/ckb.py:1-1850`
 - [打开源码：scripts/ckb_core/__init__.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/__init__.py:1:1)  `scripts/ckb_core/__init__.py:1-5`
-- [打开源码：scripts/ckb_core/common.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/common.py:1:1)  `scripts/ckb_core/common.py:1-158`
-- [打开源码：scripts/ckb_core/automation_integrations.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation_integrations.py:1:1)  `scripts/ckb_core/automation_integrations.py:1-502`
-- [打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-569`
+- [打开源码：scripts/ckb_core/common.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/common.py:1:1)  `scripts/ckb_core/common.py:1-168`
+- [打开源码：scripts/ckb_core/automation_integrations.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation_integrations.py:1:1)  `scripts/ckb_core/automation_integrations.py:1-656`
+- [打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-555`

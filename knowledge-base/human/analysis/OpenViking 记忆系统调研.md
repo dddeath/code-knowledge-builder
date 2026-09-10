@@ -320,7 +320,7 @@ VikingMem 将 Memory Base 概括为高价值选择性提取、持续状态演化
 | 生命周期 | 动态记忆、归档、热度、去重、后台队列 | 固定基线、增量迁移、overlay、Agent 审阅与完成门 | 可分别承担运行时层与工程知识层 |
 | 外部资料 | PDF/MD/HTML/代码可作为 Resource 摄取 | 外部资料只能进入审阅分析记录，不能冒充源码实体 | OpenViking 适合原始资料库，CKB 适合代码事实库 |
 
-CKB 当前可从以下知识页继续核对内部实现：[[sync_human_layer 与 _source_manifest 的协作实现]]、[[retrieve_machine 与 estimated_tokens 的协作实现]]、[[ingest_event 与 default_registry_path 的协作实现]]、[[start_session 与 _session_directory 的协作实现]]。
+CKB 当前可从以下知识页继续核对内部实现：[[sync_human_layer 与 _source_manifest 的协作实现]]、[[build_machine_knowledge 与 estimated_tokens 的协作实现]]、[[review_automation 与 default_registry_path 的协作实现]]、[[finish_session 与 _session_directory 的协作实现]]。
 
 ## 对 CKB 可以借鉴什么
 
@@ -423,12 +423,12 @@ OpenViking 已经形成一条较完整的 Agent 长期记忆工程链路：会�
 
 ## 相关知识页
 
-- [[start_session 与 _session_directory 的协作实现]]
-- [[retrieve 与 _tokens 的协作实现]]
+- [[finish_session 与 _session_directory 的协作实现]]
+- [[build_agent_index 与 _tokens 的协作实现]]
 - [[sync_human_layer 与 _source_manifest 的协作实现]]
-- [[ingest_event 与 default_registry_path 的协作实现]]
+- [[review_automation 与 default_registry_path 的协作实现]]
 - [[render_integration 与 harness_retrieval_contract 的协作实现]]
-- [[retrieve_machine 与 estimated_tokens 的协作实现]]
+- [[build_machine_knowledge 与 estimated_tokens 的协作实现]]
 - [[doctor_report 与 _version_matches 的协作实现]]
 - [[parse_file 与 _language 的协作实现]]
 

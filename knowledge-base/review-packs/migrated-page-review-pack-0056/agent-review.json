@@ -3,46 +3,20 @@
   "pack_id": "migrated-page-review-pack-0056",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-03T22:06:53Z",
+  "reviewed_at_utc": "2026-09-10T03:35:03Z",
   "reviews": [
     {
-      "entity_id": "file-480714c8a5c3599d978df4302711f494",
+      "entity_id": "file-fdc043b3277a5478b2abf6892b707c72",
       "classification": "page",
-      "owner_page_id": "file-480714c8a5c3599d978df4302711f494",
-      "source_path": "tests/test_human_page_templates.py",
+      "owner_page_id": "file-fdc043b3277a5478b2abf6892b707c72",
+      "source_path": "tests/test_ckb.py",
       "start_line": 1,
-      "end_line": 636,
+      "end_line": 2499,
       "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `tests/test_human_page_templates.py` 第 1-636 行，并核对 Git blob `343b688a0c55`、分类与所有者。",
-      "meaning_zh": "`tests/test_human_page_templates.py` 页面绑定固定源码第 1-636 行，说明该文件如何承担V3 页面标题、章节预算、链接和披露边界测试。",
-      "role_zh": "该文件负责V3 页面标题、章节预算、链接和披露边界测试，并为相关命令、页面生成或测试提供源码入口。",
-      "change_when_zh": "当 `tests/test_human_page_templates.py` 的公开输入、生成结果、状态边界或与其他模块的协作关系变化时，应更新本页。"
-    },
-    {
-      "entity_id": "ent-70426343196a5d0f8f130e1166f69c1b",
-      "classification": "page",
-      "owner_page_id": "ent-70426343196a5d0f8f130e1166f69c1b",
-      "source_path": "tests/test_human_page_templates.py",
-      "start_line": 63,
-      "end_line": 174,
-      "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `tests/test_human_page_templates.py` 第 63-174 行，并核对 Git blob `343b688a0c55`、分类与所有者。",
-      "meaning_zh": "`HumanPageTemplateRegistryTests` 位于 `tests/test_human_page_templates.py` 第 63-174 行，用于覆盖 14 类 V3 页面合同、书面标题和稳定注册表。",
-      "role_zh": "`HumanPageTemplateRegistryTests` 在V3 页面标题、章节预算、链接和披露边界测试中负责覆盖 14 类 V3 页面合同、书面标题和稳定注册表。",
-      "change_when_zh": "当 `HumanPageTemplateRegistryTests` 的输入、输出、状态转换或失败边界变化时，应更新对应说明和测试。"
-    },
-    {
-      "entity_id": "file-bda803d8112f5d9283d650301b3740c5",
-      "classification": "page",
-      "owner_page_id": "file-bda803d8112f5d9283d650301b3740c5",
-      "source_path": "tests/test_keyword_fallback.py",
-      "start_line": 1,
-      "end_line": 469,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 bd8519583e3a 中 `tests/test_keyword_fallback.py` 第 1 至 469 行，摘录属于 Git blob b7d3f189afb0。",
-      "meaning_zh": "文件 `tests/test_keyword_fallback.py`负责验证显式关键词慢路径的校验、缓存、失败回退和检索接线。",
-      "role_zh": "它属于LLM 关键词备选能力的回归保护，说明只覆盖所列固定源码范围。",
-      "change_when_zh": "当Provider 输入、触发、缓存或回退规则变化时，应同步复查本页及其直接测试。"
+      "evidence_note": "已重新读取固定提交 4617928a67576fc4d2630584e70f3e2a104e17fc 的 tests/test_ckb.py 第 1-2499 行，并核对新版本整文件上下文；Git blob 与提案一致，目录字节范围与摘录相等，描述依据源码分支与数据流，不把测试断言当作运行结果。",
+      "meaning_zh": "提供多语言固定快照建库、审阅完成门、检索与维护链路的集成测试及 C++ 解析边界测试。",
+      "role_zh": "以临时 Git 仓库和确定性服务替身覆盖真实命令与文件结果；同时核对插件部署、参考资料、双镜像和局部语法警告，不将替身断言等同实际模型或界面验证。",
+      "change_when_zh": "建库协议、来源完整性、检索预算、可变知识写入或发行绑定规则变化时修改对应测试与夹具。"
     }
   ]
 }

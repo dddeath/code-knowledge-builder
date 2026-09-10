@@ -1,0 +1,245 @@
+{
+  "schema_version": 1,
+  "operation_id": "record-replace-59b251f39d155af986763ea9f50bb24a",
+  "operation": "record-replace",
+  "status": "completed",
+  "output": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757",
+  "kind": "analysis",
+  "title": "LLM Wiki 快速检索性能验证（5.1.3）",
+  "created_at_utc": "2026-09-10T03:16:49Z",
+  "rollback_manifest": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-59b251f39d155af986763ea9f50bb24a\\manifest.json",
+  "rollback_argv": [
+    "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe",
+    "E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py",
+    "record-rollback",
+    "--out",
+    "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757",
+    "--manifest",
+    "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-59b251f39d155af986763ea9f50bb24a\\manifest.json"
+  ],
+  "rollback_command": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe' 'E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py' 'record-rollback' '--out' 'E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757' '--manifest' 'E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-59b251f39d155af986763ea9f50bb24a\\manifest.json'",
+  "roles": [
+    {
+      "name": "human-note",
+      "kind": "file",
+      "path": "human/analysis/LLM Wiki 快速检索性能验证（5.1.3）.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "546b4f2ce927c34e3b38ed66a0700767a6fa79fc7fe900f3cc63d8ec2cd7821c",
+        "size": 5099,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-59b251f39d155af986763ea9f50bb24a\\backup\\files\\human\\analysis\\LLM Wiki 快速检索性能验证（5.1.3）.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "b8d700cbf8817c05ace2815ac0de912984f37d9652e77cdbb6f71f6a083dd391",
+        "size": 3714,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-59b251f39d155af986763ea9f50bb24a\\staging\\files\\human\\analysis\\LLM Wiki 快速检索性能验证（5.1.3）.md"
+      }
+    },
+    {
+      "name": "markdown-note",
+      "kind": "file",
+      "path": "markdown/analysis/LLM Wiki 快速检索性能验证（5.1.3）.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "546b4f2ce927c34e3b38ed66a0700767a6fa79fc7fe900f3cc63d8ec2cd7821c",
+        "size": 5099,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-59b251f39d155af986763ea9f50bb24a\\backup\\files\\markdown\\analysis\\LLM Wiki 快速检索性能验证（5.1.3）.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "b8d700cbf8817c05ace2815ac0de912984f37d9652e77cdbb6f71f6a083dd391",
+        "size": 3714,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-59b251f39d155af986763ea9f50bb24a\\staging\\files\\markdown\\analysis\\LLM Wiki 快速检索性能验证（5.1.3）.md"
+      }
+    },
+    {
+      "name": "note-metadata",
+      "kind": "file",
+      "path": "workspace-meta/notes/LLM Wiki 快速检索性能验证（5.1.3）.json",
+      "baseline": {
+        "exists": true,
+        "sha256": "d7bd0f2c8067594f7733391c74dd2941e8496e0ffa0242228f886c20b9d65c7c",
+        "size": 3020,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-59b251f39d155af986763ea9f50bb24a\\backup\\files\\workspace-meta\\notes\\LLM Wiki 快速检索性能验证（5.1.3）.json"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "55f5b59d6d6689597e30fafa872480d4873c306be183b0dca69e714738b14f3f",
+        "size": 3726,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-59b251f39d155af986763ea9f50bb24a\\staging\\files\\workspace-meta\\notes\\LLM Wiki 快速检索性能验证（5.1.3）.json"
+      }
+    },
+    {
+      "name": "human-records",
+      "kind": "file",
+      "path": "human/RECORDS.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "701fcc96911031ef8d26d4364e55fc73b9bb85dfe9a44ca9bbebb121fea336df",
+        "size": 25259,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-59b251f39d155af986763ea9f50bb24a\\backup\\files\\human\\RECORDS.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "89bb502dd56273d817a7c3751b70b70a0d8ecd1cff7841d65b5271703964f77c",
+        "size": 25210,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-59b251f39d155af986763ea9f50bb24a\\staging\\files\\human\\RECORDS.md"
+      }
+    },
+    {
+      "name": "markdown-records",
+      "kind": "file",
+      "path": "markdown/RECORDS.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "701fcc96911031ef8d26d4364e55fc73b9bb85dfe9a44ca9bbebb121fea336df",
+        "size": 25259,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-59b251f39d155af986763ea9f50bb24a\\backup\\files\\markdown\\RECORDS.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "89bb502dd56273d817a7c3751b70b70a0d8ecd1cff7841d65b5271703964f77c",
+        "size": 25210,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-59b251f39d155af986763ea9f50bb24a\\staging\\files\\markdown\\RECORDS.md"
+      }
+    },
+    {
+      "name": "work-record-index-audit",
+      "kind": "file",
+      "path": "workspace-meta/work-record-index-audit.json",
+      "baseline": {
+        "exists": true,
+        "sha256": "806c0655dfcaab421130c6a1993f935970d22448707b025ca62263195fc6f7fa",
+        "size": 217,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-59b251f39d155af986763ea9f50bb24a\\backup\\files\\workspace-meta\\work-record-index-audit.json"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "806c0655dfcaab421130c6a1993f935970d22448707b025ca62263195fc6f7fa",
+        "size": 217,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-59b251f39d155af986763ea9f50bb24a\\staging\\files\\workspace-meta\\work-record-index-audit.json"
+      }
+    },
+    {
+      "name": "agent-index-note",
+      "kind": "sqlite-logical",
+      "path": "agent-index.sqlite",
+      "selector": "LLM Wiki 快速检索性能验证（5.1.3）",
+      "baseline": {
+        "sha256": "c96a6230294e21d480bf0da34487947fd49a876c901a2a4090b72dedf45c0dc8",
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-59b251f39d155af986763ea9f50bb24a\\backup\\agent-index-note.json"
+      },
+      "modified": {
+        "sha256": "915fcd76489a0dcc15048a3ec065ea2b57b29184c291dc610b3348a0c4bcc9a8",
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-59b251f39d155af986763ea9f50bb24a\\staging\\agent-index-note.json"
+      }
+    },
+    {
+      "name": "machine-knowledge-note",
+      "kind": "sqlite-logical",
+      "path": "machine/knowledge.sqlite",
+      "selector": "note:analysis:LLM Wiki 快速检索性能验证（5.1.3）",
+      "baseline": {
+        "sha256": "94633f51f8c9b45808b9a41b0f8340035620f4d8b9d3cced4c03b46db094edae",
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-59b251f39d155af986763ea9f50bb24a\\backup\\machine-knowledge-note.json"
+      },
+      "modified": {
+        "sha256": "c9cfaaadabdf4e478d337a23873c77e2cc2cb0095e24ef5d4b7d74883ca45b3b",
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-59b251f39d155af986763ea9f50bb24a\\staging\\machine-knowledge-note.json"
+      }
+    }
+  ],
+  "note_error_baseline": {
+    "errors": [],
+    "unchanged_notes": {}
+  },
+  "prepared_at_utc": "2026-09-10T03:16:50Z",
+  "record_id": "work-record-280751a026bd564396b84c9e52d68d7f",
+  "relative_note": "analysis/LLM Wiki 快速检索性能验证（5.1.3）.md",
+  "explicit_evidence_replacement": true,
+  "linked_pages": [
+    "build_machine_knowledge 与 estimated_tokens 的协作实现",
+    "package_showcase 与 _parse_sample 的协作实现",
+    "audit_global 与 _replace_output_prefix 的协作实现",
+    "migrate_output 与 _entity_key 的协作实现",
+    "ensure_local_openers 与 SourceLinkRenderer 的协作实现",
+    "git 等测试场景（test_migration 测试）",
+    "audit_obsidian 与 prepare_vault 的协作实现",
+    "build_agent_index 与 _tokens 的协作实现"
+  ],
+  "body_sha256": "23af2ccdabee1a8309845f3a75da9505b50c2f0120704b792053368dd5fe9e0c",
+  "candidate_audit": {
+    "status": "passed",
+    "note_errors": [],
+    "work_record_index": {
+      "status": "passed",
+      "record_count": 80,
+      "linked_record_count": 80,
+      "section_counts": {
+        "analysis": 24,
+        "changes": 40,
+        "pitfalls": 0,
+        "experiments": 9,
+        "sessions": 7
+      },
+      "errors": []
+    },
+    "verification_scope": "record-replacement",
+    "maintenance_verified": false,
+    "unresolved_baseline_diagnostics": []
+  },
+  "promotion_order": [
+    "human-note",
+    "markdown-note",
+    "note-metadata",
+    "human-records",
+    "markdown-records",
+    "work-record-index-audit",
+    "agent-index-note",
+    "machine-knowledge-note"
+  ],
+  "completed_at_utc": "2026-09-10T03:16:52Z",
+  "verification": {
+    "status": "passed",
+    "role_errors": [],
+    "note_errors": [],
+    "verification_scope": "record-replacement",
+    "maintenance_verified": false,
+    "unresolved_baseline_diagnostics": [],
+    "work_record_index": {
+      "status": "passed",
+      "record_count": 80,
+      "linked_record_count": 80,
+      "section_counts": {
+        "analysis": 24,
+        "changes": 40,
+        "pitfalls": 0,
+        "experiments": 9,
+        "sessions": 7
+      },
+      "errors": []
+    },
+    "agent_index": {
+      "schema_version": 1,
+      "status": "passed",
+      "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\agent-index.sqlite",
+      "integrity": "ok",
+      "counts": {
+        "pages": 266,
+        "symbols": 2395,
+        "edges": 733,
+        "terms": 39925,
+        "notes": 80
+      },
+      "projection_format": "markdown",
+      "errors": []
+    }
+  },
+  "operation_journal": {
+    "status": "passed",
+    "event_id": "operation-fa11b9b7e5ad5970895c87cd39329964",
+    "idempotent": false,
+    "journal": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\operations\\2026-09-10.jsonl"
+  }
+}

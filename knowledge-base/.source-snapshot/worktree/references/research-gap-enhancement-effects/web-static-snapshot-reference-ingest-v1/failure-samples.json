@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "case": "non-html",
+      "status": "rejected",
+      "exception": "WebSnapshotError",
+      "message": "Web snapshot response must be HTML; received Content-Type 'application/json'"
+    },
+    {
+      "case": "response-too-large",
+      "status": "rejected",
+      "exception": "WebSnapshotError",
+      "message": "Web snapshot response exceeds max_response_bytes=32"
+    },
+    {
+      "case": "encoding-error",
+      "status": "rejected",
+      "exception": "WebSnapshotError",
+      "message": "Web snapshot body does not match declared charset utf-8: 'utf-8' codec can't decode byte 0xff in position 15: invalid start byte"
+    },
+    {
+      "case": "network-unavailable",
+      "status": "rejected",
+      "exception": "WebSnapshotError",
+      "message": "Web snapshot network request failed for https://unavailable.example.test: fixture network unavailable"
+    },
+    {
+      "case": "timeout",
+      "status": "rejected",
+      "exception": "WebSnapshotError",
+      "message": "Web snapshot fetch timed out after 1 seconds for https://timeout.example.test"
+    },
+    {
+      "case": "duplicate-url-and-content",
+      "status": "idempotent",
+      "evidence_test": "WebReferenceEndToEndTests.test_static_ingest_review_drift_duplicate_audit_and_rollback"
+    },
+    {
+      "case": "snapshot-drift-without-revision",
+      "status": "rejected",
+      "message_contains": "Web snapshot drift detected",
+      "evidence_test": "WebReferenceEndToEndTests.test_static_ingest_review_drift_duplicate_audit_and_rollback"
+    },
+    {
+      "case": "network-failure-reference-pollution",
+      "status": "unchanged-byte-manifest",
+      "evidence_test": "WebReferenceEndToEndTests.test_explicit_live_fetch_and_network_failure_leave_existing_references_unchanged"
+    }
+  ]
+}

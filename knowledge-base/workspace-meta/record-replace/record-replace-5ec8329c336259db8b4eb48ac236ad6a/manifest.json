@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "operation_id": "record-replace-5ec8329c336259db8b4eb48ac236ad6a",
+  "operation": "record-replace",
+  "status": "failed",
+  "output": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757",
+  "kind": "analysis",
+  "title": "CKB FTS5 倒排索引构建与查询流程",
+  "created_at_utc": "2026-09-10T02:48:32Z",
+  "rollback_manifest": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-5ec8329c336259db8b4eb48ac236ad6a\\manifest.json",
+  "rollback_argv": [
+    "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe",
+    "E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py",
+    "record-rollback",
+    "--out",
+    "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757",
+    "--manifest",
+    "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-5ec8329c336259db8b4eb48ac236ad6a\\manifest.json"
+  ],
+  "rollback_command": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe' 'E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py' 'record-rollback' '--out' 'E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757' '--manifest' 'E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-5ec8329c336259db8b4eb48ac236ad6a\\manifest.json'",
+  "roles": [],
+  "error": {
+    "type": "CkbError",
+    "message": "record replace candidate audit failed: [{'reason': 'note-link-dangling', 'path': 'E:\\\\knowledge_builder\\\\self-workspace\\\\knowledge-base.staging-4617928a6757\\\\workspace-meta\\\\record-replace\\\\record-replace-5ec8329c336259db8b4eb48ac236ad6a\\\\candidate-output\\\\markdown\\\\analysis\\\\Code Knowledge Builder 秋招面试官拷问手册.md', 'target': 'deploy 的协作边界'}, {'reason': 'note-link-dangling', 'path': 'E:\\\\knowledge_builder\\\\self-workspace\\\\knowledge-base.staging-4617928a6757\\\\workspace-meta\\\\record-replace\\\\record-replace-5ec8329c336259db8b4eb48ac236ad6a\\\\candidate-output\\\\markdown\\\\analysis\\\\Code Knowledge Builder 秋招面试官拷问手册.md', 'target': 'build 的协作边界'}, {'reason': 'note-link-dangling', 'path': 'E:\\\\knowledge_builder\\\\self-workspace\\\\knowledge-base.staging-4617928a6757\\\\workspace-meta\\\\record-replace\\\\record-replace-5ec8329c336259db8b4eb48ac236ad6a\\\\candidate-output\\\\markdown\\\\changes\\\\LLM 关键词备选慢路径合并审计.md', 'target': 'build 的协作边界'}, {'reason': 'note-link-dangling', 'path': 'E:\\\\knowledge_builder\\\\self-workspace\\\\knowledge-base.staging-4617928a6757\\\\workspace-meta\\\\record-replace\\\\record-replace-5ec8329c336259db8b4eb48ac236ad6a\\\\candidate-output\\\\markdown\\\\changes\\\\LLM 关键词备选慢路径合并审计.md', 'target': 'deploy 的协作边界'}, {'reason': 'note-link-dangling', 'path': 'E:\\\\knowledge_builder\\\\self-workspace\\\\knowledge-base.staging-4617928a6757\\\\workspace-meta\\\\record-replace\\\\record-replace-5ec8329c336259db8b4eb48ac236ad6a\\\\candidate-output\\\\markdown\\\\experiments\\\\中文检索词项同索引补测.md', 'target': 'state_machine 的协作边界'}, {'reason': 'note-link-dangling', 'path': 'E:\\\\knowledge_builder\\\\self-workspace\\\\knowledge-base.staging-4617928a6757\\\\workspace-meta\\\\record-replace\\\\record-replace-5ec8329c336259db8b4eb48ac236ad6a\\\\candidate-output\\\\markdown\\\\experiments\\\\机器 Tag 导航隔离实验.md', 'target': 'ingest 与 connect 的协作实现'}, {'reason': 'note-link-dangling', 'path': 'E:\\\\knowledge_builder\\\\self-workspace\\\\knowledge-base.staging-4617928a6757\\\\workspace-meta\\\\record-replace\\\\record-replace-5ec8329c336259db8b4eb48ac236ad6a\\\\candidate-output\\\\markdown\\\\experiments\\\\机器 Tag 导航隔离实验.md', 'target': 'state_machine 的协作边界'}, {'reason': 'note-link-dangling', 'path': 'E:\\\\knowledge_builder\\\\self-workspace\\\\knowledge-base.staging-4617928a6757\\\\workspace-meta\\\\record-replace\\\\record-replace-5ec8329c336259db8b4eb48ac236ad6a\\\\candidate-output\\\\markdown\\\\experiments\\\\研究缺口对账与新增特性增强效果.md', 'target': 'validate 与 canonical 的协作实现'}, {'reason': 'note-link-dangling', 'path': 'E:\\\\knowledge_builder\\\\self-workspace\\\\knowledge-base.staging-4617928a6757\\\\workspace-meta\\\\record-replace\\\\record-replace-5ec8329c336259db8b4eb48ac236ad6a\\\\candidate-output\\\\markdown\\\\experiments\\\\研究缺口对账与新增特性增强效果.md', 'target': 'ingest 与 connect 的协作实现'}]"
+  },
+  "failed_at_utc": "2026-09-10T02:48:32Z"
+}

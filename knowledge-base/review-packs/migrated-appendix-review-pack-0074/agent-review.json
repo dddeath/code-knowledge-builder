@@ -1,0 +1,108 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-appendix-review-pack-0074",
+  "kind": "appendix-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-10T03:35:46Z",
+  "reviews": [
+    {
+      "entity_id": "ent-7c1709d2f18b5782bd366fee41fe78e1",
+      "classification": "appendix",
+      "owner_page_id": "file-c7c67e2f064b53b7b7a58b0cd87d1a02",
+      "source_path": "tests/test_scope_extension.py",
+      "start_line": 95,
+      "end_line": 194,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `tests/test_scope_extension.py` 第 95-194 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "description_zh": "`ScopeExtensionTest.ad...` 是第 93-192 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-d9554d320e2957298eae0332be08d92a",
+      "classification": "appendix",
+      "owner_page_id": "file-c7c67e2f064b53b7b7a58b0cd87d1a02",
+      "source_path": "tests/test_scope_extension.py",
+      "start_line": 196,
+      "end_line": 277,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `tests/test_scope_extension.py` 第 196-277 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "description_zh": "该测试验证当前场景的实际结果、来源约束和失败边界。"
+    },
+    {
+      "entity_id": "ent-74365af10c445c6e9cbbb2bfe773cfde",
+      "classification": "appendix",
+      "owner_page_id": "file-c7c67e2f064b53b7b7a58b0cd87d1a02",
+      "source_path": "tests/test_scope_extension.py",
+      "start_line": 227,
+      "end_line": 251,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `tests/test_scope_extension.py` 第 227-251 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "description_zh": "该测试验证当前场景的实际结果、来源约束和失败边界。"
+    },
+    {
+      "entity_id": "ent-0a73dfcdcb6c5f8093e7ee6267beb4b0",
+      "classification": "appendix",
+      "owner_page_id": "file-c7c67e2f064b53b7b7a58b0cd87d1a02",
+      "source_path": "tests/test_scope_extension.py",
+      "start_line": 279,
+      "end_line": 284,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `tests/test_scope_extension.py` 第 279-284 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "description_zh": "`ScopeExtensionTest.te...` 是第 194-199 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-a884923e59fc5d1a98cade7c77b7a1b2",
+      "classification": "appendix",
+      "owner_page_id": "file-c7c67e2f064b53b7b7a58b0cd87d1a02",
+      "source_path": "tests/test_scope_extension.py",
+      "start_line": 286,
+      "end_line": 340,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `tests/test_scope_extension.py` 第 286-340 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "description_zh": "`ScopeExtensionTest.te...` 是第 201-255 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-338323022aec58a3a6f4753d97d0bb44",
+      "classification": "appendix",
+      "owner_page_id": "file-c7c67e2f064b53b7b7a58b0cd87d1a02",
+      "source_path": "tests/test_scope_extension.py",
+      "start_line": 342,
+      "end_line": 353,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `tests/test_scope_extension.py` 第 342-353 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "description_zh": "`ScopeExtensionTest.te...` 是第 257-268 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-c293c39adc71540dba5663b1226761ff",
+      "classification": "appendix",
+      "owner_page_id": "file-c7c67e2f064b53b7b7a58b0cd87d1a02",
+      "source_path": "tests/test_scope_extension.py",
+      "start_line": 355,
+      "end_line": 379,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `tests/test_scope_extension.py` 第 355-379 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "description_zh": "`ScopeExtensionTest.te...` 是第 270-294 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-e48586f58d4b58bc97e20c96371baff6",
+      "classification": "appendix",
+      "owner_page_id": "file-c7c67e2f064b53b7b7a58b0cd87d1a02",
+      "source_path": "tests/test_scope_extension.py",
+      "start_line": 381,
+      "end_line": 401,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `tests/test_scope_extension.py` 第 381-401 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "description_zh": "`ScopeExtensionTest.te...` 是第 296-316 行的函数，供所属页面定位实现。"
+    },
+    {
+      "entity_id": "ent-ff78f6eb26ba533db90aac4ef1de13dc",
+      "classification": "appendix",
+      "owner_page_id": "file-c7c67e2f064b53b7b7a58b0cd87d1a02",
+      "source_path": "tests/test_scope_extension.py",
+      "start_line": 403,
+      "end_line": 503,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `tests/test_scope_extension.py` 第 403-503 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "description_zh": "`ScopeExtensionTest.te...` 是第 318-418 行的函数，供所属页面定位实现。"
+    }
+  ]
+}

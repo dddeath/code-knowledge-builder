@@ -14,17 +14,11 @@
 
 ## 相关代码
 
-- 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
-- 实现时会用到 [[ScopeExtensionOfferTests.retrieval]]。
-- 实现时会用到 [[append]]。
-- 实现时会用到 [[ckb_canvas 的协作边界]]。
-- 实现时会用到 [[run_keyword_benchmark 与 _text_list 的协作实现]]。
-- 实现时会用到 [[run_keyword_provider 与 KeywordProviderConfig 的协作实现]]。
+- 与 [[CkbError 与 DependencyError 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[KeywordFallbackOptions]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[KeywordFallbackOptions 与 KeywordProviderConfig 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[run_keyword_benchmark 与 _text_list 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 
 ## 谁会来到这里
 
 - [[run_keyword_benchmark 与 _text_list 的协作实现]] 汇总了本页。
-
-## 相关测试
-
-- [[KeywordFallbackRetrievalWiringTests 等测试场景]]

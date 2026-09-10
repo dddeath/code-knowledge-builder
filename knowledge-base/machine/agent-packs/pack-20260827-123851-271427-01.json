@@ -1,0 +1,195 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "question": "LLM Wiki 快速检索、SQLite FTS、Agent 上下文成本和性能提升的实现与待办",
+  "profile": "fast",
+  "budget": 2400,
+  "estimated_tokens": 2377,
+  "terms": [
+    "上下文成本和性能提升的实现与待办",
+    "sqlite",
+    "agent",
+    "wiki",
+    "快速检索",
+    "fts",
+    "llm",
+    "上下",
+    "下文",
+    "与待",
+    "升的",
+    "和性",
+    "实现",
+    "待办",
+    "快速",
+    "性能",
+    "成本",
+    "提升",
+    "文成",
+    "本和",
+    "检索",
+    "现与",
+    "的实",
+    "能提",
+    "速检"
+  ],
+  "anchors": [
+    "fts",
+    "llm",
+    "sqlite"
+  ],
+  "seed_entity_ids": [
+    "file-b62e52076e2353d799b161a02ad8f5e2",
+    "ent-a0f63f79f17055fb917d80a9d346654a",
+    "ent-9b6bbcc255d95e0a8db60c621e45d05d",
+    "file-dab3f47d136f5500aa424ee6a818e66f",
+    "ent-0b96a59d61285c5f83d852f67cbff54c"
+  ],
+  "selected_entities": [
+    {
+      "entity_id": "file-b62e52076e2353d799b161a02ad8f5e2",
+      "name": "agent_index.py",
+      "qualified_name": "scripts/ckb_core/agent_index.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/agent_index.py",
+      "start_line": 1,
+      "end_line": 569,
+      "human_page_title": "retrieve 与 _tokens 的协作实现",
+      "human_page_file": "pages/retrieve 与 _tokens 的协作实现.md",
+      "display_mode": "page",
+      "score": 73.97707952,
+      "score_breakdown": {
+        "entity-fts": 11.17310976,
+        "graph": 0.19582626,
+        "section-fts": 40.6081435,
+        "term": 22.0
+      },
+      "reasons": [
+        "确定性词项 `sqlite`",
+        "确定性词项 `agent`",
+        "确定性词项 `实现`",
+        "确定性词项 `检索`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文职责",
+        "什么时候需要修改",
+        "中文含义",
+        "来源核对"
+      ]
+    },
+    {
+      "entity_id": "ent-a0f63f79f17055fb917d80a9d346654a",
+      "name": "audit_migration",
+      "qualified_name": "audit_migration",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/migration.py",
+      "start_line": 353,
+      "end_line": 460,
+      "human_page_title": "audit_migration",
+      "human_page_file": "pages/audit_migration.md",
+      "display_mode": "page",
+      "score": 71.94126909,
+      "score_breakdown": {
+        "entity-fts": 24.43905253,
+        "graph": 0.00777657,
+        "section-fts": 39.49443999,
+        "term": 8.0
+      },
+      "reasons": [
+        "确定性词项 `sqlite`",
+        "确定性词项 `提升`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "固定源码摘录",
+        "中文职责",
+        "中文含义",
+        "什么时候需要修改"
+      ]
+    },
+    {
+      "entity_id": "file-a5088b5cbc795997b1bb09a297350110",
+      "name": "showcase.py",
+      "qualified_name": "scripts/ckb_core/showcase.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/showcase.py",
+      "start_line": 1,
+      "end_line": 173,
+      "human_page_title": "package_showcase 与 _parse_sample 的协作实现",
+      "human_page_file": "pages/package_showcase 与 _parse_sample 的协作实现.md",
+      "display_mode": "page",
+      "score": 52.53679636,
+      "score_breakdown": {
+        "entity-fts": 13.80960631,
+        "section-fts": 30.72719005,
+        "term": 8.0
+      },
+      "reasons": [
+        "确定性词项 `wiki`",
+        "确定性词项 `实现`",
+        "机器实体全文命中",
+        "中文章节全文命中"
+      ],
+      "sections": [
+        "中文职责",
+        "什么时候需要修改",
+        "中文含义",
+        "来源核对"
+      ]
+    }
+  ],
+  "related_documents": [
+    {
+      "document_id": "note:analysis:自动同步与 LLM Wiki 后续待办",
+      "title": "自动同步与 LLM Wiki 后续待办",
+      "kind": "analysis",
+      "human_file": "analysis/自动同步与 LLM Wiki 后续待办.md"
+    },
+    {
+      "document_id": "note:sessions:session-20260826-124551-01 分析总结",
+      "title": "session-20260826-124551-01 分析总结",
+      "kind": "session",
+      "human_file": "sessions/session-20260826-124551-01 分析总结.md"
+    },
+    {
+      "document_id": "note:analysis:Code Knowledge Builder 5.0.0 特性总览",
+      "title": "Code Knowledge Builder 5.0.0 特性总览",
+      "kind": "analysis",
+      "human_file": "analysis/Code Knowledge Builder 5.0.0 特性总览.md"
+    },
+    {
+      "document_id": "note:analysis:Code Knowledge Builder 5.0.0 工程方法",
+      "title": "Code Knowledge Builder 5.0.0 工程方法",
+      "kind": "analysis",
+      "human_file": "analysis/Code Knowledge Builder 5.0.0 工程方法.md"
+    },
+    {
+      "document_id": "note:changes:双知识库与确定性检索改造记录",
+      "title": "双知识库与确定性检索改造记录",
+      "kind": "change",
+      "human_file": "changes/双知识库与确定性检索改造记录.md"
+    },
+    {
+      "document_id": "note:changes:跨 Harness 会话与修改自动同步实现",
+      "title": "跨 Harness 会话与修改自动同步实现",
+      "kind": "change",
+      "human_file": "changes/跨 Harness 会话与修改自动同步实现.md"
+    },
+    {
+      "document_id": "note:sessions:Agent 会话 20260826-124551-01",
+      "title": "Agent 会话 20260826-124551-01",
+      "kind": "session",
+      "human_file": "sessions/Agent 会话 20260826-124551-01.md"
+    }
+  ],
+  "pack": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260827-123851-271427-01.md",
+  "record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260827-123851-271427-01.json",
+  "retrieval": "sqlite-exact-fts5-sections-deterministic-weighted-graph",
+  "deterministic": true,
+  "source_grounded": true,
+  "grep_fallback_required": false
+}

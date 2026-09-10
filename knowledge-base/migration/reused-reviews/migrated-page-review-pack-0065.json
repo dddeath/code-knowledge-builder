@@ -1,0 +1,35 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0065",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-10T03:35:23Z",
+  "reviews": [
+    {
+      "entity_id": "file-d1e5c6c6dda657f8bfc8adfb17d6518d",
+      "classification": "page",
+      "owner_page_id": "file-d1e5c6c6dda657f8bfc8adfb17d6518d",
+      "source_path": "tests/test_knowledge_batch_migration.py",
+      "start_line": 1,
+      "end_line": 797,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0032审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "该文件验证真实历史发行矩阵、普通克隆与工作树来源访问，以及知识库批量迁移的计划、待审、切换、连续回滚和多项目隔离。",
+      "role_zh": "它使用完整可变层和故障注入检查迁移不损坏原库，作者包归档能跨两次切换保留，路径、清单、仓库漂移和锁冲突均在对应阶段阻断。",
+      "change_when_zh": "历史版本、迁移角色、恢复拓扑或续跑状态变化时修改相应测试，保持来源核验、待审门和精确回滚的独立断言。"
+    },
+    {
+      "entity_id": "ent-6e3dd3438702599e8c6702e6a89b147b",
+      "classification": "page",
+      "owner_page_id": "ent-6e3dd3438702599e8c6702e6a89b147b",
+      "source_path": "tests/test_knowledge_batch_migration.py",
+      "start_line": 271,
+      "end_line": 342,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0032审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "该测试用含工作记录、参考、缺口和用户笔记的基线贯通计划、应用、审计与切换，再执行第二次切换并按父链逆序回滚。",
+      "role_zh": "它同时核对目录树精确恢复和移动后固定快照的 Git 反向注册与锁标记，防止只有内容恢复但工作树管理信息失效。",
+      "change_when_zh": "切换链、备份恢复位置、可变层保留或工作树重注册变化时修改此测试，并保留两次切换后的逐级树摘要断言。"
+    }
+  ]
+}

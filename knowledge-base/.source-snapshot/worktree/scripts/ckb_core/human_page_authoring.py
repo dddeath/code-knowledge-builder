@@ -1091,6 +1091,7 @@ def render_page_author(payload: Mapping[str, Any], *, workspace_root: str | Path
         "schema_version": HUMAN_PAGE_AUTHORING_SCHEMA_VERSION,
         "section_evidence": section_evidence,
         "section_evidence_sha256": hashlib.sha256(section_evidence_bytes).hexdigest(),
+        "validation_context": merged_context,
         "source": {"path": str(source), "sha256": source_sha256} if source else None,
         "status": "ready",
         "validation": validation,
@@ -1376,6 +1377,7 @@ def package_page_author(
         "source": rendered.get("source"),
         "status": "staged",
         "validation": rendered["validation"],
+        "validation_context": rendered["validation_context"],
     }
     body_bytes = markdown.encode("utf-8")
     manifest_bytes = (json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True) + "\n").encode("utf-8")

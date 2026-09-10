@@ -14,21 +14,13 @@
 
 ## 相关代码
 
-- 实现时会用到 [[CkbError]]。
-- 实现时会用到 [[CkbError 与 DependencyError 的协作实现]]。
-- 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
-- 实现时会用到 [[append]]。
-- 实现时会用到 [[audit_migration 与 _entity_key 的协作实现]]。
-- 实现时会用到 [[finalize 与 _replace_output_prefix 的协作实现]]。
-- 实现时会用到 [[preflight]]。
-- 实现时会用到 [[start_scope_extension 与 _error 的协作实现]]。
+- 与 [[CkbError]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[CkbError 与 DependencyError 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[audit_global 与 _replace_output_prefix 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[migrate_output 与 _entity_key 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[preflight]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[start_scope_extension 与 _error 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 
 ## 谁会来到这里
 
-- [[ScopeExtensionTest]] 会使用这里提供的行为。
 - [[start_scope_extension 与 _error 的协作实现]] 汇总了本页。
-
-## 相关测试
-
-- [[ScopeExtensionTest]]
-- [[refresh 等测试场景]]

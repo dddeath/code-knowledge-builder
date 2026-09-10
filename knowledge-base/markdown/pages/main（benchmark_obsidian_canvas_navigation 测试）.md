@@ -12,15 +12,6 @@
 
 [打开源码：tests/benchmark_obsidian_canvas_navigation.py 第 19 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/benchmark_obsidian_canvas_navigation.py:19:1)  `tests/benchmark_obsidian_canvas_navigation.py:19-26`
 
-## 相关代码
-
-- 实现时会用到 [[benchmark 的协作边界（16d95d34）]]。
-- 实现时会用到 [[parser]]。
-
 ## 谁会来到这里
 
-- [[append 等测试场景]] 关联到这里的验证场景。
-- [[benchmark 的协作边界（16d95d34）]] 关联到这里的验证场景。
-- [[keyword_provider_config 与 parser 的协作实现]] 关联到这里的验证场景。
 - [[main 等测试场景（benchmark_obsidian_canvas_navigation 测试）]] 汇总了本页。
-- [[parser]] 关联到这里的验证场景。

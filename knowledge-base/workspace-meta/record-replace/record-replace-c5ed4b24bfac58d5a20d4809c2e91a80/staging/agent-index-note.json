@@ -1,0 +1,52 @@
+{
+  "note": [
+    [
+      "插件门控的 CKB 输出契约投影",
+      "#类型/变更",
+      "changes/插件门控的 CKB 输出契约投影.md",
+      "# 插件门控的 CKB 输出契约投影\n\n标签：#类型/变更\n\n## 修改结果\n\nCKB 新增插件专用的机器可读输出契约 `.ckb/output-contract.json`。契约只投影到实际安装 `Code Knowledge Builder Companion` 的 vault，记录该 vault 对应的 OUTPUT、Python、`ckb.py`、stdio protocol v2、允许方法和中文输出语言；不写入 Git commit、哈希或页面属性。\n\nObsidian 插件启动时优先读取并校验该契约，不再把解析 `AGENTS.md` 说明文字作为首选路径。旧知识库没有契约时仍保留 `AGENTS.md`、`CKB_OUTPUT`、`CKB_PYTHON` 和 `CKB_SCRIPT` 兼容路径。契约中的 vault 必须与当前打开目录一致，OUTPUT 必须存在 `machine/knowledge.sqlite`，Python 与 `ckb.py` 必须可执行，stdio 方法必须包含 `ping`、`retrieve`、`record-explanation` 和 `shutdown`。\n\n## 投影边界\n\n`obsidian-plugin deploy --out OUTPUT`、登记插件后的自动 vault 投影以及 ZIP 内独立 `deploy.py` 都会在部署插件时同步生成输出契约。状态命令独立审计插件文件、启用项和契约内容。\n\n用户级插件包登记本身不代表某个 vault 已安装插件。没有插件目录的知识库固定返回 `status: not-required`、`required: false`，不会生成契约，也不会因为全局登记存在而审计失败。移除插件时同时移除对应契约。\n\n## 当前落地\n\n当前自知识库与 `sensory-memory-plugin` 的人类 vault 都已升级到插件 0.7.1，并写入通过审计的输出契约。核心 Skill 升级到 5.2.6。插件仍由 DDDeath 发布，输出契约不进入普通知识页面或导航。\n\n## 验证\n\n该轮验证了插件构建、核心接线、自动化、发行和带显式知识库绑定的部署。没有安装插件的实例仍不要求输出契约，说明判定依据是该实例的实际安装状态，而非全局包登记。\n\n\n\n## 原始记录\n\n[按需核对历史原文与完整复现明细](../../machine/historical-records/legacy-20260910-12.md)。\n\n## 相关知识页\n\n- [[audit_obsidian 与 prepare_vault 的协作实现]]\n- [[audit_global 与 _replace_output_prefix 的协作实现]]\n- [[preflight 与 git 的协作实现]]\n- [[keyword_provider_config 与 keyword_fallback_options 的协作实现]]\n- [[__init__ 实现概览]]\n- [[CkbError 与 DependencyError 的协作实现]]\n- [[render_integration 与 harness_retrieval_contract 的协作实现]]\n- [[build_agent_index 与 _tokens 的协作实现]]\n\n## 源码入口\n\n- [打开源码：scripts/ckb_core/obsidian.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/obsidian.py:1:1)  `scripts/ckb_core/obsidian.py:1-166`\n- [打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3637`\n- [打开源码：scripts/ckb_core/gitrepo.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/gitrepo.py:1:1)  `scripts/ckb_core/gitrepo.py:1-476`\n- [打开源码：scripts/ckb.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:1:1)  `scripts/ckb.py:1-1850`\n- [打开源码：scripts/ckb_core/__init__.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/__init__.py:1:1)  `scripts/ckb_core/__init__.py:1-5`\n- [打开源码：scripts/ckb_core/common.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/common.py:1:1)  `scripts/ckb_core/common.py:1-168`\n- [打开源码：scripts/ckb_core/automation_integrations.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation_integrations.py:1:1)  `scripts/ckb_core/automation_integrations.py:1-656`\n- [打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-555`\n",
+      1330
+    ]
+  ],
+  "links": [
+    [
+      "插件门控的 CKB 输出契约投影",
+      "CkbError 与 DependencyError 的协作实现"
+    ],
+    [
+      "插件门控的 CKB 输出契约投影",
+      "__init__ 实现概览"
+    ],
+    [
+      "插件门控的 CKB 输出契约投影",
+      "audit_global 与 _replace_output_prefix 的协作实现"
+    ],
+    [
+      "插件门控的 CKB 输出契约投影",
+      "audit_obsidian 与 prepare_vault 的协作实现"
+    ],
+    [
+      "插件门控的 CKB 输出契约投影",
+      "build_agent_index 与 _tokens 的协作实现"
+    ],
+    [
+      "插件门控的 CKB 输出契约投影",
+      "keyword_provider_config 与 keyword_fallback_options 的协作实现"
+    ],
+    [
+      "插件门控的 CKB 输出契约投影",
+      "preflight 与 git 的协作实现"
+    ],
+    [
+      "插件门控的 CKB 输出契约投影",
+      "render_integration 与 harness_retrieval_contract 的协作实现"
+    ]
+  ],
+  "fts": [
+    [
+      "插件门控的 CKB 输出契约投影",
+      "插件门控的 CKB 输出契约投影",
+      "# 插件门控的 CKB 输出契约投影\n\n标签：#类型/变更\n\n## 修改结果\n\nCKB 新增插件专用的机器可读输出契约 `.ckb/output-contract.json`。契约只投影到实际安装 `Code Knowledge Builder Companion` 的 vault，记录该 vault 对应的 OUTPUT、Python、`ckb.py`、stdio protocol v2、允许方法和中文输出语言；不写入 Git commit、哈希或页面属性。\n\nObsidian 插件启动时优先读取并校验该契约，不再把解析 `AGENTS.md` 说明文字作为首选路径。旧知识库没有契约时仍保留 `AGENTS.md`、`CKB_OUTPUT`、`CKB_PYTHON` 和 `CKB_SCRIPT` 兼容路径。契约中的 vault 必须与当前打开目录一致，OUTPUT 必须存在 `machine/knowledge.sqlite`，Python 与 `ckb.py` 必须可执行，stdio 方法必须包含 `ping`、`retrieve`、`record-explanation` 和 `shutdown`。\n\n## 投影边界\n\n`obsidian-plugin deploy --out OUTPUT`、登记插件后的自动 vault 投影以及 ZIP 内独立 `deploy.py` 都会在部署插件时同步生成输出契约。状态命令独立审计插件文件、启用项和契约内容。\n\n用户级插件包登记本身不代表某个 vault 已安装插件。没有插件目录的知识库固定返回 `status: not-required`、`required: false`，不会生成契约，也不会因为全局登记存在而审计失败。移除插件时同时移除对应契约。\n\n## 当前落地\n\n当前自知识库与 `sensory-memory-plugin` 的人类 vault 都已升级到插件 0.7.1，并写入通过审计的输出契约。核心 Skill 升级到 5.2.6。插件仍由 DDDeath 发布，输出契约不进入普通知识页面或导航。\n\n## 验证\n\n该轮验证了插件构建、核心接线、自动化、发行和带显式知识库绑定的部署。没有安装插件的实例仍不要求输出契约，说明判定依据是该实例的实际安装状态，而非全局包登记。\n\n\n\n## 原始记录\n\n[按需核对历史原文与完整复现明细](../../machine/historical-records/legacy-20260910-12.md)。\n\n## 相关知识页\n\n- [[audit_obsidian 与 prepare_vault 的协作实现]]\n- [[audit_global 与 _replace_output_prefix 的协作实现]]\n- [[preflight 与 git 的协作实现]]\n- [[keyword_provider_config 与 keyword_fallback_options 的协作实现]]\n- [[__init__ 实现概览]]\n- [[CkbError 与 DependencyError 的协作实现]]\n- [[render_integration 与 harness_retrieval_contract 的协作实现]]\n- [[build_agent_index 与 _tokens 的协作实现]]\n\n## 源码入口\n\n- [打开源码：scripts/ckb_core/obsidian.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/obsidian.py:1:1)  `scripts/ckb_core/obsidian.py:1-166`\n- [打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3637`\n- [打开源码：scripts/ckb_core/gitrepo.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/gitrepo.py:1:1)  `scripts/ckb_core/gitrepo.py:1-476`\n- [打开源码：scripts/ckb.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:1:1)  `scripts/ckb.py:1-1850`\n- [打开源码：scripts/ckb_core/__init__.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/__init__.py:1:1)  `scripts/ckb_core/__init__.py:1-5`\n- [打开源码：scripts/ckb_core/common.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/common.py:1:1)  `scripts/ckb_core/common.py:1-168`\n- [打开源码：scripts/ckb_core/automation_integrations.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation_integrations.py:1:1)  `scripts/ckb_core/automation_integrations.py:1-656`\n- [打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-555`\n"
+    ]
+  ]
+}

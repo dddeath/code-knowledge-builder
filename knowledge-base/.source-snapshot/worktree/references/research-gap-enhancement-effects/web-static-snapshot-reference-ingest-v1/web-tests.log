@@ -1,0 +1,14 @@
+test_explicit_live_fetch_and_network_failure_leave_existing_references_unchanged (test_reference_web.WebReferenceEndToEndTests.test_explicit_live_fetch_and_network_failure_leave_existing_references_unchanged) ... ok
+test_static_ingest_review_drift_duplicate_audit_and_rollback (test_reference_web.WebReferenceEndToEndTests.test_static_ingest_review_drift_duplicate_audit_and_rollback) ... ok
+test_contract_keeps_local_and_live_modes_separate (test_reference_web.WebSnapshotInputTests.test_contract_keeps_local_and_live_modes_separate) ... ok
+test_default_local_ingest_does_not_switch_to_network_or_html (test_reference_web.WebSnapshotInputTests.test_default_local_ingest_does_not_switch_to_network_or_html) ... ok
+test_live_fetch_records_redirect_final_url_and_response_metadata (test_reference_web.WebSnapshotInputTests.test_live_fetch_records_redirect_final_url_and_response_metadata) ... ok
+test_live_fetch_rejects_non_html_timeout_oversize_and_network_unavailable (test_reference_web.WebSnapshotInputTests.test_live_fetch_rejects_non_html_timeout_oversize_and_network_unavailable) ... ok
+test_static_snapshot_has_no_network_and_preserves_boundaries (test_reference_web.WebSnapshotInputTests.test_static_snapshot_has_no_network_and_preserves_boundaries) ... ok
+test_static_snapshot_rejects_non_html_oversize_and_bad_encoding (test_reference_web.WebSnapshotInputTests.test_static_snapshot_rejects_non_html_oversize_and_bad_encoding) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 71.350s
+
+OK
+WEB_TESTS_EXIT=0

@@ -10,6 +10,10 @@ CKB 只新增三项职责：
 2. 由常驻 stdio 进程先执行 CKB 检索并把 Agent pack 正文直接交给 Provider，Provider 不再通过工具重新读取知识库；
 3. 只把通过凭据齐全的只读解释追加到当天唯一的 `学习笔记/YYYY-MM-DD.md`。
 
+## 升级保留范围
+
+核心部署只替换发行包声明的文件，保留 `data.json`、其他用户文件、已有 Canvas 和其他插件启用项。Windows 禁止文件重命名但允许写入时，回退为逐文件复制；部署失败会恢复已更新的包文件。若文件持续占用导致恢复失败，错误中给出保留的备份目录，先解除占用再恢复。卸载与升级不同，卸载仍删除插件目录。
+
 ## 为什么复用 Claudian
 
 交互式 Harness 连接涉及 CLI 定位、认证环境、模型配置、会话恢复、流式协议、取消、工具权限和 provider 差异。插件固定 Claudian 上游提交，并通过其 `ProviderRegistry`、`ProviderWorkspaceRegistry` 和 `InlineEditService` 执行解释，避免为每个 Harness 再写一套客户端。

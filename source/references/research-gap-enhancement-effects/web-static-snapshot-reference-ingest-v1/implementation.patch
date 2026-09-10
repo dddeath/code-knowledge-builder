@@ -1,0 +1,1468 @@
+diff --git a/scripts/ckb.py b/scripts/ckb.py
+index c26b11f..06e0585 100644
+--- a/scripts/ckb.py
++++ b/scripts/ckb.py
+@@ -185,0 +186 @@ from ckb_core.reference_documents import (
++    ingest_web_reference,
+@@ -190,0 +192 @@ from ckb_core.reference_documents import (
++from ckb_core.reference_inputs import DEFAULT_WEB_MAX_RESPONSE_BYTES, DEFAULT_WEB_TIMEOUT_SECONDS
+@@ -574,0 +577,28 @@ def parser() -> argparse.ArgumentParser:
++    reference_web_snapshot = reference_sub.add_parser("web-snapshot")
++    reference_web_snapshot.add_argument("--out", type=Path, required=True)
++    reference_web_snapshot.add_argument("--snapshot", type=Path, required=True)
++    reference_web_snapshot.add_argument("--source-root", type=Path)
++    reference_web_snapshot.add_argument("--requested-url", required=True)
++    reference_web_snapshot.add_argument("--final-url", required=True)
++    reference_web_snapshot.add_argument("--retrieved-at", dest="retrieved_at_utc", required=True)
++    reference_web_snapshot.add_argument("--status-code", type=int, required=True)
++    reference_web_snapshot.add_argument("--content-type", required=True)
++    reference_web_snapshot.add_argument("--response-header", action="append", default=[])
++    reference_web_snapshot.add_argument("--max-response-bytes", type=int, default=DEFAULT_WEB_MAX_RESPONSE_BYTES)
++    reference_web_snapshot.add_argument("--title", required=True)
++    reference_web_snapshot.add_argument("--origin", required=True)
++    reference_web_snapshot.add_argument("--license", dest="license_name", required=True)
++    reference_web_snapshot.add_argument("--author")
++    reference_web_snapshot.add_argument("--revision-of")
++    reference_web_fetch = reference_sub.add_parser("web-fetch")
++    reference_web_fetch.add_argument("--out", type=Path, required=True)
++    reference_web_fetch.add_argument("--url", required=True)
++    reference_web_fetch.add_argument("--timeout-seconds", type=int, default=DEFAULT_WEB_TIMEOUT_SECONDS)
++    reference_web_fetch.add_argument("--max-response-bytes", type=int, default=DEFAULT_WEB_MAX_RESPONSE_BYTES)
++    reference_web_fetch.add_argument("--accept-language")
++    reference_web_fetch.add_argument("--user-agent", default="Code-Knowledge-Builder/web-snapshot-v1")
++    reference_web_fetch.add_argument("--title", required=True)
++    reference_web_fetch.add_argument("--origin", required=True)
++    reference_web_fetch.add_argument("--license", dest="license_name", required=True)
++    reference_web_fetch.add_argument("--author")
++    reference_web_fetch.add_argument("--revision-of")
+@@ -1327,0 +1358,40 @@ def main() -> int:
++        if args.reference_command == "web-snapshot":
++            response_headers: dict[str, list[str]] = {}
++            for value in args.response_header:
++                if ":" not in value:
++                    raise CkbError("--response-header must use NAME:VALUE syntax")
++                name, header_value = value.split(":", 1)
++                name = name.strip()
++                header_value = header_value.strip()
++                if not name or not header_value:
++                    raise CkbError("--response-header must use a non-empty NAME:VALUE")
++                response_headers.setdefault(name, []).append(header_value)
++            result = ingest_web_reference(
++                args.out.resolve(), args.title, args.origin, args.license_name,
++                snapshot=args.snapshot.resolve(),
++                requested_url=args.requested_url,
++                final_url=args.final_url,
++                retrieved_at_utc=args.retrieved_at_utc,
++                status_code=args.status_code,
++                content_type=args.content_type,
++                response_headers=response_headers,
++                author=args.author,
++                revision_of=args.revision_of,
++                source_root=args.source_root.resolve() if args.source_root else None,
++                max_response_bytes=args.max_response_bytes,
++            )
++            emit(result)
++            return 4 if result.get("status") == "pending-agent-review" else 0
++        if args.reference_command == "web-fetch":
++            result = ingest_web_reference(
++                args.out.resolve(), args.title, args.origin, args.license_name,
++                url=args.url,
++                author=args.author,
++                revision_of=args.revision_of,
++                timeout_seconds=args.timeout_seconds,
++                max_response_bytes=args.max_response_bytes,
++                accept_language=args.accept_language,
++                user_agent=args.user_agent,
++            )
++            emit(result)
++            return 4 if result.get("status") == "pending-agent-review" else 0
+diff --git a/scripts/ckb_core/reference_documents.py b/scripts/ckb_core/reference_documents.py
+index cf6e0a0..1911b4e 100644
+--- a/scripts/ckb_core/reference_documents.py
++++ b/scripts/ckb_core/reference_documents.py
+@@ -14 +14,10 @@ from .machine_knowledge import contains_chinese_narrative
+-from .reference_inputs import LOCAL_FILE_ADAPTER_ID
++from .reference_inputs import (
++    DEFAULT_WEB_MAX_RESPONSE_BYTES,
++    DEFAULT_WEB_TIMEOUT_SECONDS,
++    LOCAL_FILE_ADAPTER_ID,
++    WEB_INPUT_ADAPTER_ID,
++    archive_web_extraction,
++    fetch_web_snapshot,
++    prepare_static_web_snapshot,
++    validate_web_extraction,
++)
+@@ -392,0 +402,241 @@ def ingest_reference(
++def ingest_web_reference(
++    output: Path,
++    title: str,
++    origin: str,
++    license_name: str,
++    *,
++    snapshot: Path | None = None,
++    url: str | None = None,
++    requested_url: str | None = None,
++    final_url: str | None = None,
++    retrieved_at_utc: str | None = None,
++    status_code: int | None = None,
++    content_type: str | None = None,
++    response_headers: dict[str, str | list[str]] | None = None,
++    author: str | None = None,
++    revision_of: str | None = None,
++    source_root: Path | None = None,
++    timeout_seconds: int = DEFAULT_WEB_TIMEOUT_SECONDS,
++    max_response_bytes: int = DEFAULT_WEB_MAX_RESPONSE_BYTES,
++    accept_language: str | None = None,
++    user_agent: str = "Code-Knowledge-Builder/web-snapshot-v1",
++) -> dict[str, Any]:
++    """Archive one explicit Web capture and stop at the ordinary Agent review gate."""
++
++    output = _validate_output(output)
++    title = title.strip()
++    origin = origin.strip()
++    if not title or not origin:
++        raise CkbError("reference title and origin are required")
++    license_name = _validate_license(license_name)
++    if (snapshot is None) == (url is None):
++        raise CkbError("choose exactly one Web input mode: snapshot or url")
++    if snapshot is not None:
++        snapshot = snapshot.resolve()
++        if source_root is not None and not path_inside(snapshot, source_root.resolve()):
++            raise CkbError(f"Web snapshot is outside --source-root: {snapshot}")
++        if path_inside(snapshot, _root(output)):
++            raise CkbError("Web snapshot must not be an existing managed reference artifact")
++        missing = [
++            name
++            for name, value in (
++                ("requested_url", requested_url),
++                ("final_url", final_url),
++                ("retrieved_at_utc", retrieved_at_utc),
++                ("status_code", status_code),
++                ("content_type", content_type),
++            )
++            if value is None
++        ]
++        if missing:
++            raise CkbError(f"provided Web snapshot is missing metadata: {', '.join(missing)}")
++        prepared = prepare_static_web_snapshot(
++            snapshot,
++            requested_url=str(requested_url),
++            final_url=str(final_url),
++            retrieved_at_utc=str(retrieved_at_utc),
++            status_code=int(status_code),
++            content_type=str(content_type),
++            response_headers=response_headers,
++            max_response_bytes=max_response_bytes,
++        )
++    else:
++        if any(value is not None for value in (requested_url, final_url, retrieved_at_utc, status_code, content_type, response_headers)):
++            raise CkbError("live Web fetch derives response metadata and does not accept provided snapshot metadata")
++        prepared = fetch_web_snapshot(
++            str(url),
++            timeout_seconds=timeout_seconds,
++            max_response_bytes=max_response_bytes,
++            accept_language=accept_language,
++            user_agent=user_agent,
++        )
++
++    digest = str(prepared.provenance["raw_snapshot_sha256"])
++    capture_final_url = str(prepared.provenance["final_url"])
++    existing = _manifests(output)
++    same_key = [
++        item
++        for item in existing
++        if str(item.get("title", "")).casefold() == title.casefold()
++        and str(item.get("origin", "")).casefold() == origin.casefold()
++    ]
++    title_conflicts = [
++        item
++        for item in existing
++        if str(item.get("title", "")).casefold() == title.casefold()
++        and str(item.get("origin", "")).casefold() != origin.casefold()
++        and item.get("status") != "superseded"
++    ]
++    if title_conflicts:
++        raise CkbError(f"active reference title must be unique: {title}; existing={title_conflicts[0]['reference_id']}")
++    for item in same_key:
++        item_capture = item.get("web_capture") or {}
++        if (
++            item.get("source_type") == "web"
++            and item.get("source_sha256") == digest
++            and item.get("license") == license_name
++            and item_capture.get("final_url") == capture_final_url
++        ):
++            return {
++                "schema_version": REFERENCE_SCHEMA_VERSION,
++                "status": item["status"],
++                "reference_id": item["reference_id"],
++                "idempotent": True,
++                "manifest": str((_root(output) / "manifests" / f"{item['reference_id']}.json").resolve()),
++                "review_template": item.get("review_template"),
++                "acquisition_mode": item_capture.get("acquisition_mode"),
++                "final_url": item_capture.get("final_url"),
++                "next": "reference review" if item.get("status") == "pending-agent-review" else None,
++            }
++    latest = max(same_key, key=lambda item: int(item.get("revision", 1)), default=None)
++    if latest:
++        if not revision_of:
++            raise CkbError(
++                f"Web snapshot drift detected for {capture_final_url}; pass --revision-of {latest['reference_id']} to create a reviewed revision"
++            )
++        if revision_of != latest["reference_id"]:
++            raise CkbError(f"--revision-of must name the latest reference revision: {latest['reference_id']}")
++        if latest.get("status") != "agent-reviewed":
++            raise CkbError("a new Web snapshot revision requires the previous revision to be agent-reviewed")
++    elif revision_of:
++        raise CkbError("--revision-of was provided but no previous Web reference exists for this title and origin")
++
++    duplicate_content = next(
++        (
++            item
++            for item in existing
++            if item.get("source_type") == "web"
++            and item.get("source_sha256") == digest
++            and (item.get("web_capture") or {}).get("final_url") != capture_final_url
++        ),
++        None,
++    )
++    reference_id = stable_id("reference", title.casefold(), origin.casefold(), capture_final_url, digest)
++    root = _root(output)
++    for name in ("raw", "manifests", "review-templates", "reviews", "transactions", "extractions"):
++        (root / name).mkdir(parents=True, exist_ok=True)
++    revision = int(latest.get("revision", 1)) + 1 if latest else 1
++    raw_path = root / "raw" / f"{safe_title(title)}--r{revision}.html"
++    extraction_root = root / "extractions" / reference_id
++    raw_path.write_bytes(prepared.raw_bytes)
++    try:
++        extraction = archive_web_extraction(prepared, reference_id, raw_path, extraction_root)
++    except Exception:
++        raw_path.unlink(missing_ok=True)
++        if extraction_root.exists():
++            safe_rmtree(extraction_root, root / "extractions")
++        raise
++
++    review_template_path = root / "review-templates" / f"{reference_id}.json"
++    manifest_path = root / "manifests" / f"{reference_id}.json"
++    manifest = {
++        "schema_version": REFERENCE_SCHEMA_VERSION,
++        "reference_id": reference_id,
++        "status": "pending-agent-review",
++        "title": title,
++        "origin": origin,
++        "author": (author or "").strip() or None,
++        "license": license_name,
++        "copy_permission": "full-text",
++        "source_type": "web",
++        "source_suffix": ".html",
++        "source_file": str(raw_path.resolve()),
++        "source_relative": raw_path.relative_to(output).as_posix(),
++        "source_sha256": digest,
++        "source_size": len(prepared.raw_bytes),
++        "input_adapter": WEB_INPUT_ADAPTER_ID,
++        "web_capture": prepared.provenance,
++        "body_snapshot_sha256": extraction["body_snapshot_sha256"],
++        "duplicate_content_of": duplicate_content.get("reference_id") if duplicate_content else None,
++        "revision": revision,
++        "supersedes": latest["reference_id"] if latest else None,
++        "review_template": str(review_template_path.resolve()),
++        "review_file": None,
++        "human_file": None,
++        "extraction_file": extraction["manifest"],
++        "extraction_sha256": extraction["manifest_sha256"],
++        "extraction_status": extraction["status"],
++        "ingested_at_utc": utc_now(),
++    }
++    template = {
++        "schema_version": REFERENCE_SCHEMA_VERSION,
++        "reference_id": reference_id,
++        "status": "pending-agent-review",
++        "title": title,
++        "source_file": str(raw_path.resolve()),
++        "source_sha256": digest,
++        "source_type": "web",
++        "extraction_file": extraction["manifest"],
++        "web_provenance": {
++            key: prepared.provenance[key]
++            for key in ("acquisition_mode", "requested_url", "final_url", "retrieved_at_utc", "status_code", "content_type")
++        },
++        "claim_locator_contract": {
++            "fragment_id": "exact-fragment-from-web-extraction-manifest",
++            "start_line": "one-based-inclusive-archived-html-line",
++            "end_line": "one-based-inclusive-archived-html-line",
++            "source_text": "exact-archived-html-line-range",
++        },
++        "summary_zh": "",
++        "claims": [],
++    }
++    json_write(manifest_path, manifest)
++    json_write(review_template_path, template)
++    transaction = {
++        "schema_version": 1,
++        "reference_id": reference_id,
++        "status": "pending-agent-review",
++        "created_files": [str(raw_path.resolve()), str(manifest_path.resolve()), str(review_template_path.resolve())],
++        "created_roots": [str(extraction_root.resolve())],
++        "baseline_reference_ids": [item["reference_id"] for item in existing],
++    }
++    json_write(root / "transactions" / f"{reference_id}.json", transaction)
++    from .machine_knowledge import build_machine_knowledge
++
++    build_machine_knowledge(output)
++    _set_marker(output, "pending-agent-review", {"reference_id": reference_id, "review_template": str(review_template_path.resolve())})
++    return {
++        "schema_version": REFERENCE_SCHEMA_VERSION,
++        "status": "pending-agent-review",
++        "reference_id": reference_id,
++        "revision": revision,
++        "idempotent": False,
++        "acquisition_mode": prepared.provenance["acquisition_mode"],
++        "source": str(raw_path.resolve()),
++        "manifest": str(manifest_path.resolve()),
++        "review_template": str(review_template_path.resolve()),
++        "final_url": capture_final_url,
++        "retrieved_at_utc": prepared.provenance["retrieved_at_utc"],
++        "raw_snapshot_sha256": digest,
++        "body_snapshot_sha256": extraction["body_snapshot_sha256"],
++        "duplicate_content_of": manifest["duplicate_content_of"],
++        "extraction": {
++            "status": extraction["status"],
++            "fragment_count": extraction["fragment_count"],
++            "manifest": extraction["manifest"],
++            "body_snapshot": extraction["body_snapshot"],
++        },
++        "next": "reference review",
++    }
++
++
+@@ -411 +661,8 @@ def _source_lines(manifest: dict[str, Any]) -> list[str]:
+-    return raw.decode("utf-8-sig").replace("\r\n", "\n").replace("\r", "\n").split("\n")
++    charset = "utf-8-sig"
++    if manifest.get("source_type") == "web":
++        charset = str((manifest.get("web_capture") or {}).get("charset") or "utf-8")
++    try:
++        text = raw.decode(charset)
++    except (LookupError, UnicodeDecodeError) as exc:
++        raise CkbError(f"reference source encoding drifted: {manifest['reference_id']}: {exc}") from exc
++    return text.replace("\r\n", "\n").replace("\r", "\n").split("\n")
+@@ -442,0 +700,26 @@ def _validate_pdf_claims(output: Path, manifest: dict[str, Any], claims: list[An
++def _validate_web_claims(output: Path, manifest: dict[str, Any], claims: list[Any]) -> None:
++    extraction, errors = validate_web_extraction(output, manifest, require_ready=True)
++    if errors or extraction is None:
++        raise CkbError(f"Web reference extraction is not reviewable: {errors[:5]}")
++    fragments = {str(item["fragment_id"]): item for item in extraction["fragments"]}
++    lines = _source_lines(manifest)
++    for index, claim in enumerate(claims):
++        if not isinstance(claim, dict):
++            raise CkbError(f"reference claim {index} must be an object")
++        if not contains_chinese_narrative(claim.get("claim_zh")) or not contains_chinese_narrative(claim.get("evidence_note")):
++            raise CkbError(f"reference claim {index} requires Chinese claim_zh and evidence_note")
++        fragment_id = str(claim.get("fragment_id") or "")
++        if fragment_id not in fragments:
++            raise CkbError(f"reference claim {index} requires an exact Web extraction fragment_id")
++        start = claim.get("start_line")
++        end = claim.get("end_line")
++        if not isinstance(start, int) or not isinstance(end, int) or start < 1 or end < start or end > len(lines):
++            raise CkbError(f"reference claim {index} has an invalid inclusive line range")
++        fragment_range = fragments[fragment_id]["source_range"]
++        if start < int(fragment_range["start_line"]) or end > int(fragment_range["end_line"]):
++            raise CkbError(f"reference claim {index} line range must remain within one extracted Web fragment")
++        expected = "\n".join(lines[start - 1 : end]).strip()
++        if not expected or str(claim.get("source_text") or "").strip() != expected:
++            raise CkbError(f"reference claim {index} source_text does not exactly match the preserved Web snapshot line range")
++
++
+@@ -457,0 +741,3 @@ def _validate_review(output: Path, manifest: dict[str, Any], review: dict[str, A
++    if manifest.get("source_type") == "web":
++        _validate_web_claims(output, manifest, claims)
++        return
+@@ -508,0 +795,11 @@ def _render_reference_page(manifest: dict[str, Any], review: dict[str, Any]) ->
++    lines.extend(["", "## 来源", "", f"- 资料来源：{manifest['origin']}"])
++    if manifest.get("source_type") == "web":
++        capture = manifest["web_capture"]
++        lines.extend(
++            [
++                f"- [最终 URL]({capture['final_url']})",
++                f"- 获取时间：{capture['retrieved_at_utc']}",
++                f"- HTTP 状态：{capture['status_code']}",
++                f"- Content-Type：{capture['content_type']}",
++            ]
++        )
+@@ -511,4 +807,0 @@ def _render_reference_page(manifest: dict[str, Any], review: dict[str, Any]) ->
+-            "",
+-            "## 来源",
+-            "",
+-            f"- 资料来源：{manifest['origin']}",
+@@ -677,0 +971,14 @@ def reference_machine_records(output: Path) -> dict[str, Any]:
++        elif manifest.get("source_type") == "web":
++            extraction, extraction_errors = validate_web_extraction(output, manifest, require_ready=True)
++            if extraction_errors or extraction is None:
++                continue
++            sections = [
++                {
++                    "heading": f"网页正文第 {fragment['source_range']['start_line']}–{fragment['source_range']['end_line']} 行 · {fragment['structure']}",
++                    "content": fragment["text"],
++                    "start_line": fragment["source_range"]["start_line"],
++                    "end_line": fragment["source_range"]["end_line"],
++                    "fragment_id": fragment["fragment_id"],
++                }
++                for fragment in extraction["fragments"]
++            ]
+@@ -725,0 +1033,44 @@ def _reference_sections(lines: list[str], source_type: str) -> list[dict[str, An
++def _web_capture_errors(manifest: dict[str, Any]) -> list[dict[str, Any]]:
++    reference_id = str(manifest.get("reference_id") or "")
++    capture = manifest.get("web_capture")
++    if not isinstance(capture, dict):
++        return [{"reason": "reference-web-capture-missing", "reference_id": reference_id}]
++    errors: list[dict[str, Any]] = []
++    required = {
++        "acquisition_mode", "network_access", "requested_url", "final_url", "retrieved_at_utc", "status_code",
++        "content_type", "media_type", "charset", "response_headers", "response_size", "raw_snapshot_sha256",
++        "body_snapshot_sha256", "redirect_chain", "max_response_bytes",
++    }
++    missing = sorted(required - set(capture))
++    if missing:
++        errors.append({"reason": "reference-web-capture-fields", "reference_id": reference_id, "missing": missing})
++        return errors
++    mode = capture.get("acquisition_mode")
++    expected_network = "explicit" if mode == "live-url-fetch" else "not-used" if mode == "provided-static-snapshot" else None
++    if expected_network is None or capture.get("network_access") != expected_network:
++        errors.append({"reason": "reference-web-acquisition-mode", "reference_id": reference_id})
++    for field in ("requested_url", "final_url"):
++        value = str(capture.get(field) or "")
++        if not re.match(r"^https?://[^/\s]+", value, re.IGNORECASE):
++            errors.append({"reason": "reference-web-url", "reference_id": reference_id, "field": field})
++    if not re.match(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$", str(capture.get("retrieved_at_utc") or "")):
++        errors.append({"reason": "reference-web-retrieved-at", "reference_id": reference_id})
++    status_code = capture.get("status_code")
++    if not isinstance(status_code, int) or status_code < 200 or status_code > 299:
++        errors.append({"reason": "reference-web-status", "reference_id": reference_id})
++    if capture.get("media_type") not in {"text/html", "application/xhtml+xml"}:
++        errors.append({"reason": "reference-web-content-type", "reference_id": reference_id})
++    headers = capture.get("response_headers")
++    if not isinstance(headers, dict) or not headers.get("content-type"):
++        errors.append({"reason": "reference-web-response-headers", "reference_id": reference_id})
++    if capture.get("raw_snapshot_sha256") != manifest.get("source_sha256"):
++        errors.append({"reason": "reference-web-raw-hash", "reference_id": reference_id})
++    if capture.get("body_snapshot_sha256") != manifest.get("body_snapshot_sha256"):
++        errors.append({"reason": "reference-web-body-hash", "reference_id": reference_id})
++    if capture.get("response_size") != manifest.get("source_size"):
++        errors.append({"reason": "reference-web-response-size", "reference_id": reference_id})
++    if not isinstance(capture.get("redirect_chain"), list):
++        errors.append({"reason": "reference-web-redirect-chain", "reference_id": reference_id})
++    return errors
++
++
+@@ -737 +1088 @@ def audit_references(output: Path) -> dict[str, Any]:
+-        if manifest.get("source_type") == "pdf" and not _managed_path(output, source, source_relative, root / "raw"):
++        if manifest.get("source_type") in {"pdf", "web"} and not _managed_path(output, source, source_relative, root / "raw"):
+@@ -747,5 +1098,8 @@ def audit_references(output: Path) -> dict[str, Any]:
+-            _decode_source(
+-                source,
+-                pdf_max_bytes=int(manifest.get("pdf_max_bytes") or DEFAULT_MAX_PDF_BYTES),
+-                pdf_max_pages=int(manifest.get("pdf_max_pages") or DEFAULT_MAX_PDF_PAGES),
+-            )
++            if manifest.get("source_type") == "web":
++                _source_lines(manifest)
++            else:
++                _decode_source(
++                    source,
++                    pdf_max_bytes=int(manifest.get("pdf_max_bytes") or DEFAULT_MAX_PDF_BYTES),
++                    pdf_max_pages=int(manifest.get("pdf_max_pages") or DEFAULT_MAX_PDF_PAGES),
++                )
+@@ -761 +1115,9 @@ def audit_references(output: Path) -> dict[str, Any]:
+-        if manifest.get("source_type") == "pdf":
++        if manifest.get("source_type") == "web":
++            errors.extend(_web_capture_errors(manifest))
++            _extraction, extraction_errors = validate_web_extraction(
++                output,
++                manifest,
++                require_ready=manifest.get("status") in {"agent-reviewed", "superseded"},
++            )
++            errors.extend(extraction_errors)
++        if manifest.get("source_type") in {"pdf", "web"}:
+@@ -857,0 +1220 @@ def list_references(output: Path, status: str = "all") -> dict[str, Any]:
++                    "body_snapshot_sha256", "duplicate_content_of", "web_capture",
+@@ -872 +1235 @@ def rollback_reference(output: Path, reference_id: str) -> dict[str, Any]:
+-    if manifest.get("source_type") == "pdf" and not _managed_path(
++    if manifest.get("source_type") in {"pdf", "web"} and not _managed_path(
+diff --git a/scripts/ckb_core/reference_inputs.py b/scripts/ckb_core/reference_inputs.py
+index a9c6f9e..34197d1 100644
+--- a/scripts/ckb_core/reference_inputs.py
++++ b/scripts/ckb_core/reference_inputs.py
+@@ -1 +1 @@
+-"""Stable input-adapter boundary for local references and future Web capture."""
++"""Deterministic input adapters for local references and explicit Web snapshots."""
+@@ -5,0 +6,3 @@ from dataclasses import dataclass
++from datetime import datetime, timezone
++import hashlib
++from html.parser import HTMLParser
+@@ -6,0 +10,2 @@ from pathlib import Path
++import re
++import socket
+@@ -7,0 +13,5 @@ from typing import Any, Protocol
++from urllib.error import HTTPError, URLError
++from urllib.parse import urljoin, urlsplit
++from urllib.request import HTTPRedirectHandler, Request, build_opener
++
++from .common import CkbError, json_load, json_write, path_inside, sha256_file, utc_now
+@@ -11,0 +22,14 @@ WEB_INPUT_ADAPTER_ID = "web-snapshot-v1"
++DEFAULT_WEB_MAX_RESPONSE_BYTES = 2 * 1024 * 1024
++DEFAULT_WEB_TIMEOUT_SECONDS = 20
++WEB_MEDIA_TYPES = {"text/html", "application/xhtml+xml"}
++WEB_RESPONSE_HEADER_OMIT = {"proxy-authenticate", "set-cookie", "www-authenticate"}
++_EXCLUDED_TAGS = {"aside", "footer", "header", "nav", "noscript", "script", "style", "svg", "template"}
++_NAVIGATION_ROLES = {"banner", "complementary", "contentinfo", "navigation", "search"}
++_BLOCK_TAGS = {
++    "address", "article", "blockquote", "dd", "div", "dl", "dt", "figcaption", "figure", "h1", "h2", "h3",
++    "h4", "h5", "h6", "li", "main", "p", "pre", "section", "table", "tbody", "td", "tfoot", "th", "thead", "tr",
++}
++
++
++class WebSnapshotError(CkbError):
++    """One explicit Web snapshot could not be captured or validated."""
+@@ -34,0 +59,10 @@ class PreparedReferenceInput:
++@dataclass(frozen=True)
++class PreparedWebSnapshot:
++    """A validated response body held in memory until reference commit begins."""
++
++    raw_bytes: bytes
++    decoded_text: str
++    provenance: dict[str, Any]
++    extraction: dict[str, Any]
++
++
+@@ -44,2 +78,36 @@ class ReferenceInputAdapter(Protocol):
+-def web_input_adapter_contract() -> dict[str, Any]:
+-    """Return the frozen Web boundary; this module deliberately performs no fetch."""
++def _validated_url(value: str, field: str) -> str:
++    normalized = value.strip()
++    parsed = urlsplit(normalized)
++    if parsed.scheme.casefold() not in {"http", "https"} or not parsed.netloc:
++        raise WebSnapshotError(f"{field} must be an absolute HTTP or HTTPS URL")
++    if parsed.username is not None or parsed.password is not None:
++        raise WebSnapshotError(f"{field} must not contain embedded credentials")
++    return normalized
++
++
++def _validated_timestamp(value: str, field: str) -> str:
++    normalized = value.strip()
++    try:
++        parsed = datetime.fromisoformat(normalized.replace("Z", "+00:00"))
++    except ValueError as exc:
++        raise WebSnapshotError(f"{field} must be an RFC3339 timestamp") from exc
++    if parsed.tzinfo is None:
++        raise WebSnapshotError(f"{field} must include a UTC offset")
++    return parsed.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
++
++
++def _normalized_response_headers(headers: Any) -> tuple[dict[str, list[str]], list[str]]:
++    values: dict[str, list[str]] = {}
++    omitted: set[str] = set()
++    pairs = headers.raw_items() if hasattr(headers, "raw_items") else getattr(headers, "items", lambda: [])()
++    for raw_name, raw_value in pairs:
++        name = str(raw_name).strip().casefold()
++        value = str(raw_value).strip()
++        if not name or "\r" in value or "\n" in value:
++            raise WebSnapshotError("response headers must use single-line names and values")
++        if name in WEB_RESPONSE_HEADER_OMIT:
++            omitted.add(name)
++            continue
++        values.setdefault(name, []).append(value)
++    return {name: values[name] for name in sorted(values)}, sorted(omitted)
++
+@@ -46,0 +115,119 @@ def web_input_adapter_contract() -> dict[str, Any]:
++def _content_type_details(content_type: str) -> tuple[str, str, str]:
++    parts = [part.strip() for part in content_type.split(";")]
++    media_type = parts[0].casefold()
++    if media_type not in WEB_MEDIA_TYPES:
++        raise WebSnapshotError(f"Web snapshot response must be HTML; received Content-Type {content_type!r}")
++    charset = "utf-8"
++    for part in parts[1:]:
++        match = re.fullmatch(r"charset\s*=\s*[\"']?([^\"';\s]+)[\"']?", part, re.IGNORECASE)
++        if match:
++            charset = match.group(1).casefold()
++            break
++    try:
++        "".encode(charset)
++    except LookupError as exc:
++        raise WebSnapshotError(f"Web snapshot declares an unsupported charset: {charset}") from exc
++    return content_type.strip(), media_type, charset
++
++
++def _decode_html(raw: bytes, charset: str) -> str:
++    if not raw:
++        raise WebSnapshotError("Web snapshot response body is empty")
++    try:
++        decoded = raw.decode(charset, errors="strict")
++    except UnicodeDecodeError as exc:
++        raise WebSnapshotError(f"Web snapshot body does not match declared charset {charset}: {exc}") from exc
++    if "\x00" in decoded:
++        raise WebSnapshotError("Web snapshot body contains a NUL character")
++    return decoded.replace("\r\n", "\n").replace("\r", "\n")
++
++
++class _HtmlBodyExtractor(HTMLParser):
++    def __init__(self, source_lines: list[str]) -> None:
++        super().__init__(convert_charrefs=True)
++        self.source_lines = source_lines
++        self.stack: list[dict[str, Any]] = []
++        self.fragments: list[dict[str, Any]] = []
++        self.excluded_regions: list[dict[str, Any]] = []
++        self.body_depth = 0
++        self.body_start_line: int | None = None
++        self.body_end_line: int | None = None
++
++    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
++        name = tag.casefold()
++        line = self.getpos()[0]
++        attributes = {key.casefold(): (value or "") for key, value in attrs}
++        role = attributes.get("role", "").casefold()
++        reason = None
++        if name in _EXCLUDED_TAGS:
++            reason = "navigation-container" if name in {"aside", "footer", "header", "nav"} else "non-content-tag"
++        elif role in _NAVIGATION_ROLES:
++            reason = "navigation-role"
++        self.stack.append({"tag": name, "start_line": line, "excluded_reason": reason})
++        if name == "body":
++            self.body_depth += 1
++            if self.body_start_line is None:
++                self.body_start_line = line
++
++    def handle_startendtag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
++        self.handle_starttag(tag, attrs)
++        self.handle_endtag(tag)
++
++    def handle_endtag(self, tag: str) -> None:
++        name = tag.casefold()
++        line = self.getpos()[0]
++        index = next((index for index in range(len(self.stack) - 1, -1, -1) if self.stack[index]["tag"] == name), None)
++        if index is None:
++            return
++        closed = self.stack[index:]
++        del self.stack[index:]
++        for entry in closed:
++            if entry["excluded_reason"]:
++                self.excluded_regions.append(
++                    {
++                        "tag": entry["tag"],
++                        "reason": entry["excluded_reason"],
++                        "source_range": {"start_line": entry["start_line"], "end_line": line},
++                    }
++                )
++        if name == "body" and self.body_depth:
++            self.body_depth -= 1
++            self.body_end_line = line
++
++    def handle_data(self, data: str) -> None:
++        if self.body_depth < 1 or any(entry["excluded_reason"] for entry in self.stack):
++            return
++        text = re.sub(r"\s+", " ", data).strip()
++        if not text:
++            return
++        start_line = self.getpos()[0]
++        end_line = start_line + data.count("\n")
++        tag = next((entry["tag"] for entry in reversed(self.stack) if entry["tag"] in _BLOCK_TAGS), "body")
++        source_text = "\n".join(self.source_lines[start_line - 1 : end_line]).strip()
++        self.fragments.append(
++            {
++                "fragment_id": f"web-fragment-{len(self.fragments) + 1:04d}",
++                "structure": tag,
++                "text": text,
++                "source_range": {"start_line": start_line, "end_line": end_line},
++                "source_text_sha256": hashlib.sha256(source_text.encode("utf-8")).hexdigest(),
++                "boundary_basis": "html-parser-data-node",
++            }
++        )
++
++
++def extract_web_snapshot(decoded_text: str) -> dict[str, Any]:
++    """Extract body text while keeping auditable HTML line boundaries and exclusions."""
++
++    source_lines = decoded_text.split("\n")
++    parser = _HtmlBodyExtractor(source_lines)
++    try:
++        parser.feed(decoded_text)
++        parser.close()
++    except Exception as exc:
++        raise WebSnapshotError(f"Web snapshot HTML parsing failed: {exc}") from exc
++    if parser.body_start_line is None or parser.body_end_line is None:
++        raise WebSnapshotError("Web snapshot HTML must contain a closed body element")
++    if not parser.fragments:
++        raise WebSnapshotError("Web snapshot body contains no reviewable text after noise exclusion")
++    body_text = "\n".join(fragment["text"] for fragment in parser.fragments).rstrip() + "\n"
+@@ -48,0 +236,300 @@ def web_input_adapter_contract() -> dict[str, Any]:
++        "status": "ready",
++        "extractor": "stdlib-html-parser-v1",
++        "body_boundary": {"start_line": parser.body_start_line, "end_line": parser.body_end_line},
++        "body_snapshot_text": body_text,
++        "body_snapshot_sha256": hashlib.sha256(body_text.encode("utf-8")).hexdigest(),
++        "body_snapshot_size": len(body_text.encode("utf-8")),
++        "fragments": parser.fragments,
++        "excluded_regions": sorted(
++            parser.excluded_regions,
++            key=lambda item: (item["source_range"]["start_line"], item["source_range"]["end_line"], item["tag"]),
++        ),
++    }
++
++
++def _prepare_web_snapshot(
++    raw: bytes,
++    *,
++    acquisition_mode: str,
++    requested_url: str,
++    final_url: str,
++    requested_at_utc: str | None,
++    retrieved_at_utc: str,
++    status_code: int,
++    content_type: str,
++    response_headers: Any,
++    omitted_response_headers: list[str] | None = None,
++    redirects: list[dict[str, Any]] | None = None,
++    max_response_bytes: int,
++) -> PreparedWebSnapshot:
++    if max_response_bytes < 1:
++        raise WebSnapshotError("Web snapshot max_response_bytes must be positive")
++    if len(raw) > max_response_bytes:
++        raise WebSnapshotError(f"Web snapshot response exceeds max_response_bytes={max_response_bytes}")
++    if not isinstance(status_code, int) or status_code < 200 or status_code > 299:
++        raise WebSnapshotError(f"Web snapshot requires a successful final HTTP status; received {status_code}")
++    requested_url = _validated_url(requested_url, "requested_url")
++    final_url = _validated_url(final_url, "final_url")
++    retrieved_at_utc = _validated_timestamp(retrieved_at_utc, "retrieved_at_utc")
++    requested_at_utc = _validated_timestamp(requested_at_utc, "requested_at_utc") if requested_at_utc else None
++    content_type, media_type, charset = _content_type_details(content_type)
++    if isinstance(response_headers, dict) and all(isinstance(value, list) for value in response_headers.values()):
++        normalized_headers = {}
++        for raw_name, values in response_headers.items():
++            name = str(raw_name).strip().casefold()
++            normalized_values = [str(value).strip() for value in values]
++            if not name or "\r" in name or "\n" in name or any("\r" in value or "\n" in value for value in normalized_values):
++                raise WebSnapshotError("response headers must use single-line names and values")
++            normalized_headers[name] = normalized_values
++        omitted = sorted(set(omitted_response_headers or []))
++    else:
++        normalized_headers, omitted = _normalized_response_headers(response_headers)
++    header_content_types = normalized_headers.get("content-type", [])
++    if header_content_types and any(value.strip().casefold() != content_type.casefold() for value in header_content_types):
++        raise WebSnapshotError("Web snapshot Content-Type conflicts with response_headers")
++    normalized_headers["content-type"] = [content_type]
++    decoded = _decode_html(raw, charset)
++    extraction = extract_web_snapshot(decoded)
++    raw_sha256 = hashlib.sha256(raw).hexdigest()
++    provenance = {
++        "schema_version": 1,
++        "adapter_id": WEB_INPUT_ADAPTER_ID,
++        "acquisition_mode": acquisition_mode,
++        "network_access": "explicit" if acquisition_mode == "live-url-fetch" else "not-used",
++        "requested_url": requested_url,
++        "final_url": final_url,
++        "requested_at_utc": requested_at_utc,
++        "retrieved_at_utc": retrieved_at_utc,
++        "status_code": status_code,
++        "content_type": content_type,
++        "media_type": media_type,
++        "charset": charset,
++        "response_headers": {name: normalized_headers[name] for name in sorted(normalized_headers)},
++        "omitted_response_headers": omitted,
++        "response_size": len(raw),
++        "raw_snapshot_sha256": raw_sha256,
++        "body_snapshot_sha256": extraction["body_snapshot_sha256"],
++        "redirect_chain": redirects or [],
++        "max_response_bytes": max_response_bytes,
++    }
++    return PreparedWebSnapshot(raw_bytes=raw, decoded_text=decoded, provenance=provenance, extraction=extraction)
++
++
++def prepare_static_web_snapshot(
++    snapshot: Path,
++    *,
++    requested_url: str,
++    final_url: str,
++    retrieved_at_utc: str,
++    status_code: int,
++    content_type: str,
++    response_headers: dict[str, str | list[str]] | None = None,
++    max_response_bytes: int = DEFAULT_WEB_MAX_RESPONSE_BYTES,
++) -> PreparedWebSnapshot:
++    """Prepare a caller-provided response body without opening any network connection."""
++
++    snapshot = snapshot.resolve()
++    if not snapshot.is_file():
++        raise WebSnapshotError(f"Web snapshot file does not exist: {snapshot}")
++    with snapshot.open("rb") as handle:
++        raw = handle.read(max_response_bytes + 1)
++    normalized_headers: dict[str, list[str]] = {}
++    omitted: list[str] = []
++    for raw_name, raw_values in (response_headers or {}).items():
++        name = str(raw_name).strip().casefold()
++        if not name or "\r" in name or "\n" in name:
++            raise WebSnapshotError("response headers must use single-line names and values")
++        if name in WEB_RESPONSE_HEADER_OMIT:
++            omitted.append(name)
++            continue
++        values = raw_values if isinstance(raw_values, list) else [raw_values]
++        normalized_values = [str(value).strip() for value in values]
++        if any("\r" in value or "\n" in value for value in normalized_values):
++            raise WebSnapshotError("response headers must use single-line names and values")
++        normalized_headers[name] = normalized_values
++    return _prepare_web_snapshot(
++        raw,
++        acquisition_mode="provided-static-snapshot",
++        requested_url=requested_url,
++        final_url=final_url,
++        requested_at_utc=None,
++        retrieved_at_utc=retrieved_at_utc,
++        status_code=status_code,
++        content_type=content_type,
++        response_headers=normalized_headers,
++        omitted_response_headers=omitted,
++        redirects=[],
++        max_response_bytes=max_response_bytes,
++    )
++
++
++class _RecordingRedirectHandler(HTTPRedirectHandler):
++    def __init__(self) -> None:
++        super().__init__()
++        self.redirects: list[dict[str, Any]] = []
++
++    def redirect_request(self, req: Any, fp: Any, code: int, msg: str, headers: Any, newurl: str) -> Any:
++        resolved = urljoin(req.full_url, newurl)
++        self.redirects.append(
++            {"status_code": int(code), "from_url": req.full_url, "to_url": resolved, "location": str(headers.get("Location") or newurl)}
++        )
++        return super().redirect_request(req, fp, code, msg, headers, resolved)
++
++
++def fetch_web_snapshot(
++    url: str,
++    *,
++    timeout_seconds: int = DEFAULT_WEB_TIMEOUT_SECONDS,
++    max_response_bytes: int = DEFAULT_WEB_MAX_RESPONSE_BYTES,
++    accept_language: str | None = None,
++    user_agent: str = "Code-Knowledge-Builder/web-snapshot-v1",
++) -> PreparedWebSnapshot:
++    """Explicitly fetch one URL; callers must choose this function rather than local ingest."""
++
++    url = _validated_url(url, "url")
++    if timeout_seconds < 1:
++        raise WebSnapshotError("Web snapshot timeout_seconds must be positive")
++    if max_response_bytes < 1:
++        raise WebSnapshotError("Web snapshot max_response_bytes must be positive")
++    request_headers = {
++        "Accept": "text/html, application/xhtml+xml",
++        "Accept-Encoding": "identity",
++        "User-Agent": user_agent.strip() or "Code-Knowledge-Builder/web-snapshot-v1",
++    }
++    if accept_language and accept_language.strip():
++        request_headers["Accept-Language"] = accept_language.strip()
++    requested_at = utc_now()
++    redirect_handler = _RecordingRedirectHandler()
++    opener = build_opener(redirect_handler)
++    try:
++        with opener.open(Request(url, headers=request_headers, method="GET"), timeout=timeout_seconds) as response:
++            status_code = int(response.getcode())
++            final_url = str(response.geturl())
++            content_type = str(response.headers.get("Content-Type") or "")
++            headers, omitted = _normalized_response_headers(response.headers)
++            raw = response.read(max_response_bytes + 1)
++    except HTTPError as exc:
++        raise WebSnapshotError(f"Web snapshot fetch returned HTTP status {exc.code} for {url}") from exc
++    except (TimeoutError, socket.timeout) as exc:
++        raise WebSnapshotError(f"Web snapshot fetch timed out after {timeout_seconds} seconds for {url}") from exc
++    except URLError as exc:
++        reason = exc.reason
++        if isinstance(reason, (TimeoutError, socket.timeout)):
++            raise WebSnapshotError(f"Web snapshot fetch timed out after {timeout_seconds} seconds for {url}") from exc
++        raise WebSnapshotError(f"Web snapshot network request failed for {url}: {reason}") from exc
++    return _prepare_web_snapshot(
++        raw,
++        acquisition_mode="live-url-fetch",
++        requested_url=url,
++        final_url=final_url,
++        requested_at_utc=requested_at,
++        retrieved_at_utc=utc_now(),
++        status_code=status_code,
++        content_type=content_type,
++        response_headers=headers,
++        omitted_response_headers=omitted,
++        redirects=redirect_handler.redirects,
++        max_response_bytes=max_response_bytes,
++    )
++
++
++def archive_web_extraction(
++    prepared: PreparedWebSnapshot,
++    reference_id: str,
++    source_file: Path,
++    extraction_root: Path,
++) -> dict[str, Any]:
++    """Write the extracted body and its manifest after a capture is fully validated."""
++
++    extraction_root.mkdir(parents=True, exist_ok=True)
++    body_path = extraction_root / "body.txt"
++    body_path.write_text(prepared.extraction["body_snapshot_text"], encoding="utf-8", newline="\n")
++    manifest_path = extraction_root / "manifest.json"
++    manifest = {key: value for key, value in prepared.extraction.items() if key != "body_snapshot_text"}
++    manifest.update(
++        {
++            "reference_id": reference_id,
++            "source_file": str(source_file.resolve()),
++            "source_sha256": prepared.provenance["raw_snapshot_sha256"],
++            "body_snapshot_file": str(body_path.resolve()),
++        }
++    )
++    json_write(manifest_path, manifest)
++    return {
++        "status": "ready",
++        "manifest": str(manifest_path.resolve()),
++        "manifest_sha256": sha256_file(manifest_path),
++        "body_snapshot": str(body_path.resolve()),
++        "body_snapshot_sha256": manifest["body_snapshot_sha256"],
++        "fragment_count": len(manifest["fragments"]),
++    }
++
++
++def validate_web_extraction(output: Path, manifest: dict[str, Any], *, require_ready: bool = False) -> tuple[dict[str, Any] | None, list[dict[str, Any]]]:
++    """Reopen a Web extraction and verify every path, hash, range, and body fragment."""
++
++    errors: list[dict[str, Any]] = []
++    reference_id = str(manifest.get("reference_id") or "")
++    extraction_path = Path(str(manifest.get("extraction_file") or ""))
++    expected_root = (output.resolve() / "references" / "extractions" / reference_id).resolve()
++    expected_manifest = expected_root / "manifest.json"
++    if extraction_path.resolve() != expected_manifest or not path_inside(extraction_path.resolve(), expected_root):
++        return None, [{"reason": "reference-web-extraction-path", "reference_id": reference_id}]
++    if not extraction_path.is_file():
++        return None, [{"reason": "reference-web-extraction-missing", "reference_id": reference_id}]
++    if sha256_file(extraction_path) != manifest.get("extraction_sha256"):
++        errors.append({"reason": "reference-web-extraction-drift", "reference_id": reference_id})
++    try:
++        extraction = json_load(extraction_path)
++    except Exception as exc:
++        return None, [*errors, {"reason": "reference-web-extraction-invalid", "reference_id": reference_id, "detail": str(exc)}]
++    body_path = Path(str(extraction.get("body_snapshot_file") or ""))
++    if body_path.resolve() != expected_root / "body.txt" or not body_path.is_file():
++        errors.append({"reason": "reference-web-body-path", "reference_id": reference_id})
++    elif sha256_file(body_path) != extraction.get("body_snapshot_sha256") or extraction.get("body_snapshot_sha256") != manifest.get("body_snapshot_sha256"):
++        errors.append({"reason": "reference-web-body-drift", "reference_id": reference_id})
++    source_path = Path(str(manifest.get("source_file") or ""))
++    if source_path.is_file():
++        try:
++            charset = str((manifest.get("web_capture") or {}).get("charset") or "utf-8")
++            source_lines = _decode_html(source_path.read_bytes(), charset).split("\n")
++            fragments = extraction.get("fragments")
++            if not isinstance(fragments, list) or not fragments:
++                errors.append({"reason": "reference-web-fragments-empty", "reference_id": reference_id})
++            else:
++                seen: set[str] = set()
++                rebuilt: list[str] = []
++                for fragment in fragments:
++                    fragment_id = str(fragment.get("fragment_id") or "")
++                    value = fragment.get("source_range") or {}
++                    start, end = value.get("start_line"), value.get("end_line")
++                    if fragment_id in seen or not fragment_id:
++                        errors.append({"reason": "reference-web-fragment-id", "reference_id": reference_id})
++                        continue
++                    seen.add(fragment_id)
++                    if not isinstance(start, int) or not isinstance(end, int) or start < 1 or end < start or end > len(source_lines):
++                        errors.append({"reason": "reference-web-fragment-range", "reference_id": reference_id, "fragment_id": fragment_id})
++                        continue
++                    source_text = "\n".join(source_lines[start - 1 : end]).strip()
++                    if hashlib.sha256(source_text.encode("utf-8")).hexdigest() != fragment.get("source_text_sha256"):
++                        errors.append({"reason": "reference-web-fragment-source-drift", "reference_id": reference_id, "fragment_id": fragment_id})
++                    text = str(fragment.get("text") or "").strip()
++                    if not text:
++                        errors.append({"reason": "reference-web-fragment-empty", "reference_id": reference_id, "fragment_id": fragment_id})
++                    else:
++                        rebuilt.append(text)
++                rebuilt_text = "\n".join(rebuilt).rstrip() + "\n"
++                if hashlib.sha256(rebuilt_text.encode("utf-8")).hexdigest() != extraction.get("body_snapshot_sha256"):
++                    errors.append({"reason": "reference-web-body-rebuild", "reference_id": reference_id})
++        except CkbError as exc:
++            errors.append({"reason": "reference-web-source-decode", "reference_id": reference_id, "detail": str(exc)})
++    if require_ready and extraction.get("status") != "ready":
++        errors.append({"reason": "reference-web-extraction-not-ready", "reference_id": reference_id})
++    return (extraction if not errors else None), errors
++
++
++def web_input_adapter_contract() -> dict[str, Any]:
++    """Return the explicit local-snapshot/live-fetch boundary and preserved evidence contract."""
++
++    return {
++        "schema_version": 2,
+@@ -50,7 +537,10 @@ def web_input_adapter_contract() -> dict[str, Any]:
+-        "implementation_status": "not-implemented",
+-        "input": {
+-            "url": "absolute-http-or-https-url",
+-            "requested_at_utc": "rfc3339",
+-            "request_headers_allowlist": ["Accept", "Accept-Language", "User-Agent"],
+-            "max_response_bytes": "positive-integer",
+-            "timeout_seconds": "positive-integer",
++        "implementation_status": "implemented",
++        "input_modes": {
++            "provided-static-snapshot": {
++                "network_access": "not-used",
++                "required": ["snapshot", "requested_url", "final_url", "retrieved_at_utc", "status_code", "content_type"],
++            },
++            "live-url-fetch": {
++                "network_access": "explicit-only",
++                "required": ["url", "timeout_seconds", "max_response_bytes"],
++            },
+@@ -59,2 +549,2 @@ def web_input_adapter_contract() -> dict[str, Any]:
+-            "local_file": "immutable-response-body",
+-            "media_type": "validated-content-type",
++            "local_file": "immutable-raw-response-body",
++            "media_type": sorted(WEB_MEDIA_TYPES),
+@@ -62,6 +552,3 @@ def web_input_adapter_contract() -> dict[str, Any]:
+-                "requested_url",
+-                "final_url",
+-                "retrieved_at_utc",
+-                "response_sha256",
+-                "response_size",
+-                "status_code",
++                "acquisition_mode", "requested_url", "final_url", "requested_at_utc", "retrieved_at_utc",
++                "status_code", "content_type", "response_headers", "response_size", "raw_snapshot_sha256",
++                "body_snapshot_sha256", "redirect_chain",
+@@ -68,0 +556 @@ def web_input_adapter_contract() -> dict[str, Any]:
++            "extraction": ["body_boundary", "excluded_regions", "fragments", "source_range"],
+@@ -71,2 +559,3 @@ def web_input_adapter_contract() -> dict[str, Any]:
+-            "adapter-only-produces-local-artifact",
+-            "redirects-and-network-policy-are-caller-owned",
++            "local-reference-ingest-never-fetches",
++            "live-fetch-requires-explicit-command",
++            "network-failure-commits-no-reference-artifact",
+diff --git a/tests/test_reference_pdf.py b/tests/test_reference_pdf.py
+index 0fbf3a9..2c781cc 100644
+--- a/tests/test_reference_pdf.py
++++ b/tests/test_reference_pdf.py
+@@ -307 +307 @@ class PdfReferenceExtractionTests(unittest.TestCase):
+-    def test_web_adapter_boundary_is_frozen_without_fetch_implementation(self) -> None:
++    def test_web_adapter_boundary_requires_explicit_fetch_and_agent_review(self) -> None:
+@@ -310 +310,3 @@ class PdfReferenceExtractionTests(unittest.TestCase):
+-        self.assertEqual(contract["implementation_status"], "not-implemented")
++        self.assertEqual(contract["implementation_status"], "implemented")
++        self.assertEqual(contract["input_modes"]["provided-static-snapshot"]["network_access"], "not-used")
++        self.assertEqual(contract["input_modes"]["live-url-fetch"]["network_access"], "explicit-only")
+diff --git a/tests/test_reference_web.py b/tests/test_reference_web.py
+new file mode 100644
+index 0000000..2a3d52e
+--- /dev/null
++++ b/tests/test_reference_web.py
+@@ -0,0 +1,416 @@
++from __future__ import annotations
++
++import hashlib
++from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
++import json
++from pathlib import Path
++import sqlite3
++import sys
++import tempfile
++import threading
++import time
++import unittest
++from unittest.mock import patch
++from urllib.error import URLError
++
++sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
++
++from test_ckb import invoke, make_repo, review_all
++
++from ckb_core.common import CkbError
++from ckb_core.reference_documents import ingest_reference, ingest_web_reference
++from ckb_core.reference_inputs import (
++    WebSnapshotError,
++    fetch_web_snapshot,
++    prepare_static_web_snapshot,
++    web_input_adapter_contract,
++)
++
++
++HTML = """<!doctype html>
++<html>
++<head><style>.hidden { display:none }</style><script>window.secret='noise'</script></head>
++<body>
++<header>站点标题</header>
++<nav>导航噪声</nav>
++<main>
++<h1>许可可追溯快照</h1>
++<p>正文结论可由归档 HTML 的精确行范围复核。</p>
++<div role="navigation">角色导航噪声</div>
++</main>
++<footer>页脚噪声</footer>
++</body>
++</html>
++"""
++
++
++class _FixtureHandler(BaseHTTPRequestHandler):
++    def do_GET(self) -> None:  # noqa: N802 - stdlib handler API
++        if self.path == "/redirect":
++            self.send_response(302)
++            self.send_header("Location", "/article")
++            self.end_headers()
++            return
++        if self.path == "/json":
++            payload = b'{"not":"html"}'
++            self.send_response(200)
++            self.send_header("Content-Type", "application/json")
++        elif self.path == "/large":
++            payload = ("<html><body><p>" + ("x" * 4096) + "</p></body></html>").encode()
++            self.send_response(200)
++            self.send_header("Content-Type", "text/html; charset=utf-8")
++        elif self.path == "/slow":
++            time.sleep(1.5)
++            payload = HTML.encode("utf-8")
++            self.send_response(200)
++            self.send_header("Content-Type", "text/html; charset=utf-8")
++        else:
++            payload = HTML.encode("utf-8")
++            self.send_response(200)
++            self.send_header("Content-Type", "text/html; charset=utf-8")
++            self.send_header("ETag", '"fixture-v1"')
++            self.send_header("Set-Cookie", "fixture-secret=omitted")
++        self.send_header("Content-Length", str(len(payload)))
++        self.end_headers()
++        try:
++            self.wfile.write(payload)
++        except (BrokenPipeError, ConnectionAbortedError, ConnectionResetError):
++            pass
++
++    def log_message(self, _format: str, *_args: object) -> None:
++        pass
++
++
++class WebSnapshotInputTests(unittest.TestCase):
++    def setUp(self) -> None:
++        self.temp = tempfile.TemporaryDirectory(prefix="ckb-web-input-")
++        self.root = Path(self.temp.name)
++        self.server = ThreadingHTTPServer(("127.0.0.1", 0), _FixtureHandler)
++        self.thread = threading.Thread(target=self.server.serve_forever, daemon=True)
++        self.thread.start()
++        self.base_url = f"http://127.0.0.1:{self.server.server_port}"
++
++    def tearDown(self) -> None:
++        self.server.shutdown()
++        self.server.server_close()
++        self.thread.join(timeout=2)
++        self.temp.cleanup()
++
++    def _snapshot(self, content: bytes = HTML.encode("utf-8")) -> Path:
++        path = self.root / "snapshot.html"
++        path.write_bytes(content)
++        return path
++
++    def test_static_snapshot_has_no_network_and_preserves_boundaries(self) -> None:
++        source = self._snapshot()
++        prepared = prepare_static_web_snapshot(
++            source,
++            requested_url="https://example.test/start",
++            final_url="https://example.test/article",
++            retrieved_at_utc="2026-09-05T01:02:03+00:00",
++            status_code=200,
++            content_type="text/html; charset=utf-8",
++            response_headers={"ETag": '"fixture-v1"', "Set-Cookie": "secret=omitted"},
++        )
++        provenance = prepared.provenance
++        self.assertEqual(provenance["acquisition_mode"], "provided-static-snapshot")
++        self.assertEqual(provenance["network_access"], "not-used")
++        self.assertEqual(provenance["final_url"], "https://example.test/article")
++        self.assertEqual(provenance["retrieved_at_utc"], "2026-09-05T01:02:03Z")
++        self.assertEqual(provenance["raw_snapshot_sha256"], hashlib.sha256(source.read_bytes()).hexdigest())
++        self.assertIn("set-cookie", provenance["omitted_response_headers"])
++        self.assertNotIn("set-cookie", provenance["response_headers"])
++
++        extraction = prepared.extraction
++        body = extraction["body_snapshot_text"]
++        self.assertIn("许可可追溯快照", body)
++        self.assertIn("正文结论可由归档 HTML", body)
++        self.assertNotIn("window.secret", body)
++        self.assertNotIn("导航噪声", body)
++        self.assertNotIn("页脚噪声", body)
++        self.assertEqual(extraction["body_boundary"], {"start_line": 4, "end_line": 13})
++        self.assertEqual(
++            extraction["body_snapshot_sha256"],
++            hashlib.sha256(body.encode("utf-8")).hexdigest(),
++        )
++        reasons = {item["reason"] for item in extraction["excluded_regions"]}
++        self.assertEqual(reasons, {"navigation-container", "navigation-role", "non-content-tag"})
++        paragraph = next(item for item in extraction["fragments"] if item["structure"] == "p")
++        self.assertEqual(paragraph["source_range"], {"start_line": 9, "end_line": 9})
++
++    def test_static_snapshot_rejects_non_html_oversize_and_bad_encoding(self) -> None:
++        source = self._snapshot()
++        common = {
++            "requested_url": "https://example.test/article",
++            "final_url": "https://example.test/article",
++            "retrieved_at_utc": "2026-09-05T01:02:03Z",
++            "status_code": 200,
++        }
++        with self.assertRaisesRegex(WebSnapshotError, "must be HTML"):
++            prepare_static_web_snapshot(source, content_type="application/json", **common)
++        with self.assertRaisesRegex(WebSnapshotError, "exceeds max_response_bytes"):
++            prepare_static_web_snapshot(source, content_type="text/html", max_response_bytes=32, **common)
++        bad = self._snapshot(b"<html><body><p>\xff</p></body></html>")
++        with self.assertRaisesRegex(WebSnapshotError, "does not match declared charset"):
++            prepare_static_web_snapshot(bad, content_type="text/html; charset=utf-8", **common)
++        with self.assertRaisesRegex(WebSnapshotError, "single-line"):
++            prepare_static_web_snapshot(
++                source,
++                content_type="text/html; charset=utf-8",
++                response_headers={"ETag": "fixture\r\ninjected: value"},
++                **common,
++            )
++
++    def test_live_fetch_records_redirect_final_url_and_response_metadata(self) -> None:
++        prepared = fetch_web_snapshot(f"{self.base_url}/redirect", timeout_seconds=3)
++        provenance = prepared.provenance
++        self.assertEqual(provenance["acquisition_mode"], "live-url-fetch")
++        self.assertEqual(provenance["network_access"], "explicit")
++        self.assertEqual(provenance["requested_url"], f"{self.base_url}/redirect")
++        self.assertEqual(provenance["final_url"], f"{self.base_url}/article")
++        self.assertEqual(provenance["status_code"], 200)
++        self.assertEqual(len(provenance["redirect_chain"]), 1)
++        self.assertEqual(provenance["redirect_chain"][0]["status_code"], 302)
++        self.assertEqual(provenance["response_headers"]["etag"], ['"fixture-v1"'])
++        self.assertIn("set-cookie", provenance["omitted_response_headers"])
++
++    def test_live_fetch_rejects_non_html_timeout_oversize_and_network_unavailable(self) -> None:
++        with self.assertRaisesRegex(WebSnapshotError, "must be HTML"):
++            fetch_web_snapshot(f"{self.base_url}/json", timeout_seconds=3)
++        with self.assertRaisesRegex(WebSnapshotError, "exceeds max_response_bytes"):
++            fetch_web_snapshot(f"{self.base_url}/large", timeout_seconds=3, max_response_bytes=256)
++        with self.assertRaisesRegex(WebSnapshotError, "timed out"):
++            fetch_web_snapshot(f"{self.base_url}/slow", timeout_seconds=1)
++
++        class _UnavailableOpener:
++            def open(self, *_args: object, **_kwargs: object) -> object:
++                raise URLError(OSError("fixture network unavailable"))
++
++        with patch("ckb_core.reference_inputs.build_opener", return_value=_UnavailableOpener()):
++            with self.assertRaisesRegex(WebSnapshotError, "network request failed"):
++                fetch_web_snapshot("http://127.0.0.1:9/unavailable", timeout_seconds=1)
++
++    def test_contract_keeps_local_and_live_modes_separate(self) -> None:
++        contract = web_input_adapter_contract()
++        self.assertEqual(contract["implementation_status"], "implemented")
++        self.assertEqual(contract["input_modes"]["provided-static-snapshot"]["network_access"], "not-used")
++        self.assertEqual(contract["input_modes"]["live-url-fetch"]["network_access"], "explicit-only")
++        self.assertIn("output-still-requires-reference-ingest-and-agent-review", contract["boundary"])
++
++    def test_default_local_ingest_does_not_switch_to_network_or_html(self) -> None:
++        output = self.root / "minimal-output"
++        (output / "human").mkdir(parents=True)
++        (output / "markdown").mkdir()
++        (output / "state.json").write_text("{}\n", encoding="utf-8")
++        source = self._snapshot()
++        with patch("ckb_core.reference_documents.fetch_web_snapshot") as fetch:
++            with self.assertRaisesRegex(CkbError, "local UTF-8 .md/.txt file or a local .pdf"):
++                ingest_reference(output, source, "默认本地导入", "本地 fixture", "CC0-1.0")
++            fetch.assert_not_called()
++
++
++class WebReferenceEndToEndTests(unittest.TestCase):
++    def setUp(self) -> None:
++        self.temp = tempfile.TemporaryDirectory(prefix="ckb-web-e2e-")
++        self.root = Path(self.temp.name)
++        self.repo = make_repo(self.root)
++        self.server = ThreadingHTTPServer(("127.0.0.1", 0), _FixtureHandler)
++        self.thread = threading.Thread(target=self.server.serve_forever, daemon=True)
++        self.thread.start()
++        self.base_url = f"http://127.0.0.1:{self.server.server_port}"
++
++    def tearDown(self) -> None:
++        self.server.shutdown()
++        self.server.server_close()
++        self.thread.join(timeout=2)
++        self.temp.cleanup()
++
++    def _completed_output(self) -> Path:
++        output = self.root / "output"
++        initialized = invoke("init", "--repo", str(self.repo), "--out", str(output), "--format", "markdown")
++        self.assertEqual(initialized.returncode, 0, initialized.stderr)
++        review_all(output)
++        merged = invoke("merge", "--out", str(output))
++        self.assertEqual(merged.returncode, 0, merged.stderr)
++        finalized = invoke("finalize", "--out", str(output))
++        self.assertEqual(finalized.returncode, 0, finalized.stderr)
++        return output
++
++    def _static_ingest(self, output: Path, snapshot: Path, *extra: str, title: str = "网页快照资料", final_url: str = "https://example.test/article"):
++        return invoke(
++            "reference", "web-snapshot",
++            "--out", str(output),
++            "--snapshot", str(snapshot),
++            "--source-root", str(self.root),
++            "--requested-url", "https://example.test/start",
++            "--final-url", final_url,
++            "--retrieved-at", "2026-09-05T01:02:03Z",
++            "--status-code", "200",
++            "--content-type", "text/html; charset=utf-8",
++            "--response-header", 'ETag:"fixture-v1"',
++            "--title", title,
++            "--origin", "显式提供的静态 HTTP 快照",
++            "--license", "CC0-1.0",
++            *extra,
++        )
++
++    def test_static_ingest_review_drift_duplicate_audit_and_rollback(self) -> None:
++        output = self._completed_output()
++        snapshot = self.root / "snapshot.html"
++        snapshot.write_text(HTML, encoding="utf-8", newline="\n")
++
++        ingested = self._static_ingest(output, snapshot)
++        self.assertEqual(ingested.returncode, 4, ingested.stderr)
++        result = json.loads(ingested.stdout)
++        self.assertEqual(result["status"], "pending-agent-review")
++        self.assertEqual(result["acquisition_mode"], "provided-static-snapshot")
++        self.assertEqual(result["final_url"], "https://example.test/article")
++        self.assertFalse((output / "human/references/网页快照资料.md").exists())
++
++        manifest = json.loads(Path(result["manifest"]).read_text(encoding="utf-8"))
++        extraction = json.loads(Path(manifest["extraction_file"]).read_text(encoding="utf-8"))
++        self.assertEqual(manifest["input_adapter"], "web-snapshot-v1")
++        self.assertEqual(manifest["source_sha256"], result["raw_snapshot_sha256"])
++        self.assertEqual(manifest["body_snapshot_sha256"], result["body_snapshot_sha256"])
++        self.assertEqual(manifest["web_capture"]["response_headers"]["etag"], ['"fixture-v1"'])
++        self.assertGreaterEqual(len(extraction["excluded_regions"]), 4)
++
++        repeated = self._static_ingest(output, snapshot)
++        self.assertEqual(repeated.returncode, 4, repeated.stderr)
++        repeated_result = json.loads(repeated.stdout)
++        self.assertTrue(repeated_result["idempotent"])
++        self.assertEqual(repeated_result["reference_id"], result["reference_id"])
++
++        review = json.loads(Path(result["review_template"]).read_text(encoding="utf-8"))
++        paragraph = next(item for item in extraction["fragments"] if item["structure"] == "p")
++        start = paragraph["source_range"]["start_line"]
++        end = paragraph["source_range"]["end_line"]
++        archived_lines = Path(result["source"]).read_text(encoding="utf-8").splitlines()
++        review.update(
++            {
++                "status": "agent-reviewed",
++                "summary_zh": "该网页快照记录许可可追溯的静态正文，并保留精确来源行范围。",
++                "claims": [
++                    {
++                        "claim_zh": "归档正文明确说明结论可以通过 HTML 行范围复核。",
++                        "fragment_id": paragraph["fragment_id"],
++                        "start_line": start,
++                        "end_line": end,
++                        "source_text": "\n".join(archived_lines[start - 1 : end]),
++                        "evidence_note": "已重新打开归档 HTML，并核对正文片段及其精确行范围。",
++                    }
++                ],
++            }
++        )
++        review_path = self.root / "web-review.json"
++        review_path.write_text(json.dumps(review, ensure_ascii=False, indent=2), encoding="utf-8")
++        reviewed = invoke("reference", "review", "--out", str(output), "--review", str(review_path))
++        self.assertEqual(reviewed.returncode, 0, reviewed.stderr)
++        human = output / "human/references/网页快照资料.md"
++        human_text = human.read_text(encoding="utf-8")
++        self.assertIn("[最终 URL](https://example.test/article)", human_text)
++        self.assertIn(f"原文第 {start} 行", human_text)
++        self.assertIn("获取时间：2026-09-05T01:02:03Z", human_text)
++
++        connection = sqlite3.connect(output / "machine/knowledge.sqlite")
++        try:
++            indexed = "\n".join(row[0] for row in connection.execute(
++                "SELECT content FROM sections WHERE document_id=? ORDER BY start_line",
++                (f"reference:{result['reference_id']}",),
++            ))
++        finally:
++            connection.close()
++        self.assertIn("正文结论可由归档 HTML", indexed)
++        self.assertNotIn("导航噪声", indexed)
++        self.assertNotIn("window.secret", indexed)
++
++        drifted = self.root / "snapshot-drifted.html"
++        drifted.write_text(HTML.replace("正文结论", "漂移后的正文结论"), encoding="utf-8", newline="\n")
++        rejected_drift = self._static_ingest(output, drifted)
++        self.assertEqual(rejected_drift.returncode, 2)
++        self.assertIn("snapshot drift detected", rejected_drift.stderr)
++        revision = self._static_ingest(output, drifted, "--revision-of", result["reference_id"])
++        self.assertEqual(revision.returncode, 4, revision.stderr)
++        revision_result = json.loads(revision.stdout)
++        self.assertEqual(revision_result["revision"], 2)
++        self.assertNotEqual(revision_result["body_snapshot_sha256"], result["body_snapshot_sha256"])
++        rolled_revision = invoke("reference", "rollback", "--out", str(output), "--reference", revision_result["reference_id"])
++        self.assertEqual(rolled_revision.returncode, 0, rolled_revision.stderr)
++
++        duplicate = self._static_ingest(
++            output,
++            snapshot,
++            title="同内容不同地址资料",
++            final_url="https://mirror.example.test/article",
++        )
++        self.assertEqual(duplicate.returncode, 4, duplicate.stderr)
++        duplicate_result = json.loads(duplicate.stdout)
++        self.assertEqual(duplicate_result["duplicate_content_of"], result["reference_id"])
++        rolled_duplicate = invoke("reference", "rollback", "--out", str(output), "--reference", duplicate_result["reference_id"])
++        self.assertEqual(rolled_duplicate.returncode, 0, rolled_duplicate.stderr)
++
++        body_snapshot = Path(result["extraction"]["body_snapshot"])
++        baseline_body = body_snapshot.read_bytes()
++        body_snapshot.write_bytes(baseline_body + b"drift")
++        drift_audit = invoke("reference", "audit", "--out", str(output))
++        self.assertEqual(drift_audit.returncode, 5)
++        self.assertIn("reference-web-body-drift", drift_audit.stdout)
++        body_snapshot.write_bytes(baseline_body)
++        repaired_audit = invoke("reference", "audit", "--out", str(output))
++        self.assertEqual(repaired_audit.returncode, 0, repaired_audit.stderr)
++
++        rolled = invoke("reference", "rollback", "--out", str(output), "--reference", result["reference_id"])
++        self.assertEqual(rolled.returncode, 0, rolled.stderr)
++        self.assertFalse(human.exists())
++
++    def test_explicit_live_fetch_and_network_failure_leave_existing_references_unchanged(self) -> None:
++        output = self._completed_output()
++        fetched = invoke(
++            "reference", "web-fetch",
++            "--out", str(output),
++            "--url", f"{self.base_url}/redirect",
++            "--timeout-seconds", "3",
++            "--title", "实时抓取网页资料",
++            "--origin", "显式实时 URL 抓取",
++            "--license", "CC0-1.0",
++        )
++        self.assertEqual(fetched.returncode, 4, fetched.stderr)
++        result = json.loads(fetched.stdout)
++        manifest = json.loads(Path(result["manifest"]).read_text(encoding="utf-8"))
++        self.assertEqual(result["acquisition_mode"], "live-url-fetch")
++        self.assertEqual(result["final_url"], f"{self.base_url}/article")
++        self.assertEqual(manifest["web_capture"]["redirect_chain"][0]["status_code"], 302)
++        self.assertEqual(manifest["status"], "pending-agent-review")
++        self.assertFalse((output / "human/references/实时抓取网页资料.md").exists())
++
++        reference_root = output / "references"
++        before = {
++            path.relative_to(reference_root).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()
++            for path in reference_root.rglob("*")
++            if path.is_file()
++        }
++        with patch(
++            "ckb_core.reference_documents.fetch_web_snapshot",
++            side_effect=WebSnapshotError("fixture network unavailable"),
++        ):
++            with self.assertRaisesRegex(WebSnapshotError, "network unavailable"):
++                ingest_web_reference(
++                    output,
++                    "断网失败资料",
++                    "显式实时 URL 抓取",
++                    "CC0-1.0",
++                    url="https://unavailable.example.test/article",
++                )
++        after = {
++            path.relative_to(reference_root).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()
++            for path in reference_root.rglob("*")
++            if path.is_file()
++        }
++        self.assertEqual(after, before)
++
++        rolled = invoke("reference", "rollback", "--out", str(output), "--reference", result["reference_id"])
++        self.assertEqual(rolled.returncode, 0, rolled.stderr)
++
++
++if __name__ == "__main__":
++    unittest.main()

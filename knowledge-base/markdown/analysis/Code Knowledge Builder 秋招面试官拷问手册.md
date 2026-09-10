@@ -23,7 +23,7 @@
 
 ### 三十秒版本
 
-DSH 原生 `compaction-basic` 会把长历史统一摘要，容易丢低频事实；直接保留全历史又会达到窗口和成本上限。项目把“检索粒度”和“披露粒度”分开：Child 用于定位，Parent 保存完整 user/assistant/tool 事务；压力达到门后才卸载，未达到压力时保持旁路。旧版 LongMemEval 内部归因中，原生摘要为 9/40、只保留可恢复压缩为 21/40、完整方法为 26/40；新版与 OpenViking 同协议对照中，sensory 为 27/40、OpenViking 为 21/40，同时回答链 Provider token 低 26.6%。但低压 256K A/C40 又得到 33/40 对 33/40且没有发生迁移，说明题目没有触发目标机制时只能证明非劣，不能宣传压缩收益。
+DSH 原生 `compaction-basic` 会把长历史统一摘要，容易丢低频事实；直接保留全历史又会达到窗口和成本上限。项目把“检索粒度”和“披露粒度”分开：Child 用于定位，Parent 保存完整 user/assistant/tool 事务；压力达到门后才卸载，未达到压力时保持旁路。旧版 LongMemEval 内部归因中，原生摘要为 22.5%、只保留可恢复压缩为 52.5%、完整方法为 65%；新版与 OpenViking 同协议对照中，sensory 为 67.5%、OpenViking 为 52.5%，同时回答链 Provider token 低 26.6%。但低压 256K A/C40 又得到 82.5% 对 82.5%且没有发生迁移，说明题目没有触发目标机制时只能证明非劣，不能宣传压缩收益。
 
 ### 三分钟版本
 
@@ -69,7 +69,7 @@ CKB 是面向代码 Agent 和工程师的多语言代码知识基础设施：它
 
 **检索。** `fast` 使用标识符与中文词项、SQLite FTS5、固定元数据权重和有界两跳图传播；`precise` 增加固定源码全文检索和固定轮次加权 PageRank。结果严格受 token 预算和最大页面数限制，并携带源码路径与范围。精确符号任务再使用 `entity`、`neighbors` 或 `source`，而不是回到全仓宽搜。
 
-**验证。** 截至本文记录时，自身知识库只读覆盖检查返回 31 个文件、483 个实体、1,985 条关系，483/483 实体已审阅，SQLite 完整性正常。独立的 5.1.4 冻结基准中，`machine-fast` 两轮目标源码 Recall@8 均为 100%，上下文相对 Markdown 宽扫减少 80.43%，中位延迟约 20.85–21.20 ms，零回退且跨进程结果一致；但辅助符号召回只有 16.67%，因此结论只覆盖“用较少上下文定位目标源码路径”，不等同于真实修改任务已经完成。
+**验证范围。** 本文所述历史冻结基准验证了目标源码定位、上下文用量、延迟与跨进程一致性。`machine-fast` 的目标源码 Recall@8 为 100%，上下文相对 Markdown 宽扫减少 80.43%，中位延迟约 20.85–21.20 ms；辅助符号召回只有 16.67%。结论只覆盖较少上下文下的文件定位，不等同于真实修改任务完成。
 
 **取舍。** 项目不宣称全面替代 `grep`。Flask 3.1.3 的十题实验中，常驻检索与人工 `git grep` 的目标文件 Recall@8 都是 100%，常驻检索把可见上下文从 11,228 tokens 降到 2,294 tokens，中位延迟约 24.9 ms，而 `git grep` 约 73.2 ms；但精确符号召回为 40%，低于 `grep` 的 100%。推荐工作流是先用 CKB 定位文件、职责和相邻关系，再用精确符号查询或窄范围 `grep` 落点。
 
@@ -342,8 +342,8 @@ Badcase 是在冻结协议下失败或接近失败门的样例，不是事后挑
 | LongMemEval 内部消融 | 固定 cleaned 40题 | H0 9、仅压缩21、no-E5 25、完整26、Section27、LongLLMLingua10 | 可恢复压缩明显优于统一摘要；多步工具并非唯一好路径 | 各分支不能拼成严格逐组件累加曲线；40题不是发布级统计 |
 | NoLiMa E5 消融 | 40题 | no-E5 4、完整12；配对9胜1负，McNemar p=0.0215 | E5 对低词面重合的语义召回有明显增量 | 不能外推为所有长对话都需要 E5 |
 | OpenViking 同协议外部对照 | O/C 各40题 | OpenViking21，sensory27；可见峰值均值-20.1%，回答链 Provider token-26.6% | 当前 sensory 在同一 DSH 底座上质量和回答链成本同时更好 | OpenViking 约20.78M VLM记忆构建 token 必须单列；不是内部消融曲线 |
-| Context Pressure | 32K held-out 12对、256K 6点 | 32K A=11/12、C=12/12；256K A=C=6/6；原生 compaction 成对避免率1.0 | 压力驱动策略可在小样本上避开原生 compaction且不降任务结果 | 小样本不等于广泛显著收益 |
-| Terminal 256K Chunk-only | A/C七阶段 | A/C 7/7；C最终上下文-70.81%，峰值-33.50%，Provider token却+18.39% | 真正触发迁移后最终上下文显著缩短，工具结构和最终事实保持 | 最终上下文短不等于累计非缓存 token 更低；来源蕴含和时态仍有缺陷 |
+| Context Pressure | 32K held-out 12对、256K 6点 | 32K A=91.6667%、C=100%；256K A=C=100%；原生 compaction 成对避免率1.0 | 压力驱动策略可在小样本上避开原生 compaction且不降任务结果 | 小样本不等于广泛显著收益 |
+| Terminal 256K Chunk-only | A/C七阶段 | A/C 100%；C最终上下文-70.81%，峰值-33.50%，Provider token却+18.39% | 真正触发迁移后最终上下文显著缩短，工具结构和最终事实保持 | 最终上下文短不等于累计非缓存 token 更低；来源蕴含和时态仍有缺陷 |
 | Parent/Child MemGym-DR | development/held-out 多预算 | held-out C−A：8K +0.1083、16K -0.0583、32K -0.0083、256K +0.0333；fact recall0.9444<0.95 | 不同预算下收益不单调；256K有小幅正增益 | `heldout.passed=false`，不能说所有档位提升 |
 | LongMemEval 256K AC40 | A/C各40题 | 33/40对33/40，C胜1平38负1；最大输入116,542，迁移0 | 低压完整上下文模式下总体非劣 | 没触发169K压力门，不能证明压缩或召回收益 |
 | 官方 Terminal/LongMem smoke | Terminal 2题、LongMem 2题 | Terminal A/C均2/2 strict；LongMem A/C均2/2含Gold | 公开链路、隔离和兼容性入口可工作 | LongMem输入仍46–113K、catalog0；不是32K压力分，也不是500题官方accuracy |
@@ -353,18 +353,18 @@ Badcase 是在冻结协议下失败或接近失败门的样例，不是事后挑
 
 #### LongMemEval 内部消融
 
-- **H0 原生摘要 9/40**：只使用 DSH `compaction-basic`，回答“统一摘要能保住多少历史事实”。
-- **仅压缩 21/40**：保留压力卸载与可恢复 Parent，但移除 recall/open，测“结构化保留本身”的贡献。
-- **no-E5 25/40**：保留 recall/open 和 Parent/Child，仅关闭 E5，测词法路径上限。
-- **完整方法 26/40**：加入词法、E5、recall/open；旧版主请求191、工具263，暴露多步再获取成本。
-- **Section Whole Unit 27/40**：零依赖、query-aware、完整 transaction 一次选择，40次主请求和663,700 Provider token，提示“先一次选择，再工具下钻”可能是更好的控制面。
-- **LongLLMLingua 10/40**：当前 GPT-2/LongLLMLingua 配置与多 session 对话结构匹配较弱，不能用通用压缩器名称代替任务适配验证。
+- **H0 原生摘要 22.5%**：只使用 DSH `compaction-basic`，回答“统一摘要能保住多少历史事实”。
+- **仅压缩 52.5%**：保留压力卸载与可恢复 Parent，但移除 recall/open，测“结构化保留本身”的贡献。
+- **no-E5 62.5%**：保留 recall/open 和 Parent/Child，仅关闭 E5，测词法路径上限。
+- **完整方法 65%**：加入词法、E5、recall/open；旧版主请求191、工具263，暴露多步再获取成本。
+- **Section Whole Unit 67.5%**：零依赖、query-aware、完整 transaction 一次选择，40次主请求和663,700 Provider token，提示“先一次选择，再工具下钻”可能是更好的控制面。
+- **LongLLMLingua 25%**：当前 GPT-2/LongLLMLingua 配置与多 session 对话结构匹配较弱，不能用通用压缩器名称代替任务适配验证。
 
 仅压缩和 no-E5 是两条独立分支：前者保留 E5 但删除工具召回，后者保留工具召回但删除 E5。21→25→26不能解释成按顺序逐组件增加。
 
 #### 新版 sensory 与 OpenViking
 
-O/C 使用相同 DSH 原生压缩、DeepSeek 模型、32K上限和40题。sensory 27/40、OpenViking 21/40；sensory 主要在知识更新（7/8对3/8）和弃答（4/8对0/8）领先，但在多会话和时间题各少1题。sensory 主请求102、记忆工具90，已比旧版191/263明显收敛；仍未达到理想的一题一次主请求。
+O/C 使用相同 DSH 原生压缩、DeepSeek 模型、32K上限和40题。sensory 67.5%、OpenViking 52.5%；sensory 主要在知识更新（87.5%对37.5%）和弃答（50%对0%）领先，但在多会话和时间题各少1题。sensory 主请求102、记忆工具90，已比旧版72.6236%明显收敛；仍未达到理想的一题一次主请求。
 
 OpenViking 的约20.78M VLM记忆构建 token 与两组 DeepSeek 回答链 token 分栏记录。只比较回答链会遗漏外部记忆构建成本；把两种 token 直接相加又会混合不同模型和阶段，因此报告必须同时展示。
 
@@ -518,7 +518,7 @@ A/C均33/40，C胜1、平38、负1，但C最大主输入116,542，只占260,096�
 
 **回答主干：** 它保留压力卸载和可恢复完整Parent，但移除recall/open。相对H0的提升主要证明结构化保留完整transaction比统一有损摘要更可靠，不是工具召回的贡献。
 
-#### 9. no-E5 25/40、完整26/40说明E5没用吗？
+#### 9. no-E5 62.5%、完整65%说明E5没用吗？
 
 **回答主干：** 在LongMemEval词面线索较强时，E5只增加1题，说明边际收益小；NoLiMa中no-E5为4/40、完整为12/40，配对9胜1负、p=0.0215，说明E5的价值集中在低词面重合语义召回。不能只用一个数据集判断。
 
@@ -680,7 +680,7 @@ A/C均33/40，C胜1、平38、负1，但C最大主输入116,542，只占260,096�
 
 #### 47. 怎样判定C真正优于A？
 
-**回答主干：** 先要求结构、污染和来源门通过；在依赖记忆的任务上C成功率不低于A，再要求visible context显著下降，且非缓存Provider token、再获取和延迟不过预注册成本门。只短不对、只对但极贵都不算完整收益。
+**回答主干：** 先确认事务结构未破坏、来源可追溯且没有信息污染，再比较任务正确率、可见上下文、非缓存用量、再获取次数和延迟。只压缩上下文却损害正确性，或收益伴随过高成本，都不算完整改进。
 
 #### 48. 公开benchmark下一步怎样接？
 
@@ -747,7 +747,7 @@ sensory保持session scope；可共享的semi/bank使用显式workspace记录、
 
 ### 数字使用规则
 
-- 9/21/25/26/27属于旧版内部40题不同分支，不能与新版O/C当作单一时间序列；
+- 旧版内部各分支的结果属于同一历史题集，不与新版外部对照拼成单一时间序列；
 - sensory27对OpenViking21必须同时说同协议、40题和VLM成本分栏；
 - 70.81%是Terminal最终请求上下文减少，同时报告Provider token+18.39%；
 - 33对33必须说低压、迁移0、只证明非劣；
@@ -777,22 +777,40 @@ sensory保持session scope；可共享的semi/bank使用显式workspace记录、
 - 压力驱动上下文：`E:\deepseek_memory\results\important-tests\context-pressure-agent-v1-20260825-01\03-final-report.md`
 - 公开benchmark正式smoke：`E:\deepseek_memory\results\important-tests\official-benchmarks-formal-20260826-01\03-formal-test-report.md`
 
+## 后续补充
+
+### 2026年9月6日历史来源修复
+
+原文保留。原查询阅读包未能从现有归档恢复，不重建同名文件，也不把本次定位当作当年的原始证据。
+
+本文原文主要讨论 DeepSeek Harness 记忆插件，同时保留 CKB 辅助材料；这些指标不归入 CKB 检索效果。本次不改变正文归属或重写跨项目结论。原查询仅是已失效的历史阅读上下文，不再作为活跃文件依赖；保留原有关联入口，但不据此声称它们证明全文。
+
+
+## 历史源码定位
+
+原关联页面未进入当前建库范围，以下链接保留到此前已发布源码，不表示这些历史结论已重新测量。
+
+- [build 的协作边界的历史源码](https://github.com/dddeath/code-knowledge-builder/blob/4ead5dc/source/plugins/obsidian-code-knowledge-builder/scripts/build.py)
+- [deploy 的协作边界的历史源码](https://github.com/dddeath/code-knowledge-builder/blob/4ead5dc/source/plugins/obsidian-code-knowledge-builder/deploy.py)
+
+## 原始记录
+
+[按需核对历史原文与完整复现明细](../../machine/historical-records/legacy-20260910-02.md)。
+
 ## 相关知识页
 
-- [[retrieve_machine 与 estimated_tokens 的协作实现]]
+- [[build_machine_knowledge 与 estimated_tokens 的协作实现]]
 - [[render_integration 与 harness_retrieval_contract 的协作实现]]
-- [[register_obsidian_plugin 与 default_obsidian_plugin_registry 的协作实现]]
-- [[deploy 的协作边界]]
-- [[build 的协作边界]]
-- [[ingest_event 与 default_registry_path 的协作实现]]
-- [[finalize 与 _replace_output_prefix 的协作实现]]
-- [[load_page_config 与 _merge_known 的协作实现]]
+- [[deploy_obsidian_plugin_to_vault 与 default_obsidian_plugin_registry 的协作实现]]
+- [[review_automation 与 default_registry_path 的协作实现]]
+- [[audit_global 与 _replace_output_prefix 的协作实现]]
+- [[normalize_page_config 与 _merge_known 的协作实现]]
 
 ## 源码入口
 
-- [打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1715`
-- [打开源码：scripts/ckb_core/automation_integrations.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation_integrations.py:1:1)  `scripts/ckb_core/automation_integrations.py:1-536`
-- [打开源码：scripts/ckb_core/obsidian_plugin.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/obsidian_plugin.py:1:1)  `scripts/ckb_core/obsidian_plugin.py:1-262`
-- [打开源码：scripts/ckb_core/automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation.py:1:1)  `scripts/ckb_core/automation.py:1-1665`
-- [打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3482`
+- [打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1995`
+- [打开源码：scripts/ckb_core/automation_integrations.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation_integrations.py:1:1)  `scripts/ckb_core/automation_integrations.py:1-656`
+- [打开源码：scripts/ckb_core/obsidian_plugin.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/obsidian_plugin.py:1:1)  `scripts/ckb_core/obsidian_plugin.py:1-291`
+- [打开源码：scripts/ckb_core/automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation.py:1:1)  `scripts/ckb_core/automation.py:1-1783`
+- [打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3637`
 - [打开源码：scripts/ckb_core/page_config.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/page_config.py:1:1)  `scripts/ckb_core/page_config.py:1-244`

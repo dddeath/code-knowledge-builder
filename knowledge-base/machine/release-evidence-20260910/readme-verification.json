@@ -1,0 +1,43 @@
+{
+  "status": "passed",
+  "scope": "README-only",
+  "before_sha256": "bb86707d26312f6b947720df464cc180d83cf8226edb749f91b3195df4d80f93",
+  "after_sha256": "cc152fefb3811eb5f04b99f85004ed05be5856acac8a58f9d7678643a9ce16a4",
+  "checks": [
+    "three-approved-entry-headings",
+    "all-internal-navigation-anchors",
+    "no-parameter-placeholders",
+    "balanced-prompt-fences",
+    "read-back-reviewed",
+    "scoped-rollback-and-restore"
+  ],
+  "behavior_not_claimed": "Prompts reviewed as instructions; new installation not executed this turn",
+  "rollback": [
+    {
+      "command": [
+        "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe",
+        "E:\\knowledge_builder\\artifacts\\verification\\20260910-readme-release\\rollback-readme.py",
+        "--file",
+        "E:\\knowledge_builder\\artifacts\\verification\\20260910-readme-release\\rollback-probe\\README.md",
+        "--mode",
+        "old"
+      ],
+      "stdout": "old bb86707d26312f6b947720df464cc180d83cf8226edb749f91b3195df4d80f93\n",
+      "stderr": "",
+      "exit_status": 0
+    },
+    {
+      "command": [
+        "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe",
+        "E:\\knowledge_builder\\artifacts\\verification\\20260910-readme-release\\rollback-readme.py",
+        "--file",
+        "E:\\knowledge_builder\\artifacts\\verification\\20260910-readme-release\\rollback-probe\\README.md",
+        "--mode",
+        "new"
+      ],
+      "stdout": "new cc152fefb3811eb5f04b99f85004ed05be5856acac8a58f9d7678643a9ce16a4\n",
+      "stderr": "",
+      "exit_status": 0
+    }
+  ]
+}

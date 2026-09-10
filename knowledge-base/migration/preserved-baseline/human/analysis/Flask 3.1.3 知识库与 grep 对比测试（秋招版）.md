@@ -4,7 +4,7 @@
 
 ## 一句话结论
 
-在 Flask 3.1.3 的 24 个核心 Python 文件上，知识库检索与人工设计的 `git grep` 基线都能在前 8 个结果内定位 10/10 个目标文件；知识库把 Agent 可见上下文中位数从 11,228 tokens 降到 2,294 tokens，减少 79.6%，但命令中位延迟由 74 ms 增至 368 ms，而且自然语言 Top-8 的精确目标符号召回只有 40%。因此这次结果应表述为“显著降低未知仓库任务的上下文成本并稳定定位文件”，而不是“全面替代 grep”或“检索更快”。
+在 Flask 3.1.3 的 24 个核心 Python 文件上，知识库检索与人工设计的 `git grep` 基线都能在前 8 个结果内定位 100% 个目标文件；知识库把 Agent 可见上下文中位数从 11,228 tokens 降到 2,294 tokens，减少 79.6%，但命令中位延迟由 74 ms 增至 368 ms，而且自然语言 Top-8 的精确目标符号召回只有 40%。因此这次结果应表述为“显著降低未知仓库任务的上下文成本并稳定定位文件”，而不是“全面替代 grep”或“检索更快”。
 
 ## 测试对象与方法
 
@@ -49,33 +49,11 @@
 - 140 条正式原始记录：`E:\knowledge_builder\evaluations\flask-3.1.3-benchmark\formal-records.jsonl`
 - Flask 知识库：`E:\knowledge_builder\evaluations\flask-3.1.3-knowledge`
 
-## 相关知识页
-
-- [[MigrationTest 等测试场景]]
-- [[audit_migration 与 _entity_key 的协作实现]]
-- [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[retrieve_machine 与 estimated_tokens 的协作实现]]
-- [[ingest_event 与 default_registry_path 的协作实现]]
-- [[retrieve]]
-- [[finalize 与 _replace_output_prefix 的协作实现]]
-- [[AutomationTest.register 等测试场景]]
-
-## 源码入口
-
-- [打开源码：tests/test_migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_migration.py:1:1)  `tests/test_migration.py:1-194`
-- [打开源码：scripts/ckb_core/migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/migration.py:1:1)  `scripts/ckb_core/migration.py:1-585`
-- [打开源码：tests/test_ckb.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_ckb.py:1:1)  `tests/test_ckb.py:1-1152`
-- [打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1458`
-- [打开源码：scripts/ckb_core/automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation.py:1:1)  `scripts/ckb_core/automation.py:1-1632`
-- [打开源码：scripts/ckb_core/agent_index.py 第 440 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:440:1)  `scripts/ckb_core/agent_index.py:440-568`
-- [打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3314`
-- [打开源码：tests/test_automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_automation.py:1:1)  `tests/test_automation.py:1-801`
-
 ## 后续补充
 
 ### 最终验收与交付补充
 
-本轮已经把 Flask 3.1.3 知识库构建、冻结协议对照实验、构建阻塞修复、已安装 Skill 同步、完整测试、当前知识库索引刷新和隔离回滚探针全部执行完毕。综合结论仍是“有条件收益”：知识库明显降低未知仓库任务的上下文成本并稳定定位文件，但命令速度和精确符号召回仍逊于 `git grep`，因此不宣称全面替代 grep。
+该轮完成了冻结语料对照、构建问题修正和安装版本核对。结论仍是有条件收益：知识库降低上下文成本并稳定定位文件，但命令速度和精确符号召回仍逊于 grep，不宣称全面替代。
 
 #### 最终量化结果
 
@@ -110,13 +88,13 @@ Flask 知识库最终包含 24 个核心 Python 文件、1,016 个机器实体�
 #### 验收结果
 
 - 源码 Skill 与已安装 Skill 的结构校验均返回 `Skill is valid!`。
-- 完整测试套件 39 项全部通过，精确记录为 `Ran 39 tests; OK`。
+- 回归覆盖建库、来源、检索与安装使用，详细执行记录保留在原始资料中。
 - 已安装版两个新增回归测试全部通过，`doctor` 返回 `ready`。
-- Flask 段内范围、语法、分类、语义、来源、中文说明和链接七个门全部为 `passed`。
-- Flask 全局审计为 `passed`，机器 SQLite 的 `PRAGMA integrity_check` 为 `ok`。
+- 固定范围内的语法、语义和来源被分别核对，没有把局部匹配视为全库覆盖。
+- 机器索引的一致性已纳入该轮验证。
 - 当前知识库 human/markdown 页面字节一致，`agent-index.sqlite` 与 `machine/knowledge.sqlite` 完整性均为 `ok`。
 - 报告可从两个 SQLite 索引检索，并保留知识页双链和可点击源码链接。
-- 源码与安装目录回滚探针、知识库报告与索引回滚探针均已实际执行并通过。
+- 源码、安装文件与知识库的恢复方式均在隔离副本中验证。
 
 #### 可复查交付
 
@@ -137,3 +115,30 @@ Flask 知识库最终包含 24 个核心 Python 文件、1,016 个机器实体�
 推荐使用顺序是：先通过 CKB 自然语言检索定位文件、职责和相邻关系，再使用 `entity`、`source` 或窄范围符号 grep 落到具体函数。下一步应在保持 2,400-token 预算不变的前提下加入文件命中后的函数签名二次确定性重排，并用同一冻结题集复验精确符号召回。
 
 面试时可简述为：我使用 Tree-sitter、语言服务器、SQLite FTS5 和确定性图扩展为未知代码仓库建立机器知识库与受控的人类 Markdown 知识库。在 Flask 3.1.3 的 10 个修改任务上，目标文件 Recall@8 与人工设计 grep 同为 100%，但 Agent 可见上下文中位数减少 79.6%，70 次正式知识库查询保持零回退和完全一致的排序；代价是查询约慢 5 倍且精确符号召回仍为 40%，所以工程上采用“知识库先定位文件与职责，窄范围符号检索再落函数”的组合方案。
+
+
+## 原始记录
+
+[按需核对历史原文与完整复现明细](../../machine/historical-records/legacy-20260910-04.md)。
+
+## 相关知识页
+
+- [[keyword_provider_config 与 keyword_fallback_options 的协作实现]]
+- [[preflight 与 git 的协作实现]]
+- [[invoke 等测试场景（test_ckb 测试）]]
+- [[AutomationTest.register 等测试场景]]
+- [[git 等测试场景（test_migration 测试）]]
+- [[execute 等测试场景]]
+- [[review_automation 与 default_registry_path 的协作实现]]
+- [[main 相关实现]]
+
+## 源码入口
+
+- [打开源码：scripts/ckb.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:1:1)  `scripts/ckb.py:1-1850`
+- [打开源码：scripts/ckb_core/gitrepo.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/gitrepo.py:1:1)  `scripts/ckb_core/gitrepo.py:1-476`
+- [打开源码：tests/test_ckb.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_ckb.py:1:1)  `tests/test_ckb.py:1-2499`
+- [打开源码：tests/test_automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_automation.py:1:1)  `tests/test_automation.py:1-1001`
+- [打开源码：tests/test_migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_migration.py:1:1)  `tests/test_migration.py:1-250`
+- [打开源码：tests/provider_integration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/provider_integration.py:1:1)  `tests/provider_integration.py:1-339`
+- [打开源码：scripts/ckb_core/automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation.py:1:1)  `scripts/ckb_core/automation.py:1-1783`
+- [打开源码：scripts/make_source_patch.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/make_source_patch.py:1:1)  `scripts/make_source_patch.py:1-47`

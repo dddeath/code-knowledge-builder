@@ -1,0 +1,261 @@
+{
+  "document": [
+    [
+      "note:changes:LLM 关键词备选慢路径合并审计",
+      "change",
+      "LLM 关键词备选慢路径合并审计",
+      "#类型/变更",
+      "changes/LLM 关键词备选慢路径合并审计.md",
+      null,
+      "# LLM 关键词备选慢路径合并审计\n\n标签：#类型/变更\n\n## 合并结果\n\n开发分支 `codex/llm-keyword-slowpath` 的 4 个独立提交已由管理任务以普通非 squash merge 合入 `codex/reference-ingest-v1`。冲突只位于 CLI 导入、机器检索接线与 operation journal 文档：管理命令和慢路径命令均被保留；默认机器检索继续使用已合并的中文 `query_terms`；两类日志边界文档均被保留。\n\n## 已确认行为\n\n- 默认 `fast`、`precise` 和 `brief` 不构造 Provider 配置、不启动 Provider 进程，也不产生慢路径机器记录。管理任务以合并前中文词项集成提交为基准实际比较，结果对象、检索 record 和中文词项签名一致。\n- `--allow-keyword-fallback` 只在原确定性检索返回 `needs-source-read` 时触发；`--force-keyword-fallback` 可显式扩展已通过的查询。Provider 失败时保留原确定性结果并写有界原因。\n- LLM 只能给出结构化关键词、代码锚点和少量改写；候选通过 schema、身份、数量、长度、字符、重复、提示注入与凭据形态校验后，重新进入 SQLite FTS5 与确定性图排序。模型不直接决定实体、分数、完成状态或事实。\n- 缓存键绑定输入哈希、Provider、Model、Version 与 Prompt schema。request record 和 operation journal 不保存问题正文、Provider 命令、环境变量值、stdout 或 stderr；`maintain` 增加慢路径缓存与 request schema 审计。\n\n## 管理任务独立验证\n\n合并前实际通过慢路径专项 15 项、核心 33 项、Harness 22 项和发行 3 项。解决三处冲突并合并后，实际通过中文词项 12 项、慢路径 15 项、管理 Agent 18 项、核心 37 项、Harness 22 项和发行 3 项。\n\n该轮使用真实 Codex 与所选模型执行了强制关键词回退，确认有效扩展词项重新进入确定性检索，并检查请求记录与机器索引的一致性。该次调用不替代完整题集的效果评估，详细结果保留在原始记录。\n\n## 已测量边界\n\n固定真实 benchmark 的平均定位质量增量为零，`quality_claim` 为 `not-demonstrated`；因此本记录只确认显式慢路径、回落、审计和缓存合同，不声明定位质量收益。真实 canary adapter 没有账单 telemetry，usage 与费用字段的零值表示未报告，不表示零 token 或零成本。管理 canary 的冷调用约 28 秒，默认路径仍保持零 Provider 启动。\n\n## 回滚\n\n集成回滚脚本位于 `E:\\knowledge_builder\\artifacts\\verification\\llm-keyword-slowpath\\rollback-integration-merge.sh`。该脚本已在隔离 clone 中实际创建反向提交，验证回滚后的整树与合并前集成提交一致且工作树干净。\n\n## 后续补充\n\n### 2026年9月6日来源修复\n\n原文保留。原2026年8月31日查询阅读包未能从保留归档恢复，当前来源改为本次重新生成的定位阅读包；新包不冒充历史原始查询，也不据此重新确认上文旧版本的实验指标。\n\n本次中文检索补测实际运行了现有关键词固定回放路径。它验证显式启用、关键词进入检索和缓存复用等测试合同，但没有调用真实模型，不作为真实 LLM 效果证明。该边界与原功能是否存在是两件事。其他真实 Provider 历史实验应按各自固定语料和原记录核对，不与本次回放合并计量。\n\n\n## 历史源码定位\n\n原关联页面未进入当前建库范围，以下链接保留到此前已发布源码，不表示这些历史结论已重新测量。\n\n- [build 的协作边界的历史源码](https://github.com/dddeath/code-knowledge-builder/blob/4ead5dc/source/plugins/obsidian-code-knowledge-builder/scripts/build.py)\n- [deploy 的协作边界的历史源码](https://github.com/dddeath/code-knowledge-builder/blob/4ead5dc/source/plugins/obsidian-code-knowledge-builder/deploy.py)\n\n## 原始记录\n\n[按需核对历史原文与完整复现明细](../../machine/historical-records/legacy-20260910-09.md)。\n\n## 相关知识页\n\n- [[KeywordFallbackOptions 与 KeywordProviderConfig 的协作实现]]\n- [[build_machine_knowledge 与 estimated_tokens 的协作实现]]\n- [[keyword_provider_config 与 keyword_fallback_options 的协作实现]]\n- [[serve_stdio 与 _write_line 的协作实现]]\n- [[run_keyword_benchmark 与 _text_list 的协作实现]]\n- [[maintenance_check 与 capability_matrix 的协作实现]]\n- [[fixture_output 等测试场景]]\n\n## 源码入口\n\n- [打开源码：scripts/ckb_core/keyword_fallback.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/keyword_fallback.py:1:1)  `scripts/ckb_core/keyword_fallback.py:1-638`\n- [打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1995`\n- [打开源码：scripts/ckb.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:1:1)  `scripts/ckb.py:1-1850`\n- [打开源码：scripts/ckb_core/stdio_server.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/stdio_server.py:1:1)  `scripts/ckb_core/stdio_server.py:1-413`\n- [打开源码：scripts/ckb_core/keyword_benchmark.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/keyword_benchmark.py:1:1)  `scripts/ckb_core/keyword_benchmark.py:1-228`\n- [打开源码：scripts/ckb_core/llm_wiki_capabilities.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/llm_wiki_capabilities.py:1:1)  `scripts/ckb_core/llm_wiki_capabilities.py:1-528`\n- [打开源码：tests/test_keyword_fallback.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_keyword_fallback.py:1:1)  `tests/test_keyword_fallback.py:1-471`\n",
+      1969
+    ]
+  ],
+  "sections": [
+    [
+      "note:changes:LLM 关键词备选慢路径合并审计:0",
+      "note:changes:LLM 关键词备选慢路径合并审计",
+      0,
+      "LLM 关键词备选慢路径合并审计",
+      "标签：#类型/变更",
+      8,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:LLM 关键词备选慢路径合并审计:1",
+      "note:changes:LLM 关键词备选慢路径合并审计",
+      1,
+      "合并结果",
+      "开发分支 `codex/llm-keyword-slowpath` 的 4 个独立提交已由管理任务以普通非 squash merge 合入 `codex/reference-ingest-v1`。冲突只位于 CLI 导入、机器检索接线与 operation journal 文档：管理命令和慢路径命令均被保留；默认机器检索继续使用已合并的中文 `query_terms`；两类日志边界文档均被保留。",
+      124,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:LLM 关键词备选慢路径合并审计:2",
+      "note:changes:LLM 关键词备选慢路径合并审计",
+      2,
+      "已确认行为",
+      "- 默认 `fast`、`precise` 和 `brief` 不构造 Provider 配置、不启动 Provider 进程，也不产生慢路径机器记录。管理任务以合并前中文词项集成提交为基准实际比较，结果对象、检索 record 和中文词项签名一致。\n- `--allow-keyword-fallback` 只在原确定性检索返回 `needs-source-read` 时触发；`--force-keyword-fallback` 可显式扩展已通过的查询。Provider 失败时保留原确定性结果并写有界原因。\n- LLM 只能给出结构化关键词、代码锚点和少量改写；候选通过 schema、身份、数量、长度、字符、重复、提示注入与凭据形态校验后，重新进入 SQLite FTS5 与确定性图排序。模型不直接决定实体、分数、完成状态或事实。\n- 缓存键绑定输入哈希、Provider、Model、Version 与 Prompt schema。request record 和 operation journal 不保存问题正文、Provider 命令、环境变量值、stdout 或 stderr；`maintain` 增加慢路径缓存与 request schema 审计。",
+      343,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:LLM 关键词备选慢路径合并审计:3",
+      "note:changes:LLM 关键词备选慢路径合并审计",
+      3,
+      "管理任务独立验证",
+      "合并前实际通过慢路径专项 15 项、核心 33 项、Harness 22 项和发行 3 项。解决三处冲突并合并后，实际通过中文词项 12 项、慢路径 15 项、管理 Agent 18 项、核心 37 项、Harness 22 项和发行 3 项。\n\n该轮使用真实 Codex 与所选模型执行了强制关键词回退，确认有效扩展词项重新进入确定性检索，并检查请求记录与机器索引的一致性。该次调用不替代完整题集的效果评估，详细结果保留在原始记录。",
+      173,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:LLM 关键词备选慢路径合并审计:4",
+      "note:changes:LLM 关键词备选慢路径合并审计",
+      4,
+      "已测量边界",
+      "固定真实 benchmark 的平均定位质量增量为零，`quality_claim` 为 `not-demonstrated`；因此本记录只确认显式慢路径、回落、审计和缓存合同，不声明定位质量收益。真实 canary adapter 没有账单 telemetry，usage 与费用字段的零值表示未报告，不表示零 token 或零成本。管理 canary 的冷调用约 28 秒，默认路径仍保持零 Provider 启动。",
+      139,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:LLM 关键词备选慢路径合并审计:5",
+      "note:changes:LLM 关键词备选慢路径合并审计",
+      5,
+      "回滚",
+      "集成回滚脚本位于 `E:\\knowledge_builder\\artifacts\\verification\\llm-keyword-slowpath\\rollback-integration-merge.sh`。该脚本已在隔离 clone 中实际创建反向提交，验证回滚后的整树与合并前集成提交一致且工作树干净。",
+      86,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:LLM 关键词备选慢路径合并审计:6",
+      "note:changes:LLM 关键词备选慢路径合并审计",
+      6,
+      "2026年9月6日来源修复",
+      "原文保留。原2026年8月31日查询阅读包未能从保留归档恢复，当前来源改为本次重新生成的定位阅读包；新包不冒充历史原始查询，也不据此重新确认上文旧版本的实验指标。\n\n本次中文检索补测实际运行了现有关键词固定回放路径。它验证显式启用、关键词进入检索和缓存复用等测试合同，但没有调用真实模型，不作为真实 LLM 效果证明。该边界与原功能是否存在是两件事。其他真实 Provider 历史实验应按各自固定语料和原记录核对，不与本次回放合并计量。",
+      203,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:LLM 关键词备选慢路径合并审计:7",
+      "note:changes:LLM 关键词备选慢路径合并审计",
+      7,
+      "历史源码定位",
+      "原关联页面未进入当前建库范围，以下链接保留到此前已发布源码，不表示这些历史结论已重新测量。\n\n- [build 的协作边界的历史源码](https://github.com/dddeath/code-knowledge-builder/blob/4ead5dc/source/plugins/obsidian-code-knowledge-builder/scripts/build.py)\n- [deploy 的协作边界的历史源码](https://github.com/dddeath/code-knowledge-builder/blob/4ead5dc/source/plugins/obsidian-code-knowledge-builder/deploy.py)",
+      156,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:LLM 关键词备选慢路径合并审计:8",
+      "note:changes:LLM 关键词备选慢路径合并审计",
+      8,
+      "原始记录",
+      "[按需核对历史原文与完整复现明细](../../machine/historical-records/legacy-20260910-09.md)。",
+      36,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:LLM 关键词备选慢路径合并审计:9",
+      "note:changes:LLM 关键词备选慢路径合并审计",
+      9,
+      "相关知识页",
+      "- [[KeywordFallbackOptions 与 KeywordProviderConfig 的协作实现]]\n- [[build_machine_knowledge 与 estimated_tokens 的协作实现]]\n- [[keyword_provider_config 与 keyword_fallback_options 的协作实现]]\n- [[serve_stdio 与 _write_line 的协作实现]]\n- [[run_keyword_benchmark 与 _text_list 的协作实现]]\n- [[maintenance_check 与 capability_matrix 的协作实现]]\n- [[fixture_output 等测试场景]]",
+      140,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:LLM 关键词备选慢路径合并审计:10",
+      "note:changes:LLM 关键词备选慢路径合并审计",
+      10,
+      "源码入口",
+      "- [打开源码：scripts/ckb_core/keyword_fallback.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/keyword_fallback.py:1:1)  `scripts/ckb_core/keyword_fallback.py:1-638`\n- [打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1995`\n- [打开源码：scripts/ckb.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:1:1)  `scripts/ckb.py:1-1850`\n- [打开源码：scripts/ckb_core/stdio_server.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/stdio_server.py:1:1)  `scripts/ckb_core/stdio_server.py:1-413`\n- [打开源码：scripts/ckb_core/keyword_benchmark.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/keyword_benchmark.py:1:1)  `scripts/ckb_core/keyword_benchmark.py:1-228`\n- [打开源码：scripts/ckb_core/llm_wiki_capabilities.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/llm_wiki_capabilities.py:1:1)  `scripts/ckb_core/llm_wiki_capabilities.py:1-528`\n- [打开源码：tests/test_keyword_fallback.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_keyword_fallback.py:1:1)  `tests/test_keyword_fallback.py:1-471`",
+      468,
+      null,
+      null,
+      null
+    ]
+  ],
+  "section_sources": [],
+  "links": [
+    [
+      "note:changes:LLM 关键词备选慢路径合并审计",
+      null,
+      "KeywordFallbackOptions 与 KeywordProviderConfig 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:changes:LLM 关键词备选慢路径合并审计",
+      null,
+      "build_machine_knowledge 与 estimated_tokens 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:changes:LLM 关键词备选慢路径合并审计",
+      null,
+      "fixture_output 等测试场景",
+      "wikilink"
+    ],
+    [
+      "note:changes:LLM 关键词备选慢路径合并审计",
+      null,
+      "keyword_provider_config 与 keyword_fallback_options 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:changes:LLM 关键词备选慢路径合并审计",
+      null,
+      "maintenance_check 与 capability_matrix 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:changes:LLM 关键词备选慢路径合并审计",
+      null,
+      "run_keyword_benchmark 与 _text_list 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:changes:LLM 关键词备选慢路径合并审计",
+      null,
+      "serve_stdio 与 _write_line 的协作实现",
+      "wikilink"
+    ]
+  ],
+  "fts": [
+    [
+      "note:changes:LLM 关键词备选慢路径合并审计:0",
+      "note:changes:LLM 关键词备选慢路径合并审计",
+      "LLM 关键词备选慢路径合并审计",
+      "标签：#类型/变更",
+      ""
+    ],
+    [
+      "note:changes:LLM 关键词备选慢路径合并审计:1",
+      "note:changes:LLM 关键词备选慢路径合并审计",
+      "合并结果",
+      "开发分支 `codex/llm-keyword-slowpath` 的 4 个独立提交已由管理任务以普通非 squash merge 合入 `codex/reference-ingest-v1`。冲突只位于 CLI 导入、机器检索接线与 operation journal 文档：管理命令和慢路径命令均被保留；默认机器检索继续使用已合并的中文 `query_terms`；两类日志边界文档均被保留。",
+      ""
+    ],
+    [
+      "note:changes:LLM 关键词备选慢路径合并审计:2",
+      "note:changes:LLM 关键词备选慢路径合并审计",
+      "已确认行为",
+      "- 默认 `fast`、`precise` 和 `brief` 不构造 Provider 配置、不启动 Provider 进程，也不产生慢路径机器记录。管理任务以合并前中文词项集成提交为基准实际比较，结果对象、检索 record 和中文词项签名一致。\n- `--allow-keyword-fallback` 只在原确定性检索返回 `needs-source-read` 时触发；`--force-keyword-fallback` 可显式扩展已通过的查询。Provider 失败时保留原确定性结果并写有界原因。\n- LLM 只能给出结构化关键词、代码锚点和少量改写；候选通过 schema、身份、数量、长度、字符、重复、提示注入与凭据形态校验后，重新进入 SQLite FTS5 与确定性图排序。模型不直接决定实体、分数、完成状态或事实。\n- 缓存键绑定输入哈希、Provider、Model、Version 与 Prompt schema。request record 和 operation journal 不保存问题正文、Provider 命令、环境变量值、stdout 或 stderr；`maintain` 增加慢路径缓存与 request schema 审计。",
+      ""
+    ],
+    [
+      "note:changes:LLM 关键词备选慢路径合并审计:3",
+      "note:changes:LLM 关键词备选慢路径合并审计",
+      "管理任务独立验证",
+      "合并前实际通过慢路径专项 15 项、核心 33 项、Harness 22 项和发行 3 项。解决三处冲突并合并后，实际通过中文词项 12 项、慢路径 15 项、管理 Agent 18 项、核心 37 项、Harness 22 项和发行 3 项。\n\n该轮使用真实 Codex 与所选模型执行了强制关键词回退，确认有效扩展词项重新进入确定性检索，并检查请求记录与机器索引的一致性。该次调用不替代完整题集的效果评估，详细结果保留在原始记录。",
+      ""
+    ],
+    [
+      "note:changes:LLM 关键词备选慢路径合并审计:4",
+      "note:changes:LLM 关键词备选慢路径合并审计",
+      "已测量边界",
+      "固定真实 benchmark 的平均定位质量增量为零，`quality_claim` 为 `not-demonstrated`；因此本记录只确认显式慢路径、回落、审计和缓存合同，不声明定位质量收益。真实 canary adapter 没有账单 telemetry，usage 与费用字段的零值表示未报告，不表示零 token 或零成本。管理 canary 的冷调用约 28 秒，默认路径仍保持零 Provider 启动。",
+      ""
+    ],
+    [
+      "note:changes:LLM 关键词备选慢路径合并审计:5",
+      "note:changes:LLM 关键词备选慢路径合并审计",
+      "回滚",
+      "集成回滚脚本位于 `E:\\knowledge_builder\\artifacts\\verification\\llm-keyword-slowpath\\rollback-integration-merge.sh`。该脚本已在隔离 clone 中实际创建反向提交，验证回滚后的整树与合并前集成提交一致且工作树干净。",
+      ""
+    ],
+    [
+      "note:changes:LLM 关键词备选慢路径合并审计:6",
+      "note:changes:LLM 关键词备选慢路径合并审计",
+      "2026年9月6日来源修复",
+      "原文保留。原2026年8月31日查询阅读包未能从保留归档恢复，当前来源改为本次重新生成的定位阅读包；新包不冒充历史原始查询，也不据此重新确认上文旧版本的实验指标。\n\n本次中文检索补测实际运行了现有关键词固定回放路径。它验证显式启用、关键词进入检索和缓存复用等测试合同，但没有调用真实模型，不作为真实 LLM 效果证明。该边界与原功能是否存在是两件事。其他真实 Provider 历史实验应按各自固定语料和原记录核对，不与本次回放合并计量。",
+      ""
+    ],
+    [
+      "note:changes:LLM 关键词备选慢路径合并审计:7",
+      "note:changes:LLM 关键词备选慢路径合并审计",
+      "历史源码定位",
+      "原关联页面未进入当前建库范围，以下链接保留到此前已发布源码，不表示这些历史结论已重新测量。\n\n- [build 的协作边界的历史源码](https://github.com/dddeath/code-knowledge-builder/blob/4ead5dc/source/plugins/obsidian-code-knowledge-builder/scripts/build.py)\n- [deploy 的协作边界的历史源码](https://github.com/dddeath/code-knowledge-builder/blob/4ead5dc/source/plugins/obsidian-code-knowledge-builder/deploy.py)",
+      ""
+    ],
+    [
+      "note:changes:LLM 关键词备选慢路径合并审计:8",
+      "note:changes:LLM 关键词备选慢路径合并审计",
+      "原始记录",
+      "[按需核对历史原文与完整复现明细](../../machine/historical-records/legacy-20260910-09.md)。",
+      ""
+    ],
+    [
+      "note:changes:LLM 关键词备选慢路径合并审计:9",
+      "note:changes:LLM 关键词备选慢路径合并审计",
+      "相关知识页",
+      "- [[KeywordFallbackOptions 与 KeywordProviderConfig 的协作实现]]\n- [[build_machine_knowledge 与 estimated_tokens 的协作实现]]\n- [[keyword_provider_config 与 keyword_fallback_options 的协作实现]]\n- [[serve_stdio 与 _write_line 的协作实现]]\n- [[run_keyword_benchmark 与 _text_list 的协作实现]]\n- [[maintenance_check 与 capability_matrix 的协作实现]]\n- [[fixture_output 等测试场景]]",
+      ""
+    ],
+    [
+      "note:changes:LLM 关键词备选慢路径合并审计:10",
+      "note:changes:LLM 关键词备选慢路径合并审计",
+      "源码入口",
+      "- [打开源码：scripts/ckb_core/keyword_fallback.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/keyword_fallback.py:1:1)  `scripts/ckb_core/keyword_fallback.py:1-638`\n- [打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1995`\n- [打开源码：scripts/ckb.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:1:1)  `scripts/ckb.py:1-1850`\n- [打开源码：scripts/ckb_core/stdio_server.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/stdio_server.py:1:1)  `scripts/ckb_core/stdio_server.py:1-413`\n- [打开源码：scripts/ckb_core/keyword_benchmark.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/keyword_benchmark.py:1:1)  `scripts/ckb_core/keyword_benchmark.py:1-228`\n- [打开源码：scripts/ckb_core/llm_wiki_capabilities.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/llm_wiki_capabilities.py:1:1)  `scripts/ckb_core/llm_wiki_capabilities.py:1-528`\n- [打开源码：tests/test_keyword_fallback.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_keyword_fallback.py:1:1)  `tests/test_keyword_fallback.py:1-471`",
+      ""
+    ]
+  ]
+}

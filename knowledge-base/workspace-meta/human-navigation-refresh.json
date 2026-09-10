@@ -4,17 +4,17 @@
   "output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
   "blind_evaluation_contract": "导航按全部工作记录统一生成，未接收或执行验收查询。",
   "staging": false,
-  "preserved_page_and_note_files": 260,
+  "preserved_page_and_note_files": 702,
   "work_record_index": {
     "status": "passed",
-    "record_count": 39,
-    "linked_record_count": 39,
+    "record_count": 80,
+    "linked_record_count": 80,
     "section_counts": {
-      "analysis": 15,
-      "changes": 19,
+      "analysis": 24,
+      "changes": 40,
       "pitfalls": 0,
-      "experiments": 2,
-      "sessions": 3
+      "experiments": 9,
+      "sessions": 7
     },
     "errors": []
   },
@@ -23,7 +23,7 @@
     "status": "passed",
     "principle": "human-pages-describe-classes-functions-or-their-aggregations",
     "metrics": {
-      "page_count": 91,
+      "page_count": 270,
       "frontmatter_pages": 0,
       "prefixed_titles": 0,
       "visible_commit_identifiers": 0,
@@ -33,13 +33,53 @@
       "invalid_page_tags": 0,
       "missing_source_links": 0,
       "visible_hash_identifiers": 0,
-      "wiki_chinese_characters": 1094,
+      "wiki_chinese_characters": 544,
       "non_chinese_narrative_fields": 0,
-      "work_record_count": 39,
-      "work_record_linked_count": 39,
-      "work_record_navigation_errors": 0
+      "work_record_count": 80,
+      "work_record_linked_count": 80,
+      "work_record_navigation_errors": 0,
+      "legacy_note_count": 80
     },
-    "errors": []
+    "errors": [],
+    "warnings": [
+      {
+        "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\graphify-out\\GRAPH_REPORT.md",
+        "reason": "l4-evidence-leak",
+        "evidence_shape": "complete-command",
+        "line": 342,
+        "advisory_scope": "legacy-graphify-query-examples"
+      },
+      {
+        "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\graphify-out\\GRAPH_REPORT.md",
+        "reason": "l4-evidence-leak",
+        "evidence_shape": "complete-command",
+        "line": 343,
+        "advisory_scope": "legacy-graphify-query-examples"
+      },
+      {
+        "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\graphify-out\\GRAPH_REPORT.md",
+        "reason": "l4-evidence-leak",
+        "evidence_shape": "complete-command",
+        "line": 344,
+        "advisory_scope": "legacy-graphify-query-examples"
+      }
+    ],
+    "legacy_note_count": 80,
+    "full_v3_coverage": false,
+    "coverage": {
+      "content_gate": [
+        "code-pages",
+        "INDEX",
+        "WIKI",
+        "RECORDS",
+        "record-bodies"
+      ],
+      "typed_v3": "explicit-page-author-record-packages",
+      "legacy_advisory": [
+        "exact-graphify-query-example-block",
+        "unupgraded-historical-narrative-review-candidates"
+      ]
+    }
   },
   "human": {
     "schema_version": 1,
@@ -66,10 +106,16 @@
       "status": "passed",
       "counts": {
         "open": 0,
-        "resolved": 0,
+        "resolved": 1,
         "stale_open": 0
       },
-      "records": [],
+      "records": [
+        {
+          "feedback_id": "feedback-20260901-123006-01",
+          "status": "resolved",
+          "anchor_status": "stale"
+        }
+      ],
       "errors": []
     },
     "output_contracts": {
@@ -92,14 +138,14 @@
     },
     "work_record_index": {
       "status": "passed",
-      "record_count": 39,
-      "linked_record_count": 39,
+      "record_count": 80,
+      "linked_record_count": 80,
       "section_counts": {
-        "analysis": 15,
-        "changes": 19,
+        "analysis": 24,
+        "changes": 40,
         "pitfalls": 0,
-        "experiments": 2,
-        "sessions": 3
+        "experiments": 9,
+        "sessions": 7
       },
       "errors": []
     },

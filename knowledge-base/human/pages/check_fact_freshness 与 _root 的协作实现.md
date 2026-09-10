@@ -14,36 +14,17 @@
 
 ## 相关代码
 
-- 实现时会用到 [[CkbError]]。
-- 实现时会用到 [[CkbError 与 DependencyError 的协作实现]]。
-- 实现时会用到 [[ScopeExtensionOfferTests.retrieval]]。
-- 实现时会用到 [[_Transport.close]]。
-- 实现时会用到 [[append]]。
+- 与 [[CkbError]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[CkbError 与 DependencyError 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 - 主要代码单元是 [[check_fact_freshness]]。
-- 实现时会用到 [[ckb_canvas 的协作边界]]。
-- 实现时会用到 [[command]]。
-- 实现时会用到 [[preflight]]。
-- 实现时会用到 [[sample 等测试场景]]。
 
 ## 谁会来到这里
 
-- [[FactFreshnessStateMachineTest]] 会使用这里提供的行为。
-- [[FactFreshnessStateMachineTest 等测试场景]] 会使用这里提供的行为。
-- [[check_fact_freshness]] 会使用这里提供的行为。
-- [[ingest_event 与 default_registry_path 的协作实现]] 会使用这里提供的行为。
-- [[retrieve_machine]] 会使用这里提供的行为。
+- 与 [[build_machine_knowledge 与 estimated_tokens 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[check_fact_freshness]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[review_automation 与 default_registry_path 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[review_management_task 与 default_management_registry_path 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 - 可从 [[scripts 职责导览]] 进入本页。
-
-## 相关测试
-
-- [[AutomationTest.register 等测试场景]]
-- [[CanvasTransactionTests]]
-- [[ChineseRetrievalEffectRetestFixtureTests]]
-- [[CodeKnowledgeBuilderTests]]
-- [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[FactFreshnessStateMachineTest]]
-
-> 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 
 ## 内部细节
 

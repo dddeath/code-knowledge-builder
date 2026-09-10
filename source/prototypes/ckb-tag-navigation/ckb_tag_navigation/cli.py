@@ -17,6 +17,7 @@ from .contracts import (
     validate_policy,
 )
 from .projection import build_projection
+from .real_vault import rollback_real_vault_study, run_real_vault_study
 from .state_machine import audit_database
 from .store import replay_with_rollback, rollback
 
@@ -67,6 +68,17 @@ def build_parser() -> argparse.ArgumentParser:
     rollback_parser = commands.add_parser("rollback")
     rollback_parser.add_argument("--manifest", type=Path, required=True)
     rollback_parser.add_argument("--workspace-root", type=Path, required=True)
+
+    study = commands.add_parser("study")
+    study.add_argument("--source-output", type=Path, required=True)
+    study.add_argument("--protocol", type=Path, required=True)
+    study.add_argument("--policy", type=Path, required=True)
+    study.add_argument("--out", type=Path, required=True)
+    study.add_argument("--workspace-root", type=Path, required=True)
+
+    study_rollback = commands.add_parser("study-rollback")
+    study_rollback.add_argument("--manifest", type=Path, required=True)
+    study_rollback.add_argument("--workspace-root", type=Path, required=True)
     return parser
 
 
@@ -89,6 +101,16 @@ def execute(arguments: argparse.Namespace) -> dict[str, Any]:
         return _write_result(arguments.out, result, arguments.workspace_root)
     if arguments.command == "rollback":
         return rollback(arguments.manifest.resolve(), arguments.workspace_root.resolve())
+    if arguments.command == "study":
+        return run_real_vault_study(
+            arguments.source_output.resolve(),
+            _json(arguments.protocol),
+            _json(arguments.policy),
+            arguments.out,
+            arguments.workspace_root,
+        )
+    if arguments.command == "study-rollback":
+        return rollback_real_vault_study(arguments.manifest.resolve(), arguments.workspace_root.resolve())
     raise AssertionError(arguments.command)
 
 

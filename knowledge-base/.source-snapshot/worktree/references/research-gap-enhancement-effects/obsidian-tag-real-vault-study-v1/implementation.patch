@@ -1,0 +1,1308 @@
+diff --git a/prototypes/ckb-tag-navigation/README.md b/prototypes/ckb-tag-navigation/README.md
+index 60ecf5b..6787611 100644
+--- a/prototypes/ckb-tag-navigation/README.md
++++ b/prototypes/ckb-tag-navigation/README.md
+@@ -34,3 +34,38 @@ SQLite 目标回滚：
+ - `deprecated`：曾有 vote，但当前没有可用 support。
+
+ 人类投影只含 confirmed tag，每页使用固定配额。投影中的 `#导航/...` 只是实验显示值，不会写回人类页面。
++
++## 接近真实规模的三臂隔离实验
++
++`study` 从已完成知识库的 `human` vault 复制三份隔离样本，只读打开 `machine/knowledge.sqlite`，并在复制品中比较：
++
++1. `no_tag`：不增加实验 tag；
++2. `machine_tag`：投影所有机器候选 tag；
++3. `confirmed_tag`：只投影通过支持/不支持票阈值的 tag。
++
++协议固定任务顺序、两跳预算、候选排序、证据时点和判定规则。运行器记录可发现性、点击或跳转步数、错误导航、`pages/` 孤立页、tag 数量与确定性审计工作量。结果字段 `effect_claim=system-navigation-proxy-only`，没有真实人类任务记录时，`human_result` 固定为 `pending-human-validation`。
++
++隔离副本会删除指向稳定知识库的 `.ckb/output-contract.json` 与 companion 插件目录，并禁用 community plugin，避免打开实验 vault 时连接生产输出。稳定来源在运行前后都重新计算 vault、完成标记和机器 SQLite 的 SHA-256；发生漂移时整次运行失败。
++
++```powershell
++$Python = 'C:\Users\19739\.codex\cache\code-knowledge-builder\runtime\win-x64\win-x64-2.1.0\python\python.exe'
++$Cli = 'prototypes\ckb-tag-navigation\scripts\ckb_tag_navigation.py'
++$Protocol = 'tests\fixtures\tag-navigation-real-vault\protocol.json'
++$Policy = 'tests\fixtures\tag-navigation\policy.json'
++$Run = 'prototypes\ckb-tag-navigation\.real-vault-run'
++
++& $Python -X utf8 $Cli study `
++  --source-output 'E:\knowledge_builder\self-workspace\knowledge-base' `
++  --protocol $Protocol --policy $Policy --out $Run `
++  --workspace-root 'prototypes\ckb-tag-navigation'
++```
++
++整个隔离运行目录的可执行回滚：
++
++```powershell
++& $Python -X utf8 $Cli study-rollback `
++  --manifest "$Run\study.rollback.json" `
++  --workspace-root 'prototypes\ckb-tag-navigation'
++```
++
++回滚会重算目录摘要；实验结果已有任何漂移时返回 `ROLLBACK_DRIFT` 并保留现场。
+diff --git a/prototypes/ckb-tag-navigation/ckb_tag_navigation/cli.py b/prototypes/ckb-tag-navigation/ckb_tag_navigation/cli.py
+index 4ff7c4a..c9b3d93 100644
+--- a/prototypes/ckb-tag-navigation/ckb_tag_navigation/cli.py
++++ b/prototypes/ckb-tag-navigation/ckb_tag_navigation/cli.py
+@@ -17,6 +17,7 @@ from .contracts import (
+     validate_policy,
+ )
+ from .projection import build_projection
++from .real_vault import rollback_real_vault_study, run_real_vault_study
+ from .state_machine import audit_database
+ from .store import replay_with_rollback, rollback
+
+@@ -67,6 +68,17 @@ def build_parser() -> argparse.ArgumentParser:
+     rollback_parser = commands.add_parser("rollback")
+     rollback_parser.add_argument("--manifest", type=Path, required=True)
+     rollback_parser.add_argument("--workspace-root", type=Path, required=True)
++
++    study = commands.add_parser("study")
++    study.add_argument("--source-output", type=Path, required=True)
++    study.add_argument("--protocol", type=Path, required=True)
++    study.add_argument("--policy", type=Path, required=True)
++    study.add_argument("--out", type=Path, required=True)
++    study.add_argument("--workspace-root", type=Path, required=True)
++
++    study_rollback = commands.add_parser("study-rollback")
++    study_rollback.add_argument("--manifest", type=Path, required=True)
++    study_rollback.add_argument("--workspace-root", type=Path, required=True)
+     return parser
+
+
+@@ -89,6 +101,16 @@ def execute(arguments: argparse.Namespace) -> dict[str, Any]:
+         return _write_result(arguments.out, result, arguments.workspace_root)
+     if arguments.command == "rollback":
+         return rollback(arguments.manifest.resolve(), arguments.workspace_root.resolve())
++    if arguments.command == "study":
++        return run_real_vault_study(
++            arguments.source_output.resolve(),
++            _json(arguments.protocol),
++            _json(arguments.policy),
++            arguments.out,
++            arguments.workspace_root,
++        )
++    if arguments.command == "study-rollback":
++        return rollback_real_vault_study(arguments.manifest.resolve(), arguments.workspace_root.resolve())
+     raise AssertionError(arguments.command)
+
+
+diff --git a/prototypes/ckb-tag-navigation/ckb_tag_navigation/real_vault.py b/prototypes/ckb-tag-navigation/ckb_tag_navigation/real_vault.py
+new file mode 100644
+index 0000000..91565d4
+--- /dev/null
++++ b/prototypes/ckb-tag-navigation/ckb_tag_navigation/real_vault.py
+@@ -0,0 +1,745 @@
++from __future__ import annotations
++
++from collections import Counter, defaultdict, deque
++import hashlib
++import json
++from pathlib import Path
++import re
++import shutil
++import sqlite3
++from statistics import median
++from typing import Any, Iterable
++
++from .contracts import (
++    TagNavigationError,
++    atomic_write_json,
++    canonical_json_bytes,
++    ensure_within,
++    normalize_tag,
++    sha256_bytes,
++    sha256_file,
++    validate_policy,
++    validate_relative_path,
++)
++from .projection import build_projection
++from .state_machine import audit_database
++from .store import read_assertion_jsonl, replay_with_rollback
++
++
++CONDITIONS = ("no_tag", "machine_tag", "confirmed_tag")
++DECISIONS = {"confirmed", "candidate", "opposed", "tied"}
++WIKILINK = re.compile(r"\[\[([^]]+)\]\]")
++EXPERIMENT_MARKER = "<!-- ckb-tag-real-vault-study -->"
++ISOLATION_EXCLUSIONS = (
++    ".ckb/output-contract.json",
++    ".obsidian/plugins/code-knowledge-builder-companion",
++)
++
++
++def _exact(value: Any, fields: set[str], label: str) -> dict[str, Any]:
++    if not isinstance(value, dict) or set(value) != fields:
++        actual = set(value) if isinstance(value, dict) else set()
++        raise TagNavigationError(
++            "INVALID_STUDY_PROTOCOL",
++            f"{label} missing={sorted(fields - actual)} unknown={sorted(actual - fields)}",
++        )
++    return value
++
++
++def _positive_int(value: Any, label: str) -> int:
++    if not isinstance(value, int) or isinstance(value, bool) or value < 1:
++        raise TagNavigationError("INVALID_STUDY_PROTOCOL", f"{label} 必须为正整数")
++    return value
++
++
++def validate_study_protocol(value: Any) -> dict[str, Any]:
++    protocol = _exact(
++        value,
++        {
++            "schema_version",
++            "study_id",
++            "status",
++            "frozen_before_run",
++            "source",
++            "conditions",
++            "execution",
++            "claim_boundary",
++            "tasks",
++        },
++        "protocol",
++    )
++    if protocol["schema_version"] != 1 or protocol["status"] != "frozen" or protocol["frozen_before_run"] is not True:
++        raise TagNavigationError("INVALID_STUDY_PROTOCOL", "协议必须在运行前冻结为 schema_version=1")
++    if not isinstance(protocol["study_id"], str) or not protocol["study_id"]:
++        raise TagNavigationError("INVALID_STUDY_PROTOCOL", "study_id 非法")
++    source = _exact(
++        protocol["source"],
++        {
++            "expected_commit",
++            "expected_complete_sha256",
++            "expected_vault_tree_sha256",
++            "expected_machine_sha256",
++            "expected_counts",
++        },
++        "source",
++    )
++    for field in ("expected_commit", "expected_complete_sha256", "expected_vault_tree_sha256", "expected_machine_sha256"):
++        expected_length = 40 if field == "expected_commit" else 64
++        item = source[field]
++        if not isinstance(item, str) or len(item) != expected_length or any(ch not in "0123456789abcdef" for ch in item):
++            raise TagNavigationError("INVALID_STUDY_PROTOCOL", f"source.{field} 非法")
++    counts = _exact(
++        source["expected_counts"],
++        {"files", "markdown_files", "bytes", "pages", "entities", "relations", "machine_projected_pages"},
++        "source.expected_counts",
++    )
++    for field, item in counts.items():
++        if not isinstance(item, int) or isinstance(item, bool) or item < 0:
++            raise TagNavigationError("INVALID_STUDY_PROTOCOL", f"source.expected_counts.{field} 非法")
++    if protocol["conditions"] != list(CONDITIONS):
++        raise TagNavigationError("INVALID_STUDY_PROTOCOL", "conditions 顺序必须固定为三臂")
++    execution = _exact(
++        protocol["execution"],
++        {"entry_page", "step_budget", "task_order", "candidate_order", "baseline_route", "tag_route", "orphan_scope_prefixes", "as_of"},
++        "execution",
++    )
++    validate_relative_path(execution["entry_page"], "execution.entry_page")
++    _positive_int(execution["step_budget"], "execution.step_budget")
++    if execution["candidate_order"] != "casefolded-page-path" or execution["baseline_route"] != "directed-wikilink-shortest-path" or execution["tag_route"] != "global-tag-pane-then-casefolded-candidates":
++        raise TagNavigationError("INVALID_STUDY_PROTOCOL", "导航规则不是冻结实现")
++    if not isinstance(execution["task_order"], list) or not execution["task_order"]:
++        raise TagNavigationError("INVALID_STUDY_PROTOCOL", "task_order 非法")
++    prefixes = execution["orphan_scope_prefixes"]
++    if not isinstance(prefixes, list) or not prefixes:
++        raise TagNavigationError("INVALID_STUDY_PROTOCOL", "orphan_scope_prefixes 非法")
++    for prefix in prefixes:
++        validate_relative_path(prefix, "execution.orphan_scope_prefixes")
++    if not isinstance(execution["as_of"], str) or not execution["as_of"].endswith("Z"):
++        raise TagNavigationError("INVALID_STUDY_PROTOCOL", "execution.as_of 必须为 UTC 时间")
++    claim = _exact(protocol["claim_boundary"], {"automation", "human"}, "claim_boundary")
++    if claim != {"automation": "system-navigation-proxy-only", "human": "pending-human-validation"}:
++        raise TagNavigationError("INVALID_STUDY_PROTOCOL", "claim_boundary 不得越过人类验证边界")
++
++    tasks = protocol["tasks"]
++    if not isinstance(tasks, list) or not tasks:
++        raise TagNavigationError("INVALID_STUDY_PROTOCOL", "tasks 非法")
++    task_ids: list[str] = []
++    tag_set: set[str] = set()
++    for index, item in enumerate(tasks):
++        task = _exact(item, {"task_id", "prompt_zh", "target", "tag", "machine_candidates"}, f"tasks[{index}]")
++        task_id = task["task_id"]
++        if not isinstance(task_id, str) or not re.fullmatch(r"T[0-9]{2}", task_id) or task_id in task_ids:
++            raise TagNavigationError("INVALID_STUDY_PROTOCOL", f"tasks[{index}].task_id 非法或重复")
++        task_ids.append(task_id)
++        if not isinstance(task["prompt_zh"], str) or not re.search(r"[\u4e00-\u9fff]", task["prompt_zh"]):
++            raise TagNavigationError("INVALID_STUDY_PROTOCOL", f"{task_id}.prompt_zh 缺少中文")
++        validate_relative_path(task["target"], f"{task_id}.target")
++        normalized_tag = normalize_tag(task["tag"])
++        if normalized_tag in tag_set:
++            raise TagNavigationError("INVALID_STUDY_PROTOCOL", f"{task_id}.tag 重复")
++        task["tag"] = normalized_tag
++        tag_set.add(normalized_tag)
++        candidates = task["machine_candidates"]
++        if not isinstance(candidates, list) or not candidates:
++            raise TagNavigationError("INVALID_STUDY_PROTOCOL", f"{task_id}.machine_candidates 非法")
++        candidate_pages: set[str] = set()
++        target_decision = None
++        for candidate_index, candidate_value in enumerate(candidates):
++            candidate = _exact(candidate_value, {"page", "decision", "duplicate_last_vote"}, f"{task_id}.machine_candidates[{candidate_index}]")
++            page = validate_relative_path(candidate["page"], f"{task_id}.candidate.page")
++            if not page.endswith(".md") or page in candidate_pages or candidate["decision"] not in DECISIONS or not isinstance(candidate["duplicate_last_vote"], bool):
++                raise TagNavigationError("INVALID_STUDY_PROTOCOL", f"{task_id}.machine_candidates 非法")
++            candidate_pages.add(page)
++            if page == task["target"]:
++                target_decision = candidate["decision"]
++        if target_decision != "confirmed":
++            raise TagNavigationError("INVALID_STUDY_PROTOCOL", f"{task_id}.target 必须是 confirmed 候选")
++    if execution["task_order"] != task_ids:
++        raise TagNavigationError("INVALID_STUDY_PROTOCOL", "task_order 必须与 tasks 完全同序")
++    return protocol
++
++
++def _tree_entries(root: Path) -> list[dict[str, Any]]:
++    if not root.is_dir():
++        raise TagNavigationError("SOURCE_NOT_FOUND", f"目录不存在: {root}")
++    entries: list[dict[str, Any]] = []
++    for path in sorted((item for item in root.rglob("*") if item.is_file()), key=lambda item: item.relative_to(root).as_posix()):
++        data = path.read_bytes()
++        entries.append({"path": path.relative_to(root).as_posix(), "bytes": len(data), "sha256": sha256_bytes(data)})
++    return entries
++
++
++def tree_manifest(root: Path) -> dict[str, Any]:
++    entries = _tree_entries(root)
++    return {
++        "schema_version": 1,
++        "root": str(root.resolve()),
++        "file_count": len(entries),
++        "markdown_file_count": sum(item["path"].casefold().endswith(".md") for item in entries),
++        "bytes": sum(item["bytes"] for item in entries),
++        "tree_sha256": sha256_bytes(canonical_json_bytes(entries)),
++        "entries": entries,
++    }
++
++
++def _machine_counts(database: Path) -> dict[str, int]:
++    try:
++        connection = sqlite3.connect(database.resolve().as_uri() + "?mode=ro", uri=True)
++        try:
++            return {
++                "entities": int(connection.execute("SELECT COUNT(*) FROM entities").fetchone()[0]),
++                "relations": int(connection.execute("SELECT COUNT(*) FROM relations").fetchone()[0]),
++                "machine_projected_pages": int(connection.execute("SELECT COUNT(DISTINCT page_file) FROM human_projection WHERE page_file IS NOT NULL").fetchone()[0]),
++            }
++        finally:
++            connection.close()
++    except sqlite3.Error as exc:
++        raise TagNavigationError("INVALID_SOURCE_DATABASE", str(exc)) from exc
++
++
++def source_identity(source_output: Path) -> dict[str, Any]:
++    complete_path = source_output / ".complete"
++    vault = source_output / "human"
++    database = source_output / "machine" / "knowledge.sqlite"
++    if not complete_path.is_file() or not database.is_file():
++        raise TagNavigationError("SOURCE_NOT_FOUND", f"稳定知识库结构不完整: {source_output}")
++    complete = json.loads(complete_path.read_text(encoding="utf-8"))
++    if not isinstance(complete, dict) or complete.get("status") != "complete":
++        raise TagNavigationError("SOURCE_NOT_COMPLETE", str(complete_path))
++    vault_manifest = tree_manifest(vault)
++    counts = {
++        "files": vault_manifest["file_count"],
++        "markdown_files": vault_manifest["markdown_file_count"],
++        "bytes": vault_manifest["bytes"],
++        "pages": len(list((vault / "pages").glob("*.md"))),
++        **_machine_counts(database),
++    }
++    return {
++        "schema_version": 1,
++        "source_output": str(source_output.resolve()),
++        "source_access": "read-only",
++        "commit": complete.get("commit"),
++        "complete_sha256": sha256_file(complete_path),
++        "vault": vault_manifest,
++        "machine_sha256": sha256_file(database),
++        "counts": counts,
++    }
++
++
++def _validate_source_identity(identity: dict[str, Any], expected: dict[str, Any]) -> None:
++    checks = {
++        "commit": identity["commit"] == expected["expected_commit"],
++        "complete_sha256": identity["complete_sha256"] == expected["expected_complete_sha256"],
++        "vault_tree_sha256": identity["vault"]["tree_sha256"] == expected["expected_vault_tree_sha256"],
++        "machine_sha256": identity["machine_sha256"] == expected["expected_machine_sha256"],
++        "counts": identity["counts"] == expected["expected_counts"],
++    }
++    if not all(checks.values()):
++        raise TagNavigationError("SOURCE_DRIFT", json.dumps(checks, ensure_ascii=False, sort_keys=True))
++
++
++def _page_evidence(source_output: Path, pages: Iterable[str]) -> dict[str, dict[str, Any]]:
++    database = source_output / "machine" / "knowledge.sqlite"
++    snapshot = source_output / ".source-snapshot" / "worktree"
++    requested = sorted(set(pages))
++    result: dict[str, dict[str, Any]] = {}
++    connection = sqlite3.connect(database.resolve().as_uri() + "?mode=ro", uri=True)
++    try:
++        for page in requested:
++            row = connection.execute(
++                """
++                SELECT hp.page_file, e.source_path, e.commit_id, MIN(sr.start_line), MAX(sr.end_line)
++                FROM human_projection hp
++                JOIN entities e ON e.entity_id = hp.entity_id
++                JOIN source_ranges sr ON sr.entity_id = e.entity_id
++                WHERE hp.page_file = ?
++                GROUP BY hp.page_file, e.source_path, e.commit_id
++                ORDER BY e.source_path, MIN(sr.start_line)
++                LIMIT 1
++                """,
++                (page,),
++            ).fetchone()
++            if row is None:
++                raise TagNavigationError("PAGE_NOT_IN_MACHINE_LAYER", page)
++            source_path = row[1]
++            snapshot_path = snapshot / Path(source_path)
++            human_path = source_output / "human" / Path(page)
++            if not snapshot_path.is_file() or not human_path.is_file():
++                raise TagNavigationError("SOURCE_EVIDENCE_MISSING", page)
++            result[page] = {
++                "source_path": source_path,
++                "source_sha256": sha256_file(snapshot_path),
++                "source_start_line": int(row[3]),
++                "source_end_line": int(row[4]),
++                "human_sha256": sha256_file(human_path),
++                "commit": row[2],
++            }
++    finally:
++        connection.close()
++    return result
++
++
++def _identifier(prefix: str, *parts: str) -> str:
++    digest = hashlib.sha256("\0".join(parts).encode("utf-8")).hexdigest()[:20]
++    return f"{prefix}-{digest}"
++
++
++def _evidence(record: dict[str, Any], kind: str, observed_at: str) -> dict[str, Any]:
++    if kind == "source":
++        return {
++            "source_id": _identifier("src", record["source_path"]),
++            "source_kind": "source-range",
++            "path": record["source_path"],
++            "locator": {
++                "kind": "line-range",
++                "start_line": record["source_start_line"],
++                "end_line": record["source_end_line"],
++                "section_id": None,
++            },
++            "sha256": record["source_sha256"],
++            "commit": record["commit"],
++            "observed_at": observed_at,
++        }
++    page = record["page"]
++    return {
++        "source_id": _identifier("page", page),
++        "source_kind": "reviewed-record",
++        "path": f"human/{page}",
++        "locator": {"kind": "whole-file", "start_line": None, "end_line": None, "section_id": None},
++        "sha256": record["human_sha256"],
++        "commit": record["commit"],
++        "observed_at": observed_at,
++    }
++
++
++def _assertion(
++    action: str,
++    task_id: str,
++    page: str,
++    tag: str,
++    actor_category: str,
++    actor_key: str,
++    evidence: dict[str, Any],
++    stance: str | None,
++    recorded_at: str,
++) -> dict[str, Any]:
++    assertion_id = _identifier("assert", task_id, page, tag, action, actor_key, stance or "none")
++    return {
++        "schema_version": 1,
++        "assertion_id": assertion_id,
++        "idempotency_key": _identifier("idem", assertion_id),
++        "action": action,
++        "tag": tag,
++        "target": {"kind": "page", "path": page},
++        "stance": stance,
++        "actor": {"category": actor_category, "key": actor_key},
++        "evidence": evidence,
++        "recorded_at": recorded_at,
++        "retracts": None,
++    }
++
++
++def build_study_assertions(protocol: dict[str, Any], source_output: Path) -> list[dict[str, Any]]:
++    validate_study_protocol(protocol)
++    pages = [candidate["page"] for task in protocol["tasks"] for candidate in task["machine_candidates"]]
++    page_records = _page_evidence(source_output, pages)
++    recorded_at = protocol["execution"]["as_of"]
++    assertions: list[dict[str, Any]] = []
++    for task in protocol["tasks"]:
++        for candidate in task["machine_candidates"]:
++            page = candidate["page"]
++            record = {**page_records[page], "page": page}
++            assertions.append(
++                _assertion(
++                    "propose",
++                    task["task_id"],
++                    page,
++                    task["tag"],
++                    "deterministic-tool",
++                    "machine-proposer",
++                    _evidence(record, "source", recorded_at),
++                    None,
++                    recorded_at,
++                )
++            )
++            votes: list[tuple[str, str, str]]
++            decision = candidate["decision"]
++            if decision == "confirmed":
++                votes = [("agent-support-a", "support", "source"), ("agent-support-b", "support", "page")]
++            elif decision == "candidate":
++                votes = [("agent-support-a", "support", "source")]
++            elif decision == "opposed":
++                votes = [("agent-oppose-a", "oppose", "source"), ("agent-oppose-b", "oppose", "page")]
++            else:
++                votes = [("agent-support-a", "support", "source"), ("agent-oppose-a", "oppose", "page")]
++            last_vote: dict[str, Any] | None = None
++            for actor, stance, evidence_kind in votes:
++                last_vote = _assertion(
++                    "vote",
++                    task["task_id"],
++                    page,
++                    task["tag"],
++                    "source-review-agent",
++                    actor,
++                    _evidence(record, evidence_kind, recorded_at),
++                    stance,
++                    recorded_at,
++                )
++                assertions.append(last_vote)
++            if candidate["duplicate_last_vote"]:
++                if last_vote is None:
++                    raise AssertionError("duplicate_last_vote requires a vote")
++                assertions.append(json.loads(json.dumps(last_vote)))
++    return assertions
++
++
++def _write_assertions(path: Path, assertions: list[dict[str, Any]]) -> None:
++    path.parent.mkdir(parents=True, exist_ok=True)
++    data = b"".join(canonical_json_bytes(item) for item in assertions)
++    temporary = path.with_name(path.name + ".tmp")
++    temporary.write_bytes(data)
++    read_assertion_jsonl(temporary)
++    temporary.replace(path)
++    read_assertion_jsonl(path)
++
++
++def _copy_isolated_vault(source: Path, destination: Path) -> None:
++    if destination.exists():
++        raise TagNavigationError("TARGET_EXISTS", str(destination))
++    shutil.copytree(source, destination)
++    for relative in ISOLATION_EXCLUSIONS:
++        target = destination / Path(relative)
++        if target.is_dir():
++            shutil.rmtree(target)
++        elif target.exists():
++            target.unlink()
++    community_plugins = destination / ".obsidian" / "community-plugins.json"
++    if community_plugins.exists():
++        atomic_write_json(community_plugins, [])
++
++
++def _append_tags(vault: Path, assignments: dict[str, set[str]], condition: str) -> None:
++    for page in sorted(assignments):
++        path = vault / Path(page)
++        if not path.is_file():
++            raise TagNavigationError("STUDY_PAGE_MISSING", f"{condition}:{page}")
++        data = path.read_bytes()
++        if EXPERIMENT_MARKER.encode("utf-8") in data:
++            raise TagNavigationError("EXPERIMENT_MARKER_EXISTS", f"{condition}:{page}")
++        tags = " ".join(f"#{tag}" for tag in sorted(assignments[page]))
++        suffix = f"\n\n{EXPERIMENT_MARKER}\n{tags}\n".encode("utf-8")
++        path.write_bytes(data + suffix)
++
++
++def _machine_assignments(assertions: list[dict[str, Any]]) -> dict[str, set[str]]:
++    assignments: dict[str, set[str]] = defaultdict(set)
++    for item in assertions:
++        if item["action"] == "propose":
++            assignments[item["target"]["path"]].add(item["tag"])
++    return assignments
++
++
++def _confirmed_assignments(audit: dict[str, Any]) -> dict[str, set[str]]:
++    assignments: dict[str, set[str]] = defaultdict(set)
++    for item in audit["results"]:
++        if item["state"] == "confirmed":
++            assignments[item["target"]["path"]].add(item["tag"])
++    return assignments
++
++
++def _vault_graph(vault: Path) -> tuple[dict[str, list[str]], dict[str, int]]:
++    files = sorted(vault.rglob("*.md"), key=lambda path: path.relative_to(vault).as_posix())
++    relatives = {path: path.relative_to(vault).as_posix() for path in files}
++    by_stem: dict[str, list[str]] = defaultdict(list)
++    for path, relative in relatives.items():
++        by_stem[path.stem].append(relative)
++    graph: dict[str, list[str]] = {relative: [] for relative in relatives.values()}
++    unresolved = 0
++    ambiguous = 0
++    for path, relative in relatives.items():
++        for raw in WIKILINK.findall(path.read_text(encoding="utf-8", errors="strict")):
++            title = raw.split("|", 1)[0].split("#", 1)[0].replace("\\", "/")
++            if title.endswith(".md"):
++                title = title[:-3]
++            candidates: list[str]
++            if "/" in title:
++                candidate = title.lstrip("/") + ".md"
++                candidates = [candidate] if candidate in graph else []
++            else:
++                candidates = by_stem.get(title, [])
++            if len(candidates) == 1:
++                graph[relative].append(candidates[0])
++            elif candidates:
++                ambiguous += 1
++            else:
++                unresolved += 1
++        graph[relative] = sorted(set(graph[relative]))
++    return graph, {"resolved_links": sum(len(items) for items in graph.values()), "unresolved_links": unresolved, "ambiguous_links": ambiguous}
++
++
++def _shortest_path(graph: dict[str, list[str]], start: str, target: str) -> list[str] | None:
++    if start not in graph or target not in graph:
++        return None
++    queue = deque([start])
++    previous: dict[str, str | None] = {start: None}
++    while queue:
++        current = queue.popleft()
++        if current == target:
++            break
++        for neighbor in graph[current]:
++            if neighbor not in previous:
++                previous[neighbor] = current
++                queue.append(neighbor)
++    if target not in previous:
++        return None
++    path: list[str] = []
++    current: str | None = target
++    while current is not None:
++        path.append(current)
++        current = previous[current]
++    return list(reversed(path))
++
++
++def _orphan_count(graph: dict[str, list[str]], prefixes: list[str], assignments: dict[str, set[str]]) -> int:
++    incoming = Counter(target for neighbors in graph.values() for target in neighbors)
++    return sum(
++        1
++        for page in graph
++        if any(page.startswith(prefix.rstrip("/") + "/") for prefix in prefixes)
++        and incoming[page] == 0
++        and not assignments.get(page)
++    )
++
++
++def _measure_condition(
++    condition: str,
++    vault: Path,
++    protocol: dict[str, Any],
++    assignments: dict[str, set[str]],
++) -> tuple[dict[str, Any], list[dict[str, Any]]]:
++    graph, link_metrics = _vault_graph(vault)
++    reverse_tags: dict[str, list[str]] = defaultdict(list)
++    for page, tags in assignments.items():
++        for tag in tags:
++            reverse_tags[tag].append(page)
++    for pages in reverse_tags.values():
++        pages.sort(key=lambda value: (value.casefold(), value))
++    budget = protocol["execution"]["step_budget"]
++    entry = protocol["execution"]["entry_page"]
++    rows: list[dict[str, Any]] = []
++    for task in protocol["tasks"]:
++        if condition == "no_tag":
++            path = _shortest_path(graph, entry, task["target"])
++            candidates: list[str] = []
++            errors = 0
++        else:
++            candidates = reverse_tags.get(task["tag"], [])
++            if task["target"] in candidates:
++                visited = candidates[: candidates.index(task["target"]) + 1]
++                path = [entry, f"#{task['tag']}", *visited]
++                errors = len(visited) - 1
++            else:
++                path = None
++                errors = len(candidates)
++        steps = len(path) - 1 if path is not None else None
++        discoverable = steps is not None and steps <= budget
++        rows.append(
++            {
++                "task_id": task["task_id"],
++                "condition": condition,
++                "target": task["target"],
++                "tag": task["tag"],
++                "discoverable_within_budget": discoverable,
++                "jump_steps": steps,
++                "error_navigation_count": errors,
++                "visited_path": path or [],
++                "candidate_count": len(candidates),
++            }
++        )
++    successful_steps = [row["jump_steps"] for row in rows if row["jump_steps"] is not None]
++    aggregate = {
++        "task_count": len(rows),
++        "discoverable_count": sum(row["discoverable_within_budget"] for row in rows),
++        "discoverability_rate": round(sum(row["discoverable_within_budget"] for row in rows) / len(rows), 6),
++        "total_jump_steps": sum(successful_steps),
++        "median_jump_steps": median(successful_steps) if successful_steps else None,
++        "error_navigation_count": sum(row["error_navigation_count"] for row in rows),
++        "orphan_page_count": _orphan_count(graph, protocol["execution"]["orphan_scope_prefixes"], assignments),
++        "experimental_unique_tag_count": len(reverse_tags),
++        "experimental_tag_assignment_count": sum(len(tags) for tags in assignments.values()),
++        "markdown_page_count": len(graph),
++        **link_metrics,
++    }
++    return aggregate, rows
++
++
++def _audit_cost(assertions: list[dict[str, Any]], replay: dict[str, Any], audit: dict[str, Any]) -> dict[str, Any]:
++    unique = {(item["assertion_id"], item["idempotency_key"]) for item in assertions}
++    return {
++        "assertion_lines_evaluated": len(assertions),
++        "unique_assertions_stored": len(unique),
++        "duplicate_lines_ignored": replay["duplicates"],
++        "proposal_events": sum(item["action"] == "propose" for item in assertions),
++        "vote_events": sum(item["action"] == "vote" for item in assertions),
++        "target_tag_pairs": len(audit["results"]),
++        "reason_codes_emitted": sum(len(item["reason_codes"]) for item in audit["results"]),
++        "confirmed_pairs": audit["summary"]["confirmed"],
++        "excluded_pairs": len(audit["results"]) - audit["summary"]["confirmed"],
++    }
++
++
++def _directory_digest(root: Path, excluded: set[str]) -> str:
++    entries = [item for item in _tree_entries(root) if item["path"] not in excluded]
++    return sha256_bytes(canonical_json_bytes(entries))
++
++
++def run_real_vault_study(
++    source_output: Path,
++    protocol: dict[str, Any],
++    policy: dict[str, Any],
++    output: Path,
++    workspace_root: Path,
++) -> dict[str, Any]:
++    protocol = validate_study_protocol(protocol)
++    policy = validate_policy(policy)
++    workspace = workspace_root.resolve()
++    target = ensure_within(output, workspace, "out")
++    if target.exists():
++        raise TagNavigationError("TARGET_EXISTS", str(target))
++    target.parent.mkdir(parents=True, exist_ok=True)
++    before = source_identity(source_output.resolve())
++    _validate_source_identity(before, protocol["source"])
++    try:
++        target.mkdir()
++        atomic_write_json(target / "protocol.json", protocol)
++        atomic_write_json(target / "policy.json", policy)
++        atomic_write_json(target / "source-before.json", before)
++        assertions = build_study_assertions(protocol, source_output.resolve())
++        assertion_path = target / "assertions.jsonl"
++        _write_assertions(assertion_path, assertions)
++        replay = replay_with_rollback(assertion_path, target / "tags.sqlite", target / "tags.rollback.json")
++        audit = audit_database(target / "tags.sqlite", policy, before["commit"], protocol["execution"]["as_of"])
++        projection = build_projection(audit, policy)
++        atomic_write_json(target / "audit.json", audit)
++        atomic_write_json(target / "projection.json", projection)
++
++        machine_assignments = _machine_assignments(assertions)
++        confirmed_assignments = _confirmed_assignments(audit)
++        assignment_map = {
++            "no_tag": {},
++            "machine_tag": machine_assignments,
++            "confirmed_tag": confirmed_assignments,
++        }
++        aggregates: dict[str, dict[str, Any]] = {}
++        rows: list[dict[str, Any]] = []
++        vault_manifests: dict[str, dict[str, Any]] = {}
++        for condition in CONDITIONS:
++            vault = target / "vaults" / condition
++            _copy_isolated_vault(source_output / "human", vault)
++            _append_tags(vault, assignment_map[condition], condition)
++            aggregate, current_rows = _measure_condition(condition, vault, protocol, assignment_map[condition])
++            aggregates[condition] = aggregate
++            rows.extend(current_rows)
++            vault_manifests[condition] = tree_manifest(vault)
++
++        after = source_identity(source_output.resolve())
++        atomic_write_json(target / "source-after.json", after)
++        if before["vault"]["tree_sha256"] != after["vault"]["tree_sha256"] or before["machine_sha256"] != after["machine_sha256"] or before["complete_sha256"] != after["complete_sha256"]:
++            raise TagNavigationError("SOURCE_MUTATED_DURING_STUDY", str(source_output))
++        audit_cost = _audit_cost(assertions, replay, audit)
++        raw = {
++            "schema_version": 1,
++            "status": "passed",
++            "study_id": protocol["study_id"],
++            "task_order": protocol["execution"]["task_order"],
++            "step_budget": protocol["execution"]["step_budget"],
++            "records": rows,
++            "vault_manifests": vault_manifests,
++        }
++        atomic_write_json(target / "raw-results.json", raw)
++        report = {
++            "schema_version": 1,
++            "status": "passed",
++            "study_id": protocol["study_id"],
++            "scope": "isolated-real-vault-system-proxy",
++            "production_default_changed": False,
++            "effect_claim": "system-navigation-proxy-only",
++            "human_result": "pending-human-validation",
++            "source": {
++                "commit": before["commit"],
++                "vault_tree_sha256": before["vault"]["tree_sha256"],
++                "machine_sha256": before["machine_sha256"],
++                "counts": before["counts"],
++                "unchanged_after_run": True,
++            },
++            "isolation": {
++                "vaults": {condition: str((target / "vaults" / condition).resolve()) for condition in CONDITIONS},
++                "excluded_control_paths": list(ISOLATION_EXCLUSIONS),
++                "companion_plugin_enabled": False,
++            },
++            "conditions": aggregates,
++            "audit_state_counts": audit["summary"],
++            "audit_cost": audit_cost,
++            "determinism": {
++                "task_order": protocol["execution"]["task_order"],
++                "step_budget": protocol["execution"]["step_budget"],
++                "candidate_order": protocol["execution"]["candidate_order"],
++                "as_of": protocol["execution"]["as_of"],
++            },
++            "artifacts": {
++                "protocol": str((target / "protocol.json").resolve()),
++                "assertions": str(assertion_path.resolve()),
++                "database": str((target / "tags.sqlite").resolve()),
++                "audit": str((target / "audit.json").resolve()),
++                "projection": str((target / "projection.json").resolve()),
++                "raw_results": str((target / "raw-results.json").resolve()),
++            },
++        }
++        atomic_write_json(target / "report.json", report)
++        excluded = {"study.rollback.json"}
++        manifest = {
++            "schema_version": 1,
++            "target_path": str(target),
++            "baseline_state": "absent",
++            "excluded_from_digest": sorted(excluded),
++            "generated_tree_sha256": _directory_digest(target, excluded),
++        }
++        atomic_write_json(target / "study.rollback.json", manifest)
++        reopened_report = json.loads((target / "report.json").read_text(encoding="utf-8"))
++        if reopened_report != report:
++            raise TagNavigationError("ARTIFACT_REOPEN_FAILED", "report.json")
++        return {
++            **report,
++            "output": str(target),
++            "report_sha256": sha256_file(target / "report.json"),
++            "rollback_manifest": str((target / "study.rollback.json").resolve()),
++        }
++    except Exception:
++        if target.exists():
++            shutil.rmtree(target)
++        raise
++
++
++def rollback_real_vault_study(manifest_path: Path, workspace_root: Path) -> dict[str, Any]:
++    workspace = workspace_root.resolve()
++    manifest = ensure_within(manifest_path, workspace, "manifest")
++    try:
++        value = json.loads(manifest.read_text(encoding="utf-8"))
++    except (OSError, json.JSONDecodeError) as exc:
++        raise TagNavigationError("INVALID_STUDY_ROLLBACK", str(exc)) from exc
++    expected = {"schema_version", "target_path", "baseline_state", "excluded_from_digest", "generated_tree_sha256"}
++    if not isinstance(value, dict) or set(value) != expected or value.get("schema_version") != 1 or value.get("baseline_state") != "absent":
++        raise TagNavigationError("INVALID_STUDY_ROLLBACK", "manifest 字段非法")
++    target = ensure_within(Path(value["target_path"]), workspace, "target")
++    if manifest.parent != target:
++        raise TagNavigationError("INVALID_STUDY_ROLLBACK", "manifest 必须位于 target 根目录")
++    excluded = set(value["excluded_from_digest"])
++    if excluded != {"study.rollback.json"}:
++        raise TagNavigationError("INVALID_STUDY_ROLLBACK", "excluded_from_digest 非法")
++    actual = _directory_digest(target, excluded)
++    if actual != value["generated_tree_sha256"]:
++        raise TagNavigationError("ROLLBACK_DRIFT", f"expected={value['generated_tree_sha256']} actual={actual}")
++    shutil.rmtree(target)
++    if target.exists():
++        raise TagNavigationError("ROLLBACK_VERIFY_FAILED", str(target))
++    return {"schema_version": 1, "status": "rolled-back", "target": str(target), "baseline_state": "absent"}
+diff --git a/prototypes/ckb-tag-navigation/schemas/real-vault-study.schema.json b/prototypes/ckb-tag-navigation/schemas/real-vault-study.schema.json
+new file mode 100644
+index 0000000..5bc9933
+--- /dev/null
++++ b/prototypes/ckb-tag-navigation/schemas/real-vault-study.schema.json
+@@ -0,0 +1,55 @@
++{
++  "$schema": "https://json-schema.org/draft/2020-12/schema",
++  "$id": "https://ckb.local/schemas/tag-real-vault-study.schema.json",
++  "title": "CKB isolated real-vault tag study report",
++  "type": "object",
++  "additionalProperties": false,
++  "required": ["schema_version", "status", "study_id", "scope", "production_default_changed", "effect_claim", "human_result", "source", "isolation", "conditions", "audit_state_counts", "audit_cost", "determinism", "artifacts"],
++  "properties": {
++    "schema_version": {"const": 1},
++    "status": {"const": "passed"},
++    "study_id": {"type": "string"},
++    "scope": {"const": "isolated-real-vault-system-proxy"},
++    "production_default_changed": {"const": false},
++    "effect_claim": {"const": "system-navigation-proxy-only"},
++    "human_result": {"const": "pending-human-validation"},
++    "source": {"type": "object"},
++    "isolation": {"type": "object"},
++    "conditions": {
++      "type": "object",
++      "additionalProperties": false,
++      "required": ["no_tag", "machine_tag", "confirmed_tag"],
++      "properties": {
++        "no_tag": {"$ref": "#/$defs/condition"},
++        "machine_tag": {"$ref": "#/$defs/condition"},
++        "confirmed_tag": {"$ref": "#/$defs/condition"}
++      }
++    },
++    "audit_state_counts": {"type": "object"},
++    "audit_cost": {"type": "object"},
++    "determinism": {"type": "object"},
++    "artifacts": {"type": "object"}
++  },
++  "$defs": {
++    "condition": {
++      "type": "object",
++      "additionalProperties": false,
++      "required": ["task_count", "discoverable_count", "discoverability_rate", "total_jump_steps", "median_jump_steps", "error_navigation_count", "orphan_page_count", "experimental_unique_tag_count", "experimental_tag_assignment_count", "markdown_page_count", "resolved_links", "unresolved_links", "ambiguous_links"],
++      "properties": {
++        "task_count": {"type": "integer", "minimum": 1},
++        "discoverable_count": {"type": "integer", "minimum": 0},
++        "discoverability_rate": {"type": "number", "minimum": 0, "maximum": 1},
++        "total_jump_steps": {"type": "integer", "minimum": 0},
++        "median_jump_steps": {"type": ["number", "null"], "minimum": 0},
++        "error_navigation_count": {"type": "integer", "minimum": 0},
++        "orphan_page_count": {"type": "integer", "minimum": 0},
++        "experimental_unique_tag_count": {"type": "integer", "minimum": 0},
++        "experimental_tag_assignment_count": {"type": "integer", "minimum": 0},
++        "markdown_page_count": {"type": "integer", "minimum": 1},
++        "resolved_links": {"type": "integer", "minimum": 0},
++        "unresolved_links": {"type": "integer", "minimum": 0},
++        "ambiguous_links": {"type": "integer", "minimum": 0}
++      }
++    }
++  }
++}
+diff --git a/tests/fixtures/tag-navigation-real-vault/protocol.json b/tests/fixtures/tag-navigation-real-vault/protocol.json
+new file mode 100644
+index 0000000..0fcd316
+--- /dev/null
++++ b/tests/fixtures/tag-navigation-real-vault/protocol.json
+@@ -0,0 +1,171 @@
++{
++  "schema_version": 1,
++  "study_id": "ckb-obsidian-tag-real-vault-v1",
++  "status": "frozen",
++  "frozen_before_run": true,
++  "source": {
++    "expected_commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
++    "expected_complete_sha256": "9041926a8f411bc4a066036535abe41008a435420839520b51e0960714d40e3b",
++    "expected_vault_tree_sha256": "cd879d26cf9d0a7f5c98ee322653b25d3725148e1c3cd1bbf9215112df536c97",
++    "expected_machine_sha256": "7d67e4098b6f69c7315ac0acf4a8a76549a04dd91f34408f27dce8e2fd471632",
++    "expected_counts": {
++      "files": 360,
++      "markdown_files": 336,
++      "bytes": 9445505,
++      "pages": 251,
++      "entities": 2090,
++      "relations": 8152,
++      "machine_projected_pages": 246
++    }
++  },
++  "conditions": [
++    "no_tag",
++    "machine_tag",
++    "confirmed_tag"
++  ],
++  "execution": {
++    "entry_page": "INDEX.md",
++    "step_budget": 2,
++    "task_order": [
++      "T01",
++      "T02",
++      "T03",
++      "T04",
++      "T05",
++      "T06",
++      "T07",
++      "T08",
++      "T09",
++      "T10",
++      "T11",
++      "T12"
++    ],
++    "candidate_order": "casefolded-page-path",
++    "baseline_route": "directed-wikilink-shortest-path",
++    "tag_route": "global-tag-pane-then-casefolded-candidates",
++    "orphan_scope_prefixes": [
++      "pages"
++    ],
++    "as_of": "2026-09-05T00:00:00Z"
++  },
++  "claim_boundary": {
++    "automation": "system-navigation-proxy-only",
++    "human": "pending-human-validation"
++  },
++  "tasks": [
++    {
++      "task_id": "T01",
++      "prompt_zh": "定位 Obsidian vault 审计入口。",
++      "target": "pages/audit_obsidian.md",
++      "tag": "导航/主题/obsidian审计",
++      "machine_candidates": [
++        {"page": "pages/audit_obsidian.md", "decision": "confirmed", "duplicate_last_vote": false},
++        {"page": "pages/CkbError.md", "decision": "tied", "duplicate_last_vote": false}
++      ]
++    },
++    {
++      "task_id": "T02",
++      "prompt_zh": "定位机器层检索实现。",
++      "target": "pages/retrieve_machine.md",
++      "tag": "导航/主题/机器检索",
++      "machine_candidates": [
++        {"page": "pages/retrieve_machine.md", "decision": "confirmed", "duplicate_last_vote": false},
++        {"page": "pages/record_note.md", "decision": "candidate", "duplicate_last_vote": false}
++      ]
++    },
++    {
++      "task_id": "T03",
++      "prompt_zh": "定位资料摄取实现。",
++      "target": "pages/ingest_reference.md",
++      "tag": "导航/主题/资料摄取",
++      "machine_candidates": [
++        {"page": "pages/ingest_reference.md", "decision": "confirmed", "duplicate_last_vote": false},
++        {"page": "pages/audit_feedback.md", "decision": "opposed", "duplicate_last_vote": false}
++      ]
++    },
++    {
++      "task_id": "T04",
++      "prompt_zh": "定位 tag 状态机测试。",
++      "target": "pages/TagNavigationStateMachineTests.md",
++      "tag": "导航/主题/tag状态机",
++      "machine_candidates": [
++        {"page": "pages/TagNavigationStateMachineTests.md", "decision": "confirmed", "duplicate_last_vote": false},
++        {"page": "pages/CanvasGraphTests.md", "decision": "tied", "duplicate_last_vote": false}
++      ]
++    },
++    {
++      "task_id": "T05",
++      "prompt_zh": "定位管理会话绑定实现。",
++      "target": "pages/bind_conversation.md",
++      "tag": "导航/主题/管理会话",
++      "machine_candidates": [
++        {"page": "pages/bind_conversation.md", "decision": "confirmed", "duplicate_last_vote": false},
++        {"page": "pages/audit_gap_register.md", "decision": "candidate", "duplicate_last_vote": false}
++      ]
++    },
++    {
++      "task_id": "T06",
++      "prompt_zh": "定位关键词 provider 运行入口。",
++      "target": "pages/run_keyword_provider.md",
++      "tag": "导航/主题/关键词provider",
++      "machine_candidates": [
++        {"page": "pages/run_keyword_provider.md", "decision": "confirmed", "duplicate_last_vote": false},
++        {"page": "pages/audit_migration.md", "decision": "opposed", "duplicate_last_vote": false}
++      ]
++    },
++    {
++      "task_id": "T07",
++      "prompt_zh": "定位 Graphify 查询实现。",
++      "target": "pages/query_graph.md",
++      "tag": "导航/主题/graph查询",
++      "machine_candidates": [
++        {"page": "pages/query_graph.md", "decision": "confirmed", "duplicate_last_vote": false}
++      ]
++    },
++    {
++      "task_id": "T08",
++      "prompt_zh": "定位事实新鲜度状态机测试。",
++      "target": "pages/FactFreshnessStateMachineTest.md",
++      "tag": "导航/主题/事实新鲜度",
++      "machine_candidates": [
++        {"page": "pages/FactFreshnessStateMachineTest.md", "decision": "confirmed", "duplicate_last_vote": true}
++      ]
++    },
++    {
++      "task_id": "T09",
++      "prompt_zh": "定位 Obsidian 插件注册实现。",
++      "target": "pages/register_obsidian_plugin.md",
++      "tag": "导航/主题/插件注册",
++      "machine_candidates": [
++        {"page": "pages/register_obsidian_plugin.md", "decision": "confirmed", "duplicate_last_vote": false}
++      ]
++    },
++    {
++      "task_id": "T10",
++      "prompt_zh": "定位人类层同步实现。",
++      "target": "pages/sync_human_layer.md",
++      "tag": "导航/主题/人类层同步",
++      "machine_candidates": [
++        {"page": "pages/sync_human_layer.md", "decision": "confirmed", "duplicate_last_vote": false}
++      ]
++    },
++    {
++      "task_id": "T11",
++      "prompt_zh": "定位输出契约审计实现。",
++      "target": "pages/audit_output_contract.md",
++      "tag": "导航/主题/输出契约",
++      "machine_candidates": [
++        {"page": "pages/audit_output_contract.md", "decision": "confirmed", "duplicate_last_vote": false}
++      ]
++    },
++    {
++      "task_id": "T12",
++      "prompt_zh": "定位本地源码链接生成实现。",
++      "target": "pages/SourceLinkRenderer.uri.md",
++      "tag": "导航/主题/源码链接",
++      "machine_candidates": [
++        {"page": "pages/SourceLinkRenderer.uri.md", "decision": "confirmed", "duplicate_last_vote": false}
++      ]
++    }
++  ]
++}
+diff --git a/tests/test_ckb_tag_navigation_contracts.py b/tests/test_ckb_tag_navigation_contracts.py
+index 04c3ef0..6b3a246 100644
+--- a/tests/test_ckb_tag_navigation_contracts.py
++++ b/tests/test_ckb_tag_navigation_contracts.py
+@@ -25,10 +25,10 @@ def assertions() -> list[dict]:
+
+
+ class TagNavigationContractTests(unittest.TestCase):
+-    def test_five_schemas_are_strict_json_objects(self) -> None:
++    def test_six_schemas_are_strict_json_objects(self) -> None:
+         schema_root = PROTOTYPE / "schemas"
+         schemas = sorted(schema_root.glob("*.schema.json"))
+-        self.assertEqual(5, len(schemas))
++        self.assertEqual(6, len(schemas))
+         for path in schemas:
+             value = json.loads(path.read_text(encoding="utf-8"))
+             self.assertEqual("object", value["type"])
+@@ -56,6 +56,11 @@ class TagNavigationContractTests(unittest.TestCase):
+         with self.assertRaises(TagNavigationError) as raised:
+             validate_assertion(invalid)
+         self.assertEqual("INVALID_TAG", raised.exception.reason)
++        invalid = copy.deepcopy(sample)
++        invalid["tag"] = "../恶意"
++        with self.assertRaises(TagNavigationError) as raised:
++            validate_assertion(invalid)
++        self.assertEqual("INVALID_TAG", raised.exception.reason)
+         validate_policy(json.loads((FIXTURE / "policy.json").read_text(encoding="utf-8")))
+
+     def test_replay_deduplicates_identical_idempotency_key(self) -> None:
+diff --git a/tests/test_ckb_tag_navigation_real_vault.py b/tests/test_ckb_tag_navigation_real_vault.py
+new file mode 100644
+index 0000000..4bd4628
+--- /dev/null
++++ b/tests/test_ckb_tag_navigation_real_vault.py
+@@ -0,0 +1,194 @@
++from __future__ import annotations
++
++import copy
++import json
++from pathlib import Path
++import sqlite3
++import sys
++import tempfile
++import unittest
++
++
++REPO = Path(__file__).resolve().parents[1]
++PROTOTYPE = REPO / "prototypes" / "ckb-tag-navigation"
++sys.path.insert(0, str(PROTOTYPE))
++
++from ckb_tag_navigation.contracts import TagNavigationError, atomic_write_json
++from ckb_tag_navigation.real_vault import (
++    EXPERIMENT_MARKER,
++    rollback_real_vault_study,
++    run_real_vault_study,
++    source_identity,
++    validate_study_protocol,
++)
++
++
++COMMIT = "a" * 40
++
++
++class RealVaultStudyTests(unittest.TestCase):
++    def setUp(self) -> None:
++        self.temporary = tempfile.TemporaryDirectory(prefix="ckb-tag-real-vault-")
++        self.root = Path(self.temporary.name)
++        self.source = self.root / "stable"
++        self.workspace = self.root / "workspace"
++        self.workspace.mkdir()
++        self._make_source()
++        self.identity = source_identity(self.source)
++        self.protocol = self._protocol()
++        self.policy = {
++            "schema_version": 1,
++            "min_support_votes": 2,
++            "min_independent_agents": 2,
++            "min_independent_sources": 2,
++            "max_opposition_ratio": 0.25,
++            "max_evidence_age_days": 90,
++            "max_tags_per_page": 3,
++        }
++
++    def tearDown(self) -> None:
++        self.temporary.cleanup()
++
++    def _make_source(self) -> None:
++        vault = self.source / "human"
++        snapshot = self.source / ".source-snapshot" / "worktree" / "src"
++        snapshot.mkdir(parents=True)
++        (snapshot / "target.py").write_text("def target():\n    return 1\n", encoding="utf-8")
++        (snapshot / "decoy.py").write_text("def decoy():\n    return 0\n", encoding="utf-8")
++        (vault / "pages").mkdir(parents=True)
++        (vault / ".ckb").mkdir()
++        plugin = vault / ".obsidian" / "plugins" / "code-knowledge-builder-companion"
++        plugin.mkdir(parents=True)
++        (plugin / "main.js").write_text("fixture", encoding="utf-8")
++        atomic_write_json(vault / ".obsidian" / "community-plugins.json", ["code-knowledge-builder-companion"])
++        atomic_write_json(vault / ".ckb" / "output-contract.json", {"output": str(self.source)})
++        (vault / "INDEX.md").write_text("# 入口\n\n[[hub]]\n", encoding="utf-8")
++        (vault / "hub.md").write_text("# 导览\n\n[[decoy]]\n[[target]]\n", encoding="utf-8")
++        (vault / "pages" / "target.md").write_text("# 目标\n", encoding="utf-8")
++        (vault / "pages" / "decoy.md").write_text("# 干扰\n", encoding="utf-8")
++        atomic_write_json(self.source / ".complete", {"schema_version": 1, "status": "complete", "commit": COMMIT})
++        database = self.source / "machine" / "knowledge.sqlite"
++        database.parent.mkdir()
++        connection = sqlite3.connect(database)
++        connection.executescript(
++            """
++            CREATE TABLE entities(entity_id TEXT PRIMARY KEY, source_path TEXT, commit_id TEXT);
++            CREATE TABLE source_ranges(entity_id TEXT PRIMARY KEY, start_line INTEGER, end_line INTEGER);
++            CREATE TABLE human_projection(entity_id TEXT PRIMARY KEY, page_file TEXT);
++            CREATE TABLE relations(relation_id TEXT PRIMARY KEY);
++            """
++        )
++        for entity, page, source in (("e1", "pages/target.md", "src/target.py"), ("e2", "pages/decoy.md", "src/decoy.py")):
++            connection.execute("INSERT INTO entities VALUES(?,?,?)", (entity, source, COMMIT))
++            connection.execute("INSERT INTO source_ranges VALUES(?,?,?)", (entity, 1, 2))
++            connection.execute("INSERT INTO human_projection VALUES(?,?)", (entity, page))
++        connection.commit()
++        connection.close()
++
++    def _protocol(self) -> dict:
++        return {
++            "schema_version": 1,
++            "study_id": "fixture-real-vault",
++            "status": "frozen",
++            "frozen_before_run": True,
++            "source": {
++                "expected_commit": self.identity["commit"],
++                "expected_complete_sha256": self.identity["complete_sha256"],
++                "expected_vault_tree_sha256": self.identity["vault"]["tree_sha256"],
++                "expected_machine_sha256": self.identity["machine_sha256"],
++                "expected_counts": self.identity["counts"],
++            },
++            "conditions": ["no_tag", "machine_tag", "confirmed_tag"],
++            "execution": {
++                "entry_page": "INDEX.md",
++                "step_budget": 2,
++                "task_order": ["T01"],
++                "candidate_order": "casefolded-page-path",
++                "baseline_route": "directed-wikilink-shortest-path",
++                "tag_route": "global-tag-pane-then-casefolded-candidates",
++                "orphan_scope_prefixes": ["pages"],
++                "as_of": "2026-09-05T00:00:00Z",
++            },
++            "claim_boundary": {"automation": "system-navigation-proxy-only", "human": "pending-human-validation"},
++            "tasks": [
++                {
++                    "task_id": "T01",
++                    "prompt_zh": "定位目标页面。",
++                    "target": "pages/target.md",
++                    "tag": "导航/主题/目标",
++                    "machine_candidates": [
++                        {"page": "pages/target.md", "decision": "confirmed", "duplicate_last_vote": True},
++                        {"page": "pages/decoy.md", "decision": "tied", "duplicate_last_vote": False},
++                    ],
++                }
++            ],
++        }
++
++    def test_three_arms_copy_source_and_separate_system_from_human_claims(self) -> None:
++        output = self.workspace / "run"
++        before = source_identity(self.source)
++        report = run_real_vault_study(self.source, self.protocol, self.policy, output, self.workspace)
++        after = source_identity(self.source)
++        self.assertEqual(before["vault"]["tree_sha256"], after["vault"]["tree_sha256"])
++        self.assertEqual("system-navigation-proxy-only", report["effect_claim"])
++        self.assertEqual("pending-human-validation", report["human_result"])
++        self.assertFalse(report["production_default_changed"])
++        self.assertEqual(1, report["conditions"]["no_tag"]["discoverable_count"])
++        self.assertEqual(0, report["conditions"]["machine_tag"]["discoverable_count"])
++        self.assertEqual(1, report["conditions"]["confirmed_tag"]["discoverable_count"])
++        self.assertEqual(1, report["conditions"]["machine_tag"]["error_navigation_count"])
++        self.assertEqual(0, report["conditions"]["confirmed_tag"]["error_navigation_count"])
++        self.assertEqual(1, report["audit_cost"]["duplicate_lines_ignored"])
++        self.assertEqual({"candidate": 0, "confirmed": 1, "contested": 1, "deprecated": 0}, report["audit_state_counts"])
++        audit = json.loads((output / "audit.json").read_text(encoding="utf-8"))
++        contested = next(item for item in audit["results"] if item["target"]["path"] == "pages/decoy.md")
++        self.assertEqual("contested", contested["state"])
++        self.assertEqual(1, contested["metrics"]["support_votes"])
++        self.assertEqual(1, contested["metrics"]["oppose_votes"])
++        self.assertEqual(0.5, contested["metrics"]["opposition_ratio"])
++        self.assertEqual(["OPPOSITION_RATIO_EXCEEDED"], contested["reason_codes"])
++        baseline = (output / "vaults" / "no_tag" / "pages" / "target.md").read_text(encoding="utf-8")
++        machine = (output / "vaults" / "machine_tag" / "pages" / "target.md").read_text(encoding="utf-8")
++        confirmed = (output / "vaults" / "confirmed_tag" / "pages" / "target.md").read_text(encoding="utf-8")
++        self.assertNotIn(EXPERIMENT_MARKER, baseline)
++        self.assertIn(EXPERIMENT_MARKER, machine)
++        self.assertIn(EXPERIMENT_MARKER, confirmed)
++        for condition in ("no_tag", "machine_tag", "confirmed_tag"):
++            vault = output / "vaults" / condition
++            self.assertFalse((vault / ".ckb" / "output-contract.json").exists())
++            self.assertFalse((vault / ".obsidian" / "plugins" / "code-knowledge-builder-companion").exists())
++            self.assertEqual([], json.loads((vault / ".obsidian" / "community-plugins.json").read_text(encoding="utf-8")))
++
++    def test_rollback_deletes_unchanged_isolated_run_and_rejects_drift(self) -> None:
++        first = self.workspace / "first"
++        result = run_real_vault_study(self.source, self.protocol, self.policy, first, self.workspace)
++        rolled_back = rollback_real_vault_study(Path(result["rollback_manifest"]), self.workspace)
++        self.assertEqual("rolled-back", rolled_back["status"])
++        self.assertFalse(first.exists())
++
++        second = self.workspace / "second"
++        result = run_real_vault_study(self.source, self.protocol, self.policy, second, self.workspace)
++        (second / "vaults" / "no_tag" / "INDEX.md").write_text("drift", encoding="utf-8")
++        with self.assertRaises(TagNavigationError) as raised:
++            rollback_real_vault_study(Path(result["rollback_manifest"]), self.workspace)
++        self.assertEqual("ROLLBACK_DRIFT", raised.exception.reason)
++        self.assertTrue(second.exists())
++
++    def test_source_drift_and_malicious_tag_stop_before_output(self) -> None:
++        drifted = copy.deepcopy(self.protocol)
++        drifted["source"]["expected_vault_tree_sha256"] = "0" * 64
++        output = self.workspace / "drifted"
++        with self.assertRaises(TagNavigationError) as raised:
++            run_real_vault_study(self.source, drifted, self.policy, output, self.workspace)
++        self.assertEqual("SOURCE_DRIFT", raised.exception.reason)
++        self.assertFalse(output.exists())
++
++        malicious = copy.deepcopy(self.protocol)
++        malicious["tasks"][0]["tag"] = "../恶意"
++        with self.assertRaises(TagNavigationError) as raised:
++            validate_study_protocol(malicious)
++        self.assertEqual("INVALID_TAG", raised.exception.reason)
++
++
++if __name__ == "__main__":
++    unittest.main()

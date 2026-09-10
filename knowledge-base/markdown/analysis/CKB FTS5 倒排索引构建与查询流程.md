@@ -31,7 +31,7 @@ CKB 把固定 Git 快照中的代码实体、中文审阅字段、人类知识�
 
 实体写入时，CKB 还用 `search_terms` 为限定名、名称、路径和中文说明生成普通 `terms(term, entity_id, weight)` 记录：限定名、名称、路径和说明分别使用固定权重。`terms_term` 普通 B-tree 索引负责快速取得这些可解释词项候选。
 
-全部写入完成后先提交事务，再执行 `PRAGMA integrity_check` 和 `PRAGMA foreign_key_check`。两项通过后关闭连接，并用临时数据库原子替换 `machine/knowledge.sqlite`。因此构建中断不会把半写入数据库当成正式机器知识库；正式库也不依赖手工修改 FTS shadow table。
+全部写入完成后提交事务，并核对数据库完整性与引用一致性，再关闭连接并用候选数据库替换正式机器索引。构建中断不会把半写入结果当成正式知识库，也不需要手工修改 FTS 内部表。
 
 通过 `record` 增加工作记录、通过 reference 或 gap 命令修改资料层时，CKB 会重新生成受影响的机器索引。源码实体、关系或来源提交变化时，应走 reindex、migrate 或对应构建流程，而不是直接写 SQLite。
 
@@ -51,24 +51,25 @@ CKB 把固定 Git 快照中的代码实体、中文审阅字段、人类知识�
 - `entity_fts_data`、`section_fts_data`、`source_fts_data` 等 shadow table 由 SQLite 管理，它们的物理行数不等于业务文档数；业务一致性应比较虚拟表行数与实体、章节、文件表。
 - 调试顺序仍是 `brief fast`、Agent pack、`entity/neighbors/source/changes`，再读取检索返回的精确源码范围；宽范围文本搜索只作为已确认缺口的补充。
 
+## 后续补充
+
+### 2026年9月6日历史来源修复
+
+原文保留。原查询阅读包未能从现有归档恢复，不重建同名文件，也不把本次定位当作当年的原始证据。当前来源改为本次新的定位阅读包。
+
+本次已核对两份 SQLite 的词项表和全文索引，并执行中文查询；新阅读包用于重新定位索引和查询实现，旧性能结论仍限于原版本。
+
+
+## 原始记录
+
+[按需核对历史原文与完整复现明细](../../machine/historical-records/legacy-20260910-01.md)。
+
 ## 相关知识页
 
-- [[retrieve_machine 与 estimated_tokens 的协作实现]]
-- [[finalize 与 _replace_output_prefix 的协作实现]]
-- [[sync_human_layer 与 _source_manifest 的协作实现]]
-- [[maintenance_check 与 capability_matrix 的协作实现]]
-- [[render_integration 与 harness_retrieval_contract 的协作实现]]
-- [[register_obsidian_plugin 与 default_obsidian_plugin_registry 的协作实现]]
-- [[ingest_reference 与 _root 的协作实现]]
-- [[audit_agent_protocol 与 _default_python 的协作实现]]
+- [[build_machine_knowledge 与 estimated_tokens 的协作实现]]
+- [[search_terms 与 _split_camel 的协作实现]]
 
 ## 源码入口
 
-- [打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1715`
-- [打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3482`
-- [打开源码：scripts/ckb_core/knowledge_layers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/knowledge_layers.py:1:1)  `scripts/ckb_core/knowledge_layers.py:1-262`
-- [打开源码：scripts/ckb_core/llm_wiki_capabilities.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/llm_wiki_capabilities.py:1:1)  `scripts/ckb_core/llm_wiki_capabilities.py:1-453`
-- [打开源码：scripts/ckb_core/automation_integrations.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation_integrations.py:1:1)  `scripts/ckb_core/automation_integrations.py:1-536`
-- [打开源码：scripts/ckb_core/obsidian_plugin.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/obsidian_plugin.py:1:1)  `scripts/ckb_core/obsidian_plugin.py:1-262`
-- [打开源码：scripts/ckb_core/reference_documents.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/reference_documents.py:1:1)  `scripts/ckb_core/reference_documents.py:1-604`
-- [打开源码：scripts/ckb_core/agent_protocol.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_protocol.py:1:1)  `scripts/ckb_core/agent_protocol.py:1-507`
+- [打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1995`
+- [打开源码：scripts/ckb_core/query_terms.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/query_terms.py:1:1)  `scripts/ckb_core/query_terms.py:1-106`

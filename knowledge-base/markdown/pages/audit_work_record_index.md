@@ -2,11 +2,11 @@
 
 标签：#类型/代码
 
-> `audit_work_record_index` 是 `scripts/ckb_core/work_record_index.py` 第 230-241 行定义的函数，本页绑定该固定源码范围。 负责实现 `work_record_index.py` 中由固定源码定义的命令或知识库处理步骤。
+> 该函数先审计 Markdown 工作记录导览的完整内容和链接，再检查人类镜像是否存在且与其逐字节相等，将差异合并为最终结果。 它是两个人类入口的工作记录导览一致性门，沿用单根审计的数量和分类统计，只在全部检查无错误时返回通过。
 
 ## 什么时候需要修改
 
-当 `audit_work_record_index` 的输入、输出、状态转换或失败返回变化时，应更新本页并重跑对应测试。
+导览镜像位置、字节一致性要求或单根审计结果合并方式变化时修改此函数，并验证缺失镜像和内容差异均导致失败。
 
 ## 在代码中的位置
 
@@ -14,24 +14,13 @@
 
 ## 相关代码
 
-- 实现时会用到 [[append]]。
-- 实现时会用到 [[audit_work_record_index 与 _contains_chinese 的协作实现]]。
+- 与 [[audit_work_record_index 与 _contains_chinese 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 
 ## 谁会来到这里
 
-- [[audit_agent_protocol]] 会使用这里提供的行为。
+- 与 [[audit_agent_protocol]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[audit_global 与 _replace_output_prefix 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 - [[audit_work_record_index 与 _contains_chinese 的协作实现]] 汇总了本页。
-- [[finalize 与 _replace_output_prefix 的协作实现]] 会使用这里提供的行为。
-- [[maintenance_check]] 会使用这里提供的行为。
-- [[replace_note 与 RecordReplaceLockError 的协作实现]] 会使用这里提供的行为。
-
-## 相关测试
-
-- [[AgentProtocolBatchApplyTests]]
-- [[AutomationTest.register 等测试场景]]
-- [[CodeKnowledgeBuilderTests]]
-- [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[KeywordFallbackRetrievalWiringTests]]
-- [[MigrationTest]]
-
-> 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
+- 与 [[maintenance_check]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[rollback_replacement]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[rollback_replacement 与 RecordReplaceLockError 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。

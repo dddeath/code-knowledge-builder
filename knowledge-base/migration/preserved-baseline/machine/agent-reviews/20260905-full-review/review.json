@@ -1,0 +1,345 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-09-05T04:18:57.695362+00:00",
+  "integration_branch": "codex/reference-ingest-v1",
+  "integration_head": "b6c36ee11efeff75021782a82babf7a5c6452276",
+  "stable_commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+  "verdict": "hold-stable-cutover-and-publication",
+  "coverage": {
+    "automated": "全量镜像、文档归属候选、重复标题候选、staging 路径、SQLite 完整性与外键、113 个源码文本和 Git blob；1017 个固定快照文件比对。",
+    "manual": "全部四份导航与 README、唯一 reference、两份学习笔记全文、近期变更/效果汇总和代表性代码职责页。",
+    "boundary": "本轮不是对 2090 个实体与 8152 条关系逐项重新语义审阅；发现关系误连和 598 条空泛模式后明确保留重审任务，不把结构审计当内容全通过。"
+  },
+  "inventory": {
+    "human_markdown_files": 336,
+    "notes": 72,
+    "note_kinds": {
+      "session": 7,
+      "change": 39,
+      "analysis": 18,
+      "experiment": 8
+    },
+    "learning": 2,
+    "duplicate_record_titles": 0,
+    "db_document_kinds": {
+      "analysis": 18,
+      "change": 39,
+      "entity": 2090,
+      "experiment": 8,
+      "gap": 7,
+      "reference": 1,
+      "session": 7
+    }
+  },
+  "findings": [
+    {
+      "id": "KB-R01",
+      "priority": "P1",
+      "title": "词法候选关系被投影为确定依赖",
+      "status": "open",
+      "evidence": [
+        "neighbor-maintenance.json",
+        "entity-append.json",
+        "source-maintenance.json",
+        "source-test-append.json",
+        "append-relation-review.json"
+      ],
+      "locations": [
+        {
+          "path": "/mnt/e/knowledge_builder/self-workspace/knowledge-base/human/pages/maintenance_check.md",
+          "lines": [
+            15,
+            20
+          ]
+        },
+        {
+          "path": "/mnt/e/knowledge_builder/self-workspace/source/scripts/ckb_core/llm_wiki_capabilities.py",
+          "lines": [
+            431,
+            460
+          ]
+        },
+        {
+          "path": "/mnt/e/knowledge_builder/self-workspace/source/tests/test_management_agent.py",
+          "lines": [
+            110,
+            116
+          ]
+        }
+      ],
+      "confirmed": "maintenance_check 的 failed.append 列表操作产生指向测试局部函数 ManagementSchemaPersistenceTest.test_locked_registry_serializes_concurrent_audit_events.append 的 references 入边；provider 为 tree-sitter-lexical-candidate，人类页使用肯定依赖表述。该目标共有 368 条入边。",
+      "boundary": "368 是待核验候选总数，不是已逐条确认的错误数量。",
+      "impact": "污染关系导航和基于图的检索扩展，可能把 Agent 带向无关测试。",
+      "next": "修复接收者与词法作用域消歧，区分候选关系与确认依赖；新增跨模块同名、局部函数、list.append 的失败样例后重建受影响关系。"
+    },
+    {
+      "id": "KB-R02",
+      "priority": "P1",
+      "title": "维护通过遗漏固定快照故障并信任旧可读性报告",
+      "status": "open",
+      "evidence": [
+        "status.json",
+        "maintain.json",
+        "source-maintenance.json"
+      ],
+      "locations": [
+        {
+          "path": "/mnt/e/knowledge_builder/self-workspace/source/scripts/ckb_core/llm_wiki_capabilities.py",
+          "lines": [
+            431,
+            480
+          ]
+        }
+      ],
+      "confirmed": "同一现存知识库 status 退出 6 报快照漂移，maintain 却退出 0 并报告 passed。维护函数读取既有 readability-audit.json 的 status，而不是重新执行内容审阅；报告中工作记录数仍为 70，实际为 72。",
+      "impact": "维护通过不代表本次读取的知识页、快照与已确认的人类合同当前有效。",
+      "next": "在维护与发布验收中分别报告固定快照有效性、当前 HEAD 时效及本次重新执行的可读性结果；不把这类问题扩大成所有只读检索的全局阻断。"
+    },
+    {
+      "id": "KB-R03",
+      "priority": "P1",
+      "title": "固定快照 Git 登记失效",
+      "status": "repaired",
+      "evidence": [
+        "status.json",
+        "snapshot-recovery-plan.json",
+        "snapshot-recovery-result.json",
+        "snapshot-actual-rollback.json",
+        "status-rollback-baseline.json",
+        "status-final.json"
+      ],
+      "confirmed": "原快照 .git 指向已不存在的 worktree7 管理目录；存活的旧登记 worktree2 又指向同一目录并记录另一提交。1017 个完整快照文件和全部 113 个数据库源码均保留。",
+      "impact": "原 status 和依赖固定快照的维护/迁移操作被阻止。",
+      "next": "已用 Git 正式创建/移动工作树恢复原 fcad08a 基线，锁定固定快照，保留旧快照并实际回滚后再次应用；集成分支未切换。具体登记丢失的历史原因仍待核验，未归因为某次清理操作。"
+    },
+    {
+      "id": "KB-R04",
+      "priority": "P1",
+      "title": "已确认 V3 合同没有覆盖真实生成与记录出口",
+      "status": "open",
+      "evidence": [
+        "inventory.json",
+        "maintain.json"
+      ],
+      "locations": [
+        {
+          "path": "/mnt/e/knowledge_builder/self-workspace/knowledge-base/human/WIKI.md",
+          "lines": [
+            34,
+            67
+          ]
+        },
+        {
+          "path": "/mnt/e/knowledge_builder/self-workspace/knowledge-base/human/changes/完善无项目指令检索与范围外源码确认.md",
+          "lines": [
+            32,
+            34
+          ]
+        },
+        {
+          "path": "/mnt/e/knowledge_builder/self-workspace/source/references/human-readable-pages.md",
+          "lines": [
+            10,
+            34
+          ]
+        }
+      ],
+      "confirmed": "模板规定 L1-L3 不展示完整命令、测试总数与维护内部结果，但 WIKI 仍展示命令和配置字段，近期 Change 仍展示完整测试计数；72 份普通记录元数据均无 section_evidence。",
+      "boundary": "缺少 section_evidence 本身不证明历史记录无效；结合实际违规正文与旧生成标题，证明 authoring V3 的通过不足以覆盖普通 record 和投影出口。README 当前保留三项任务入口、结果和 Prompt，未判定其完全失控。",
+      "impact": "即使 V3 作者工具测试通过，真实生成的人类页面仍可绕过理解成本与渐进披露约束。",
+      "next": "将既有合同接入实际投影、record 和维护覆盖，使用真实输出端到端负样例；历史页分批迁移，保留学习笔记原文。"
+    },
+    {
+      "id": "KB-R05",
+      "priority": "P1",
+      "title": "导航与来源链接残留已经消失的 staging 位置",
+      "status": "open",
+      "evidence": [
+        "inventory.json"
+      ],
+      "locations": [
+        {
+          "path": "/mnt/e/knowledge_builder/self-workspace/knowledge-base/human/INDEX.md",
+          "lines": [
+            28,
+            34
+          ]
+        },
+        {
+          "path": "/mnt/e/knowledge_builder/self-workspace/knowledge-base/human/WIKI.md",
+          "lines": [
+            73,
+            79
+          ]
+        },
+        {
+          "path": "/mnt/e/knowledge_builder/self-workspace/knowledge-base/human/references/CKB 审阅文本资料层说明.md",
+          "lines": [
+            11,
+            20
+          ]
+        }
+      ],
+      "confirmed": "3 份人类页面共 9 行含旧 staging 路径；INDEX/WIKI 的打开路径与 reference 原文链接都受影响。3 条 reference 行引用还使用全角闭括号，未闭合 Markdown 链接。",
+      "impact": "人类按首页打开 vault 或追溯 reference 会走到失效位置；镜像完全一致也会一致地保留这些错误。",
+      "next": "通过现有 human-refresh、reference 重投影/重新审阅与 reindex 修复，补充目录切换后真实目标存在性和 Markdown 语法检查；不直接改生成页。"
+    },
+    {
+      "id": "KB-R06",
+      "priority": "P2",
+      "title": "源码叙述大量空泛，并有模块职责代替函数职责",
+      "status": "open",
+      "evidence": [
+        "inventory.json",
+        "entity-learning-contract.json",
+        "source-maintenance.json"
+      ],
+      "locations": [
+        {
+          "path": "/mnt/e/knowledge_builder/self-workspace/knowledge-base/human/pages/maintenance_check.md",
+          "lines": [
+            5,
+            9
+          ]
+        }
+      ],
+      "confirmed": "415 条附录说明含“一个明确步骤”，85 条含“所需的数据或状态”，98 条含“处理当前模块的结构化输入或状态”，合计 598 条；maintenance_check 被描述为维护 Wiki 能力状态与生成紧凑说明，而函数实际聚合知识库审计并写报告。",
+      "boundary": "598 是三个空泛文本模式命中数，不是 598 条已确认语义错误。",
+      "impact": "有中文、有来源范围并不足以回答它做什么、何时改、与问题有什么关系。",
+      "next": "对已确认错误与高频入口先重新审阅，其他空泛描述按源码范围分批重审；保持页面配额，不增建页面掩盖内容不足。"
+    },
+    {
+      "id": "KB-R07",
+      "priority": "P1",
+      "title": "稳定事实与最新研究成果尚未同步",
+      "status": "in-progress",
+      "evidence": [
+        "maintain-pack.json",
+        "gaps.json",
+        "freshness-plan.json"
+      ],
+      "confirmed": "固定图谱为 fcad08a，集成 HEAD 为 b6c36ee；QMD、真实 LLM、OCR、Tag、Web 五项成果已合入源码，5 项开放 gap 与效果汇总仍保留较早证据状态。",
+      "boundary": "原历史记录绑定自己的提交时仍可成立；问题是当前汇总与缺口没有反映后续证据。",
+      "impact": "Agent 可能重复派发已完成实验，或将已具备的能力误报为待实现。",
+      "next": "当前 HEAD staging 已启动，按每项冻结基线补入新证据；LLM 费用、OCR 广泛样本及真实人类 Tag/Canvas 效果仍保留未决，避免整体提前关闭。"
+    },
+    {
+      "id": "KB-R08",
+      "priority": "P2",
+      "title": "学习笔记原文保留但未进入普通机器文档检索",
+      "status": "needs-design-confirmation",
+      "evidence": [
+        "inventory.json",
+        "query-learning.json"
+      ],
+      "confirmed": "两份笔记归于学习笔记而非 analysis，镜像一致；machine documents 无 learning-note 类，针对日期与学习问题的查询返回相关 change/analysis，不返回该学习笔记。",
+      "boundary": "只评价当前普通 SQLite 文档检索，不推断 Obsidian 自带搜索或插件其他索引同样失效。",
+      "impact": "跨会话检索可能遗漏人类已追问的解释与概念纠正。",
+      "next": "先明确是否将学习笔记作为独立可检索文档类型；不改原文，不混入 analysis。另保留历史解释的时间适用边界，旧 needs-source-read 独占限制不应当作为当前最新协议。"
+    },
+    {
+      "id": "KB-R09",
+      "priority": "P2",
+      "title": "部分记录存在同级重复标题及跨项目标题误导",
+      "status": "open",
+      "evidence": [
+        "inventory.json"
+      ],
+      "locations": [
+        {
+          "path": "/mnt/e/knowledge_builder/self-workspace/knowledge-base/human/analysis/自动同步与 LLM Wiki 后续待办.md",
+          "heading": "后续补充"
+        },
+        {
+          "path": "/mnt/e/knowledge_builder/self-workspace/knowledge-base/human/changes/Obsidian 多 Harness 选区学习插件.md",
+          "heading": "验证结果 / 后续补充"
+        },
+        {
+          "path": "/mnt/e/knowledge_builder/self-workspace/knowledge-base/human/analysis/Code Knowledge Builder 秋招面试官拷问手册.md",
+          "lines": [
+            1,
+            20
+          ]
+        }
+      ],
+      "confirmed": "两份累加记录保留同级重复标题；以 CKB 命名的面试手册主体先讲 DSH 项目，并被学习笔记引用。",
+      "boundary": "学习笔记按每条问题重复三级标题属正常结构，跨章节重复小标题也未直接判错；跨项目内容可能为人类有意保留，不擅自删除或迁移。",
+      "impact": "标题导航与按主题查找容易误入历史过程或另一项目。",
+      "next": "使用受控 record 替换整理必要记录；跨项目手册先确认最终归属再处理。"
+    },
+    {
+      "id": "KB-R10",
+      "priority": "P2",
+      "title": "管理绑定停在旧 HEAD",
+      "status": "repaired",
+      "evidence": [
+        "manager-status.json",
+        "manager-rebind.json",
+        "manager-bind-current-head.json",
+        "manager-status-current-head.json"
+      ],
+      "confirmed": "原绑定仍记录 bdd4a66，直接重复 bind 返回 already-bound 而不刷新 HEAD；经正式 unbind/bind 更新到 b6c36ee。",
+      "boundary": "当前身份正确，但 manager status 仍因知识库正在迁移而保持 blocked；不报告所有管理能力已通过实机验收。",
+      "next": "合并与同步后显式复核绑定 HEAD；不依靠重复 bind 的幂等成功提示。"
+    },
+    {
+      "id": "KB-R11",
+      "priority": "P1",
+      "title": "增量迁移遗漏既有缺口引用的检索证据",
+      "status": "staging-data-repaired-code-followup-open",
+      "confirmed": "migrate start 保留既有 gap 元数据，但没有带入其中引用的两份 machine/agent-packs JSON；四项旧 gap 因缺失证据而在 staging 审计失败。",
+      "impact": "新库即使保留 gap 数量也会丢失其来源链。",
+      "next": "本轮仅复制仍被引用的两份原始证据并逐字节核对，staging gaps audit 已重新执行；生成器应增加被可变记录引用的机器证据依赖闭包保留与失败样例。",
+      "evidence": [
+        "review-gap-staging.json",
+        "staging-retained-gap-evidence-repair.json",
+        "staging-gaps-audit-repaired.json"
+      ]
+    }
+  ],
+  "excluded_false_positives": [
+    {
+      "path": "human/.obsidian/plugins/code-knowledge-builder-companion/NOTICE.md",
+      "reason": "插件许可说明仅安装在 human，属于既有刻意镜像排除，不删除。"
+    },
+    {
+      "path": "human/REFERENCES.md",
+      "reason": "由 reference 子系统管理，不属于浮动文件。"
+    },
+    {
+      "path": "human/学习笔记/*.md",
+      "reason": "学习笔记独立文档层，重复问题小标题不是重复文章。"
+    }
+  ],
+  "confirmed_floating_documents": [],
+  "retrieval_review": {
+    "cases": 7,
+    "within_budget": true,
+    "live_caveat": "测试为功能与时效提示检查，未预注册冻结答案集，不计算或宣称检索质量提升；stdio/record 的预设猜测文件名不计为漏检。C++ 长问题噪声需另做已入队复测。"
+  },
+  "effects_evidence_boundary": {
+    "qmd": "固定十二题改善，不外推生产",
+    "llm": "实际十二次 Provider，语料 19152b2，费用缺失及 q11 排名回退仍保留",
+    "ocr": "两页清晰样例，完整代码行并非全保真",
+    "tag": "真实 vault 上的系统代理，非真人结果",
+    "canvas": "八题协议与原队列十二题要求存在差异，待收尾任务核对"
+  },
+  "continuation": {
+    "staging": "/mnt/e/knowledge_builder/self-workspace/knowledge-base.staging-b6c36ee11efe",
+    "cutover": false,
+    "github_push": false,
+    "canvas_thread_id": "01a06fbe-5b1c-7b60-8ade-8c2771ffd919",
+    "canvas_state": "temporarily-blocked-harness-bwrap",
+    "canvas_blocker_evidence": "bubblewrap-install.log",
+    "system_change": "sudo 要求密码，bubblewrap 未安装，未更改系统软件包",
+    "staging_result": "pending-agent-review; 34 delta packs and 454 entities",
+    "registered_review_gap": "gap-3ad5ee428dbd570eb64e02e4e28fe299"
+  },
+  "evidence_root": "/mnt/e/knowledge_builder/artifacts/verification/20260905-full-kb-review",
+  "inventory_after_recording_gap": {
+    "work_records": 72,
+    "reference": 1,
+    "research_gaps": 8,
+    "learning_notes": 2
+  }
+}

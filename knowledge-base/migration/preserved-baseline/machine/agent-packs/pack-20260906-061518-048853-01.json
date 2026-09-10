@@ -1,0 +1,916 @@
+{
+  "schema_version": 3,
+  "status": "passed",
+  "question": "CKB 人类知识库投影生成流程 pipeline.py project_markdown",
+  "profile": "fast",
+  "budget": 1200,
+  "estimated_tokens": 1189,
+  "terms": [
+    "project_markdown",
+    "pipeline.py",
+    "人类知识库投影生成流程",
+    "ckb",
+    "markdown",
+    "pipeline",
+    "project",
+    "py",
+    "人类知",
+    "库投影",
+    "影生成",
+    "成流程",
+    "投影生",
+    "生成流",
+    "知识库",
+    "类知识",
+    "识库投",
+    "人类",
+    "库投",
+    "影生",
+    "成流",
+    "投影",
+    "流程",
+    "生成",
+    "知识",
+    "类知",
+    "识库"
+  ],
+  "anchors": [
+    "ckb",
+    "pipeline.py",
+    "project_markdown"
+  ],
+  "seed_entity_ids": [
+    "ent-ca0e91b163f75786996af8c4e06ff6f9",
+    "file-5096edf074e35db9af5b5bf2f3d37cef",
+    "ent-5ce4e82d131e5b508b773d7871fbcc63",
+    "ent-641a898c9fe05e1fbd9f8addb3bcdd2e",
+    "ent-1afe31822bb251d191ca97aed2f588d0"
+  ],
+  "selected_entities": [
+    {
+      "entity_id": "ent-ca0e91b163f75786996af8c4e06ff6f9",
+      "name": "project_markdown",
+      "qualified_name": "project_markdown",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2560,
+      "end_line": 2640,
+      "human_page_title": "finalize 与 _replace_output_prefix 的协作实现",
+      "human_page_file": "pages/finalize 与 _replace_output_prefix 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 783.60607503,
+      "score_breakdown": {
+        "anchor": 500.0,
+        "entity-fts": 2.33931714,
+        "graph": 2.12659861,
+        "metadata": 205.0,
+        "section-fts": 2.14015928,
+        "term": 72.0
+      },
+      "reasons": [
+        "保留显式标识符 `project_markdown`",
+        "确定性词项 `ckb`",
+        "确定性词项 `markdown`",
+        "确定性词项 `pipeline`",
+        "确定性词项 `project`",
+        "确定性词项 `project_markdown`",
+        "确定性词项 `py`",
+        "确定性词项 `投影`",
+        "确定性词项 `流程`",
+        "确定性词项 `生成`",
+        "确定性词项 `知识`",
+        "确定性词项 `知识库`",
+        "确定性词项 `识库`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文作用"
+      ],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "file-5096edf074e35db9af5b5bf2f3d37cef",
+      "name": "pipeline.py",
+      "qualified_name": "scripts/ckb_core/pipeline.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 1,
+      "end_line": 3605,
+      "human_page_title": "finalize 与 _replace_output_prefix 的协作实现",
+      "human_page_file": "pages/finalize 与 _replace_output_prefix 的协作实现.md",
+      "display_mode": "page",
+      "score": 726.95053107,
+      "score_breakdown": {
+        "anchor": 500.0,
+        "entity-fts": 8.1419657,
+        "graph": 1.80856538,
+        "metadata": 162.0,
+        "term": 55.0
+      },
+      "reasons": [
+        "保留显式标识符 `pipeline.py`",
+        "确定性词项 `ckb`",
+        "确定性词项 `pipeline`",
+        "确定性词项 `pipeline.py`",
+        "确定性词项 `py`",
+        "确定性词项 `人类`",
+        "确定性词项 `投影`",
+        "确定性词项 `流程`",
+        "确定性词项 `生成`",
+        "机器实体全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文含义"
+      ],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "ent-641a898c9fe05e1fbd9f8addb3bcdd2e",
+      "name": "_render_markdown_page",
+      "qualified_name": "_render_markdown_page",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2158,
+      "end_line": 2231,
+      "human_page_title": "finalize 与 _replace_output_prefix 的协作实现",
+      "human_page_file": "pages/finalize 与 _replace_output_prefix 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 188.69721695,
+      "score_breakdown": {
+        "entity-fts": 4.30188561,
+        "graph": 5.38772903,
+        "metadata": 123.0,
+        "section-fts": 4.00760232,
+        "term": 52.0
+      },
+      "reasons": [
+        "确定性词项 `ckb`",
+        "确定性词项 `markdown`",
+        "确定性词项 `pipeline`",
+        "确定性词项 `py`",
+        "确定性词项 `投影`",
+        "确定性词项 `流程`",
+        "确定性词项 `生成`",
+        "确定性词项 `知识`",
+        "确定性词项 `知识库`",
+        "确定性词项 `识库`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文作用"
+      ],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "ent-5ce4e82d131e5b508b773d7871fbcc63",
+      "name": "project_logseq",
+      "qualified_name": "project_logseq",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2802,
+      "end_line": 2935,
+      "human_page_title": "finalize 与 _replace_output_prefix 的协作实现",
+      "human_page_file": "pages/finalize 与 _replace_output_prefix 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 184.21805362,
+      "score_breakdown": {
+        "entity-fts": 4.53659095,
+        "graph": 0.69490922,
+        "metadata": 123.0,
+        "section-fts": 3.98655345,
+        "term": 52.0
+      },
+      "reasons": [
+        "确定性词项 `ckb`",
+        "确定性词项 `pipeline`",
+        "确定性词项 `project`",
+        "确定性词项 `py`",
+        "确定性词项 `投影`",
+        "确定性词项 `流程`",
+        "确定性词项 `生成`",
+        "确定性词项 `知识`",
+        "确定性词项 `知识库`",
+        "确定性词项 `识库`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "ent-1afe31822bb251d191ca97aed2f588d0",
+      "name": "_audit_markdown",
+      "qualified_name": "_audit_markdown",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2938,
+      "end_line": 3007,
+      "human_page_title": "finalize 与 _replace_output_prefix 的协作实现",
+      "human_page_file": "pages/finalize 与 _replace_output_prefix 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 180.10082555,
+      "score_breakdown": {
+        "entity-fts": 4.22898214,
+        "graph": 0.90500686,
+        "metadata": 123.0,
+        "section-fts": 3.96683655,
+        "term": 48.0
+      },
+      "reasons": [
+        "确定性词项 `ckb`",
+        "确定性词项 `markdown`",
+        "确定性词项 `pipeline`",
+        "确定性词项 `py`",
+        "确定性词项 `投影`",
+        "确定性词项 `流程`",
+        "确定性词项 `知识`",
+        "确定性词项 `知识库`",
+        "确定性词项 `识库`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    }
+  ],
+  "related_documents": [
+    {
+      "document_id": "note:analysis:CKB 人类知识库投影生成流程",
+      "title": "CKB 人类知识库投影生成流程",
+      "kind": "analysis",
+      "status": "agent-reviewed",
+      "human_file": "analysis/CKB 人类知识库投影生成流程.md",
+      "source_path": null,
+      "start_line": null,
+      "end_line": null
+    },
+    {
+      "document_id": "note:analysis:当前 Codex Hook 触发流程核对",
+      "title": "当前 Codex Hook 触发流程核对",
+      "kind": "analysis",
+      "status": "agent-reviewed",
+      "human_file": "analysis/当前 Codex Hook 触发流程核对.md",
+      "source_path": null,
+      "start_line": null,
+      "end_line": null
+    },
+    {
+      "document_id": "note:analysis:Code Knowledge Builder 项目说明书结构与验收样例",
+      "title": "Code Knowledge Builder 项目说明书结构与验收样例",
+      "kind": "analysis",
+      "status": "agent-reviewed",
+      "human_file": "analysis/Code Knowledge Builder 项目说明书结构与验收样例.md",
+      "source_path": null,
+      "start_line": null,
+      "end_line": null
+    },
+    {
+      "document_id": "note:changes:LLM Wiki 功能矩阵与紧凑维护入口",
+      "title": "LLM Wiki 功能矩阵与紧凑维护入口",
+      "kind": "change",
+      "human_file": "changes/LLM Wiki 功能矩阵与紧凑维护入口.md"
+    },
+    {
+      "document_id": "note:analysis:Code Knowledge Builder 秋招面试官拷问手册",
+      "title": "Code Knowledge Builder 秋招面试官拷问手册",
+      "kind": "analysis",
+      "human_file": "analysis/Code Knowledge Builder 秋招面试官拷问手册.md"
+    },
+    {
+      "document_id": "note:analysis:Code Knowledge Builder：一份代码，两种读法",
+      "title": "Code Knowledge Builder：一份代码，两种读法",
+      "kind": "analysis",
+      "human_file": "analysis/Code Knowledge Builder：一份代码，两种读法.md"
+    },
+    {
+      "document_id": "note:analysis:自动同步与 LLM Wiki 后续待办",
+      "title": "自动同步与 LLM Wiki 后续待办",
+      "kind": "analysis",
+      "human_file": "analysis/自动同步与 LLM Wiki 后续待办.md"
+    },
+    {
+      "document_id": "note:changes:建立人类页面模板与稳定维护入口",
+      "title": "建立人类页面模板与稳定维护入口",
+      "kind": "change",
+      "human_file": "changes/建立人类页面模板与稳定维护入口.md"
+    }
+  ],
+  "open_feedback": 0,
+  "retrieval_stats": {
+    "scored_entities": 2080,
+    "overscan_limit": 32,
+    "materialized_candidates": 32,
+    "selected_entities": 5,
+    "budgeted_entity_limit": 5,
+    "selected_source_paths": 1,
+    "batched_entity_queries": 2,
+    "source_link_cache_entries": 1,
+    "static_cache_hit": false
+  },
+  "pack": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260906-061518-048853-01.md",
+  "record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260906-061518-048853-01.json",
+  "retrieval": "sqlite-exact-fts5-sections-deterministic-weighted-graph",
+  "deterministic": true,
+  "source_grounded": true,
+  "grep_fallback_required": false,
+  "warnings": {
+    "status": "warning",
+    "warning_count": 1,
+    "examples": [
+      {
+        "kind": "compile-commands-unavailable",
+        "language": "cpp",
+        "file": "compile_commands.json",
+        "range": null,
+        "diagnostic_categories": [],
+        "diagnostic_count": 0,
+        "coverage": {},
+        "precision": "bounded-approximate",
+        "build_evidence": {
+          "paths": [
+            "tests/fixtures/cpp-parser-scons/scons-project/SConstruct",
+            "tests/fixtures/cpp-parser-scons/scons-project/src/SConscript"
+          ],
+          "resolution": "build-config-unique",
+          "selected": "c++20"
+        },
+        "affected_entity_count": 0,
+        "absence_inference_allowed": false
+      }
+    ],
+    "omitted_warning_count": 0,
+    "absence_inference_allowed": false,
+    "message_zh": "警告范围或有界近似语义结果不完整，不可据此推断未检出事实在源码中不存在。"
+  },
+  "fact_freshness": {
+    "schema_version": 1,
+    "state": "stale-committed",
+    "stable_state": "stale-committed",
+    "observed_at_utc": "2026-09-06T06:15:18Z",
+    "trigger": "first-query",
+    "bound_commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+    "current_head": "66adf511b9e1f878f672a573a282d0664cce169a",
+    "branch": "codex/reference-ingest-v1",
+    "dirty": {
+      "count": 0,
+      "paths": [],
+      "truncated": false
+    },
+    "change_summary": {
+      "comparison": "bound-commit-to-current-head",
+      "changed": 143,
+      "changed_paths": [
+        "prototypes/ckb-semantic-vector-benchmark/qmd_adapter.mjs",
+        "prototypes/ckb-semantic-vector-benchmark/qmd_benchmark.py",
+        "prototypes/ckb-semantic-vector-benchmark/qmd_recompute.py",
+        "prototypes/ckb-tag-navigation/README.md",
+        "prototypes/ckb-tag-navigation/ckb_tag_navigation/cli.py",
+        "prototypes/ckb-tag-navigation/ckb_tag_navigation/real_vault.py",
+        "prototypes/ckb-tag-navigation/schemas/real-vault-study.schema.json",
+        "references/benchmarks/qmd-fixed-three-arm/bge-index-manifest.json",
+        "references/benchmarks/qmd-fixed-three-arm/changes.patch",
+        "references/benchmarks/qmd-fixed-three-arm/failure-samples/missing-qmd.json",
+        "references/benchmarks/qmd-fixed-three-arm/failure-samples/qmd-output-drift.json",
+        "references/benchmarks/qmd-fixed-three-arm/failure-samples/qmd-process-failure.json",
+        "references/benchmarks/qmd-fixed-three-arm/provenance.json",
+        "references/benchmarks/qmd-fixed-three-arm/qmd-index-manifest.json",
+        "references/benchmarks/qmd-fixed-three-arm/raw-results.json",
+        "references/benchmarks/qmd-fixed-three-arm/recompute-command.ps1.txt",
+        "references/benchmarks/qmd-fixed-three-arm/recomputed.json",
+        "references/benchmarks/qmd-fixed-three-arm/report.json",
+        "references/benchmarks/qmd-fixed-three-arm/rollback.ps1",
+        "references/benchmarks/qmd-fixed-three-arm/run-command.ps1.txt",
+        "references/benchmarks/qmd-fixed-three-arm/sha256sums.json",
+        "references/benchmarks/qmd-fixed-three-arm/summary.md",
+        "references/benchmarks/qmd-fixed-three-arm/verification-record.json",
+        "references/recruitment/human-output-contract/README.md",
+        "references/recruitment/migration-integrity/README.md",
+        "references/recruitment/migration-integrity/implementation.patch",
+        "references/recruitment/migration-integrity/modified-files.zip",
+        "references/recruitment/migration-integrity/patch-manifest.json",
+        "references/recruitment/migration-integrity/rollback.py",
+        "references/recruitment/migration-integrity/verification.json",
+        "references/recruitment/migration-integrity/windows-verify.ps1",
+        "references/recruitment/migration-integrity/windows-verify.py",
+        "references/recruitment/relation-correctness/README.md",
+        "references/recruitment/relation-correctness/verify_replay.py",
+        "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/artifact-verification.json",
+        "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/baseline-manifest.json",
+        "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/fault-provider-starts.log",
+        "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/implementation-and-results.patch",
+        "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/modified-artifacts.zip",
+        "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/not-configured-report.json",
+        "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/protocol.json",
+        "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/raw-results.json",
+        "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/real-provider-starts.log",
+        "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/report.json",
+        "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/result-audit.json",
+        "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/rollback.ps1",
+        "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/summary.md",
+        "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/verification-record.json",
+        "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/assertions.jsonl",
+        "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/audit.json",
+        "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/determinism-audit.json",
+        "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/failure-samples/invalid-tag.json",
+        "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/failure-samples/rollback-drift.json",
+        "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/failure-samples/source-drift.json",
+        "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/implementation.patch",
+        "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/policy.json",
+        "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/projection.json",
+        "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/protocol.json",
+        "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/raw-results.json",
+        "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/report.json",
+        "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/result-audit.json",
+        "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/rollback-verification.json",
+        "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/rollback.ps1",
+        "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/runtime-report.json",
+        "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/source-after.json",
+        "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/source-before.json",
+        "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/study-command-output.json",
+        "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/study-command-rollback-output.json",
+        "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/summary.md",
+        "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/tags.sqlite",
+        "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/verification-record.json",
+        "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/verify_results.py",
+        "references/research-gap-enhancement-effects/pdf-ocr-code-table-fidelity-v1/implementation.patch",
+        "references/research-gap-enhancement-effects/pdf-ocr-code-table-fidelity-v1/raw-results.json",
+        "references/research-gap-enhancement-effects/pdf-ocr-code-table-fidelity-v1/report.json",
+        "references/research-gap-enhancement-effects/pdf-ocr-code-table-fidelity-v1/rollback.ps1",
+        "references/research-gap-enhancement-effects/pdf-ocr-code-table-fidelity-v1/verification.json",
+        "references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/artifact-verification.json",
+        "references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/baseline-contract.json",
+        "references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/failure-samples.json",
+        "references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/implementation.patch",
+        "references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/modified-artifacts.zip",
+        "references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/modified-contract.json",
+        "references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/patch-verification.json",
+        "references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/pdf-regression.log",
+        "references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/rollback-verification.json",
+        "references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/rollback.ps1",
+        "references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/static-verification.log",
+        "references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/success-sample.json",
+        "references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/summary.md",
+        "references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/text-reference-regression.log",
+        "references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/verification-record.json",
+        "references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/web-tests.log",
+        "scripts/ckb.py",
+        "scripts/ckb_core/gitrepo.py",
+        "scripts/ckb_core/human_page_authoring.py",
+        "scripts/ckb_core/human_page_templates.py",
+        "scripts/ckb_core/keyword_fallback.py",
+        "scripts/ckb_core/knowledge_batch_migration.py",
+        "scripts/ckb_core/llm_wiki_capabilities.py"
+      ],
+      "changes": [
+        {
+          "status": "A",
+          "path": "prototypes/ckb-semantic-vector-benchmark/qmd_adapter.mjs"
+        },
+        {
+          "status": "A",
+          "path": "prototypes/ckb-semantic-vector-benchmark/qmd_benchmark.py"
+        },
+        {
+          "status": "A",
+          "path": "prototypes/ckb-semantic-vector-benchmark/qmd_recompute.py"
+        },
+        {
+          "status": "M",
+          "path": "prototypes/ckb-tag-navigation/README.md"
+        },
+        {
+          "status": "M",
+          "path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/cli.py"
+        },
+        {
+          "status": "A",
+          "path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/real_vault.py"
+        },
+        {
+          "status": "A",
+          "path": "prototypes/ckb-tag-navigation/schemas/real-vault-study.schema.json"
+        },
+        {
+          "status": "A",
+          "path": "references/benchmarks/qmd-fixed-three-arm/bge-index-manifest.json"
+        },
+        {
+          "status": "A",
+          "path": "references/benchmarks/qmd-fixed-three-arm/changes.patch"
+        },
+        {
+          "status": "A",
+          "path": "references/benchmarks/qmd-fixed-three-arm/failure-samples/missing-qmd.json"
+        },
+        {
+          "status": "A",
+          "path": "references/benchmarks/qmd-fixed-three-arm/failure-samples/qmd-output-drift.json"
+        },
+        {
+          "status": "A",
+          "path": "references/benchmarks/qmd-fixed-three-arm/failure-samples/qmd-process-failure.json"
+        },
+        {
+          "status": "A",
+          "path": "references/benchmarks/qmd-fixed-three-arm/provenance.json"
+        },
+        {
+          "status": "A",
+          "path": "references/benchmarks/qmd-fixed-three-arm/qmd-index-manifest.json"
+        },
+        {
+          "status": "A",
+          "path": "references/benchmarks/qmd-fixed-three-arm/raw-results.json"
+        },
+        {
+          "status": "A",
+          "path": "references/benchmarks/qmd-fixed-three-arm/recompute-command.ps1.txt"
+        },
+        {
+          "status": "A",
+          "path": "references/benchmarks/qmd-fixed-three-arm/recomputed.json"
+        },
+        {
+          "status": "A",
+          "path": "references/benchmarks/qmd-fixed-three-arm/report.json"
+        },
+        {
+          "status": "A",
+          "path": "references/benchmarks/qmd-fixed-three-arm/rollback.ps1"
+        },
+        {
+          "status": "A",
+          "path": "references/benchmarks/qmd-fixed-three-arm/run-command.ps1.txt"
+        },
+        {
+          "status": "A",
+          "path": "references/benchmarks/qmd-fixed-three-arm/sha256sums.json"
+        },
+        {
+          "status": "A",
+          "path": "references/benchmarks/qmd-fixed-three-arm/summary.md"
+        },
+        {
+          "status": "A",
+          "path": "references/benchmarks/qmd-fixed-three-arm/verification-record.json"
+        },
+        {
+          "status": "A",
+          "path": "references/recruitment/human-output-contract/README.md"
+        },
+        {
+          "status": "A",
+          "path": "references/recruitment/migration-integrity/README.md"
+        },
+        {
+          "status": "A",
+          "path": "references/recruitment/migration-integrity/implementation.patch"
+        },
+        {
+          "status": "A",
+          "path": "references/recruitment/migration-integrity/modified-files.zip"
+        },
+        {
+          "status": "A",
+          "path": "references/recruitment/migration-integrity/patch-manifest.json"
+        },
+        {
+          "status": "A",
+          "path": "references/recruitment/migration-integrity/rollback.py"
+        },
+        {
+          "status": "A",
+          "path": "references/recruitment/migration-integrity/verification.json"
+        },
+        {
+          "status": "A",
+          "path": "references/recruitment/migration-integrity/windows-verify.ps1"
+        },
+        {
+          "status": "A",
+          "path": "references/recruitment/migration-integrity/windows-verify.py"
+        },
+        {
+          "status": "A",
+          "path": "references/recruitment/relation-correctness/README.md"
+        },
+        {
+          "status": "A",
+          "path": "references/recruitment/relation-correctness/verify_replay.py"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/artifact-verification.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/baseline-manifest.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/fault-provider-starts.log"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/implementation-and-results.patch"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/modified-artifacts.zip"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/not-configured-report.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/protocol.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/raw-results.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/real-provider-starts.log"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/report.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/result-audit.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/rollback.ps1"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/summary.md"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/verification-record.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/assertions.jsonl"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/audit.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/determinism-audit.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/failure-samples/invalid-tag.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/failure-samples/rollback-drift.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/failure-samples/source-drift.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/implementation.patch"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/policy.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/projection.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/protocol.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/raw-results.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/report.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/result-audit.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/rollback-verification.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/rollback.ps1"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/runtime-report.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/source-after.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/source-before.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/study-command-output.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/study-command-rollback-output.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/summary.md"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/tags.sqlite"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/verification-record.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/obsidian-tag-real-vault-study-v1/verify_results.py"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/pdf-ocr-code-table-fidelity-v1/implementation.patch"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/pdf-ocr-code-table-fidelity-v1/raw-results.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/pdf-ocr-code-table-fidelity-v1/report.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/pdf-ocr-code-table-fidelity-v1/rollback.ps1"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/pdf-ocr-code-table-fidelity-v1/verification.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/artifact-verification.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/baseline-contract.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/failure-samples.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/implementation.patch"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/modified-artifacts.zip"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/modified-contract.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/patch-verification.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/pdf-regression.log"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/rollback-verification.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/rollback.ps1"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/static-verification.log"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/success-sample.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/summary.md"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/text-reference-regression.log"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/verification-record.json"
+        },
+        {
+          "status": "A",
+          "path": "references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/web-tests.log"
+        },
+        {
+          "status": "M",
+          "path": "scripts/ckb.py"
+        },
+        {
+          "status": "M",
+          "path": "scripts/ckb_core/gitrepo.py"
+        },
+        {
+          "status": "M",
+          "path": "scripts/ckb_core/human_page_authoring.py"
+        },
+        {
+          "status": "M",
+          "path": "scripts/ckb_core/human_page_templates.py"
+        },
+        {
+          "status": "M",
+          "path": "scripts/ckb_core/keyword_fallback.py"
+        },
+        {
+          "status": "M",
+          "path": "scripts/ckb_core/knowledge_batch_migration.py"
+        },
+        {
+          "status": "M",
+          "path": "scripts/ckb_core/llm_wiki_capabilities.py"
+        }
+      ],
+      "counts": {
+        "A": 117,
+        "M": 26
+      },
+      "truncated": true
+    },
+    "migration": null,
+    "overlay": null,
+    "cache_hit": false,
+    "stable_facts_current": false,
+    "next_action": {
+      "action": "create-migration-plan",
+      "staging_output": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-66adf511b9e1",
+      "command": [
+        "freshness",
+        "plan",
+        "--out",
+        "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+        "--repo",
+        "E:\\knowledge_builder\\self-workspace\\source",
+        "--staging-out",
+        "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-66adf511b9e1"
+      ]
+    },
+    "error": null,
+    "state_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\freshness\\state.json"
+  },
+  "current_source_grounded": false
+}

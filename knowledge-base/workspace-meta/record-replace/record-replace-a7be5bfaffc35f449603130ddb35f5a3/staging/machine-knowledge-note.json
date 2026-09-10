@@ -1,0 +1,213 @@
+{
+  "document": [
+    [
+      "note:changes:Obsidian 解释快速路径与跨知识库部署",
+      "change",
+      "Obsidian 解释快速路径与跨知识库部署",
+      "#类型/变更",
+      "changes/Obsidian 解释快速路径与跨知识库部署.md",
+      null,
+      "# Obsidian 解释快速路径与跨知识库部署\n\n标签：#类型/变更\n\n## 修改结果\n\nObsidian Companion 升级到 0.7.0。右键解释仍跟随用户选择的 Provider 和模型，但不再让 Codex、Claude Code 等 Provider 自行打开 Agent pack、调用命令并执行多轮审计。插件先通过常驻 CKB stdio 完成确定性检索，把预算化 Agent pack 正文直接放入提示词；Provider 以无工具模式只生成中文解释。解释返回后，同一 stdio 进程通过 `record-explanation` 一次完成检索证据绑定、幂等记录、索引刷新、反馈审计和 Agent-policy 审计。\n\n这项修改把可控的本地阶段压缩为一次检索和一次记录调用。实测常驻检索约 10 毫秒；独立冷进程中的真实检索约 35 毫秒；首次确定性记录、重建索引和两项审计约 1.84 秒，幂等重试约 7 毫秒。剩余主要等待时间来自用户所选 Provider 的模型初始化、推理与网络；因此如果 Codex 仍明显慢，可在插件设置中切换较快模型，而不会绕过知识库检索与审计。\n\n## 部署能力\n\n插件 ZIP 新增独立 `deploy.py`，Agent 可直接对任意 vault 执行部署、状态检查和移除。核心 Skill 升级到 5.2.5，新增 `obsidian-plugin register|deploy|status|remove`。登记插件包后，后续初始化或重新投影的人类知识库会自动部署登记版本；已有知识库需要按自动化注册表逐个补部署一次。\n\n本次已把 0.7.0 部署到当前自知识库和 `sensory-memory-plugin` 知识库，两处都已写入插件启用项与部署记录。Obsidian 当前正在运行，磁盘部署已经生效；应用重新加载或重启后载入新的 `main.js`。\n\n## 验证边界\n\n该轮验证了插件构建、核心解释接线、自动化与发行边界，并实际执行部署、移除和再次部署。模型端到端响应时间未被当作固定收益，因为它随服务、模型与网络变化。\n\n## 后续补充\n\n## 实现入口补充\n\n本次快速路径以常驻 `serve --stdio` 为运行入口，核心部署由 Obsidian vault 投影和独立插件登记器共同完成；正式记录继续通过统一的 `record_note` 入口写入并重建机器索引。\n\n\n## 原始记录\n\n[按需核对历史原文与完整复现明细](../../machine/historical-records/legacy-20260910-10.md)。\n\n## 相关知识页\n\n- [[audit_obsidian 与 prepare_vault 的协作实现]]\n- [[finish_session 与 _session_directory 的协作实现]]\n- [[build_agent_index 与 _tokens 的协作实现]]\n- [[record_note]]\n- [[ensure_local_openers 与 SourceLinkRenderer 的协作实现]]\n- [[review_automation 与 default_registry_path 的协作实现]]\n- [[build_machine_knowledge 与 estimated_tokens 的协作实现]]\n- [[project_graphify 与 _networkx_modules 的协作实现]]\n\n## 源码入口\n\n- [打开源码：scripts/ckb_core/obsidian.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/obsidian.py:1:1)  `scripts/ckb_core/obsidian.py:1-166`\n- [打开源码：scripts/ckb_core/agent_maintenance.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_maintenance.py:1:1)  `scripts/ckb_core/agent_maintenance.py:1-255`\n- [打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-555`\n- [打开源码：scripts/ckb_core/workspace_notes.py 第 197 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/workspace_notes.py:197:1)  `scripts/ckb_core/workspace_notes.py:197-273`\n- [打开源码：scripts/ckb_core/source_links.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/source_links.py:1:1)  `scripts/ckb_core/source_links.py:1-184`\n- [打开源码：scripts/ckb_core/automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation.py:1:1)  `scripts/ckb_core/automation.py:1-1783`\n- [打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1995`\n- [打开源码：scripts/ckb_core/graphify_core.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/graphify_core.py:1:1)  `scripts/ckb_core/graphify_core.py:1-676`\n",
+      1488
+    ]
+  ],
+  "sections": [
+    [
+      "note:changes:Obsidian 解释快速路径与跨知识库部署:0",
+      "note:changes:Obsidian 解释快速路径与跨知识库部署",
+      0,
+      "Obsidian 解释快速路径与跨知识库部署",
+      "标签：#类型/变更",
+      8,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:Obsidian 解释快速路径与跨知识库部署:1",
+      "note:changes:Obsidian 解释快速路径与跨知识库部署",
+      1,
+      "修改结果",
+      "Obsidian Companion 升级到 0.7.0。右键解释仍跟随用户选择的 Provider 和模型，但不再让 Codex、Claude Code 等 Provider 自行打开 Agent pack、调用命令并执行多轮审计。插件先通过常驻 CKB stdio 完成确定性检索，把预算化 Agent pack 正文直接放入提示词；Provider 以无工具模式只生成中文解释。解释返回后，同一 stdio 进程通过 `record-explanation` 一次完成检索证据绑定、幂等记录、索引刷新、反馈审计和 Agent-policy 审计。\n\n这项修改把可控的本地阶段压缩为一次检索和一次记录调用。实测常驻检索约 10 毫秒；独立冷进程中的真实检索约 35 毫秒；首次确定性记录、重建索引和两项审计约 1.84 秒，幂等重试约 7 毫秒。剩余主要等待时间来自用户所选 Provider 的模型初始化、推理与网络；因此如果 Codex 仍明显慢，可在插件设置中切换较快模型，而不会绕过知识库检索与审计。",
+      333,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:Obsidian 解释快速路径与跨知识库部署:2",
+      "note:changes:Obsidian 解释快速路径与跨知识库部署",
+      2,
+      "部署能力",
+      "插件 ZIP 新增独立 `deploy.py`，Agent 可直接对任意 vault 执行部署、状态检查和移除。核心 Skill 升级到 5.2.5，新增 `obsidian-plugin register|deploy|status|remove`。登记插件包后，后续初始化或重新投影的人类知识库会自动部署登记版本；已有知识库需要按自动化注册表逐个补部署一次。\n\n本次已把 0.7.0 部署到当前自知识库和 `sensory-memory-plugin` 知识库，两处都已写入插件启用项与部署记录。Obsidian 当前正在运行，磁盘部署已经生效；应用重新加载或重启后载入新的 `main.js`。",
+      204,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:Obsidian 解释快速路径与跨知识库部署:3",
+      "note:changes:Obsidian 解释快速路径与跨知识库部署",
+      3,
+      "验证边界",
+      "该轮验证了插件构建、核心解释接线、自动化与发行边界，并实际执行部署、移除和再次部署。模型端到端响应时间未被当作固定收益，因为它随服务、模型与网络变化。",
+      75,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:Obsidian 解释快速路径与跨知识库部署:4",
+      "note:changes:Obsidian 解释快速路径与跨知识库部署",
+      4,
+      "实现入口补充",
+      "本次快速路径以常驻 `serve --stdio` 为运行入口，核心部署由 Obsidian vault 投影和独立插件登记器共同完成；正式记录继续通过统一的 `record_note` 入口写入并重建机器索引。",
+      74,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:Obsidian 解释快速路径与跨知识库部署:5",
+      "note:changes:Obsidian 解释快速路径与跨知识库部署",
+      5,
+      "原始记录",
+      "[按需核对历史原文与完整复现明细](../../machine/historical-records/legacy-20260910-10.md)。",
+      36,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:Obsidian 解释快速路径与跨知识库部署:6",
+      "note:changes:Obsidian 解释快速路径与跨知识库部署",
+      6,
+      "相关知识页",
+      "- [[audit_obsidian 与 prepare_vault 的协作实现]]\n- [[finish_session 与 _session_directory 的协作实现]]\n- [[build_agent_index 与 _tokens 的协作实现]]\n- [[record_note]]\n- [[ensure_local_openers 与 SourceLinkRenderer 的协作实现]]\n- [[review_automation 与 default_registry_path 的协作实现]]\n- [[build_machine_knowledge 与 estimated_tokens 的协作实现]]\n- [[project_graphify 与 _networkx_modules 的协作实现]]",
+      148,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:changes:Obsidian 解释快速路径与跨知识库部署:7",
+      "note:changes:Obsidian 解释快速路径与跨知识库部署",
+      7,
+      "源码入口",
+      "- [打开源码：scripts/ckb_core/obsidian.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/obsidian.py:1:1)  `scripts/ckb_core/obsidian.py:1-166`\n- [打开源码：scripts/ckb_core/agent_maintenance.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_maintenance.py:1:1)  `scripts/ckb_core/agent_maintenance.py:1-255`\n- [打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-555`\n- [打开源码：scripts/ckb_core/workspace_notes.py 第 197 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/workspace_notes.py:197:1)  `scripts/ckb_core/workspace_notes.py:197-273`\n- [打开源码：scripts/ckb_core/source_links.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/source_links.py:1:1)  `scripts/ckb_core/source_links.py:1-184`\n- [打开源码：scripts/ckb_core/automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation.py:1:1)  `scripts/ckb_core/automation.py:1-1783`\n- [打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1995`\n- [打开源码：scripts/ckb_core/graphify_core.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/graphify_core.py:1:1)  `scripts/ckb_core/graphify_core.py:1-676`",
+      540,
+      null,
+      null,
+      null
+    ]
+  ],
+  "section_sources": [],
+  "links": [
+    [
+      "note:changes:Obsidian 解释快速路径与跨知识库部署",
+      null,
+      "audit_obsidian 与 prepare_vault 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:changes:Obsidian 解释快速路径与跨知识库部署",
+      null,
+      "build_agent_index 与 _tokens 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:changes:Obsidian 解释快速路径与跨知识库部署",
+      null,
+      "build_machine_knowledge 与 estimated_tokens 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:changes:Obsidian 解释快速路径与跨知识库部署",
+      null,
+      "ensure_local_openers 与 SourceLinkRenderer 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:changes:Obsidian 解释快速路径与跨知识库部署",
+      null,
+      "finish_session 与 _session_directory 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:changes:Obsidian 解释快速路径与跨知识库部署",
+      null,
+      "project_graphify 与 _networkx_modules 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:changes:Obsidian 解释快速路径与跨知识库部署",
+      null,
+      "record_note",
+      "wikilink"
+    ],
+    [
+      "note:changes:Obsidian 解释快速路径与跨知识库部署",
+      null,
+      "review_automation 与 default_registry_path 的协作实现",
+      "wikilink"
+    ]
+  ],
+  "fts": [
+    [
+      "note:changes:Obsidian 解释快速路径与跨知识库部署:0",
+      "note:changes:Obsidian 解释快速路径与跨知识库部署",
+      "Obsidian 解释快速路径与跨知识库部署",
+      "标签：#类型/变更",
+      ""
+    ],
+    [
+      "note:changes:Obsidian 解释快速路径与跨知识库部署:1",
+      "note:changes:Obsidian 解释快速路径与跨知识库部署",
+      "修改结果",
+      "Obsidian Companion 升级到 0.7.0。右键解释仍跟随用户选择的 Provider 和模型，但不再让 Codex、Claude Code 等 Provider 自行打开 Agent pack、调用命令并执行多轮审计。插件先通过常驻 CKB stdio 完成确定性检索，把预算化 Agent pack 正文直接放入提示词；Provider 以无工具模式只生成中文解释。解释返回后，同一 stdio 进程通过 `record-explanation` 一次完成检索证据绑定、幂等记录、索引刷新、反馈审计和 Agent-policy 审计。\n\n这项修改把可控的本地阶段压缩为一次检索和一次记录调用。实测常驻检索约 10 毫秒；独立冷进程中的真实检索约 35 毫秒；首次确定性记录、重建索引和两项审计约 1.84 秒，幂等重试约 7 毫秒。剩余主要等待时间来自用户所选 Provider 的模型初始化、推理与网络；因此如果 Codex 仍明显慢，可在插件设置中切换较快模型，而不会绕过知识库检索与审计。",
+      ""
+    ],
+    [
+      "note:changes:Obsidian 解释快速路径与跨知识库部署:2",
+      "note:changes:Obsidian 解释快速路径与跨知识库部署",
+      "部署能力",
+      "插件 ZIP 新增独立 `deploy.py`，Agent 可直接对任意 vault 执行部署、状态检查和移除。核心 Skill 升级到 5.2.5，新增 `obsidian-plugin register|deploy|status|remove`。登记插件包后，后续初始化或重新投影的人类知识库会自动部署登记版本；已有知识库需要按自动化注册表逐个补部署一次。\n\n本次已把 0.7.0 部署到当前自知识库和 `sensory-memory-plugin` 知识库，两处都已写入插件启用项与部署记录。Obsidian 当前正在运行，磁盘部署已经生效；应用重新加载或重启后载入新的 `main.js`。",
+      ""
+    ],
+    [
+      "note:changes:Obsidian 解释快速路径与跨知识库部署:3",
+      "note:changes:Obsidian 解释快速路径与跨知识库部署",
+      "验证边界",
+      "该轮验证了插件构建、核心解释接线、自动化与发行边界，并实际执行部署、移除和再次部署。模型端到端响应时间未被当作固定收益，因为它随服务、模型与网络变化。",
+      ""
+    ],
+    [
+      "note:changes:Obsidian 解释快速路径与跨知识库部署:4",
+      "note:changes:Obsidian 解释快速路径与跨知识库部署",
+      "实现入口补充",
+      "本次快速路径以常驻 `serve --stdio` 为运行入口，核心部署由 Obsidian vault 投影和独立插件登记器共同完成；正式记录继续通过统一的 `record_note` 入口写入并重建机器索引。",
+      ""
+    ],
+    [
+      "note:changes:Obsidian 解释快速路径与跨知识库部署:5",
+      "note:changes:Obsidian 解释快速路径与跨知识库部署",
+      "原始记录",
+      "[按需核对历史原文与完整复现明细](../../machine/historical-records/legacy-20260910-10.md)。",
+      ""
+    ],
+    [
+      "note:changes:Obsidian 解释快速路径与跨知识库部署:6",
+      "note:changes:Obsidian 解释快速路径与跨知识库部署",
+      "相关知识页",
+      "- [[audit_obsidian 与 prepare_vault 的协作实现]]\n- [[finish_session 与 _session_directory 的协作实现]]\n- [[build_agent_index 与 _tokens 的协作实现]]\n- [[record_note]]\n- [[ensure_local_openers 与 SourceLinkRenderer 的协作实现]]\n- [[review_automation 与 default_registry_path 的协作实现]]\n- [[build_machine_knowledge 与 estimated_tokens 的协作实现]]\n- [[project_graphify 与 _networkx_modules 的协作实现]]",
+      ""
+    ],
+    [
+      "note:changes:Obsidian 解释快速路径与跨知识库部署:7",
+      "note:changes:Obsidian 解释快速路径与跨知识库部署",
+      "源码入口",
+      "- [打开源码：scripts/ckb_core/obsidian.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/obsidian.py:1:1)  `scripts/ckb_core/obsidian.py:1-166`\n- [打开源码：scripts/ckb_core/agent_maintenance.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_maintenance.py:1:1)  `scripts/ckb_core/agent_maintenance.py:1-255`\n- [打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-555`\n- [打开源码：scripts/ckb_core/workspace_notes.py 第 197 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/workspace_notes.py:197:1)  `scripts/ckb_core/workspace_notes.py:197-273`\n- [打开源码：scripts/ckb_core/source_links.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/source_links.py:1:1)  `scripts/ckb_core/source_links.py:1-184`\n- [打开源码：scripts/ckb_core/automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation.py:1:1)  `scripts/ckb_core/automation.py:1-1783`\n- [打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1995`\n- [打开源码：scripts/ckb_core/graphify_core.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/graphify_core.py:1:1)  `scripts/ckb_core/graphify_core.py:1-676`",
+      ""
+    ]
+  ]
+}

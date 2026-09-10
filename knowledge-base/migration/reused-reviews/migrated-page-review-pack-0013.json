@@ -3,38 +3,38 @@
   "pack_id": "migrated-page-review-pack-0013",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-03T22:05:22Z",
+  "reviewed_at_utc": "2026-09-10T03:34:05Z",
   "reviews": [
     {
-      "entity_id": "file-5a989dea314454cbb361a584a9d03bfe",
+      "entity_id": "file-ac8753c40663574fa57670d4c963d33d",
       "classification": "page",
-      "owner_page_id": "file-5a989dea314454cbb361a584a9d03bfe",
+      "owner_page_id": "file-ac8753c40663574fa57670d4c963d33d",
       "source_path": "scripts/ckb_core/gitrepo.py",
       "start_line": 1,
-      "end_line": 419,
+      "end_line": 476,
       "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/gitrepo.py` 第 1 至 419 行，核对 `scripts/ckb_core/gitrepo.py` 的签名、分支和数据流后写出本条简体中文说明。",
-      "meaning_zh": "`scripts/ckb_core/gitrepo.py` 是 `scripts/ckb_core/gitrepo.py` 中负责汇总并提供固定 Git 提交、blob、工作树与源码快照读取的文件入口。",
-      "role_zh": "它按源码所示的参数、条件分支和数据结构完成汇总并提供固定 Git 提交、blob、工作树与源码快照读取，并把确定结果交给调用方或后续审计、索引、投影阶段。",
-      "change_when_zh": "当固定 Git 提交、blob、工作树与源码快照读取的输入格式、状态规则、错误处理或输出契约变化时，需要修改该代码单元并复核对应测试。"
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0005审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "为固定源码建库提供 Git 预检、源码快照、受跟踪文件筛选和二进制 blob 读取，将仓库身份与实际源码字节保持绑定。",
+      "role_zh": "已有仓库必须有干净提交；只有显式允许初始化且尚无提交时才创建首个提交。语义分析使用锁定的 detached worktree，移动后的快照只修复自身注册。源码枚举排除依赖和生成目录，C# 项目元数据独立收集，批量读取 blob 时逐帧校验对象和字节长度。",
+      "change_when_zh": "修改支持的后缀、排除规则或范围选择时联动解析入口；调整仓库初始化、快照移动或 cat-file 协议时，复查显式初始化权限、commit/tree 清洁校验、Git 注册反向链接和二进制边界测试。"
     },
     {
-      "entity_id": "ent-d2135ebdc8885d8b9e44114886d2e569",
+      "entity_id": "ent-7903cd1f06895ae7ad0b92f2623e8e91",
       "classification": "page",
-      "owner_page_id": "ent-d2135ebdc8885d8b9e44114886d2e569",
+      "owner_page_id": "ent-7903cd1f06895ae7ad0b92f2623e8e91",
       "source_path": "scripts/ckb_core/gitrepo.py",
       "start_line": 194,
       "end_line": 217,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/gitrepo.py` 第 194-217 行的源码摘录，文件、符号与行范围一致。",
-      "meaning_zh": "`preflight` 是 `scripts/ckb_core/gitrepo.py` 第 194-217 行定义的函数，本页绑定该固定源码范围。",
-      "role_zh": "负责验证固定 Git 快照，并读取提交、树、文件模式和对象内容。",
-      "change_when_zh": "当 `preflight` 的输入、输出、状态转换或失败返回变化时，应更新本页并重跑对应测试。"
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0005审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "确认可用 Git 仓库并拒绝任何已跟踪或未跟踪的工作树改动，返回规范化仓库根、HEAD 提交、tree 及初始化记录。",
+      "role_zh": "先通过 prepare_git_repository 处理已有仓库或显式首次初始化，再执行包含未跟踪文件的 porcelain 状态检查；脏工作树抛出 StaleSourceError，不生成可用基线描述。",
+      "change_when_zh": "修改 Git 首次初始化、干净状态定义或仓库根定位时，联动 prepare_git_repository 与使用返回 commit/tree 的快照创建和来源一致性检查。"
     },
     {
-      "entity_id": "file-cc5bbb486c9150c39529c413d2e618fe",
+      "entity_id": "file-cd5a9d492fda549bb99cf080352feae2",
       "classification": "page",
-      "owner_page_id": "file-cc5bbb486c9150c39529c413d2e618fe",
+      "owner_page_id": "file-cd5a9d492fda549bb99cf080352feae2",
       "source_path": "scripts/ckb_core/graphify_core.py",
       "start_line": 1,
       "end_line": 676,
@@ -45,17 +45,17 @@
       "change_when_zh": "当Graphify 兼容图、确定性职责群、路径查询和关系报告的输入、输出、状态门或验证契约发生变化时，需要同步修改该文件并运行对应测试。"
     },
     {
-      "entity_id": "ent-5922810de1fa5a5fa45eb1d622888e8f",
+      "entity_id": "ent-0ac996a11b42599998308f5a524038ac",
       "classification": "page",
-      "owner_page_id": "ent-5922810de1fa5a5fa45eb1d622888e8f",
+      "owner_page_id": "ent-0ac996a11b42599998308f5a524038ac",
       "source_path": "scripts/ckb_core/graphify_core.py",
-      "start_line": 526,
-      "end_line": 583,
+      "start_line": 256,
+      "end_line": 339,
       "status": "agent-reviewed",
-      "evidence_note": "Agent 已重新打开固定 Git 源码中 scripts/ckb_core/graphify_core.py 第 526 至 583 行，核对名称、签名和局部实现后写出本条中文说明。",
-      "meaning_zh": "`query_graph` 是源码中负责构造职责关系图并提供职责群或路径查询的命名代码单元。",
-      "role_zh": "它在所属模块内执行构造职责关系图并提供职责群或路径查询，并把确定结果交给调用方、审计门或投影阶段。",
-      "change_when_zh": "当构造职责关系图并提供职责群或路径查询所依赖的输入格式、排序规则、状态转换或输出契约变化时，需要修改该代码单元。"
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0005审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "将已审阅规范图转换为 Graphify 兼容节点链接图、社区记录和中文图报告，同时生成各产物的哈希与计数记录。",
+      "role_zh": "对节点和边按标识排序后建图，调用社区聚类、枢纽标签与评分，为每个节点补充社区信息；输出保留固定提交与上游版本，projection.json 记录置信度分布和生成产物，但该函数返回的是 projected 而非最终全局审计完成。",
+      "change_when_zh": "节点/边映射、社区算法、中文报告或 Graphify 固定版本改变时，联动 _graphify_node、_graphify_link、_community_records、_report 和后续投影一致性审计。"
     }
   ]
 }

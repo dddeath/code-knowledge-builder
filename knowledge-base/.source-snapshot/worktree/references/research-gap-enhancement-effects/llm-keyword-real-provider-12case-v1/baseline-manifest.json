@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "branch": "codex/llm-keyword-real-provider-12case",
+  "baseline_commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+  "packaged_commit": "ea63179487201466458f4b407c03f70868484456",
+  "changed_path_count": 14,
+  "commits": [
+    {
+      "commit": "cb29cbead7019f073656a9c85bedc49a79bc1dfa",
+      "subject": "feat: validate real keyword provider output"
+    },
+    {
+      "commit": "47544b9d360a325be28e36d40567af0e946fb019",
+      "subject": "test: freeze real provider 12-case benchmark"
+    },
+    {
+      "commit": "a6cc2b17cc2ecb0f31f301b68056e4d4a9a0d110",
+      "subject": "fix: count timed-out provider attempts"
+    },
+    {
+      "commit": "547b383e74bb1f6fbcbee927dfe62310b9dc876d",
+      "subject": "fix: separate recall and ranking regressions"
+    },
+    {
+      "commit": "ea63179487201466458f4b407c03f70868484456",
+      "subject": "docs: record real provider 12-case results"
+    }
+  ],
+  "paths": [
+    {
+      "path": "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/fault-provider-starts.log",
+      "baseline_sha256": null,
+      "modified_sha256": "ee9ab8a891497e115d9faff752279465cc87282de9106cbc3b5c70caca143250",
+      "baseline_bytes": null,
+      "modified_bytes": 165
+    },
+    {
+      "path": "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/not-configured-report.json",
+      "baseline_sha256": null,
+      "modified_sha256": "93092e6d75bce16a7fc7a455e05dc2bc53af55a56cd3afccc08d00ff8a88d367",
+      "baseline_bytes": null,
+      "modified_bytes": 782
+    },
+    {
+      "path": "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/protocol.json",
+      "baseline_sha256": null,
+      "modified_sha256": "19f84674c402a56280cf1ae7fa2bb1b5a6a679ec38c2fb4f25386b4fbd44a516",
+      "baseline_bytes": null,
+      "modified_bytes": 7695
+    },
+    {
+      "path": "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/raw-results.json",
+      "baseline_sha256": null,
+      "modified_sha256": "5c3791e4386e32384edc375150e6dc974045f76c8f5234a31a16a307613cd7ea",
+      "baseline_bytes": null,
+      "modified_bytes": 270074
+    },
+    {
+      "path": "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/real-provider-starts.log",
+      "baseline_sha256": null,
+      "modified_sha256": "1e617ddaf48a29889802394d18856ae901b6350fa0f9fec26c8307578fc485ce",
+      "baseline_bytes": null,
+      "modified_bytes": 396
+    },
+    {
+      "path": "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/report.json",
+      "baseline_sha256": null,
+      "modified_sha256": "470a2ce391141d15705e706a7c9b1f58d973cc966127423610e9f616262edaf9",
+      "baseline_bytes": null,
+      "modified_bytes": 275292
+    },
+    {
+      "path": "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/result-audit.json",
+      "baseline_sha256": null,
+      "modified_sha256": "607cf0910940dc60df55be2ef9dfa96d2084e5496341a34de3a023e48e19bd73",
+      "baseline_bytes": null,
+      "modified_bytes": 2675
+    },
+    {
+      "path": "references/research-gap-enhancement-effects/llm-keyword-real-provider-12case-v1/summary.md",
+      "baseline_sha256": null,
+      "modified_sha256": "9e0bfa010723bbcc151feef38ae8badb83501a765d174cfc2a1042c111736975",
+      "baseline_bytes": null,
+      "modified_bytes": 3487
+    },
+    {
+      "path": "scripts/ckb_core/keyword_fallback.py",
+      "baseline_sha256": "9c1a9d996981c30c7ab4533a4f772a2dba2fe3e2116283aa060ba35a99826417",
+      "modified_sha256": "8f2c5de8894a91e3441e943ba8a282f84816750c7dbcd580e2bddcb697637c64",
+      "baseline_bytes": 24697,
+      "modified_bytes": 24837
+    },
+    {
+      "path": "tests/benchmark_keyword_real_provider.py",
+      "baseline_sha256": null,
+      "modified_sha256": "77898118974b2cf98c36ab6cb4c65a8cd7469aeeb10c941e9e50fdd831387568",
+      "baseline_bytes": null,
+      "modified_bytes": 30354
+    },
+    {
+      "path": "tests/fixtures/keyword_provider.py",
+      "baseline_sha256": "6df18b8891dee0eaf0ca4e89b291458d57ca11e4453255cae609a722dc826d4a",
+      "modified_sha256": "a06a9cab2bedadf6fb783c1aeb01ffb6877faa6ef40627b58a3d6f0949c27de7",
+      "baseline_bytes": 3043,
+      "modified_bytes": 8362
+    },
+    {
+      "path": "tests/fixtures/keyword_real_provider_12case.json",
+      "baseline_sha256": null,
+      "modified_sha256": "19f84674c402a56280cf1ae7fa2bb1b5a6a679ec38c2fb4f25386b4fbd44a516",
+      "baseline_bytes": null,
+      "modified_bytes": 7695
+    },
+    {
+      "path": "tests/test_keyword_fallback.py",
+      "baseline_sha256": "f22c0ebfdb6ace205b5e0299b0350a39797b2a462b076421390ef381f5240b0d",
+      "modified_sha256": "908630b8c2f1bf1236101acf6254b661af5628beaf7d038cbda69b8f31b931a4",
+      "baseline_bytes": 20377,
+      "modified_bytes": 20477
+    },
+    {
+      "path": "tests/test_keyword_real_provider_benchmark.py",
+      "baseline_sha256": null,
+      "modified_sha256": "9b716ea54dcfbf22b9a0b56b0c66ca57d194450216b5241c64aa1e787e36c8f1",
+      "baseline_bytes": null,
+      "modified_bytes": 2899
+    }
+  ]
+}

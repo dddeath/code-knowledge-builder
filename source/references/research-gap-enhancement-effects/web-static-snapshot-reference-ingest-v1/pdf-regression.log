@@ -1,0 +1,13 @@
+test_pdf_ingest_review_audit_indexes_and_rollback (test_reference_pdf.PdfReferenceEndToEndTests.test_pdf_ingest_review_audit_indexes_and_rollback) ... ok
+test_corrupt_encrypted_size_page_and_source_root_limits (test_reference_pdf.PdfReferenceExtractionTests.test_corrupt_encrypted_size_page_and_source_root_limits) ... ok
+test_native_chinese_page_round_trips_unicode (test_reference_pdf.PdfReferenceExtractionTests.test_native_chinese_page_round_trips_unicode) ... ok
+test_native_layout_preserves_page_code_and_table_boundaries (test_reference_pdf.PdfReferenceExtractionTests.test_native_layout_preserves_page_code_and_table_boundaries) ... ok
+test_page_audit_detects_manifest_page_empty_and_path_drift (test_reference_pdf.PdfReferenceExtractionTests.test_page_audit_detects_manifest_page_empty_and_path_drift) ... ok
+test_scanned_mixed_and_bounded_ocr_states_are_explicit (test_reference_pdf.PdfReferenceExtractionTests.test_scanned_mixed_and_bounded_ocr_states_are_explicit) ... ok
+test_web_adapter_boundary_requires_explicit_fetch_and_agent_review (test_reference_pdf.PdfReferenceExtractionTests.test_web_adapter_boundary_requires_explicit_fetch_and_agent_review) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 42.479s
+
+OK
+PDF_REGRESSION_EXIT=0

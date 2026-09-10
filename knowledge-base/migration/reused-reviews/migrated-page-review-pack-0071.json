@@ -1,0 +1,35 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0071",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-10T03:35:28Z",
+  "reviews": [
+    {
+      "entity_id": "file-4cb4ef3dc57954fbb7075e48b51a89da",
+      "classification": "page",
+      "owner_page_id": "file-4cb4ef3dc57954fbb7075e48b51a89da",
+      "source_path": "tests/test_reference_pdf.py",
+      "start_line": 1,
+      "end_line": 716,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0035审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "该文件用原生、中文和空白 PDF 及受控 OCR 适配器验证逐页文本、代码表格布局、字符范围和来源哈希，覆盖质量不足、预算、取消、损坏与加密失败。",
+      "role_zh": "它同时通过完整参考导入审阅和回滚流程核对双镜像、索引与页码链接，区分提取就绪和主张已审阅，确保参考文档不会增加源码实体。",
+      "change_when_zh": "PDF 解析器、布局分片、OCR 输出与预算、页定位或参考审阅索引规则变化时修改对应测试，并保留失败状态及无关资料不受回滚影响的断言。"
+    },
+    {
+      "entity_id": "ent-9110a69125ea5e69b7513b749b76e84f",
+      "classification": "page",
+      "owner_page_id": "ent-9110a69125ea5e69b7513b749b76e84f",
+      "source_path": "tests/test_reference_pdf.py",
+      "start_line": 441,
+      "end_line": 711,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0035审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "该测试先验证待 OCR 页拒绝审阅以及幂等重导入需先回滚，再导入原生 PDF 并提交精确页片段主张，核对人类页、双索引和维护结果。",
+      "role_zh": "它把 PDF 页级来源贯通到参考检索层，检查错误页码被拒绝、旧 OCR 证据缺失保留兼容标记，并证明定向回滚只删除该 PDF 资料而不改源码实体或无关参考。",
+      "change_when_zh": "待处理页重导入、审阅定位、OCR 历史兼容或定向回滚变化时修改此测试，并同时核对引用范围与回滚后的索引数量。"
+    }
+  ]
+}

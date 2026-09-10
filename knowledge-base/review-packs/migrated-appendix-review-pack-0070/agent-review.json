@@ -1,0 +1,273 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-appendix-review-pack-0070",
+  "kind": "appendix-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-10T03:35:43Z",
+  "reviews": [
+    {
+      "entity_id": "ent-6fdfd7ad66d4510c8465720536e1a44b",
+      "classification": "appendix",
+      "owner_page_id": "file-d79ad78ba32253ce98e3c6121a8716ab",
+      "source_path": "tests/test_recruitment_output_contract.py",
+      "start_line": 49,
+      "end_line": 266,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0038审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "在实际投影与记录上验证人类合同、快照和新鲜度边界，覆盖旧审计失效、机器证据分离及候选关系不确定性。"
+    },
+    {
+      "entity_id": "ent-6f54bb2c12ae59e0a330f3639444284c",
+      "classification": "appendix",
+      "owner_page_id": "file-d79ad78ba32253ce98e3c6121a8716ab",
+      "source_path": "tests/test_recruitment_output_contract.py",
+      "start_line": 51,
+      "end_line": 64,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0038审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "建立临时多语言仓库，完成初始化、审阅、合并和投影，作为人类输出合同测试的共享基线。"
+    },
+    {
+      "entity_id": "ent-7434b2ec4c63571d9738f5eb902c686c",
+      "classification": "appendix",
+      "owner_page_id": "file-d79ad78ba32253ce98e3c6121a8716ab",
+      "source_path": "tests/test_recruitment_output_contract.py",
+      "start_line": 67,
+      "end_line": 68,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0038审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "清理人类输出合同测试类拥有的临时目录。"
+    },
+    {
+      "entity_id": "ent-6c4ee05a424f5b47b6d7d273cb41f9ce",
+      "classification": "appendix",
+      "owner_page_id": "file-d79ad78ba32253ce98e3c6121a8716ab",
+      "source_path": "tests/test_recruitment_output_contract.py",
+      "start_line": 70,
+      "end_line": 82,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0038审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "向现有人类页注入测试总数，要求维护重新发现泄漏而不是信任旧通过报告，最后恢复原页面。"
+    },
+    {
+      "entity_id": "ent-d1301c7d4c38573bb8657f18f5c5fb0d",
+      "classification": "appendix",
+      "owner_page_id": "file-d79ad78ba32253ce98e3c6121a8716ab",
+      "source_path": "tests/test_recruitment_output_contract.py",
+      "start_line": 84,
+      "end_line": 96,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0038审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "把固定快照路径改为缺失目录，要求维护显式报告快照检查失败，随后恢复状态文件。"
+    },
+    {
+      "entity_id": "ent-8c6e7a499d7b54f2beeb2e977e39db8f",
+      "classification": "appendix",
+      "owner_page_id": "file-d79ad78ba32253ce98e3c6121a8716ab",
+      "source_path": "tests/test_recruitment_output_contract.py",
+      "start_line": 98,
+      "end_line": 106,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0038审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "推进活动仓库提交后要求旧事实标记过期，但固定快照维护仍通过且紧凑检索可用。"
+    },
+    {
+      "entity_id": "ent-ad4ebc837f2b567982d03aa3139b9720",
+      "classification": "appendix",
+      "owner_page_id": "file-d79ad78ba32253ce98e3c6121a8716ab",
+      "source_path": "tests/test_recruitment_output_contract.py",
+      "start_line": 108,
+      "end_line": 119,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0038审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "向记录正文注入完整命令、测试总数、空泛说明和无目的链接，要求写页前拒绝。"
+    },
+    {
+      "entity_id": "ent-c8486d571eb257c8bc0c06c2d4f4ca0f",
+      "classification": "appendix",
+      "owner_page_id": "file-d79ad78ba32253ce98e3c6121a8716ab",
+      "source_path": "tests/test_recruitment_output_contract.py",
+      "start_line": 121,
+      "end_line": 132,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0038审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "允许含适用边界的技术摘要写入，再用泄漏测试明细的替换正文验证旧页被保留。"
+    },
+    {
+      "entity_id": "ent-e5df1d8b5cc5549eb50c80cb84fe3237",
+      "classification": "appendix",
+      "owner_page_id": "file-d79ad78ba32253ce98e3c6121a8716ab",
+      "source_path": "tests/test_recruitment_output_contract.py",
+      "start_line": 134,
+      "end_line": 140,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0038审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "核对实际首页和阅读方法不暴露完整命令或页面配置，并保留职责阅读章节。"
+    },
+    {
+      "entity_id": "ent-e44c050963f45e8f8b08e1cbfc302e17",
+      "classification": "appendix",
+      "owner_page_id": "file-d79ad78ba32253ce98e3c6121a8716ab",
+      "source_path": "tests/test_recruitment_output_contract.py",
+      "start_line": 142,
+      "end_line": 146,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0038审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "核对词法候选关系用待核验措辞，而语言服务调用证据可使用明确调用表述。"
+    },
+    {
+      "entity_id": "ent-45c3f57bbb755822a19b6bf01a4d38a3",
+      "classification": "appendix",
+      "owner_page_id": "file-d79ad78ba32253ce98e3c6121a8716ab",
+      "source_path": "tests/test_recruitment_output_contract.py",
+      "start_line": 148,
+      "end_line": 172,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0038审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "在副本投影注入空泛中文，要求新合同报错，只有未升级历史页转为提示，原始审阅图不被改写。"
+    },
+    {
+      "entity_id": "ent-0a85bfd98ce05dceb4e42d59eb706d7b",
+      "classification": "appendix",
+      "owner_page_id": "file-d79ad78ba32253ce98e3c6121a8716ab",
+      "source_path": "tests/test_recruitment_output_contract.py",
+      "start_line": 174,
+      "end_line": 198,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0038审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "要求图导览历史命令例外精确限定，新增测试总数或其他人类页中的同命令仍触发泄漏错误。"
+    },
+    {
+      "entity_id": "ent-1c5fbb3fe5b353d6b71522481c089280",
+      "classification": "appendix",
+      "owner_page_id": "file-d79ad78ba32253ce98e3c6121a8716ab",
+      "source_path": "tests/test_recruitment_output_contract.py",
+      "start_line": 200,
+      "end_line": 248,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0038审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "创建并替换真实 V3 记录，要求机器证据留在作者包，阻止旧式降级，并在双镜像同错时重新发现章节缺失。"
+    },
+    {
+      "entity_id": "ent-42cc7a8a8c995e5d9a6358bb2e2395ce",
+      "classification": "appendix",
+      "owner_page_id": "file-d79ad78ba32253ce98e3c6121a8716ab",
+      "source_path": "tests/test_recruitment_output_contract.py",
+      "start_line": 250,
+      "end_line": 266,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0038审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "在隔离图中仅设置词法候选链接，要求实际 Markdown 渲染保留待核验说明而不宣称确认依赖。"
+    },
+    {
+      "entity_id": "ent-981608d721ab59a9a2a58c5c5ae0f77c",
+      "classification": "appendix",
+      "owner_page_id": "file-7a1b01ee7dc1570387e1ba842d266fc4",
+      "source_path": "tests/test_recruitment_relation_scope.py",
+      "start_line": 49,
+      "end_line": 58,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0038审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "按公开关系标注样例计算真阳性、误报和漏报及精确率召回，并明确非留出评测和非编码成功率。"
+    },
+    {
+      "entity_id": "ent-43e1c822e63a5a838c6a048bda48e561",
+      "classification": "appendix",
+      "owner_page_id": "file-7a1b01ee7dc1570387e1ba842d266fc4",
+      "source_path": "tests/test_recruitment_relation_scope.py",
+      "start_line": 61,
+      "end_line": 142,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0038审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "用真实语法解析核对局部绑定、导入、遮蔽和成员写入失效，防止无关同名函数形成伪引用。"
+    },
+    {
+      "entity_id": "ent-e6bf8b7cfe155f1f94039ff5df6c8b19",
+      "classification": "appendix",
+      "owner_page_id": "file-7a1b01ee7dc1570387e1ba842d266fc4",
+      "source_path": "tests/test_recruitment_relation_scope.py",
+      "start_line": 62,
+      "end_line": 65,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0038审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "逐个比较公开标注样例中指定调用者的实际目标集合与期望集合。"
+    },
+    {
+      "entity_id": "ent-24b5c3ed8e87591bbd5516f373de46c8",
+      "classification": "appendix",
+      "owner_page_id": "file-7a1b01ee7dc1570387e1ba842d266fc4",
+      "source_path": "tests/test_recruitment_relation_scope.py",
+      "start_line": 67,
+      "end_line": 71,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0038审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "加入无关测试中的同名辅助函数，要求原文件局部调用关系完全不变。"
+    },
+    {
+      "entity_id": "ent-eb52000a01c95c9e8888de9e767b4e99",
+      "classification": "appendix",
+      "owner_page_id": "file-7a1b01ee7dc1570387e1ba842d266fc4",
+      "source_path": "tests/test_recruitment_relation_scope.py",
+      "start_line": 73,
+      "end_line": 88,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0038审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "覆盖注解、闭包表达式、赋值表达式、异常模式绑定、全局写入和静态接收者等额外作用域边界。"
+    },
+    {
+      "entity_id": "ent-5d194357186b50d3874294563bd1d978",
+      "classification": "appendix",
+      "owner_page_id": "file-7a1b01ee7dc1570387e1ba842d266fc4",
+      "source_path": "tests/test_recruitment_relation_scope.py",
+      "start_line": 90,
+      "end_line": 93,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0038审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "要求导入模块按真实模块路径匹配，不把任意目录下同名文件后缀当作导入目标。"
+    },
+    {
+      "entity_id": "ent-6c3c34721ee259a7b9f3f6faf1d61290",
+      "classification": "appendix",
+      "owner_page_id": "file-7a1b01ee7dc1570387e1ba842d266fc4",
+      "source_path": "tests/test_recruitment_relation_scope.py",
+      "start_line": 95,
+      "end_line": 123,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0038审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "分别写入、删除和增量赋值模块及类成员，要求仅匹配成员在当前作用域失效而保留其他调用。"
+    },
+    {
+      "entity_id": "ent-6c86f3589ebb52f8b9b39a3533c172a2",
+      "classification": "appendix",
+      "owner_page_id": "file-7a1b01ee7dc1570387e1ba842d266fc4",
+      "source_path": "tests/test_recruitment_relation_scope.py",
+      "start_line": 125,
+      "end_line": 135,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0038审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "要求成员写入失效传播到嵌套作用域，但不影响另一未修改调用者的同名成员引用。"
+    },
+    {
+      "entity_id": "ent-1e4152ea301d5636a09c9250c7cdab51",
+      "classification": "appendix",
+      "owner_page_id": "file-7a1b01ee7dc1570387e1ba842d266fc4",
+      "source_path": "tests/test_recruitment_relation_scope.py",
+      "start_line": 137,
+      "end_line": 142,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0038审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "解析实际维护模块和管理测试文件，要求列表追加操作不误连到测试中的同名嵌套函数。"
+    },
+    {
+      "entity_id": "ent-dc38c18776435e2aa5f408ad8b3768ad",
+      "classification": "appendix",
+      "owner_page_id": "file-4cb4ef3dc57954fbb7075e48b51a89da",
+      "source_path": "tests/test_reference_pdf.py",
+      "start_line": 28,
+      "end_line": 29,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0038审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "把 PDF 夹具绘制位置与文本参数组成列表，供测试页面生成函数使用。"
+    }
+  ]
+}

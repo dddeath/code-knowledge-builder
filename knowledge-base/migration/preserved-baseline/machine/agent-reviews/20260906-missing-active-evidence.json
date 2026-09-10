@@ -1,0 +1,16 @@
+{
+  "status": "historical-evidence-unavailable-current-reference-repaired",
+  "active_note": "workspace-meta/notes/中文检索确定性词项合并审计.json",
+  "searched": [
+    "20 retained historical archives",
+    "existing knowledge-base copies",
+    "publish worktrees and backups",
+    "publication Git history exact filename"
+  ],
+  "result": "no original found",
+  "restored_other_original_packs": 10,
+  "missing_file_fabricated": false,
+  "required_decision": "preserve original note and record historical evidence gap; approve explicit metadata/source repair rather than fabricate original query",
+  "historical_missing_reference": "machine/agent-packs/pack-20260831-200233-512167-01.json",
+  "repair_note": "原诊断字段用于描述缺失对象，不是活跃query依赖；原字节已保存到本次修复验证目录。"
+}

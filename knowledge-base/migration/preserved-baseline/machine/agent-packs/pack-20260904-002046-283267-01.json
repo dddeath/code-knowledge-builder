@@ -1,0 +1,437 @@
+{
+  "schema_version": 3,
+  "status": "passed",
+  "question": "研究缺口对账与新增特性增强效果：QMD、LLM 关键词、PDF Web OCR、Tag、Canvas 与向量检索。",
+  "profile": "fast",
+  "budget": 1800,
+  "estimated_tokens": 1794,
+  "terms": [
+    "研究缺口对账与新增特性增强效果",
+    "canvas",
+    "与向量检索",
+    "llm",
+    "ocr",
+    "pdf",
+    "qmd",
+    "tag",
+    "web",
+    "关键词",
+    "新增特性增强效果",
+    "研究缺口",
+    "量检索",
+    "增强效",
+    "增特性",
+    "强效果",
+    "性增强",
+    "新增特",
+    "特性增",
+    "研究缺",
+    "究缺口",
+    "关键",
+    "增强",
+    "增特",
+    "强效",
+    "性增",
+    "效果",
+    "新增",
+    "检索",
+    "特性",
+    "研究",
+    "究缺",
+    "缺口",
+    "量检",
+    "键词"
+  ],
+  "anchors": [
+    "llm",
+    "ocr",
+    "pdf",
+    "qmd"
+  ],
+  "seed_entity_ids": [
+    "ent-4fd97242dcdf56c088a3ffc11a4eefa6",
+    "ent-af426833375759fdac2a7adf771b03b9",
+    "file-63854028ce83585292bfd1a65a5f52b2",
+    "ent-7b02f34004c05706a498df389015bbad",
+    "ent-6ea0844ffb0d5c6e82c0e0d476ba5e07"
+  ],
+  "selected_entities": [
+    {
+      "entity_id": "ent-4fd97242dcdf56c088a3ffc11a4eefa6",
+      "name": "_verify_staged_role",
+      "qualified_name": "_verify_staged_role",
+      "kind": "boundary",
+      "source_path": "prototypes/ckb-canvas-skill/ckb_canvas/transaction.py",
+      "start_line": 280,
+      "end_line": 304,
+      "human_page_title": "transaction 的协作边界",
+      "human_page_file": "pages/transaction 的协作边界.md",
+      "display_mode": "boundary",
+      "score": 91.33782676,
+      "score_breakdown": {
+        "entity-fts": 9.36789403,
+        "graph": 0.02976231,
+        "metadata": 52.0,
+        "section-fts": 23.94017041,
+        "term": 6.0
+      },
+      "reasons": [
+        "确定性词项 `canvas`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "file-63854028ce83585292bfd1a65a5f52b2",
+      "name": "reference_pdf.py",
+      "qualified_name": "scripts/ckb_core/reference_pdf.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/reference_pdf.py",
+      "start_line": 1,
+      "end_line": 685,
+      "human_page_title": "extract_pdf 与 PdfExtractionError 的协作实现",
+      "human_page_file": "pages/extract_pdf 与 PdfExtractionError 的协作实现.md",
+      "display_mode": "page",
+      "score": 90.31080389,
+      "score_breakdown": {
+        "entity-fts": 6.81270233,
+        "graph": 3.78244441,
+        "metadata": 55.0,
+        "section-fts": 10.71565715,
+        "term": 14.0
+      },
+      "reasons": [
+        "确定性词项 `ocr`",
+        "确定性词项 `pdf`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "file-677ca99998825ca28ad20c68d4e9ab83",
+      "name": "research_gaps.py",
+      "qualified_name": "scripts/ckb_core/research_gaps.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/research_gaps.py",
+      "start_line": 1,
+      "end_line": 273,
+      "human_page_title": "audit_gap_register 与 _root 的协作实现",
+      "human_page_file": "pages/audit_gap_register 与 _root 的协作实现.md",
+      "display_mode": "page",
+      "score": 78.64365234,
+      "score_breakdown": {
+        "entity-fts": 8.3967864,
+        "metadata": 42.0,
+        "section-fts": 8.24686594,
+        "term": 20.0
+      },
+      "reasons": [
+        "确定性词项 `研究`",
+        "确定性词项 `研究缺`",
+        "确定性词项 `究缺`",
+        "确定性词项 `究缺口`",
+        "确定性词项 `缺口`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "file-e737e05bac3c512f89ea5c05fa266a88",
+      "name": "llm_wiki_capabilities.py",
+      "qualified_name": "scripts/ckb_core/llm_wiki_capabilities.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/llm_wiki_capabilities.py",
+      "start_line": 1,
+      "end_line": 482,
+      "human_page_title": "maintenance_check 与 capability_matrix 的协作实现",
+      "human_page_file": "pages/maintenance_check 与 capability_matrix 的协作实现.md",
+      "display_mode": "page",
+      "score": 74.38973109,
+      "score_breakdown": {
+        "entity-fts": 10.38973109,
+        "metadata": 50.0,
+        "term": 14.0
+      },
+      "reasons": [
+        "确定性词项 `llm`",
+        "确定性词项 `研究`",
+        "机器实体全文命中",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "file-c9da04cd185f5bba9b75d593832a5419",
+      "name": "validate_design.py",
+      "qualified_name": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
+      "kind": "file",
+      "source_path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
+      "start_line": 1,
+      "end_line": 181,
+      "human_page_title": "validate 与 canonical 的协作实现",
+      "human_page_file": "pages/validate 与 canonical 的协作实现.md",
+      "display_mode": "page",
+      "score": 60.0,
+      "score_breakdown": {
+        "metadata": 50.0,
+        "term": 10.0
+      },
+      "reasons": [
+        "确定性词项 `canvas`",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "file-f888a563c59558209f540ab8a385a408",
+      "name": "store.py",
+      "qualified_name": "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
+      "kind": "file",
+      "source_path": "prototypes/ckb-tag-navigation/ckb_tag_navigation/store.py",
+      "start_line": 1,
+      "end_line": 269,
+      "human_page_title": "ingest 与 connect 的协作实现",
+      "human_page_file": "pages/ingest 与 connect 的协作实现.md",
+      "display_mode": "page",
+      "score": 60.0,
+      "score_breakdown": {
+        "metadata": 50.0,
+        "term": 10.0
+      },
+      "reasons": [
+        "确定性词项 `tag`",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "ent-bf008e8f9d87597d9afd3df434ef722e",
+      "name": "_pending_pdf_next_steps",
+      "qualified_name": "_pending_pdf_next_steps",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/reference_documents.py",
+      "start_line": 115,
+      "end_line": 153,
+      "human_page_title": "ingest_reference 与 _root 的协作实现",
+      "human_page_file": "pages/ingest_reference 与 _root 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 59.92543696,
+      "score_breakdown": {
+        "entity-fts": 14.72952674,
+        "metadata": 30.0,
+        "section-fts": 5.19591022,
+        "term": 10.0
+      },
+      "reasons": [
+        "确定性词项 `pdf`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "ent-38fa0d2148655d12b89ea0d1c428ca83",
+      "name": "web_input_adapter_contract",
+      "qualified_name": "web_input_adapter_contract",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/reference_inputs.py",
+      "start_line": 44,
+      "end_line": 76,
+      "human_page_title": "web_input_adapter_contract",
+      "human_page_file": "pages/web_input_adapter_contract.md",
+      "display_mode": "page",
+      "score": 59.84263072,
+      "score_breakdown": {
+        "entity-fts": 8.73413572,
+        "metadata": 30.0,
+        "section-fts": 7.108495,
+        "term": 14.0
+      },
+      "reasons": [
+        "确定性词项 `web`",
+        "确定性词项 `新增`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": [
+        "中文含义"
+      ],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    }
+  ],
+  "related_documents": [
+    {
+      "document_id": "note:analysis:自动同步与 LLM Wiki 后续待办",
+      "title": "自动同步与 LLM Wiki 后续待办",
+      "kind": "analysis",
+      "status": "agent-reviewed",
+      "human_file": "analysis/自动同步与 LLM Wiki 后续待办.md",
+      "source_path": null,
+      "start_line": null,
+      "end_line": null
+    },
+    {
+      "document_id": "note:changes:LLM Wiki 功能矩阵与紧凑维护入口",
+      "title": "LLM Wiki 功能矩阵与紧凑维护入口",
+      "kind": "change",
+      "status": "agent-reviewed",
+      "human_file": "changes/LLM Wiki 功能矩阵与紧凑维护入口.md",
+      "source_path": null,
+      "start_line": null,
+      "end_line": null
+    },
+    {
+      "document_id": "note:changes:LLM Wiki 有界操作日志与研究缺口登记",
+      "title": "LLM Wiki 有界操作日志与研究缺口登记",
+      "kind": "change",
+      "status": "agent-reviewed",
+      "human_file": "changes/LLM Wiki 有界操作日志与研究缺口登记.md",
+      "source_path": null,
+      "start_line": null,
+      "end_line": null
+    },
+    {
+      "document_id": "gap:gap-00b32bb494b250ee9f73b6fdc9937f5b",
+      "title": "研究缺口：QMD 向量检索尚缺少在同一中文代码知识库、固定问题集和资源上限下相对 SQLite 基线的质量与成本证据。",
+      "kind": "gap",
+      "human_file": null
+    },
+    {
+      "document_id": "gap:gap-9dc58ab149375bfd98332149a3ba6cb3",
+      "title": "研究缺口：PDF、网页和 OCR 提取尚缺少页码定位、乱码率、代码与表格保真以及失败诊断的固定样例评测证据。",
+      "kind": "gap",
+      "human_file": null
+    },
+    {
+      "document_id": "gap:gap-6c6eb1a7982550999213f764e115e7ad",
+      "title": "研究缺口：真实 LLM 关键词慢路径尚缺少固定模型、固定费用与延迟上限下相对当前确定性检索的真实调用质量证据；现有提升只来自离线固定回放。",
+      "kind": "gap",
+      "human_file": null
+    },
+    {
+      "document_id": "note:changes:增加可追溯的 PDF 参考资料吸收",
+      "title": "增加可追溯的 PDF 参考资料吸收",
+      "kind": "change",
+      "human_file": "changes/增加可追溯的 PDF 参考资料吸收.md"
+    },
+    {
+      "document_id": "note:sessions:V3 页面模板验收与剩余任务第一波派发",
+      "title": "V3 页面模板验收与剩余任务第一波派发",
+      "kind": "session",
+      "human_file": "sessions/V3 页面模板验收与剩余任务第一波派发.md"
+    }
+  ],
+  "open_feedback": 0,
+  "retrieval_stats": {
+    "scored_entities": 528,
+    "overscan_limit": 32,
+    "materialized_candidates": 32,
+    "selected_entities": 8,
+    "budgeted_entity_limit": 8,
+    "selected_source_paths": 8,
+    "batched_entity_queries": 2,
+    "source_link_cache_entries": 8,
+    "static_cache_hit": false
+  },
+  "pack": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260904-002046-283267-01.md",
+  "record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260904-002046-283267-01.json",
+  "retrieval": "sqlite-exact-fts5-sections-deterministic-weighted-graph",
+  "deterministic": true,
+  "source_grounded": true,
+  "grep_fallback_required": false,
+  "warnings": {
+    "status": "warning",
+    "warning_count": 1,
+    "examples": [
+      {
+        "kind": "compile-commands-unavailable",
+        "language": "cpp",
+        "file": "compile_commands.json",
+        "range": null,
+        "diagnostic_categories": [],
+        "diagnostic_count": 0,
+        "coverage": {},
+        "precision": "bounded-approximate",
+        "build_evidence": {
+          "paths": [
+            "tests/fixtures/cpp-parser-scons/scons-project/SConstruct",
+            "tests/fixtures/cpp-parser-scons/scons-project/src/SConscript"
+          ],
+          "resolution": "build-config-unique",
+          "selected": "c++20"
+        },
+        "affected_entity_count": 0,
+        "absence_inference_allowed": false
+      }
+    ],
+    "omitted_warning_count": 0,
+    "absence_inference_allowed": false,
+    "message_zh": "警告范围或有界近似语义结果不完整，不可据此推断未检出事实在源码中不存在。"
+  },
+  "fact_freshness": {
+    "schema_version": 1,
+    "state": "current",
+    "stable_state": "current",
+    "observed_at_utc": "2026-09-04T00:20:46Z",
+    "trigger": "first-query",
+    "bound_commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+    "current_head": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+    "branch": "codex/reference-ingest-v1",
+    "dirty": {
+      "count": 0,
+      "paths": [],
+      "truncated": false
+    },
+    "change_summary": {
+      "comparison": "bound-commit-to-current-head",
+      "changed": 0,
+      "changed_paths": [],
+      "counts": {},
+      "truncated": false
+    },
+    "migration": null,
+    "overlay": null,
+    "cache_hit": false,
+    "stable_facts_current": true,
+    "next_action": {
+      "action": "reuse-stable-facts",
+      "rebuild": false
+    },
+    "error": null,
+    "state_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\freshness\\state.json"
+  },
+  "current_source_grounded": true
+}

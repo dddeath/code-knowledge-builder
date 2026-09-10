@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "algorithm": "exact dense matrix cosine via normalized float32 dot product",
+  "documents": 2090,
+  "dimension": 512,
+  "dtype": "float32",
+  "normalized": true,
+  "documents_digest": "0f52c028d49ba08afcc0285a71dcbc4dc6706b5a88d0aada3ebf3ce8d87227ef",
+  "corpus_machine_sha256": "9b2bf61be6c4cf755e06ba082f8df2e6a240b3489b8fc415043c59380f7949a7",
+  "files": {
+    "vectors.npy": {
+      "bytes": 4280448,
+      "sha256": "5c80d63983c7754eb7d2ed81609165da60c38ffbf9d08e67ce147dc3899df16e"
+    },
+    "documents.json": {
+      "bytes": 1027196,
+      "sha256": "ef578ee7650d29b91fffdfdf58fa4f60eea9f3d44fe9c3d6a7896a6de1f7fa94"
+    }
+  },
+  "payload_bytes": 5307644,
+  "encode_seconds": 677.7891007,
+  "incremental_probe": {
+    "entity_id": "ent-089dc91dfbb75883bc724306d64c0584",
+    "source_path": "scripts/ckb_core/machine_knowledge.py",
+    "seconds": 0.1749114,
+    "replacement_vector_equal": true,
+    "ranking_unchanged": true,
+    "probe_bytes": 4280448
+  },
+  "network_attempts": []
+}

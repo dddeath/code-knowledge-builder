@@ -3,29 +3,43 @@
   "status": "agent-reviewed",
   "kind": "change",
   "title": "Lite、Full 与 Obsidian 插件发行边界",
-  "file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human\\changes\\Lite、Full 与 Obsidian 插件发行边界.md",
-  "compatibility_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown\\changes\\Lite、Full 与 Obsidian 插件发行边界.md",
+  "file": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\human\\changes\\Lite、Full 与 Obsidian 插件发行边界.md",
+  "compatibility_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\markdown\\changes\\Lite、Full 与 Obsidian 插件发行边界.md",
   "linked_pages": [
-    "source_files 与 sha256 的协作实现",
+    "build_core 与 sha256 的协作实现",
     "audit_obsidian 与 prepare_vault 的协作实现",
-    "deployment_plan 与 skill_root 的协作实现",
+    "deploy 与 skill_root 的协作实现",
     "package_showcase",
-    "SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现",
-    "retrieve_machine 与 estimated_tokens 的协作实现",
-    "main 与 sha256 的协作实现",
-    "ingest_event 与 default_registry_path 的协作实现"
+    "ensure_local_openers 与 SourceLinkRenderer 的协作实现",
+    "build_machine_knowledge 与 estimated_tokens 的协作实现",
+    "build 与 sha256 的协作实现",
+    "review_automation 与 default_registry_path 的协作实现"
   ],
   "source_links": [
-    "[打开源码：scripts/package_release.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/package_release.py:1:1)  `scripts/package_release.py:1-142`",
-    "[打开源码：scripts/ckb_core/obsidian.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/obsidian.py:1:1)  `scripts/ckb_core/obsidian.py:1-134`",
+    "[打开源码：scripts/package_release.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/package_release.py:1:1)  `scripts/package_release.py:1-307`",
+    "[打开源码：scripts/ckb_core/obsidian.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/obsidian.py:1:1)  `scripts/ckb_core/obsidian.py:1-166`",
     "[打开源码：scripts/ckb_core/runtime.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/runtime.py:1:1)  `scripts/ckb_core/runtime.py:1-153`",
     "[打开源码：scripts/ckb_core/showcase.py 第 66 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/showcase.py:66:1)  `scripts/ckb_core/showcase.py:66-172`",
     "[打开源码：scripts/ckb_core/source_links.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/source_links.py:1:1)  `scripts/ckb_core/source_links.py:1-184`",
-    "[打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1458`",
-    "[打开源码：scripts/build_runtime_payload.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/build_runtime_payload.py:1:1)  `scripts/build_runtime_payload.py:1-117`",
-    "[打开源码：scripts/ckb_core/automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation.py:1:1)  `scripts/ckb_core/automation.py:1-1632`"
+    "[打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1995`",
+    "[打开源码：scripts/build_runtime_payload.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/build_runtime_payload.py:1:1)  `scripts/build_runtime_payload.py:1-158`",
+    "[打开源码：scripts/ckb_core/automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation.py:1:1)  `scripts/ckb_core/automation.py:1-1783`"
   ],
-  "query_record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260829-181948-474628-01.json",
-  "updated_at_utc": "2026-08-29T18:35:04Z",
-  "obsidian_uri": "obsidian://open?path=E%3A%5Cknowledge_builder%5Cself-workspace%5Cknowledge-base%5Cmarkdown%5Cchanges%5CLite%E3%80%81Full%20%E4%B8%8E%20Obsidian%20%E6%8F%92%E4%BB%B6%E5%8F%91%E8%A1%8C%E8%BE%B9%E7%95%8C.md"
+  "query_record": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\machine\\agent-packs\\pack-20260829-181948-474628-01.json",
+  "updated_at_utc": "2026-09-10T03:13:53Z",
+  "obsidian_uri": "obsidian://open?path=E%3A%5Cknowledge_builder%5Cself-workspace%5Cknowledge-base.staging-4617928a6757%5Cmarkdown%5Cchanges%5CLite%E3%80%81Full%20%E4%B8%8E%20Obsidian%20%E6%8F%92%E4%BB%B6%E5%8F%91%E8%A1%8C%E8%BE%B9%E7%95%8C.md",
+  "human_output_contract": {
+    "status": "legacy-content-checked",
+    "v3_validated": false
+  },
+  "record_id": "work-record-39519557a7b95488a5235628d6bb9095",
+  "created_at_utc": "2026-08-29T18:35:04Z",
+  "body_sha256": "47fdd00d4231fd7bf2b572a351f69a4ca70c1b5d5ea478df3fc326ab84c28aea",
+  "replacement": {
+    "operation_id": "record-replace-cf737cc4ff595c9ea648e5a5563c06e0",
+    "replaced_at_utc": "2026-09-10T03:13:53Z",
+    "previous_page_sha256": "2eb712461d3ab0e646b7265d333628cc9c954ae0f09627bb5a50816e020da351",
+    "previous_body_sha256": "2eb712461d3ab0e646b7265d333628cc9c954ae0f09627bb5a50816e020da351",
+    "body_sha256": "47fdd00d4231fd7bf2b572a351f69a4ca70c1b5d5ea478df3fc326ab84c28aea"
+  }
 }

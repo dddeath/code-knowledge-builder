@@ -36,7 +36,7 @@
 
 ## 相关知识页
 
-- [[deployment_plan]]
+- [[deploy 与 skill_root 的协作实现]]
 
 ## 源码入口
 

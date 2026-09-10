@@ -14,26 +14,11 @@
 
 ## 相关代码
 
-- 实现时会用到 [[CkbError]]。
-- 实现时会用到 [[ScopeExtensionOfferTests.retrieval]]。
-- 实现时会用到 [[ckb_canvas 的协作边界]]。
-- 实现时会用到 [[contracts 的协作边界（prototypes）]]。
-- 实现时会用到 [[finalize]]。
-- 实现时会用到 [[maintenance_check 与 capability_matrix 的协作实现]]。
-- 实现时会用到 [[retrieve]]。
-- 实现时会用到 [[retrieve_machine]]。
-- 实现时会用到 [[retrieve_machine 与 estimated_tokens 的协作实现]]。
-- 实现时会用到 [[serve_stdio 与 _write_line 的协作实现]]。
-- 实现时会用到 [[start_scope_extension 与 _error 的协作实现]]。
+- 与 [[CkbError]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[build_machine_knowledge 与 estimated_tokens 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[maintenance_check 与 capability_matrix 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[serve_stdio 与 _write_line 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 
 ## 谁会来到这里
 
 - [[serve_stdio 与 _write_line 的协作实现]] 汇总了本页。
-
-## 相关测试
-
-- [[CodeKnowledgeBuilderTests]]
-- [[KeywordFallbackRetrievalWiringTests]]
-- [[ScopeExtensionOfferTests.retrieval 等测试场景]]
-- [[ScopeExtensionTest]]
-- [[refresh 等测试场景]]

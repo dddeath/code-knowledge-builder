@@ -1,0 +1,251 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-appendix-review-pack-0050",
+  "kind": "appendix-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-10T03:35:16Z",
+  "reviews": [
+    {
+      "entity_id": "ent-2c56d5f1784c536bb9ac26ab0f3652a9",
+      "classification": "appendix",
+      "owner_page_id": "file-b0d9a20786005446bc982acd35c07dc0",
+      "source_path": "tests/test_ckb_canvas_contracts.py",
+      "start_line": 38,
+      "end_line": 146,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0026审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "验证 Canvas 请求和结果模式、未知字段拒绝、检索记录限制及阅读包精确回链，并检查标准验收请求结构。"
+    },
+    {
+      "entity_id": "ent-38eb88aaef4c55aea4e4883483061913",
+      "classification": "appendix",
+      "owner_page_id": "file-b0d9a20786005446bc982acd35c07dc0",
+      "source_path": "tests/test_ckb_canvas_contracts.py",
+      "start_line": 39,
+      "end_line": 47,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_ckb_canvas_contracts.py` 第 39-47 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`test_all_nine_schemas_parse_and_mat…` 用于完成局部输入校验、转换或状态更新。"
+    },
+    {
+      "entity_id": "ent-e06b44433ad1540389e209fc3b1593a4",
+      "classification": "appendix",
+      "owner_page_id": "file-b0d9a20786005446bc982acd35c07dc0",
+      "source_path": "tests/test_ckb_canvas_contracts.py",
+      "start_line": 49,
+      "end_line": 75,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_ckb_canvas_contracts.py` 第 49-75 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`test_design_success_and_failure_fix…` 用于完成局部输入校验、转换或状态更新。"
+    },
+    {
+      "entity_id": "ent-bc030be16eee54e981a3dc2708bafddd",
+      "classification": "appendix",
+      "owner_page_id": "ent-606346808a295ee0b84ca72909f497f5",
+      "source_path": "tests/test_ckb_canvas_contracts.py",
+      "start_line": 82,
+      "end_line": 92,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_ckb_canvas_contracts.py` 第 82-92 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`variants` 在 `test_ckb_canvas_contracts.py` 中用于验证目标行为、失败分类和回归边界。"
+    },
+    {
+      "entity_id": "ent-60abd78e31ff5166a989614793b8b499",
+      "classification": "appendix",
+      "owner_page_id": "file-b0d9a20786005446bc982acd35c07dc0",
+      "source_path": "tests/test_ckb_canvas_contracts.py",
+      "start_line": 105,
+      "end_line": 119,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_ckb_canvas_contracts.py` 第 105-119 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`_assert_record_rejected` 在 `test_ckb_canvas_contracts.py` 中用于验证目标行为、失败分类和回归边界。"
+    },
+    {
+      "entity_id": "ent-b7f554a9fa105b938a9d06f484720457",
+      "classification": "appendix",
+      "owner_page_id": "file-b0d9a20786005446bc982acd35c07dc0",
+      "source_path": "tests/test_ckb_canvas_contracts.py",
+      "start_line": 121,
+      "end_line": 124,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_ckb_canvas_contracts.py` 第 121-124 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`test_record_1_keyword_variant_and_u…` 用于完成局部输入校验、转换或状态更新。"
+    },
+    {
+      "entity_id": "ent-637d0199a2cd53e2b076e1b883e644be",
+      "classification": "appendix",
+      "owner_page_id": "file-b0d9a20786005446bc982acd35c07dc0",
+      "source_path": "tests/test_ckb_canvas_contracts.py",
+      "start_line": 126,
+      "end_line": 139,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_ckb_canvas_contracts.py` 第 126-139 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`test_pack_record_crosslink_is_exact` 用于完成局部输入校验、转换或状态更新。"
+    },
+    {
+      "entity_id": "ent-f306ffed78cd52cfac658b5ba2af88c3",
+      "classification": "appendix",
+      "owner_page_id": "file-b0d9a20786005446bc982acd35c07dc0",
+      "source_path": "tests/test_ckb_canvas_contracts.py",
+      "start_line": 141,
+      "end_line": 146,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_ckb_canvas_contracts.py` 第 141-146 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`test_acceptance_runtime_request_is_…` 用于完成局部输入校验、转换或状态更新。"
+    },
+    {
+      "entity_id": "ent-239a0ec1cdbe5c229e2a0372db70aa72",
+      "classification": "appendix",
+      "owner_page_id": "ent-d9d2b3b9d47b592cb1433a83baeb8c43",
+      "source_path": "tests/test_ckb_canvas_determinism.py",
+      "start_line": 21,
+      "end_line": 52,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_ckb_canvas_determinism.py` 第 21-52 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`test_ten_generations_have_one_canva…` 用于完成局部输入校验、转换或状态更新。"
+    },
+    {
+      "entity_id": "ent-c205cf89a7945736b18f424a945d3a49",
+      "classification": "appendix",
+      "owner_page_id": "ent-5a2cd5c778e154ddba2079000c6e0901",
+      "source_path": "tests/test_ckb_canvas_graph.py",
+      "start_line": 24,
+      "end_line": 47,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_ckb_canvas_graph.py` 第 24-47 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`test_maximal_selection_has_12_nodes…` 用于完成局部输入校验、转换或状态更新。"
+    },
+    {
+      "entity_id": "ent-7decf3b884ff585895d47c15925b7717",
+      "classification": "appendix",
+      "owner_page_id": "ent-5a2cd5c778e154ddba2079000c6e0901",
+      "source_path": "tests/test_ckb_canvas_graph.py",
+      "start_line": 49,
+      "end_line": 65,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_ckb_canvas_graph.py` 第 49-65 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`test_duplicate_page_and_source_keep…` 用于完成局部输入校验、转换或状态更新。"
+    },
+    {
+      "entity_id": "ent-8f5df17a26205fa581f5b11199407725",
+      "classification": "appendix",
+      "owner_page_id": "ent-5a2cd5c778e154ddba2079000c6e0901",
+      "source_path": "tests/test_ckb_canvas_graph.py",
+      "start_line": 67,
+      "end_line": 81,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_ckb_canvas_graph.py` 第 67-81 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`test_required_page_budget_is_not_si…` 用于完成局部输入校验、转换或状态更新。"
+    },
+    {
+      "entity_id": "ent-7ffcbbc9028650b6bb401f75b533cf26",
+      "classification": "appendix",
+      "owner_page_id": "ent-5a2cd5c778e154ddba2079000c6e0901",
+      "source_path": "tests/test_ckb_canvas_graph.py",
+      "start_line": 83,
+      "end_line": 108,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_ckb_canvas_graph.py` 第 83-108 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`test_dangling_edge_duplicate_id_and…` 用于完成局部输入校验、转换或状态更新。"
+    },
+    {
+      "entity_id": "ent-dc96af69171659528dc17fd9df31fe25",
+      "classification": "appendix",
+      "owner_page_id": "ent-5a2cd5c778e154ddba2079000c6e0901",
+      "source_path": "tests/test_ckb_canvas_graph.py",
+      "start_line": 110,
+      "end_line": 121,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_ckb_canvas_graph.py` 第 110-121 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`test_collision_hook_never_adds_rand…` 用于完成局部输入校验、转换或状态更新。"
+    },
+    {
+      "entity_id": "ent-85d09daf53ce594bb26ddea57d96bf78",
+      "classification": "appendix",
+      "owner_page_id": "ent-5a2cd5c778e154ddba2079000c6e0901",
+      "source_path": "tests/test_ckb_canvas_graph.py",
+      "start_line": 123,
+      "end_line": 136,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_ckb_canvas_graph.py` 第 123-136 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`test_invalid_source_range_is_reject…` 用于完成局部输入校验、转换或状态更新。"
+    },
+    {
+      "entity_id": "ent-3286adc7e4e353a8a5bc9689e715c60d",
+      "classification": "appendix",
+      "owner_page_id": "file-bf86c4e3823d545baf4e3105c0fc46f0",
+      "source_path": "tests/test_ckb_canvas_paths.py",
+      "start_line": 20,
+      "end_line": 28,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_ckb_canvas_paths.py` 第 20-28 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`run_cli` 在 `test_ckb_canvas_paths.py` 中用于验证目标行为、失败分类和回归边界。"
+    },
+    {
+      "entity_id": "ent-bb466aa91b7b5ee39d5c0f178ca8adb5",
+      "classification": "appendix",
+      "owner_page_id": "file-bf86c4e3823d545baf4e3105c0fc46f0",
+      "source_path": "tests/test_ckb_canvas_paths.py",
+      "start_line": 31,
+      "end_line": 150,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0027审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "检验 Canvas 在中文路径、长路径、符号链接和损坏输入下的行为，并区分快照不符、证据漂移及已有目标保护。"
+    },
+    {
+      "entity_id": "ent-a2c85462857455a89f26f226d92b8b29",
+      "classification": "appendix",
+      "owner_page_id": "file-bf86c4e3823d545baf4e3105c0fc46f0",
+      "source_path": "tests/test_ckb_canvas_paths.py",
+      "start_line": 32,
+      "end_line": 40,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_ckb_canvas_paths.py` 第 32-40 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`test_chinese_paths_generate_and_reo…` 用于完成局部输入校验、转换或状态更新。"
+    },
+    {
+      "entity_id": "ent-2046b4b1b14e542595aafed276a157d6",
+      "classification": "appendix",
+      "owner_page_id": "file-bf86c4e3823d545baf4e3105c0fc46f0",
+      "source_path": "tests/test_ckb_canvas_paths.py",
+      "start_line": 42,
+      "end_line": 58,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_ckb_canvas_paths.py` 第 42-58 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`test_250_to_259_character_target_is…` 用于完成局部输入校验、转换或状态更新。"
+    },
+    {
+      "entity_id": "ent-d34f61e9092256a886777a8afc08954c",
+      "classification": "appendix",
+      "owner_page_id": "file-bf86c4e3823d545baf4e3105c0fc46f0",
+      "source_path": "tests/test_ckb_canvas_paths.py",
+      "start_line": 60,
+      "end_line": 78,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_ckb_canvas_paths.py` 第 60-78 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`test_inside_link_is_allowed_and_out…` 用于完成局部输入校验、转换或状态更新。"
+    },
+    {
+      "entity_id": "ent-fa36f7e2ebf350e7af1706aa098a8a8f",
+      "classification": "appendix",
+      "owner_page_id": "file-bf86c4e3823d545baf4e3105c0fc46f0",
+      "source_path": "tests/test_ckb_canvas_paths.py",
+      "start_line": 106,
+      "end_line": 130,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_ckb_canvas_paths.py` 第 106-130 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`test_snapshot_and_evidence_drift_ha…` 用于完成局部输入校验、转换或状态更新。"
+    },
+    {
+      "entity_id": "ent-1c03a94344b158c49e15016f34390b0f",
+      "classification": "appendix",
+      "owner_page_id": "file-bf86c4e3823d545baf4e3105c0fc46f0",
+      "source_path": "tests/test_ckb_canvas_paths.py",
+      "start_line": 132,
+      "end_line": 150,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_ckb_canvas_paths.py` 第 132-150 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`test_missing_target_and_existing_ta…` 用于完成局部输入校验、转换或状态更新。"
+    }
+  ]
+}

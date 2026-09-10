@@ -40,6 +40,7 @@ from .gitrepo import (
     create_source_snapshot,
     preflight,
     resolve_scope_paths,
+    relocate_source_snapshot,
     tracked_sources,
     tracked_csharp_project_files,
 )
@@ -102,16 +103,34 @@ def _replace_output_prefix(value: Any, old_output: str, new_output: str) -> Any:
     """Rewrite only serialized paths that point inside a relocated output."""
 
     if isinstance(value, dict):
-        return {key: _replace_output_prefix(item, old_output, new_output) for key, item in value.items()}
+        return {
+            key: item if key.endswith("_zh") or key in {"source_text", "text", "content", "evidence_note", "question", "origin",
+                                                       "validation_context", "section_evidence"}
+            else _replace_output_prefix(item, old_output, new_output)
+            for key, item in value.items()
+        }
     if isinstance(value, list):
         return [_replace_output_prefix(item, old_output, new_output) for item in value]
     if not isinstance(value, str):
         return value
-    updated = value.replace(old_output, new_output)
-    old_posix = old_output.replace("\\", "/")
-    new_posix = new_output.replace("\\", "/")
-    updated = updated.replace(old_posix, new_posix)
-    return updated.replace(quote(old_output, safe=""), quote(new_output, safe=""))
+    # A path prefix must end at a component boundary. Never rewrite quoted
+    # source prose, sibling outputs, or arbitrary historical text.
+    for old, new in ((old_output, new_output),
+                     (old_output.replace("\\", "/"), new_output.replace("\\", "/")),
+                     (quote(old_output, safe=""), quote(new_output, safe=""))):
+        for prefix in ("", "file://", "file:///", "vscode://file/"):
+            start = prefix + old
+            if value == start:
+                return prefix + new
+            if value.startswith(start) and value[len(start):].startswith(("/", "\\", "%2F", "%5C")):
+                return prefix + new + value[len(start):]
+            # Historical reference prefixes may be normalized to '/' while
+            # serialized Windows paths retain '\\' or mixed separators.
+            normalized_value = value.replace("\\", "/")
+            normalized_start = start.replace("\\", "/")
+            if normalized_value == normalized_start or normalized_value.startswith(normalized_start + "/"):
+                return (prefix + new).replace("\\", "/") + normalized_value[len(normalized_start):]
+    return value
 
 
 def _relocate_completed_output(output: Path, state: dict[str, Any]) -> dict[str, Any]:
@@ -136,13 +155,22 @@ def _relocate_completed_output(output: Path, state: dict[str, Any]) -> dict[str,
     old_output = str(stored_root.parent.parent)
     new_output = str(output.resolve())
     relocated_state = _replace_output_prefix(state, old_output, new_output)
-    assert_source_snapshot(relocated_state["repository"], relocated_state["source_snapshot"])
-    rewritten: list[str] = []
+    relocate_source_snapshot(relocated_state["repository"], relocated_state["source_snapshot"], stored_root)
+    from .reference_documents import relocate_reference_paths
+
+    rewritten = relocate_reference_paths(output, old_output, new_output)
+    plan_path = output / "migration/plan.json"
+    immutable_evidence = {
+        item["relative_target"] for item in json_load(plan_path).get("mutable_files", [])
+        if item.get("kind") in {"referenced-machine-evidence", "authoring-package-file", "transaction-archive-file"}
+    } if plan_path.is_file() else set()
     candidates = list(output.rglob("*.json"))
     candidates.extend(output / name for name in (".complete", ".machine.complete", ".human.complete") if (output / name).is_file())
     for path in sorted(set(candidates)):
         relative = path.relative_to(output)
-        if relative.parts[:1] == (".source-snapshot",) or relative.parts[:2] == ("migration", "preserved-baseline"):
+        if (relative.parts[:1] in {(".source-snapshot",), ("references",)}
+                or relative.parts[:2] in {("migration", "preserved-baseline"), ("references", "raw"), ("workspace-meta", "record-replace")}
+                or relative.as_posix() in immutable_evidence):
             continue
         try:
             document = json_load(path)
@@ -165,6 +193,15 @@ def _relocate_completed_output(output: Path, state: dict[str, Any]) -> dict[str,
             "relocated_at_utc": utc_now(),
         },
     )
+    # Re-render generator-owned links at the new root, leaving record and
+    # learning-note prose untouched. Minimal snapshot-only outputs have no graph.
+    if (output / "graph.json").is_file() and (output / "markdown/projection.json").is_file():
+        from .reference_documents import project_references
+
+        if (output / "references/manifests").is_dir():
+            project_references(output)
+        else:
+            refresh_human_navigation(output)
     return relocated_state
 
 
@@ -1781,11 +1818,12 @@ def _logical_projection(graph: dict[str, Any]) -> dict[str, Any]:
                 "target": target_page,
                 "entity_link_ids": sorted(value["id"] for value in evidence_links),
                 "count": len(evidence_links),
+                "candidate_only": all("lexical-candidate" in str(value.get("provider", "")) for value in evidence_links),
             }
         )
     reference_outgoing: dict[str, set[str]] = defaultdict(set)
     for link in graph["links"]:
-        if link["type"] == "references":
+        if link["type"] == "references" and "lexical-candidate" not in str(link.get("provider", "")):
             reference_outgoing[link["source"]].add(link["target"])
     test_entities = [
         entity
@@ -2031,6 +2069,8 @@ def _logical_context_budgets(logical: dict[str, Any]) -> dict[str, Any]:
 
 def _relation_phrase(link: dict[str, Any], other_title: str, incoming: bool = False) -> str:
     """Translate a machine relation into one short human navigation sentence."""
+    if link.get("candidate_only") or "lexical-candidate" in str(link.get("provider", "")):
+        return f"与 [[{other_title}]] 存在待核验的词法关联；是否调用或依赖需查看源码。"
     relation = link["type"]
     if relation in {"contains-module", "contains-file"}:
         return f"可从 [[{other_title}]] 进入本页。" if incoming else f"继续浏览 [[{other_title}]]。"
@@ -2307,140 +2347,56 @@ def _index_document(graph: dict[str, Any], logical: dict[str, Any], output: Path
     project = _repository_name(graph["repository"]["root"])
     module_ids = set(logical["module_page_ids"].values())
     module_titles = [page["title"] for page in logical["pages"] if page["id"] in module_ids]
-    reference_projection = output / "references/projection.json"
-    reference_pages = json_load(reference_projection).get("pages", []) if reference_projection.is_file() else []
-    reference_entry = ["- **查找已审阅外部资料**：打开 [参考资料导览](REFERENCES.md)，摘要中的每项主张都链接到归档原文范围。"] if reference_pages else []
     lines = [
-        f"# {project} 知识库",
-        "",
-        "> 先按任务选择入口：理解代码进入职责导览，查找已有结论进入工作记录，精确定位交给确定性检索。",
-        "",
-        "## 按任务选择入口",
-        "",
-        f"- **理解或修改代码**：从 [[{repository_title}]] 进入，再按职责缩小到类、函数或聚合页。",
-        f"- **查找已有分析、变更和实验**：打开 [工作记录导览]({WORK_RECORD_INDEX})，按任务目的浏览全部记录。",
-        *reference_entry,
-        "- **精确定位类、函数或源码范围**：使用 `brief --profile fast`，复杂问题再使用完整 `retrieve --profile precise`。",
-        "- **了解页面规则和阅读顺序**：打开 [阅读这套知识库的方法](WIKI.md)。",
-        "",
-        "## 按职责浏览代码",
-        "",
-        *[f"- [[{title}]]" for title in module_titles],
-        "",
-        "## 工作记录",
-        "",
-        f"[工作记录导览]({WORK_RECORD_INDEX}) 为每条分析、变更、实验、踩坑和会话记录提供一句中文说明，并按任务目的分组。导览由脚本从全部现有记录统一生成，不依赖手工挑选。",
-        "",
-        "## 精确定位",
-        "",
-        "遇到具体修改任务时，优先使用 `brief --profile fast` 获取预算内机器阅读包；复杂问题再使用完整 `retrieve --profile precise`。只在索引要求源码回退时读取最窄源码范围。两种档位都不调用向量模型。",
-        "",
-        "## 在 Obsidian 中打开",
-        "",
-        f"把 `{(output / 'human').resolve()}` 作为 Obsidian vault 打开；从本页、工作记录导览、标签或反向链接进入。`{(output / 'markdown').resolve()}` 是兼容镜像。",
-        "",
-        "## 在 Logseq 中打开",
-        "",
-        f"选择输出目录 `{output.resolve()}`；配置文件位于 [logseq/config.edn](logseq/config.edn)。",
-        "",
+        f"# {project} 知识库", "",
+        "> 按职责理解代码，按记录查找已有结论；具体问题交给 Agent 定位到源码。", "",
+        "## 先选择你要完成的任务", "",
+        f"- 理解或修改代码：从 [[{repository_title}]] 找到承担该功能的实现。",
+        f"- 查找已有方案、修改和实验：阅读 [工作记录导览]({WORK_RECORD_INDEX})。",
+        "- 了解阅读顺序：阅读 [知识库阅读方法](WIKI.md)。", "",
+        "## 按职责浏览代码", "",
+        *[f"- [[{title}]]：查找这一职责下的实现与修改入口。" for title in module_titles], "",
+        "## 查找项目记录", "",
+        f"[工作记录导览]({WORK_RECORD_INDEX}) 按分析、修改、实验、问题和会话分类；每条记录说明结论及适用范围。", "",
     ]
+    reference_projection = output / "references/projection.json"
+    if reference_projection.is_file() and json_load(reference_projection).get("pages"):
+        lines.extend(["## 查找外部资料", "", "[参考资料导览](REFERENCES.md) 汇总已审阅来源；打开摘要可核对原文依据。", ""])
+    lines.extend([
+        "## 让 Agent 精确定位", "",
+        "> 请先检索知识库，定位与我的问题有关的少量实现和来源；区分固定版本事实、后续修改与待核验内容，再说明建议的修改入口和验证场景。", "",
+        "在 Obsidian 中打开人类知识库目录，或在 Logseq 中选择知识库输出目录，从首页进入；具体打开位置见 [阅读方法](WIKI.md)。", "",
+    ])
     return "\n".join(lines)
 
 
 def _wiki_document(graph: dict[str, Any], logical: dict[str, Any], output: Path) -> str:
     project = _repository_name(graph["repository"]["root"])
     repository_title = next(page["title"] for page in logical["pages"] if page["id"] == logical["repository_page_id"])
-    module_ids = set(logical["module_page_ids"].values())
-    module_titles = [page["title"] for page in logical["pages"] if page["id"] in module_ids]
-    page_config = logical["page_config"]
-    page_limits = page_config["page_limits"]
-    code_sections = "、".join(page_config["content"]["code_page_sections"])
-    reference_projection = output / "references/projection.json"
-    reference_pages = json_load(reference_projection).get("pages", []) if reference_projection.is_file() else []
-    reference_entry = ["- 查找经过来源和许可审阅的外部资料：打开 [参考资料导览](REFERENCES.md)。"] if reference_pages else []
-    lines = [
-        f"# 如何阅读 {project} 代码知识库",
-        "",
-        "> 这是一套面向理解和修改代码的中文导航，而不是机器实体清单。",
-        "",
-        "## 从哪里开始",
-        "",
-        "先判断当前任务需要代码事实、历史工作记录，还是精确符号定位：",
-        "",
-        f"- 理解或修改代码：先打开 [[{repository_title}]]，再进入对应职责导览。",
-        f"- 查找已有分析、变更、实验或会话：打开 [工作记录导览]({WORK_RECORD_INDEX})。",
-        *reference_entry,
-        "- 精确定位源码或资料：使用机器层 `brief`，再打开返回的 Agent pack 和最窄来源范围。",
-        "",
-        "代码职责入口：",
-        "",
-        *[f"- [[{title}]]" for title in module_titles],
-        "",
-        "## 页面只保留什么",
-        "",
-        "- **类与函数页**：说明它做什么、何时修改、位于哪里，以及会和哪些代码协作。",
-        "- **职责聚合页**：把同一实现文件或相邻目录中的类、函数和辅助逻辑放在一起讲清楚。",
-        "- **内部细节**：访问器、简单判断、局部辅助函数和薄包装只以一句话收纳，不膨胀成独立页面。",
-        "- **自然双链**：关系写成“会使用”“由测试覆盖”“继续浏览”等阅读提示，不展示机器关系类型或计数。",
-        "- **页面类型**：每页只有一个 `#类型/...` 标签，用于区分代码、职责和边界。",
-        "- **源码入口**：带源码位置的页面可以直接打开本地编辑器中的对应行。",
-        "",
-        "页面正文不展示内部 ID、版本标识、机器分类和解析器字段；这些真实性证据仍保存在机器审计层，并继续决定知识库能否完成。",
-        "",
-        "## 中文描述约定",
-        "",
-        "所有职责、修改时机、内部细节、关系说明以及 Agent 分析和修改记录都使用简体中文。英文只保留在专有名词、API、代码符号、命令、路径和必要技术术语中。类名和函数名无需翻译，但不得用纯英文段落代替中文解释。",
-        "",
-        "## 本次页面配置",
-        "",
-        f"普通文件、核心文件和邻近文件最多分别生成 {page_limits['ordinary_file']}、{page_limits['core_file']}、{page_limits['adjacent_file']} 个关键实体页；每个入口最多选择 {page_limits['core_per_entry']} 个核心页和 {page_limits['adjacent_per_entry']} 个邻近页。",
-        "",
-        f"代码页按以下顺序组织内容：{code_sections}。附录采用 `{page_config['content']['appendix_mode']}` 展示方式。完整规范化配置保存在 `{(output / 'page-config.json').resolve()}`。",
-        "",
-        "## 如何寻找修改入口",
-        "",
-        "1. 从职责导览找到最接近需求的业务区域。",
-        "2. 打开相关类或函数页，先读“它做什么”和“什么时候需要修改”。",
-        "3. 沿“相关代码”和“谁会来到这里”继续浏览。",
-        "4. 在“相关测试”中确认修改后应验证的场景。",
-        "5. 只有需要实现细节时才展开“内部细节”。",
-        "",
-        "## Graphify 关系导览",
-        "",
-        "Graphify 会把彼此连接紧密的代码归为职责群；机器知识库先按确定性词项和章节检索选择实体，再按固定图权重扩展关系。人类版关系报告见 [项目关系导览](../graphify-out/GRAPH_REPORT.md)。",
-        "",
-        "## Agent 确定性检索",
-        "",
-        "Agent 默认查询 `machine/knowledge.sqlite`，不把整套人类页面或完整实体图装入上下文。`fast` 使用有界图传播，`precise` 使用固定轮次加权排序；两者都不调用向量模型。",
-        "",
-        "```powershell",
-        '& PYTHON scripts\\ckb.py brief --out OUTPUT "职责或资料关键词" --budget 1800 --profile fast',
-        '& PYTHON scripts\\ckb.py entity --out OUTPUT "类名或函数名"',
-        '& PYTHON scripts\\ckb.py neighbors --out OUTPUT "类名或函数名" --depth 2',
-        '& PYTHON scripts\\ckb.py path --out OUTPUT "起点类或函数" "目标类或函数"',
-        "```",
-        "",
-        "## Agent 分析与修改记录",
-        "",
-        "Agent 解释代码时先读取 retrieve 产生的阅读包，再把结论保存到 `analysis`；修改内容和原因保存到 `changes`，独立失败经验和实验分别进入 `pitfalls` 与 `experiments`。这些笔记使用双链回到代码页，并在重新投影后继续保留。",
-        "",
-        "## 工作记录如何查找",
-        "",
-        f"[工作记录导览]({WORK_RECORD_INDEX}) 会列出全部分析、变更、实验、踩坑和会话记录，并为每条记录提取一句中文说明。先按任务目的浏览，再用 Obsidian 核心搜索输入两个或三个稳定关键词；不要逐个打开目录中的文件猜测内容。",
-        "",
-        "## 在 Obsidian 中打开",
-        "",
-        f"把 `{(output / 'human').resolve()}` 作为 vault 打开。核心搜索、图谱、反向链接、出链、标签和页面预览配置已经准备好；从 `INDEX` 或本页开始。`{(output / 'markdown').resolve()}` 是兼容镜像。",
-        "",
-        "## 在 Logseq 中打开",
-        "",
-        f"选择知识库输出目录 `{output.resolve()}`。该目录已经包含 Logseq 文件图谱所需的配置；进入图谱后从 `INDEX` 或本页开始阅读。",
-        "",
-    ]
-    return "\n".join(lines)
+    return "\n".join([
+        f"# 如何阅读 {project} 代码知识库", "",
+        "> 先找到要解决的问题，再沿职责、记录和来源逐步核对；不必逐页阅读整个仓库。", "",
+        "## 从哪里开始", "",
+        f"理解功能时，从 [[{repository_title}]] 选择承担该功能的职责；精确到类、函数或源码行的问题可直接交给 Agent 检索。",
+        f"查找已经讨论过的方案、修改或实验时，从 [工作记录导览]({WORK_RECORD_INDEX}) 按任务目的选择，不把历史结论直接当作新版实现。", "",
+        "## 各类页面负责什么", "",
+        "- 代码与职责页说明实现产生什么结果、何时需要修改，并提供源码与协作入口。",
+        "- 分析和修改记录说明结论、原因、已验证行为及适用边界；实验摘要说明比较对象和功能、性能差异。",
+        "- 资料摘要保留主张和来源；学习笔记保留问题与解释。辅助实现收纳在所属页面，不为每个细节单独建页。", "",
+        "## 如何追踪方案与实现变化", "",
+        "先读记录的结论、时间与边界，再沿关联实现核对源码。词法关联只是待核验线索，不等于确认调用；测试链接指向验证场景，不替代测试结果。",
+        "固定快照是建库时的源码版本。源码变化后，旧记录仍可解释历史；描述新版行为前，应核验变化范围与新证据。完整命令、日志和维护细节由 Agent 从机器证据读取。", "",
+        "## 如何让 Agent 帮助阅读", "",
+        "> 请围绕我的具体问题，先检索知识库并读取少量相关来源，解释系统结果、实现入口和适用边界。证据不足时指出缺少什么，不把未检出解释为不存在；只有我要求保存结论时才写入工作记录。", "",
+        "## 深入了解", "",
+        "- [返回知识库首页](INDEX.md)：按职责选择代码入口。",
+        f"- [查找方案、变更与实验]({WORK_RECORD_INDEX})：确认已有结论和后续变化。",
+        "- [查看项目关系导览](../graphify-out/GRAPH_REPORT.md)：按相邻职责缩小阅读范围。", "",
+        f"使用 Obsidian 时打开 `{(output / 'human').resolve()}`；使用 Logseq 时选择 `{output.resolve()}`。兼容 Markdown 目录为 `{(output / 'markdown').resolve()}`。", "",
+    ])
 
 
-def _readability_report(root: Path, graph: dict[str, Any], logical: dict[str, Any], files: dict[str, str]) -> dict[str, Any]:
+def _readability_report(root: Path, graph: dict[str, Any], logical: dict[str, Any], files: dict[str, str], *, historical: bool = False) -> dict[str, Any]:
     titles = {page["title"] for page in logical["pages"]}
     errors: list[dict[str, Any]] = []
     metrics = {
@@ -2463,6 +2419,9 @@ def _readability_report(root: Path, graph: dict[str, Any], logical: dict[str, An
     documents: list[tuple[str, str]] = []
     for page in logical["pages"]:
         path = root / "pages" / files[page["id"]]
+        if not path.is_file():
+            errors.append({"page": page["title"], "reason": "human-document-missing"})
+            continue
         text = path.read_text(encoding="utf-8")
         documents.append((str(path), text))
         if text.startswith("---\n"):
@@ -2544,8 +2503,72 @@ def _readability_report(root: Path, graph: dict[str, Any], logical: dict[str, An
     index = (root / "INDEX.md").read_text(encoding="utf-8") if (root / "INDEX.md").is_file() else ""
     if f"[工作记录导览]({WORK_RECORD_INDEX})" not in index:
         errors.append({"reason": "index-work-record-entry-missing"})
-    required_wiki = {"从哪里开始", "页面只保留什么", "中文描述约定", "本次页面配置", "如何寻找修改入口", "Graphify 关系导览", "Agent 确定性检索", "Agent 分析与修改记录", "工作记录如何查找", "在 Obsidian 中打开", "在 Logseq 中打开"}
-    missing_sections = sorted(section for section in required_wiki if f"## {section}" not in wiki)
+    # Older pages remain historical content; absence of V3 metadata is not
+    # retroactive review failure. Actual leaks are checked on every invocation.
+    from .human_page_templates import human_output_errors, validate_human_page
+    from .workspace_notes import DIRECTORY_BY_KIND
+
+    legacy_notes = 0
+    warnings = []
+    legacy_narrative_paths: set[str] = set()
+    projection_path = root / "projection.json"
+    existing_projection = json_load(projection_path) if projection_path.is_file() else {}
+    if historical and existing_projection.get("content_contract") != "3.0.0-core":
+        legacy_narrative_paths.update(str(root / "pages" / filename) for filename in files.values())
+    for directory in DIRECTORY_BY_KIND.values():
+        for path in sorted((root / directory).glob("*.md")):
+            documents.append((str(path), path.read_text(encoding="utf-8")))
+            meta = root.parent / "workspace-meta/notes" / (path.stem + ".json")
+            metadata = json_load(meta) if meta.is_file() else {}
+            if not metadata.get("section_evidence"):
+                legacy_notes += 1
+                if historical and not metadata.get("human_output_contract"):
+                    legacy_narrative_paths.add(str(path))
+            else:
+                validation = validate_human_page(metadata["kind"], path.read_text(encoding="utf-8"), context=metadata.get("validation_context"))
+                errors.extend({"path": str(path), **error} for error in validation["errors"])
+                try:
+                    from .workspace_notes import note_contract_metadata, read_note_body, render_note_text
+
+                    package = Path(metadata["authoring_package"])
+                    body_path = package.parent / "body.md"
+                    body = read_note_body(body_path)
+                    verified = note_contract_metadata(body_path, metadata["kind"], body)
+                    expected = render_note_text(metadata["kind"], metadata["title"], body, [], [], v3=True)
+                    if path.read_text(encoding="utf-8") != expected:
+                        errors.append({"path": str(path), "reason": "v3-note-package-body-drift"})
+                    for field in ("section_evidence", "section_evidence_sha256", "validation_context"):
+                        if metadata.get(field) != verified.get(field):
+                            errors.append({"path": str(path), "reason": "note-section-evidence-drift", "field": field})
+                except (CkbError, OSError, KeyError, ValueError) as exc:
+                    errors.append({"path": str(path), "reason": "note-section-evidence-invalid", "detail": str(exc)})
+    legacy_graphify_commands = (
+        '& PYTHON scripts\\ckb.py query --out OUTPUT "职责关键词" --budget 1500',
+        '& PYTHON scripts\\ckb.py path --out OUTPUT "起点类或函数" "目标类或函数"',
+        '& PYTHON scripts\\ckb.py explain --out OUTPUT "类名、函数名或职责关键词"',
+    )
+    legacy_graphify_block = "## 围绕任务继续缩小范围\n\n```powershell\n" + "\n".join(legacy_graphify_commands) + "\n```"
+    for path, text in documents:
+        for error in human_output_errors(text):
+            # Pin the only out-of-scope disclosure exception to the exact
+            # existing query-example block, not the report filename alone.
+            block_start = text.find(legacy_graphify_block)
+            block_line = text[:block_start].count("\n") + 1
+            line = int(error.get("line", 0))
+            legacy_example = (
+                path == str(graph_report) and text.count(legacy_graphify_block) == 1
+                and error["reason"] == "l4-evidence-leak" and error.get("evidence_shape") == "complete-command"
+                and block_line + 3 <= line <= block_line + 5
+                and text.splitlines()[line - 1] in legacy_graphify_commands
+            )
+            advisory = legacy_example or (path in legacy_narrative_paths and error["reason"] == "uninformative-narrative-review-required")
+            target = warnings if advisory else errors
+            target.append({"path": path, **error, **({"advisory_scope": "legacy-graphify-query-examples"} if legacy_example else {})})
+    metrics["legacy_note_count"] = legacy_notes
+    required_wiki = {"从哪里开始", "各类页面负责什么", "如何追踪方案与实现变化", "如何让 Agent 帮助阅读", "深入了解"}
+    legacy_wiki = {"从哪里开始", "页面只保留什么", "中文描述约定", "本次页面配置", "如何寻找修改入口", "Graphify 关系导览", "Agent 确定性检索", "Agent 分析与修改记录", "工作记录如何查找", "在 Obsidian 中打开", "在 Logseq 中打开"}
+    expected_wiki = required_wiki if "## 各类页面负责什么" in wiki else legacy_wiki
+    missing_sections = sorted(section for section in expected_wiki if f"## {section}" not in wiki)
     if missing_sections or metrics["wiki_chinese_characters"] < 180:
         errors.append({"reason": "chinese-wiki-incomplete", "missing_sections": missing_sections, "chinese_characters": metrics["wiki_chinese_characters"]})
     return {
@@ -2554,6 +2577,14 @@ def _readability_report(root: Path, graph: dict[str, Any], logical: dict[str, An
         "principle": "human-pages-describe-classes-functions-or-their-aggregations",
         "metrics": metrics,
         "errors": errors,
+        "warnings": warnings,
+        "legacy_note_count": legacy_notes,
+        "full_v3_coverage": False,
+        "coverage": {
+            "content_gate": ["code-pages", "INDEX", "WIKI", "RECORDS", "record-bodies"],
+            "typed_v3": "explicit-page-author-record-packages",
+            "legacy_advisory": ["exact-graphify-query-example-block", "unupgraded-historical-narrative-review-candidates"],
+        },
     }
 
 
@@ -2591,6 +2622,7 @@ def project_markdown(output: Path, graph: dict[str, Any], logical: dict[str, Any
     json_write(root / "readability-audit.json", readability)
     projection = {
         "format": "markdown",
+        "content_contract": "3.0.0-core",
         "pages": [{"id": page["id"], "title": page["title"], "page_type": page["page_type"], "human_page_kind": page["human_page_kind"], "tag": page.get("tag"), "file": f"pages/{files[page['id']]}"} for page in logical["pages"]],
         "links": logical["links"],
         "entity_owner_pages": logical["entity_owner_pages"],
@@ -2678,7 +2710,7 @@ def refresh_human_navigation(output: Path, *, staging: bool = False) -> dict[str
     (root / "WIKI.md").write_text(_wiki_document(graph, logical, output), encoding="utf-8", newline="\n")
     work_record_index = write_work_record_index(root)
     files = _human_page_filenames(logical)
-    readability = _readability_report(root, graph, logical, files)
+    readability = _readability_report(root, graph, logical, files, historical=True)
     json_write(root / "readability-audit.json", readability)
     projection.update(
         {

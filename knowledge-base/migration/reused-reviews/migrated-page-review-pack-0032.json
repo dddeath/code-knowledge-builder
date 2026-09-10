@@ -3,20 +3,20 @@
   "pack_id": "migrated-page-review-pack-0032",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-03T22:06:01Z",
+  "reviewed_at_utc": "2026-09-10T03:34:33Z",
   "reviews": [
     {
-      "entity_id": "file-2c846ce8cc8a524caaf169cbc071b031",
+      "entity_id": "file-2d0e463898eb51799472421f0a2ddad9",
       "classification": "page",
-      "owner_page_id": "file-2c846ce8cc8a524caaf169cbc071b031",
-      "source_path": "scripts/ckb_core/record_replace.py",
+      "owner_page_id": "file-2d0e463898eb51799472421f0a2ddad9",
+      "source_path": "scripts/ckb_core/pipeline.py",
       "start_line": 1,
-      "end_line": 1156,
+      "end_line": 3637,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `94bf22015243` 中 `scripts/ckb_core/record_replace.py` 第 1-1156 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
-      "meaning_zh": "`scripts/ckb_core/record_replace.py` 页面绑定固定源码第 1-1156 行，说明该文件在工作记录正文替换、候选验证、原子 promotion 和回滚中的整体职责。",
-      "role_zh": "该文件负责工作记录正文替换、候选验证、原子 promotion 和回滚，并为相关命令或测试提供可复查实现入口。",
-      "change_when_zh": "当 `scripts/ckb_core/record_replace.py` 中 `scripts/ckb_core/record_replace.py` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0016审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "该模块把固定 Git 快照转换为经过语法、语义、来源和中文审阅核验的知识库，生成完整实体事实、受预算约束的人类导航、Markdown 镜像与机器索引，并可额外生成 Logseq 数据库。完成状态必须经过批次、审阅包和总审计门。",
+      "role_zh": "它编排初始化、解析批次、审阅回填、图合并、多层投影和收尾状态，固定页面配置与源码范围，并在迁移后修复受管路径。总审计还会重建投影和索引，因此属于有写入副作用的完成流程而非只读状态检查。",
+      "change_when_zh": "构建阶段顺序、审阅与完成门、固定快照迁移、页面导航及预算规则、多种投影一致性或上下文生成方式变化时修改此模块，并验证未审阅状态、源码漂移、镜像一致性及实际完成标记。"
     }
   ]
 }

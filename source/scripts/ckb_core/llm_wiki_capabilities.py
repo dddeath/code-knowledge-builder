@@ -334,8 +334,9 @@ def render_capability_matrix_markdown() -> str:
             "## 当前批次原则",
             "",
             "- 本批次吸收研究缺口登记：待验证主张保存在机器层，只在 RECORDS 中生成一个汇总入口，不为每项缺口创建页面。",
-            "- 审阅文本资料层已进入默认本地路径；固定源码事实层仍不接收外部文档。",
-            "- 向量检索、PDF/网页/OCR 和自动页面扩散只在隔离 benchmark 中比较，不进入默认发行路径。",
+            "- 本地 Markdown/TXT/PDF 已有 reference ingest 命令；网页通过显式 web-snapshot 或 web-fetch 进入独立参考层，仍须逐项来源审阅，固定源码事实层不接收外部文档。",
+            "- 原生 PDF 使用锁定解析器；扫描页仅在显式启用 OCR 并配置外部适配器时尝试识别，缺失依赖或未通过质量门的页面保留待处理状态。OCR 引擎不属于默认运行时依赖。",
+            "- 向量检索、自动页面扩散及 PDF/网页/OCR 效果实验与已实现输入命令分开评价；隔离 benchmark 的结果不自动扩大默认能力或变更生产配置。",
             "- 本地 Web 查看器、大型二进制复制和外部文档伪装成代码实体保持明确排除。",
             "",
         ]
@@ -442,21 +443,60 @@ def maintenance_check(output: Path) -> dict[str, Any]:
     from .reference_documents import audit_references
     from .work_record_index import audit_work_record_index
 
-    checks = {
-        "agent_protocol": audit_agent_protocol(output),
-        "work_record_index": audit_work_record_index(output),
-        "agent_index": audit_agent_index(output),
-        "machine_knowledge": audit_machine_knowledge(output),
-        "keyword_fallback": audit_keyword_fallback(output),
-        "human_layer": audit_human_layer(output),
-        "references": audit_references(output),
-        "operations": audit_operation_journal(output),
-        "research_gaps": audit_gap_register(output),
+    from .gitrepo import assert_source_snapshot
+    from .freshness import check_fact_freshness
+    from .pipeline import _logical_projection, _human_page_filenames, _readability_report
+
+    # Each check observes this invocation. A broken snapshot must not suppress
+    # independent content findings, and an old passed file is never a gate.
+    checks = {}
+    audits = {
+        "agent_protocol": audit_agent_protocol,
+        "work_record_index": audit_work_record_index,
+        "agent_index": audit_agent_index,
+        "machine_knowledge": audit_machine_knowledge,
+        "keyword_fallback": audit_keyword_fallback,
+        "human_layer": audit_human_layer,
+        "references": audit_references,
+        "operations": audit_operation_journal,
+        "research_gaps": audit_gap_register,
     }
+    for name, audit in audits.items():
+        try:
+            checks[name] = audit(output)
+        except (CkbError, OSError, ValueError, KeyError) as exc:
+            checks[name] = {"status": "failed", "errors": [str(exc)]}
+    try:
+        state = json_load(output / "state.json")
+        if not isinstance(state.get("source_snapshot"), dict):
+            raise CkbError("fixed source snapshot is missing")
+        assert_source_snapshot(state["repository"], state["source_snapshot"])
+        checks["fixed_source_snapshot"] = {"status": "passed"}
+    except (CkbError, OSError, ValueError, KeyError) as exc:
+        checks["fixed_source_snapshot"] = {"status": "failed", "errors": [str(exc)]}
+    freshness = check_fact_freshness(output, trigger="maintenance", force=True)
+    # A newer live HEAD is stale, not destruction of the historical snapshot.
+    # Query availability is independent; freshness remains visible to callers.
     failed = [name for name, result in checks.items() if result.get("status") != "passed"]
-    readability_path = output / "human/readability-audit.json"
-    readability = json_load(readability_path) if readability_path.is_file() else {"status": "missing"}
-    if readability.get("status") != "passed":
+    readability_path = output / "workspace-meta/maintenance/readability.json"
+    roots = {}
+    for name in ("human", "markdown"):
+        try:
+            graph = json_load(output / "graph.json")
+            logical = _logical_projection(graph)
+            roots[name] = _readability_report(output / name, graph, logical, _human_page_filenames(logical), historical=True)
+        except (CkbError, OSError, ValueError, KeyError) as exc:
+            roots[name] = {"status": "failed", "errors": [{"reason": "readability-input-invalid", "detail": str(exc)}]}
+    readability = {
+        "status": "passed" if all(value.get("status") == "passed" for value in roots.values()) else "failed",
+        "checked_at_utc": utc_now(),
+        "roots": roots,
+        "warnings": [{"root": name, **warning} for name, value in roots.items() for warning in value.get("warnings", [])],
+        "legacy_note_count": roots.get("human", {}).get("legacy_note_count", 0),
+        "errors": [{"root": name, **error} for name, value in roots.items() for error in value.get("errors", [])],
+    }
+    json_write(readability_path, readability)
+    if readability["status"] != "passed":
         failed.append("human_readability")
     report = {
         "schema_version": 1,
@@ -464,11 +504,17 @@ def maintenance_check(output: Path) -> dict[str, Any]:
         "checked_at_utc": utc_now(),
         "output": str(output),
         "page_writes": 0,
+        "fact_freshness": freshness,
+        "current_source_grounded": bool(freshness.get("stable_facts_current")),
         "checks": checks,
         "human_readability": {
             "status": readability.get("status"),
             "path": str(readability_path.resolve()),
             "errors": readability.get("errors", []),
+            "warnings": readability.get("warnings", []),
+            "legacy_note_count": readability.get("legacy_note_count", 0),
+            "full_v3_coverage": False,
+            "coverage": roots.get("human", {}).get("coverage", {}),
         },
         "capability_counts": capability_matrix()["counts"],
         "failed_checks": failed,

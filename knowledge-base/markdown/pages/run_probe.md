@@ -14,24 +14,11 @@
 
 ## 相关代码
 
-- 实现时会用到 [[AutomationTest.register]]。
-- 实现时会用到 [[_Transport.close]]。
-- 实现时会用到 [[_Transport.close 与 _StartGate 的协作实现]]。
-- 实现时会用到 [[check_fact_freshness]]。
-- 实现时会用到 [[ingest_event]]。
-- 实现时会用到 [[ingest_event 与 default_registry_path 的协作实现]]。
-- 实现时会用到 [[run_probe 等测试场景]]。
-- 实现时会用到 [[web_input_adapter_contract 与 ReferenceInputRequest 的协作实现]]。
+- 与 [[run_probe 等测试场景]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 
 ## 谁会来到这里
 
-- [[ingest_event]] 关联到这里的验证场景。
 - [[run_probe 等测试场景]] 汇总了本页。
-- [[web_input_adapter_contract 与 ReferenceInputRequest 的协作实现]] 关联到这里的验证场景。
-
-## 相关测试
-
-- [[run_probe 等测试场景]]
 
 ## 内部细节
 

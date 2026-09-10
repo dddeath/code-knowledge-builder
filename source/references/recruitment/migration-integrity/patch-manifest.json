@@ -1,0 +1,33 @@
+{
+  "baseline": "5ad80b0f77b59b8b3dd802172f9ae17162a4f3cf",
+  "creation_baseline": "b6c36ee11efeff75021782a82babf7a5c6452276",
+  "dependency": "386b1ae756164b4647de87d3e9f230ab3961c458",
+  "scope": "V3 authoring integration and hidden gitfile update only",
+  "patch_sha256": "f93fc4015289198ad967be19f2f9c52ef80ddab2052049003bc190321270d826",
+  "files": {
+    "scripts/ckb_core/gitrepo.py": {
+      "baseline_sha256": "8740e5c180f24151218e881fe53cd0e690f983ee2297339bb063fdd8e4194083",
+      "modified_sha256": "41d92b395ccaf6479efbfef30dd91efbd277f430a8a6929b957d0e3465fa5f31"
+    },
+    "scripts/ckb_core/knowledge_batch_migration.py": {
+      "baseline_sha256": "4ba850823b0a6aa939c70002bee8f9ea7c456cd33af1e6ef33d5dc0e424246f8",
+      "modified_sha256": "b9b80cdc15213adfea3ef74478d068b7abb67141138a6d0d200f0fc0ddaddd00"
+    },
+    "scripts/ckb_core/migration.py": {
+      "baseline_sha256": "814f4b63ed7704bbd3debcaaa6c2a74aa7b6d078a3bc6953201edd75a59de171",
+      "modified_sha256": "cab7954f38f58c592634b3c1c51affaa1f877be0e981f4f06c9e8279db7a22a3"
+    },
+    "scripts/ckb_core/pipeline.py": {
+      "baseline_sha256": "503f1042d59136e89bb91fe6cab6a4804c0d7daf72313c856c08902a5d3a2e59",
+      "modified_sha256": "9b61a3e891639b688743439321ec4b4833abd01f38be98bad84bddd2d8fb3ddb"
+    },
+    "tests/test_knowledge_batch_migration.py": {
+      "baseline_sha256": "6b3ec6b8e1cd1a71e7f91de8b8531ea79465804986c4ed9dac8e489e84626ae2",
+      "modified_sha256": "a03937eb9240dec833c045e010b3d45036e3fd8dde556e4233cb616a7f5e6f18"
+    },
+    "tests/test_recruitment_migration_provenance.py": {
+      "baseline_sha256": "f0ed22be0a7ba3cf1e1ca1134b67b281f23e09c2e4569b21b31dea70a9144161",
+      "modified_sha256": "99cb9203b28263baa18900944605c71b3d8e3761170daf26d2bae5e896005966"
+    }
+  }
+}

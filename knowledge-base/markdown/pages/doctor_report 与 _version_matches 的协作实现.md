@@ -14,45 +14,15 @@
 
 ## 相关代码
 
-- 实现时会用到 [[CkbError]]。
-- 实现时会用到 [[CkbError 与 DependencyError 的协作实现]]。
-- 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
-- 实现时会用到 [[SourceLinkRenderer.uri]]。
-- 实现时会用到 [[append]]。
-- 实现时会用到 [[ckb_canvas 的协作边界]]。
-- 实现时会用到 [[command]]。
+- 与 [[CkbError]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[CkbError 与 DependencyError 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 - 主要代码单元是 [[doctor_report]]。
-- 实现时会用到 [[finalize 与 _replace_output_prefix 的协作实现]]。
-- 实现时会用到 [[render_integration 与 harness_retrieval_contract 的协作实现]]。
-- 实现时会用到 [[retrieve_machine 与 estimated_tokens 的协作实现]]。
 
 ## 谁会来到这里
 
-- [[AutomationTest.register 等测试场景]] 会使用这里提供的行为。
-- [[CodeKnowledgeBuilderTests 等测试场景]] 会使用这里提供的行为。
-- [[ScopeExtensionOfferTests.retrieval 等测试场景]] 会使用这里提供的行为。
-- [[SessionStdioLifecycleTests]] 会使用这里提供的行为。
-- [[_Transport.close 与 _StartGate 的协作实现]] 会使用这里提供的行为。
-- [[benchmark 的协作边界（16d95d34）]] 会使用这里提供的行为。
-- [[deployment_plan]] 会使用这里提供的行为。
-- [[deployment_plan 与 skill_root 的协作实现]] 会使用这里提供的行为。
-- [[doctor_report]] 会使用这里提供的行为。
-- [[ingest_event 与 default_registry_path 的协作实现]] 会使用这里提供的行为。
-- [[main（fake_logseq 测试）]] 会使用这里提供的行为。
-- [[parse_file]] 会使用这里提供的行为。
-- [[render_integration 与 harness_retrieval_contract 的协作实现]] 会使用这里提供的行为。
+- 与 [[deploy 与 skill_root 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[doctor_report]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 - 可从 [[scripts 职责导览]] 进入本页。
-
-## 相关测试
-
-- [[AutomationTest.register 等测试场景]]
-- [[CanvasBenchmarkContractTests]]
-- [[CodeKnowledgeBuilderTests]]
-- [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[FactFreshnessStateMachineTest 等测试场景]]
-- [[KeywordFallbackRetrievalWiringTests 等测试场景]]
-
-> 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 
 ## 内部细节
 

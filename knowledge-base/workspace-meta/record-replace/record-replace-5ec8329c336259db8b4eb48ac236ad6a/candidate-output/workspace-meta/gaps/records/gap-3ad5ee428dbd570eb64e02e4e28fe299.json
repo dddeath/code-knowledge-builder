@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "gap_id": "gap-3ad5ee428dbd570eb64e02e4e28fe299",
+  "kind": "conflicting-sources",
+  "status": "open",
+  "summary_zh": "当前知识库的词法候选关系与实际源码调用存在冲突：维护函数的列表 append 被连到测试局部同名函数，且人类页将候选写成确定依赖。实际生成与维护流程也未证明覆盖已确认的 V3 理解成本和来源链接约束。固定快照登记已经恢复；在补齐作用域消歧、真实输出失败样例和逐项来源重审前，结构审计通过不应视为关系与叙述已经可信。",
+  "evidence_paths": [
+    "machine/agent-reviews/20260905-full-review/append-relation-review.json",
+    "machine/agent-reviews/20260905-full-review/review.json",
+    "machine/agent-reviews/20260905-full-review/source-maintenance.json"
+  ],
+  "created_at_utc": "2026-09-05T04:21:54Z",
+  "updated_at_utc": "2026-09-05T04:21:54Z",
+  "resolution_zh": null,
+  "resolution_evidence_paths": []
+}

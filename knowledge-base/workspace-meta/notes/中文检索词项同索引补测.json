@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "status": "agent-reviewed",
+  "record_id": "work-record-46f07b8ade5757fcb5272937262a3c89",
+  "kind": "experiment",
+  "title": "中文检索词项同索引补测",
+  "file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human\\experiments\\中文检索词项同索引补测.md",
+  "compatibility_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown\\experiments\\中文检索词项同索引补测.md",
+  "linked_pages": [
+    "KeywordFallbackOptions 与 KeywordProviderConfig 的协作实现",
+    "module_name 与 estimated_tokens 的协作实现",
+    "search_terms 与 _split_camel 的协作实现",
+    "build_agent_index 与 _tokens 的协作实现",
+    "create_gap 与 _root 的协作实现",
+    "project_graphify 与 _networkx_modules 的协作实现",
+    "ChineseRetrievalEffectRetestFixtureTests.test_source_corpus_drift_fails_without_dam…（tests/test_chinese_retrieval_fixture.py:1）"
+  ],
+  "source_links": [
+    "[打开源码：scripts/ckb_core/keyword_fallback.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/keyword_fallback.py:1:1)  `scripts/ckb_core/keyword_fallback.py:1-638`",
+    "[打开源码：scripts/ckb_core/navigation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/navigation.py:1:1)  `scripts/ckb_core/navigation.py:1-456`",
+    "[打开源码：scripts/ckb_core/query_terms.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/query_terms.py:1:1)  `scripts/ckb_core/query_terms.py:1-106`",
+    "[打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-555`",
+    "[打开源码：scripts/ckb_core/research_gaps.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/research_gaps.py:1:1)  `scripts/ckb_core/research_gaps.py:1-274`",
+    "[打开源码：scripts/ckb_core/graphify_core.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/graphify_core.py:1:1)  `scripts/ckb_core/graphify_core.py:1-676`",
+    "[打开源码：tests/test_chinese_retrieval_fixture.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_chinese_retrieval_fixture.py:1:1)  `tests/test_chinese_retrieval_fixture.py:1-214`"
+  ],
+  "query_record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260906-043128-985064-01.json",
+  "created_at_utc": "2026-09-06T04:39:29Z",
+  "updated_at_utc": "2026-09-10T03:14:10Z",
+  "body_sha256": "285fc7c2eeeb48ec76a04ca3729147a5e268286b5caea7d42a07bc2d0369ad89",
+  "obsidian_uri": "obsidian://open?path=E%3A%5Cknowledge_builder%5Cself-workspace%5Cknowledge-base%5Cmarkdown%5Cexperiments%5C%E4%B8%AD%E6%96%87%E6%A3%80%E7%B4%A2%E8%AF%8D%E9%A1%B9%E5%90%8C%E7%B4%A2%E5%BC%95%E8%A1%A5%E6%B5%8B.md",
+  "human_output_contract": {
+    "status": "legacy-content-checked",
+    "v3_validated": false
+  },
+  "replacement": {
+    "operation_id": "record-replace-e4a2740da68857f28e82012117402802",
+    "replaced_at_utc": "2026-09-10T03:14:10Z",
+    "previous_page_sha256": "203925c2b32c519c51a7fb32b7c30a4a3e3ce38f4a0faa61ff1dba2438a7d6ae",
+    "previous_body_sha256": "674ee2b80de1c84003f2780cd929d07d9c2c644cd62f6025cc68c819aac53dca",
+    "body_sha256": "285fc7c2eeeb48ec76a04ca3729147a5e268286b5caea7d42a07bc2d0369ad89"
+  }
+}

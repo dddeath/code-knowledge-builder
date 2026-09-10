@@ -1,0 +1,22 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0068",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-10T03:35:25Z",
+  "reviews": [
+    {
+      "entity_id": "ent-b1cc5882eed6543e9ed271babee0243c",
+      "classification": "page",
+      "owner_page_id": "ent-b1cc5882eed6543e9ed271babee0243c",
+      "source_path": "tests/test_record_replace.py",
+      "start_line": 148,
+      "end_line": 189,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0032审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "该测试替换工作记录后核对全部文件与双索引角色、双镜像新正文和稳定元数据，再回滚并重复回滚以验证精确恢复与幂等。",
+      "role_zh": "它验证替换事务更新派生角色但保留记录身份、创建时间和原有证据链接，恢复比较采用目标角色逻辑快照而非只看命令成功。",
+      "change_when_zh": "记录角色集合、稳定元数据、正文替换或回滚幂等规则变化时修改此测试，并保留替换后变化及回滚后完全相等两组断言。"
+    }
+  ]
+}

@@ -1,34 +1,28 @@
 # source 知识库
 
-> 先按任务选择入口：理解代码进入职责导览，查找已有结论进入工作记录，精确定位交给确定性检索。
+> 按职责理解代码，按记录查找已有结论；具体问题交给 Agent 定位到源码。
 
-## 按任务选择入口
+## 先选择你要完成的任务
 
-- **理解或修改代码**：从 [[source 代码导览]] 进入，再按职责缩小到类、函数或聚合页。
-- **查找已有分析、变更和实验**：打开 [工作记录导览](RECORDS.md)，按任务目的浏览全部记录。
-- **查找已审阅外部资料**：打开 [参考资料导览](REFERENCES.md)，摘要中的每项主张都链接到归档原文范围。
-- **精确定位类、函数或源码范围**：使用 `brief --profile fast`，复杂问题再使用完整 `retrieve --profile precise`。
-- **了解页面规则和阅读顺序**：打开 [阅读这套知识库的方法](WIKI.md)。
+- 理解或修改代码：从 [[source 代码导览]] 找到承担该功能的实现。
+- 查找已有方案、修改和实验：阅读 [工作记录导览](RECORDS.md)。
+- 了解阅读顺序：阅读 [知识库阅读方法](WIKI.md)。
 
 ## 按职责浏览代码
 
-- [[prototypes 职责导览]]
-- [[references 职责导览]]
-- [[scripts 职责导览]]
-- [[tests 职责导览]]
+- [[scripts 职责导览]]：查找这一职责下的实现与修改入口。
+- [[tests 职责导览]]：查找这一职责下的实现与修改入口。
 
-## 工作记录
+## 查找项目记录
 
-[工作记录导览](RECORDS.md) 为每条分析、变更、实验、踩坑和会话记录提供一句中文说明，并按任务目的分组。导览由脚本从全部现有记录统一生成，不依赖手工挑选。
+[工作记录导览](RECORDS.md) 按分析、修改、实验、问题和会话分类；每条记录说明结论及适用范围。
 
-## 精确定位
+## 查找外部资料
 
-遇到具体修改任务时，优先使用 `brief --profile fast` 获取预算内机器阅读包；复杂问题再使用完整 `retrieve --profile precise`。只在索引要求源码回退时读取最窄源码范围。两种档位都不调用向量模型。
+[参考资料导览](REFERENCES.md) 汇总已审阅来源；打开摘要可核对原文依据。
 
-## 在 Obsidian 中打开
+## 让 Agent 精确定位
 
-把 `E:\knowledge_builder\self-workspace\knowledge-base.staging-fcad08af3dac\human` 作为 Obsidian vault 打开；从本页、工作记录导览、标签或反向链接进入。`E:\knowledge_builder\self-workspace\knowledge-base.staging-fcad08af3dac\markdown` 是兼容镜像。
+> 请先检索知识库，定位与我的问题有关的少量实现和来源；区分固定版本事实、后续修改与待核验内容，再说明建议的修改入口和验证场景。
 
-## 在 Logseq 中打开
-
-选择输出目录 `E:\knowledge_builder\self-workspace\knowledge-base.staging-fcad08af3dac`；配置文件位于 [logseq/config.edn](logseq/config.edn)。
+在 Obsidian 中打开人类知识库目录，或在 Logseq 中选择知识库输出目录，从首页进入；具体打开位置见 [阅读方法](WIKI.md)。

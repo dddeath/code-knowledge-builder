@@ -12,13 +12,13 @@
 
 ## 相关知识页
 
-- [[retrieve_machine 与 estimated_tokens 的协作实现]]
-- [[retrieve 与 _tokens 的协作实现]]
+- [[build_machine_knowledge 与 estimated_tokens 的协作实现]]
+- [[build_agent_index 与 _tokens 的协作实现]]
 - [[package_showcase 与 _parse_sample 的协作实现]]
-- [[start_session 与 _session_directory 的协作实现]]
-- [[ingest_event 与 default_registry_path 的协作实现]]
-- [[finalize 与 _replace_output_prefix 的协作实现]]
-- [[audit_migration 与 _entity_key 的协作实现]]
+- [[finish_session 与 _session_directory 的协作实现]]
+- [[review_automation 与 default_registry_path 的协作实现]]
+- [[audit_global 与 _replace_output_prefix 的协作实现]]
+- [[migrate_output 与 _entity_key 的协作实现]]
 - [[preflight 与 git 的协作实现]]
 
 ## 源码入口

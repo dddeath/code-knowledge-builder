@@ -1,0 +1,251 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-appendix-review-pack-0049",
+  "kind": "appendix-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-10T03:35:16Z",
+  "reviews": [
+    {
+      "entity_id": "ent-5e0764e773b7523a9fb6371ede3f54d7",
+      "classification": "appendix",
+      "owner_page_id": "file-fdc043b3277a5478b2abf6892b707c72",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 2267,
+      "end_line": 2494,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新读取固定提交 4617928a67576fc4d2630584e70f3e2a104e17fc 的 tests/test_ckb.py 第 2267-2494 行，并核对新版本整文件上下文；Git blob 与提案一致，目录字节范围与摘录相等，描述依据源码分支与数据流，不把测试断言当作运行结果。",
+      "description_zh": "覆盖 C++ 局部解析恢复、警告传播及 SCons 标准推导，区分近似与编译数据库精确模式。"
+    },
+    {
+      "entity_id": "ent-4951a4bfc6e2583480ad5be57d96fed2",
+      "classification": "appendix",
+      "owner_page_id": "file-fdc043b3277a5478b2abf6892b707c72",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 2270,
+      "end_line": 2272,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新读取固定提交 4617928a67576fc4d2630584e70f3e2a104e17fc 的 tests/test_ckb.py 第 2270-2272 行，并核对新版本整文件上下文；Git blob 与提案一致，目录字节范围与摘录相等，描述依据源码分支与数据流，不把测试断言当作运行结果。",
+      "description_zh": "创建 C++ 解析和构建配置测试的临时根目录。"
+    },
+    {
+      "entity_id": "ent-1ab3d5f778ba530fa09ea63bb74dca19",
+      "classification": "appendix",
+      "owner_page_id": "file-fdc043b3277a5478b2abf6892b707c72",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 2274,
+      "end_line": 2275,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新读取固定提交 4617928a67576fc4d2630584e70f3e2a104e17fc 的 tests/test_ckb.py 第 2274-2275 行，并核对新版本整文件上下文；Git blob 与提案一致，目录字节范围与摘录相等，描述依据源码分支与数据流，不把测试断言当作运行结果。",
+      "description_zh": "清理 C++ 解析测试的临时目录。"
+    },
+    {
+      "entity_id": "ent-18cb7942f28c5e95b6bfb6a54517f454",
+      "classification": "appendix",
+      "owner_page_id": "file-fdc043b3277a5478b2abf6892b707c72",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 2277,
+      "end_line": 2284,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新读取固定提交 4617928a67576fc4d2630584e70f3e2a104e17fc 的 tests/test_ckb.py 第 2277-2284 行，并核对新版本整文件上下文；Git blob 与提案一致，目录字节范围与摘录相等，描述依据源码分支与数据流，不把测试断言当作运行结果。",
+      "description_zh": "读取指定 C++ 夹具原始字节，构造固定测试来源并调用解析入口。"
+    },
+    {
+      "entity_id": "ent-f2d0d46b22f354cfbfe097c589bb1b63",
+      "classification": "appendix",
+      "owner_page_id": "file-fdc043b3277a5478b2abf6892b707c72",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 2286,
+      "end_line": 2297,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新读取固定提交 4617928a67576fc4d2630584e70f3e2a104e17fc 的 tests/test_ckb.py 第 2286-2297 行，并核对新版本整文件上下文；Git blob 与提案一致，目录字节范围与摘录相等，描述依据源码分支与数据流，不把测试断言当作运行结果。",
+      "description_zh": "验证条件编译的有效函数范围与不完整输入的局部警告状态。"
+    },
+    {
+      "entity_id": "ent-d67fa75dd4975089b150a06ae10721be",
+      "classification": "appendix",
+      "owner_page_id": "file-fdc043b3277a5478b2abf6892b707c72",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 2299,
+      "end_line": 2308,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新读取固定提交 4617928a67576fc4d2630584e70f3e2a104e17fc 的 tests/test_ckb.py 第 2299-2308 行，并核对新版本整文件上下文；Git blob 与提案一致，目录字节范围与摘录相等，描述依据源码分支与数据流，不把测试断言当作运行结果。",
+      "description_zh": "验证引用直接初始化被识别为局部声明而非函数，并保留不完整输入诊断。"
+    },
+    {
+      "entity_id": "ent-897317a22ebd54baa6273816a431dfae",
+      "classification": "appendix",
+      "owner_page_id": "file-fdc043b3277a5478b2abf6892b707c72",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 2310,
+      "end_line": 2329,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新读取固定提交 4617928a67576fc4d2630584e70f3e2a104e17fc 的 tests/test_ckb.py 第 2310-2329 行，并核对新版本整文件上下文；Git blob 与提案一致，目录字节范围与摘录相等，描述依据源码分支与数据流，不把测试断言当作运行结果。",
+      "description_zh": "验证显式模板实例化不产生伪实体，可恢复形式与大范围错误分别判定。"
+    },
+    {
+      "entity_id": "ent-37ab068acf81536baf057aa5756e0027",
+      "classification": "appendix",
+      "owner_page_id": "file-fdc043b3277a5478b2abf6892b707c72",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 2331,
+      "end_line": 2356,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新读取固定提交 4617928a67576fc4d2630584e70f3e2a104e17fc 的 tests/test_ckb.py 第 2331-2356 行，并核对新版本整文件上下文；Git blob 与提案一致，目录字节范围与摘录相等，描述依据源码分支与数据流，不把测试断言当作运行结果。",
+      "description_zh": "验证局部诊断只降低受影响范围置信度，而大范围错误阻止可用解析。"
+    },
+    {
+      "entity_id": "ent-40a8dade3ec65747ae171285065a4f55",
+      "classification": "appendix",
+      "owner_page_id": "file-fdc043b3277a5478b2abf6892b707c72",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 2358,
+      "end_line": 2367,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新读取固定提交 4617928a67576fc4d2630584e70f3e2a104e17fc 的 tests/test_ckb.py 第 2358-2367 行，并核对新版本整文件上下文；Git blob 与提案一致，目录字节范围与摘录相等，描述依据源码分支与数据流，不把测试断言当作运行结果。",
+      "description_zh": "模拟解析依赖缺失和语法树根缺失，断言入口继续抛出明确错误。"
+    },
+    {
+      "entity_id": "ent-4a78ce618ee35a11925f86ef4a889a3e",
+      "classification": "appendix",
+      "owner_page_id": "file-fdc043b3277a5478b2abf6892b707c72",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 2369,
+      "end_line": 2430,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新读取固定提交 4617928a67576fc4d2630584e70f3e2a104e17fc 的 tests/test_ckb.py 第 2369-2430 行，并核对新版本整文件上下文；Git blob 与提案一致，目录字节范围与摘录相等，描述依据源码分支与数据流，不把测试断言当作运行结果。",
+      "description_zh": "验证局部 C++ 警告贯穿状态、语法阶段、图、机器索引及紧凑阅读包。"
+    },
+    {
+      "entity_id": "ent-4d972c500c5150b08b07eb362fe8c6e4",
+      "classification": "appendix",
+      "owner_page_id": "file-fdc043b3277a5478b2abf6892b707c72",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 2432,
+      "end_line": 2452,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新读取固定提交 4617928a67576fc4d2630584e70f3e2a104e17fc 的 tests/test_ckb.py 第 2432-2452 行，并核对新版本整文件上下文；Git blob 与提案一致，目录字节范围与摘录相等，描述依据源码分支与数据流，不把测试断言当作运行结果。",
+      "description_zh": "构造大范围语法错误，断言语法阶段失败并保留根节点不可用原因。"
+    },
+    {
+      "entity_id": "ent-e559f69803325418a4f156a96b13c8ea",
+      "classification": "appendix",
+      "owner_page_id": "file-fdc043b3277a5478b2abf6892b707c72",
+      "source_path": "tests/test_ckb.py",
+      "start_line": 2454,
+      "end_line": 2494,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新读取固定提交 4617928a67576fc4d2630584e70f3e2a104e17fc 的 tests/test_ckb.py 第 2454-2494 行，并核对新版本整文件上下文；Git blob 与提案一致，目录字节范围与摘录相等，描述依据源码分支与数据流，不把测试断言当作运行结果。",
+      "description_zh": "验证 SCons 标准证据、缺失或歧义回退，以及编译数据库优先的精确模式。"
+    },
+    {
+      "entity_id": "ent-ff603af1e61a52babf0661d6abcee532",
+      "classification": "appendix",
+      "owner_page_id": "file-92400847d6a859b3b1d71b580a92bdf4",
+      "source_path": "tests/test_ckb_canvas_benchmark_contract.py",
+      "start_line": 23,
+      "end_line": 65,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_ckb_canvas_benchmark_contract.py` 第 23-65 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`_capture` 在 `test_ckb_canvas_benchmark_contract.py` 中用于验证目标行为、失败分类和回归边界。"
+    },
+    {
+      "entity_id": "ent-8fc990ebbd47557b94a147020fa3d00e",
+      "classification": "appendix",
+      "owner_page_id": "file-92400847d6a859b3b1d71b580a92bdf4",
+      "source_path": "tests/test_ckb_canvas_benchmark_contract.py",
+      "start_line": 68,
+      "end_line": 204,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0026审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "验证 Canvas 冻结任务分配、证据一致性、未冻结环境停机及独立会话汇总门，构造测量仅作为合同测试。"
+    },
+    {
+      "entity_id": "ent-7e86a3a96266562297e6c43301c40680",
+      "classification": "appendix",
+      "owner_page_id": "file-92400847d6a859b3b1d71b580a92bdf4",
+      "source_path": "tests/test_ckb_canvas_benchmark_contract.py",
+      "start_line": 69,
+      "end_line": 95,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_ckb_canvas_benchmark_contract.py` 第 69-95 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`test_frozen_run_has_12_tasks_four_a…` 用于完成局部输入校验、转换或状态更新。"
+    },
+    {
+      "entity_id": "ent-916e109755075bdfa57cb003f54f30a2",
+      "classification": "appendix",
+      "owner_page_id": "file-92400847d6a859b3b1d71b580a92bdf4",
+      "source_path": "tests/test_ckb_canvas_benchmark_contract.py",
+      "start_line": 97,
+      "end_line": 105,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_ckb_canvas_benchmark_contract.py` 第 97-105 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`test_design_session_and_summary_exa…` 用于完成局部输入校验、转换或状态更新。"
+    },
+    {
+      "entity_id": "ent-c3b5735c58e758d3859f12afaca8d8e5",
+      "classification": "appendix",
+      "owner_page_id": "file-92400847d6a859b3b1d71b580a92bdf4",
+      "source_path": "tests/test_ckb_canvas_benchmark_contract.py",
+      "start_line": 107,
+      "end_line": 111,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_ckb_canvas_benchmark_contract.py` 第 107-111 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`test_unfilled_obsidian_version_stop…` 用于完成局部输入校验、转换或状态更新。"
+    },
+    {
+      "entity_id": "ent-5e234e43102f5499a1328652ccb009c7",
+      "classification": "appendix",
+      "owner_page_id": "file-92400847d6a859b3b1d71b580a92bdf4",
+      "source_path": "tests/test_ckb_canvas_benchmark_contract.py",
+      "start_line": 123,
+      "end_line": 174,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_ckb_canvas_benchmark_contract.py` 第 123-174 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`test_summary_passes_only_with_four_…` 用于完成局部输入校验、转换或状态更新。"
+    },
+    {
+      "entity_id": "ent-92a3fc0f453a5efcafdbec801074c466",
+      "classification": "appendix",
+      "owner_page_id": "file-92400847d6a859b3b1d71b580a92bdf4",
+      "source_path": "tests/test_ckb_canvas_benchmark_contract.py",
+      "start_line": 176,
+      "end_line": 182,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_ckb_canvas_benchmark_contract.py` 第 176-182 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`test_runner_rejects_evidence_drift` 用于完成局部输入校验、转换或状态更新。"
+    },
+    {
+      "entity_id": "ent-4d41ccee05225428b8abd351a00fa17e",
+      "classification": "appendix",
+      "owner_page_id": "file-92400847d6a859b3b1d71b580a92bdf4",
+      "source_path": "tests/test_ckb_canvas_benchmark_contract.py",
+      "start_line": 184,
+      "end_line": 204,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_ckb_canvas_benchmark_contract.py` 第 184-204 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`test_benchmark_cli_stdout_is_one_sc…` 用于完成局部输入校验、转换或状态更新。"
+    },
+    {
+      "entity_id": "ent-c471fe5af39956b9be91297852b46884",
+      "classification": "appendix",
+      "owner_page_id": "file-b0d9a20786005446bc982acd35c07dc0",
+      "source_path": "tests/test_ckb_canvas_contracts.py",
+      "start_line": 23,
+      "end_line": 24,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_ckb_canvas_contracts.py` 第 23-24 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`setUpModule` 在 `test_ckb_canvas_contracts.py` 中用于验证目标行为、失败分类和回归边界。"
+    },
+    {
+      "entity_id": "ent-ec2f0fcb049f550187ce351008b6b355",
+      "classification": "appendix",
+      "owner_page_id": "file-b0d9a20786005446bc982acd35c07dc0",
+      "source_path": "tests/test_ckb_canvas_contracts.py",
+      "start_line": 27,
+      "end_line": 35,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `tests/test_ckb_canvas_contracts.py` 第 27-35 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "description_zh": "`run_cli` 在 `test_ckb_canvas_contracts.py` 中用于验证目标行为、失败分类和回归边界。"
+    }
+  ]
+}

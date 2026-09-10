@@ -1,0 +1,97 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-appendix-review-pack-0062",
+  "kind": "appendix-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-10T03:35:38Z",
+  "reviews": [
+    {
+      "entity_id": "ent-b74e6388b3ed5f47a7ea7a1d4a5678a8",
+      "classification": "appendix",
+      "owner_page_id": "file-d1e5c6c6dda657f8bfc8adfb17d6518d",
+      "source_path": "tests/test_knowledge_batch_migration.py",
+      "start_line": 127,
+      "end_line": 792,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0033审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "贯通知识库批量迁移的计划、待审续跑、切换链和精确回滚，并用多项目及漂移故障验证来源保护与恢复隔离。"
+    },
+    {
+      "entity_id": "ent-93556176c2c253ca87b8aab9fbde26c8",
+      "classification": "appendix",
+      "owner_page_id": "file-d1e5c6c6dda657f8bfc8adfb17d6518d",
+      "source_path": "tests/test_knowledge_batch_migration.py",
+      "start_line": 128,
+      "end_line": 148,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0033审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "创建已提交的小型仓库，临时启用确定性提供器并构建已完成知识库，作为每个批量迁移测试的基线。"
+    },
+    {
+      "entity_id": "ent-5ad27d7f330a566391c81ac68526fce9",
+      "classification": "appendix",
+      "owner_page_id": "file-d1e5c6c6dda657f8bfc8adfb17d6518d",
+      "source_path": "tests/test_knowledge_batch_migration.py",
+      "start_line": 150,
+      "end_line": 161,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0033审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "恢复原提供器环境并清理临时目录，Windows 延迟释放文件时等待后重试清理。"
+    },
+    {
+      "entity_id": "ent-d5ad55744cd85e6a9bf429b6a950f434",
+      "classification": "appendix",
+      "owner_page_id": "file-d1e5c6c6dda657f8bfc8adfb17d6518d",
+      "source_path": "tests/test_knowledge_batch_migration.py",
+      "start_line": 163,
+      "end_line": 178,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0033审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "加入已审阅参考、三个缺口、四十八条工作记录和两份用户笔记镜像，建立完整可变层迁移夹具。"
+    },
+    {
+      "entity_id": "ent-b06695efd83250319bf266f0a012fa87",
+      "classification": "appendix",
+      "owner_page_id": "file-d1e5c6c6dda657f8bfc8adfb17d6518d",
+      "source_path": "tests/test_knowledge_batch_migration.py",
+      "start_line": 180,
+      "end_line": 197,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0033审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "为多项目测试额外构建独立仓库和已完成输出，返回源码、知识库及暂存路径。"
+    },
+    {
+      "entity_id": "ent-b4b95215223a5839befc64df0ca72f40",
+      "classification": "appendix",
+      "owner_page_id": "file-d1e5c6c6dda657f8bfc8adfb17d6518d",
+      "source_path": "tests/test_knowledge_batch_migration.py",
+      "start_line": 199,
+      "end_line": 254,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0033审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "收集源库固定记录与目录摘要，绑定源目标快照、发行元组、范围和恢复目录，生成单项目迁移清单项。"
+    },
+    {
+      "entity_id": "ent-f59b597dcd575308a0bc7332c95bad8a",
+      "classification": "appendix",
+      "owner_page_id": "file-d1e5c6c6dda657f8bfc8adfb17d6518d",
+      "source_path": "tests/test_knowledge_batch_migration.py",
+      "start_line": 256,
+      "end_line": 269,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0033审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "生成绑定允许根目录的批量迁移清单，未传项目集合时使用当前测试项目。"
+    },
+    {
+      "entity_id": "ent-6b5d640784235fa7a4b155786b6989e9",
+      "classification": "appendix",
+      "owner_page_id": "ent-6e3dd3438702599e8c6702e6a89b147b",
+      "source_path": "tests/test_knowledge_batch_migration.py",
+      "start_line": 301,
+      "end_line": 307,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0033审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "复读固定快照的 Git 管理目录，核对工作树反向注册指向当前路径且仍持有锁定标记。"
+    }
+  ]
+}

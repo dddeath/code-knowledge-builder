@@ -1,0 +1,303 @@
+{
+  "schema_version": 1,
+  "status": "frozen",
+  "frozen_before_effect_run": true,
+  "frozen_at_utc": "2026-09-04T18:37:17.352369+00:00",
+  "benchmark": "ckb-qmd-fixed-three-arm-v2",
+  "corpus": {
+    "bound_repository_commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+    "source_output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+    "copy_mode": "sqlite-backup-read-only-source",
+    "machine_sqlite_sha256": "7d67e4098b6f69c7315ac0acf4a8a76549a04dd91f34408f27dce8e2fd471632",
+    "machine_sqlite_bytes": 65712128,
+    "agent_index_sqlite_sha256": "c047b5917167c0fc462a9e85069bee7b69debc0ffe833c6accf1110a2e780806",
+    "agent_index_sqlite_bytes": 10231808,
+    "entity_rows_with_source_path": 2090,
+    "files": 113
+  },
+  "questions_source": {
+    "path": "tests/fixtures/chinese-retrieval-effects/protocol.json",
+    "sha256": "529d20785b949288003753bb0914fd520d89d25fb953da61ec292b72654fdcc8",
+    "selection": "questions[*].id/question/relevance copied byte-for-value before effect run"
+  },
+  "document_contract": {
+    "unit": "one machine/knowledge.sqlite entities row per vector",
+    "selection_sql": "SELECT entity_id, kind, name, qualified_name, source_path, module, meaning_zh, role_zh, change_when_zh, description_zh FROM entities WHERE source_path <> '' ORDER BY entity_id",
+    "fields_in_order": [
+      "kind",
+      "name",
+      "qualified_name",
+      "source_path",
+      "module",
+      "meaning_zh",
+      "role_zh",
+      "change_when_zh",
+      "description_zh"
+    ],
+    "render": "field-name colon space stripped-value; omit empty fields; join with newline",
+    "document_order": "entity_id ascending",
+    "result_deduplication": "score descending then entity_id ascending; retain first entity for each normalized source_path",
+    "visible_context_estimate": "ceil(sum UTF-8-visible hit text Unicode code points / 4)"
+  },
+  "model": {
+    "engine": "fastembed",
+    "engine_version": "0.8.0",
+    "engine_license": "Apache-2.0",
+    "registered_name": "BAAI/bge-small-zh-v1.5",
+    "artifact_repository": "Qdrant/bge-small-zh-v1.5",
+    "artifact_revision": "46fbe35fd4374a00fee7de77dfddaeb6dd6a2c59",
+    "model_license": "MIT",
+    "dimension": 512,
+    "max_input_tokens": 512,
+    "dtype": "float32",
+    "normalization": "L2 by FastEmbed",
+    "query_instruction": "为这个句子生成表示以用于检索相关文章：",
+    "passage_instruction": null,
+    "provider": "CPUExecutionProvider",
+    "threads": 1,
+    "batch_size": 64,
+    "parallel": null,
+    "network_during_measurement": false,
+    "artifact_manifest_required": true
+  },
+  "index": {
+    "algorithm": "exact dense matrix cosine via normalized float32 dot product",
+    "files": [
+      "vectors.npy",
+      "documents.json",
+      "index-manifest.json"
+    ],
+    "approximate_neighbors": false,
+    "random_seed": 0,
+    "top_k": 8,
+    "vector_candidate_depth": 8,
+    "incremental_probe": "re-embed and replace q01 relevant entity in a copied index, verify unchanged ranking and restore original bytes"
+  },
+  "arms": [
+    {
+      "id": "sqlite-current",
+      "strategy": "production retrieve_machine fast on copied machine SQLite",
+      "provider": "disabled"
+    },
+    {
+      "id": "semantic-vector",
+      "strategy": "FastEmbed query vector plus exact cosine over frozen entity vectors",
+      "provider": "local-onnx-cpu"
+    },
+    {
+      "id": "qmd-vsearch",
+      "strategy": "QMD 2.8.3 SDK searchVector over the same one-entity-per-file projection; request every document, sort score descending then entity_id, deduplicate source_path, apply common budget, retain top 8",
+      "provider": "local-gguf-cpu"
+    }
+  ],
+  "execution": {
+    "query_order": "fixed",
+    "arm_order": "rotated-by-question-index",
+    "budget_tokens": 2400,
+    "max_results": 8,
+    "profile": "fast",
+    "cold_runs": 1,
+    "hot_runs": 5,
+    "cold_definition": "new Python or Node worker per arm and question; latency includes interpreter/runtime, imports, index/database/model load, and first query",
+    "hot_definition": "five immediately repeated queries in the same worker and open engine store; no persisted query-answer cache",
+    "ordering_stability": "all six rankings per arm/question must have one signature",
+    "ranking_truncation": "source-path-deduplicate-then-budget-then-top-k"
+  },
+  "resource_limits": {
+    "index_build_seconds_max": 3600.0,
+    "peak_rss_bytes_max": 8589934592,
+    "index_bytes_max": 536870912,
+    "runtime_and_model_bytes_max": 6442450944,
+    "extra_child_processes_max": 3,
+    "network_calls_during_measurement_max": 0
+  },
+  "metrics": [
+    "recall_at_8",
+    "mrr_at_8",
+    "ndcg_at_8",
+    "first_pack_estimated_tokens",
+    "cold_latency_ms_p50",
+    "cold_latency_ms_p95",
+    "hot_latency_ms_p50",
+    "hot_latency_ms_p95",
+    "first_index_seconds",
+    "index_bytes",
+    "runtime_and_model_bytes",
+    "peak_rss_bytes",
+    "worker_process_starts",
+    "peak_extra_child_processes",
+    "bge_index_seconds",
+    "qmd_index_seconds",
+    "qmd_index_bytes",
+    "qmd_runtime_and_model_bytes"
+  ],
+  "quality_rule": {
+    "functional_available": "all identity, corpus, build, output-schema, deterministic, budget, resource, and network gates pass",
+    "point_metric_non_inferior": "all Recall@8, MRR@8, and nDCG@8 deltas versus sqlite-current equal zero",
+    "improvement": "at least one quality delta is positive and none is negative",
+    "regression": "at least one quality delta is negative",
+    "production_experiment": "worth-entering-production-experiment only when an improvement arm also passes every completion gate",
+    "unavailable": "engine/model/runtime missing or drifted; no effect claim"
+  },
+  "questions": [
+    {
+      "id": "q01",
+      "question": "调整 retrieve_machine 的 FTS5 权重和 fast 两跳图传播",
+      "relevance": [
+        {
+          "source_path": "scripts/ckb_core/machine_knowledge.py",
+          "symbol": "retrieve_machine",
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "q02",
+      "question": "修复未明确应用 code-knowledge-builder Skill 时仍记录 Hook 事件",
+      "relevance": [
+        {
+          "source_path": "scripts/ckb_core/automation.py",
+          "symbol": "ingest_event",
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "q03",
+      "question": "修改 Claude 与 OpenCode 的跨 Harness Hook 配置生成模板",
+      "relevance": [
+        {
+          "source_path": "scripts/ckb_core/automation_integrations.py",
+          "symbol": "render_integration",
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "q04",
+      "question": "修改增量迁移时 exact blob 复用集合的审计规则",
+      "relevance": [
+        {
+          "source_path": "scripts/ckb_core/migration.py",
+          "symbol": "audit_migration",
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "q05",
+      "question": "修改兼容 Agent 页面索引的构建与 FTS 查询",
+      "relevance": [
+        {
+          "source_path": "scripts/ckb_core/agent_index.py",
+          "symbol": "build_agent_index",
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "q06",
+      "question": "修改机器知识同步到中文人类 Obsidian 页面投影",
+      "relevance": [
+        {
+          "source_path": "scripts/ckb_core/knowledge_layers.py",
+          "symbol": "sync_human_layer",
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "q07",
+      "question": "调整 Graphify 社区聚类与查询子图输出",
+      "relevance": [
+        {
+          "source_path": "scripts/ckb_core/graphify_core.py",
+          "symbol": "query_graph",
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "q08",
+      "question": "修改知识页点击源码时的 VS Code URI 和行号",
+      "relevance": [
+        {
+          "source_path": "scripts/ckb_core/source_links.py",
+          "symbol": "ensure_local_openers",
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "q09",
+      "question": "调整页面配置中的每文件关键页上限和上下文预算",
+      "relevance": [
+        {
+          "source_path": "scripts/ckb_core/page_config.py",
+          "symbol": "load_page_config",
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "question": "修改 full 私有运行时部署和 remove 回滚流程",
+      "relevance": [
+        {
+          "source_path": "scripts/ckb_core/runtime.py",
+          "symbol": "deploy",
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "q11",
+      "question": "修改 C++ 与 Python 展示样例的 Wiki 打包输出",
+      "relevance": [
+        {
+          "source_path": "scripts/ckb_core/showcase.py",
+          "symbol": "package_showcase",
+          "grade": 3
+        }
+      ]
+    },
+    {
+      "id": "q12",
+      "question": "修改 Tree-sitter 解析文件和命名实体清单",
+      "relevance": [
+        {
+          "source_path": "scripts/ckb_core/parsers.py",
+          "symbol": "parse_file",
+          "grade": 3
+        }
+      ]
+    }
+  ],
+  "random_seed": 0,
+  "qmd": {
+    "package_version": "2.8.3",
+    "package_git_head": "facd35e01359e59d938bc9418e93fb9318addee3",
+    "runtime_manifest": "tests/fixtures/qmd-fixed-three-arm/qmd-runtime-manifest.json",
+    "model_repository": "ggml-org/embeddinggemma-300M-GGUF",
+    "model_revision": "0f741b5a6585bd53aeb15cd1372c56f2a0f65e12",
+    "model_sha256": "b5ce9d77a3fc4b3b39ccb5643c36777911cc4eb46a66962eadfa3f5f60490d63",
+    "model_bytes": 333590944,
+    "collection": "ckb-qmd-fixed-v1",
+    "sdk_method": "searchVector",
+    "chunk_strategy": "regex",
+    "candidate_depth": 2090,
+    "candidate_order": "score descending then entity_id ascending",
+    "environment": {
+      "QMD_FORCE_CPU": "0",
+      "QMD_LLAMA_GPU": "vulkan",
+      "QMD_EMBED_PARALLELISM": "4",
+      "network_proxy": "127.0.0.1:9"
+    },
+    "output_schema": "qmd_adapter schema_version=1 kind=qmd-build/qmd-query; exact result fields"
+  },
+  "protocol_revision": 2,
+  "supersedes": {
+    "benchmark": "ckb-qmd-fixed-three-arm-v1",
+    "reason": "The common extra-child cap of 2 was below the observed sqlite-current baseline of 3; v1 is invalid for cross-arm resource gating. Quality metrics, corpus, questions, budget, ranking truncation, judge, models, and seeds are unchanged."
+  }
+}

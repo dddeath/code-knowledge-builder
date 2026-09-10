@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ckb.local/schemas/tag-real-vault-study.schema.json",
+  "title": "CKB isolated real-vault tag study report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "study_id", "scope", "production_default_changed", "effect_claim", "human_result", "source", "isolation", "conditions", "audit_state_counts", "audit_cost", "determinism", "artifacts"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "status": {"const": "passed"},
+    "study_id": {"type": "string"},
+    "scope": {"const": "isolated-real-vault-system-proxy"},
+    "production_default_changed": {"const": false},
+    "effect_claim": {"const": "system-navigation-proxy-only"},
+    "human_result": {"const": "pending-human-validation"},
+    "source": {"type": "object"},
+    "isolation": {"type": "object"},
+    "conditions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["no_tag", "machine_tag", "confirmed_tag"],
+      "properties": {
+        "no_tag": {"$ref": "#/$defs/condition"},
+        "machine_tag": {"$ref": "#/$defs/condition"},
+        "confirmed_tag": {"$ref": "#/$defs/condition"}
+      }
+    },
+    "audit_state_counts": {"type": "object"},
+    "audit_cost": {"type": "object"},
+    "determinism": {"type": "object"},
+    "artifacts": {"type": "object"}
+  },
+  "$defs": {
+    "condition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["task_count", "discoverable_count", "discoverability_rate", "total_jump_steps", "median_jump_steps", "error_navigation_count", "orphan_page_count", "experimental_unique_tag_count", "experimental_tag_assignment_count", "markdown_page_count", "resolved_links", "unresolved_links", "ambiguous_links"],
+      "properties": {
+        "task_count": {"type": "integer", "minimum": 1},
+        "discoverable_count": {"type": "integer", "minimum": 0},
+        "discoverability_rate": {"type": "number", "minimum": 0, "maximum": 1},
+        "total_jump_steps": {"type": "integer", "minimum": 0},
+        "median_jump_steps": {"type": ["number", "null"], "minimum": 0},
+        "error_navigation_count": {"type": "integer", "minimum": 0},
+        "orphan_page_count": {"type": "integer", "minimum": 0},
+        "experimental_unique_tag_count": {"type": "integer", "minimum": 0},
+        "experimental_tag_assignment_count": {"type": "integer", "minimum": 0},
+        "markdown_page_count": {"type": "integer", "minimum": 1},
+        "resolved_links": {"type": "integer", "minimum": 0},
+        "unresolved_links": {"type": "integer", "minimum": 0},
+        "ambiguous_links": {"type": "integer", "minimum": 0}
+      }
+    }
+  }
+}

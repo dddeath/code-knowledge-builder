@@ -2,13 +2,13 @@
   "schema_version": 1,
   "protocol_version": "1.5.0",
   "status": "passed",
-  "output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+  "output": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757",
   "internal_roots": [
     "output",
     "markdown",
     "human"
   ],
-  "workspace_root_count": 1,
+  "workspace_root_count": 0,
   "feedback": {
     "schema_version": 1,
     "status": "passed",
@@ -31,28 +31,28 @@
       "schema_version": 1,
       "status": "not-required",
       "required": false,
-      "vault": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown",
-      "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown\\.ckb\\output-contract.json",
+      "vault": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\markdown",
+      "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\markdown\\.ckb\\output-contract.json",
       "errors": []
     },
     "human": {
       "schema_version": 1,
       "status": "passed",
       "required": true,
-      "vault": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human",
-      "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human\\.ckb\\output-contract.json",
+      "vault": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\human",
+      "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\human\\.ckb\\output-contract.json",
       "errors": []
     }
   },
   "work_record_index": {
     "status": "passed",
-    "record_count": 70,
-    "linked_record_count": 70,
+    "record_count": 80,
+    "linked_record_count": 80,
     "section_counts": {
-      "analysis": 18,
-      "changes": 38,
+      "analysis": 24,
+      "changes": 40,
       "pitfalls": 0,
-      "experiments": 7,
+      "experiments": 9,
       "sessions": 7
     },
     "errors": []

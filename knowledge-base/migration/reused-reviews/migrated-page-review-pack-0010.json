@@ -3,20 +3,72 @@
   "pack_id": "migrated-page-review-pack-0010",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-03T22:05:18Z",
+  "reviewed_at_utc": "2026-09-10T03:34:03Z",
   "reviews": [
     {
-      "entity_id": "file-463595b01a7c50e0a997044691293f0e",
+      "entity_id": "ent-0d046a9bacc55ddaac01bfe3c17209bd",
       "classification": "page",
-      "owner_page_id": "file-463595b01a7c50e0a997044691293f0e",
+      "owner_page_id": "ent-0d046a9bacc55ddaac01bfe3c17209bd",
       "source_path": "scripts/ckb_core/automation.py",
-      "start_line": 1,
-      "end_line": 1783,
+      "start_line": 1655,
+      "end_line": 1729,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/automation.py` 第 1 至 1783 行；摘录与 Git blob 44ab87d410ff 一致。",
-      "meaning_zh": "文件 `scripts/ckb_core/automation.py`负责接收多 Harness 事件，维持会话级 Skill 激活状态，并把待审阅事实写入机器层。",
-      "role_zh": "它属于自动采集与受控人类投影之间的会话生命周期边界，当前说明只覆盖所列固定源码范围。",
-      "change_when_zh": "当事件格式、会话身份、激活规则、并发锁或审阅流程变化时，应同步复查本页及其直接关联测试。"
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0005审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "把待审自动化事件正式转换为人类笔记，并将数据库待审项和对应 sidecar 更新为 agent-reviewed。",
+      "role_zh": "提交前检查中文正文、标题、中文核验说明和 仍处于 pending-agent-review 的记录；source_checks 必须与 changed_paths 精确相等且逐项已审，有改动时还检查正文标题。笔记写入成功后才更新 SQLite，并记录审阅文件及来源检查。",
+      "change_when_zh": "改变自动化待审字段、改动集合、正文标题或人类记录入口时，联动模板生成、source_checks 校验、数据库状态和 sidecar 更新，确保机器事件不会跳过审阅直接成为人类笔记。"
+    },
+    {
+      "entity_id": "file-b2876a714b9157c3bb2427303b6dbc9a",
+      "classification": "page",
+      "owner_page_id": "file-b2876a714b9157c3bb2427303b6dbc9a",
+      "source_path": "scripts/ckb_core/automation_integrations.py",
+      "start_line": 1,
+      "end_line": 656,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `scripts/ckb_core/automation_integrations.py` 第 1-656 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "meaning_zh": "`scripts/ckb_core/automation_integrations.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
+      "role_zh": "负责为不同 Harness 生成事件接入脚本和固定配置。",
+      "change_when_zh": "当 `scripts/ckb_core/automation_integrations.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "ent-5ba5d82c691955cbb9bddb3782c5ea8b",
+      "classification": "page",
+      "owner_page_id": "ent-5ba5d82c691955cbb9bddb3782c5ea8b",
+      "source_path": "scripts/ckb_core/automation_integrations.py",
+      "start_line": 512,
+      "end_line": 655,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `scripts/ckb_core/automation_integrations.py` 第 512-655 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "meaning_zh": "`render_integration` 为目标 Harness 生成自动化适配文件及机器清单，并在清单中写入该 Harness 的检索契约。",
+      "role_zh": "它连接项目注册、会话事件、管理能力和跨 Harness 检索入口，但不把静态声明冒充为运行时验证。",
+      "change_when_zh": "当适配器文件、manifest schema、管理能力或检索契约字段变化时，应更新本函数和安装副本测试。"
+    },
+    {
+      "entity_id": "file-329d948e5d715cdc9d155e616fb7f55b",
+      "classification": "page",
+      "owner_page_id": "file-329d948e5d715cdc9d155e616fb7f55b",
+      "source_path": "scripts/ckb_core/common.py",
+      "start_line": 1,
+      "end_line": 168,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/common.py` 第 1 至 168 行，核对 `scripts/ckb_core/common.py` 的签名、分支和数据流后写出本条简体中文说明。",
+      "meaning_zh": "`scripts/ckb_core/common.py` 是 `scripts/ckb_core/common.py` 中负责汇总并提供路径、时间、JSON、哈希、进程与通用错误处理的文件入口。",
+      "role_zh": "它按源码所示的参数、条件分支和数据结构完成汇总并提供路径、时间、JSON、哈希、进程与通用错误处理，并把确定结果交给调用方或后续审计、索引、投影阶段。",
+      "change_when_zh": "当路径、时间、JSON、哈希、进程与通用错误处理的输入格式、状态规则、错误处理或输出契约变化时，需要修改该代码单元并复核对应测试。"
+    },
+    {
+      "entity_id": "ent-0b523840dcd05ce282c4f337eadc98c0",
+      "classification": "page",
+      "owner_page_id": "ent-0b523840dcd05ce282c4f337eadc98c0",
+      "source_path": "scripts/ckb_core/common.py",
+      "start_line": 24,
+      "end_line": 25,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/common.py` 第 24 至 25 行，核对 `CkbError` 的签名、分支和数据流后写出本条简体中文说明。",
+      "meaning_zh": "`CkbError` 是 `scripts/ckb_core/common.py` 中负责为 CKB 输入或状态错误提供固定进程退出码的类。",
+      "role_zh": "它按源码所示的参数、条件分支和数据结构完成为 CKB 输入或状态错误提供固定进程退出码，并把确定结果交给调用方或后续审计、索引、投影阶段。",
+      "change_when_zh": "当路径、时间、JSON、哈希、进程与通用错误处理的输入格式、状态规则、错误处理或输出契约变化时，需要修改该代码单元并复核对应测试。"
     }
   ]
 }

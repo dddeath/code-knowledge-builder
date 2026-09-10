@@ -1,0 +1,383 @@
+{
+  "schema_version": 1,
+  "operation_id": "record-replace-4d3952845e2759f59597380e98f55f2c",
+  "operation": "record-replace",
+  "status": "completed",
+  "output": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757",
+  "kind": "analysis",
+  "title": "CKB FTS5 倒排索引构建与查询流程",
+  "created_at_utc": "2026-09-10T03:13:37Z",
+  "rollback_manifest": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-4d3952845e2759f59597380e98f55f2c\\manifest.json",
+  "rollback_argv": [
+    "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe",
+    "E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py",
+    "record-rollback",
+    "--out",
+    "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757",
+    "--manifest",
+    "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-4d3952845e2759f59597380e98f55f2c\\manifest.json"
+  ],
+  "rollback_command": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe' 'E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py' 'record-rollback' '--out' 'E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757' '--manifest' 'E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-4d3952845e2759f59597380e98f55f2c\\manifest.json'",
+  "roles": [
+    {
+      "name": "human-note",
+      "kind": "file",
+      "path": "human/analysis/CKB FTS5 倒排索引构建与查询流程.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "500c048d4220c7dacf048d03e561476049e53f7cc0ebc211ed4879e9ee77517a",
+        "size": 8067,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-4d3952845e2759f59597380e98f55f2c\\backup\\files\\human\\analysis\\CKB FTS5 倒排索引构建与查询流程.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "88ef3b8abacfb5a99baf84fff0c3aa15e0ffd9919c9d05f98de8fe320fcde023",
+        "size": 6408,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-4d3952845e2759f59597380e98f55f2c\\staging\\files\\human\\analysis\\CKB FTS5 倒排索引构建与查询流程.md"
+      }
+    },
+    {
+      "name": "markdown-note",
+      "kind": "file",
+      "path": "markdown/analysis/CKB FTS5 倒排索引构建与查询流程.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "500c048d4220c7dacf048d03e561476049e53f7cc0ebc211ed4879e9ee77517a",
+        "size": 8067,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-4d3952845e2759f59597380e98f55f2c\\backup\\files\\markdown\\analysis\\CKB FTS5 倒排索引构建与查询流程.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "88ef3b8abacfb5a99baf84fff0c3aa15e0ffd9919c9d05f98de8fe320fcde023",
+        "size": 6408,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-4d3952845e2759f59597380e98f55f2c\\staging\\files\\markdown\\analysis\\CKB FTS5 倒排索引构建与查询流程.md"
+      }
+    },
+    {
+      "name": "note-metadata",
+      "kind": "file",
+      "path": "workspace-meta/notes/CKB FTS5 倒排索引构建与查询流程.json",
+      "baseline": {
+        "exists": true,
+        "sha256": "28e359c048d67d35efc872d79852b25b4e328e3efff91794cf8bff040225ff62",
+        "size": 1799,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-4d3952845e2759f59597380e98f55f2c\\backup\\files\\workspace-meta\\notes\\CKB FTS5 倒排索引构建与查询流程.json"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "368592661368554cabba4ce090a2d07bc62b1f7bbc00e8d79164aacb01e64682",
+        "size": 2219,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-4d3952845e2759f59597380e98f55f2c\\staging\\files\\workspace-meta\\notes\\CKB FTS5 倒排索引构建与查询流程.json"
+      }
+    },
+    {
+      "name": "human-records",
+      "kind": "file",
+      "path": "human/RECORDS.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "07219ca0a57c2a459add27e00319df5b1585e76bee27cc5fc17da46ca35f4825",
+        "size": 25337,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-4d3952845e2759f59597380e98f55f2c\\backup\\files\\human\\RECORDS.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "07219ca0a57c2a459add27e00319df5b1585e76bee27cc5fc17da46ca35f4825",
+        "size": 25337,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-4d3952845e2759f59597380e98f55f2c\\staging\\files\\human\\RECORDS.md"
+      }
+    },
+    {
+      "name": "markdown-records",
+      "kind": "file",
+      "path": "markdown/RECORDS.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "07219ca0a57c2a459add27e00319df5b1585e76bee27cc5fc17da46ca35f4825",
+        "size": 25337,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-4d3952845e2759f59597380e98f55f2c\\backup\\files\\markdown\\RECORDS.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "07219ca0a57c2a459add27e00319df5b1585e76bee27cc5fc17da46ca35f4825",
+        "size": 25337,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-4d3952845e2759f59597380e98f55f2c\\staging\\files\\markdown\\RECORDS.md"
+      }
+    },
+    {
+      "name": "work-record-index-audit",
+      "kind": "file",
+      "path": "workspace-meta/work-record-index-audit.json",
+      "baseline": {
+        "exists": true,
+        "sha256": "806c0655dfcaab421130c6a1993f935970d22448707b025ca62263195fc6f7fa",
+        "size": 217,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-4d3952845e2759f59597380e98f55f2c\\backup\\files\\workspace-meta\\work-record-index-audit.json"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "806c0655dfcaab421130c6a1993f935970d22448707b025ca62263195fc6f7fa",
+        "size": 217,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-4d3952845e2759f59597380e98f55f2c\\staging\\files\\workspace-meta\\work-record-index-audit.json"
+      }
+    },
+    {
+      "name": "agent-index-note",
+      "kind": "sqlite-logical",
+      "path": "agent-index.sqlite",
+      "selector": "CKB FTS5 倒排索引构建与查询流程",
+      "baseline": {
+        "sha256": "f39a9d5857a321b3d2d2941c2ed98978e22a390d8d9787c40d2844b03c434014",
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-4d3952845e2759f59597380e98f55f2c\\backup\\agent-index-note.json"
+      },
+      "modified": {
+        "sha256": "3dddf16cd9559b2d78448dc0f74a2f464e3118be0b37cc88092a0321270576d3",
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-4d3952845e2759f59597380e98f55f2c\\staging\\agent-index-note.json"
+      }
+    },
+    {
+      "name": "machine-knowledge-note",
+      "kind": "sqlite-logical",
+      "path": "machine/knowledge.sqlite",
+      "selector": "note:analysis:CKB FTS5 倒排索引构建与查询流程",
+      "baseline": {
+        "sha256": "fc9747291e3cdfba056212761e5c01575fa3e81656a65ee68b3bb6ec2154a1d0",
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-4d3952845e2759f59597380e98f55f2c\\backup\\machine-knowledge-note.json"
+      },
+      "modified": {
+        "sha256": "2332c3c1af71cb2bb3dbf4d676334839c4b1c1dfbd470aabc70ed21813372be3",
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-4d3952845e2759f59597380e98f55f2c\\staging\\machine-knowledge-note.json"
+      }
+    }
+  ],
+  "note_error_baseline": {
+    "errors": [
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/analysis/Code Knowledge Builder 秋招面试官拷问手册.md",
+        "target": "deploy 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/analysis/Code Knowledge Builder 秋招面试官拷问手册.md",
+        "target": "build 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/changes/LLM 关键词备选慢路径合并审计.md",
+        "target": "build 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/changes/LLM 关键词备选慢路径合并审计.md",
+        "target": "deploy 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/中文检索词项同索引补测.md",
+        "target": "state_machine 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/机器 Tag 导航隔离实验.md",
+        "target": "ingest 与 connect 的协作实现"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/机器 Tag 导航隔离实验.md",
+        "target": "state_machine 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/研究缺口对账与新增特性增强效果.md",
+        "target": "validate 与 canonical 的协作实现"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/研究缺口对账与新增特性增强效果.md",
+        "target": "ingest 与 connect 的协作实现"
+      }
+    ],
+    "unchanged_notes": {
+      "markdown/analysis/Code Knowledge Builder 秋招面试官拷问手册.md": "0a87d680ef6830de527ceca9f097103ecd5efb7bc24e78f0d8d3c7963a2370f4",
+      "markdown/changes/LLM 关键词备选慢路径合并审计.md": "81eaf14d2580b7b9f38c32a2392dcc8128bced854c1e5a1f3df551c7b663b391",
+      "markdown/experiments/中文检索词项同索引补测.md": "203925c2b32c519c51a7fb32b7c30a4a3e3ce38f4a0faa61ff1dba2438a7d6ae",
+      "markdown/experiments/机器 Tag 导航隔离实验.md": "bcf71852690b72212ffce7a6905c8ad37e6da906f05cb4f25fbf082e68f03253",
+      "markdown/experiments/研究缺口对账与新增特性增强效果.md": "08852138919af5ff7718d30994210da8945279e896616606a146b52762bbb040"
+    }
+  },
+  "prepared_at_utc": "2026-09-10T03:13:39Z",
+  "record_id": "work-record-7296a368969a535590f7558802d38ac3",
+  "relative_note": "analysis/CKB FTS5 倒排索引构建与查询流程.md",
+  "explicit_evidence_replacement": true,
+  "linked_pages": [
+    "build_machine_knowledge 与 estimated_tokens 的协作实现",
+    "search_terms 与 _split_camel 的协作实现"
+  ],
+  "body_sha256": "7d67ee02c2c8330f0de4d2cbff4cc2a4bed64415daaf099b8d5b92c047f2ecdf",
+  "candidate_audit": {
+    "status": "passed",
+    "note_errors": [],
+    "work_record_index": {
+      "status": "passed",
+      "record_count": 80,
+      "linked_record_count": 80,
+      "section_counts": {
+        "analysis": 24,
+        "changes": 40,
+        "pitfalls": 0,
+        "experiments": 9,
+        "sessions": 7
+      },
+      "errors": []
+    },
+    "verification_scope": "record-replacement",
+    "maintenance_verified": false,
+    "unresolved_baseline_diagnostics": [
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/analysis/Code Knowledge Builder 秋招面试官拷问手册.md",
+        "target": "deploy 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/analysis/Code Knowledge Builder 秋招面试官拷问手册.md",
+        "target": "build 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/changes/LLM 关键词备选慢路径合并审计.md",
+        "target": "build 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/changes/LLM 关键词备选慢路径合并审计.md",
+        "target": "deploy 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/中文检索词项同索引补测.md",
+        "target": "state_machine 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/机器 Tag 导航隔离实验.md",
+        "target": "ingest 与 connect 的协作实现"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/机器 Tag 导航隔离实验.md",
+        "target": "state_machine 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/研究缺口对账与新增特性增强效果.md",
+        "target": "validate 与 canonical 的协作实现"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/研究缺口对账与新增特性增强效果.md",
+        "target": "ingest 与 connect 的协作实现"
+      }
+    ]
+  },
+  "promotion_order": [
+    "human-note",
+    "markdown-note",
+    "note-metadata",
+    "human-records",
+    "markdown-records",
+    "work-record-index-audit",
+    "agent-index-note",
+    "machine-knowledge-note"
+  ],
+  "completed_at_utc": "2026-09-10T03:13:40Z",
+  "verification": {
+    "status": "passed",
+    "role_errors": [],
+    "note_errors": [],
+    "verification_scope": "record-replacement",
+    "maintenance_verified": false,
+    "unresolved_baseline_diagnostics": [
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/analysis/Code Knowledge Builder 秋招面试官拷问手册.md",
+        "target": "deploy 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/analysis/Code Knowledge Builder 秋招面试官拷问手册.md",
+        "target": "build 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/changes/LLM 关键词备选慢路径合并审计.md",
+        "target": "build 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/changes/LLM 关键词备选慢路径合并审计.md",
+        "target": "deploy 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/中文检索词项同索引补测.md",
+        "target": "state_machine 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/机器 Tag 导航隔离实验.md",
+        "target": "ingest 与 connect 的协作实现"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/机器 Tag 导航隔离实验.md",
+        "target": "state_machine 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/研究缺口对账与新增特性增强效果.md",
+        "target": "validate 与 canonical 的协作实现"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/研究缺口对账与新增特性增强效果.md",
+        "target": "ingest 与 connect 的协作实现"
+      }
+    ],
+    "work_record_index": {
+      "status": "passed",
+      "record_count": 80,
+      "linked_record_count": 80,
+      "section_counts": {
+        "analysis": 24,
+        "changes": 40,
+        "pitfalls": 0,
+        "experiments": 9,
+        "sessions": 7
+      },
+      "errors": []
+    },
+    "agent_index": {
+      "schema_version": 1,
+      "status": "passed",
+      "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\agent-index.sqlite",
+      "integrity": "ok",
+      "counts": {
+        "pages": 266,
+        "symbols": 2395,
+        "edges": 733,
+        "terms": 39955,
+        "notes": 80
+      },
+      "projection_format": "markdown",
+      "errors": []
+    }
+  },
+  "operation_journal": {
+    "status": "passed",
+    "event_id": "operation-f38bb51de33f577f9f997d98cbba306f",
+    "idempotent": false,
+    "journal": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\operations\\2026-09-10.jsonl"
+  }
+}

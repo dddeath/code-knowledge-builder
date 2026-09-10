@@ -1,31 +1,33 @@
 {
   "schema_version": 1,
   "status": "agent-reviewed",
+  "record_id": "work-record-7296a368969a535590f7558802d38ac3",
   "kind": "analysis",
   "title": "CKB FTS5 倒排索引构建与查询流程",
-  "file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human\\analysis\\CKB FTS5 倒排索引构建与查询流程.md",
-  "compatibility_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown\\analysis\\CKB FTS5 倒排索引构建与查询流程.md",
+  "file": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\human\\analysis\\CKB FTS5 倒排索引构建与查询流程.md",
+  "compatibility_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\markdown\\analysis\\CKB FTS5 倒排索引构建与查询流程.md",
   "linked_pages": [
-    "retrieve_machine 与 estimated_tokens 的协作实现",
-    "finalize 与 _replace_output_prefix 的协作实现",
-    "sync_human_layer 与 _source_manifest 的协作实现",
-    "maintenance_check 与 capability_matrix 的协作实现",
-    "render_integration 与 _looks_windows 的协作实现",
-    "register_obsidian_plugin 与 default_obsidian_plugin_registry 的协作实现",
-    "ingest_reference 与 _root 的协作实现",
-    "audit_agent_protocol 与 _default_python 的协作实现"
+    "build_machine_knowledge 与 estimated_tokens 的协作实现",
+    "search_terms 与 _split_camel 的协作实现"
   ],
   "source_links": [
-    "[打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1715`",
-    "[打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3482`",
-    "[打开源码：scripts/ckb_core/knowledge_layers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/knowledge_layers.py:1:1)  `scripts/ckb_core/knowledge_layers.py:1-262`",
-    "[打开源码：scripts/ckb_core/llm_wiki_capabilities.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/llm_wiki_capabilities.py:1:1)  `scripts/ckb_core/llm_wiki_capabilities.py:1-453`",
-    "[打开源码：scripts/ckb_core/automation_integrations.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation_integrations.py:1:1)  `scripts/ckb_core/automation_integrations.py:1-536`",
-    "[打开源码：scripts/ckb_core/obsidian_plugin.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/obsidian_plugin.py:1:1)  `scripts/ckb_core/obsidian_plugin.py:1-262`",
-    "[打开源码：scripts/ckb_core/reference_documents.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/reference_documents.py:1:1)  `scripts/ckb_core/reference_documents.py:1-604`",
-    "[打开源码：scripts/ckb_core/agent_protocol.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_protocol.py:1:1)  `scripts/ckb_core/agent_protocol.py:1-507`"
+    "[打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1995`",
+    "[打开源码：scripts/ckb_core/query_terms.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/query_terms.py:1:1)  `scripts/ckb_core/query_terms.py:1-106`"
   ],
-  "query_record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260831-183508-861194-01.json",
-  "updated_at_utc": "2026-08-31T18:37:32Z",
-  "obsidian_uri": "obsidian://open?path=E%3A%5Cknowledge_builder%5Cself-workspace%5Cknowledge-base%5Cmarkdown%5Canalysis%5CCKB%20FTS5%20%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95%E6%9E%84%E5%BB%BA%E4%B8%8E%E6%9F%A5%E8%AF%A2%E6%B5%81%E7%A8%8B.md"
+  "query_record": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\machine\\agent-packs\\pack-20260906-061516-819737-01.json",
+  "created_at_utc": "2026-08-31T18:37:32Z",
+  "updated_at_utc": "2026-09-10T03:13:38Z",
+  "body_sha256": "7d67ee02c2c8330f0de4d2cbff4cc2a4bed64415daaf099b8d5b92c047f2ecdf",
+  "obsidian_uri": "obsidian://open?path=E%3A%5Cknowledge_builder%5Cself-workspace%5Cknowledge-base.staging-4617928a6757%5Cmarkdown%5Canalysis%5CCKB%20FTS5%20%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95%E6%9E%84%E5%BB%BA%E4%B8%8E%E6%9F%A5%E8%AF%A2%E6%B5%81%E7%A8%8B.md",
+  "human_output_contract": {
+    "status": "legacy-content-checked",
+    "v3_validated": false
+  },
+  "replacement": {
+    "operation_id": "record-replace-4d3952845e2759f59597380e98f55f2c",
+    "replaced_at_utc": "2026-09-10T03:13:38Z",
+    "previous_page_sha256": "500c048d4220c7dacf048d03e561476049e53f7cc0ebc211ed4879e9ee77517a",
+    "previous_body_sha256": "c59dd445945a7e19234784dda8dbda155d88ae76226247dfc89ca430a9c44e38",
+    "body_sha256": "7d67ee02c2c8330f0de4d2cbff4cc2a4bed64415daaf099b8d5b92c047f2ecdf"
+  }
 }

@@ -1,0 +1,445 @@
+{
+  "schema_version": 3,
+  "status": "passed",
+  "question": "生成知识库白板 功能总览",
+  "profile": "fast",
+  "budget": 1800,
+  "estimated_tokens": 1757,
+  "terms": [
+    "生成知识库白板",
+    "功能总览",
+    "功能总",
+    "库白板",
+    "成知识",
+    "生成知",
+    "知识库",
+    "能总览",
+    "识库白",
+    "功能",
+    "库白",
+    "总览",
+    "成知",
+    "生成",
+    "白板",
+    "知识",
+    "能总",
+    "识库"
+  ],
+  "anchors": [],
+  "seed_entity_ids": [
+    "file-2c54d58e9d005cbcb18a581208d05c66",
+    "file-80a47f7c483058d4b0a7bcca85f7c7c9",
+    "file-047f40d3cf6555318ed12c43b0bc498c",
+    "file-16d5af745e635627a4fb9a051c445cf8",
+    "file-1904dcfa45225aa5913d72a6c832d2bc"
+  ],
+  "selected_entities": [
+    {
+      "entity_id": "file-2c54d58e9d005cbcb18a581208d05c66",
+      "name": "migration.py",
+      "qualified_name": "scripts/ckb_core/migration.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/migration.py",
+      "start_line": 1,
+      "end_line": 912,
+      "human_page_title": "migrate_output 与 _entity_key 的协作实现",
+      "human_page_file": "pages/migrate_output 与 _entity_key 的协作实现.md",
+      "display_mode": "page",
+      "score": 71.386763,
+      "score_breakdown": {
+        "entity-fts": 17.47451809,
+        "graph": 0.02854432,
+        "metadata": 25.0,
+        "section-fts": 12.88370059,
+        "term": 16.0
+      },
+      "reasons": [
+        "确定性词项 `生成`",
+        "确定性词项 `知识`",
+        "确定性词项 `知识库`",
+        "确定性词项 `识库`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "file-80a47f7c483058d4b0a7bcca85f7c7c9",
+      "name": "scope_extension.py",
+      "qualified_name": "scripts/ckb_core/scope_extension.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/scope_extension.py",
+      "start_line": 1,
+      "end_line": 1314,
+      "human_page_title": "start_scope_extension 与 _error 的协作实现",
+      "human_page_file": "pages/start_scope_extension 与 _error 的协作实现.md",
+      "display_mode": "page",
+      "score": 68.33950487,
+      "score_breakdown": {
+        "entity-fts": 18.35507177,
+        "graph": 0.03150952,
+        "metadata": 25.0,
+        "section-fts": 12.95292358,
+        "term": 12.0
+      },
+      "reasons": [
+        "确定性词项 `知识`",
+        "确定性词项 `知识库`",
+        "确定性词项 `识库`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "file-047f40d3cf6555318ed12c43b0bc498c",
+      "name": "stdio_server.py",
+      "qualified_name": "scripts/ckb_core/stdio_server.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/stdio_server.py",
+      "start_line": 1,
+      "end_line": 413,
+      "human_page_title": "serve_stdio 与 _write_line 的协作实现",
+      "human_page_file": "pages/serve_stdio 与 _write_line 的协作实现.md",
+      "display_mode": "page",
+      "score": 68.0245271,
+      "score_breakdown": {
+        "entity-fts": 18.05771693,
+        "graph": 0.07321296,
+        "metadata": 25.0,
+        "section-fts": 12.8935972,
+        "term": 12.0
+      },
+      "reasons": [
+        "确定性词项 `知识`",
+        "确定性词项 `知识库`",
+        "确定性词项 `识库`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文职责"
+      ],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "file-16d5af745e635627a4fb9a051c445cf8",
+      "name": "package_release.py",
+      "qualified_name": "scripts/package_release.py",
+      "kind": "file",
+      "source_path": "scripts/package_release.py",
+      "start_line": 1,
+      "end_line": 307,
+      "human_page_title": "build_core 与 sha256 的协作实现",
+      "human_page_file": "pages/build_core 与 sha256 的协作实现.md",
+      "display_mode": "page",
+      "score": 67.70040639,
+      "score_breakdown": {
+        "entity-fts": 17.75861721,
+        "graph": 0.07788944,
+        "metadata": 25.0,
+        "section-fts": 12.86389974,
+        "term": 12.0
+      },
+      "reasons": [
+        "确定性词项 `知识`",
+        "确定性词项 `知识库`",
+        "确定性词项 `识库`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文职责"
+      ],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "file-1904dcfa45225aa5913d72a6c832d2bc",
+      "name": "knowledge_batch_migration.py",
+      "qualified_name": "scripts/ckb_core/knowledge_batch_migration.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
+      "start_line": 1,
+      "end_line": 2101,
+      "human_page_title": "create_knowledge_batch_plan 与 KnowledgeRelease 的协作实现",
+      "human_page_file": "pages/create_knowledge_batch_plan 与 KnowledgeRelease 的协作实现.md",
+      "display_mode": "page",
+      "score": 63.16590004,
+      "score_breakdown": {
+        "entity-fts": 8.44831041,
+        "graph": 0.01487103,
+        "metadata": 30.0,
+        "section-fts": 4.7027186,
+        "term": 20.0
+      },
+      "reasons": [
+        "确定性词项 `成知`",
+        "确定性词项 `成知识`",
+        "确定性词项 `知识`",
+        "确定性词项 `知识库`",
+        "确定性词项 `识库`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文含义"
+      ],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "file-2d0e463898eb51799472421f0a2ddad9",
+      "name": "pipeline.py",
+      "qualified_name": "scripts/ckb_core/pipeline.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 1,
+      "end_line": 3637,
+      "human_page_title": "audit_global 与 _replace_output_prefix 的协作实现",
+      "human_page_file": "pages/audit_global 与 _replace_output_prefix 的协作实现.md",
+      "display_mode": "page",
+      "score": 60.63987446,
+      "score_breakdown": {
+        "entity-fts": 19.63987446,
+        "metadata": 25.0,
+        "term": 16.0
+      },
+      "reasons": [
+        "确定性词项 `生成`",
+        "确定性词项 `知识`",
+        "确定性词项 `知识库`",
+        "确定性词项 `识库`",
+        "机器实体全文命中",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": [
+        "中文含义"
+      ],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "file-f2d252a1d4fb5174bf4e83eb403955d0",
+      "name": "freshness.py",
+      "qualified_name": "scripts/ckb_core/freshness.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/freshness.py",
+      "start_line": 1,
+      "end_line": 1037,
+      "human_page_title": "check_fact_freshness 与 _root 的协作实现",
+      "human_page_file": "pages/check_fact_freshness 与 _root 的协作实现.md",
+      "display_mode": "page",
+      "score": 58.82523539,
+      "score_breakdown": {
+        "entity-fts": 17.82523539,
+        "metadata": 25.0,
+        "term": 16.0
+      },
+      "reasons": [
+        "确定性词项 `生成`",
+        "确定性词项 `知识`",
+        "确定性词项 `知识库`",
+        "确定性词项 `识库`",
+        "机器实体全文命中",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "file-6f751175f13f5d11b1b53c94abdb0e2e",
+      "name": "workspace_notes.py",
+      "qualified_name": "scripts/ckb_core/workspace_notes.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/workspace_notes.py",
+      "start_line": 1,
+      "end_line": 464,
+      "human_page_title": "record_note 与 page_tag 的协作实现",
+      "human_page_file": "pages/record_note 与 page_tag 的协作实现.md",
+      "display_mode": "page",
+      "score": 55.912035,
+      "score_breakdown": {
+        "entity-fts": 18.912035,
+        "metadata": 25.0,
+        "term": 12.0
+      },
+      "reasons": [
+        "确定性词项 `知识`",
+        "确定性词项 `知识库`",
+        "确定性词项 `识库`",
+        "机器实体全文命中",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    }
+  ],
+  "related_documents": [
+    {
+      "document_id": "note:changes:增加原生白板功能总览与跨版本编辑保留",
+      "title": "增加原生白板功能总览与跨版本编辑保留",
+      "kind": "change",
+      "status": "agent-reviewed",
+      "human_file": "changes/增加原生白板功能总览与跨版本编辑保留.md",
+      "source_path": null,
+      "start_line": null,
+      "end_line": null
+    },
+    {
+      "document_id": "note:changes:双知识库与确定性检索改造记录",
+      "title": "双知识库与确定性检索改造记录",
+      "kind": "change",
+      "status": "agent-reviewed",
+      "human_file": "changes/双知识库与确定性检索改造记录.md",
+      "source_path": null,
+      "start_line": null,
+      "end_line": null
+    },
+    {
+      "document_id": "note:changes:既有知识库追加新中心合并审计",
+      "title": "既有知识库追加新中心合并审计",
+      "kind": "change",
+      "status": "agent-reviewed",
+      "human_file": "changes/既有知识库追加新中心合并审计.md",
+      "source_path": null,
+      "start_line": null,
+      "end_line": null
+    },
+    {
+      "document_id": "note:analysis:CKB 人类知识库投影生成流程",
+      "title": "CKB 人类知识库投影生成流程",
+      "kind": "analysis",
+      "human_file": "analysis/CKB 人类知识库投影生成流程.md"
+    },
+    {
+      "document_id": "note:analysis:知识库人类可读性与任务完成标准",
+      "title": "知识库人类可读性与任务完成标准",
+      "kind": "analysis",
+      "human_file": "analysis/知识库人类可读性与任务完成标准.md"
+    },
+    {
+      "document_id": "note:changes:低版本完整知识库批量迁移合并审计",
+      "title": "低版本完整知识库批量迁移合并审计",
+      "kind": "change",
+      "human_file": "changes/低版本完整知识库批量迁移合并审计.md"
+    },
+    {
+      "document_id": "note:changes:稳定知识库恢复与当前 HEAD 同步",
+      "title": "稳定知识库恢复与当前 HEAD 同步",
+      "kind": "change",
+      "human_file": "changes/稳定知识库恢复与当前 HEAD 同步.md"
+    },
+    {
+      "document_id": "note:changes:Obsidian 解释快速路径与跨知识库部署",
+      "title": "Obsidian 解释快速路径与跨知识库部署",
+      "kind": "change",
+      "human_file": "changes/Obsidian 解释快速路径与跨知识库部署.md"
+    }
+  ],
+  "open_feedback": 0,
+  "retrieval_stats": {
+    "scored_entities": 494,
+    "overscan_limit": 32,
+    "materialized_candidates": 32,
+    "selected_entities": 8,
+    "budgeted_entity_limit": 8,
+    "selected_source_paths": 8,
+    "batched_entity_queries": 2,
+    "source_link_cache_entries": 19,
+    "static_cache_hit": true
+  },
+  "pack": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260910-034627-557563-01.md",
+  "record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260910-034627-557563-01.json",
+  "retrieval": "sqlite-exact-fts5-sections-deterministic-weighted-graph",
+  "deterministic": true,
+  "source_grounded": true,
+  "grep_fallback_required": false,
+  "warnings": {
+    "status": "warning",
+    "warning_count": 1,
+    "examples": [
+      {
+        "kind": "compile-commands-unavailable",
+        "language": "cpp",
+        "file": "compile_commands.json",
+        "range": null,
+        "diagnostic_categories": [],
+        "diagnostic_count": 0,
+        "coverage": {},
+        "precision": "bounded-approximate",
+        "build_evidence": {
+          "paths": [
+            "tests/fixtures/cpp-parser-scons/scons-project/SConstruct",
+            "tests/fixtures/cpp-parser-scons/scons-project/src/SConscript"
+          ],
+          "resolution": "build-config-unique",
+          "selected": "c++20"
+        },
+        "affected_entity_count": 0,
+        "absence_inference_allowed": false
+      }
+    ],
+    "omitted_warning_count": 0,
+    "absence_inference_allowed": false,
+    "message_zh": "警告范围或有界近似语义结果不完整，不可据此推断未检出事实在源码中不存在。"
+  },
+  "fact_freshness": {
+    "schema_version": 1,
+    "state": "current",
+    "stable_state": "current",
+    "observed_at_utc": "2026-09-10T03:46:27Z",
+    "trigger": "first-query",
+    "bound_commit": "962814483bea0a9611a7d73eccf2781cee4f7b6a",
+    "current_head": "962814483bea0a9611a7d73eccf2781cee4f7b6a",
+    "branch": "codex/reference-ingest-v1",
+    "dirty": {
+      "count": 0,
+      "paths": [],
+      "truncated": false
+    },
+    "change_summary": {
+      "comparison": "bound-commit-to-current-head",
+      "changed": 0,
+      "changed_paths": [],
+      "counts": {},
+      "truncated": false
+    },
+    "migration": null,
+    "overlay": null,
+    "cache_hit": true,
+    "stable_facts_current": true,
+    "next_action": {
+      "action": "reuse-stable-facts",
+      "rebuild": false
+    },
+    "error": null,
+    "state_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\freshness\\state.json"
+  },
+  "current_source_grounded": true
+}

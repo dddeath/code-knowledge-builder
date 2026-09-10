@@ -1,0 +1,35 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0073",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-10T03:35:29Z",
+  "reviews": [
+    {
+      "entity_id": "file-c7c67e2f064b53b7b7a58b0cd87d1a02",
+      "classification": "page",
+      "owner_page_id": "file-c7c67e2f064b53b7b7a58b0cd87d1a02",
+      "source_path": "tests/test_scope_extension.py",
+      "start_line": 1,
+      "end_line": 508,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `tests/test_scope_extension.py` 第 1-508 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "meaning_zh": "`tests/test_scope_extension.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
+      "role_zh": "负责以可执行样例验证 `test_scope_extension.py` 覆盖的成功行为、失败边界和回归约束。",
+      "change_when_zh": "当 `tests/test_scope_extension.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "ent-664582b2ccff50d68bc13a65a408bff9",
+      "classification": "page",
+      "owner_page_id": "ent-664582b2ccff50d68bc13a65a408bff9",
+      "source_path": "tests/test_scope_extension.py",
+      "start_line": 40,
+      "end_line": 62,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0036审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "该函数为测试补建缺少候选结果的解析批次，跳过已通过审阅包，对其余模板填入测试用中文说明并提交。",
+      "role_zh": "它是范围扩展测试的审阅夹具辅助入口，泛化说明仅用于测试流程，不构成真实业务源码的逐实体语义审阅证据。",
+      "change_when_zh": "解析批次与审阅包状态、测试模板字段或提交接口变化时修改此函数，并保留已通过包不重复提交的行为。"
+    }
+  ]
+}

@@ -138,7 +138,7 @@ Tree-sitter 首先建立语法结构。它能够识别类、函数、方法、�
 
 机器层还保存持续工作。analysis、change、experiment、pitfall 和 session 作为文档进入 sections；Hook 产生的待审阅记录也可以被检索，但原始或近原始会话证据保持在机器侧。这样，Agent 查询“为什么改过这个模块”时，既能看到固定代码事实，也能找到后续决策和实验。
 
-SQLite 在这里承担的不只是存储。它提供事务、FTS5、批量 SQL、完整性检查和单文件交付；常驻 stdio 模式还可以复用连接、索引和静态缓存，减少每次启动成本。数据库能够通过 `PRAGMA integrity_check` 独立验证，索引数量和文档数量也能与投影清单重新对照。
+SQLite 不仅保存数据，还提供事务、全文检索、批量查询和单文件交付。常驻服务复用连接与静态缓存来减少启动成本，生成结果可与来源及投影清单独立核对。
 
 机器知识库的理想状态不是“看起来智能”，而是完整、稳定、可查询、可复核。它为 Agent 提供选择空间，同时把每次实际读取限制在任务需要的范围。
 
@@ -242,8 +242,8 @@ Agent 解释也有边界。源码往往只能说明当前实现，未必能证�
 状态文件明确记录当前阶段：
 
 - `.pending-agent-review` 表示事实已准备，但仍有 Agent 审阅任务；
-- `.failed` 表示某项确定性门未通过；
-- `.complete`、`.machine.complete` 和 `.human.complete` 只由 `finalize` 在全部门通过后写入。
+- `.failed` 标记需要修复的构建异常；
+- 整体、机器层和人类层的完成标记只在收尾确认知识库完整后生成。
 
 全局审计至少检查来源、实体、关系端点、诊断、审阅覆盖、中文叙述、页面清单、双链、镜像、SQLite、Graphify、Logseq 配置和请求格式。人类可读性审计继续检查页面标题、标签、源码入口、导航可达性、关系信息气味和内部字段泄漏。
 
@@ -297,8 +297,8 @@ Agent 的默认入口是 `brief --profile fast`。它返回一个紧凑 JSON，�
 
 典型命令如下：
 
-```powershell
-& PYTHON CKB brief --out OUTPUT "QUESTION" --budget 1800 --max-pages 8 --profile fast
+```text
+请让 Agent 使用已安装的 code-knowledge-builder 完成本节所述操作，并返回结果与阅读入口。
 ```
 
 Agent 先打开预算化 pack。pack 中每个候选都有选择原因、人类知识页、源码路径和范围，以及已经审阅的中文章节。若结果已经足够形成判断，就继续回答或修改；若需要精确符号，再使用 `entity`；需要关系扩展时使用 `neighbors`；需要源码时使用 `source`。
@@ -468,10 +468,8 @@ human/ + markdown/
 
 常用构建入口：
 
-```powershell
-& PYTHON CKB run --repo REPO --out OUTPUT --format markdown
-& PYTHON CKB run --out OUTPUT --resume
-& PYTHON CKB finalize --out OUTPUT
+```text
+请让 Agent 使用已安装的 code-knowledge-builder 完成本节所述操作，并返回结果与阅读入口。
 ```
 
 大型仓库可以拆成 `init`、`build-chunk`、`review-pack`、`merge` 和 `finalize`。任何阶段失败时，先读取状态和对应审计，只返工失败批次或审阅集合。
@@ -539,24 +537,30 @@ modified artifact + patch + verification + rollback
 - [[常驻 stdio 检索性能复测（Flask 3.1.3）]]
 - [[Code Knowledge Builder 项目说明书结构与验收样例]]
 
+
+
+## 原始记录
+
+[按需核对历史原文与完整复现明细](../../machine/historical-records/legacy-20260910-03.md)。
+
 ## 相关知识页
 
-- [[retrieve 与 _tokens 的协作实现]]
-- [[retrieve_machine 与 estimated_tokens 的协作实现]]
-- [[start_session 与 _session_directory 的协作实现]]
+- [[build_agent_index 与 _tokens 的协作实现]]
+- [[build_machine_knowledge 与 estimated_tokens 的协作实现]]
+- [[finish_session 与 _session_directory 的协作实现]]
 - [[sync_human_layer 与 _source_manifest 的协作实现]]
-- [[audit_migration 与 _entity_key 的协作实现]]
-- [[query_graph 与 _networkx_modules 的协作实现]]
+- [[migrate_output 与 _entity_key 的协作实现]]
+- [[project_graphify 与 _networkx_modules 的协作实现]]
 - [[module_name 与 estimated_tokens 的协作实现]]
-- [[keyword_provider_config 与 parser 的协作实现]]
+- [[keyword_provider_config 与 keyword_fallback_options 的协作实现]]
 
 ## 源码入口
 
-- [打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-569`
-- [打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1458`
+- [打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-555`
+- [打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1995`
 - [打开源码：scripts/ckb_core/agent_maintenance.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_maintenance.py:1:1)  `scripts/ckb_core/agent_maintenance.py:1-255`
-- [打开源码：scripts/ckb_core/knowledge_layers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/knowledge_layers.py:1:1)  `scripts/ckb_core/knowledge_layers.py:1-239`
-- [打开源码：scripts/ckb_core/migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/migration.py:1:1)  `scripts/ckb_core/migration.py:1-585`
+- [打开源码：scripts/ckb_core/knowledge_layers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/knowledge_layers.py:1:1)  `scripts/ckb_core/knowledge_layers.py:1-262`
+- [打开源码：scripts/ckb_core/migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/migration.py:1:1)  `scripts/ckb_core/migration.py:1-894`
 - [打开源码：scripts/ckb_core/graphify_core.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/graphify_core.py:1:1)  `scripts/ckb_core/graphify_core.py:1-676`
 - [打开源码：scripts/ckb_core/navigation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/navigation.py:1:1)  `scripts/ckb_core/navigation.py:1-456`
-- [打开源码：scripts/ckb.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:1:1)  `scripts/ckb.py:1-495`
+- [打开源码：scripts/ckb.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:1:1)  `scripts/ckb.py:1-1850`

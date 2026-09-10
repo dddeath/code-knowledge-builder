@@ -1,0 +1,7 @@
+$Root = 'E:\knowledge_builder\self-workspace\worktrees\qmd-fixed-three-arm-benchmark'
+$Prototype = "$Root\prototypes\ckb-semantic-vector-benchmark"
+& "$Prototype\.venv\Scripts\python.exe" -X utf8 "$Prototype\qmd_recompute.py" `
+  --protocol "$Root\tests\fixtures\qmd-fixed-three-arm\protocol.json" `
+  --raw "$Root\references\benchmarks\qmd-fixed-three-arm\raw-results.json" `
+  --reported "$Root\references\benchmarks\qmd-fixed-three-arm\report.json" `
+  --output "$Prototype\.runs\qmd-fixed-v2-recomputed-from-committed.json"

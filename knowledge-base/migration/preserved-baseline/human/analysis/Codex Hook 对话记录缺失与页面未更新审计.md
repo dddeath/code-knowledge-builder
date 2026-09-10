@@ -40,13 +40,13 @@
 
 ## 相关知识页
 
-- [[audit_migration 与 _entity_key 的协作实现]]
-- [[ingest_event 与 default_registry_path 的协作实现]]
-- [[keyword_provider_config 与 parser 的协作实现]]
-- [[render_integration 与 _looks_windows 的协作实现]]
+- [[migrate_output 与 _entity_key 的协作实现]]
+- [[review_automation 与 default_registry_path 的协作实现]]
+- [[keyword_provider_config 与 keyword_fallback_options 的协作实现]]
+- [[render_integration 与 harness_retrieval_contract 的协作实现]]
 - [[record_note 与 page_tag 的协作实现]]
-- [[retrieve 与 _tokens 的协作实现]]
-- [[start_session 与 _session_directory 的协作实现]]
+- [[build_agent_index 与 _tokens 的协作实现]]
+- [[finish_session 与 _session_directory 的协作实现]]
 - [[CkbError 与 DependencyError 的协作实现]]
 
 ## 源码入口

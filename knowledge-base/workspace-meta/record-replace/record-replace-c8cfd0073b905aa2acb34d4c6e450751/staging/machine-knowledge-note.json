@@ -1,0 +1,201 @@
+{
+  "document": [
+    [
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）",
+      "analysis",
+      "LLM Wiki 快速检索性能验证（5.1.2）",
+      "#类型/分析",
+      "analysis/LLM Wiki 快速检索性能验证（5.1.2）.md",
+      null,
+      "# LLM Wiki 快速检索性能验证（5.1.2）\n\n标签：#类型/分析\n\n## 结论\n\n5.1.2 的历史固定查询实验发现，机器检索明显减少了 Agent 可见上下文，但定位目标源码的准确性和速度均不理想，因此没有证明整体性能提升。这是当时版本的测量，不代表当前版本表现。\n\n## 比较范围\n\n实验在同一知识库、同一组十二个修改定位问题和相同阅读预算下，比较 Markdown 宽扫描代理、旧页面级 SQLite 和机器实体检索。每种路径重复运行，宽扫描每次实际重读文件，不包含模型推理时间。\n\n## 已测量的效果\n\n| 路径 | 中位延迟 | P95 延迟 | 目标源码 Recall@8 | 符号召回 | 可见上下文中位数 |\n| --- | ---: | ---: | ---: | ---: | ---: |\n| Markdown 宽扫描代理 | 41.91 ms | 51.34 ms | 100% | 不适用 | 10,049 tokens |\n| 旧页面级 SQLite | 58.38 ms | 81.38 ms | 50% | 41.67% | 2,370 tokens |\n| 5.1.2 机器检索 | 1,783.58 ms | 2,270.19 ms | 50% | 25% | 2,344.5 tokens |\n\n相对宽扫描代理，机器检索减少了 76.67% 的可见上下文，但只找到一半预设目标源码，中位耗时约为其 42.56 倍。重复结果一致，没有触发源码宽搜回退；这些优点不足以抵消定位与延迟方面的问题。\n\n## 原因与修改方向\n\n性能剖析将主要开销定位到候选渲染：重复生成源码链接、解析 Windows 路径及逐个读取实体章节，而非 FTS5 查询本身。阅读预算已经不足时，仍有候选继续执行这些昂贵操作。\n\n召回不足还与预算分配有关：较短的测试实体和邻近模块占据阅读包，而较长的目标实体被整体跳过。后续方向是限制待渲染候选、批量读取、缓存路径，并为重要目标保留紧凑摘要，再用相同问题复测。\n\n## 适用边界\n\n上述原因来自当时固定语料的测量和剖析。它们不意味着所有 SQLite 检索都更慢，也不证明向量检索会解决问题。后续版本的结果应从对应实验记录单独查看。\n\n## 原始记录\n\n[核对历史冻结协议、完整测量和性能剖析](../../machine/historical-records/legacy-retrieval-5-1-2.md)。\n\n## 相关知识页\n\n- [[build_agent_index 与 _tokens 的协作实现]]\n- [[migrate_output 与 _entity_key 的协作实现]]\n- [[package_showcase 与 _parse_sample 的协作实现]]\n\n## 源码入口\n\n- [打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-555`\n- [打开源码：scripts/ckb_core/migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/migration.py:1:1)  `scripts/ckb_core/migration.py:1-894`\n- [打开源码：scripts/ckb_core/showcase.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/showcase.py:1:1)  `scripts/ckb_core/showcase.py:1-173`\n",
+      988
+    ]
+  ],
+  "sections": [
+    [
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）:0",
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）",
+      0,
+      "LLM Wiki 快速检索性能验证（5.1.2）",
+      "标签：#类型/分析",
+      8,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）:1",
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）",
+      1,
+      "结论",
+      "5.1.2 的历史固定查询实验发现，机器检索明显减少了 Agent 可见上下文，但定位目标源码的准确性和速度均不理想，因此没有证明整体性能提升。这是当时版本的测量，不代表当前版本表现。",
+      84,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）:2",
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）",
+      2,
+      "比较范围",
+      "实验在同一知识库、同一组十二个修改定位问题和相同阅读预算下，比较 Markdown 宽扫描代理、旧页面级 SQLite 和机器实体检索。每种路径重复运行，宽扫描每次实际重读文件，不包含模型推理时间。",
+      87,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）:3",
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）",
+      3,
+      "已测量的效果",
+      "| 路径 | 中位延迟 | P95 延迟 | 目标源码 Recall@8 | 符号召回 | 可见上下文中位数 |\n| --- | ---: | ---: | ---: | ---: | ---: |\n| Markdown 宽扫描代理 | 41.91 ms | 51.34 ms | 100% | 不适用 | 10,049 tokens |\n| 旧页面级 SQLite | 58.38 ms | 81.38 ms | 50% | 41.67% | 2,370 tokens |\n| 5.1.2 机器检索 | 1,783.58 ms | 2,270.19 ms | 50% | 25% | 2,344.5 tokens |\n\n相对宽扫描代理，机器检索减少了 76.67% 的可见上下文，但只找到一半预设目标源码，中位耗时约为其 42.56 倍。重复结果一致，没有触发源码宽搜回退；这些优点不足以抵消定位与延迟方面的问题。",
+      218,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）:4",
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）",
+      4,
+      "原因与修改方向",
+      "性能剖析将主要开销定位到候选渲染：重复生成源码链接、解析 Windows 路径及逐个读取实体章节，而非 FTS5 查询本身。阅读预算已经不足时，仍有候选继续执行这些昂贵操作。\n\n召回不足还与预算分配有关：较短的测试实体和邻近模块占据阅读包，而较长的目标实体被整体跳过。后续方向是限制待渲染候选、批量读取、缓存路径，并为重要目标保留紧凑摘要，再用相同问题复测。",
+      168,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）:5",
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）",
+      5,
+      "适用边界",
+      "上述原因来自当时固定语料的测量和剖析。它们不意味着所有 SQLite 检索都更慢，也不证明向量检索会解决问题。后续版本的结果应从对应实验记录单独查看。",
+      70,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）:6",
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）",
+      6,
+      "原始记录",
+      "[核对历史冻结协议、完整测量和性能剖析](../../machine/historical-records/legacy-retrieval-5-1-2.md)。",
+      40,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）:7",
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）",
+      7,
+      "相关知识页",
+      "- [[build_agent_index 与 _tokens 的协作实现]]\n- [[migrate_output 与 _entity_key 的协作实现]]\n- [[package_showcase 与 _parse_sample 的协作实现]]",
+      54,
+      null,
+      null,
+      null
+    ],
+    [
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）:8",
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）",
+      8,
+      "源码入口",
+      "- [打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-555`\n- [打开源码：scripts/ckb_core/migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/migration.py:1:1)  `scripts/ckb_core/migration.py:1-894`\n- [打开源码：scripts/ckb_core/showcase.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/showcase.py:1:1)  `scripts/ckb_core/showcase.py:1-173`",
+      191,
+      null,
+      null,
+      null
+    ]
+  ],
+  "section_sources": [],
+  "links": [
+    [
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）",
+      null,
+      "build_agent_index 与 _tokens 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）",
+      null,
+      "migrate_output 与 _entity_key 的协作实现",
+      "wikilink"
+    ],
+    [
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）",
+      null,
+      "package_showcase 与 _parse_sample 的协作实现",
+      "wikilink"
+    ]
+  ],
+  "fts": [
+    [
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）:0",
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）",
+      "LLM Wiki 快速检索性能验证（5.1.2）",
+      "标签：#类型/分析",
+      ""
+    ],
+    [
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）:1",
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）",
+      "结论",
+      "5.1.2 的历史固定查询实验发现，机器检索明显减少了 Agent 可见上下文，但定位目标源码的准确性和速度均不理想，因此没有证明整体性能提升。这是当时版本的测量，不代表当前版本表现。",
+      ""
+    ],
+    [
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）:2",
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）",
+      "比较范围",
+      "实验在同一知识库、同一组十二个修改定位问题和相同阅读预算下，比较 Markdown 宽扫描代理、旧页面级 SQLite 和机器实体检索。每种路径重复运行，宽扫描每次实际重读文件，不包含模型推理时间。",
+      ""
+    ],
+    [
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）:3",
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）",
+      "已测量的效果",
+      "| 路径 | 中位延迟 | P95 延迟 | 目标源码 Recall@8 | 符号召回 | 可见上下文中位数 |\n| --- | ---: | ---: | ---: | ---: | ---: |\n| Markdown 宽扫描代理 | 41.91 ms | 51.34 ms | 100% | 不适用 | 10,049 tokens |\n| 旧页面级 SQLite | 58.38 ms | 81.38 ms | 50% | 41.67% | 2,370 tokens |\n| 5.1.2 机器检索 | 1,783.58 ms | 2,270.19 ms | 50% | 25% | 2,344.5 tokens |\n\n相对宽扫描代理，机器检索减少了 76.67% 的可见上下文，但只找到一半预设目标源码，中位耗时约为其 42.56 倍。重复结果一致，没有触发源码宽搜回退；这些优点不足以抵消定位与延迟方面的问题。",
+      ""
+    ],
+    [
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）:4",
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）",
+      "原因与修改方向",
+      "性能剖析将主要开销定位到候选渲染：重复生成源码链接、解析 Windows 路径及逐个读取实体章节，而非 FTS5 查询本身。阅读预算已经不足时，仍有候选继续执行这些昂贵操作。\n\n召回不足还与预算分配有关：较短的测试实体和邻近模块占据阅读包，而较长的目标实体被整体跳过。后续方向是限制待渲染候选、批量读取、缓存路径，并为重要目标保留紧凑摘要，再用相同问题复测。",
+      ""
+    ],
+    [
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）:5",
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）",
+      "适用边界",
+      "上述原因来自当时固定语料的测量和剖析。它们不意味着所有 SQLite 检索都更慢，也不证明向量检索会解决问题。后续版本的结果应从对应实验记录单独查看。",
+      ""
+    ],
+    [
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）:6",
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）",
+      "原始记录",
+      "[核对历史冻结协议、完整测量和性能剖析](../../machine/historical-records/legacy-retrieval-5-1-2.md)。",
+      ""
+    ],
+    [
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）:7",
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）",
+      "相关知识页",
+      "- [[build_agent_index 与 _tokens 的协作实现]]\n- [[migrate_output 与 _entity_key 的协作实现]]\n- [[package_showcase 与 _parse_sample 的协作实现]]",
+      ""
+    ],
+    [
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）:8",
+      "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）",
+      "源码入口",
+      "- [打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-555`\n- [打开源码：scripts/ckb_core/migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/migration.py:1:1)  `scripts/ckb_core/migration.py:1-894`\n- [打开源码：scripts/ckb_core/showcase.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/showcase.py:1:1)  `scripts/ckb_core/showcase.py:1-173`",
+      ""
+    ]
+  ]
+}

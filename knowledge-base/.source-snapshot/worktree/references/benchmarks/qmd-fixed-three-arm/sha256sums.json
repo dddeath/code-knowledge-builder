@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "files": {
+    "bge-index-manifest.json": {
+      "bytes": 1043,
+      "sha256": "207eeb8163dec722027f6855f28532087b864630c84a4a6a3cb6fad143a9b1ae"
+    },
+    "changes.patch": {
+      "bytes": 2123480,
+      "sha256": "8cce244527fd14362ba5fc9c1c3c839f1e2b97f0ced9a416ec4c660a090f08e8"
+    },
+    "failure-samples/missing-qmd.json": {
+      "bytes": 180,
+      "sha256": "cf5af49bd49be9b594e2930b22e5edd52fd645bf4dc92526181b1236913f43fc"
+    },
+    "failure-samples/qmd-output-drift.json": {
+      "bytes": 172,
+      "sha256": "da83698a9992901f4f13641a69bd02a4a69188d7fd3126bc388a651ee563ecc0"
+    },
+    "failure-samples/qmd-process-failure.json": {
+      "bytes": 208,
+      "sha256": "50afc7979325444f6f1bb2429457ba85d9ea0094105ef8fd8b1d09b46ab6c3be"
+    },
+    "provenance.json": {
+      "bytes": 820,
+      "sha256": "b1866826fa752213157847e9954955ddb11c0d4b0029f25800466efd9948881d"
+    },
+    "qmd-index-manifest.json": {
+      "bytes": 3011,
+      "sha256": "3de48fca4d88cf5665c2e54f661ec7381345dee0a999ff72014e71b6cb3fb4ea"
+    },
+    "raw-results.json": {
+      "bytes": 1582579,
+      "sha256": "069cb7ede69bcc64d828ad9064cfc982f7e05bddbb571678fe627aa678605eb3"
+    },
+    "recompute-command.ps1.txt": {
+      "bytes": 528,
+      "sha256": "cfeabd074d59f4581fe96882b24b0809248d7ab89e1655a3ac4a4c81e038cccf"
+    },
+    "recomputed.json": {
+      "bytes": 3670,
+      "sha256": "ad2d4f0028ced7eda96480292ed017e5d43bdb2e5aac94fff6ecd0d519b7a60b"
+    },
+    "report.json": {
+      "bytes": 272584,
+      "sha256": "298debb420e538bbd1a737a72365cb961ac1d6491bf1add1e751eeb76c9e2b08"
+    },
+    "rollback.ps1": {
+      "bytes": 1282,
+      "sha256": "8cac40f0db89b97a900f7ec9b7b1425e0ac3d6838711c51862ea5fb868144c4d"
+    },
+    "run-command.ps1.txt": {
+      "bytes": 1048,
+      "sha256": "a21f221ca3af3d2c0fbaa39b058cf13dff9db576d2b49600774c3e923ad4bb20"
+    },
+    "summary.md": {
+      "bytes": 3299,
+      "sha256": "e3d572ca1983a67ec650d93ddd9e8ee7b3835d2005917ba275d27fd0c5914d9d"
+    },
+    "verification-record.json": {
+      "bytes": 17586,
+      "sha256": "bfc20e1996e1939c0aa87152dc0ec813eb47aa139ccb4dc9a469077a286321c8"
+    }
+  }
+}

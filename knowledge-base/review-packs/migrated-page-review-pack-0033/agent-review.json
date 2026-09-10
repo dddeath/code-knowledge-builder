@@ -3,33 +3,33 @@
   "pack_id": "migrated-page-review-pack-0033",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-03T22:06:02Z",
+  "reviewed_at_utc": "2026-09-10T03:34:34Z",
   "reviews": [
     {
-      "entity_id": "ent-d674047f410a5865bf5ee0d4c193c572",
+      "entity_id": "ent-4a697ba2f1b45392a14fd09213d7ff81",
       "classification": "page",
-      "owner_page_id": "ent-d674047f410a5865bf5ee0d4c193c572",
-      "source_path": "scripts/ckb_core/record_replace.py",
-      "start_line": 930,
-      "end_line": 991,
+      "owner_page_id": "ent-4a697ba2f1b45392a14fd09213d7ff81",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 3042,
+      "end_line": 3355,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `94bf22015243` 中 `scripts/ckb_core/record_replace.py` 第 930-991 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
-      "meaning_zh": "`replace_note` 位于 `scripts/ckb_core/record_replace.py` 第 930-991 行，本页用固定源码范围说明它如何完成工作记录正文替换、候选验证、原子 promotion 和回滚中的局部职责。",
-      "role_zh": "`replace_note` 负责在工作记录正文替换、候选验证、原子 promotion 和回滚中完成工作记录正文替换、候选验证、原子 promotion 和回滚中的局部职责。",
-      "change_when_zh": "当 `scripts/ckb_core/record_replace.py` 中 `replace_note` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0017审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "重新生成知识库各层投影，并检查固定来源、审阅结果、页面内容和检索数据的一致性。",
+      "role_zh": "汇总构建完成前的检查结果；运行时会清除完成标记并写入投影，检查通过后仍需 finalize 才能完成，因此不是只读状态查询。",
+      "change_when_zh": "调整构建完成条件、迁移来源保存、人类页面生成或双索引一致性要求时修改。"
     },
     {
-      "entity_id": "file-5520e3266cdd5b1ca21d555a8f50b3c9",
+      "entity_id": "file-cabb527998195b558e9a0c341e20cb2b",
       "classification": "page",
-      "owner_page_id": "file-5520e3266cdd5b1ca21d555a8f50b3c9",
-      "source_path": "scripts/ckb_core/reference_documents.py",
+      "owner_page_id": "file-cabb527998195b558e9a0c341e20cb2b",
+      "source_path": "scripts/ckb_core/providers.py",
       "start_line": 1,
-      "end_line": 903,
+      "end_line": 638,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/reference_documents.py` 第 1 至 903 行；摘录与 Git blob cf6e0a068c33 一致。",
-      "meaning_zh": "文件 `scripts/ckb_core/reference_documents.py`负责管理参考资料的吸收、审阅、投影、索引、失败重试与回滚。",
-      "role_zh": "它属于外部资料进入独立参考层的受控生命周期入口，当前说明只覆盖所列固定源码范围。",
-      "change_when_zh": "当资料格式、来源定位、审阅合同、状态迁移或回滚规则变化时，应同步复查本页及其直接关联测试。"
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/providers.py` 第 1 至 638 行；摘录与 Git blob 1a3ba3c53783 一致。",
+      "meaning_zh": "文件 `scripts/ckb_core/providers.py`负责启动并约束语言服务器，收集 Python、JavaScript、C/C++ 和 C# 的语义证据。",
+      "role_zh": "它属于精确语义与无编译数据库时有界近似之间的提供器层，当前说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当运行时定位、LSP 协议、编译参数、诊断分级或进程释放变化时，应同步复查本页及其直接关联测试。"
     }
   ]
 }

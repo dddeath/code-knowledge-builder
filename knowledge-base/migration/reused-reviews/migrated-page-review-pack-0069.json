@@ -1,0 +1,22 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0069",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-10T03:35:26Z",
+  "reviews": [
+    {
+      "entity_id": "file-2732e2969f52550b838c475263be4111",
+      "classification": "page",
+      "owner_page_id": "file-2732e2969f52550b838c475263be4111",
+      "source_path": "tests/test_recruitment_migration_provenance.py",
+      "start_line": 1,
+      "end_line": 937,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0033审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "该文件使用真实小型 Git 仓库验证知识库迁移中的快照注册、明确引用的证据保留、作者包归档、Windows 路径与隐藏属性，以及目录切换后的参考来源和历史事务字节。",
+      "role_zh": "它把文件计数之外的来源完整性变成回归断言，覆盖连续迁移和改名、缺失证据提前失败、SQLite 读取句柄释放、说明性路径不作为归档根，以及旧事务不可跨输出静默重放。",
+      "change_when_zh": "源码快照重定位、证据闭包、作者包和事务归档、Windows 文件打开或参考路径重绑定变化时修改此文件，并保留原字节、精确来源及错误前置检查。"
+    }
+  ]
+}

@@ -1,0 +1,481 @@
+{
+  "schema_version": 3,
+  "status": "passed",
+  "question": "将以下四项加入既有待办队列并保留知识库记录：不自动注入 AGENTS.md 的 Harness 检索契约完整性；检索失败且确认目标位于未展开源码范围时询问用户是否扩展知识库；汇总当前研究缺口；验证新增特性的增强效果。定位当前管理队列及记录入口。",
+  "profile": "fast",
+  "budget": 1800,
+  "estimated_tokens": 1778,
+  "terms": [
+    "检索失败且确认目标位于未展开源码范围时询问用户是否扩展知识库",
+    "将以下四项加入既有待办队列并保留知识库记录",
+    "定位当前管理队列及记录入口",
+    "验证新增特性的增强效果",
+    "agents.md",
+    "汇总当前研究缺口",
+    "harness",
+    "检索契约完整性",
+    "不自动注入",
+    "的",
+    "检索失败且确认目标位于未展开源码范围",
+    "以下四项加入既有待办队列",
+    "定位当前管理队列",
+    "保留知识库记录",
+    "agents",
+    "验证新增特性",
+    "扩展知识库",
+    "增强效果",
+    "自动注入",
+    "记录入口",
+    "询问用户",
+    "md",
+    "下四项",
+    "且确认",
+    "于未展",
+    "以下四",
+    "位于未",
+    "位当前",
+    "保留知",
+    "入既有",
+    "前研究",
+    "前管理",
+    "办队列",
+    "加入既",
+    "动注入",
+    "四项加",
+    "增强效",
+    "增特性",
+    "失败且",
+    "契约完",
+    "完整性",
+    "定位当",
+    "展开源",
+    "展知识",
+    "库记录",
+    "开源码",
+    "强效果",
+    "当前研",
+    "当前管",
+    "录入口",
+    "待办队",
+    "总当前",
+    "扩展知",
+    "新增特",
+    "既有待",
+    "有待办",
+    "未展开",
+    "标位于",
+    "检索失",
+    "检索契",
+    "汇总当",
+    "源码范",
+    "理队列",
+    "留知识"
+  ],
+  "anchors": [
+    "agents.md"
+  ],
+  "seed_entity_ids": [
+    "ent-81d6b7070d5555e09091e58389405017",
+    "file-3c7b3dceba0551f28b276940ab6aa0cb",
+    "ent-023a3764e7ad536baf53ac9846c1eeb1",
+    "ent-8bf849508564577394cc7622d77572b3",
+    "ent-0171d80d691550a3a8386bda5ae7ca58"
+  ],
+  "selected_entities": [
+    {
+      "entity_id": "ent-81d6b7070d5555e09091e58389405017",
+      "name": "harness_capabilities",
+      "qualified_name": "harness_capabilities",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/management_agent.py",
+      "start_line": 166,
+      "end_line": 180,
+      "human_page_title": "bind_conversation 与 default_management_registry_path 的协作实现",
+      "human_page_file": "pages/bind_conversation 与 default_management_registry_path 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 81.58292991,
+      "score_breakdown": {
+        "entity-fts": 17.14649368,
+        "graph": 0.1114252,
+        "metadata": 30.0,
+        "section-fts": 24.32501102,
+        "term": 10.0
+      },
+      "reasons": [
+        "确定性词项 `harness`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "file-3c7b3dceba0551f28b276940ab6aa0cb",
+      "name": "ckb.py",
+      "qualified_name": "scripts/ckb.py",
+      "kind": "file",
+      "source_path": "scripts/ckb.py",
+      "start_line": 1,
+      "end_line": 1780,
+      "human_page_title": "keyword_provider_config 与 parser 的协作实现",
+      "human_page_file": "pages/keyword_provider_config 与 parser 的协作实现.md",
+      "display_mode": "page",
+      "score": 78.81576927,
+      "score_breakdown": {
+        "entity-fts": 20.89557483,
+        "graph": 0.05063483,
+        "metadata": 37.0,
+        "section-fts": 12.86955961,
+        "term": 8.0
+      },
+      "reasons": [
+        "确定性词项 `harness`",
+        "确定性词项 `源码范`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文职责"
+      ],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "ent-023a3764e7ad536baf53ac9846c1eeb1",
+      "name": "default_session_id",
+      "qualified_name": "default_session_id",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 863,
+      "end_line": 868,
+      "human_page_title": "ingest_event 与 default_registry_path 的协作实现",
+      "human_page_file": "pages/ingest_event 与 default_registry_path 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 62.82104208,
+      "score_breakdown": {
+        "entity-fts": 20.75383832,
+        "graph": 0.01791797,
+        "metadata": 12.0,
+        "section-fts": 26.04928579,
+        "term": 4.0
+      },
+      "reasons": [
+        "确定性词项 `harness`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文作用"
+      ],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "file-dc0316d8fff551c5bd4013f1e1ce59b6",
+      "name": "automation_integrations.py",
+      "qualified_name": "scripts/ckb_core/automation_integrations.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/automation_integrations.py",
+      "start_line": 1,
+      "end_line": 575,
+      "human_page_title": "render_integration 与 _looks_windows 的协作实现",
+      "human_page_file": "pages/render_integration 与 _looks_windows 的协作实现.md",
+      "display_mode": "page",
+      "score": 57.9896334,
+      "score_breakdown": {
+        "graph": 0.00049972,
+        "metadata": 37.0,
+        "section-fts": 12.98913368,
+        "term": 8.0
+      },
+      "reasons": [
+        "确定性词项 `harness`",
+        "确定性词项 `源码范`",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "file-1f6cad7edb6b50109badf9668858ff0a",
+      "name": "session_stdio_harness_probe.py",
+      "qualified_name": "tests/session_stdio_harness_probe.py",
+      "kind": "file",
+      "source_path": "tests/session_stdio_harness_probe.py",
+      "start_line": 1,
+      "end_line": 35,
+      "human_page_title": "main 等测试场景（session_stdio_harness_probe 测试）",
+      "human_page_file": "pages/main 等测试场景（session_stdio_harness_probe 测试）.md",
+      "display_mode": "page",
+      "score": 57.38684145,
+      "score_breakdown": {
+        "entity-fts": 17.36251204,
+        "metadata": 55.0,
+        "section-fts": 50.27282475,
+        "term": 14.0,
+        "test-discount": -79.24849533
+      },
+      "reasons": [
+        "确定性词项 `harness`",
+        "确定性词项 `源码范`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "实现定位查询对测试实体应用固定折扣"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "file-6c9f2bb84b875e11814a85497a1c4f95",
+      "name": "agent_protocol.py",
+      "qualified_name": "scripts/ckb_core/agent_protocol.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/agent_protocol.py",
+      "start_line": 1,
+      "end_line": 507,
+      "human_page_title": "audit_agent_protocol 与 _default_python 的协作实现",
+      "human_page_file": "pages/audit_agent_protocol 与 _default_python 的协作实现.md",
+      "display_mode": "page",
+      "score": 55.53629962,
+      "score_breakdown": {
+        "entity-fts": 19.53629962,
+        "metadata": 32.0,
+        "term": 4.0
+      },
+      "reasons": [
+        "确定性词项 `harness`",
+        "机器实体全文命中",
+        "文件、标识符和中文职责确定性匹配"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "ent-8bf849508564577394cc7622d77572b3",
+      "name": "normalize_event",
+      "qualified_name": "normalize_event",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 480,
+      "end_line": 556,
+      "human_page_title": "ingest_event 与 default_registry_path 的协作实现",
+      "human_page_file": "pages/ingest_event 与 default_registry_path 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 62.69211732,
+      "score_breakdown": {
+        "entity-fts": 20.62317703,
+        "graph": 0.05600582,
+        "metadata": 12.0,
+        "section-fts": 26.01293447,
+        "term": 4.0
+      },
+      "reasons": [
+        "确定性词项 `harness`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文作用"
+      ],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "ent-0171d80d691550a3a8386bda5ae7ca58",
+      "name": "_hook_output",
+      "qualified_name": "_hook_output",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 1396,
+      "end_line": 1408,
+      "human_page_title": "ingest_event 与 default_registry_path 的协作实现",
+      "human_page_file": "pages/ingest_event 与 default_registry_path 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 62.1718654,
+      "score_breakdown": {
+        "entity-fts": 20.28184204,
+        "graph": 0.00424859,
+        "metadata": 12.0,
+        "section-fts": 25.88577477,
+        "term": 4.0
+      },
+      "reasons": [
+        "确定性词项 `harness`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文作用"
+      ],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    }
+  ],
+  "related_documents": [
+    {
+      "document_id": "note:analysis:CKB Agent 方法调用防偏移机制",
+      "title": "CKB Agent 方法调用防偏移机制",
+      "kind": "analysis",
+      "status": "agent-reviewed",
+      "human_file": "analysis/CKB Agent 方法调用防偏移机制.md",
+      "source_path": null,
+      "start_line": null,
+      "end_line": null
+    },
+    {
+      "document_id": "note:changes:插件门控的 CKB 输出契约投影",
+      "title": "插件门控的 CKB 输出契约投影",
+      "kind": "change",
+      "status": "agent-reviewed",
+      "human_file": "changes/插件门控的 CKB 输出契约投影.md",
+      "source_path": null,
+      "start_line": null,
+      "end_line": null
+    },
+    {
+      "document_id": "note:changes:Obsidian 多 Harness 选区学习插件",
+      "title": "Obsidian 多 Harness 选区学习插件",
+      "kind": "change",
+      "status": "agent-reviewed",
+      "human_file": "changes/Obsidian 多 Harness 选区学习插件.md",
+      "source_path": null,
+      "start_line": null,
+      "end_line": null
+    },
+    {
+      "document_id": "note:experiments:LLM Wiki 吸收特性与 Flask 检索收益",
+      "title": "LLM Wiki 吸收特性与 Flask 检索收益",
+      "kind": "experiment",
+      "human_file": "experiments/LLM Wiki 吸收特性与 Flask 检索收益.md"
+    },
+    {
+      "document_id": "note:changes:跨 Harness 会话与修改自动同步实现",
+      "title": "跨 Harness 会话与修改自动同步实现",
+      "kind": "change",
+      "human_file": "changes/跨 Harness 会话与修改自动同步实现.md"
+    },
+    {
+      "document_id": "note:analysis:Code Knowledge Builder 项目说明书结构与验收样例",
+      "title": "Code Knowledge Builder 项目说明书结构与验收样例",
+      "kind": "analysis",
+      "human_file": "analysis/Code Knowledge Builder 项目说明书结构与验收样例.md"
+    },
+    {
+      "document_id": "note:changes:Agent 会话级 stdio 生命周期合并审计",
+      "title": "Agent 会话级 stdio 生命周期合并审计",
+      "kind": "change",
+      "human_file": "changes/Agent 会话级 stdio 生命周期合并审计.md"
+    },
+    {
+      "document_id": "note:changes:对话绑定管理 Agent 合并审计",
+      "title": "对话绑定管理 Agent 合并审计",
+      "kind": "change",
+      "human_file": "changes/对话绑定管理 Agent 合并审计.md"
+    }
+  ],
+  "open_feedback": 0,
+  "retrieval_stats": {
+    "scored_entities": 838,
+    "overscan_limit": 32,
+    "materialized_candidates": 32,
+    "selected_entities": 8,
+    "budgeted_entity_limit": 8,
+    "selected_source_paths": 6,
+    "batched_entity_queries": 2,
+    "source_link_cache_entries": 6,
+    "static_cache_hit": false
+  },
+  "pack": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260903-163141-619163-01.md",
+  "record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260903-163141-619163-01.json",
+  "retrieval": "sqlite-exact-fts5-sections-deterministic-weighted-graph",
+  "deterministic": true,
+  "source_grounded": true,
+  "grep_fallback_required": false,
+  "warnings": {
+    "status": "warning",
+    "warning_count": 1,
+    "examples": [
+      {
+        "kind": "compile-commands-unavailable",
+        "language": "cpp",
+        "file": "compile_commands.json",
+        "range": null,
+        "diagnostic_categories": [],
+        "diagnostic_count": 0,
+        "coverage": {},
+        "precision": "bounded-approximate",
+        "build_evidence": {
+          "paths": [
+            "tests/fixtures/cpp-parser-scons/scons-project/SConstruct",
+            "tests/fixtures/cpp-parser-scons/scons-project/src/SConscript"
+          ],
+          "resolution": "build-config-unique",
+          "selected": "c++20"
+        },
+        "affected_entity_count": 0,
+        "absence_inference_allowed": false
+      }
+    ],
+    "omitted_warning_count": 0,
+    "absence_inference_allowed": false,
+    "message_zh": "警告范围或有界近似语义结果不完整，不可据此推断未检出事实在源码中不存在。"
+  },
+  "fact_freshness": {
+    "schema_version": 1,
+    "state": "current",
+    "stable_state": "current",
+    "observed_at_utc": "2026-09-03T16:31:42Z",
+    "trigger": "first-query",
+    "bound_commit": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+    "current_head": "bdd4a6671df5c8f3ebd2f2980acf8e0072ce0d1d",
+    "branch": "codex/reference-ingest-v1",
+    "dirty": {
+      "count": 0,
+      "paths": [],
+      "truncated": false
+    },
+    "change_summary": {
+      "comparison": "bound-commit-to-current-head",
+      "changed": 0,
+      "changed_paths": [],
+      "counts": {},
+      "truncated": false
+    },
+    "migration": null,
+    "overlay": null,
+    "cache_hit": false,
+    "stable_facts_current": true,
+    "next_action": {
+      "action": "reuse-stable-facts",
+      "rebuild": false
+    },
+    "error": null,
+    "state_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\freshness\\state.json"
+  },
+  "current_source_grounded": true
+}

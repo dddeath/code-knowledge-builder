@@ -29,16 +29,22 @@
 
 ## 验证结果
 
-增量审阅、迁移审计、真实检索、双 SQLite 完整性与 FTS5 计数、human/markdown 镜像、人类可读性、维护聚合门和回滚探针全部通过。旧知识库在一次真实失败切换中成功恢复到冻结哈希，随后按修正顺序重新切换成功；两份学习笔记在 human 与 markdown 中均保持原始字节。
+该历史切换验证了检索、来源、阅读镜像及恢复行为；一次失败切换恢复原库后，再按修正顺序完成切换。两份学习笔记原文保持不变。
 
 ## 当前边界
 
 稳定知识库固定到明确源码提交，不自动跟随未来分支变化。后续源码再次合并时仍需按变化范围执行迁移或重建，并重新通过维护门。发布副本可以阅读和校验；在另一台机器继续维护前，需要重新绑定当地仓库和 Agent Policy。
 
+
+
+## 原始记录
+
+[按需核对历史原文与完整复现明细](../../machine/historical-records/legacy-20260910-13.md)。
+
 ## 相关知识页
 
-- [[audit_migration 与 _entity_key 的协作实现]]
+- [[migrate_output 与 _entity_key 的协作实现]]
 
 ## 源码入口
 
-- [打开源码：scripts/ckb_core/migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/migration.py:1:1)  `scripts/ckb_core/migration.py:1-604`
+- [打开源码：scripts/ckb_core/migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/migration.py:1:1)  `scripts/ckb_core/migration.py:1-894`

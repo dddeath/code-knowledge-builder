@@ -1,0 +1,229 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-appendix-review-pack-0054",
+  "kind": "appendix-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-10T03:35:32Z",
+  "reviews": [
+    {
+      "entity_id": "ent-a9f8277558295d37acb56e26137aad29",
+      "classification": "appendix",
+      "owner_page_id": "file-ceb8dca42bbd5a9c9b879be4f1fdae24",
+      "source_path": "tests/test_ckb_tag_navigation_canvas_compatibility.py",
+      "start_line": 33,
+      "end_line": 45,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 bd8519583e3a 中 `tests/test_ckb_tag_navigation_canvas_compatibility.py` 第 33 至 45 行，摘录属于 Git blob 2af060d0a730。",
+      "description_zh": "该测试验证“canvas contract remains valid…”场景，保护tag 与 Canvas 兼容测试的结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-bd7e4298fcf558e8bd4c028700ab014d",
+      "classification": "appendix",
+      "owner_page_id": "file-30b902812a485dee9345bbfb1ffbffd7",
+      "source_path": "tests/test_ckb_tag_navigation_contracts.py",
+      "start_line": 27,
+      "end_line": 212,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0029审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "验证标签断言与策略的严格模式、路径和标签边界、幂等回放及工作区外输出和回滚目标保护。"
+    },
+    {
+      "entity_id": "ent-41e579fc47fe53db9dd6035621d8a50f",
+      "classification": "appendix",
+      "owner_page_id": "file-30b902812a485dee9345bbfb1ffbffd7",
+      "source_path": "tests/test_ckb_tag_navigation_contracts.py",
+      "start_line": 28,
+      "end_line": 35,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0029审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "核对标签原型包含六个对象模式且均禁止未知字段。"
+    },
+    {
+      "entity_id": "ent-25f272e9cf76540f82bd55b79c93159f",
+      "classification": "appendix",
+      "owner_page_id": "file-30b902812a485dee9345bbfb1ffbffd7",
+      "source_path": "tests/test_ckb_tag_navigation_contracts.py",
+      "start_line": 37,
+      "end_line": 45,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0029审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "向合法标签断言加入会话、提示或秘密字段，要求严格模式校验拒绝。"
+    },
+    {
+      "entity_id": "ent-3b28f8698b56526a84e0e025d9145ca5",
+      "classification": "appendix",
+      "owner_page_id": "file-30b902812a485dee9345bbfb1ffbffd7",
+      "source_path": "tests/test_ckb_tag_navigation_contracts.py",
+      "start_line": 47,
+      "end_line": 64,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0029审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "检查绝对目标路径、不规范标签和上级跳转标签被拒绝，同时验证固定策略可被接受。"
+    },
+    {
+      "entity_id": "ent-05e99d54a9c255d9ac60a5a93015492b",
+      "classification": "appendix",
+      "owner_page_id": "file-30b902812a485dee9345bbfb1ffbffd7",
+      "source_path": "tests/test_ckb_tag_navigation_contracts.py",
+      "start_line": 66,
+      "end_line": 72,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0029审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "回放固定断言集合，核对重复幂等键只计一次且数据库完整性通过。"
+    },
+    {
+      "entity_id": "ent-e220c566ba8a5e63bb94613684929c08",
+      "classification": "appendix",
+      "owner_page_id": "file-30b902812a485dee9345bbfb1ffbffd7",
+      "source_path": "tests/test_ckb_tag_navigation_contracts.py",
+      "start_line": 74,
+      "end_line": 88,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0029审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "构造同幂等键不同内容的冲突，要求回放失败并撤销新建数据库。"
+    },
+    {
+      "entity_id": "ent-4eb0cdd45104589b9bb86410a14ec557",
+      "classification": "appendix",
+      "owner_page_id": "file-30b902812a485dee9345bbfb1ffbffd7",
+      "source_path": "tests/test_ckb_tag_navigation_contracts.py",
+      "start_line": 90,
+      "end_line": 212,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0029审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "通过命令行验证输出、回滚清单、目标和备份必须位于指定工作区，越界时保留现有文件原字节。"
+    },
+    {
+      "entity_id": "ent-b7bb413741895c9aaad724e6152d8a43",
+      "classification": "appendix",
+      "owner_page_id": "file-30b902812a485dee9345bbfb1ffbffd7",
+      "source_path": "tests/test_ckb_tag_navigation_contracts.py",
+      "start_line": 129,
+      "end_line": 130,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0029审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "计算回滚路径测试中字节内容的 SHA-256，以构造预期目标和备份身份。"
+    },
+    {
+      "entity_id": "ent-ece3ece3b40757a3baacb033f603e5fd",
+      "classification": "appendix",
+      "owner_page_id": "file-30b902812a485dee9345bbfb1ffbffd7",
+      "source_path": "tests/test_ckb_tag_navigation_contracts.py",
+      "start_line": 132,
+      "end_line": 147,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0029审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "以指定工作区调用标签回滚命令，捕获退出状态与 UTF-8 输出供边界断言。"
+    },
+    {
+      "entity_id": "ent-920dfdad63eb50a7986aed6db65c5295",
+      "classification": "appendix",
+      "owner_page_id": "ent-f28b27d457c15a478e9a115b5124c6cb",
+      "source_path": "tests/test_ckb_tag_navigation_projection.py",
+      "start_line": 21,
+      "end_line": 43,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 bd8519583e3a 中 `tests/test_ckb_tag_navigation_projection.py` 第 21 至 43 行，摘录属于 Git blob 2a4ff28baab1。",
+      "description_zh": "该测试验证“only confirmed tags project w…”场景，保护tag 投影测试的结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-dfae1e2ad56c5edebd2e9c6389dbe169",
+      "classification": "appendix",
+      "owner_page_id": "file-0e51d2f3e89b5d9eb063f0285baeafe4",
+      "source_path": "tests/test_ckb_tag_navigation_real_vault.py",
+      "start_line": 31,
+      "end_line": 192,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0029审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "构造隔离知识库验证无标签、机器标签和确认标签三组系统导航指标，并检查源不变、证据边界与回滚漂移保护。"
+    },
+    {
+      "entity_id": "ent-dbe16011cc74517fbc1e3829faa8bc2e",
+      "classification": "appendix",
+      "owner_page_id": "file-0e51d2f3e89b5d9eb063f0285baeafe4",
+      "source_path": "tests/test_ckb_tag_navigation_real_vault.py",
+      "start_line": 51,
+      "end_line": 52,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0029审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "清理当前标签真实库研究测试拥有的临时目录。"
+    },
+    {
+      "entity_id": "ent-e6758f2d0177500a865c1d27f677f055",
+      "classification": "appendix",
+      "owner_page_id": "file-0e51d2f3e89b5d9eb063f0285baeafe4",
+      "source_path": "tests/test_ckb_tag_navigation_real_vault.py",
+      "start_line": 54,
+      "end_line": 88,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0029审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "构造含目标与干扰源码、页面、最小机器索引及插件绑定的测试源知识库。"
+    },
+    {
+      "entity_id": "ent-393828f387d0575a9c4f7626739d4bb2",
+      "classification": "appendix",
+      "owner_page_id": "file-0e51d2f3e89b5d9eb063f0285baeafe4",
+      "source_path": "tests/test_ckb_tag_navigation_real_vault.py",
+      "start_line": 90,
+      "end_line": 127,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0029审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "生成绑定源身份的冻结三组标签导航协议，规定路由、步数、任务与系统代理指标和人工验证边界。"
+    },
+    {
+      "entity_id": "ent-b25c2603c99459b98eee0110d886399f",
+      "classification": "appendix",
+      "owner_page_id": "file-0e51d2f3e89b5d9eb063f0285baeafe4",
+      "source_path": "tests/test_ckb_tag_navigation_real_vault.py",
+      "start_line": 129,
+      "end_line": 162,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0029审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "验证三组实验复制源库且不改源，区分冲突标签和确认标签，并从副本移除生产插件绑定。"
+    },
+    {
+      "entity_id": "ent-54332b180fcf552cb1990e9ee6b1a116",
+      "classification": "appendix",
+      "owner_page_id": "file-0e51d2f3e89b5d9eb063f0285baeafe4",
+      "source_path": "tests/test_ckb_tag_navigation_real_vault.py",
+      "start_line": 164,
+      "end_line": 177,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0029审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "验证未变的隔离实验可删除回滚，而修改后的实验目录因漂移保留现场。"
+    },
+    {
+      "entity_id": "ent-581180954d7958808ebe7bdbe443b4e2",
+      "classification": "appendix",
+      "owner_page_id": "file-0e51d2f3e89b5d9eb063f0285baeafe4",
+      "source_path": "tests/test_ckb_tag_navigation_real_vault.py",
+      "start_line": 179,
+      "end_line": 192,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0029审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "篡改冻结源摘要或使用上级跳转标签，要求实验在生成输出前停止。"
+    },
+    {
+      "entity_id": "ent-4c55646a083752c794abeab018fc2448",
+      "classification": "appendix",
+      "owner_page_id": "file-0e51d2f3e89b5d9eb063f0285baeafe4",
+      "source_path": "tests/test_ckb_tag_navigation_real_vault.py",
+      "start_line": 195,
+      "end_line": 211,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0029审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "独立复算归档标签实验结果，核对冻结协议和生产默认未变，并保留人工验证尚未完成的边界。"
+    },
+    {
+      "entity_id": "ent-bb46d0654015504a9a9ae94b47c8ff46",
+      "classification": "appendix",
+      "owner_page_id": "file-0e51d2f3e89b5d9eb063f0285baeafe4",
+      "source_path": "tests/test_ckb_tag_navigation_real_vault.py",
+      "start_line": 196,
+      "end_line": 211,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0029审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "调用归档结果验证器检查全部项目通过，要求报告仍只宣称系统导航代理指标而非人类效果。"
+    }
+  ]
+}

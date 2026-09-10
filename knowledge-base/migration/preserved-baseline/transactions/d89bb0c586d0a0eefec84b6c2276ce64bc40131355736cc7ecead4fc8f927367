@@ -1,0 +1,228 @@
+{
+  "schema_version": 1,
+  "operation_id": "record-replace-f077a6fe5dcf5f8a8b4888baabb73f09",
+  "operation": "record-replace",
+  "status": "completed",
+  "output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+  "kind": "analysis",
+  "title": "秋招练习与模拟面试参考答案 v2",
+  "created_at_utc": "2026-09-09T16:27:28Z",
+  "rollback_manifest": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-f077a6fe5dcf5f8a8b4888baabb73f09\\manifest.json",
+  "rollback_argv": [
+    "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe",
+    "E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py",
+    "record-rollback",
+    "--out",
+    "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+    "--manifest",
+    "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-f077a6fe5dcf5f8a8b4888baabb73f09\\manifest.json"
+  ],
+  "rollback_command": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe' 'E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py' 'record-rollback' '--out' 'E:\\knowledge_builder\\self-workspace\\knowledge-base' '--manifest' 'E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-f077a6fe5dcf5f8a8b4888baabb73f09\\manifest.json'",
+  "roles": [
+    {
+      "name": "human-note",
+      "kind": "file",
+      "path": "human/analysis/秋招练习与模拟面试参考答案 v2.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "8292cfebb8e15380631b938cdd2167e0a7b64a616232d9a409f43c12c11aef0c",
+        "size": 7398,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-f077a6fe5dcf5f8a8b4888baabb73f09\\backup\\files\\human\\analysis\\秋招练习与模拟面试参考答案 v2.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "ed841e6e4f666725f1325aa9f1cb2fc1378f48e419a3369814b73189a7ff0aba",
+        "size": 7408,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-f077a6fe5dcf5f8a8b4888baabb73f09\\staging\\files\\human\\analysis\\秋招练习与模拟面试参考答案 v2.md"
+      }
+    },
+    {
+      "name": "markdown-note",
+      "kind": "file",
+      "path": "markdown/analysis/秋招练习与模拟面试参考答案 v2.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "8292cfebb8e15380631b938cdd2167e0a7b64a616232d9a409f43c12c11aef0c",
+        "size": 7398,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-f077a6fe5dcf5f8a8b4888baabb73f09\\backup\\files\\markdown\\analysis\\秋招练习与模拟面试参考答案 v2.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "ed841e6e4f666725f1325aa9f1cb2fc1378f48e419a3369814b73189a7ff0aba",
+        "size": 7408,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-f077a6fe5dcf5f8a8b4888baabb73f09\\staging\\files\\markdown\\analysis\\秋招练习与模拟面试参考答案 v2.md"
+      }
+    },
+    {
+      "name": "note-metadata",
+      "kind": "file",
+      "path": "workspace-meta/notes/秋招练习与模拟面试参考答案 v2.json",
+      "baseline": {
+        "exists": true,
+        "sha256": "be254b5d97d961f5fe5cd3f4de46c739dc38c061ae670471dd9dc2d1cedf1f6e",
+        "size": 1354,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-f077a6fe5dcf5f8a8b4888baabb73f09\\backup\\files\\workspace-meta\\notes\\秋招练习与模拟面试参考答案 v2.json"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "a22587d4cbf89aefc4298258a877eb8d7d345f274b660d95977e78bb7184ff41",
+        "size": 1774,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-f077a6fe5dcf5f8a8b4888baabb73f09\\staging\\files\\workspace-meta\\notes\\秋招练习与模拟面试参考答案 v2.json"
+      }
+    },
+    {
+      "name": "human-records",
+      "kind": "file",
+      "path": "human/RECORDS.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "dba8c3e1258a1100fa6a46d4fc3daac53b242c94a024b99af307a8b2caddf528",
+        "size": 24786,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-f077a6fe5dcf5f8a8b4888baabb73f09\\backup\\files\\human\\RECORDS.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "dba8c3e1258a1100fa6a46d4fc3daac53b242c94a024b99af307a8b2caddf528",
+        "size": 24786,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-f077a6fe5dcf5f8a8b4888baabb73f09\\staging\\files\\human\\RECORDS.md"
+      }
+    },
+    {
+      "name": "markdown-records",
+      "kind": "file",
+      "path": "markdown/RECORDS.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "dba8c3e1258a1100fa6a46d4fc3daac53b242c94a024b99af307a8b2caddf528",
+        "size": 24786,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-f077a6fe5dcf5f8a8b4888baabb73f09\\backup\\files\\markdown\\RECORDS.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "dba8c3e1258a1100fa6a46d4fc3daac53b242c94a024b99af307a8b2caddf528",
+        "size": 24786,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-f077a6fe5dcf5f8a8b4888baabb73f09\\staging\\files\\markdown\\RECORDS.md"
+      }
+    },
+    {
+      "name": "work-record-index-audit",
+      "kind": "file",
+      "path": "workspace-meta/work-record-index-audit.json",
+      "baseline": {
+        "exists": true,
+        "sha256": "c3db22285b46589853c3bf3e3297bb8ca85544a8b71f62bfe3ba01539ce93c41",
+        "size": 217,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-f077a6fe5dcf5f8a8b4888baabb73f09\\backup\\files\\workspace-meta\\work-record-index-audit.json"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "c3db22285b46589853c3bf3e3297bb8ca85544a8b71f62bfe3ba01539ce93c41",
+        "size": 217,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-f077a6fe5dcf5f8a8b4888baabb73f09\\staging\\files\\workspace-meta\\work-record-index-audit.json"
+      }
+    },
+    {
+      "name": "agent-index-note",
+      "kind": "sqlite-logical",
+      "path": "agent-index.sqlite",
+      "selector": "秋招练习与模拟面试参考答案 v2",
+      "baseline": {
+        "sha256": "e4dfff1e5142fab6004ae3b0a19d24a73e93afcf53f7ad7138853aabf534c7d1",
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-f077a6fe5dcf5f8a8b4888baabb73f09\\backup\\agent-index-note.json"
+      },
+      "modified": {
+        "sha256": "1d2d5767e65b1cc753d46afdb8d3de38fd0893f85778e093ead2f988d636fd1c",
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-f077a6fe5dcf5f8a8b4888baabb73f09\\staging\\agent-index-note.json"
+      }
+    },
+    {
+      "name": "machine-knowledge-note",
+      "kind": "sqlite-logical",
+      "path": "machine/knowledge.sqlite",
+      "selector": "note:analysis:秋招练习与模拟面试参考答案 v2",
+      "baseline": {
+        "sha256": "5f7feccbb03e2de7569c1a737bf14010fa4e6a1dcce7cbf008da8483beb0eaa9",
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-f077a6fe5dcf5f8a8b4888baabb73f09\\backup\\machine-knowledge-note.json"
+      },
+      "modified": {
+        "sha256": "126e860f6f46fcce43c6d3e60f81d5cbaf8cd4108c6d575d4c11c0f8990a47af",
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-f077a6fe5dcf5f8a8b4888baabb73f09\\staging\\machine-knowledge-note.json"
+      }
+    }
+  ],
+  "prepared_at_utc": "2026-09-09T16:27:30Z",
+  "record_id": "work-record-550a65e0048653f883c000827f211cb1",
+  "relative_note": "analysis/秋招练习与模拟面试参考答案 v2.md",
+  "explicit_evidence_replacement": true,
+  "linked_pages": [
+    "retrieve_machine 与 estimated_tokens 的协作实现"
+  ],
+  "body_sha256": "f594220bc7a211607b0b3c370769005041bb968c20d5031421ccd2430b829d66",
+  "candidate_audit": {
+    "status": "passed",
+    "note_errors": [],
+    "work_record_index": {
+      "status": "passed",
+      "record_count": 78,
+      "linked_record_count": 78,
+      "section_counts": {
+        "analysis": 23,
+        "changes": 39,
+        "pitfalls": 0,
+        "experiments": 9,
+        "sessions": 7
+      },
+      "errors": []
+    }
+  },
+  "promotion_order": [
+    "human-note",
+    "markdown-note",
+    "note-metadata",
+    "human-records",
+    "markdown-records",
+    "work-record-index-audit",
+    "agent-index-note",
+    "machine-knowledge-note"
+  ],
+  "completed_at_utc": "2026-09-09T16:27:31Z",
+  "verification": {
+    "status": "passed",
+    "role_errors": [],
+    "note_errors": [],
+    "work_record_index": {
+      "status": "passed",
+      "record_count": 78,
+      "linked_record_count": 78,
+      "section_counts": {
+        "analysis": 23,
+        "changes": 39,
+        "pitfalls": 0,
+        "experiments": 9,
+        "sessions": 7
+      },
+      "errors": []
+    },
+    "agent_index": {
+      "schema_version": 1,
+      "status": "passed",
+      "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\agent-index.sqlite",
+      "integrity": "ok",
+      "counts": {
+        "pages": 251,
+        "symbols": 2090,
+        "edges": 2007,
+        "terms": 29007,
+        "notes": 78
+      },
+      "projection_format": "markdown",
+      "errors": []
+    }
+  },
+  "operation_journal": {
+    "status": "passed",
+    "event_id": "operation-2f4912642dd25c50b206076011a2f29e",
+    "idempotent": false,
+    "journal": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\operations\\2026-09-09.jsonl"
+  }
+}

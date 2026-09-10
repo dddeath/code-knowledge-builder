@@ -1,0 +1,28 @@
+{
+  "command": [
+    "/mnt/c/Users/19739/.codex/cache/code-knowledge-builder/runtime/win-x64/win-x64-2.1.0/python/python.exe",
+    "-X",
+    "utf8",
+    "E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py",
+    "source",
+    "--out",
+    "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+    "maintenance_check",
+    "--context-lines",
+    "0"
+  ],
+  "exit_status": 0,
+  "seconds": 0.281,
+  "stdout_file": "source-maintenance.stdout.txt",
+  "stderr_file": "source-maintenance.stderr.txt",
+  "result": {
+    "schema_version": 3,
+    "status": "passed",
+    "selector": "maintenance_check",
+    "entity_id": "ent-4c497bba87c75d579e630566f1033ac4",
+    "source_path": "scripts/ckb_core/llm_wiki_capabilities.py",
+    "start_line": 431,
+    "end_line": 481,
+    "excerpt": "   431  def maintenance_check(output: Path) -> dict[str, Any]:\n   432      output = output.resolve()\n   433      if not (output / \"state.json\").is_file():\n   434          raise CkbError(f\"CKB output is required: {output}\")\n   435      from .agent_index import audit_agent_index\n   436      from .agent_protocol import audit_agent_protocol\n   437      from .knowledge_layers import audit_human_layer\n   438      from .keyword_fallback import audit_keyword_fallback\n   439      from .machine_knowledge import audit_machine_knowledge\n   440      from .operation_journal import audit_operation_journal\n   441      from .research_gaps import audit_gap_register\n   442      from .reference_documents import audit_references\n   443      from .work_record_index import audit_work_record_index\n   444  \n   445      checks = {\n   446          \"agent_protocol\": audit_agent_protocol(output),\n   447          \"work_record_index\": audit_work_record_index(output),\n   448          \"agent_index\": audit_agent_index(output),\n   449          \"machine_knowledge\": audit_machine_knowledge(output),\n   450          \"keyword_fallback\": audit_keyword_fallback(output),\n   451          \"human_layer\": audit_human_layer(output),\n   452          \"references\": audit_references(output),\n   453          \"operations\": audit_operation_journal(output),\n   454          \"research_gaps\": audit_gap_register(output),\n   455      }\n   456      failed = [name for name, result in checks.items() if result.get(\"status\") != \"passed\"]\n   457      readability_path = output / \"human/readability-audit.json\"\n   458      readability = json_load(readability_path) if readability_path.is_file() else {\"status\": \"missing\"}\n   459      if readability.get(\"status\") != \"passed\":\n   460          failed.append(\"human_readability\")\n   461      report = {\n   462          \"schema_version\": 1,\n   463          \"status\": \"passed\" if not failed else \"failed\",\n   464          \"checked_at_utc\": utc_now(),\n   465          \"output\": str(output),\n   466          \"page_writes\": 0,\n   467          \"checks\": checks,\n   468          \"human_readability\": {\n   469              \"status\": readability.get(\"status\"),\n   470              \"path\": str(readability_path.resolve()),\n   471              \"errors\": readability.get(\"errors\", []),\n   472          },\n   473          \"capability_counts\": capability_matrix()[\"counts\"],\n   474          \"failed_checks\": failed,\n   475      }\n   476      target = output / \"workspace-meta/maintenance/latest.json\"\n   477      json_write(target, report)\n   478      reopened = json_load(target)\n   479      if reopened.get(\"status\") != report[\"status\"] or reopened.get(\"failed_checks\") != failed:\n   480          raise CkbError(\"maintenance report did not reopen with the verified state\")\n   481      return {**report, \"report\": str(target.resolve())}"
+  }
+}

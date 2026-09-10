@@ -14,26 +14,32 @@
 
 ## 验证结果
 
-新增三项发行边界单元测试全部通过。实际生成 `code-knowledge-builder-lite-5.2.4.zip`、`code-knowledge-builder-full-win-x64-5.2.4.zip` 和 `code-knowledge-builder-obsidian-0.6.0.zip`。ZIP CRC 全部通过；lite 和 full 都没有 `plugins/`；lite 没有 runtime；full 严格包含 lite，唯一差集为 `code-knowledge-builder/assets/runtime/win-x64/payload.zip`；插件 ZIP 精确包含 `main.js`、`manifest.json`、`styles.css`、`LICENSE`、`NOTICE.md` 和 `build-record.json`，没有 `SKILL.md`、`scripts/ckb.py` 或 `toolchain.lock.json`。源码与已安装 Skill 的结构校验通过，安装版 lite canary 也确认不含插件和 runtime。任务 patch 的正向与反向重放、隔离回滚探针均通过。
+该历史版本实际生成了 lite、full 和独立插件包，验证了文件集合、运行时边界、安装可用性与恢复行为。核心包不夹带插件，full 相比 lite 仅增加锁定运行时；具体版本和逐文件结果保留在原始记录。
+
+
+
+## 原始记录
+
+[按需核对历史原文与完整复现明细](../../machine/historical-records/legacy-20260910-08.md)。
 
 ## 相关知识页
 
-- [[source_files 与 sha256 的协作实现]]
+- [[build_core 与 sha256 的协作实现]]
 - [[audit_obsidian 与 prepare_vault 的协作实现]]
-- [[deployment_plan 与 skill_root 的协作实现]]
+- [[deploy 与 skill_root 的协作实现]]
 - [[package_showcase]]
-- [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]]
-- [[retrieve_machine 与 estimated_tokens 的协作实现]]
-- [[main 与 sha256 的协作实现]]
-- [[ingest_event 与 default_registry_path 的协作实现]]
+- [[ensure_local_openers 与 SourceLinkRenderer 的协作实现]]
+- [[build_machine_knowledge 与 estimated_tokens 的协作实现]]
+- [[build 与 sha256 的协作实现]]
+- [[review_automation 与 default_registry_path 的协作实现]]
 
 ## 源码入口
 
-- [打开源码：scripts/package_release.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/package_release.py:1:1)  `scripts/package_release.py:1-142`
-- [打开源码：scripts/ckb_core/obsidian.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/obsidian.py:1:1)  `scripts/ckb_core/obsidian.py:1-134`
+- [打开源码：scripts/package_release.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/package_release.py:1:1)  `scripts/package_release.py:1-307`
+- [打开源码：scripts/ckb_core/obsidian.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/obsidian.py:1:1)  `scripts/ckb_core/obsidian.py:1-166`
 - [打开源码：scripts/ckb_core/runtime.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/runtime.py:1:1)  `scripts/ckb_core/runtime.py:1-153`
 - [打开源码：scripts/ckb_core/showcase.py 第 66 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/showcase.py:66:1)  `scripts/ckb_core/showcase.py:66-172`
 - [打开源码：scripts/ckb_core/source_links.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/source_links.py:1:1)  `scripts/ckb_core/source_links.py:1-184`
-- [打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1458`
-- [打开源码：scripts/build_runtime_payload.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/build_runtime_payload.py:1:1)  `scripts/build_runtime_payload.py:1-117`
-- [打开源码：scripts/ckb_core/automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation.py:1:1)  `scripts/ckb_core/automation.py:1-1632`
+- [打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1995`
+- [打开源码：scripts/build_runtime_payload.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/build_runtime_payload.py:1:1)  `scripts/build_runtime_payload.py:1-158`
+- [打开源码：scripts/ckb_core/automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation.py:1:1)  `scripts/ckb_core/automation.py:1-1783`

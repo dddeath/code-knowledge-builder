@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "status": "ready",
+  "updated_at_utc": "2026-09-06T04:38:40Z",
+  "counts": {
+    "total": 9,
+    "open": 6,
+    "deferred": 0,
+    "resolved": 3
+  },
+  "counts_by_kind": {
+    "insufficient-evidence": 8,
+    "conflicting-sources": 1,
+    "deferred-feedback": 0
+  },
+  "gaps": [
+    {
+      "gap_id": "gap-00b32bb494b250ee9f73b6fdc9937f5b",
+      "kind": "insufficient-evidence",
+      "status": "open",
+      "summary_zh": "QMD 向量检索尚缺少在同一中文代码知识库、固定问题集和资源上限下相对 SQLite 基线的质量与成本证据。",
+      "evidence_count": 1,
+      "updated_at_utc": "2026-08-31T01:18:11Z"
+    },
+    {
+      "gap_id": "gap-3ad5ee428dbd570eb64e02e4e28fe299",
+      "kind": "conflicting-sources",
+      "status": "open",
+      "summary_zh": "当前知识库的词法候选关系与实际源码调用存在冲突：维护函数的列表 append 被连到测试局部同名函数，且人类页将候选写成确定依赖。实际生成与维护流程也未证明覆盖已确认的 V3 理解成本和来源链接约束。固定快照登记已经恢复；在补齐作用域消歧、真实输出失败样例和逐项来源重审前，结构审计通过不应视为关系与叙述已经可信。",
+      "evidence_count": 3,
+      "updated_at_utc": "2026-09-05T04:21:54Z"
+    },
+    {
+      "gap_id": "gap-6c6eb1a7982550999213f764e115e7ad",
+      "kind": "insufficient-evidence",
+      "status": "open",
+      "summary_zh": "真实 LLM 关键词慢路径尚缺少固定模型、固定费用与延迟上限下相对当前确定性检索的真实调用质量证据；现有提升只来自离线固定回放。",
+      "evidence_count": 1,
+      "updated_at_utc": "2026-09-02T21:03:58Z"
+    },
+    {
+      "gap_id": "gap-8c436abb192752cb90c955c0158d611e",
+      "kind": "insufficient-evidence",
+      "status": "open",
+      "summary_zh": "机器 Tag 导航尚缺少真实 Obsidian 环境中的人类对照、独立 Agent 与来源登记规则、tag 命名空间和投影所有权证据；当前收益只属于隔离 fixture。",
+      "evidence_count": 1,
+      "updated_at_utc": "2026-09-02T21:04:23Z"
+    },
+    {
+      "gap_id": "gap-9ba30e7c71f452c780f77c9d3a749180",
+      "kind": "insufficient-evidence",
+      "status": "resolved",
+      "summary_zh": "当前有效记录“中文检索确定性词项合并审计”仍引用 machine/agent-packs/pack-20260831-200233-512167-01.json。该原阅读包在当前知识库、保留历史归档、现有备份和发布 Git 历史中未找到。其他十份可恢复的原包已逐字节恢复，这份不伪造。当前正文保持不变；迁移仍受明确证据缺失阻塞。待用户决定是否允许保留正文并通过正式记录流程显式修复来源元数据，区分历史证据缺口与后续源码复核，不把新查询伪装成原查询。",
+      "evidence_count": 1,
+      "updated_at_utc": "2026-09-06T04:38:40Z"
+    },
+    {
+      "gap_id": "gap-9dc58ab149375bfd98332149a3ba6cb3",
+      "kind": "insufficient-evidence",
+      "status": "open",
+      "summary_zh": "PDF、网页和 OCR 提取尚缺少页码定位、乱码率、代码与表格保真以及失败诊断的固定样例评测证据。",
+      "evidence_count": 1,
+      "updated_at_utc": "2026-08-31T01:18:13Z"
+    },
+    {
+      "gap_id": "gap-bb90bd3314185078a6a0a7cdb8d271e6",
+      "kind": "insufficient-evidence",
+      "status": "open",
+      "summary_zh": "Obsidian Canvas/白板 MCP 与 Agent 解释可视化 Skill 的可用实现、数据格式、许可证、权限与隐私边界、和现有 CKB Obsidian companion/机器知识图的集成方式，以及对人类任务可理解性和导航效率的实际收益，尚未形成来源审阅、原型验证和冻结 benchmark 证据。",
+      "evidence_count": 1,
+      "updated_at_utc": "2026-09-01T16:52:27Z"
+    },
+    {
+      "gap_id": "gap-da2148a026de59c2b09fbf2cf3c1eb0b",
+      "kind": "insufficient-evidence",
+      "status": "resolved",
+      "summary_zh": "单文档自动扩散概念页面尚缺少人类查找收益、页面增量上限和中文引用真实性的对照任务证据。",
+      "evidence_count": 1,
+      "updated_at_utc": "2026-09-02T22:50:45Z"
+    },
+    {
+      "gap_id": "gap-e1a88b6c3b0e57cca58e6bc38daa47b8",
+      "kind": "insufficient-evidence",
+      "status": "resolved",
+      "summary_zh": "现有 `record` 更新已有 change 页面时只提供追加语义，会保留已经被人类否定的旧正文并增加“后续补充”。五个 change 页面需要使用受控替换语义才能按已确认模板重写，同时保持记录元数据、镜像、索引、操作日志和回滚合同。当前任务已恢复干净基线并暂时关闭，等待决定是否新增正式替换能力。",
+      "evidence_count": 1,
+      "updated_at_utc": "2026-09-02T02:46:02Z"
+    }
+  ]
+}

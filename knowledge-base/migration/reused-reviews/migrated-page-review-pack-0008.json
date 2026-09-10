@@ -3,20 +3,20 @@
   "pack_id": "migrated-page-review-pack-0008",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-03T22:05:16Z",
+  "reviewed_at_utc": "2026-09-10T03:34:01Z",
   "reviews": [
     {
-      "entity_id": "file-de9c10eb1972522ebcc53ec877fa1a1e",
+      "entity_id": "ent-23e99d51eabc53a3a93e988dd39e8aa1",
       "classification": "page",
-      "owner_page_id": "file-de9c10eb1972522ebcc53ec877fa1a1e",
+      "owner_page_id": "ent-23e99d51eabc53a3a93e988dd39e8aa1",
       "source_path": "scripts/ckb_core/agent_protocol_batch.py",
-      "start_line": 1,
-      "end_line": 1714,
+      "start_line": 161,
+      "end_line": 164,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/agent_protocol_batch.py` 第 1-1714 行的源码摘录，文件、符号与行范围一致。",
-      "meaning_zh": "`scripts/ckb_core/agent_protocol_batch.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
-      "role_zh": "负责批量升级 Agent Protocol，包括计划、锁、备份、审计、切换和回滚。",
-      "change_when_zh": "当 `scripts/ckb_core/agent_protocol_batch.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0004审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "保存批量项目失败的分类与错误说明：构造时把 detail 交给 CkbError，再将 category 保留为独立属性。",
+      "role_zh": "让批量流程按错误类别记录单个项目失败，同时沿用 CkbError 的异常消息与退出码机制，不需要从错误文本反解析分类。",
+      "change_when_zh": "调整批量失败分类或异常基类时，联动捕获 BatchProjectError 的计划、执行和回滚分支及结构化 failure 字段。"
     }
   ]
 }

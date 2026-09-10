@@ -1,0 +1,146 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "branch": "codex/web-static-snapshot-reference-ingest",
+  "baseline_commit": "f7d2181fd7cbf619d6337abfc17a85124f2c302f",
+  "implementation_head": "8eec7cf17c8d712bb90a005242f157afa8e9ec11",
+  "rollback_probe_head": "5900b9e8fdbf8eefbf62f372dfa27647fe48a2d9",
+  "input_protocol": {
+    "local_default": "reference ingest remains local Markdown/TXT/PDF only and never selects Web capture",
+    "provided_snapshot": "reference web-snapshot requires snapshot path, requested/final URL, retrieved time, final status, Content-Type, title, origin and license",
+    "live_fetch": "reference web-fetch requires an explicit URL plus title, origin and license; timeout and size are bounded",
+    "review_gate": "both Web modes finish at pending-agent-review and use the existing reference review/audit/rollback flow"
+  },
+  "baseline_behavior": {
+    "command": "git show f7d2181fd7cbf619d6337abfc17a85124f2c302f:scripts/ckb_core/reference_inputs.py; execute web_input_adapter_contract()",
+    "input": {
+      "commit": "f7d2181fd7cbf619d6337abfc17a85124f2c302f"
+    },
+    "exit_status": 0,
+    "literal_output": "{\n  \"schema_version\": 1,\n  \"adapter_id\": \"web-snapshot-v1\",\n  \"implementation_status\": \"not-implemented\",\n  \"input\": {\n    \"url\": \"absolute-http-or-https-url\",\n    \"requested_at_utc\": \"rfc3339\",\n    \"request_headers_allowlist\": [\n      \"Accept\",\n      \"Accept-Language\",\n      \"User-Agent\"\n    ],\n    \"max_response_bytes\": \"positive-integer\",\n    \"timeout_seconds\": \"positive-integer\"\n  },\n  \"output\": {\n    \"local_file\": \"immutable-response-body\",\n    \"media_type\": \"validated-content-type\",\n    \"provenance\": [\n      \"requested_url\",\n      \"final_url\",\n      \"retrieved_at_utc\",\n      \"response_sha256\",\n      \"response_size\",\n      \"status_code\"\n    ]\n  },\n  \"boundary\": [\n    \"adapter-only-produces-local-artifact\",\n    \"redirects-and-network-policy-are-caller-owned\",\n    \"output-still-requires-reference-ingest-and-agent-review\",\n    \"web-content-never-becomes-a-code-entity\"\n  ]\n}\n"
+  },
+  "modified_behavior": {
+    "command": "execute scripts/ckb_core/reference_inputs.py:web_input_adapter_contract() at implementation HEAD",
+    "input": {
+      "commit": "8eec7cf17c8d712bb90a005242f157afa8e9ec11"
+    },
+    "exit_status": 0,
+    "literal_output": "{\n  \"schema_version\": 2,\n  \"adapter_id\": \"web-snapshot-v1\",\n  \"implementation_status\": \"implemented\",\n  \"input_modes\": {\n    \"provided-static-snapshot\": {\n      \"network_access\": \"not-used\",\n      \"required\": [\n        \"snapshot\",\n        \"requested_url\",\n        \"final_url\",\n        \"retrieved_at_utc\",\n        \"status_code\",\n        \"content_type\"\n      ]\n    },\n    \"live-url-fetch\": {\n      \"network_access\": \"explicit-only\",\n      \"required\": [\n        \"url\",\n        \"timeout_seconds\",\n        \"max_response_bytes\"\n      ]\n    }\n  },\n  \"output\": {\n    \"local_file\": \"immutable-raw-response-body\",\n    \"media_type\": [\n      \"application/xhtml+xml\",\n      \"text/html\"\n    ],\n    \"provenance\": [\n      \"acquisition_mode\",\n      \"requested_url\",\n      \"final_url\",\n      \"requested_at_utc\",\n      \"retrieved_at_utc\",\n      \"status_code\",\n      \"content_type\",\n      \"response_headers\",\n      \"response_size\",\n      \"raw_snapshot_sha256\",\n      \"body_snapshot_sha256\",\n      \"redirect_chain\"\n    ],\n    \"extraction\": [\n      \"body_boundary\",\n      \"excluded_regions\",\n      \"fragments\",\n      \"source_range\"\n    ]\n  },\n  \"boundary\": [\n    \"local-reference-ingest-never-fetches\",\n    \"live-fetch-requires-explicit-command\",\n    \"network-failure-commits-no-reference-artifact\",\n    \"output-still-requires-reference-ingest-and-agent-review\",\n    \"web-content-never-becomes-a-code-entity\"\n  ]\n}\n"
+  },
+  "commands": [
+    {
+      "name": "web-tests",
+      "command": "& \"C:\\Users\\19739\\Documents\\Codex\\2026-09-05\\web-reference\\work\\ckb-test-runtime\\python\\python.exe\" -m unittest discover -s tests -p \"test_reference_web.py\" -v",
+      "cwd": "E:\\knowledge_builder\\self-workspace\\worktrees\\web-static-snapshot-reference-ingest",
+      "inputs": {
+        "fixture_network": "loopback HTTP server",
+        "default_timeout_seconds": 20,
+        "default_max_response_bytes": 2097152
+      },
+      "exit_status": 0,
+      "literal_output": "test_explicit_live_fetch_and_network_failure_leave_existing_references_unchanged (test_reference_web.WebReferenceEndToEndTests.test_explicit_live_fetch_and_network_failure_leave_existing_references_unchanged) ... ok\ntest_static_ingest_review_drift_duplicate_audit_and_rollback (test_reference_web.WebReferenceEndToEndTests.test_static_ingest_review_drift_duplicate_audit_and_rollback) ... ok\ntest_contract_keeps_local_and_live_modes_separate (test_reference_web.WebSnapshotInputTests.test_contract_keeps_local_and_live_modes_separate) ... ok\ntest_default_local_ingest_does_not_switch_to_network_or_html (test_reference_web.WebSnapshotInputTests.test_default_local_ingest_does_not_switch_to_network_or_html) ... ok\ntest_live_fetch_records_redirect_final_url_and_response_metadata (test_reference_web.WebSnapshotInputTests.test_live_fetch_records_redirect_final_url_and_response_metadata) ... ok\ntest_live_fetch_rejects_non_html_timeout_oversize_and_network_unavailable (test_reference_web.WebSnapshotInputTests.test_live_fetch_rejects_non_html_timeout_oversize_and_network_unavailable) ... ok\ntest_static_snapshot_has_no_network_and_preserves_boundaries (test_reference_web.WebSnapshotInputTests.test_static_snapshot_has_no_network_and_preserves_boundaries) ... ok\ntest_static_snapshot_rejects_non_html_oversize_and_bad_encoding (test_reference_web.WebSnapshotInputTests.test_static_snapshot_rejects_non_html_oversize_and_bad_encoding) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 71.350s\n\nOK\nWEB_TESTS_EXIT=0\n"
+    },
+    {
+      "name": "pdf-reference-regression",
+      "command": "& \"C:\\Users\\19739\\Documents\\Codex\\2026-09-05\\web-reference\\work\\ckb-test-runtime\\python\\python.exe\" -m unittest discover -s tests -p \"test_reference_pdf.py\" -v",
+      "cwd": "E:\\knowledge_builder\\self-workspace\\worktrees\\web-static-snapshot-reference-ingest",
+      "inputs": {
+        "pypdf": "6.16.2",
+        "tree_sitter": "0.26.0"
+      },
+      "exit_status": 0,
+      "literal_output": "test_pdf_ingest_review_audit_indexes_and_rollback (test_reference_pdf.PdfReferenceEndToEndTests.test_pdf_ingest_review_audit_indexes_and_rollback) ... ok\ntest_corrupt_encrypted_size_page_and_source_root_limits (test_reference_pdf.PdfReferenceExtractionTests.test_corrupt_encrypted_size_page_and_source_root_limits) ... ok\ntest_native_chinese_page_round_trips_unicode (test_reference_pdf.PdfReferenceExtractionTests.test_native_chinese_page_round_trips_unicode) ... ok\ntest_native_layout_preserves_page_code_and_table_boundaries (test_reference_pdf.PdfReferenceExtractionTests.test_native_layout_preserves_page_code_and_table_boundaries) ... ok\ntest_page_audit_detects_manifest_page_empty_and_path_drift (test_reference_pdf.PdfReferenceExtractionTests.test_page_audit_detects_manifest_page_empty_and_path_drift) ... ok\ntest_scanned_mixed_and_bounded_ocr_states_are_explicit (test_reference_pdf.PdfReferenceExtractionTests.test_scanned_mixed_and_bounded_ocr_states_are_explicit) ... ok\ntest_web_adapter_boundary_requires_explicit_fetch_and_agent_review (test_reference_pdf.PdfReferenceExtractionTests.test_web_adapter_boundary_requires_explicit_fetch_and_agent_review) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 42.479s\n\nOK\nPDF_REGRESSION_EXIT=0\n"
+    },
+    {
+      "name": "text-reference-regression",
+      "command": "& \"C:\\Users\\19739\\Documents\\Codex\\2026-09-05\\web-reference\\work\\ckb-test-runtime\\python\\python.exe\" -m unittest discover -s tests -p \"test_ckb.py\" -k \"reviewed_text_reference_is_searchable_revisioned_and_reversible\" -v",
+      "cwd": "E:\\knowledge_builder\\self-workspace\\worktrees\\web-static-snapshot-reference-ingest",
+      "inputs": {
+        "reference_type": "local UTF-8 Markdown/TXT"
+      },
+      "exit_status": 0,
+      "literal_output": "test_reviewed_text_reference_is_searchable_revisioned_and_reversible (test_ckb.CodeKnowledgeBuilderTests.test_reviewed_text_reference_is_searchable_revisioned_and_reversible) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 45.925s\n\nOK\nTEXT_REFERENCE_REGRESSION_EXIT=0\n"
+    },
+    {
+      "name": "static-and-cli-verification",
+      "command": "py_compile implementation and Web tests; ckb.py reference -h; git diff --check",
+      "cwd": "E:\\knowledge_builder\\self-workspace\\worktrees\\web-static-snapshot-reference-ingest",
+      "inputs": {},
+      "exit_status": 0,
+      "literal_output": "PY_COMPILE_EXIT=0\nusage: ckb.py reference [-h]\n                        {ingest,web-snapshot,web-fetch,review-template,review,audit,list,rollback} ...\n\npositional arguments:\n  {ingest,web-snapshot,web-fetch,review-template,review,audit,list,rollback}\n\noptions:\n  -h, --help            show this help message and exit\nCLI_HELP_EXIT=0\nDIFF_CHECK_EXIT=0\n"
+    },
+    {
+      "name": "implementation-patch-replay",
+      "command": "git checkout --detach BASELINE; git config core.autocrlf false; git reset --hard BASELINE; git apply --check --unidiff-zero implementation.patch; git apply --unidiff-zero implementation.patch; git add task files; compare staged Git blobs with implementation HEAD",
+      "cwd": "isolated local clone",
+      "inputs": {
+        "patch": "implementation.patch",
+        "baseline": "f7d2181fd7cbf619d6337abfc17a85124f2c302f"
+      },
+      "exit_status": 0,
+      "literal_output": "{\n  \"schema_version\": 1,\n  \"status\": \"passed\",\n  \"baseline\": \"f7d2181fd7cbf619d6337abfc17a85124f2c302f\",\n  \"implementation_head\": \"8eec7cf17c8d712bb90a005242f157afa8e9ec11\",\n  \"comparison\": \"normalized-git-blob\",\n  \"patch_check_exit\": 0,\n  \"patch_apply_exit\": 0,\n  \"diff_check_exit\": 0,\n  \"files\": [\n    {\n      \"path\": \"scripts/ckb.py\",\n      \"expected_git_blob\": \"06e05856cf16595eb698ded520ee1152cb00d6a9\",\n      \"patched_git_blob\": \"06e05856cf16595eb698ded520ee1152cb00d6a9\",\n      \"match\": true\n    },\n    {\n      \"path\": \"scripts/ckb_core/reference_inputs.py\",\n      \"expected_git_blob\": \"34197d1c4e7c8943b57b7b5819e2177545a49a66\",\n      \"patched_git_blob\": \"34197d1c4e7c8943b57b7b5819e2177545a49a66\",\n      \"match\": true\n    },\n    {\n      \"path\": \"scripts/ckb_core/reference_documents.py\",\n      \"expected_git_blob\": \"1911b4e2a455f5185a374f3fd779a21ad0bb79cc\",\n      \"patched_git_blob\": \"1911b4e2a455f5185a374f3fd779a21ad0bb79cc\",\n      \"match\": true\n    },\n    {\n      \"path\": \"tests/test_reference_pdf.py\",\n      \"expected_git_blob\": \"2c781cc71dceaced3e6e01947e6c8a0c23223213\",\n      \"patched_git_blob\": \"2c781cc71dceaced3e6e01947e6c8a0c23223213\",\n      \"match\": true\n    },\n    {\n      \"path\": \"tests/test_reference_web.py\",\n      \"expected_git_blob\": \"2a3d52e82d20ffb6132ea7d296f0ac448a0543b8\",\n      \"patched_git_blob\": \"2a3d52e82d20ffb6132ea7d296f0ac448a0543b8\",\n      \"match\": true\n    }\n  ]\n}\n"
+    },
+    {
+      "name": "artifact-reopen",
+      "command": "Expand-Archive modified-artifacts.zip; compare SHA-256 of every entry with the implementation worktree",
+      "cwd": "isolated temporary directory",
+      "inputs": {
+        "archive": "modified-artifacts.zip"
+      },
+      "exit_status": 0,
+      "literal_output": "{\n  \"schema_version\": 1,\n  \"status\": \"passed\",\n  \"zip_reopened\": true,\n  \"zip_entries\": [\n    {\n      \"path\": \"scripts/ckb.py\",\n      \"workspace_sha256\": \"6ac3f7b397136c4d57c38b8df9919968430a76da7e602ad9bdaf7ed4b9f4065f\",\n      \"archive_sha256\": \"6ac3f7b397136c4d57c38b8df9919968430a76da7e602ad9bdaf7ed4b9f4065f\",\n      \"match\": true\n    },\n    {\n      \"path\": \"scripts/ckb_core/reference_inputs.py\",\n      \"workspace_sha256\": \"321cd7e65db1083bf5461cc95d6eecbb56cb8c329692e725d5c47c241c30ccba\",\n      \"archive_sha256\": \"321cd7e65db1083bf5461cc95d6eecbb56cb8c329692e725d5c47c241c30ccba\",\n      \"match\": true\n    },\n    {\n      \"path\": \"scripts/ckb_core/reference_documents.py\",\n      \"workspace_sha256\": \"0b7460201029dd5289695206162ec46078572a949223d9c27960cb2428b13b6b\",\n      \"archive_sha256\": \"0b7460201029dd5289695206162ec46078572a949223d9c27960cb2428b13b6b\",\n      \"match\": true\n    },\n    {\n      \"path\": \"tests/test_reference_pdf.py\",\n      \"workspace_sha256\": \"f854cf18ed8b7b655d9dbe1f8f0e3bc5c3433dcc784d159835700b7ee9a1123d\",\n      \"archive_sha256\": \"f854cf18ed8b7b655d9dbe1f8f0e3bc5c3433dcc784d159835700b7ee9a1123d\",\n      \"match\": true\n    },\n    {\n      \"path\": \"tests/test_reference_web.py\",\n      \"workspace_sha256\": \"6c6e886576eae510cab76e74a554338bae904f46ceb650b65bf7b81ccbbc52ef\",\n      \"archive_sha256\": \"6c6e886576eae510cab76e74a554338bae904f46ceb650b65bf7b81ccbbc52ef\",\n      \"match\": true\n    }\n  ],\n  \"artifacts\": [\n    {\n      \"path\": \"baseline-contract.json\",\n      \"size\": 888,\n      \"sha256\": \"89f59c077eecdefffbd644cf528b5c3a08cc9654bf2d63ea0bebd01de0106f6f\"\n    },\n    {\n      \"path\": \"modified-contract.json\",\n      \"size\": 1393,\n      \"sha256\": \"6558940f42d2abd2e62330d47d3401fa77af786db77db6ebee4089f550053c13\"\n    },\n    {\n      \"path\": \"success-sample.json\",\n      \"size\": 3447,\n      \"sha256\": \"9c81be5bab08f313ad8e28af8f45cecea30323d6a0a3e1831f7233ed047e33ff\"\n    },\n    {\n      \"path\": \"failure-samples.json\",\n      \"size\": 1830,\n      \"sha256\": \"67b32e192892fee3c42bf2997fe1b981cf6d9872d75179c2b509c172d9a85b8d\"\n    },\n    {\n      \"path\": \"implementation.patch\",\n      \"size\": 75217,\n      \"sha256\": \"ca1753281185a4bf22db391939e2ecb6ce955e59b63c335f10e295243d99e5c7\"\n    },\n    {\n      \"path\": \"modified-artifacts.zip\",\n      \"size\": 46467,\n      \"sha256\": \"efd34c332f76c757e088cf81550ff1c556e9a4e6dac35341ba7f8706e945c3e0\"\n    },\n    {\n      \"path\": \"patch-verification.json\",\n      \"size\": 1408,\n      \"sha256\": \"6e9ff558aaf565945d65367a6c56be781e841ced25a91c843d989f949777cd87\"\n    },\n    {\n      \"path\": \"rollback-verification.json\",\n      \"size\": 2201,\n      \"sha256\": \"21b31c2247957ecf0412ddd3b8b9f724edbead4a2f7e7503f8a1c45e6f2f0e8c\"\n    },\n    {\n      \"path\": \"rollback.ps1\",\n      \"size\": 1782,\n      \"sha256\": \"984319b761ab4b52eb6b672fbdfa2d669c26aa0e1bbc9460ee0dc04c65088fcf\"\n    },\n    {\n      \"path\": \"web-tests.log\",\n      \"size\": 1558,\n      \"sha256\": \"b7e2164da49b69e522a5ea187879cb5c402c341f03de7803896d69c7dfcedb68\"\n    },\n    {\n      \"path\": \"pdf-regression.log\",\n      \"size\": 1295,\n      \"sha256\": \"a8bd116d4dcce41836a87f9f58dd6178c92d095018f2cb694255daa973f120bd\"\n    },\n    {\n      \"path\": \"text-reference-regression.log\",\n      \"size\": 313,\n      \"sha256\": \"4e7b48d43faf00909b9e786dd779b379d634b6737ce15cbc0e4aa52a4ed43ab6\"\n    },\n    {\n      \"path\": \"static-verification.log\",\n      \"size\": 350,\n      \"sha256\": \"91fd24b97ed57502ce20a1b18b925900ac0565397a608d33a188364be265674b\"\n    }\n  ]\n}\n"
+    },
+    {
+      "name": "rollback-apply",
+      "command": "clone final delivery predecessor; checkout --detach 5900b9e8fdbf8eefbf62f372dfa27647fe48a2d9; ./rollback.ps1 -Apply; compare every task path with baseline",
+      "cwd": "isolated local clone",
+      "inputs": {
+        "apply": true,
+        "baseline": "f7d2181fd7cbf619d6337abfc17a85124f2c302f"
+      },
+      "exit_status": 0,
+      "literal_output": "{\n  \"schema_version\": 1,\n  \"status\": \"passed\",\n  \"final_head\": \"5900b9e8fdbf8eefbf62f372dfa27647fe48a2d9\",\n  \"baseline\": \"f7d2181fd7cbf619d6337abfc17a85124f2c302f\",\n  \"clone_exit\": 0,\n  \"checkout_exit\": 0,\n  \"rollback_exit\": 0,\n  \"diff_check_exit\": 0,\n  \"remaining_vs_baseline\": [],\n  \"staged_path_count\": 20,\n  \"staged_paths\": [\n    \"references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/artifact-verification.json\",\n    \"references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/baseline-contract.json\",\n    \"references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/failure-samples.json\",\n    \"references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/implementation.patch\",\n    \"references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/modified-artifacts.zip\",\n    \"references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/modified-contract.json\",\n    \"references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/patch-verification.json\",\n    \"references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/pdf-regression.log\",\n    \"references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/rollback.ps1\",\n    \"references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/static-verification.log\",\n    \"references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/success-sample.json\",\n    \"references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/summary.md\",\n    \"references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/text-reference-regression.log\",\n    \"references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/verification-record.json\",\n    \"references/research-gap-enhancement-effects/web-static-snapshot-reference-ingest-v1/web-tests.log\",\n    \"scripts/ckb.py\",\n    \"scripts/ckb_core/reference_documents.py\",\n    \"scripts/ckb_core/reference_inputs.py\",\n    \"tests/test_reference_pdf.py\",\n    \"tests/test_reference_web.py\"\n  ]\n}\n"
+    }
+  ],
+  "actual_metrics": {
+    "tests_passed": 16,
+    "tests_failed": 0,
+    "web_tests": 8,
+    "pdf_regression_tests": 7,
+    "text_reference_regression_tests": 1,
+    "success_sample_raw_bytes": 380,
+    "success_sample_fragments": 2,
+    "success_sample_excluded_regions": 6,
+    "success_sample_raw_sha256": "bcf726e6d73fbcc6854726040f7148bc996ad1e270d7b6a7436b730b79fac34e",
+    "success_sample_body_sha256": "d78bbc7716f1184c6ad0d382e80350882ee2c323996976717fab99c460741ed5",
+    "failure_cases": 8
+  },
+  "verified_behaviors": [
+    "provided snapshots perform no network access",
+    "live fetch is reachable only through the explicit web-fetch command",
+    "redirected final URL, response status, Content-Type, selected headers, retrieval time and raw/body hashes are fixed",
+    "script, style, header, footer, aside, nav and navigation-role regions are excluded and source-ranged",
+    "review claims must name an extracted fragment and exactly match archived HTML line ranges",
+    "successful capture remains pending-agent-review until ordinary review passes",
+    "non-HTML, timeout, oversize, bad encoding and network-unavailable cases are rejected",
+    "exact repeats are idempotent, same-key drift requires revision-of, and cross-URL duplicate content is linked",
+    "failed network capture leaves the existing references byte-for-byte unchanged",
+    "Web extraction drift fails reference audit and the ordinary rollback removes only the target revision"
+  ],
+  "evidence_files": [
+    "success-sample.json",
+    "failure-samples.json",
+    "baseline-contract.json",
+    "modified-contract.json",
+    "web-tests.log",
+    "pdf-regression.log",
+    "text-reference-regression.log",
+    "static-verification.log",
+    "patch-verification.json",
+    "artifact-verification.json",
+    "rollback-verification.json",
+    "implementation.patch",
+    "modified-artifacts.zip",
+    "rollback.ps1"
+  ]
+}

@@ -1,0 +1,11 @@
+PY_COMPILE_EXIT=0
+usage: ckb.py reference [-h]
+                        {ingest,web-snapshot,web-fetch,review-template,review,audit,list,rollback} ...
+
+positional arguments:
+  {ingest,web-snapshot,web-fetch,review-template,review,audit,list,rollback}
+
+options:
+  -h, --help            show this help message and exit
+CLI_HELP_EXIT=0
+DIFF_CHECK_EXIT=0

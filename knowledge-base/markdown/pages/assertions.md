@@ -2,11 +2,11 @@
 
 标签：#类型/代码
 
-> 代码单元 `assertions`负责验证 tag assertion、策略、幂等写入和路径失败边界。 它属于tag 实验输入与事务合同的回归保护，说明只覆盖所列固定源码范围。
+> 该函数按行解析固定标签断言 JSONL 文件，返回完整断言列表。 它为标签合同测试提供同一组冻结输入，不过滤空行或修复格式错误，输入问题会直接暴露。
 
 ## 什么时候需要修改
 
-当Schema、路径、隐私或事务规则变化时，应同步复查本页及其直接测试。
+fixture 路径或逐行 JSON 格式变化时修改此函数，并检查测试读取的断言集合保持一致。
 
 ## 在代码中的位置
 
@@ -14,22 +14,4 @@
 
 ## 谁会来到这里
 
-- [[TagNavigationCanvasCompatibilityTests]] 会使用这里提供的行为。
-- [[TagNavigationProjectionTests]] 会使用这里提供的行为。
-- [[TagNavigationRollbackTests]] 会使用这里提供的行为。
-- [[TagNavigationStateMachineTests]] 会使用这里提供的行为。
 - [[assertions 等测试场景]] 汇总了本页。
-- [[ingest]] 会使用这里提供的行为。
-- [[ingest 与 connect 的协作实现]] 会使用这里提供的行为。
-- [[state_machine 的协作边界]] 会使用这里提供的行为。
-
-## 相关测试
-
-- [[AgentProtocolBatchApplyTests 等测试场景]]
-- [[CodeKnowledgeBuilderTests]]
-- [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[PdfReferenceExtractionTests]]
-- [[PdfReferenceExtractionTests 等测试场景]]
-- [[ReferencePdfEffectBenchmarkTests]]
-
-> 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。

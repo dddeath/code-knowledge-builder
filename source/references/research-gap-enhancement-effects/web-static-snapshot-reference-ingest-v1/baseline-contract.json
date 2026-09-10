@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "adapter_id": "web-snapshot-v1",
+  "implementation_status": "not-implemented",
+  "input": {
+    "url": "absolute-http-or-https-url",
+    "requested_at_utc": "rfc3339",
+    "request_headers_allowlist": [
+      "Accept",
+      "Accept-Language",
+      "User-Agent"
+    ],
+    "max_response_bytes": "positive-integer",
+    "timeout_seconds": "positive-integer"
+  },
+  "output": {
+    "local_file": "immutable-response-body",
+    "media_type": "validated-content-type",
+    "provenance": [
+      "requested_url",
+      "final_url",
+      "retrieved_at_utc",
+      "response_sha256",
+      "response_size",
+      "status_code"
+    ]
+  },
+  "boundary": [
+    "adapter-only-produces-local-artifact",
+    "redirects-and-network-policy-are-caller-owned",
+    "output-still-requires-reference-ingest-and-agent-review",
+    "web-content-never-becomes-a-code-entity"
+  ]
+}

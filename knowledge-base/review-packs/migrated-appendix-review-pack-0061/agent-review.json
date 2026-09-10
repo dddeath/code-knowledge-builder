@@ -1,0 +1,229 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-appendix-review-pack-0061",
+  "kind": "appendix-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-10T03:35:37Z",
+  "reviews": [
+    {
+      "entity_id": "ent-70dae68cf8e152da834ee420132c1586",
+      "classification": "appendix",
+      "owner_page_id": "file-7dfb55ad44155dbfb7249942dfad4fd8",
+      "source_path": "tests/test_keyword_fallback.py",
+      "start_line": 215,
+      "end_line": 224,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0031审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "篡改缓存关键词为凭据形状文本，要求缓存审计失败并给出对应原因。"
+    },
+    {
+      "entity_id": "ent-bc4e99955d37588999ee5ef7e2a777a2",
+      "classification": "appendix",
+      "owner_page_id": "file-7dfb55ad44155dbfb7249942dfad4fd8",
+      "source_path": "tests/test_keyword_fallback.py",
+      "start_line": 227,
+      "end_line": 382,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0032审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "验证关键词回退在默认、允许、强制及失败场景的检索接线，保证扩展后仍由确定性选择并通过标准输入输出传递选项。"
+    },
+    {
+      "entity_id": "ent-554f45edf98152ff987f40a45ebef5da",
+      "classification": "appendix",
+      "owner_page_id": "file-7dfb55ad44155dbfb7249942dfad4fd8",
+      "source_path": "tests/test_keyword_fallback.py",
+      "start_line": 228,
+      "end_line": 233,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0032审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "创建带最小机器索引占位的临时输出，并配置非强制且不使用缓存的关键词回退选项。"
+    },
+    {
+      "entity_id": "ent-f6477b659f9a53bc811b458f39da901e",
+      "classification": "appendix",
+      "owner_page_id": "file-7dfb55ad44155dbfb7249942dfad4fd8",
+      "source_path": "tests/test_keyword_fallback.py",
+      "start_line": 235,
+      "end_line": 236,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0032审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "清理关键词检索接线测试的临时目录。"
+    },
+    {
+      "entity_id": "ent-aa88b432805c55cd9f5bb5a388ce2c19",
+      "classification": "appendix",
+      "owner_page_id": "file-7dfb55ad44155dbfb7249942dfad4fd8",
+      "source_path": "tests/test_keyword_fallback.py",
+      "start_line": 238,
+      "end_line": 250,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0032审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "模拟无有效新鲜度绑定的默认检索，要求添加不可用状态但不修改基线对象或启动提供器。"
+    },
+    {
+      "entity_id": "ent-b564329b57fd5a478ea1beb09600e4f5",
+      "classification": "appendix",
+      "owner_page_id": "file-7dfb55ad44155dbfb7249942dfad4fd8",
+      "source_path": "tests/test_keyword_fallback.py",
+      "start_line": 252,
+      "end_line": 268,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0032审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "在确定性检索已通过时使用允许模式，要求提供器不启动并保存已跳过的回退记录。"
+    },
+    {
+      "entity_id": "ent-c7a5dc7951785dcd892586d89df3ed60",
+      "classification": "appendix",
+      "owner_page_id": "file-7dfb55ad44155dbfb7249942dfad4fd8",
+      "source_path": "tests/test_keyword_fallback.py",
+      "start_line": 270,
+      "end_line": 314,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0032审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "模拟证据不足后提供器给出有效词项，核对规范化扩展再次进入确定性检索并可审计。"
+    },
+    {
+      "entity_id": "ent-e88ea95583015fd9b3dc988282ee2082",
+      "classification": "appendix",
+      "owner_page_id": "file-7dfb55ad44155dbfb7249942dfad4fd8",
+      "source_path": "tests/test_keyword_fallback.py",
+      "start_line": 316,
+      "end_line": 342,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0032审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "模拟提供器超时，要求保留原检索状态并附结构化失败原因。"
+    },
+    {
+      "entity_id": "ent-b3baaf0b486853f0a3b91fbfdde7d8d4",
+      "classification": "appendix",
+      "owner_page_id": "file-7dfb55ad44155dbfb7249942dfad4fd8",
+      "source_path": "tests/test_keyword_fallback.py",
+      "start_line": 344,
+      "end_line": 382,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0032审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "通过标准输入输出请求传递嵌套回退配置，核对强制模式与禁用缓存选项被准确解析。"
+    },
+    {
+      "entity_id": "ent-5bedde15e7a65703a3c4956a9516e336",
+      "classification": "appendix",
+      "owner_page_id": "file-7dfb55ad44155dbfb7249942dfad4fd8",
+      "source_path": "tests/test_keyword_fallback.py",
+      "start_line": 347,
+      "end_line": 353,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0032审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "捕获模拟检索的关键词回退配置并返回固定阅读包和记录路径，供协议选项断言。"
+    },
+    {
+      "entity_id": "ent-d8025df4cd605417b606730afee6ad0e",
+      "classification": "appendix",
+      "owner_page_id": "file-7dfb55ad44155dbfb7249942dfad4fd8",
+      "source_path": "tests/test_keyword_fallback.py",
+      "start_line": 385,
+      "end_line": 466,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0032审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "用固定冷、热结果验证关键词基准质量、上下文和用量汇总，同时要求恢复运行前缓存原字节。"
+    },
+    {
+      "entity_id": "ent-e8c59109eab252118532ca4658b68d92",
+      "classification": "appendix",
+      "owner_page_id": "file-7dfb55ad44155dbfb7249942dfad4fd8",
+      "source_path": "tests/test_keyword_fallback.py",
+      "start_line": 386,
+      "end_line": 466,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0032审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "模拟基线未命中与冷、热命中结果，核对质量变化、热缓存零新用量及基准结束后缓存精确恢复。"
+    },
+    {
+      "entity_id": "ent-0c7db759381f5a629da3d0849f2b6efc",
+      "classification": "appendix",
+      "owner_page_id": "ent-116f8eb2081b5008939ca3c9cb88fb4b",
+      "source_path": "tests/test_keyword_real_provider_benchmark.py",
+      "start_line": 22,
+      "end_line": 37,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0032审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "核对真实提供器基准冻结十二题、六类故障模式及中文自然语言和源码标识符覆盖。"
+    },
+    {
+      "entity_id": "ent-77e6d6edeba95ba49dcd7879b449a4ca",
+      "classification": "appendix",
+      "owner_page_id": "ent-116f8eb2081b5008939ca3c9cb88fb4b",
+      "source_path": "tests/test_keyword_real_provider_benchmark.py",
+      "start_line": 39,
+      "end_line": 53,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0032审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "不配置真实提供器运行基准，要求报告复读一致、真实调用为零且效果状态为未执行。"
+    },
+    {
+      "entity_id": "ent-977002b1b8ea5d88940724dd4b32f1e7",
+      "classification": "appendix",
+      "owner_page_id": "ent-116f8eb2081b5008939ca3c9cb88fb4b",
+      "source_path": "tests/test_keyword_real_provider_benchmark.py",
+      "start_line": 55,
+      "end_line": 71,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0032审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "构造超时发生但启动标记尚未落盘的观测，要求依据适配器尝试次数通过故障判定。"
+    },
+    {
+      "entity_id": "ent-746d7392d17555728025c152c2a55423",
+      "classification": "appendix",
+      "owner_page_id": "file-d1e5c6c6dda657f8bfc8adfb17d6518d",
+      "source_path": "tests/test_knowledge_batch_migration.py",
+      "start_line": 25,
+      "end_line": 124,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0032审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "核对普通克隆与工作树的公共 Git 目录解析、真实历史版本矩阵以及非重标记的历史输出夹具配方。"
+    },
+    {
+      "entity_id": "ent-982276115045554a86361466ac7048b7",
+      "classification": "appendix",
+      "owner_page_id": "file-d1e5c6c6dda657f8bfc8adfb17d6518d",
+      "source_path": "tests/test_knowledge_batch_migration.py",
+      "start_line": 26,
+      "end_line": 75,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0032审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "从当前检出和新建共享普通克隆解析 Git 公共目录，并读取历史提交验证两种布局都能访问版本证据。"
+    },
+    {
+      "entity_id": "ent-03b9080fbd465fcfb4a82b3f00ae2b08",
+      "classification": "appendix",
+      "owner_page_id": "file-d1e5c6c6dda657f8bfc8adfb17d6518d",
+      "source_path": "tests/test_knowledge_batch_migration.py",
+      "start_line": 77,
+      "end_line": 101,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0032审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "验证版本矩阵覆盖规定的真实历史发行及当前目标，并检查各版本的模式和协议组合。"
+    },
+    {
+      "entity_id": "ent-01434421893c59cc8877ebe2e90ca541",
+      "classification": "appendix",
+      "owner_page_id": "file-d1e5c6c6dda657f8bfc8adfb17d6518d",
+      "source_path": "tests/test_knowledge_batch_migration.py",
+      "start_line": 103,
+      "end_line": 109,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0032审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "核对版本矩阵参考文档与运行时生成内容一致，防止维护两套不一致的兼容表。"
+    },
+    {
+      "entity_id": "ent-5149ffc5b84555f48de2adfede30c33b",
+      "classification": "appendix",
+      "owner_page_id": "file-d1e5c6c6dda657f8bfc8adfb17d6518d",
+      "source_path": "tests/test_knowledge_batch_migration.py",
+      "start_line": 111,
+      "end_line": 124,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0032审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "检查历史输出夹具配方绑定真实历史提交及版本，而不是给当前输出改标签冒充历史产物。"
+    }
+  ]
+}

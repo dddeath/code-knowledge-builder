@@ -3,46 +3,20 @@
   "pack_id": "migrated-page-review-pack-0002",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-03T22:05:07Z",
+  "reviewed_at_utc": "2026-09-10T03:33:57Z",
   "reviews": [
     {
-      "entity_id": "ent-08bed70ac99e520c8a354ce891d7b677",
-      "classification": "boundary",
-      "owner_page_id": "ent-08bed70ac99e520c8a354ce891d7b677",
-      "source_path": "prototypes/ckb-canvas-skill/ckb_canvas/commands.py",
-      "start_line": 213,
-      "end_line": 225,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 bd8519583e3a 中 `prototypes/ckb-canvas-skill/ckb_canvas/commands.py` 第 213 至 225 行，摘录属于 Git blob 31c13b717a56。",
-      "meaning_zh": "代码单元 `validate_only`负责生成、验证和回滚隔离的 Obsidian Canvas 实验输出。",
-      "role_zh": "它属于Canvas 实验的事务命令层，说明只覆盖所列固定源码范围。",
-      "change_when_zh": "当Canvas 生成、验证或回滚合同变化时，应同步复查本页及其直接测试。"
-    },
-    {
-      "entity_id": "file-c9da04cd185f5bba9b75d593832a5419",
+      "entity_id": "file-c33bf8f550ff56ebb94186bc2244f547",
       "classification": "page",
-      "owner_page_id": "file-c9da04cd185f5bba9b75d593832a5419",
-      "source_path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
+      "owner_page_id": "file-c33bf8f550ff56ebb94186bc2244f547",
+      "source_path": "scripts/ckb.py",
       "start_line": 1,
-      "end_line": 181,
+      "end_line": 1850,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `references/design/obsidian-canvas-agent-visualization/verification/validate_design.py` 第 1-181 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
-      "meaning_zh": "`references/design/obsidian-canvas-agent-visualization/verification/validate_design.py` 页面绑定固定源码第 1-181 行，说明该文件在Canvas 设计 schema、fixture、链接和 benchmark 合同验证中的整体职责。",
-      "role_zh": "该文件负责Canvas 设计 schema、fixture、链接和 benchmark 合同验证，并为相关命令或测试提供可复查实现入口。",
-      "change_when_zh": "当 `references/design/obsidian-canvas-agent-visualization/verification/validate_design.py` 中 `references/design/obsidian-canvas-agent-visualization/verification/validate_design.py` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
-    },
-    {
-      "entity_id": "ent-8fd7fc2544565712a7086c8a2438b3e8",
-      "classification": "page",
-      "owner_page_id": "ent-8fd7fc2544565712a7086c8a2438b3e8",
-      "source_path": "references/design/obsidian-canvas-agent-visualization/verification/validate_design.py",
-      "start_line": 31,
-      "end_line": 69,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `references/design/obsidian-canvas-agent-visualization/verification/validate_design.py` 第 31-69 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
-      "meaning_zh": "`validate` 位于 `references/design/obsidian-canvas-agent-visualization/verification/validate_design.py` 第 31-69 行，本页用固定源码范围说明它如何校验输入、状态、证据或输出合同。",
-      "role_zh": "`validate` 负责在Canvas 设计 schema、fixture、链接和 benchmark 合同验证中校验输入、状态、证据或输出合同。",
-      "change_when_zh": "当 `references/design/obsidian-canvas-agent-visualization/verification/validate_design.py` 中 `validate` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0002审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "将终端参数转换为建库、检索、迁移、参考资料、页面候选文稿和管理操作，输出结构化结果及对应退出码；同时保留 stdio 服务和会话复用入口。",
+      "role_zh": "统一维护 argparse 子命令、参数默认值与核心函数分派。普通 JSON 输出附带操作记录；Prompt 输出使用固定 UTF-8 字节。检索可复用会话，显式关键词回退则直接调用完整机器检索；Hook 入口将内部异常写到 stderr 而不阻塞调用方。",
+      "change_when_zh": "新增或调整命令时同时修改 parser、main 分派和退出码约定；检索回退、页面候选文稿、参考资料或管理字段改变时，还需检查相应核心调用和 CLI 契约测试，避免参数声明与实际执行脱节。"
     }
   ]
 }

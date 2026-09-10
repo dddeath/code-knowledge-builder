@@ -1,16 +1,16 @@
 {
   "schema_version": 1,
   "status": "ready",
-  "updated_at_utc": "2026-09-02T22:50:45Z",
+  "updated_at_utc": "2026-09-06T04:38:40Z",
   "counts": {
-    "total": 7,
-    "open": 5,
+    "total": 9,
+    "open": 6,
     "deferred": 0,
-    "resolved": 2
+    "resolved": 3
   },
   "counts_by_kind": {
-    "insufficient-evidence": 7,
-    "conflicting-sources": 0,
+    "insufficient-evidence": 8,
+    "conflicting-sources": 1,
     "deferred-feedback": 0
   },
   "gaps": [
@@ -21,6 +21,14 @@
       "summary_zh": "QMD 向量检索尚缺少在同一中文代码知识库、固定问题集和资源上限下相对 SQLite 基线的质量与成本证据。",
       "evidence_count": 1,
       "updated_at_utc": "2026-08-31T01:18:11Z"
+    },
+    {
+      "gap_id": "gap-3ad5ee428dbd570eb64e02e4e28fe299",
+      "kind": "conflicting-sources",
+      "status": "open",
+      "summary_zh": "当前知识库的词法候选关系与实际源码调用存在冲突：维护函数的列表 append 被连到测试局部同名函数，且人类页将候选写成确定依赖。实际生成与维护流程也未证明覆盖已确认的 V3 理解成本和来源链接约束。固定快照登记已经恢复；在补齐作用域消歧、真实输出失败样例和逐项来源重审前，结构审计通过不应视为关系与叙述已经可信。",
+      "evidence_count": 3,
+      "updated_at_utc": "2026-09-05T04:21:54Z"
     },
     {
       "gap_id": "gap-6c6eb1a7982550999213f764e115e7ad",
@@ -37,6 +45,14 @@
       "summary_zh": "机器 Tag 导航尚缺少真实 Obsidian 环境中的人类对照、独立 Agent 与来源登记规则、tag 命名空间和投影所有权证据；当前收益只属于隔离 fixture。",
       "evidence_count": 1,
       "updated_at_utc": "2026-09-02T21:04:23Z"
+    },
+    {
+      "gap_id": "gap-9ba30e7c71f452c780f77c9d3a749180",
+      "kind": "insufficient-evidence",
+      "status": "resolved",
+      "summary_zh": "当前有效记录“中文检索确定性词项合并审计”仍引用 machine/agent-packs/pack-20260831-200233-512167-01.json。该原阅读包在当前知识库、保留历史归档、现有备份和发布 Git 历史中未找到。其他十份可恢复的原包已逐字节恢复，这份不伪造。当前正文保持不变；迁移仍受明确证据缺失阻塞。待用户决定是否允许保留正文并通过正式记录流程显式修复来源元数据，区分历史证据缺口与后续源码复核，不把新查询伪装成原查询。",
+      "evidence_count": 1,
+      "updated_at_utc": "2026-09-06T04:38:40Z"
     },
     {
       "gap_id": "gap-9dc58ab149375bfd98332149a3ba6cb3",

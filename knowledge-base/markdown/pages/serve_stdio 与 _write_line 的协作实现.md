@@ -14,27 +14,18 @@
 
 ## 相关代码
 
-- 实现时会用到 [[CkbError]]。
-- 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
-- 实现时会用到 [[ScopeExtensionOfferTests.retrieval]]。
-- 实现时会用到 [[audit_agent_protocol]]。
-- 实现时会用到 [[audit_feedback]]。
-- 实现时会用到 [[command]]。
-- 实现时会用到 [[run_keyword_provider 与 KeywordProviderConfig 的协作实现]]。
+- 与 [[CkbError]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[CkbError 与 DependencyError 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[KeywordFallbackOptions]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[KeywordFallbackOptions 与 KeywordProviderConfig 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[audit_agent_protocol]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[audit_feedback]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 - 主要代码单元是 [[serve_stdio]]。
 
 ## 谁会来到这里
 
 - 可从 [[scripts 职责导览]] 进入本页。
-- [[serve_stdio]] 会使用这里提供的行为。
-
-## 相关测试
-
-- [[CodeKnowledgeBuilderTests]]
-- [[KeywordFallbackRetrievalWiringTests]]
-- [[ScopeExtensionOfferTests.retrieval 等测试场景]]
-- [[ScopeExtensionTest]]
-- [[refresh 等测试场景]]
+- 与 [[serve_stdio]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 
 ## 内部细节
 

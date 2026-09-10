@@ -3,20 +3,20 @@
   "pack_id": "migrated-page-review-pack-0015",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-03T22:05:24Z",
+  "reviewed_at_utc": "2026-09-10T03:34:06Z",
   "reviews": [
     {
-      "entity_id": "ent-1276fc48b13b5ed8b72332f77b2baea7",
+      "entity_id": "ent-47b3f1cfa4825afbbe12eb93de381325",
       "classification": "page",
-      "owner_page_id": "ent-1276fc48b13b5ed8b72332f77b2baea7",
+      "owner_page_id": "ent-47b3f1cfa4825afbbe12eb93de381325",
       "source_path": "scripts/ckb_core/human_maintenance_prompts.py",
-      "start_line": 1391,
-      "end_line": 1516,
+      "start_line": 1936,
+      "end_line": 2009,
       "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_maintenance_prompts.py` 第 1391-1516 行，并核对 Git blob `32abdbacb6ff`、分类与所有者。",
-      "meaning_zh": "`validate_human_maintenance_invocation` 位于 `scripts/ckb_core/human_maintenance_prompts.py` 第 1391-1516 行，用于核对参数化维护动作的必填参数、类型、确认点和停止条件。",
-      "role_zh": "`validate_human_maintenance_invocation` 在参数化人类维护 Prompt 的动作合同、渲染和交付核对中负责核对参数化维护动作的必填参数、类型、确认点和停止条件。",
-      "change_when_zh": "当 `validate_human_maintenance_invocation` 的输入、输出、状态转换或失败边界变化时，应更新对应说明和测试。"
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0005审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "把一个已登记的人类维护 action 与通过验证的参数渲染为中文执行 Prompt，包含执行顺序、确认点、停止条件和结构化交付模板。",
+      "role_zh": "实际命令、外部依赖和待完成功能分别呈现，不把后两者伪装成可执行现有能力；验收与回滚要求依据有效参数重新计算，最终模板要求填写实际输入、输出和退出状态。",
+      "change_when_zh": "维护 action 的参数、步骤映射、条件能力或验收标准变化时，联动 invocation 校验、active_command_steps、有效要求计算和交付模板，保持 Prompt 与审计合同一致。"
     }
   ]
 }

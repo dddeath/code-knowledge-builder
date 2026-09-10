@@ -298,13 +298,104 @@ class KnowledgeBatchWorkflowTests(unittest.TestCase):
         self.assertEqual("ready", applied["status"], applied_detail)
         audited = audit_knowledge_batch_state(state_path)
         self.assertEqual("passed", audited["status"])
+        def assert_registration(output):
+            root = output / ".source-snapshot/worktree"
+            probe = subprocess.run(["git", "-C", str(root), "rev-parse", "--absolute-git-dir"],
+                                   text=True, capture_output=True, check=True)
+            admin = Path(probe.stdout.strip())
+            self.assertEqual(Path((admin / "gitdir").read_text().strip()).resolve(), (root / ".git").resolve())
+            self.assertTrue((admin / "locked").is_file())
+
         cutover = cutover_knowledge_batch_state(state_path)
         self.assertEqual("passed", cutover["status"])
+        assert_registration(self.output)
+        assert_registration(Path(cutover["projects"][0]["backup_output"]))
         self.assertEqual("cutover-complete", cutover["projects"][0]["status"])
+        first_promoted = _tree_manifest(self.output)
+        # A second completed migration must roll back through the exact parent.
+        from ckb_core.common import json_load, json_write
+
+        original_manifest_bytes = manifest.read_bytes()
+        document = json_load(self._manifest())
+        manifest.write_bytes(original_manifest_bytes)
+        document["batch_id"] = "fixture-batch-second"
+        second_manifest = self.root / "second-manifest.json"
+        json_write(second_manifest, document)
+        second_plan = self.root / "second-plan.json"
+        second_state = self.root / "second-state.json"
+        self.assertEqual("ready", create_knowledge_batch_plan(second_manifest, second_plan)["status"])
+        second_applied = apply_knowledge_batch_plan(second_plan, second_state)
+        self.assertEqual("ready", second_applied["status"], second_applied)
+        second_cutover = cutover_knowledge_batch_state(second_state)
+        self.assertEqual("passed", second_cutover["status"], second_cutover)
+        self.assertEqual(2, second_cutover["projects"][0]["chain_depth"])
+        assert_registration(self.output)
+        second_rolled = rollback_knowledge_batch_state(second_state)
+        self.assertEqual("passed", second_rolled["status"], second_rolled)
+        self.assertEqual(first_promoted, _tree_manifest(self.output))
+        assert_registration(self.output)
         rolled = rollback_knowledge_batch_state(state_path)
         self.assertEqual("passed", rolled["status"])
         self.assertEqual("rolled-back", rolled["projects"][0]["status"])
         self.assertEqual(origin, _tree_manifest(self.output))
+        assert_registration(self.output)
+        assert_registration(Path(rolled["projects"][0]["modified_output"]))
+
+    def test_v3_authoring_archives_survive_two_batch_cutovers_and_exact_rollback(self):
+        from ckb_core.common import json_load, json_write
+        from ckb_core.knowledge_batch_migration import (
+            apply_knowledge_batch_plan, create_knowledge_batch_plan,
+            cutover_knowledge_batch_state, rollback_knowledge_batch_state,
+        )
+        from ckb_core.migration import migrate_output, authoring_package_inventory
+        from ckb_core.pipeline import finalize
+        from ckb_core.llm_wiki_capabilities import maintenance_check
+        from ckb_core.scope_extension import _tree_manifest
+        from test_scope_extension import review_all
+        from test_recruitment_migration_provenance import create_v3_record
+
+        package = self.root / "external-author/package"
+        create_v3_record(self, self.output, package)
+        original_note = (self.output / "human/changes/作者包迁移记录.md").read_bytes()
+        inventory = authoring_package_inventory(self.output)
+        self.assertEqual(len(inventory), 1)
+        self.assertEqual({role for item in inventory[0]["files"] for role in item["roles"]},
+                         {"manifest", "body", "machine_evidence_refs"})
+        bootstrap = self.root / "v3-origin"
+        migrate_output(self.output, self.repo, bootstrap)
+        review_all(bootstrap)
+        finalize(bootstrap)
+        shutil.rmtree(package.parent)
+        (self.root / "local-evidence.json").unlink()
+        self.output = bootstrap
+        self.assertEqual(maintenance_check(self.output)["status"], "passed")
+        original_tree = _tree_manifest(self.output)
+        states = []
+        for number in (1, 2):
+            manifest_path = self.root / f"v3-manifest-{number}.json"
+            json_write(manifest_path, {
+                "schema_version": 1, "batch_id": f"v3-batch-{number}",
+                "allowed_roots": [str(self.root), str(ROOT)],
+                "projects": [self._project_document("v3", self.output, self.repo, self.staging)],
+            })
+            plan_path, state_path = self.root / f"v3-plan-{number}.json", self.root / f"v3-state-{number}.json"
+            planned = create_knowledge_batch_plan(manifest_path, plan_path)
+            self.assertEqual(planned["status"], "ready", planned)
+            applied = apply_knowledge_batch_plan(plan_path, state_path)
+            self.assertEqual(applied["status"], "ready", applied)
+            cutover = cutover_knowledge_batch_state(state_path)
+            self.assertEqual(cutover["status"], "passed", cutover)
+            self.assertEqual(json_load(self.output / "workspace-meta/maintenance/latest.json")["status"], "passed")
+            authoring_package_inventory(self.output)  # Reopens every required file and validates V3.
+            self.assertEqual((self.output / "human/changes/作者包迁移记录.md").read_bytes(), original_note)
+            states.append(state_path)
+        for state_path in reversed(states):
+            result = rollback_knowledge_batch_state(state_path)
+            self.assertEqual(result["status"], "passed", result)
+            authoring_package_inventory(self.output)
+        self.assertEqual(_tree_manifest(self.output), original_tree)
+        self.assertEqual(maintenance_check(self.output)["status"], "passed")
+        self.assertFalse(package.exists())
 
     def test_partial_apply_failure_can_resume_without_touching_origin(self) -> None:
         from ckb_core.knowledge_batch_migration import (

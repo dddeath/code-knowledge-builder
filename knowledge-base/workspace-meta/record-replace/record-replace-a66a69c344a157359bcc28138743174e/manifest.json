@@ -1,0 +1,366 @@
+{
+  "schema_version": 1,
+  "operation_id": "record-replace-a66a69c344a157359bcc28138743174e",
+  "operation": "record-replace",
+  "status": "completed",
+  "output": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757",
+  "kind": "analysis",
+  "title": "Code Knowledge Builder 秋招面试官拷问手册",
+  "created_at_utc": "2026-09-10T03:13:41Z",
+  "rollback_manifest": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-a66a69c344a157359bcc28138743174e\\manifest.json",
+  "rollback_argv": [
+    "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe",
+    "E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py",
+    "record-rollback",
+    "--out",
+    "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757",
+    "--manifest",
+    "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-a66a69c344a157359bcc28138743174e\\manifest.json"
+  ],
+  "rollback_command": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe' 'E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py' 'record-rollback' '--out' 'E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757' '--manifest' 'E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-a66a69c344a157359bcc28138743174e\\manifest.json'",
+  "roles": [
+    {
+      "name": "human-note",
+      "kind": "file",
+      "path": "human/analysis/Code Knowledge Builder 秋招面试官拷问手册.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "0a87d680ef6830de527ceca9f097103ecd5efb7bc24e78f0d8d3c7963a2370f4",
+        "size": 68555,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-a66a69c344a157359bcc28138743174e\\backup\\files\\human\\analysis\\Code Knowledge Builder 秋招面试官拷问手册.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "d137bd54c46c4c4417fd4864e7e7ce9e2a942f412d291e75265f4195753538af",
+        "size": 68968,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-a66a69c344a157359bcc28138743174e\\staging\\files\\human\\analysis\\Code Knowledge Builder 秋招面试官拷问手册.md"
+      }
+    },
+    {
+      "name": "markdown-note",
+      "kind": "file",
+      "path": "markdown/analysis/Code Knowledge Builder 秋招面试官拷问手册.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "0a87d680ef6830de527ceca9f097103ecd5efb7bc24e78f0d8d3c7963a2370f4",
+        "size": 68555,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-a66a69c344a157359bcc28138743174e\\backup\\files\\markdown\\analysis\\Code Knowledge Builder 秋招面试官拷问手册.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "d137bd54c46c4c4417fd4864e7e7ce9e2a942f412d291e75265f4195753538af",
+        "size": 68968,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-a66a69c344a157359bcc28138743174e\\staging\\files\\markdown\\analysis\\Code Knowledge Builder 秋招面试官拷问手册.md"
+      }
+    },
+    {
+      "name": "note-metadata",
+      "kind": "file",
+      "path": "workspace-meta/notes/Code Knowledge Builder 秋招面试官拷问手册.json",
+      "baseline": {
+        "exists": true,
+        "sha256": "1e2c75abc57f1fd7a324dc956e1b5bbccfe65113cd8054b751d02a9548604210",
+        "size": 2895,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-a66a69c344a157359bcc28138743174e\\backup\\files\\workspace-meta\\notes\\Code Knowledge Builder 秋招面试官拷问手册.json"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "984f4a3803edf7d18d45e60ca524b23b3aa7c28ff91131f90133da92b56f2797",
+        "size": 3256,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-a66a69c344a157359bcc28138743174e\\staging\\files\\workspace-meta\\notes\\Code Knowledge Builder 秋招面试官拷问手册.json"
+      }
+    },
+    {
+      "name": "human-records",
+      "kind": "file",
+      "path": "human/RECORDS.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "07219ca0a57c2a459add27e00319df5b1585e76bee27cc5fc17da46ca35f4825",
+        "size": 25337,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-a66a69c344a157359bcc28138743174e\\backup\\files\\human\\RECORDS.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "07219ca0a57c2a459add27e00319df5b1585e76bee27cc5fc17da46ca35f4825",
+        "size": 25337,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-a66a69c344a157359bcc28138743174e\\staging\\files\\human\\RECORDS.md"
+      }
+    },
+    {
+      "name": "markdown-records",
+      "kind": "file",
+      "path": "markdown/RECORDS.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "07219ca0a57c2a459add27e00319df5b1585e76bee27cc5fc17da46ca35f4825",
+        "size": 25337,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-a66a69c344a157359bcc28138743174e\\backup\\files\\markdown\\RECORDS.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "07219ca0a57c2a459add27e00319df5b1585e76bee27cc5fc17da46ca35f4825",
+        "size": 25337,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-a66a69c344a157359bcc28138743174e\\staging\\files\\markdown\\RECORDS.md"
+      }
+    },
+    {
+      "name": "work-record-index-audit",
+      "kind": "file",
+      "path": "workspace-meta/work-record-index-audit.json",
+      "baseline": {
+        "exists": true,
+        "sha256": "806c0655dfcaab421130c6a1993f935970d22448707b025ca62263195fc6f7fa",
+        "size": 217,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-a66a69c344a157359bcc28138743174e\\backup\\files\\workspace-meta\\work-record-index-audit.json"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "806c0655dfcaab421130c6a1993f935970d22448707b025ca62263195fc6f7fa",
+        "size": 217,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-a66a69c344a157359bcc28138743174e\\staging\\files\\workspace-meta\\work-record-index-audit.json"
+      }
+    },
+    {
+      "name": "agent-index-note",
+      "kind": "sqlite-logical",
+      "path": "agent-index.sqlite",
+      "selector": "Code Knowledge Builder 秋招面试官拷问手册",
+      "baseline": {
+        "sha256": "a73630a4629d49a937c67924f8e45fdb826f825e6bfbcbfb4c586f384edfe94a",
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-a66a69c344a157359bcc28138743174e\\backup\\agent-index-note.json"
+      },
+      "modified": {
+        "sha256": "e9a46fe9dbd947549fef57dde05ea21fffa530246000a2d6d08740b868b64df0",
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-a66a69c344a157359bcc28138743174e\\staging\\agent-index-note.json"
+      }
+    },
+    {
+      "name": "machine-knowledge-note",
+      "kind": "sqlite-logical",
+      "path": "machine/knowledge.sqlite",
+      "selector": "note:analysis:Code Knowledge Builder 秋招面试官拷问手册",
+      "baseline": {
+        "sha256": "89dfaef67fed2a81ae2f7b4866e291c1d4a135b8e9eae676f0742c84063b4d7b",
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-a66a69c344a157359bcc28138743174e\\backup\\machine-knowledge-note.json"
+      },
+      "modified": {
+        "sha256": "b82026030438f8303bcdb0d11ff7526fb2775afcadba5e6f95b74d399fc77502",
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\record-replace\\record-replace-a66a69c344a157359bcc28138743174e\\staging\\machine-knowledge-note.json"
+      }
+    }
+  ],
+  "note_error_baseline": {
+    "errors": [
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/analysis/Code Knowledge Builder 秋招面试官拷问手册.md",
+        "target": "deploy 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/analysis/Code Knowledge Builder 秋招面试官拷问手册.md",
+        "target": "build 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/changes/LLM 关键词备选慢路径合并审计.md",
+        "target": "build 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/changes/LLM 关键词备选慢路径合并审计.md",
+        "target": "deploy 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/中文检索词项同索引补测.md",
+        "target": "state_machine 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/机器 Tag 导航隔离实验.md",
+        "target": "ingest 与 connect 的协作实现"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/机器 Tag 导航隔离实验.md",
+        "target": "state_machine 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/研究缺口对账与新增特性增强效果.md",
+        "target": "validate 与 canonical 的协作实现"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/研究缺口对账与新增特性增强效果.md",
+        "target": "ingest 与 connect 的协作实现"
+      }
+    ],
+    "unchanged_notes": {
+      "markdown/changes/LLM 关键词备选慢路径合并审计.md": "81eaf14d2580b7b9f38c32a2392dcc8128bced854c1e5a1f3df551c7b663b391",
+      "markdown/experiments/中文检索词项同索引补测.md": "203925c2b32c519c51a7fb32b7c30a4a3e3ce38f4a0faa61ff1dba2438a7d6ae",
+      "markdown/experiments/机器 Tag 导航隔离实验.md": "bcf71852690b72212ffce7a6905c8ad37e6da906f05cb4f25fbf082e68f03253",
+      "markdown/experiments/研究缺口对账与新增特性增强效果.md": "08852138919af5ff7718d30994210da8945279e896616606a146b52762bbb040"
+    }
+  },
+  "prepared_at_utc": "2026-09-10T03:13:43Z",
+  "record_id": "work-record-4046b6c50619554d978061c537530188",
+  "relative_note": "analysis/Code Knowledge Builder 秋招面试官拷问手册.md",
+  "explicit_evidence_replacement": true,
+  "linked_pages": [
+    "build_machine_knowledge 与 estimated_tokens 的协作实现",
+    "render_integration 与 harness_retrieval_contract 的协作实现",
+    "deploy_obsidian_plugin_to_vault 与 default_obsidian_plugin_registry 的协作实现",
+    "review_automation 与 default_registry_path 的协作实现",
+    "audit_global 与 _replace_output_prefix 的协作实现",
+    "normalize_page_config 与 _merge_known 的协作实现"
+  ],
+  "body_sha256": "9a202b6e2e71971975f98bbfa777bc9b5ed13707a7737f2cce18c7204ebf5edb",
+  "candidate_audit": {
+    "status": "passed",
+    "note_errors": [],
+    "work_record_index": {
+      "status": "passed",
+      "record_count": 80,
+      "linked_record_count": 80,
+      "section_counts": {
+        "analysis": 24,
+        "changes": 40,
+        "pitfalls": 0,
+        "experiments": 9,
+        "sessions": 7
+      },
+      "errors": []
+    },
+    "verification_scope": "record-replacement",
+    "maintenance_verified": false,
+    "unresolved_baseline_diagnostics": [
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/changes/LLM 关键词备选慢路径合并审计.md",
+        "target": "build 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/changes/LLM 关键词备选慢路径合并审计.md",
+        "target": "deploy 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/中文检索词项同索引补测.md",
+        "target": "state_machine 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/机器 Tag 导航隔离实验.md",
+        "target": "ingest 与 connect 的协作实现"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/机器 Tag 导航隔离实验.md",
+        "target": "state_machine 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/研究缺口对账与新增特性增强效果.md",
+        "target": "validate 与 canonical 的协作实现"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/研究缺口对账与新增特性增强效果.md",
+        "target": "ingest 与 connect 的协作实现"
+      }
+    ]
+  },
+  "promotion_order": [
+    "human-note",
+    "markdown-note",
+    "note-metadata",
+    "human-records",
+    "markdown-records",
+    "work-record-index-audit",
+    "agent-index-note",
+    "machine-knowledge-note"
+  ],
+  "completed_at_utc": "2026-09-10T03:13:45Z",
+  "verification": {
+    "status": "passed",
+    "role_errors": [],
+    "note_errors": [],
+    "verification_scope": "record-replacement",
+    "maintenance_verified": false,
+    "unresolved_baseline_diagnostics": [
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/changes/LLM 关键词备选慢路径合并审计.md",
+        "target": "build 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/changes/LLM 关键词备选慢路径合并审计.md",
+        "target": "deploy 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/中文检索词项同索引补测.md",
+        "target": "state_machine 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/机器 Tag 导航隔离实验.md",
+        "target": "ingest 与 connect 的协作实现"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/机器 Tag 导航隔离实验.md",
+        "target": "state_machine 的协作边界"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/研究缺口对账与新增特性增强效果.md",
+        "target": "validate 与 canonical 的协作实现"
+      },
+      {
+        "reason": "note-link-dangling",
+        "path": "markdown/experiments/研究缺口对账与新增特性增强效果.md",
+        "target": "ingest 与 connect 的协作实现"
+      }
+    ],
+    "work_record_index": {
+      "status": "passed",
+      "record_count": 80,
+      "linked_record_count": 80,
+      "section_counts": {
+        "analysis": 24,
+        "changes": 40,
+        "pitfalls": 0,
+        "experiments": 9,
+        "sessions": 7
+      },
+      "errors": []
+    },
+    "agent_index": {
+      "schema_version": 1,
+      "status": "passed",
+      "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\agent-index.sqlite",
+      "integrity": "ok",
+      "counts": {
+        "pages": 266,
+        "symbols": 2395,
+        "edges": 733,
+        "terms": 39955,
+        "notes": 80
+      },
+      "projection_format": "markdown",
+      "errors": []
+    }
+  },
+  "operation_journal": {
+    "status": "passed",
+    "event_id": "operation-e3e4c04f7a625885bc44aca6f0f23e6b",
+    "idempotent": false,
+    "journal": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\workspace-meta\\operations\\2026-09-10.jsonl"
+  }
+}

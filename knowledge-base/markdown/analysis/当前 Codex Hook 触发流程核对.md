@@ -29,9 +29,9 @@ Hook 命令被 Codex 调用后，CKB 先把 Harness 事件归一化，再按事�
 
 ## 相关知识页
 
-- [[MigrationTest]]
+- [[git 等测试场景（test_migration 测试）]]
 - [[AutomationTest.register 等测试场景]]
-- [[CodeKnowledgeBuilderTests]]
+- [[invoke 等测试场景（test_ckb 测试）]]
 
 ## 源码入口
 

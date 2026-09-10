@@ -3,12 +3,12 @@
   "pack_id": "migrated-page-review-pack-0024",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-03T22:05:51Z",
+  "reviewed_at_utc": "2026-09-10T03:34:26Z",
   "reviews": [
     {
-      "entity_id": "ent-6c779af3c3b0562aa4ccd5e468d7e5f0",
+      "entity_id": "ent-110d08f781375be99e165652e7118c3d",
       "classification": "boundary",
-      "owner_page_id": "ent-6c779af3c3b0562aa4ccd5e468d7e5f0",
+      "owner_page_id": "ent-110d08f781375be99e165652e7118c3d",
       "source_path": "prototypes/ckb-canvas-skill/ckb_canvas/freeze.py",
       "start_line": 104,
       "end_line": 126,
@@ -19,22 +19,9 @@
       "change_when_zh": "当 `prototypes/ckb-canvas-skill/ckb_canvas/freeze.py` 中 `FrozenInputs` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
     },
     {
-      "entity_id": "ent-8fa41ef68c9d5a12b33016d73169a9df",
+      "entity_id": "ent-b28e24dc89a85592b3cdae9f7a749781",
       "classification": "boundary",
-      "owner_page_id": "ent-8fa41ef68c9d5a12b33016d73169a9df",
-      "source_path": "prototypes/ckb-canvas-skill/ckb_canvas/freeze.py",
-      "start_line": 285,
-      "end_line": 295,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `prototypes/ckb-canvas-skill/ckb_canvas/freeze.py` 第 285-295 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
-      "meaning_zh": "`_sqlite_meta` 位于 `prototypes/ckb-canvas-skill/ckb_canvas/freeze.py` 第 285-295 行，本页用固定源码范围说明它如何完成Canvas 请求、路径、快照和来源证据冻结中的局部职责。",
-      "role_zh": "`_sqlite_meta` 负责在Canvas 请求、路径、快照和来源证据冻结中完成Canvas 请求、路径、快照和来源证据冻结中的局部职责。",
-      "change_when_zh": "当 `prototypes/ckb-canvas-skill/ckb_canvas/freeze.py` 中 `_sqlite_meta` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
-    },
-    {
-      "entity_id": "ent-80147016c5e55ab5aae671ee2902448b",
-      "classification": "boundary",
-      "owner_page_id": "ent-80147016c5e55ab5aae671ee2902448b",
+      "owner_page_id": "ent-b28e24dc89a85592b3cdae9f7a749781",
       "source_path": "prototypes/ckb-canvas-skill/ckb_canvas/freeze.py",
       "start_line": 331,
       "end_line": 480,
@@ -45,43 +32,43 @@
       "change_when_zh": "当 `prototypes/ckb-canvas-skill/ckb_canvas/freeze.py` 中 `load_and_freeze_request` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
     },
     {
-      "entity_id": "ent-7e4ebcbc85b855fdaaf2835cfe230aac",
+      "entity_id": "ent-88a0222db8ba58e3839d90dec7b81e5a",
       "classification": "boundary",
-      "owner_page_id": "ent-7e4ebcbc85b855fdaaf2835cfe230aac",
-      "source_path": "prototypes/ckb-canvas-skill/ckb_canvas/freeze.py",
-      "start_line": 483,
-      "end_line": 511,
-      "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `prototypes/ckb-canvas-skill/ckb_canvas/freeze.py` 第 483-511 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
-      "meaning_zh": "`recheck_frozen_inputs` 位于 `prototypes/ckb-canvas-skill/ckb_canvas/freeze.py` 第 483-511 行，本页用固定源码范围说明它如何校验输入、状态、证据或输出合同。",
-      "role_zh": "`recheck_frozen_inputs` 负责在Canvas 请求、路径、快照和来源证据冻结中校验输入、状态、证据或输出合同。",
-      "change_when_zh": "当 `prototypes/ckb-canvas-skill/ckb_canvas/freeze.py` 中 `recheck_frozen_inputs` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
-    },
-    {
-      "entity_id": "ent-69c7c391e55b5f11af20fdafd81b95a9",
-      "classification": "boundary",
-      "owner_page_id": "ent-69c7c391e55b5f11af20fdafd81b95a9",
+      "owner_page_id": "ent-88a0222db8ba58e3839d90dec7b81e5a",
       "source_path": "prototypes/ckb-canvas-skill/ckb_canvas/graph.py",
-      "start_line": 32,
-      "end_line": 36,
+      "start_line": 88,
+      "end_line": 238,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `prototypes/ckb-canvas-skill/ckb_canvas/graph.py` 第 32-36 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
-      "meaning_zh": "`SourceSelection` 位于 `prototypes/ckb-canvas-skill/ckb_canvas/graph.py` 第 32-36 行，本页用固定源码范围说明它如何完成Canvas 节点选择、稳定布局和回链验证中的局部职责。",
-      "role_zh": "`SourceSelection` 负责在Canvas 节点选择、稳定布局和回链验证中完成Canvas 节点选择、稳定布局和回链验证中的局部职责。",
-      "change_when_zh": "当 `prototypes/ckb-canvas-skill/ckb_canvas/graph.py` 中 `SourceSelection` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
+      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `prototypes/ckb-canvas-skill/ckb_canvas/graph.py` 第 88-238 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
+      "meaning_zh": "`select_graph` 位于 `prototypes/ckb-canvas-skill/ckb_canvas/graph.py` 第 88-238 行，本页用固定源码范围说明它如何完成Canvas 节点选择、稳定布局和回链验证中的局部职责。",
+      "role_zh": "`select_graph` 负责在Canvas 节点选择、稳定布局和回链验证中完成Canvas 节点选择、稳定布局和回链验证中的局部职责。",
+      "change_when_zh": "当 `prototypes/ckb-canvas-skill/ckb_canvas/graph.py` 中 `select_graph` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
     },
     {
-      "entity_id": "ent-9016cdf2593356d8a1325d9d479f48a6",
+      "entity_id": "ent-af10e751909b5e11a58b0b2061be54df",
       "classification": "boundary",
-      "owner_page_id": "ent-9016cdf2593356d8a1325d9d479f48a6",
-      "source_path": "prototypes/ckb-canvas-skill/ckb_canvas/transaction.py",
-      "start_line": 153,
-      "end_line": 176,
+      "owner_page_id": "ent-af10e751909b5e11a58b0b2061be54df",
+      "source_path": "prototypes/ckb-semantic-vector-benchmark/qmd_adapter.mjs",
+      "start_line": 110,
+      "end_line": 153,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `d20b81bc328e` 中 `prototypes/ckb-canvas-skill/ckb_canvas/transaction.py` 第 153-176 行的源码摘录，确认文件、分类、所有者和行范围与当前迁移计划一致。",
-      "meaning_zh": "`_write_temp` 位于 `prototypes/ckb-canvas-skill/ckb_canvas/transaction.py` 第 153-176 行，本页用固定源码范围说明它如何写入受控 staging 并重开核对结果。",
-      "role_zh": "`_write_temp` 负责在Canvas 三角色 staging、promotion 和 rollback中写入受控 staging 并重开核对结果。",
-      "change_when_zh": "当 `prototypes/ckb-canvas-skill/ckb_canvas/transaction.py` 中 `_write_temp` 的输入合同、状态转换、输出字段或失败边界变化时，应更新本页并重跑对应测试。"
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0012审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "执行向量检索实验，逐次输出候选结果与检索耗时。",
+      "role_zh": "在同一存储连接内将首轮标为冷轮、后续标为热轮，并在结束或异常时关闭存储；该标记不证明系统缓存已清空。",
+      "change_when_zh": "调整候选深度、重复次数、结果字段或实验计时边界时修改。"
+    },
+    {
+      "entity_id": "ent-dc3c8e998e315518bac88d42e77c5c50",
+      "classification": "boundary",
+      "owner_page_id": "ent-dc3c8e998e315518bac88d42e77c5c50",
+      "source_path": "prototypes/ckb-semantic-vector-benchmark/qmd_adapter.mjs",
+      "start_line": 118,
+      "end_line": 118,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0012审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "把实验命令传入的候选深度转换为数值。",
+      "role_zh": "为向量查询的结果数量提供参数；这一赋值本身不检查正整数或有效数值范围。",
+      "change_when_zh": "改变候选数量参数或数值校验方式时修改。"
     }
   ]
 }

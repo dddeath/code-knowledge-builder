@@ -836,7 +836,7 @@ _L4_EVIDENCE_SHAPES = (
     (
         "complete-command",
         re.compile(
-            r"(?im)^\s*(?:&\s+['\"]?[A-Z]:\\|(?:python(?:\.exe)?|powershell(?:\.exe)?|git|ckb\.py)\s+[^\n]*(?:ckb\.py|--out|--repo|--staging|--discover))"
+            r"(?im)^\s*(?:&\s+['\"]?[A-Z]:\\|(?:&\s+)?(?:python(?:3(?:\.\d+)?)?(?:\.exe)?|powershell(?:\.exe)?|git|ckb\.py)\s+[^\n]*(?:ckb\.py|--out|--repo|--staging|--discover))"
         ),
     ),
     (
@@ -855,11 +855,55 @@ _L4_EVIDENCE_SHAPES = (
     ("gate-list", re.compile(r"(?im)^\s*[-*+]\s*[^\n]*(?:gate|门)[^\n]*(?:passed|通过)")),
     ("raw-log", re.compile(r"(?im)^\s*(?:stdout|stderr|exit(?:_status)?|returncode)\s*[:=]")),
     ("full-hash", re.compile(r"(?i)(?<![0-9a-f])[0-9a-f]{40}(?:[0-9a-f]{24})?(?![0-9a-f])")),
-    ("sqlite-state", re.compile(r"(?i)(?:PRAGMA\s+(?:integrity_check|quick_check)|(?:SQLite|agent-index\.sqlite|knowledge\.sqlite)[^\n]*(?:\bok\b|passed|通过))")),
+    ("sqlite-state", re.compile(
+        r"(?i)(?:PRAGMA\s+(?:integrity_check|quick_check)|"
+        r"(?:SQLite|agent-index\.sqlite|knowledge\.sqlite)\s*[:：=]?\s*(?:ok|passed)\b|"
+        r"(?:SQLite|agent-index\.sqlite|knowledge\.sqlite)[^\n。；;]{0,60}"
+        r"(?:检查|校验|验证|状态|结果)\s*[:：=]?\s*(?:已)?(?:通过|ok\b|passed\b)|"
+        r"(?:完整性|外键)(?:检查|校验)\s*[:：=]?\s*(?:已)?通过)"
+    )),
     ("manifest-detail", re.compile(r"(?im)(?:publication-manifest\.json\s*[:=]|^\s*\"(?:path|sha256)\"\s*:)")),
     ("maintain-detail", re.compile(r"(?im)(?:^\s*maintain\s+--|\bmaintain\s*[:=][^\n]*(?:passed|failed|通过|失败|exit))")),
     ("rollback-probe", re.compile(r"(?i)(?:rollback|回滚)[^\n]*(?:probe|探针)[^\n]*(?:exit|passed|命令|输出|通过)")),
 )
+
+
+def human_output_errors(markdown: str) -> list[dict[str, Any]]:
+    """Check actual L1–L3 bytes, including preambles and unknown headings.
+
+    This is the common disclosure floor, not evidence of V3 section review.
+    Legacy structure stays distinguishable from a fully validated V3 page.
+    """
+    errors: list[dict[str, Any]] = []
+
+    def match_line(match: re.Match[str]) -> int:
+        leading = match.group(0)[:len(match.group(0)) - len(match.group(0).lstrip())]
+        return markdown[:match.start()].count("\n") + leading.count("\n") + 1
+
+    for shape, pattern in _L4_EVIDENCE_SHAPES:
+        for match in pattern.finditer(markdown):
+            errors.append({"reason": "l4-evidence-leak", "evidence_shape": shape,
+                           "line": match_line(match)})
+    command = re.compile(
+        r"(?im)^\s*(?:[-*>]\s+)?`?(?:&\s+)?(?:['\"]?[^\s`]*[/\\])?"
+        r"(?:python(?:3(?:\.\d+)?)?(?:\.exe)?|pytest|git|ckb\.py|powershell(?:\.exe)?)"
+        r"(?:['\"])?\s+(?:-m\s+\S+|-[A-Za-z]|(?:status|diff|show|checkout|switch|log|init|clone|commit)\b)"
+    )
+    for match in command.finditer(markdown):
+        errors.append({"reason": "l4-evidence-leak", "evidence_shape": "complete-command",
+                       "line": match_line(match)})
+    # These are review candidates for missing responsibility, not a claim that
+    # every matching entity has been semantically disproved.
+    vague = re.compile(r"(?:完成(?:一个|一项)明确(?:的)?(?:步骤|局部处理)|"
+                       r"处理当前模块的结构化输入或状态|提供(?:当前模块)?所需的数据或状态)")
+    for match in vague.finditer(markdown):
+        errors.append({"reason": "uninformative-narrative-review-required",
+                       "line": markdown[:match.start()].count("\n") + 1})
+    for match in _INLINE_LINK_RE.finditer(markdown):
+        if match.group(1).strip() in _AMBIGUOUS_LINK_LABELS:
+            errors.append({"reason": "link-purpose-missing", "target": match.group(2),
+                           "line": markdown[:match.start()].count("\n") + 1})
+    return errors
 
 
 def _visible_lines(markdown: str) -> list[tuple[int, str]]:
@@ -1419,6 +1463,16 @@ def validate_human_page(
                     line=line_number,
                 )
             )
+
+    # Keep typed section diagnostics first; also inspect preambles and unknown
+    # headings, which have no budget context but must not leak L4 evidence.
+    for error in human_output_errors(markdown):
+        if error["reason"] == "l4-evidence-leak" and any(
+            item.get("reason") == error["reason"] and item.get("evidence_shape") == error.get("evidence_shape")
+            for item in errors
+        ):
+            continue
+        errors.append(error)
 
     return {
         "contract_version": HUMAN_PAGE_TEMPLATE_CONTRACT_VERSION,

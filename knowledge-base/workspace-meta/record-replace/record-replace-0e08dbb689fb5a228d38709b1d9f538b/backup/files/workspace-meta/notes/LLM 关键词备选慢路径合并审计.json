@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "status": "agent-reviewed",
+  "record_id": "work-record-6d0b84ae93545fae9ff8d07c63740888",
+  "kind": "change",
+  "title": "LLM 关键词备选慢路径合并审计",
+  "file": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\human\\changes\\LLM 关键词备选慢路径合并审计.md",
+  "compatibility_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\markdown\\changes\\LLM 关键词备选慢路径合并审计.md",
+  "linked_pages": [
+    "KeywordFallbackOptions 与 KeywordProviderConfig 的协作实现",
+    "build_machine_knowledge 与 estimated_tokens 的协作实现",
+    "keyword_provider_config 与 keyword_fallback_options 的协作实现",
+    "serve_stdio 与 _write_line 的协作实现",
+    "run_keyword_benchmark 与 _text_list 的协作实现",
+    "maintenance_check 与 capability_matrix 的协作实现",
+    "fixture_output 等测试场景",
+    "KeywordFallbackOptions 与 KeywordProviderConfig 的协作实现"
+  ],
+  "source_links": [
+    "[打开源码：scripts/ckb_core/keyword_fallback.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/keyword_fallback.py:1:1)  `scripts/ckb_core/keyword_fallback.py:1-633`",
+    "[打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1995`",
+    "[打开源码：scripts/ckb.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:1:1)  `scripts/ckb.py:1-1780`",
+    "[打开源码：scripts/ckb_core/stdio_server.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/stdio_server.py:1:1)  `scripts/ckb_core/stdio_server.py:1-413`",
+    "[打开源码：scripts/ckb_core/keyword_benchmark.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/keyword_benchmark.py:1:1)  `scripts/ckb_core/keyword_benchmark.py:1-228`",
+    "[打开源码：scripts/ckb_core/llm_wiki_capabilities.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/llm_wiki_capabilities.py:1:1)  `scripts/ckb_core/llm_wiki_capabilities.py:1-482`",
+    "[打开源码：tests/test_keyword_fallback.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_keyword_fallback.py:1:1)  `tests/test_keyword_fallback.py:1-469`",
+    "[打开源码：scripts/ckb_core/keyword_fallback.py 第 380 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/keyword_fallback.py:380:1)  `scripts/ckb_core/keyword_fallback.py:380-461`"
+  ],
+  "query_record": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\machine\\agent-packs\\pack-20260906-051441-965660-01.json",
+  "created_at_utc": "2026-08-31T21:06:48Z",
+  "updated_at_utc": "2026-09-06T05:16:31Z",
+  "body_sha256": "9629f403d4fe20854729d69b3c6e19bd9f88bd4c12a213950ccba21291c86954",
+  "obsidian_uri": "obsidian://open?path=E%3A%5Cknowledge_builder%5Cself-workspace%5Cknowledge-base.staging-4617928a6757%5Cmarkdown%5Cchanges%5CLLM%20%E5%85%B3%E9%94%AE%E8%AF%8D%E5%A4%87%E9%80%89%E6%85%A2%E8%B7%AF%E5%BE%84%E5%90%88%E5%B9%B6%E5%AE%A1%E8%AE%A1.md",
+  "human_output_contract": {
+    "status": "legacy-content-checked",
+    "v3_validated": false
+  }
+}

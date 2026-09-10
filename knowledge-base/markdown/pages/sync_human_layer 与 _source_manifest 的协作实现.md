@@ -14,28 +14,18 @@
 
 ## 相关代码
 
-- 实现时会用到 [[CkbError]]。
-- 实现时会用到 [[CkbError 与 DependencyError 的协作实现]]。
-- 实现时会用到 [[append]]。
-- 实现时会用到 [[retrieve_machine 与 estimated_tokens 的协作实现]]。
+- 与 [[CkbError]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[CkbError 与 DependencyError 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[build_machine_knowledge 与 estimated_tokens 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 - 主要代码单元是 [[sync_human_layer]]。
 
 ## 谁会来到这里
 
-- [[record_note]] 会使用这里提供的行为。
+- 与 [[audit_global]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[audit_global 与 _replace_output_prefix 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[record_note]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 - 可从 [[scripts 职责导览]] 进入本页。
-- [[sync_human_layer]] 会使用这里提供的行为。
-
-## 相关测试
-
-- [[AutomationTest.register 等测试场景]]
-- [[CodeKnowledgeBuilderTests]]
-- [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[KeywordFallbackRetrievalWiringTests]]
-- [[MigrationTest]]
-- [[PageFanoutBenchmarkTests]]
-
-> 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
+- 与 [[sync_human_layer]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 
 ## 内部细节
 

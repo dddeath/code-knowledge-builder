@@ -14,19 +14,8 @@
 
 ## 相关代码
 
-- 实现时会用到 [[append]]。
-- 实现时会用到 [[ascii_pdf 等测试场景]]。
+- 与 [[ascii_pdf 等测试场景]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 
 ## 谁会来到这里
 
-- [[PdfReferenceExtractionTests]] 会使用这里提供的行为。
-- [[PdfReferenceExtractionTests 等测试场景]] 会使用这里提供的行为。
 - [[ascii_pdf 等测试场景]] 汇总了本页。
-- [[run_benchmark]] 会使用这里提供的行为。
-
-## 相关测试
-
-- [[PdfReferenceExtractionTests]]
-- [[PdfReferenceExtractionTests 等测试场景]]
-- [[ascii_pdf 等测试场景]]
-- [[run_benchmark]]

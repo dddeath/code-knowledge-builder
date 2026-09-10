@@ -1,0 +1,44 @@
+--- a/src/main.ts
++++ b/src/main.ts
+@@ -105,6 +105,7 @@
+ import type { GitSetupResolution } from './features/collab/sidebar/GitSetupPanel';
+ import type { CollabSidebarSurfaceFactory } from './features/FeatureHost';
+ import { type InlineEditContext, InlineEditModal } from './features/inline-edit/ui/InlineEditModal';
++import { InteractiveCanvasController } from './features/interactive-canvas/InteractiveCanvas';
+ import { CkbStdioClient } from './features/selection-learning/CkbStdioClient';
+ import { SelectionLearningService } from './features/selection-learning/SelectionLearningService';
+ import {
+@@ -231,6 +232,7 @@
+   private isUnloading = false;
+   private applicationShutdownPromise: Promise<void> | null = null;
+   private tabWorkspaceMigrationCoordinator!: TabWorkspaceMigrationCoordinator;
++  private interactiveCanvas: InteractiveCanvasController | null = null;
+   private ckbStdioClient: CkbStdioClient | null = null;
+   private selectionLearningService: SelectionLearningService | null = null;
+   private selectionLearningViewController: SelectionLearningViewController | null = null;
+@@ -393,6 +395,8 @@
+         },
+       });
+ 
++      this.interactiveCanvas = new InteractiveCanvasController(this);
++      this.interactiveCanvas.install();
+       this.ckbStdioClient = new CkbStdioClient(this.app);
+       void this.ckbStdioClient.start().catch(error => {
+         new Notice(`CKB stdio 初始化失败：${error instanceof Error ? error.message : String(error)}`);
+@@ -549,6 +553,8 @@
+   }
+ 
+   onunload(): void {
++    this.interactiveCanvas?.dispose();
++    this.interactiveCanvas = null;
+     this.isUnloading = true;
+     this.selectionLearningService?.dispose();
+     this.selectionLearningService = null;
+--- a/src/style/index.css
++++ b/src/style/index.css
+@@ -73,3 +73,5 @@
+ 
+ /* Utilities imported last to preserve cascade priority without importance flags */
+ @import "./base/visibility.css";
++
++@import './features/interactive-canvas.css';

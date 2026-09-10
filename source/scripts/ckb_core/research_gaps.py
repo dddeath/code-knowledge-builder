@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections import Counter
+from contextlib import closing
 import json
 from pathlib import Path, PurePosixPath
 import re
@@ -262,7 +263,7 @@ def audit_gap_register(output: Path) -> dict[str, Any]:
     database = output / "machine/knowledge.sqlite"
     if database.is_file():
         import sqlite3
-        with sqlite3.connect(database) as connection:
+        with closing(sqlite3.connect(database)) as connection:
             tables = {row[0] for row in connection.execute("SELECT name FROM sqlite_master WHERE type='table'")}
             if "research_gaps" not in tables:
                 errors.append("machine knowledge research_gaps table is missing")

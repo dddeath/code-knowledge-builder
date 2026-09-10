@@ -12,25 +12,9 @@
 
 [打开源码：tests/test_ckb_canvas_rollback.py 第 18 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_ckb_canvas_rollback.py:18:1)  `tests/test_ckb_canvas_rollback.py:18-75`
 
-## 相关代码
-
-- 实现时会用到 [[build_case]]。
-- 实现时会用到 [[build_case 等测试场景]]。
-- 实现时会用到 [[commands 的协作边界]]。
-- 实现时会用到 [[contracts 的协作边界（prototypes）]]。
-
 ## 谁会来到这里
 
 - [[CanvasRollbackTests 等测试场景]] 汇总了本页。
-- [[FactFreshnessStateMachineTest]] 关联到这里的验证场景。
-- [[build_case]] 关联到这里的验证场景。
-- [[check_fact_freshness]] 关联到这里的验证场景。
-- [[commands 的协作边界]] 关联到这里的验证场景。
-- [[freeze 的协作边界]] 关联到这里的验证场景。
-- [[run_keyword_provider 与 KeywordProviderConfig 的协作实现]] 关联到这里的验证场景。
-- [[transaction 的协作边界]] 关联到这里的验证场景。
-- [[validate]] 关联到这里的验证场景。
-- [[validate 与 canonical 的协作实现]] 关联到这里的验证场景。
 
 ## 内部细节
 

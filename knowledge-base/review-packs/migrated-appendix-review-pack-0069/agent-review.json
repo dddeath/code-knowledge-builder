@@ -1,0 +1,163 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-appendix-review-pack-0069",
+  "kind": "appendix-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-10T03:35:43Z",
+  "reviews": [
+    {
+      "entity_id": "ent-e5250a0cc01d56b1987a6d0997b1e903",
+      "classification": "appendix",
+      "owner_page_id": "file-2732e2969f52550b838c475263be4111",
+      "source_path": "tests/test_recruitment_migration_provenance.py",
+      "start_line": 638,
+      "end_line": 652,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0037审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "核对历史 Windows 路径的混合分隔符可重绑定，同时不改写原文、同前缀兄弟目录和签名上下文。"
+    },
+    {
+      "entity_id": "ent-348a135b493d5e10b2a32d1bbef7501b",
+      "classification": "appendix",
+      "owner_page_id": "file-2732e2969f52550b838c475263be4111",
+      "source_path": "tests/test_recruitment_migration_provenance.py",
+      "start_line": 654,
+      "end_line": 697,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0037审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "将参考清单指向旧 Windows 路径后恢复现存归档绑定，要求原文与审阅字节不变，来源损坏时拒绝重新信任。"
+    },
+    {
+      "entity_id": "ent-4c9ec6e05dc656369a7524e7351f607c",
+      "classification": "appendix",
+      "owner_page_id": "file-2732e2969f52550b838c475263be4111",
+      "source_path": "tests/test_recruitment_migration_provenance.py",
+      "start_line": 700,
+      "end_line": 809,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0037审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "区分目录说明与正式证据链接，要求迁移不复制未引用缓存树，而明确引用的缺失文件必须提前阻断。"
+    },
+    {
+      "entity_id": "ent-e4d2c16250295cbdbdbc779242d650ca",
+      "classification": "appendix",
+      "owner_page_id": "file-2732e2969f52550b838c475263be4111",
+      "source_path": "tests/test_recruitment_migration_provenance.py",
+      "start_line": 701,
+      "end_line": 739,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0037审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "构造含目录、临时索引和未生成路径说明的笔记及未引用缓存，供证据闭包边界测试。"
+    },
+    {
+      "entity_id": "ent-fd4125a80f75577ca1a48f830b6b71ac",
+      "classification": "appendix",
+      "owner_page_id": "file-2732e2969f52550b838c475263be4111",
+      "source_path": "tests/test_recruitment_migration_provenance.py",
+      "start_line": 741,
+      "end_line": 760,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0037审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "迁移仅作说明的目录与路径文字，要求笔记原字节保留且不复制阅读包缓存或旧临时索引。"
+    },
+    {
+      "entity_id": "ent-9bcf7aeed7c552dfa7354581fb48fafc",
+      "classification": "appendix",
+      "owner_page_id": "file-2732e2969f52550b838c475263be4111",
+      "source_path": "tests/test_recruitment_migration_provenance.py",
+      "start_line": 762,
+      "end_line": 781,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0037审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "加入真实 Markdown 来源链接和缺口证据字段，要求只保存被明确引用的归档文件。"
+    },
+    {
+      "entity_id": "ent-4ca47cf1fc4c5f4abd10d75d7dc7b287",
+      "classification": "appendix",
+      "owner_page_id": "file-2732e2969f52550b838c475263be4111",
+      "source_path": "tests/test_recruitment_migration_provenance.py",
+      "start_line": 783,
+      "end_line": 789,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0037审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "添加指向缺失机器证据的正式 Markdown 链接，要求迁移在创建暂存目录前失败。"
+    },
+    {
+      "entity_id": "ent-9eb1dd479d635aba96d547134053d634",
+      "classification": "appendix",
+      "owner_page_id": "file-2732e2969f52550b838c475263be4111",
+      "source_path": "tests/test_recruitment_migration_provenance.py",
+      "start_line": 791,
+      "end_line": 802,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0037审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "删除正式缺口引用的证据文件，要求迁移前置检查失败且不创建暂存目录。"
+    },
+    {
+      "entity_id": "ent-d20e46ce920f5585a4f266093153558b",
+      "classification": "appendix",
+      "owner_page_id": "file-2732e2969f52550b838c475263be4111",
+      "source_path": "tests/test_recruitment_migration_provenance.py",
+      "start_line": 804,
+      "end_line": 809,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0037审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "把要求文件的检索记录字段指向目录，要求迁移判为缺失必需文件而不是复制目录树。"
+    },
+    {
+      "entity_id": "ent-060df4e238aa5637a73feb9b95922ecf",
+      "classification": "appendix",
+      "owner_page_id": "file-2732e2969f52550b838c475263be4111",
+      "source_path": "tests/test_recruitment_migration_provenance.py",
+      "start_line": 812,
+      "end_line": 932,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0037审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "验证多次记录替换的历史事务作为不可变归档迁移，当前证据根与已消费排队记录的历史引用分开计算。"
+    },
+    {
+      "entity_id": "ent-f7ac3d6aa0bd511cbd10bacf050d98aa",
+      "classification": "appendix",
+      "owner_page_id": "file-2732e2969f52550b838c475263be4111",
+      "source_path": "tests/test_recruitment_migration_provenance.py",
+      "start_line": 813,
+      "end_line": 845,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0037审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "创建有旧检索依据的记录后连续替换两次，保存事务历史字节并删除仅历史记录引用的阅读包。"
+    },
+    {
+      "entity_id": "ent-8f4a9600acdf50bda402e778fc484a12",
+      "classification": "appendix",
+      "owner_page_id": "file-2732e2969f52550b838c475263be4111",
+      "source_path": "tests/test_recruitment_migration_provenance.py",
+      "start_line": 847,
+      "end_line": 893,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0037审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "迁移及改名后要求当前正文和历史事务原字节保留，禁止跨输出回放旧事务，并检测历史归档篡改。"
+    },
+    {
+      "entity_id": "ent-cc69ea3e2c7c53dfaad2526abc0803cd",
+      "classification": "appendix",
+      "owner_page_id": "file-2732e2969f52550b838c475263be4111",
+      "source_path": "tests/test_recruitment_migration_provenance.py",
+      "start_line": 895,
+      "end_line": 911,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0037审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "验证待落页记录仍要求其证据根，落页完成并解绑缺失可选阅读包后该队列只作为历史记录。"
+    },
+    {
+      "entity_id": "ent-de3c70de37c256268a137bc5f2bd49ea",
+      "classification": "appendix",
+      "owner_page_id": "file-2732e2969f52550b838c475263be4111",
+      "source_path": "tests/test_recruitment_migration_provenance.py",
+      "start_line": 913,
+      "end_line": 932,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0037审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "将同一缺失阅读包重新绑定到当前记录或正式缺口，要求迁移在暂存创建前失败。"
+    }
+  ]
+}

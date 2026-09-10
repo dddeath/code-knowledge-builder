@@ -12,10 +12,8 @@ Code Knowledge Builder 现提供本地常驻 JSONL stdio 检索命令。它在�
 
 启动服务：
 
-```powershell
-& 'C:\Users\19739\.codex\cache\code-knowledge-builder\runtime\win-x64\win-x64-2.0.0\python\python.exe' -X utf8 `
-  'C:\Users\19739\.codex\skills\code-knowledge-builder\scripts\ckb.py' `
-  serve --stdio --out 'KNOWLEDGE_BASE'
+```text
+请让 Agent 使用已安装的 code-knowledge-builder 完成本节所述操作，并返回结果与阅读入口。
 ```
 
 调用方通过 stdin 每次写入一个 JSON 对象，并从 stdout 读取一行响应：
@@ -81,7 +79,7 @@ Code Knowledge Builder 现提供本地常驻 JSONL stdio 检索命令。它在�
 - `tests/test_ckb.py`：验证单行协议、错误后继续服务和关闭边界。
 - `references/agent-retrieval.md`：记录启动方式、请求格式、缓存与延迟口径。
 
-源码与 `C:\Users\19739\.codex\skills\code-knowledge-builder` 中的已安装文件已经验证一致。完整测试套件 40 项通过，已安装版真实进程 canary、Skill 结构校验、SQLite 完整性和隔离回滚探针均通过。
+该轮验证了源码与安装版本一致、真实常驻请求、索引有效性和隔离恢复行为；具体执行明细保留在原始记录。
 
 ## 边界
 
@@ -110,24 +108,30 @@ Code Knowledge Builder 现提供本地常驻 JSONL stdio 检索命令。它在�
 - [[Flask 3.1.3 知识库与 grep 对比测试（秋招版）]]
 - [[LLM Wiki 快速检索性能复验（5.1.4）]]
 
+
+
+## 原始记录
+
+[按需核对历史原文与完整复现明细](../../machine/historical-records/legacy-20260910-14.md)。
+
 ## 相关知识页
 
 - [[doctor_report 与 _version_matches 的协作实现]]
-- [[finalize 与 _replace_output_prefix 的协作实现]]
-- [[retrieve 与 _tokens 的协作实现]]
-- [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]]
-- [[retrieve_machine 与 estimated_tokens 的协作实现]]
-- [[CodeKnowledgeBuilderTests]]
+- [[audit_global 与 _replace_output_prefix 的协作实现]]
+- [[build_agent_index 与 _tokens 的协作实现]]
+- [[ensure_local_openers 与 SourceLinkRenderer 的协作实现]]
+- [[build_machine_knowledge 与 estimated_tokens 的协作实现]]
+- [[invoke 等测试场景（test_ckb 测试）]]
 - [[CkbError 与 DependencyError 的协作实现]]
 - [[parse_file 与 _language 的协作实现]]
 
 ## 源码入口
 
-- [打开源码：scripts/ckb_core/providers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/providers.py:1:1)  `scripts/ckb_core/providers.py:1-596`
-- [打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3314`
-- [打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-569`
+- [打开源码：scripts/ckb_core/providers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/providers.py:1:1)  `scripts/ckb_core/providers.py:1-638`
+- [打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3637`
+- [打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-555`
 - [打开源码：scripts/ckb_core/source_links.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/source_links.py:1:1)  `scripts/ckb_core/source_links.py:1-184`
-- [打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1458`
-- [打开源码：tests/test_ckb.py 第 171 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_ckb.py:171:1)  `tests/test_ckb.py:171-1147`
-- [打开源码：scripts/ckb_core/common.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/common.py:1:1)  `scripts/ckb_core/common.py:1-158`
-- [打开源码：scripts/ckb_core/parsers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/parsers.py:1:1)  `scripts/ckb_core/parsers.py:1-437`
+- [打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1995`
+- [打开源码：tests/test_ckb.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_ckb.py:1:1)  `tests/test_ckb.py:1-2499`
+- [打开源码：scripts/ckb_core/common.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/common.py:1:1)  `scripts/ckb_core/common.py:1-168`
+- [打开源码：scripts/ckb_core/parsers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/parsers.py:1:1)  `scripts/ckb_core/parsers.py:1-1020`

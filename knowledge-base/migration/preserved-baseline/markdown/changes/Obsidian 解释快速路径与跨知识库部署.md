@@ -16,32 +16,37 @@ Obsidian Companion 升级到 0.7.0。右键解释仍跟随用户选择的 Provid
 
 ## 验证边界
 
-固定 Claudian 源码补丁通过 typecheck、lint、5 个测试套件共 31 项测试和生产构建。CKB 核心主测试 25 项、自动化测试 22 项、发行测试 3 项全部通过。独立部署器完成部署、状态、移除和再次部署探针；两个已登记知识库的插件状态均为 `deployed`、版本均为 0.7.0。未把模型端到端响应时间包装成固定收益，因为该时延会随 Provider、模型、认证状态和网络变化。
-
-## 相关知识页
-
-- [[audit_migration 与 _entity_key 的协作实现]]
-- [[retrieve_machine 与 estimated_tokens 的协作实现]]
-- [[deployment_plan 与 skill_root 的协作实现]]
-- [[CkbError 与 DependencyError 的协作实现]]
-- [[finalize 与 _replace_output_prefix 的协作实现]]
-- [[preflight 与 git 的协作实现]]
-- [[keyword_provider_config 与 parser 的协作实现]]
-- [[query_graph 与 _networkx_modules 的协作实现]]
-
-## 源码入口
-
-- [打开源码：scripts/ckb_core/migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/migration.py:1:1)  `scripts/ckb_core/migration.py:1-585`
-- [打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1458`
-- [打开源码：scripts/ckb_core/runtime.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/runtime.py:1:1)  `scripts/ckb_core/runtime.py:1-153`
-- [打开源码：scripts/ckb_core/common.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/common.py:1:1)  `scripts/ckb_core/common.py:1-158`
-- [打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3314`
-- [打开源码：scripts/ckb_core/gitrepo.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/gitrepo.py:1:1)  `scripts/ckb_core/gitrepo.py:1-417`
-- [打开源码：scripts/ckb.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:1:1)  `scripts/ckb.py:1-495`
-- [打开源码：scripts/ckb_core/graphify_core.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/graphify_core.py:1:1)  `scripts/ckb_core/graphify_core.py:1-676`
+该轮验证了插件构建、核心解释接线、自动化与发行边界，并实际执行部署、移除和再次部署。模型端到端响应时间未被当作固定收益，因为它随服务、模型与网络变化。
 
 ## 后续补充
 
 ## 实现入口补充
 
 本次快速路径以常驻 `serve --stdio` 为运行入口，核心部署由 Obsidian vault 投影和独立插件登记器共同完成；正式记录继续通过统一的 `record_note` 入口写入并重建机器索引。
+
+
+## 原始记录
+
+[按需核对历史原文与完整复现明细](../../machine/historical-records/legacy-20260910-10.md)。
+
+## 相关知识页
+
+- [[audit_obsidian 与 prepare_vault 的协作实现]]
+- [[finish_session 与 _session_directory 的协作实现]]
+- [[build_agent_index 与 _tokens 的协作实现]]
+- [[record_note]]
+- [[ensure_local_openers 与 SourceLinkRenderer 的协作实现]]
+- [[review_automation 与 default_registry_path 的协作实现]]
+- [[build_machine_knowledge 与 estimated_tokens 的协作实现]]
+- [[project_graphify 与 _networkx_modules 的协作实现]]
+
+## 源码入口
+
+- [打开源码：scripts/ckb_core/obsidian.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/obsidian.py:1:1)  `scripts/ckb_core/obsidian.py:1-166`
+- [打开源码：scripts/ckb_core/agent_maintenance.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_maintenance.py:1:1)  `scripts/ckb_core/agent_maintenance.py:1-255`
+- [打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-555`
+- [打开源码：scripts/ckb_core/workspace_notes.py 第 197 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/workspace_notes.py:197:1)  `scripts/ckb_core/workspace_notes.py:197-273`
+- [打开源码：scripts/ckb_core/source_links.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/source_links.py:1:1)  `scripts/ckb_core/source_links.py:1-184`
+- [打开源码：scripts/ckb_core/automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation.py:1:1)  `scripts/ckb_core/automation.py:1-1783`
+- [打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1995`
+- [打开源码：scripts/ckb_core/graphify_core.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/graphify_core.py:1:1)  `scripts/ckb_core/graphify_core.py:1-676`

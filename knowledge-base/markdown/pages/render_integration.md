@@ -14,19 +14,13 @@
 
 ## 相关代码
 
-- 实现时会用到 [[CkbError]]。
-- 实现时会用到 [[append]]。
-- 实现时会用到 [[bind_conversation 与 default_management_registry_path 的协作实现]]。
-- 实现时会用到 [[command]]。
-- 实现时会用到 [[render_integration 与 harness_retrieval_contract 的协作实现]]。
+- 与 [[CkbError]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[render_integration 与 harness_retrieval_contract 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[review_management_task 与 default_management_registry_path 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 
 ## 谁会来到这里
 
 - [[render_integration 与 harness_retrieval_contract 的协作实现]] 汇总了本页。
-
-## 相关测试
-
-- [[AutomationTest.register 等测试场景]]
 
 ## 内部细节
 

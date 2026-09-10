@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "status": "agent-reviewed",
+  "kind": "experiment",
+  "title": "常驻 stdio 检索性能复测（Flask 3.1.3）",
+  "file": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\human\\experiments\\常驻 stdio 检索性能复测（Flask 3.1.3）.md",
+  "compatibility_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\markdown\\experiments\\常驻 stdio 检索性能复测（Flask 3.1.3）.md",
+  "linked_pages": [
+    "doctor_report 与 _version_matches 的协作实现",
+    "audit_global 与 _replace_output_prefix 的协作实现",
+    "build_agent_index 与 _tokens 的协作实现",
+    "ensure_local_openers 与 SourceLinkRenderer 的协作实现",
+    "build_machine_knowledge 与 estimated_tokens 的协作实现",
+    "invoke 等测试场景（test_ckb 测试）",
+    "CkbError 与 DependencyError 的协作实现",
+    "parse_file 与 _language 的协作实现"
+  ],
+  "source_links": [
+    "[打开源码：scripts/ckb_core/providers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/providers.py:1:1)  `scripts/ckb_core/providers.py:1-638`",
+    "[打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3637`",
+    "[打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-555`",
+    "[打开源码：scripts/ckb_core/source_links.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/source_links.py:1:1)  `scripts/ckb_core/source_links.py:1-184`",
+    "[打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1995`",
+    "[打开源码：tests/test_ckb.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_ckb.py:1:1)  `tests/test_ckb.py:1-2499`",
+    "[打开源码：scripts/ckb_core/common.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/common.py:1:1)  `scripts/ckb_core/common.py:1-168`",
+    "[打开源码：scripts/ckb_core/parsers.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/parsers.py:1:1)  `scripts/ckb_core/parsers.py:1-1020`"
+  ],
+  "query_record": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\machine\\agent-packs\\pack-20260828-181355-017316-01.json",
+  "updated_at_utc": "2026-09-10T03:14:18Z",
+  "obsidian_uri": "obsidian://open?path=E%3A%5Cknowledge_builder%5Cself-workspace%5Cknowledge-base.staging-4617928a6757%5Cmarkdown%5Cexperiments%5C%E5%B8%B8%E9%A9%BB%20stdio%20%E6%A3%80%E7%B4%A2%E6%80%A7%E8%83%BD%E5%A4%8D%E6%B5%8B%EF%BC%88Flask%203.1.3%EF%BC%89.md",
+  "human_output_contract": {
+    "status": "legacy-content-checked",
+    "v3_validated": false
+  },
+  "record_id": "work-record-c5c069fc780b5c0a8cca294e758578d7",
+  "created_at_utc": "2026-08-28T18:14:37Z",
+  "body_sha256": "6b29d9db751cc2b6046ddfbba49535d7ef276471d978fbc7ceaf7b53e63de4c6",
+  "replacement": {
+    "operation_id": "record-replace-a48f53f427f75e8590cada45612f84a7",
+    "replaced_at_utc": "2026-09-10T03:14:18Z",
+    "previous_page_sha256": "d5f4fbadc62e1890e4156a40800bc58f692b1218bbef83928d48557bfd23bea7",
+    "previous_body_sha256": "d5f4fbadc62e1890e4156a40800bc58f692b1218bbef83928d48557bfd23bea7",
+    "body_sha256": "6b29d9db751cc2b6046ddfbba49535d7ef276471d978fbc7ceaf7b53e63de4c6"
+  }
+}

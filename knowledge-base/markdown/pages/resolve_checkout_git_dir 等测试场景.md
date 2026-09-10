@@ -18,13 +18,8 @@
 
 ## 谁会来到这里
 
-- [[resolve_checkout_git_dir]] 关联到这里的验证场景。
+- 与 [[resolve_checkout_git_dir]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 - 可从 [[tests 职责导览]] 进入本页。
-
-## 相关测试
-
-- [[refresh 等测试场景]]
-- [[resolve_checkout_git_dir]]
 
 ## 内部细节
 

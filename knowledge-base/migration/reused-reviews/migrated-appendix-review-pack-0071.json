@@ -1,0 +1,130 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-appendix-review-pack-0071",
+  "kind": "appendix-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-10T03:35:44Z",
+  "reviews": [
+    {
+      "entity_id": "ent-59074c13053a53f39f77bcc7b3da4551",
+      "classification": "appendix",
+      "owner_page_id": "file-4cb4ef3dc57954fbb7075e48b51a89da",
+      "source_path": "tests/test_reference_pdf.py",
+      "start_line": 32,
+      "end_line": 418,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0039审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "验证原生 PDF 布局、中文、页片段和 OCR 证据，覆盖扫描待处理、预算取消及损坏加密与路径限制。"
+    },
+    {
+      "entity_id": "ent-785427a5c9ae590e925cad4a545780fa",
+      "classification": "appendix",
+      "owner_page_id": "file-4cb4ef3dc57954fbb7075e48b51a89da",
+      "source_path": "tests/test_reference_pdf.py",
+      "start_line": 33,
+      "end_line": 35,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0039审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "为 PDF 提取测试创建独立临时目录。"
+    },
+    {
+      "entity_id": "ent-7a033e257bf65785bde598b4ec7b45b9",
+      "classification": "appendix",
+      "owner_page_id": "file-4cb4ef3dc57954fbb7075e48b51a89da",
+      "source_path": "tests/test_reference_pdf.py",
+      "start_line": 37,
+      "end_line": 38,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0039审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "清理当前 PDF 提取测试拥有的临时目录。"
+    },
+    {
+      "entity_id": "ent-a6fbb1c51083532ba7043eced6d0b610",
+      "classification": "appendix",
+      "owner_page_id": "file-4cb4ef3dc57954fbb7075e48b51a89da",
+      "source_path": "tests/test_reference_pdf.py",
+      "start_line": 40,
+      "end_line": 89,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0039审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "生成两页原生 PDF，核对代码缩进、表格间距、页序和片段字符范围，并检查受管路径审计约束。"
+    },
+    {
+      "entity_id": "ent-612206486908589992dbe7b738a27a7b",
+      "classification": "appendix",
+      "owner_page_id": "file-4cb4ef3dc57954fbb7075e48b51a89da",
+      "source_path": "tests/test_reference_pdf.py",
+      "start_line": 91,
+      "end_line": 142,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0039审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "篡改提取清单字节、页码顺序或页面路径，要求分别发现哈希、序列和越界错误。"
+    },
+    {
+      "entity_id": "ent-edb33a5cd04e57bc999ed64bfcba1689",
+      "classification": "appendix",
+      "owner_page_id": "file-4cb4ef3dc57954fbb7075e48b51a89da",
+      "source_path": "tests/test_reference_pdf.py",
+      "start_line": 144,
+      "end_line": 153,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0039审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "生成原生中文 PDF 并提取，要求页面标题与中文正文在 UTF-8 文本中完整保留。"
+    },
+    {
+      "entity_id": "ent-d095fdce9bd85b528a608d970245d9f1",
+      "classification": "appendix",
+      "owner_page_id": "file-4cb4ef3dc57954fbb7075e48b51a89da",
+      "source_path": "tests/test_reference_pdf.py",
+      "start_line": 155,
+      "end_line": 178,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0039审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "核对换行表格续行仍归为表格且带推断警告，同时避免把对齐代码误判成表格。"
+    },
+    {
+      "entity_id": "ent-050f98698dd45a518674f5619a1833f5",
+      "classification": "appendix",
+      "owner_page_id": "file-4cb4ef3dc57954fbb7075e48b51a89da",
+      "source_path": "tests/test_reference_pdf.py",
+      "start_line": 180,
+      "end_line": 248,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0039审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "核对 OCR 引擎元数据和输出哈希，区分旧记录缺失证据与实际文件漂移，后者必须审计失败。"
+    },
+    {
+      "entity_id": "ent-45b2b14d0efb576892a610ea27b774db",
+      "classification": "appendix",
+      "owner_page_id": "file-4cb4ef3dc57954fbb7075e48b51a89da",
+      "source_path": "tests/test_reference_pdf.py",
+      "start_line": 250,
+      "end_line": 375,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0039审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "覆盖扫描与混合页、OCR 缺失、输入页数预算、预先和运行中取消及超时，要求保留明确页面状态。"
+    },
+    {
+      "entity_id": "ent-9e0a9e3a42565fd195c4a908d9c0f71f",
+      "classification": "appendix",
+      "owner_page_id": "file-4cb4ef3dc57954fbb7075e48b51a89da",
+      "source_path": "tests/test_reference_pdf.py",
+      "start_line": 377,
+      "end_line": 410,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0039审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "要求损坏、加密、字节超限、页数超限和来源根越界 PDF 被拒绝。"
+    },
+    {
+      "entity_id": "ent-51d98fbf92f752adb5353cd9f6775219",
+      "classification": "appendix",
+      "owner_page_id": "file-4cb4ef3dc57954fbb7075e48b51a89da",
+      "source_path": "tests/test_reference_pdf.py",
+      "start_line": 412,
+      "end_line": 418,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0039审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "核对网页适配器明确区分静态无网络与显式获取，提取输出仍需导入和 Agent 审阅。"
+    }
+  ]
+}

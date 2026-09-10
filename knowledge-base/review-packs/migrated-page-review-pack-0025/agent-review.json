@@ -3,20 +3,20 @@
   "pack_id": "migrated-page-review-pack-0025",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-03T22:05:53Z",
+  "reviewed_at_utc": "2026-09-10T03:34:27Z",
   "reviews": [
     {
-      "entity_id": "file-e669e1e738b7569d8a1fe5f08d2a4b30",
+      "entity_id": "file-3d8ef221e5b857fcad3e1ad0d145240a",
       "classification": "page",
-      "owner_page_id": "file-e669e1e738b7569d8a1fe5f08d2a4b30",
-      "source_path": "scripts/ckb_core/management_agent.py",
+      "owner_page_id": "file-3d8ef221e5b857fcad3e1ad0d145240a",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
       "start_line": 1,
-      "end_line": 1399,
+      "end_line": 1995,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 bdd4a6671df5 中 `scripts/ckb_core/management_agent.py` 第 1 至 1399 行，摘录属于 Git blob 8e89e063725b；相关运行验证见本次机器验证记录。",
-      "meaning_zh": "该模块把 Harness 对话绑定到项目管理身份，并提供状态恢复、任务派发和复核入口。",
-      "role_zh": "它集中维护对话与仓库关系，确保开发任务从已确认的 integration HEAD 建立独立 worktree。",
-      "change_when_zh": "调整绑定身份、Harness 能力、派发前提、管理 Prompt 或复核结构时需要修改。"
+      "evidence_note": "已核对固定提交 fcad08af3dac 中 `scripts/ckb_core/machine_knowledge.py` 第 1-1995 行源码，确认分类、职责和当前行为与审阅说明一致。",
+      "meaning_zh": "文件 `scripts/ckb_core/machine_knowledge.py`负责构建双 SQLite 检索层，并组合 FTS5、图关系、工作记录和源码新鲜度生成检索包。",
+      "role_zh": "它属于Agent 先检索后窄读源码的核心机器入口，当前说明只覆盖所列固定源码范围。",
+      "change_when_zh": "当索引结构、词项、排序、预算、警告传播或检索输出合同变化时，应同步复查本页及其直接关联测试。"
     }
   ]
 }

@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "status": "agent-reviewed",
+  "record_id": "work-record-4046b6c50619554d978061c537530188",
+  "kind": "analysis",
+  "title": "Code Knowledge Builder 秋招面试官拷问手册",
+  "file": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\human\\analysis\\Code Knowledge Builder 秋招面试官拷问手册.md",
+  "compatibility_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\markdown\\analysis\\Code Knowledge Builder 秋招面试官拷问手册.md",
+  "linked_pages": [
+    "build_machine_knowledge 与 estimated_tokens 的协作实现",
+    "render_integration 与 harness_retrieval_contract 的协作实现",
+    "deploy_obsidian_plugin_to_vault 与 default_obsidian_plugin_registry 的协作实现",
+    "review_automation 与 default_registry_path 的协作实现",
+    "audit_global 与 _replace_output_prefix 的协作实现",
+    "normalize_page_config 与 _merge_known 的协作实现"
+  ],
+  "source_links": [
+    "[打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1995`",
+    "[打开源码：scripts/ckb_core/automation_integrations.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation_integrations.py:1:1)  `scripts/ckb_core/automation_integrations.py:1-656`",
+    "[打开源码：scripts/ckb_core/obsidian_plugin.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/obsidian_plugin.py:1:1)  `scripts/ckb_core/obsidian_plugin.py:1-291`",
+    "[打开源码：scripts/ckb_core/automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation.py:1:1)  `scripts/ckb_core/automation.py:1-1783`",
+    "[打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3637`",
+    "[打开源码：scripts/ckb_core/page_config.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/page_config.py:1:1)  `scripts/ckb_core/page_config.py:1-244`"
+  ],
+  "query_record": null,
+  "created_at_utc": "2026-08-31T17:31:17Z",
+  "updated_at_utc": "2026-09-10T03:13:41Z",
+  "body_sha256": "9a202b6e2e71971975f98bbfa777bc9b5ed13707a7737f2cce18c7204ebf5edb",
+  "obsidian_uri": "obsidian://open?path=E%3A%5Cknowledge_builder%5Cself-workspace%5Cknowledge-base.staging-4617928a6757%5Cmarkdown%5Canalysis%5CCode%20Knowledge%20Builder%20%E7%A7%8B%E6%8B%9B%E9%9D%A2%E8%AF%95%E5%AE%98%E6%8B%B7%E9%97%AE%E6%89%8B%E5%86%8C.md",
+  "human_output_contract": {
+    "status": "legacy-content-checked",
+    "v3_validated": false
+  },
+  "replacement": {
+    "operation_id": "record-replace-a66a69c344a157359bcc28138743174e",
+    "replaced_at_utc": "2026-09-10T03:13:41Z",
+    "previous_page_sha256": "0a87d680ef6830de527ceca9f097103ecd5efb7bc24e78f0d8d3c7963a2370f4",
+    "previous_body_sha256": "2930308a4eaf2850f53dc908489309a59b58a883b9b11b6ab80e6b502f74d009",
+    "body_sha256": "9a202b6e2e71971975f98bbfa777bc9b5ed13707a7737f2cce18c7204ebf5edb"
+  }
+}

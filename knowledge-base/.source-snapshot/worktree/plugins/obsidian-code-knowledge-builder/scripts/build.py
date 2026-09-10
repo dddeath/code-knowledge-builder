@@ -11,6 +11,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import sys
+import tarfile
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -24,6 +25,8 @@ def background_process_options() -> dict[str, int]:
 
 
 def run(command: list[str], cwd: Path) -> dict[str, object]:
+    if command and command[0] == "git":
+        command = ["git", "-c", "gc.auto=0", "-c", "maintenance.auto=false", *command[1:]]
     completed = subprocess.run(
         command,
         cwd=cwd,
@@ -191,6 +194,8 @@ def main() -> int:
     parser.add_argument("--node", type=Path, required=True)
     parser.add_argument("--npm-cli", type=Path, required=True)
     parser.add_argument("--force", action="store_true")
+    parser.add_argument("--source-archive", type=Path)
+    parser.add_argument("--dependencies-cache", type=Path)
     args = parser.parse_args()
 
     lock = json.loads((ROOT / "upstream.lock.json").read_text(encoding="utf-8"))
@@ -203,22 +208,45 @@ def main() -> int:
         shutil.rmtree(work)
     work.parent.mkdir(parents=True, exist_ok=True)
     logs: list[dict[str, object]] = []
-    logs.append(run(["git", "clone", lock["claudian"]["url"], str(work)], work.parent))
-    logs.append(run(["git", "checkout", "--detach", lock["claudian"]["commit"]], work))
-    actual_commit = subprocess.check_output(
-        ["git", "rev-parse", "HEAD"],
-        cwd=work,
-        text=True,
-        encoding="utf-8",
-        **background_process_options(),
-    ).strip()
+    if args.source_archive:
+        archive = args.source_archive.resolve()
+        if hashlib.sha256(archive.read_bytes()).hexdigest() != lock["claudian"]["archive_sha256"]:
+            raise RuntimeError("pinned source archive hash mismatch")
+        work.mkdir()
+        with tarfile.open(archive) as tar:
+            prefix = "claudian-" + lock["claudian"]["commit"] + "/"
+            for member in tar.getmembers():
+                if member.name.rstrip("/") == prefix.rstrip("/"):
+                    continue
+                if not member.name.startswith(prefix):
+                    raise RuntimeError("unexpected archive prefix")
+                member.name = member.name[len(prefix):]
+                if member.name:
+                    tar.extract(member, work, filter="data")
+        logs.append(run(["git", "init", "-q"], work))
+        actual_commit = lock["claudian"]["commit"]
+        logs.append({"source_archive": str(archive), "sha256": lock["claudian"]["archive_sha256"], "exit_status": 0})
+    else:
+        logs.append(run(["git", "clone", lock["claudian"]["url"], str(work)], work.parent))
+        logs.append(run(["git", "checkout", "--detach", lock["claudian"]["commit"]], work))
+        actual_commit = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=work, text=True, **background_process_options()).strip()
     if actual_commit != lock["claudian"]["commit"]:
         raise RuntimeError(f"Claudian commit differs: {actual_commit}")
     logs.append(run(["git", "apply", str((ROOT / "patches/claudian-base.patch").resolve())], work))
+    logs.append(run(["git", "apply", str((ROOT / "patches/interactive-canvas.patch").resolve())], work))
     copy_overlay(work)
     validate_selection_provider_routing(work)
 
-    logs.append(run(npm_command(args.node, args.npm_cli, "ci"), work))
+    # 构建不使用上游的开发期自动部署环境。
+    os.environ.pop("OBSIDIAN_VAULT", None)
+    if args.dependencies_cache:
+        cache = args.dependencies_cache.resolve()
+        if (cache.parent / "package-lock.json").read_bytes() != (work / "package-lock.json").read_bytes():
+            raise RuntimeError("dependency cache lockfile differs")
+        logs.append(run([str(args.node.resolve()), "-e", "require('fs').symlinkSync(process.argv[1],process.argv[2],process.platform==='win32'?'junction':'dir')", str(cache), str(work / "node_modules")], work))
+    else:
+        logs.append(run(npm_command(args.node, args.npm_cli, "ci", "--prefer-offline", "--no-audit", "--no-fund"), work))
+    (work / ".env.local").write_text("# isolated build; no automatic vault deployment\n", encoding="utf-8")
     logs.append(run(npm_command(args.node, args.npm_cli, "run", "typecheck"), work))
     logs.append(run(npm_command(args.node, args.npm_cli, "run", "lint"), work))
     logs.append(
@@ -230,6 +258,10 @@ def main() -> int:
                 "test:unit",
                 "--",
                 "--runTestsByPath",
+                "tests/unit/features/interactive-canvas/overview.test.ts",
+                "tests/unit/features/interactive-canvas/overviewInput.test.ts",
+                "tests/unit/features/interactive-canvas/model.test.ts",
+                "tests/unit/features/interactive-canvas/lifecycle.test.ts",
                 "tests/unit/features/selection-learning/LearningNoteDocument.test.ts",
                 "tests/unit/features/selection-learning/SelectionLearningProvider.test.ts",
                 "tests/unit/features/selection-learning/SelectionLearningProgress.test.ts",
@@ -262,6 +294,11 @@ def main() -> int:
         )
     main_text = (output / "main.js").read_text(encoding="utf-8", errors="replace")
     for marker in (
+        "open-function-nodes",
+        "create-function-node",
+        "import-function-nodes",
+        "ckbFunction",
+        "取消讨论",
         "explain-selection-to-daily-note",
         "open-today-learning-note",
         "editor-menu",

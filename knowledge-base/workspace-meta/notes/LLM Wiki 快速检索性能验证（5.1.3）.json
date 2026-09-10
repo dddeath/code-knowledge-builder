@@ -6,26 +6,40 @@
   "file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human\\analysis\\LLM Wiki 快速检索性能验证（5.1.3）.md",
   "compatibility_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown\\analysis\\LLM Wiki 快速检索性能验证（5.1.3）.md",
   "linked_pages": [
-    "retrieve_machine 与 estimated_tokens 的协作实现",
+    "build_machine_knowledge 与 estimated_tokens 的协作实现",
     "package_showcase 与 _parse_sample 的协作实现",
-    "finalize 与 _replace_output_prefix 的协作实现",
-    "audit_migration 与 _entity_key 的协作实现",
-    "SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现",
-    "MigrationTest 等测试场景",
+    "audit_global 与 _replace_output_prefix 的协作实现",
+    "migrate_output 与 _entity_key 的协作实现",
+    "ensure_local_openers 与 SourceLinkRenderer 的协作实现",
+    "git 等测试场景（test_migration 测试）",
     "audit_obsidian 与 prepare_vault 的协作实现",
-    "retrieve"
+    "build_agent_index 与 _tokens 的协作实现"
   ],
   "source_links": [
-    "[打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1458`",
+    "[打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1995`",
     "[打开源码：scripts/ckb_core/showcase.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/showcase.py:1:1)  `scripts/ckb_core/showcase.py:1-173`",
-    "[打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3242`",
-    "[打开源码：scripts/ckb_core/migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/migration.py:1:1)  `scripts/ckb_core/migration.py:1-585`",
+    "[打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3637`",
+    "[打开源码：scripts/ckb_core/migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/migration.py:1:1)  `scripts/ckb_core/migration.py:1-894`",
     "[打开源码：scripts/ckb_core/source_links.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/source_links.py:1:1)  `scripts/ckb_core/source_links.py:1-184`",
-    "[打开源码：tests/test_migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_migration.py:1:1)  `tests/test_migration.py:1-181`",
-    "[打开源码：scripts/ckb_core/obsidian.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/obsidian.py:1:1)  `scripts/ckb_core/obsidian.py:1-134`",
-    "[打开源码：scripts/ckb_core/agent_index.py 第 440 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:440:1)  `scripts/ckb_core/agent_index.py:440-568`"
+    "[打开源码：tests/test_migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_migration.py:1:1)  `tests/test_migration.py:1-250`",
+    "[打开源码：scripts/ckb_core/obsidian.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/obsidian.py:1:1)  `scripts/ckb_core/obsidian.py:1-166`",
+    "[打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-555`"
   ],
   "query_record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260827-173144-903216-01.json",
-  "updated_at_utc": "2026-08-27T17:32:38Z",
-  "obsidian_uri": "obsidian://open?path=E%3A%5Cknowledge_builder%5Cself-workspace%5Cknowledge-base%5Cmarkdown%5Canalysis%5CLLM%20Wiki%20%E5%BF%AB%E9%80%9F%E6%A3%80%E7%B4%A2%E6%80%A7%E8%83%BD%E9%AA%8C%E8%AF%81%EF%BC%885.1.3%EF%BC%89.md"
+  "updated_at_utc": "2026-09-10T03:16:49Z",
+  "obsidian_uri": "obsidian://open?path=E%3A%5Cknowledge_builder%5Cself-workspace%5Cknowledge-base%5Cmarkdown%5Canalysis%5CLLM%20Wiki%20%E5%BF%AB%E9%80%9F%E6%A3%80%E7%B4%A2%E6%80%A7%E8%83%BD%E9%AA%8C%E8%AF%81%EF%BC%885.1.3%EF%BC%89.md",
+  "human_output_contract": {
+    "status": "legacy-content-checked",
+    "v3_validated": false
+  },
+  "record_id": "work-record-280751a026bd564396b84c9e52d68d7f",
+  "created_at_utc": "2026-08-27T17:32:38Z",
+  "body_sha256": "23af2ccdabee1a8309845f3a75da9505b50c2f0120704b792053368dd5fe9e0c",
+  "replacement": {
+    "operation_id": "record-replace-59b251f39d155af986763ea9f50bb24a",
+    "replaced_at_utc": "2026-09-10T03:16:49Z",
+    "previous_page_sha256": "546b4f2ce927c34e3b38ed66a0700767a6fa79fc7fe900f3cc63d8ec2cd7821c",
+    "previous_body_sha256": "546b4f2ce927c34e3b38ed66a0700767a6fa79fc7fe900f3cc63d8ec2cd7821c",
+    "body_sha256": "23af2ccdabee1a8309845f3a75da9505b50c2f0120704b792053368dd5fe9e0c"
+  }
 }

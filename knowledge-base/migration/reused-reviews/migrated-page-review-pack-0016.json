@@ -3,20 +3,20 @@
   "pack_id": "migrated-page-review-pack-0016",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-03T22:05:25Z",
+  "reviewed_at_utc": "2026-09-10T03:34:07Z",
   "reviews": [
     {
-      "entity_id": "file-45c870345dbf58ba92f40e54b35073c0",
+      "entity_id": "file-5fc7cf9bf27d5063b7a8e7e7d7b53663",
       "classification": "page",
-      "owner_page_id": "file-45c870345dbf58ba92f40e54b35073c0",
+      "owner_page_id": "file-5fc7cf9bf27d5063b7a8e7e7d7b53663",
       "source_path": "scripts/ckb_core/human_page_authoring.py",
       "start_line": 1,
-      "end_line": 1445,
+      "end_line": 1447,
       "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_authoring.py` 第 1-1445 行，并核对 Git blob `f99c7f5aa021`、分类与所有者。",
-      "meaning_zh": "`scripts/ckb_core/human_page_authoring.py` 页面绑定固定源码第 1-1445 行，说明该文件如何承担V3 人类页面的初始化、检查、渲染、验证和隔离打包。",
-      "role_zh": "该文件负责V3 人类页面的初始化、检查、渲染、验证和隔离打包，并为相关命令、页面生成或测试提供源码入口。",
-      "change_when_zh": "当 `scripts/ckb_core/human_page_authoring.py` 的公开输入、生成结果、状态边界或与其他模块的协作关系变化时，应更新本页。"
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0006审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "按照冻结的人类页面合同生成新建、补充或修订候选文稿，立即验证候选内容，并可打包为含正文、证据副本与路由清单的独立暂存产物。",
+      "role_zh": "inspect 只读取工作区内指定来源并核验哈希；supplement 只添加缺失章节，revise 要求原段落在指定章节唯一匹配。正文与机器证据分离验证，打包拒绝受管目录和已有目标，临时写入及重开核验后才返回 ready；不直接修改人类投影或 SQLite。",
+      "change_when_zh": "页面合同版本、章节输入、来源哈希、修订定位或证据移植规则变化时，联动模板校验器、渲染上下文与打包清单；新增页面类型还需更新后续 record/reference/feedback 或生成器路由。"
     }
   ]
 }

@@ -240,7 +240,7 @@ def create_source_snapshot(repository: dict[str, Any], output: Path) -> dict[str
     if snapshot_root.exists():
         raise CkbError(f"source snapshot already exists: {snapshot_root}")
     added = run(
-        ["git", "-C", str(repo), "worktree", "add", "--detach", "--force", str(snapshot_root), repository["commit"]],
+        ["git", "-C", str(repo), "worktree", "add", "--detach", "--lock", "--reason", "CKB fixed source snapshot", str(snapshot_root), repository["commit"]],
         timeout=300,
     )
     if added.returncode:
@@ -255,6 +255,63 @@ def create_source_snapshot(repository: dict[str, Any], output: Path) -> dict[str
     }
     assert_source_snapshot(repository, snapshot)
     return snapshot
+
+
+def relocate_source_snapshot(repository: dict[str, Any], snapshot: dict[str, Any], previous_root: Path) -> None:
+    """Repair only this snapshot's existing registration after a directory move."""
+    root = Path(snapshot["root"]).resolve()
+    previous_root = previous_root.resolve()
+    gitfile = root / ".git"
+    if not gitfile.is_file():
+        raise StaleSourceError(f"fixed source snapshot gitfile is missing: {gitfile}")
+    raw = gitfile.read_text(encoding="utf-8").strip()
+    if not raw.startswith("gitdir: "):
+        raise StaleSourceError(f"fixed source snapshot gitfile is invalid: {gitfile}")
+    pointer = Path(raw[len("gitdir: "):])
+    repo = Path(repository["root"]).resolve()
+    common_value = Path(git(repo, "rev-parse", "--git-common-dir").strip())
+    common = (repo / common_value).resolve()
+    candidates = {pointer.resolve()} if pointer.is_absolute() else {
+        (root / pointer).resolve(), (previous_root / pointer).resolve(),
+    }
+    candidates = {path for path in candidates if path.parent == common / "worktrees" and path.is_dir()}
+    if len(candidates) != 1:
+        raise StaleSourceError(f"fixed source snapshot registration is missing or ambiguous: {gitfile}")
+    admin = candidates.pop()
+    if admin.parent != common / "worktrees" or not admin.is_dir():
+        raise StaleSourceError(f"fixed source snapshot registration is missing or foreign: {admin}")
+    commondir = admin / "commondir"
+    if not commondir.is_file() or (admin / commondir.read_text().strip()).resolve() != common:
+        raise StaleSourceError(f"fixed source snapshot common directory mismatch: {admin}")
+    backlink = admin / "gitdir"
+    if not backlink.is_file():
+        raise StaleSourceError(f"fixed source snapshot backlink is missing: {admin}")
+    registered = Path(backlink.read_text(encoding="utf-8").strip())
+    registered = (admin / registered).resolve()
+    if registered not in {(previous_root / ".git").resolve(), gitfile.resolve()}:
+        raise StaleSourceError(f"fixed source snapshot backlink belongs to another worktree: {registered}")
+    # Validate the candidate without trusting the moved gitfile or changing any registration.
+    for args, expected in [
+        (["rev-parse", "HEAD"], repository["commit"]),
+        (["rev-parse", "HEAD^{tree}"], repository["tree"]),
+        (["status", "--porcelain=v1", "--untracked-files=no"], ""),
+    ]:
+        checked = run(["git", "--git-dir", str(admin), "--work-tree", str(root), *args], timeout=30)
+        if checked.returncode or checked.stdout.strip() != expected:
+            raise StaleSourceError(f"fixed source snapshot verification failed before registration repair: {root}")
+    if (admin / "HEAD").read_text().startswith("ref:"):
+        raise StaleSourceError(f"fixed source snapshot is not detached: {root}")
+    if not pointer.is_absolute() and (root / pointer).resolve() != admin:
+        # Windows hidden gitfiles reject truncating creation (open "w").
+        # Update the existing file without replacing it or changing attributes.
+        with gitfile.open("r+", encoding="utf-8", newline="") as stream:
+            stream.seek(0)
+            stream.write("gitdir: " + os.path.relpath(admin, root).replace("\\", "/") + "\n")
+            stream.truncate()
+    backlink.write_text(str(gitfile.resolve()) + "\n", encoding="utf-8")
+    if not (admin / "locked").is_file():
+        git(repo, "worktree", "lock", "--reason", "CKB fixed source snapshot", str(root))
+    assert_source_snapshot(repository, snapshot)
 
 
 def assert_source_snapshot(repository: dict[str, Any], snapshot: dict[str, Any]) -> None:

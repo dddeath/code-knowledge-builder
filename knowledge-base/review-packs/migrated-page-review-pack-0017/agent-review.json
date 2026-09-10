@@ -3,20 +3,20 @@
   "pack_id": "migrated-page-review-pack-0017",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-03T22:05:26Z",
+  "reviewed_at_utc": "2026-09-10T03:34:08Z",
   "reviews": [
     {
-      "entity_id": "ent-f9faea08db7654aeb2fbc4b262e9f650",
+      "entity_id": "ent-9f7c975b550f5ba4ab6a572398696008",
       "classification": "page",
-      "owner_page_id": "ent-f9faea08db7654aeb2fbc4b262e9f650",
+      "owner_page_id": "ent-9f7c975b550f5ba4ab6a572398696008",
       "source_path": "scripts/ckb_core/human_page_authoring.py",
-      "start_line": 823,
-      "end_line": 1097,
+      "start_line": 137,
+      "end_line": 227,
       "status": "agent-reviewed",
-      "evidence_note": "已重新打开固定提交 `f96642cfde55` 中 `scripts/ckb_core/human_page_authoring.py` 第 823-1097 行，并核对 Git blob `f99c7f5aa021`、分类与所有者。",
-      "meaning_zh": "`render_page_author` 位于 `scripts/ckb_core/human_page_authoring.py` 第 823-1097 行，用于把结构化章节输入渲染为人类摘要，同时把机器证据引用留在非正文结构中。",
-      "role_zh": "`render_page_author` 在V3 人类页面的初始化、检查、渲染、验证和隔离打包中负责把结构化章节输入渲染为人类摘要，同时把机器证据引用留在非正文结构中。",
-      "change_when_zh": "当 `render_page_author` 的输入、输出、状态转换或失败边界变化时，应更新对应说明和测试。"
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0007审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "生成符合所选页面类型的新建、补充或修订填写骨架。",
+      "role_zh": "把章节要求、证据字段和适用边界一起交给撰写者；初始化本身不提交页面。",
+      "change_when_zh": "调整页面填写流程、必填章节或人类摘要与机器证据分离方式时修改。"
     }
   ]
 }

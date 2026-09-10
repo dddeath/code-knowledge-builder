@@ -14,24 +14,12 @@
 
 ## 相关代码
 
-- 实现时会用到 [[CkbError]]。
-- 实现时会用到 [[append]]。
-- 实现时会用到 [[audit_feedback 与 _contains_chinese 的协作实现]]。
+- 与 [[CkbError]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[CkbError 与 DependencyError 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[audit_feedback 与 _contains_chinese 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 
 ## 谁会来到这里
 
-- [[audit_agent_protocol]] 会使用这里提供的行为。
+- 与 [[audit_agent_protocol]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 - [[audit_feedback 与 _contains_chinese 的协作实现]] 汇总了本页。
-- [[main（ckb 实现）]] 会使用这里提供的行为。
-- [[serve_stdio 与 _write_line 的协作实现]] 会使用这里提供的行为。
-
-## 相关测试
-
-- [[AgentProtocolBatchApplyTests]]
-- [[CodeKnowledgeBuilderTests]]
-- [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[KeywordFallbackRetrievalWiringTests]]
-- [[MigrationTest]]
-- [[PageFanoutBenchmarkTests]]
-
-> 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
+- 与 [[serve_stdio 与 _write_line 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。

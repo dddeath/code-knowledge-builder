@@ -12,15 +12,6 @@
 
 [打开源码：tests/session_stdio_stress.py 第 22 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/session_stdio_stress.py:22:1)  `tests/session_stdio_stress.py:22-45`
 
-## 相关代码
-
-- 实现时会用到 [[_Transport.close]]。
-- 实现时会用到 [[_Transport.close 与 _StartGate 的协作实现]]。
-
 ## 谁会来到这里
 
 - [[one_cycle 等测试场景]] 汇总了本页。
-
-## 相关测试
-
-- [[one_cycle 等测试场景]]

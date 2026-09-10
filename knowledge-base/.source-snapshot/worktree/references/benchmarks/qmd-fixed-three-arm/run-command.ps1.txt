@@ -1,0 +1,14 @@
+$Root = 'E:\knowledge_builder\self-workspace\worktrees\qmd-fixed-three-arm-benchmark'
+$Prototype = "$Root\prototypes\ckb-semantic-vector-benchmark"
+$QmdInstall = 'C:\Users\19739\Documents\Codex\2026-09-05\qmd\work\qmd-runtime'
+$QmdModel = 'C:\Users\19739\Documents\Codex\2026-09-05\qmd\work\qmd-smoke\cache\qmd\models\hf_ggml-org_embeddinggemma-300M-Q8_0.gguf'
+& "$Prototype\.venv\Scripts\python.exe" -X utf8 "$Prototype\qmd_benchmark.py" run `
+  --protocol "$Root\tests\fixtures\qmd-fixed-three-arm\protocol.json" `
+  --model-manifest "$Root\tests\fixtures\semantic-vector-retrieval\model-artifact-manifest.json" `
+  --model-dir "$Prototype\.model-cache\Qdrant--bge-small-zh-v1.5--46fbe35f" `
+  --qmd-manifest "$Root\tests\fixtures\qmd-fixed-three-arm\qmd-runtime-manifest.json" `
+  --qmd-package "$QmdInstall\node_modules\@tobilu\qmd" `
+  --qmd-model $QmdModel `
+  --node-executable 'C:\Program Files\nodejs\node.exe' `
+  --source-corpus 'E:\knowledge_builder\self-workspace\knowledge-base' `
+  --output "$Prototype\.runs\qmd-fixed-v2-recompute"

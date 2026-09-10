@@ -12,13 +12,6 @@
 
 [打开源码：tests/session_stdio_reactivation_probe.py 第 16 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/session_stdio_reactivation_probe.py:16:1)  `tests/session_stdio_reactivation_probe.py:16-112`
 
-## 相关代码
-
-- 实现时会用到 [[_Transport.close]]。
-- 实现时会用到 [[_Transport.close 与 _StartGate 的协作实现]]。
-- 实现时会用到 [[append]]。
-- 实现时会用到 [[parser]]。
-
 ## 谁会来到这里
 
 - [[main 等测试场景（session_stdio_reactivation_probe 测试）]] 汇总了本页。

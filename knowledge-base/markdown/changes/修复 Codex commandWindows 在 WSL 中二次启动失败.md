@@ -23,13 +23,13 @@
 ## 相关知识页
 
 - [[render_integration 与 harness_retrieval_contract 的协作实现]]
-- [[keyword_provider_config 与 parser 的协作实现]]
-- [[ingest_event 与 default_registry_path 的协作实现]]
-- [[audit_migration 与 _entity_key 的协作实现]]
+- [[keyword_provider_config 与 keyword_fallback_options 的协作实现]]
+- [[review_automation 与 default_registry_path 的协作实现]]
+- [[migrate_output 与 _entity_key 的协作实现]]
 - [[CkbError 与 DependencyError 的协作实现]]
-- [[source_files]]
+- [[build_core 与 sha256 的协作实现]]
 - [[AutomationTest.register 等测试场景]]
-- [[MigrationTest 等测试场景]]
+- [[git 等测试场景（test_migration 测试）]]
 
 ## 源码入口
 

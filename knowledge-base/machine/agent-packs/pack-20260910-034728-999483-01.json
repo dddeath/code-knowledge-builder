@@ -1,0 +1,414 @@
+{
+  "schema_version": 3,
+  "status": "passed",
+  "question": "审阅文本资料 参考来源",
+  "profile": "fast",
+  "budget": 1800,
+  "estimated_tokens": 1794,
+  "terms": [
+    "审阅文本资料",
+    "参考来源",
+    "参考来",
+    "审阅文",
+    "文本资",
+    "本资料",
+    "考来源",
+    "阅文本",
+    "参考",
+    "审阅",
+    "文本",
+    "本资",
+    "来源",
+    "考来",
+    "资料",
+    "阅文"
+  ],
+  "anchors": [],
+  "seed_entity_ids": [
+    "ent-ac49fd57a98252fd94074210ba85a054",
+    "ent-0d046a9bacc55ddaac01bfe3c17209bd",
+    "ent-ec9b98842acf57c7bf33694521f346da",
+    "file-2732e2969f52550b838c475263be4111",
+    "file-72a97dd1470b5944b174d45ff2802449"
+  ],
+  "selected_entities": [
+    {
+      "entity_id": "ent-ac49fd57a98252fd94074210ba85a054",
+      "name": "reference_machine_records",
+      "qualified_name": "reference_machine_records",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/reference_documents.py",
+      "start_line": 1006,
+      "end_line": 1066,
+      "human_page_title": "ingest_web_reference 与 _root 的协作实现",
+      "human_page_file": "pages/ingest_web_reference 与 _root 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 55.64223111,
+      "score_breakdown": {
+        "entity-fts": 3.51638375,
+        "graph": 0.0989718,
+        "metadata": 22.0,
+        "section-fts": 2.02687556,
+        "term": 28.0
+      },
+      "reasons": [
+        "确定性词项 `参考`",
+        "确定性词项 `参考来`",
+        "确定性词项 `审阅`",
+        "确定性词项 `文本`",
+        "确定性词项 `来源`",
+        "确定性词项 `考来`",
+        "确定性词项 `考来源`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "ent-0d046a9bacc55ddaac01bfe3c17209bd",
+      "name": "review_automation",
+      "qualified_name": "review_automation",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/automation.py",
+      "start_line": 1655,
+      "end_line": 1729,
+      "human_page_title": "review_automation",
+      "human_page_file": "pages/review_automation.md",
+      "display_mode": "page",
+      "score": 39.83802428,
+      "score_breakdown": {
+        "entity-fts": 11.50754897,
+        "graph": 0.01943919,
+        "metadata": 5.0,
+        "section-fts": 7.31103612,
+        "term": 16.0
+      },
+      "reasons": [
+        "确定性词项 `审阅`",
+        "确定性词项 `审阅文`",
+        "确定性词项 `来源`",
+        "确定性词项 `阅文`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文职责"
+      ],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "ent-ec9b98842acf57c7bf33694521f346da",
+      "name": "_HtmlBodyExtractor",
+      "qualified_name": "_HtmlBodyExtractor",
+      "kind": "class",
+      "source_path": "scripts/ckb_core/reference_inputs.py",
+      "start_line": 145,
+      "end_line": 216,
+      "human_page_title": "validate_web_extraction 与 WebSnapshotError 的协作实现",
+      "human_page_file": "pages/validate_web_extraction 与 WebSnapshotError 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 38.53753758,
+      "score_breakdown": {
+        "entity-fts": 4.87175237,
+        "graph": 0.17148192,
+        "metadata": 10.0,
+        "section-fts": 3.49430329,
+        "term": 20.0
+      },
+      "reasons": [
+        "确定性词项 `审阅`",
+        "确定性词项 `审阅文`",
+        "确定性词项 `文本`",
+        "确定性词项 `阅文`",
+        "确定性词项 `阅文本`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "file-2732e2969f52550b838c475263be4111",
+      "name": "test_recruitment_migration_provenance.py",
+      "qualified_name": "tests/test_recruitment_migration_provenance.py",
+      "kind": "file",
+      "source_path": "tests/test_recruitment_migration_provenance.py",
+      "start_line": 1,
+      "end_line": 937,
+      "human_page_title": "ProvenanceTests.setUp 等测试场景",
+      "human_page_file": "pages/ProvenanceTests.setUp 等测试场景.md",
+      "display_mode": "page",
+      "score": 30.37459378,
+      "score_breakdown": {
+        "entity-fts": 4.16791167,
+        "graph": 0.02180691,
+        "metadata": 42.0,
+        "section-fts": 2.1006285,
+        "term": 24.0,
+        "test-discount": -41.9157533
+      },
+      "reasons": [
+        "确定性词项 `参考`",
+        "确定性词项 `参考来`",
+        "确定性词项 `参考来源`",
+        "确定性词项 `来源`",
+        "确定性词项 `考来`",
+        "确定性词项 `考来源`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "实现定位查询对测试实体应用固定折扣",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文含义"
+      ],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "file-1f0085669dc05d12af3832ace94d73d9",
+      "name": "reference_pdf.py",
+      "qualified_name": "scripts/ckb_core/reference_pdf.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/reference_pdf.py",
+      "start_line": 1,
+      "end_line": 771,
+      "human_page_title": "validate_pdf_extraction 与 PdfExtractionError 的协作实现",
+      "human_page_file": "pages/validate_pdf_extraction 与 PdfExtractionError 的协作实现.md",
+      "display_mode": "page",
+      "score": 16.00138941,
+      "score_breakdown": {
+        "graph": 0.00138941,
+        "term": 16.0
+      },
+      "reasons": [
+        "确定性词项 `参考`",
+        "确定性词项 `审阅`",
+        "确定性词项 `文本`",
+        "确定性词项 `来源`",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "ent-7933e35545ca5cc5bb7f46bb1a7523ae",
+      "name": "protocol_text_for_version",
+      "qualified_name": "protocol_text_for_version",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/agent_protocol_batch.py",
+      "start_line": 227,
+      "end_line": 378,
+      "human_page_title": "BatchProjectError 与 ProtocolRelease 的协作实现",
+      "human_page_file": "pages/BatchProjectError 与 ProtocolRelease 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 13.09581277,
+      "score_breakdown": {
+        "section-fts": 13.09581277
+      },
+      "reasons": [
+        "中文章节全文命中"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "ent-aaf4a76c45165103b44e54c77c50272e",
+      "name": "audit_migration",
+      "qualified_name": "audit_migration",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/migration.py",
+      "start_line": 598,
+      "end_line": 725,
+      "human_page_title": "migrate_output 与 _entity_key 的协作实现",
+      "human_page_file": "pages/migrate_output 与 _entity_key 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 12.0000853,
+      "score_breakdown": {
+        "graph": 8.53e-05,
+        "term": 12.0
+      },
+      "reasons": [
+        "确定性词项 `参考`",
+        "确定性词项 `来源`",
+        "确定性词项 `资料`",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    },
+    {
+      "entity_id": "ent-d0d3b28e76cb51e6af02a32be170c997",
+      "name": "main",
+      "qualified_name": "main",
+      "kind": "function",
+      "source_path": "scripts/ckb.py",
+      "start_line": 996,
+      "end_line": 1838,
+      "human_page_title": "main（ckb 实现）",
+      "human_page_file": "pages/main（ckb 实现）.md",
+      "display_mode": "page",
+      "score": 12.0,
+      "score_breakdown": {
+        "term": 12.0
+      },
+      "reasons": [
+        "确定性词项 `参考`",
+        "确定性词项 `审阅`",
+        "确定性词项 `资料`"
+      ],
+      "sections": [
+        "中文含义",
+        "中文职责"
+      ],
+      "source_completeness": "complete",
+      "source_confidence": "high",
+      "absence_inference_allowed": true
+    }
+  ],
+  "related_documents": [
+    {
+      "document_id": "note:changes:CKB 5.3.0 审阅文本资料吸收",
+      "title": "CKB 5.3.0 审阅文本资料吸收",
+      "kind": "change",
+      "status": "agent-reviewed",
+      "human_file": "changes/CKB 5.3.0 审阅文本资料吸收.md",
+      "source_path": null,
+      "start_line": null,
+      "end_line": null
+    },
+    {
+      "document_id": "reference:reference-829120de44175ec3a772a70f940da830",
+      "title": "CKB 审阅文本资料层说明",
+      "kind": "reference",
+      "status": "agent-reviewed",
+      "human_file": "references/CKB 审阅文本资料层说明.md",
+      "source_path": "E:/knowledge_builder/self-workspace/knowledge-base/references/raw/CKB 审阅文本资料层说明--r1.md",
+      "start_line": 1,
+      "end_line": 2
+    },
+    {
+      "document_id": "note:changes:增加可追溯的 PDF 参考资料吸收",
+      "title": "增加可追溯的 PDF 参考资料吸收",
+      "kind": "change",
+      "status": "agent-reviewed",
+      "human_file": "changes/增加可追溯的 PDF 参考资料吸收.md",
+      "source_path": null,
+      "start_line": null,
+      "end_line": null
+    },
+    {
+      "document_id": "note:changes:LLM Wiki 功能矩阵与紧凑维护入口",
+      "title": "LLM Wiki 功能矩阵与紧凑维护入口",
+      "kind": "change",
+      "human_file": "changes/LLM Wiki 功能矩阵与紧凑维护入口.md"
+    },
+    {
+      "document_id": "note:analysis:Code Knowledge Builder：一份代码，两种读法",
+      "title": "Code Knowledge Builder：一份代码，两种读法",
+      "kind": "analysis",
+      "human_file": "analysis/Code Knowledge Builder：一份代码，两种读法.md"
+    }
+  ],
+  "open_feedback": 0,
+  "retrieval_stats": {
+    "scored_entities": 854,
+    "overscan_limit": 32,
+    "materialized_candidates": 32,
+    "selected_entities": 8,
+    "budgeted_entity_limit": 8,
+    "selected_source_paths": 8,
+    "batched_entity_queries": 2,
+    "source_link_cache_entries": 19,
+    "static_cache_hit": true
+  },
+  "pack": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260910-034728-999483-01.md",
+  "record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260910-034728-999483-01.json",
+  "retrieval": "sqlite-exact-fts5-sections-deterministic-weighted-graph",
+  "deterministic": true,
+  "source_grounded": true,
+  "grep_fallback_required": false,
+  "warnings": {
+    "status": "warning",
+    "warning_count": 1,
+    "examples": [
+      {
+        "kind": "compile-commands-unavailable",
+        "language": "cpp",
+        "file": "compile_commands.json",
+        "range": null,
+        "diagnostic_categories": [],
+        "diagnostic_count": 0,
+        "coverage": {},
+        "precision": "bounded-approximate",
+        "build_evidence": {
+          "paths": [
+            "tests/fixtures/cpp-parser-scons/scons-project/SConstruct",
+            "tests/fixtures/cpp-parser-scons/scons-project/src/SConscript"
+          ],
+          "resolution": "build-config-unique",
+          "selected": "c++20"
+        },
+        "affected_entity_count": 0,
+        "absence_inference_allowed": false
+      }
+    ],
+    "omitted_warning_count": 0,
+    "absence_inference_allowed": false,
+    "message_zh": "警告范围或有界近似语义结果不完整，不可据此推断未检出事实在源码中不存在。"
+  },
+  "fact_freshness": {
+    "schema_version": 1,
+    "state": "current",
+    "stable_state": "current",
+    "observed_at_utc": "2026-09-10T03:47:29Z",
+    "trigger": "first-query",
+    "bound_commit": "962814483bea0a9611a7d73eccf2781cee4f7b6a",
+    "current_head": "962814483bea0a9611a7d73eccf2781cee4f7b6a",
+    "branch": "codex/reference-ingest-v1",
+    "dirty": {
+      "count": 0,
+      "paths": [],
+      "truncated": false
+    },
+    "change_summary": {
+      "comparison": "bound-commit-to-current-head",
+      "changed": 0,
+      "changed_paths": [],
+      "counts": {},
+      "truncated": false
+    },
+    "migration": null,
+    "overlay": null,
+    "cache_hit": true,
+    "stable_facts_current": true,
+    "next_action": {
+      "action": "reuse-stable-facts",
+      "rebuild": false
+    },
+    "error": null,
+    "state_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\freshness\\state.json"
+  },
+  "current_source_grounded": true
+}

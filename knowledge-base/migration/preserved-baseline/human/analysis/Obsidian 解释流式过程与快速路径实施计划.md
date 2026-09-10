@@ -79,27 +79,33 @@
 - 每次快速回答都具有真实 CKB request、pack 和来源；Provider 会话中没有 grep/rg 或项目源码读取。
 - 流式过程不含隐藏 chain-of-thought、密钥、原始环境变量或未脱敏工具输出。
 - 快速回答首个正文增量时间不高于同问题完整路径基线的 25%，最终落库时间不高于基线的 50%；绝对延迟只在真实 Provider benchmark 后确定。
-- 完整路径现有完成门和 31 项插件测试无回归；新增路由、流式、幂等、恢复和多 Provider 测试全部通过。
+- 回归覆盖完整解释路径，以及新增路由、流式显示、幂等、恢复和多模型服务行为。
 - 未通过 record/audit 的快速回答明确显示“未写入知识库”，不生成成功标记。
+
+
+
+## 原始记录
+
+[按需核对历史原文与完整复现明细](../../machine/historical-records/legacy-20260910-05.md)。
 
 ## 相关知识页
 
 - [[audit_obsidian 与 prepare_vault 的协作实现]]
-- [[retrieve]]
-- [[start_session 与 _session_directory 的协作实现]]
-- [[retrieve_machine]]
+- [[build_agent_index 与 _tokens 的协作实现]]
+- [[finish_session 与 _session_directory 的协作实现]]
+- [[build_machine_knowledge 与 estimated_tokens 的协作实现]]
 - [[module_name 与 estimated_tokens 的协作实现]]
 - [[record_note]]
-- [[finalize 与 _replace_output_prefix 的协作实现]]
-- [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]]
+- [[audit_global 与 _replace_output_prefix 的协作实现]]
+- [[ensure_local_openers 与 SourceLinkRenderer 的协作实现]]
 
 ## 源码入口
 
-- [打开源码：scripts/ckb_core/obsidian.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/obsidian.py:1:1)  `scripts/ckb_core/obsidian.py:1-134`
-- [打开源码：scripts/ckb_core/agent_index.py 第 440 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:440:1)  `scripts/ckb_core/agent_index.py:440-568`
+- [打开源码：scripts/ckb_core/obsidian.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/obsidian.py:1:1)  `scripts/ckb_core/obsidian.py:1-166`
+- [打开源码：scripts/ckb_core/agent_index.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_index.py:1:1)  `scripts/ckb_core/agent_index.py:1-555`
 - [打开源码：scripts/ckb_core/agent_maintenance.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/agent_maintenance.py:1:1)  `scripts/ckb_core/agent_maintenance.py:1-255`
-- [打开源码：scripts/ckb_core/machine_knowledge.py 第 942 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:942:1)  `scripts/ckb_core/machine_knowledge.py:942-1315`
+- [打开源码：scripts/ckb_core/machine_knowledge.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/machine_knowledge.py:1:1)  `scripts/ckb_core/machine_knowledge.py:1-1995`
 - [打开源码：scripts/ckb_core/navigation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/navigation.py:1:1)  `scripts/ckb_core/navigation.py:1-456`
-- [打开源码：scripts/ckb_core/workspace_notes.py 第 106 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/workspace_notes.py:106:1)  `scripts/ckb_core/workspace_notes.py:106-183`
-- [打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3314`
+- [打开源码：scripts/ckb_core/workspace_notes.py 第 197 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/workspace_notes.py:197:1)  `scripts/ckb_core/workspace_notes.py:197-273`
+- [打开源码：scripts/ckb_core/pipeline.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/pipeline.py:1:1)  `scripts/ckb_core/pipeline.py:1-3637`
 - [打开源码：scripts/ckb_core/source_links.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/source_links.py:1:1)  `scripts/ckb_core/source_links.py:1-184`

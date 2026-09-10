@@ -16,8 +16,8 @@
 
 ## 相关知识页
 
-- [[retrieve_machine 与 estimated_tokens 的协作实现]]
-- [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]]
+- [[build_machine_knowledge 与 estimated_tokens 的协作实现]]
+- [[ensure_local_openers 与 SourceLinkRenderer 的协作实现]]
 
 ## 源码入口
 

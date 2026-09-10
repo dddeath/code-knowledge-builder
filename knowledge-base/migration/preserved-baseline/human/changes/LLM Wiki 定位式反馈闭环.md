@@ -25,11 +25,11 @@
 ## 相关知识页
 
 - [[audit_obsidian 与 prepare_vault 的协作实现]]
-- [[retrieve_machine 与 estimated_tokens 的协作实现]]
-- [[retrieve 与 _tokens 的协作实现]]
-- [[query_graph 与 _networkx_modules 的协作实现]]
-- [[audit_migration]]
-- [[SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现]]
+- [[build_machine_knowledge 与 estimated_tokens 的协作实现]]
+- [[build_agent_index 与 _tokens 的协作实现]]
+- [[project_graphify 与 _networkx_modules 的协作实现]]
+- [[migrate_output 与 _entity_key 的协作实现]]
+- [[ensure_local_openers 与 SourceLinkRenderer 的协作实现]]
 - [[CkbError 与 DependencyError 的协作实现]]
 - [[package_showcase 与 _parse_sample 的协作实现]]
 - [[record_note 与 page_tag 的协作实现]]

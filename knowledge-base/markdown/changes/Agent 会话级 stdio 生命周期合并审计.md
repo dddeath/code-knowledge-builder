@@ -38,7 +38,7 @@
 
 ## 相关知识页
 
-- [[start_session 与 _session_directory 的协作实现]]
+- [[finish_session 与 _session_directory 的协作实现]]
 
 ## 源码入口
 

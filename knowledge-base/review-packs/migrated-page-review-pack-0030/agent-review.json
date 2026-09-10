@@ -3,20 +3,20 @@
   "pack_id": "migrated-page-review-pack-0030",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-03T22:05:59Z",
+  "reviewed_at_utc": "2026-09-10T03:34:31Z",
   "reviews": [
     {
-      "entity_id": "file-5096edf074e35db9af5b5bf2f3d37cef",
+      "entity_id": "file-829d218f463652a99dc12aced5796d28",
       "classification": "page",
-      "owner_page_id": "file-5096edf074e35db9af5b5bf2f3d37cef",
-      "source_path": "scripts/ckb_core/pipeline.py",
+      "owner_page_id": "file-829d218f463652a99dc12aced5796d28",
+      "source_path": "scripts/ckb_core/parsers.py",
       "start_line": 1,
-      "end_line": 3605,
+      "end_line": 1020,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb_core/pipeline.py` 第 1 至 3605 行；摘录与 Git blob 06869d8b1045 一致。",
-      "meaning_zh": "文件 `scripts/ckb_core/pipeline.py`负责编排固定快照解析、Agent 审阅、页面投影、迁移、全局审计与最终生成。",
-      "role_zh": "它属于从源码事实到机器索引和人类页面的一致性主流程，当前说明只覆盖所列固定源码范围。",
-      "change_when_zh": "当构建阶段、迁移复用、页面预算、可读性、镜像或完成门变化时，应同步复查本页及其直接关联测试。"
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0014审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "该模块从固定源码字节提取五种语言的文件与声明实体，记录提交、blob、字节范围和父子关系；对可保留的局部 C/C++ 语法诊断显式降低事实完整性，并将 C# 分部声明合并为带来源片段的逻辑实体。",
+      "role_zh": "它提供解析目录和候选链接的语法基础，而不等同于运行时调用证明；Python 使用作用域绑定解析候选引用，其他语言使用唯一名称词项候选，语义提供器在后续阶段补充更强证据。",
+      "change_when_zh": "语言声明识别、名称范围、实体编号、薄声明排除、诊断降级阈值、C# 分部合并或 Python 词法绑定规则变化时修改此模块，并同时核对源码范围、警告传播和候选关系的精度边界。"
     }
   ]
 }

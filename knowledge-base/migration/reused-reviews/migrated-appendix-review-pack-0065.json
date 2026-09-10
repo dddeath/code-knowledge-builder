@@ -1,0 +1,218 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-appendix-review-pack-0065",
+  "kind": "appendix-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-10T03:35:40Z",
+  "reviews": [
+    {
+      "entity_id": "ent-71af2b837b5952fabf4d90a3bebe5edc",
+      "classification": "appendix",
+      "owner_page_id": "file-55487031249657c68abe4d7b00c8fce9",
+      "source_path": "tests/test_migration.py",
+      "start_line": 58,
+      "end_line": 245,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-appendix-review-pack-0034审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "description_zh": "验证精确 blob 的解析与审阅复用、迁移目录重绑定、可变层保留及语法警告引用全部重编号。"
+    },
+    {
+      "entity_id": "ent-5030e178bfdb5f938bcf8115d6ed0581",
+      "classification": "appendix",
+      "owner_page_id": "file-55487031249657c68abe4d7b00c8fce9",
+      "source_path": "tests/test_migration.py",
+      "start_line": 59,
+      "end_line": 77,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_migration.py` 第 59 至 77 行；摘录与 Git blob 50ccee44e703 一致。",
+      "description_zh": "`setUp` 完成固定快照迁移回归验证中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-3f0df467efe3583da6574f20de1e0f14",
+      "classification": "appendix",
+      "owner_page_id": "file-55487031249657c68abe4d7b00c8fce9",
+      "source_path": "tests/test_migration.py",
+      "start_line": 79,
+      "end_line": 84,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_migration.py` 第 79 至 84 行；摘录与 Git blob 50ccee44e703 一致。",
+      "description_zh": "`tearDown` 完成固定快照迁移回归验证中的一个明确步骤。"
+    },
+    {
+      "entity_id": "ent-7b77e736c1b0548cbec26a907fc2f78f",
+      "classification": "appendix",
+      "owner_page_id": "file-55487031249657c68abe4d7b00c8fce9",
+      "source_path": "tests/test_migration.py",
+      "start_line": 86,
+      "end_line": 190,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_migration.py` 第 86 至 190 行；摘录与 Git blob 50ccee44e703 一致。",
+      "description_zh": "该测试验证“exact blob facts and agent re…”场景，保护固定快照迁移回归验证的预期结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-4c6b41a4087b5fe7b6dd39ec3b2fedd3",
+      "classification": "appendix",
+      "owner_page_id": "file-55487031249657c68abe4d7b00c8fce9",
+      "source_path": "tests/test_migration.py",
+      "start_line": 192,
+      "end_line": 245,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 19152b227ccf 中 `tests/test_migration.py` 第 192 至 245 行；摘录与 Git blob 50ccee44e703 一致。",
+      "description_zh": "该测试验证“exact blob local syntax warni…”场景，保护固定快照迁移回归验证的预期结果与失败边界。"
+    },
+    {
+      "entity_id": "ent-590ce5a0885458288a6d2cf25e377c35",
+      "classification": "appendix",
+      "owner_page_id": "file-69fbe80793da518d90cc881c79bd6987",
+      "source_path": "tests/test_migration_owner_relink.py",
+      "start_line": 20,
+      "end_line": 23,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新读取固定提交 4617928a67576fc4d2630584e70f3e2a104e17fc 的 tests/test_migration_owner_relink.py 第 20-23 行，并核对新版本整文件上下文；Git blob 与提案一致，目录字节范围与摘录相等，描述依据源码分支与数据流，不把测试断言当作运行结果。",
+      "description_zh": "调用实际逻辑投影并选取页面、链接和实体归属映射作为重连输入。"
+    },
+    {
+      "entity_id": "ent-82acf42c788951988029e83be3d20c0d",
+      "classification": "appendix",
+      "owner_page_id": "file-69fbe80793da518d90cc881c79bd6987",
+      "source_path": "tests/test_migration_owner_relink.py",
+      "start_line": 26,
+      "end_line": 101,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新读取固定提交 4617928a67576fc4d2630584e70f3e2a104e17fc 的 tests/test_migration_owner_relink.py 第 26-101 行，并核对新版本整文件上下文；Git blob 与提案一致，目录字节范围与摘录相等，描述依据源码分支与数据流，不把测试断言当作运行结果。",
+      "description_zh": "验证页面转附录及聚合页的唯一归属重连，覆盖歧义保留和不可变证据边界。"
+    },
+    {
+      "entity_id": "ent-181420237fa256678568932bb7687306",
+      "classification": "appendix",
+      "owner_page_id": "file-69fbe80793da518d90cc881c79bd6987",
+      "source_path": "tests/test_migration_owner_relink.py",
+      "start_line": 27,
+      "end_line": 63,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新读取固定提交 4617928a67576fc4d2630584e70f3e2a104e17fc 的 tests/test_migration_owner_relink.py 第 27-63 行，并核对新版本整文件上下文；Git blob 与提案一致，目录字节范围与摘录相等，描述依据源码分支与数据流，不把测试断言当作运行结果。",
+      "description_zh": "构造旧新投影、含代码示例的双镜像笔记与三类不可变文件作为重连夹具。"
+    },
+    {
+      "entity_id": "ent-29d867be7a295a2cbb23e6f148b3bb1e",
+      "classification": "appendix",
+      "owner_page_id": "file-69fbe80793da518d90cc881c79bd6987",
+      "source_path": "tests/test_migration_owner_relink.py",
+      "start_line": 65,
+      "end_line": 84,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新读取固定提交 4617928a67576fc4d2630584e70f3e2a104e17fc 的 tests/test_migration_owner_relink.py 第 65-84 行，并核对新版本整文件上下文；Git blob 与提案一致，目录字节范围与摘录相等，描述依据源码分支与数据流，不把测试断言当作运行结果。",
+      "description_zh": "验证页面转附录和聚合页链接指向真实新归属，且正文、证据及重复执行结果稳定。"
+    },
+    {
+      "entity_id": "ent-5bc079aa73b95f39944c8e0c95c3acdf",
+      "classification": "appendix",
+      "owner_page_id": "file-69fbe80793da518d90cc881c79bd6987",
+      "source_path": "tests/test_migration_owner_relink.py",
+      "start_line": 86,
+      "end_line": 101,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新读取固定提交 4617928a67576fc4d2630584e70f3e2a104e17fc 的 tests/test_migration_owner_relink.py 第 86-101 行，并核对新版本整文件上下文；Git blob 与提案一致，目录字节范围与摘录相等，描述依据源码分支与数据流，不把测试断言当作运行结果。",
+      "description_zh": "构造重复语义实体与拆分边界，断言旧链接保留并记录未唯一映射的标题。"
+    },
+    {
+      "entity_id": "ent-5467a079ed67570d8216274a5bce121e",
+      "classification": "appendix",
+      "owner_page_id": "file-22a3b45ef8685768b672c6f60e99bd1b",
+      "source_path": "tests/test_obsidian_deployment_preservation.py",
+      "start_line": 21,
+      "end_line": 22,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新读取固定提交 4617928a67576fc4d2630584e70f3e2a104e17fc 的 tests/test_obsidian_deployment_preservation.py 第 21-22 行，并核对新版本整文件上下文；Git blob 与提案一致，目录字节范围与摘录相等，描述依据源码分支与数据流，不把测试断言当作运行结果。",
+      "description_zh": "以相对路径到原始字节的映射拍摄测试目录文件快照。"
+    },
+    {
+      "entity_id": "ent-1fcf018ade2b5fa5854d95c24f6c0b82",
+      "classification": "appendix",
+      "owner_page_id": "file-22a3b45ef8685768b672c6f60e99bd1b",
+      "source_path": "tests/test_obsidian_deployment_preservation.py",
+      "start_line": 25,
+      "end_line": 158,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新读取固定提交 4617928a67576fc4d2630584e70f3e2a104e17fc 的 tests/test_obsidian_deployment_preservation.py 第 25-158 行，并核对新版本整文件上下文；Git blob 与提案一致，目录字节范围与摘录相等，描述依据源码分支与数据流，不把测试断言当作运行结果。",
+      "description_zh": "验证插件升级保留用户状态，并覆盖实际发行包、写入失败与 Windows 占用语义。"
+    },
+    {
+      "entity_id": "ent-554214c46d0c55b1b7161b4f978c844e",
+      "classification": "appendix",
+      "owner_page_id": "file-22a3b45ef8685768b672c6f60e99bd1b",
+      "source_path": "tests/test_obsidian_deployment_preservation.py",
+      "start_line": 26,
+      "end_line": 51,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新读取固定提交 4617928a67576fc4d2630584e70f3e2a104e17fc 的 tests/test_obsidian_deployment_preservation.py 第 26-51 行，并核对新版本整文件上下文；Git blob 与提案一致，目录字节范围与摘录相等，描述依据源码分支与数据流，不把测试断言当作运行结果。",
+      "description_zh": "建立新旧包、用户设置、白板和其他插件，注册新包并保存升级前字节快照。"
+    },
+    {
+      "entity_id": "ent-e68a16e9e0c55b4f8668aff06c5629fe",
+      "classification": "appendix",
+      "owner_page_id": "file-22a3b45ef8685768b672c6f60e99bd1b",
+      "source_path": "tests/test_obsidian_deployment_preservation.py",
+      "start_line": 53,
+      "end_line": 54,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新读取固定提交 4617928a67576fc4d2630584e70f3e2a104e17fc 的 tests/test_obsidian_deployment_preservation.py 第 53-54 行，并核对新版本整文件上下文；Git blob 与提案一致，目录字节范围与摘录相等，描述依据源码分支与数据流，不把测试断言当作运行结果。",
+      "description_zh": "使用测试库及测试注册文件调用核心插件部署入口。"
+    },
+    {
+      "entity_id": "ent-1c390561e6cd54e8bfbda53cc70e421a",
+      "classification": "appendix",
+      "owner_page_id": "file-22a3b45ef8685768b672c6f60e99bd1b",
+      "source_path": "tests/test_obsidian_deployment_preservation.py",
+      "start_line": 64,
+      "end_line": 70,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新读取固定提交 4617928a67576fc4d2630584e70f3e2a104e17fc 的 tests/test_obsidian_deployment_preservation.py 第 64-70 行，并核对新版本整文件上下文；Git blob 与提案一致，目录字节范围与摘录相等，描述依据源码分支与数据流，不把测试断言当作运行结果。",
+      "description_zh": "验证普通升级更新声明包文件，同时保留设置、白板与其他插件。"
+    },
+    {
+      "entity_id": "ent-fe93462a3199500eb88280f3854926cf",
+      "classification": "appendix",
+      "owner_page_id": "file-22a3b45ef8685768b672c6f60e99bd1b",
+      "source_path": "tests/test_obsidian_deployment_preservation.py",
+      "start_line": 72,
+      "end_line": 84,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新读取固定提交 4617928a67576fc4d2630584e70f3e2a104e17fc 的 tests/test_obsidian_deployment_preservation.py 第 72-84 行，并核对新版本整文件上下文；Git blob 与提案一致，目录字节范围与摘录相等，描述依据源码分支与数据流，不把测试断言当作运行结果。",
+      "description_zh": "分别运行实际发行包的核心和独立部署入口，核对包文件与用户状态。"
+    },
+    {
+      "entity_id": "ent-99eba07e16aa523ab6e6ec9c9c55c594",
+      "classification": "appendix",
+      "owner_page_id": "file-22a3b45ef8685768b672c6f60e99bd1b",
+      "source_path": "tests/test_obsidian_deployment_preservation.py",
+      "start_line": 86,
+      "end_line": 90,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新读取固定提交 4617928a67576fc4d2630584e70f3e2a104e17fc 的 tests/test_obsidian_deployment_preservation.py 第 86-90 行，并核对新版本整文件上下文；Git blob 与提案一致，目录字节范围与摘录相等，描述依据源码分支与数据流，不把测试断言当作运行结果。",
+      "description_zh": "模拟重命名权限错误，断言部署切换原位复制并保留用户状态。"
+    },
+    {
+      "entity_id": "ent-db63f6534cdf5c6e983147f3b9961fe3",
+      "classification": "appendix",
+      "owner_page_id": "file-22a3b45ef8685768b672c6f60e99bd1b",
+      "source_path": "tests/test_obsidian_deployment_preservation.py",
+      "start_line": 92,
+      "end_line": 110,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新读取固定提交 4617928a67576fc4d2630584e70f3e2a104e17fc 的 tests/test_obsidian_deployment_preservation.py 第 92-110 行，并核对新版本整文件上下文；Git blob 与提案一致，目录字节范围与摘录相等，描述依据源码分支与数据流，不把测试断言当作运行结果。",
+      "description_zh": "注入部分复制失败，断言旧包与配置完整恢复到升级前目录快照。"
+    },
+    {
+      "entity_id": "ent-51629d8825b85ffbb2f59d09533a06b7",
+      "classification": "appendix",
+      "owner_page_id": "file-22a3b45ef8685768b672c6f60e99bd1b",
+      "source_path": "tests/test_obsidian_deployment_preservation.py",
+      "start_line": 94,
+      "end_line": 97,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新读取固定提交 4617928a67576fc4d2630584e70f3e2a104e17fc 的 tests/test_obsidian_deployment_preservation.py 第 94-97 行，并核对新版本整文件上下文；Git blob 与提案一致，目录字节范围与摘录相等，描述依据源码分支与数据流，不把测试断言当作运行结果。",
+      "description_zh": "仅对样式文件注入重命名失败，其他目标调用原始替换操作。"
+    }
+  ]
+}

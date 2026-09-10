@@ -36,7 +36,7 @@ README 负责帮助人类开始使用和继续指挥 Agent，不承担完整 API
 
 ## 相关知识页
 
-- [[ReadmeHumanEntryTests]]
+- [[contract_errors 等测试场景]]
 
 ## 源码入口
 

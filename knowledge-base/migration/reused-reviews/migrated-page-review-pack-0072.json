@@ -1,0 +1,87 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0072",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-10T03:35:28Z",
+  "reviews": [
+    {
+      "entity_id": "file-13e161776dc157ac8eb15eedecf0c987",
+      "classification": "page",
+      "owner_page_id": "file-13e161776dc157ac8eb15eedecf0c987",
+      "source_path": "tests/test_reference_pdf_effect_benchmark.py",
+      "start_line": 1,
+      "end_line": 97,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0036审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "该文件核对历史原生 PDF 效果实验的冻结协议与归档复算，要求当前实现或解析器身份变化显式失败，同时不得覆盖已有历史结果。",
+      "role_zh": "它约束旧实验的适用范围，历史协议中的网页未实现和零真实 OCR 是当时条件而非当前能力判断；归档结果与当前重跑结论分开验证。",
+      "change_when_zh": "历史基准复算、来源或解析器身份检查以及失败写入保护变化时修改此文件，保留冻结历史证据而不重标记成当前结果。"
+    },
+    {
+      "entity_id": "ent-ea498f0b42dc56cdafde9fc665ab917b",
+      "classification": "page",
+      "owner_page_id": "ent-ea498f0b42dc56cdafde9fc665ab917b",
+      "source_path": "tests/test_reference_pdf_effect_benchmark.py",
+      "start_line": 20,
+      "end_line": 92,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0036审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "该测试类检查冻结 PDF 协议、当前实现漂移和解析器漂移的结果，核对保存的报告可以独立复算，失败时原有结果文件保持不变。",
+      "role_zh": "它防止把历史原生 PDF 测量外推到网页与 OCR 综合能力，保留身份变化与数值指标相同也应失败的证据边界。",
+      "change_when_zh": "报告检查字段、解析器身份或历史结果保护规则变化时修改此类，并分别核对旧报告和当前运行状态。"
+    },
+    {
+      "entity_id": "file-eae2c209c1e85eedb4d7108bae6c4a5b",
+      "classification": "page",
+      "owner_page_id": "file-eae2c209c1e85eedb4d7108bae6c4a5b",
+      "source_path": "tests/test_reference_pdf_ocr_fidelity_benchmark.py",
+      "start_line": 1,
+      "end_line": 109,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0036审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "该文件验证原生、扫描和混合 OCR fixture 的冻结身份，以及归档测量中的文本覆盖、代码、表格和页定位指标与真实引擎证据。",
+      "role_zh": "它将分维度质量和故障诊断保留为独立断言，默认读取归档结果，只有显式开启环境开关才运行真实 OCR 重放，不向普通测试隐式增加识别调用。",
+      "change_when_zh": "冻结输入、归档指标、引擎来源或真实重放开关变化时修改此文件，并区分归档核对与当前实际重跑。"
+    },
+    {
+      "entity_id": "ent-872fd29e92795a6d8e4ea7c546591b79",
+      "classification": "page",
+      "owner_page_id": "ent-872fd29e92795a6d8e4ea7c546591b79",
+      "source_path": "tests/test_reference_pdf_ocr_fidelity_benchmark.py",
+      "start_line": 23,
+      "end_line": 39,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0036审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "该测试核对冻结协议与标准答案哈希，要求三类 PDF 具有不同的原生文本页模式，并验证各文件哈希、页眉页脚噪声和四个质量维度。",
+      "role_zh": "它确保 OCR 基准输入类型真实分离，避免用同一种可提取文本的 PDF 冒充扫描与混合对照。",
+      "change_when_zh": "测试文档或标准答案变化时同步冻结此处期望，并重新核对原生、扫描和混合页模式。"
+    },
+    {
+      "entity_id": "file-99849ba249645cada446f1a668fdd95f",
+      "classification": "page",
+      "owner_page_id": "file-99849ba249645cada446f1a668fdd95f",
+      "source_path": "tests/test_reference_web.py",
+      "start_line": 1,
+      "end_line": 417,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0036审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "该文件通过本地静态 HTML 和随机端口 HTTP 服务验证网页输入适配、正文提取、响应来源、导入审阅和修订回滚。",
+      "role_zh": "它覆盖重定向、非 HTML、超量、超时与断网，要求默认本地导入不联网，网络失败不改已有参考，正文索引排除导航噪声。",
+      "change_when_zh": "网页模式参数、获取证据、正文片段、修订身份或失败清理变化时修改相应测试，并保留静态与实时输入分离。"
+    },
+    {
+      "entity_id": "ent-19e7902b9e565888925c3ba84cb30d4c",
+      "classification": "page",
+      "owner_page_id": "ent-19e7902b9e565888925c3ba84cb30d4c",
+      "source_path": "tests/test_reference_web.py",
+      "start_line": 257,
+      "end_line": 364,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0036审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "该测试从静态网页导入停在待审门开始，提交精确片段行范围后核对人类页和正文索引，随后验证内容漂移、显式修订及不同地址重复内容标记。",
+      "role_zh": "它贯通网页来源与参考生命周期，还通过篡改正文快照验证审计失败，并检查回滚移除对应人类页，不把网页片段变成源码事实。",
+      "change_when_zh": "静态导入、片段审阅、正文哈希、修订或重复内容识别变化时修改此测试，并保留待审时尚未生成页面的断言。"
+    }
+  ]
+}

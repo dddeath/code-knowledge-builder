@@ -18,62 +18,8 @@
 
 ## 谁会来到这里
 
-- [[CanvasContractTests]] 会使用这里提供的行为。
-- [[CanvasContractTests 等测试场景]] 会使用这里提供的行为。
-- [[CanvasDeterminismTests]] 会使用这里提供的行为。
-- [[CanvasGraphTests]] 会使用这里提供的行为。
-- [[CanvasPathTests]] 会使用这里提供的行为。
-- [[CanvasRollbackTests]] 会使用这里提供的行为。
-- [[CanvasTransactionTests]] 会使用这里提供的行为。
-- [[FactFreshnessStateMachineTest]] 会使用这里提供的行为。
-- [[FactFreshnessStateMachineTest 等测试场景]] 会使用这里提供的行为。
-- [[HumanPageAuthoringValidationFailureTests]] 会使用这里提供的行为。
-- [[HumanPageAuthoringValidationFailureTests 等测试场景]] 会使用这里提供的行为。
-- [[KeywordFallbackRetrievalWiringTests]] 会使用这里提供的行为。
-- [[KeywordFallbackRetrievalWiringTests 等测试场景]] 会使用这里提供的行为。
-- [[MigrationTest]] 会使用这里提供的行为。
-- [[PackageReleaseTests]] 会使用这里提供的行为。
-- [[PageFanoutBenchmarkTests]] 会使用这里提供的行为。
-- [[PageFanoutGeneratorTests]] 会使用这里提供的行为。
-- [[PdfReferenceExtractionTests]] 会使用这里提供的行为。
-- [[PdfReferenceExtractionTests 等测试场景]] 会使用这里提供的行为。
-- [[RecordReplaceTests]] 会使用这里提供的行为。
-- [[ScopeExtensionOfferTests.retrieval 等测试场景]] 会使用这里提供的行为。
-- [[TagNavigationStateMachineTests]] 会使用这里提供的行为。
-- [[TemplateProposalStoreTests]] 会使用这里提供的行为。
-- [[_Transport.close 与 _StartGate 的协作实现]] 会使用这里提供的行为。
-- [[append 等测试场景]] 会使用这里提供的行为。
-- [[benchmark 的协作边界（16d95d34）]] 会使用这里提供的行为。
-- [[build_case]] 会使用这里提供的行为。
-- [[cli 的协作边界（99938c49）]] 会使用这里提供的行为。
-- [[cli 的协作边界（prototypes）]] 会使用这里提供的行为。
-- [[command 等测试场景]] 会使用这里提供的行为。
-- [[commands 的协作边界]] 会使用这里提供的行为。
-- [[create_batch_plan]] 会使用这里提供的行为。
-- [[create_knowledge_batch_plan]] 会使用这里提供的行为。
-- [[extract_pdf 与 PdfExtractionError 的协作实现]] 会使用这里提供的行为。
-- [[freeze 的协作边界]] 会使用这里提供的行为。
-- [[generator 的协作边界]] 会使用这里提供的行为。
-- [[get_human_page_template 与 SectionContract 的协作实现]] 会使用这里提供的行为。
-- [[ingest 与 connect 的协作实现]] 会使用这里提供的行为。
-- [[parser]] 会使用这里提供的行为。
-- [[render_page_author]] 会使用这里提供的行为。
-- [[render_page_author 与 _error 的协作实现]] 会使用这里提供的行为。
-- [[replace_note]] 会使用这里提供的行为。
+- 与 [[build_case]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 - 可从 [[tests 职责导览]] 进入本页。
-- [[transaction 的协作边界]] 会使用这里提供的行为。
-- [[validate_human_maintenance_invocation 与 ParameterSpec 的协作实现]] 会使用这里提供的行为。
-
-## 相关测试
-
-- [[AgentProtocolBatchApplyTests]]
-- [[AgentProtocolBatchApplyTests 等测试场景]]
-- [[AutomationTest.register 等测试场景]]
-- [[CanvasBenchmarkContractTests]]
-- [[CanvasContractTests]]
-- [[CanvasContractTests 等测试场景]]
-
-> 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
 
 ## 内部细节
 

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "baseline": "f7d2181fd7cbf619d6337abfc17a85124f2c302f",
+  "implementation_head": "8eec7cf17c8d712bb90a005242f157afa8e9ec11",
+  "comparison": "normalized-git-blob",
+  "patch_check_exit": 0,
+  "patch_apply_exit": 0,
+  "diff_check_exit": 0,
+  "files": [
+    {
+      "path": "scripts/ckb.py",
+      "expected_git_blob": "06e05856cf16595eb698ded520ee1152cb00d6a9",
+      "patched_git_blob": "06e05856cf16595eb698ded520ee1152cb00d6a9",
+      "match": true
+    },
+    {
+      "path": "scripts/ckb_core/reference_inputs.py",
+      "expected_git_blob": "34197d1c4e7c8943b57b7b5819e2177545a49a66",
+      "patched_git_blob": "34197d1c4e7c8943b57b7b5819e2177545a49a66",
+      "match": true
+    },
+    {
+      "path": "scripts/ckb_core/reference_documents.py",
+      "expected_git_blob": "1911b4e2a455f5185a374f3fd779a21ad0bb79cc",
+      "patched_git_blob": "1911b4e2a455f5185a374f3fd779a21ad0bb79cc",
+      "match": true
+    },
+    {
+      "path": "tests/test_reference_pdf.py",
+      "expected_git_blob": "2c781cc71dceaced3e6e01947e6c8a0c23223213",
+      "patched_git_blob": "2c781cc71dceaced3e6e01947e6c8a0c23223213",
+      "match": true
+    },
+    {
+      "path": "tests/test_reference_web.py",
+      "expected_git_blob": "2a3d52e82d20ffb6132ea7d296f0ac448a0543b8",
+      "patched_git_blob": "2a3d52e82d20ffb6132ea7d296f0ac448a0543b8",
+      "match": true
+    }
+  ]
+}

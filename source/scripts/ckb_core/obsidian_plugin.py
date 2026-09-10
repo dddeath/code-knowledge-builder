@@ -131,51 +131,80 @@ def deploy_obsidian_plugin_to_vault(vault: Path, registry: Path | None = None) -
     plugins = config / "plugins"
     plugins.mkdir(parents=True, exist_ok=True)
     destination = plugins / PLUGIN_ID
-    staging = plugins / f".{PLUGIN_ID}.staging"
-    if staging.exists():
-        safe_rmtree(staging, plugins)
-    staging.mkdir(parents=True)
-    for name in (*REQUIRED_FILES, *OPTIONAL_FILES):
-        source = payload / name
-        if source.is_file():
-            shutil.copy2(source, staging / name)
-    _validate_payload(staging)
-    install_mode = "atomic-replace"
-    use_in_place_copy = False
-    if destination.exists():
-        try:
-            safe_rmtree(destination, plugins)
-        except PermissionError:
-            use_in_place_copy = True
-    if not use_in_place_copy:
-        try:
-            staging.replace(destination)
-        except PermissionError:
-            use_in_place_copy = True
-    if use_in_place_copy:
-        # Obsidian can keep a Windows handle on the plugin directory while the
-        # vault is open. Individual files remain replaceable, so keep the
-        # verified staging payload and copy only the declared plugin files.
-        destination.mkdir(parents=True, exist_ok=True)
-        for name in (*REQUIRED_FILES, *OPTIONAL_FILES):
-            source = staging / name
-            target = destination / name
-            if source.is_file():
-                shutil.copy2(source, target)
-            elif target.is_file():
-                target.unlink()
-        _validate_payload(destination)
-        install_mode = "in-place-copy"
-        try:
-            safe_rmtree(staging, plugins)
-        except PermissionError:
-            pass
     community_path = config / "community-plugins.json"
     community = json_load(community_path) if community_path.is_file() else []
     if not isinstance(community, list):
         raise CkbError(f"Obsidian community-plugins.json must contain a list: {community_path}")
     enabled = list(dict.fromkeys([*[str(value) for value in community], PLUGIN_ID]))
-    json_write(community_path, enabled)
+    names = (*REQUIRED_FILES, *OPTIONAL_FILES)
+    staging = Path(tempfile.mkdtemp(prefix=f".{PLUGIN_ID}.deploy-", dir=plugins))
+    backup = staging / "backup"
+    backup.mkdir()
+    destination_existed = destination.exists()
+    baseline: dict[Path, Path | None] = {}
+    touched: list[Path] = []
+    recovery_errors: list[str] = []
+    install_mode = "atomic-file-replace"
+
+    def replace_file(source: Path | None, target: Path) -> None:
+        nonlocal install_mode
+        if source is None:
+            target.unlink(missing_ok=True)
+            return
+        temporary = staging / "replacement.tmp"
+        shutil.copy2(source, temporary)
+        try:
+            temporary.replace(target)
+        except PermissionError:
+            # A Windows reader may permit writes but deny renaming its file.
+            # Only this declared package file is copied; user files stay put.
+            install_mode = "in-place-copy"
+            shutil.copy2(source, target)
+        if target.read_bytes() != source.read_bytes():
+            raise CkbError(f"Obsidian plugin file did not reopen exactly: {target}")
+
+    try:
+        for name in names:
+            source = payload / name
+            if source.is_file():
+                shutil.copy2(source, staging / name)
+        _validate_payload(staging)
+        for index, target in enumerate([*(destination / name for name in names), community_path]):
+            if target.exists() and not target.is_file():
+                raise CkbError(f"Obsidian package target is not a file: {target}")
+            saved = backup / str(index) if target.is_file() else None
+            if saved is not None:
+                shutil.copy2(target, saved)
+            baseline[target] = saved
+        destination.mkdir(parents=True, exist_ok=True)
+        for name in names:
+            target = destination / name
+            source = staging / name
+            touched.append(target)
+            replace_file(source if source.is_file() else None, target)
+        _validate_payload(destination)
+        if not community_path.is_file() or community != enabled:
+            touched.append(community_path)
+            json_write(community_path, enabled)
+        if json_load(community_path) != enabled:
+            raise CkbError("Obsidian enabled-plugin list did not reopen exactly")
+    except Exception as exc:
+        for target in reversed(touched):
+            saved = baseline[target]
+            try:
+                if saved is not None and target.is_file() and target.read_bytes() == saved.read_bytes():
+                    continue
+                replace_file(saved, target)
+            except Exception as restore_error:
+                recovery_errors.append(f"{target}: {restore_error}")
+        if not destination_existed and destination.is_dir() and not any(destination.iterdir()):
+            destination.rmdir()
+        if recovery_errors:
+            raise CkbError(f"Obsidian deployment recovery incomplete; backups retained at {backup}: {recovery_errors}") from exc
+        raise
+    finally:
+        if not recovery_errors:
+            safe_rmtree(staging, plugins)
     result = {
         "schema_version": 1,
         "status": "deployed",

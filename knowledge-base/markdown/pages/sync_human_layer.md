@@ -14,24 +14,12 @@
 
 ## 相关代码
 
-- 实现时会用到 [[CkbError]]。
-- 实现时会用到 [[CkbError 与 DependencyError 的协作实现]]。
-- 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
-- 实现时会用到 [[append]]。
-- 实现时会用到 [[audit_output_contract 与 _default_ckb 的协作实现]]。
-- 实现时会用到 [[sync_human_layer 与 _source_manifest 的协作实现]]。
+- 与 [[CkbError]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[CkbError 与 DependencyError 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[project_output_contract]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[sync_human_layer 与 _source_manifest 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 
 ## 谁会来到这里
 
+- 与 [[audit_global 与 _replace_output_prefix 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 - [[sync_human_layer 与 _source_manifest 的协作实现]] 汇总了本页。
-
-## 相关测试
-
-- [[CodeKnowledgeBuilderTests]]
-- [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[KeywordFallbackRetrievalWiringTests]]
-- [[MigrationTest]]
-- [[PageFanoutBenchmarkTests]]
-- [[PdfReferenceExtractionTests]]
-
-> 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。

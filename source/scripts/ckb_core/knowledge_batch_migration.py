@@ -29,11 +29,12 @@ from .agent_protocol_batch import (
     supported_upgrade_path,
 )
 from .common import CkbError, json_load, json_write, path_inside, sha256_file, stable_id, utc_now
-from .gitrepo import preflight
+from .gitrepo import preflight, relocate_source_snapshot
 from .migration import (
     _preserve_mutable_layers,
     _replace_review_packs,
     audit_migration,
+    authoring_package_inventory,
     migrate_output,
 )
 from .pipeline import build_chunk, finalize, initialize, status as pipeline_status
@@ -1161,6 +1162,7 @@ def _cold_build(project: dict[str, Any]) -> dict[str, Any]:
     previous_output = Path(project["output"]).resolve()
     repository = Path(project["repository"]).resolve()
     staging = Path(project["staging"]).resolve()
+    packages = authoring_package_inventory(previous_output)
     selectors = project["scope_selectors"]
     initialize(
         repository,
@@ -1176,7 +1178,7 @@ def _cold_build(project: dict[str, Any]) -> dict[str, Any]:
         allow_dotnet_restore=bool(selectors.get("allow_dotnet_restore", False)),
         page_config_path=previous_output / "page-config.json",
     )
-    preserved = _preserve_mutable_layers(previous_output, staging)
+    preserved = _preserve_mutable_layers(previous_output, staging, authoring_packages=packages)
     state = json_load(staging / "state.json")
     for batch in state["parse_batches"]:
         build_chunk(staging, batch["id"], "all")
@@ -1709,6 +1711,22 @@ def _active_control(output: Path, actual: dict[str, Any] | None = None) -> tuple
     return matches[0] if matches else None
 
 
+def _repair_moved_snapshot(output: Path, previous_output: Path) -> None:
+    """Keep backup/quarantine registrations live without rebasing their state."""
+    state_path = output / "state.json"
+    if not state_path.is_file():
+        return
+    state = json_load(state_path)
+    snapshot = state.get("source_snapshot")
+    if not isinstance(snapshot, dict):
+        return
+    root = output / ".source-snapshot/worktree"
+    relocate_source_snapshot(
+        state["repository"], {**snapshot, "root": str(root)},
+        previous_output / ".source-snapshot/worktree",
+    )
+
+
 def _protocol_digest(project: dict[str, Any]) -> str:
     return _protocol_snapshot_digest(
         _protocol_snapshot_files(
@@ -1795,6 +1813,7 @@ def _cutover_one(
         try:
             _release_audit_handles()
             output.rename(backup)
+            _repair_moved_snapshot(backup, output)
             if fault == "after-backup-rename":
                 raise OSError("injected failure after backup rename")
             backup_manifest = _tree_manifest(backup)
@@ -1862,8 +1881,10 @@ def _cutover_one(
             try:
                 if moved_staging and output.exists():
                     output.rename(staging)
+                    _repair_moved_snapshot(staging, output)
                 if backup.exists() and not output.exists():
                     backup.rename(output)
+                    _repair_moved_snapshot(output, backup)
                 _restore_protocol_backup(Path(protocol_backup["manifest_path"]))
             finally:
                 restored = output.is_dir() and _manifest_matches(project["origin_manifest"], _tree_manifest(output))
@@ -1961,10 +1982,12 @@ def _rollback_one(
         try:
             _release_audit_handles()
             output.rename(quarantine)
+            _repair_moved_snapshot(quarantine, output)
             if fault == "after-modified-rename":
                 raise OSError("injected failure after modified rename")
             backup.rename(output)
             restored_origin = True
+            _repair_moved_snapshot(output, backup)
             if fault == "after-backup-restore":
                 raise OSError("injected failure after backup restore")
             _restore_protocol_backup(Path(record["protocol_backup"]))
@@ -2004,8 +2027,10 @@ def _rollback_one(
             try:
                 if restored_origin and output.exists():
                     output.rename(backup)
+                    _repair_moved_snapshot(backup, output)
                 if quarantine.exists() and not output.exists():
                     quarantine.rename(output)
+                    _repair_moved_snapshot(output, quarantine)
                 # Restore the promoted managed bytes when the old backup was
                 # partially applied.  The quarantined promoted OUTPUT carries
                 # its exact internal bytes; external blocks are guarded by the

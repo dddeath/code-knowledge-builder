@@ -1,0 +1,74 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0070",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-10T03:35:27Z",
+  "reviews": [
+    {
+      "entity_id": "ent-abe1c4348b175b77baf3cf16254c7441",
+      "classification": "page",
+      "owner_page_id": "ent-abe1c4348b175b77baf3cf16254c7441",
+      "source_path": "tests/test_recruitment_migration_provenance.py",
+      "start_line": 33,
+      "end_line": 45,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0034审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "该初始化方法创建临时小型 Git 仓库并提交固定的双倍计算函数，登记临时目录自动清理，并设置旧新输出位置。",
+      "role_zh": "它为来源保留测试提供真实 Git 对象与可移动的固定快照基础，而不是以文件名或虚构提交代替版本身份。",
+      "change_when_zh": "来源测试的仓库最小内容、Git 身份或输出目录结构变化时修改此方法，并保持每项测试隔离。"
+    },
+    {
+      "entity_id": "file-d79ad78ba32253ce98e3c6121a8716ab",
+      "classification": "page",
+      "owner_page_id": "file-d79ad78ba32253ce98e3c6121a8716ab",
+      "source_path": "tests/test_recruitment_output_contract.py",
+      "start_line": 1,
+      "end_line": 271,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0034审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "该文件在真实生成的知识库投影和记录上验证人类输出合同，覆盖缓存审计不能掩盖正文漂移、源码快照失败、旧事实查询、来源候选不确定性及 V3 证据披露。",
+      "role_zh": "它将受控写入和维护门串成回归场景，正文保留有用技术摘要但排除完整测试日志和命令，作者包机器证据另存且替换必须重新验证。",
+      "change_when_zh": "人类可读性、历史例外、作者包替换或词法候选显示变化时修改此文件，并分别检查原文未改和当前缺陷确实被重新发现。"
+    },
+    {
+      "entity_id": "ent-07fb595f69e8536d8327d796d2ea9ed8",
+      "classification": "page",
+      "owner_page_id": "ent-07fb595f69e8536d8327d796d2ea9ed8",
+      "source_path": "tests/test_recruitment_output_contract.py",
+      "start_line": 22,
+      "end_line": 46,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0034审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "该函数包装测试命令执行，在配置证据目录时保存命令、退出码、输出及关联正文和失败审计输入，随后返回原执行结果。",
+      "role_zh": "它为人类输出合同回归保留可复读执行证据，不把日志写入稳定人类页面；未配置证据目录时只执行原包装命令。",
+      "change_when_zh": "测试证据目录、命令输入捕获或失败审计字段变化时修改此函数，并避免把证据日志当成命令成功本身。"
+    },
+    {
+      "entity_id": "file-7a1b01ee7dc1570387e1ba842d266fc4",
+      "classification": "page",
+      "owner_page_id": "file-7a1b01ee7dc1570387e1ba842d266fc4",
+      "source_path": "tests/test_recruitment_relation_scope.py",
+      "start_line": 1,
+      "end_line": 150,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0034审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "该文件使用真实 Tree-sitter 解析与词法关系提取，在公开小型标注样例中核对 Python 作用域、导入别名、遮蔽和成员失效边界，并可输出精确率与召回。",
+      "role_zh": "它是关系误连回归与开发样例测量入口，特别防止无关测试里的同名函数改变局部调用候选；公开开发样例不是留出评价，也不代表编码成功率。",
+      "change_when_zh": "Python 词法绑定、模块解析或属性写入失效规则变化时修改对应样例与断言，并保留误报和漏报分别计量。"
+    },
+    {
+      "entity_id": "ent-a4277dccefd55075a453ffcd26852cd9",
+      "classification": "page",
+      "owner_page_id": "ent-a4277dccefd55075a453ffcd26852cd9",
+      "source_path": "tests/test_recruitment_relation_scope.py",
+      "start_line": 13,
+      "end_line": 23,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0034审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "该函数把多文件源码转换为字节并逐一解析，要求语法通过后汇集实体，再将词法引用边转换为路径和限定名组成的关系集合。",
+      "role_zh": "它是关系范围测试的真实解析入口，只保留 references 链接用于标注比较，稳定标识使用测试来源而不是生产仓库版本。",
+      "change_when_zh": "解析实体结构、词法链接字段或测试输入编码变化时修改此函数，并检查返回关系仍可定位到具体文件与符号。"
+    }
+  ]
+}

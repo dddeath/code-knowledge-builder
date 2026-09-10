@@ -1,0 +1,38 @@
+[
+  {
+    "source": "20260910-record-replace-incremental",
+    "status": "passed",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-ExecutionPolicy",
+      "Bypass",
+      "-File",
+      "E:\\knowledge_builder\\artifacts\\verification\\20260910-record-replace-incremental\\rollback.ps1",
+      "-Target",
+      "E:\\knowledge_builder\\artifacts\\verification\\20260910-knowledge-sync\\20260910-record-replace-incremental-rollback-probe"
+    ],
+    "stdout": "{\"status\": \"restored\", \"target\": \"E:\\\\knowledge_builder\\\\artifacts\\\\verification\\\\20260910-knowledge-sync\\\\20260910-record-replace-incremental-rollback-probe\", \"files\": 2, \"git_history_changed\": false}\n",
+    "stderr": "",
+    "exit_status": 0,
+    "patch_sha256": "62848fccc77f59d532cebd1c52ba6fbedb10cdbac675bfa041904e6bfd443991"
+  },
+  {
+    "source": "20260910-reference-marker-migration",
+    "status": "passed",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-ExecutionPolicy",
+      "Bypass",
+      "-File",
+      "E:\\knowledge_builder\\artifacts\\verification\\20260910-reference-marker-migration\\rollback.ps1",
+      "-Target",
+      "E:\\knowledge_builder\\artifacts\\verification\\20260910-knowledge-sync\\20260910-reference-marker-migration-rollback-probe"
+    ],
+    "stdout": "{\"status\": \"restored\", \"target\": \"E:\\\\knowledge_builder\\\\artifacts\\\\verification\\\\20260910-knowledge-sync\\\\20260910-reference-marker-migration-rollback-probe\", \"files\": 2, \"git_history_changed\": false}\n",
+    "stderr": "",
+    "exit_status": 0,
+    "patch_sha256": "19275619bcf6428b75e8a0ef86192daf580129b1ab1b5a2678fbeb26acb2de81"
+  }
+]

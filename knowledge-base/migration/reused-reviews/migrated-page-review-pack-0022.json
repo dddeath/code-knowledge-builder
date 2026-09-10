@@ -3,20 +3,20 @@
   "pack_id": "migrated-page-review-pack-0022",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-03T22:05:32Z",
+  "reviewed_at_utc": "2026-09-10T03:34:12Z",
   "reviews": [
     {
-      "entity_id": "file-2cfab0921fe654988b23b1499c1b9bfa",
+      "entity_id": "file-1904dcfa45225aa5913d72a6c832d2bc",
       "classification": "page",
-      "owner_page_id": "file-2cfab0921fe654988b23b1499c1b9bfa",
+      "owner_page_id": "file-1904dcfa45225aa5913d72a6c832d2bc",
       "source_path": "scripts/ckb_core/knowledge_batch_migration.py",
       "start_line": 1,
-      "end_line": 2076,
+      "end_line": 2101,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/knowledge_batch_migration.py` 第 1-2076 行的源码摘录，文件、符号与行范围一致。",
-      "meaning_zh": "`scripts/ckb_core/knowledge_batch_migration.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
-      "role_zh": "负责完整知识库批量迁移的计划、隔离构建、审计、切换和精确回滚。",
-      "change_when_zh": "当 `scripts/ckb_core/knowledge_batch_migration.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0010审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "通过显式清单批量迁移已完成知识库，记录每个项目的计划、迁移或冷启动、待审、审计、切换和回滚结果，并允许失败项目单独恢复。",
+      "role_zh": "计划固定旧输出全树、关键记录、版本链、目标快照与路径边界；执行复用既有迁移和审阅门。切换使用输出目录外的所属锁、备份及控制记录，只有暂存审计和摘要仍匹配才提升；回滚拒绝正式输出、协议或备份漂移，并保留被替换版本与操作父链。",
+      "change_when_zh": "修改历史版本矩阵、迁移策略、可变层保全或路径拓扑时，联动项目预检与完整审计；切换/回滚流程变化须同时检查快照注册修复、协议备份、目录改名故障恢复和状态幂等规则。"
     }
   ]
 }

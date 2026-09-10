@@ -2,41 +2,23 @@
 
 标签：#类型/代码
 
-> 代码单元 `main`负责解析 CKB 命令行输入并把请求分派到检索、迁移、参考资料和管理能力。 它属于所有 Harness 调用 CKB 的统一公开入口，当前说明只覆盖所列固定源码范围。
+> 解析一个 CLI 请求并调用相应核心能力，输出结果；审阅待办、审计失败、输入失败和新鲜度状态各按分支返回不同退出码。 将 argparse 命名空间转换为核心函数参数，并在检索命令中选择会话复用、完整机器库或旧索引路径。页面候选文稿异常返回结构化失败，Hook 异常另写 stderr；迁移、参考资料和审计分支不把待审状态当作完成。
 
 ## 什么时候需要修改
 
-当公开命令、参数合同、退出状态或子系统入口变化时，应同步复查本页及其直接关联测试。
+调整任何公开命令的状态、参数或返回结构时，应同时核对 parser 与分派分支；重点联动会话检索、关键词回退、迁移待审退出码、Hook 非阻塞约定及页面候选文稿输入错误处理。
 
 ## 在代码中的位置
 
-[打开源码：scripts/ckb.py 第 966 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:966:1)  `scripts/ckb.py:966-1768`
+[打开源码：scripts/ckb.py 第 996 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:996:1)  `scripts/ckb.py:996-1838`
 
 ## 相关代码
 
-- 实现时会用到 [[AutomationTest.register]]。
-- 实现时会用到 [[CkbError]]。
-- 实现时会用到 [[FactFreshnessStateMachineTest]]。
-- 实现时会用到 [[KeywordFallbackRetrievalWiringTests 等测试场景]]。
-- 实现时会用到 [[_Transport.close]]。
-- 实现时会用到 [[_Transport.close 与 _StartGate 的协作实现]]。
-- 实现时会用到 [[append]]。
-- 实现时会用到 [[audit_agent_protocol]]。
-- 实现时会用到 [[audit_feedback]]。
-- 实现时会用到 [[audit_gap_register]]。
-- 实现时会用到 [[audit_migration]]。
-- 实现时会用到 [[audit_operation_journal]]。
-- 实现时会用到 [[audit_operation_journal 与 _root 的协作实现]]。
-- 实现时会用到 [[bind_conversation 与 default_management_registry_path 的协作实现]]。
-- 实现时会用到 [[create_knowledge_batch_plan 与 KnowledgeRelease 的协作实现]]。
-- 实现时会用到 [[finalize 与 _replace_output_prefix 的协作实现]]。
-- 实现时会用到 [[ingest_event 与 default_registry_path 的协作实现]]。
-- 实现时会用到 [[propose_template 与 _canonical_bytes 的协作实现]]。
-- 实现时会用到 [[retrieve_machine 与 estimated_tokens 的协作实现]]。
-- 实现时会用到 [[validate_human_maintenance_invocation 与 ParameterSpec 的协作实现]]。
+- 与 [[keyword_fallback_options]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[keyword_provider_config]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[keyword_provider_config 与 keyword_fallback_options 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[parser]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 
 ## 谁会来到这里
 
-- [[keyword_provider_config 与 parser 的协作实现]] 汇总了本页。
-
-> 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
+- [[keyword_provider_config 与 keyword_fallback_options 的协作实现]] 汇总了本页。

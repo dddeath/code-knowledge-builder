@@ -25,10 +25,10 @@ def assertions() -> list[dict]:
 
 
 class TagNavigationContractTests(unittest.TestCase):
-    def test_five_schemas_are_strict_json_objects(self) -> None:
+    def test_six_schemas_are_strict_json_objects(self) -> None:
         schema_root = PROTOTYPE / "schemas"
         schemas = sorted(schema_root.glob("*.schema.json"))
-        self.assertEqual(5, len(schemas))
+        self.assertEqual(6, len(schemas))
         for path in schemas:
             value = json.loads(path.read_text(encoding="utf-8"))
             self.assertEqual("object", value["type"])
@@ -53,6 +53,11 @@ class TagNavigationContractTests(unittest.TestCase):
         self.assertEqual("INVALID_PATH", raised.exception.reason)
         invalid = copy.deepcopy(sample)
         invalid["tag"] = "#topic/navigation"
+        with self.assertRaises(TagNavigationError) as raised:
+            validate_assertion(invalid)
+        self.assertEqual("INVALID_TAG", raised.exception.reason)
+        invalid = copy.deepcopy(sample)
+        invalid["tag"] = "../恶意"
         with self.assertRaises(TagNavigationError) as raised:
             validate_assertion(invalid)
         self.assertEqual("INVALID_TAG", raised.exception.reason)

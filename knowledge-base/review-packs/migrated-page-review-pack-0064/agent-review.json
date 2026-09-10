@@ -1,0 +1,61 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0064",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-10T03:35:22Z",
+  "reviews": [
+    {
+      "entity_id": "file-7dfb55ad44155dbfb7249942dfad4fd8",
+      "classification": "page",
+      "owner_page_id": "file-7dfb55ad44155dbfb7249942dfad4fd8",
+      "source_path": "tests/test_keyword_fallback.py",
+      "start_line": 1,
+      "end_line": 471,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0031审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "该文件验证关键词回退协议、命令适配器、缓存、检索接线和基准报告，覆盖无效候选、超时、凭据缺失、条件触发及失败保留原结果。",
+      "role_zh": "它以确定性提供器夹具和函数替身检查受控扩展仍由确定性检索选择，热缓存不计新用量，默认不启动模型；固定基准的增益断言仅验证评分逻辑。",
+      "change_when_zh": "候选校验、身份缓存、重试与触发条件、标准输入输出选项或基准恢复规则变化时修改此文件，并保留默认路径和失败回退行为。"
+    },
+    {
+      "entity_id": "ent-d08a519b70c75782b3a24546c3cf52b7",
+      "classification": "page",
+      "owner_page_id": "ent-d08a519b70c75782b3a24546c3cf52b7",
+      "source_path": "tests/test_keyword_fallback.py",
+      "start_line": 47,
+      "end_line": 58,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0031审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "该函数构造规范关键词请求，设置指定夹具模式后执行测试提供器，返回捕获的标准输出。",
+      "role_zh": "它为协议校验测试提供真实子进程传输路径，非零退出不在此函数中抛错，具体输出和失败由测试调用方判定。",
+      "change_when_zh": "夹具命令、请求格式或环境模式变化时修改此函数，并检查输入请求仍绑定同一规范问题身份。"
+    },
+    {
+      "entity_id": "file-edd79fa73d86535ea2898aa03d8f35b2",
+      "classification": "page",
+      "owner_page_id": "file-edd79fa73d86535ea2898aa03d8f35b2",
+      "source_path": "tests/test_keyword_real_provider_benchmark.py",
+      "start_line": 1,
+      "end_line": 76,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0031审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "该文件验证真实关键词提供器基准冻结十二题和六种故障探针，检查缺少提供器时写入未执行报告，并覆盖超时启动标记竞态。",
+      "role_zh": "它约束基准自身的协议和报告语义，不发起真实模型效果测量；超时判定依据适配器尝试次数，而不要求竞态下启动标记已经落盘。",
+      "change_when_zh": "冻结协议、未执行报告或故障判定依据变化时修改此文件，并确保零真实调用不被描述为已测量增益。"
+    },
+    {
+      "entity_id": "ent-116f8eb2081b5008939ca3c9cb88fb4b",
+      "classification": "page",
+      "owner_page_id": "ent-116f8eb2081b5008939ca3c9cb88fb4b",
+      "source_path": "tests/test_keyword_real_provider_benchmark.py",
+      "start_line": 21,
+      "end_line": 71,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0031审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "该测试类核对真实基准题集与源协议一致，验证未配置提供器时报告可复读且调用数为零，并模拟超时先于启动标记的情况。",
+      "role_zh": "它把提供器不可用和竞态失败的计数语义固定为回归约束，避免将启动标记缺失错误解释为未尝试适配器。",
+      "change_when_zh": "问题覆盖标签、未执行状态或超时尝试次数规则变化时修改此类，并保留报告与持久化文件一致的断言。"
+    }
+  ]
+}

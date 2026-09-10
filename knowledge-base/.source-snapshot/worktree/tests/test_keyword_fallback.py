@@ -80,6 +80,7 @@ class KeywordFallbackSchemaTests(unittest.TestCase):
             "duplicate-keywords": "duplicate",
             "prompt-injection": "prompt-injection",
             "unsupported-characters": "unsupported characters",
+            "empty-output": "at least one candidate",
             "wrong-request": "does not match",
         }
         for mode, message in modes.items():
@@ -176,6 +177,7 @@ class KeywordFallbackAdapterTests(unittest.TestCase):
     def test_invalid_json_output_and_process_failures_fall_back(self) -> None:
         expected = {
             "invalid-json": "invalid-json",
+            "empty-output": "invalid-output",
             "too-many-keywords": "invalid-output",
             "prompt-injection": "invalid-output",
             "exit-nonzero": "process-failed",

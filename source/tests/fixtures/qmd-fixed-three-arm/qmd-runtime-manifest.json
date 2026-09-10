@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "status": "verified-local-runtime",
+  "generated_at_utc": "2026-09-04T17:44:03.356198+00:00",
+  "package": {
+    "name": "@tobilu/qmd",
+    "version": "2.8.3",
+    "license": "MIT",
+    "node_engine": ">=22.0.0",
+    "git_head": "facd35e01359e59d938bc9418e93fb9318addee3",
+    "build_commit": "facd35e",
+    "dist_tarball": "https://registry.npmjs.org/@tobilu/qmd/-/qmd-2.8.3.tgz",
+    "dist_integrity": "sha512-zjfVwrObPB618B6x8SdhlGv/tX9OxRHsbQnr5DUtBvqPK6HGQ27lM+9/BAY5okpjrHVnW56hLyDkqoTcsrVLzA=="
+  },
+  "package_lock": {
+    "path": "tests/fixtures/qmd-fixed-three-arm/runtime/package-lock.json",
+    "sha256": "bfb414b3cc44cc8e5c0ab5ec2fe06388dcd2827857d12542c20f0976048f17c0",
+    "lockfile_version": 3,
+    "packages": 179
+  },
+  "node": {
+    "version": "v24.19.0",
+    "executable_kind": "caller-supplied-and-version-checked"
+  },
+  "model": {
+    "name": "embeddinggemma-300M-Q8_0.gguf",
+    "repository": "ggml-org/embeddinggemma-300M-GGUF",
+    "revision": "0f741b5a6585bd53aeb15cd1372c56f2a0f65e12",
+    "license": "gemma",
+    "source_uri": "hf:ggml-org/embeddinggemma-300M-GGUF/embeddinggemma-300M-Q8_0.gguf",
+    "bytes": 333590944,
+    "sha256": "b5ce9d77a3fc4b3b39ccb5643c36777911cc4eb46a66962eadfa3f5f60490d63",
+    "magic": "GGUF",
+    "runtime_binding": "caller-supplied local path; no download during measurement"
+  },
+  "adapter": {
+    "path": "prototypes/ckb-semantic-vector-benchmark/qmd_adapter.mjs",
+    "sha256": "2caa3d5b496e77743854cc806efe642a0f2b9f01f6eed10fea82f6ff63ae1001"
+  }
+}

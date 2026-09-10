@@ -1,0 +1,61 @@
+{
+  "schema_version": 4,
+  "pack_id": "migrated-page-review-pack-0074",
+  "kind": "page-review",
+  "reviewer": "Agent（经精确源码证据迁移）",
+  "reviewed_at_utc": "2026-09-10T03:35:47Z",
+  "reviews": [
+    {
+      "entity_id": "file-0fd45303ff3c5d01a89f65db4985b05c",
+      "classification": "page",
+      "owner_page_id": "file-0fd45303ff3c5d01a89f65db4985b05c",
+      "source_path": "tests/test_session_stdio.py",
+      "start_line": 1,
+      "end_line": 541,
+      "status": "agent-reviewed",
+      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `tests/test_session_stdio.py` 第 1-541 行的源码摘录，文件、符号与行范围一致。",
+      "meaning_zh": "`tests/test_session_stdio.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
+      "role_zh": "负责以可执行样例验证 `test_session_stdio.py` 覆盖的成功行为、失败边界和回归约束。",
+      "change_when_zh": "当 `tests/test_session_stdio.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
+    },
+    {
+      "entity_id": "ent-e2fb9641de0854298ee9c1f14813a96d",
+      "classification": "page",
+      "owner_page_id": "ent-e2fb9641de0854298ee9c1f14813a96d",
+      "source_path": "tests/test_session_stdio.py",
+      "start_line": 38,
+      "end_line": 74,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0036审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "该函数创建最小源码文件和含单个实体、范围与页面映射的 SQLite 测试输出，写入测试用完成状态与快照绑定。",
+      "role_zh": "它为标准输入输出会话测试提供可检索结构，而不是调用完整建库流程；固定提交和完成状态是 fixture 字段，不应解释为真实 Git 快照验收。",
+      "change_when_zh": "会话检索需要的最小表结构、状态字段或源码范围变化时修改此函数，并检查连接关闭后输出可由被测会话读取。"
+    },
+    {
+      "entity_id": "file-447387a6c5c959e88a5c576961a51d81",
+      "classification": "page",
+      "owner_page_id": "file-447387a6c5c959e88a5c576961a51d81",
+      "source_path": "tests/test_sqlite_narrative_boundary.py",
+      "start_line": 1,
+      "end_line": 20,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新读取固定提交 4617928a67576fc4d2630584e70f3e2a104e17fc 的 tests/test_sqlite_narrative_boundary.py 第 1-20 行，并核对新版本整文件上下文；Git blob 与提案一致，目录字节范围与摘录相等，描述依据源码分支与数据流，不把测试断言当作运行结果。",
+      "meaning_zh": "为 SQLite 正常实现叙述与机器检查结果建立正反例测试。",
+      "role_zh": "调用共享正文检查器，分别验证“通过”作为实现手段时不误报，显式数据库状态及检查命令仍被识别。",
+      "change_when_zh": "调整数据库状态识别正则或增加中文叙述误报、机器状态漏报反例时修改。"
+    },
+    {
+      "entity_id": "ent-523d59cf9f465b08b882fc3fc472a8bd",
+      "classification": "page",
+      "owner_page_id": "ent-523d59cf9f465b08b882fc3fc472a8bd",
+      "source_path": "tests/test_sqlite_narrative_boundary.py",
+      "start_line": 4,
+      "end_line": 19,
+      "status": "agent-reviewed",
+      "evidence_note": "已重新读取固定提交 4617928a67576fc4d2630584e70f3e2a104e17fc 的 tests/test_sqlite_narrative_boundary.py 第 4-19 行，并核对新版本整文件上下文；Git blob 与提案一致，目录字节范围与摘录相等，描述依据源码分支与数据流，不把测试断言当作运行结果。",
+      "meaning_zh": "组织 SQLite 叙述边界的两组单元测试。",
+      "role_zh": "以普通实现句子作为允许组，以完整性检查、数据库状态和 PRAGMA 语句作为机器证据组，逐例运行断言。",
+      "change_when_zh": "需要扩充数据库证据语法或验证规则收窄后的误报边界时修改。"
+    }
+  ]
+}

@@ -24,13 +24,13 @@ CKB 5.3.0 新增经过 Agent 逐项审阅的本地文本参考资料层。用户
 
 ## 相关知识页
 
-- [[retrieve 与 _tokens 的协作实现]]
-- [[retrieve_machine 与 estimated_tokens 的协作实现]]
-- [[ingest_event 与 default_registry_path 的协作实现]]
-- [[audit_migration]]
-- [[finalize 与 _replace_output_prefix 的协作实现]]
+- [[build_agent_index 与 _tokens 的协作实现]]
+- [[build_machine_knowledge 与 estimated_tokens 的协作实现]]
+- [[review_automation 与 default_registry_path 的协作实现]]
+- [[migrate_output 与 _entity_key 的协作实现]]
+- [[audit_global 与 _replace_output_prefix 的协作实现]]
 - [[AutomationTest.register 等测试场景]]
-- [[MigrationTest 等测试场景]]
+- [[git 等测试场景（test_migration 测试）]]
 
 ## 源码入口
 

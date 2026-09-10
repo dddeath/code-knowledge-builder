@@ -1,0 +1,64 @@
+{
+  "status": "passed",
+  "distribution": "obsidian-plugin",
+  "archive": "E:\\knowledge_builder\\artifacts\\verification\\20260910-release-final\\dist\\code-knowledge-builder-obsidian-0.9.1.zip",
+  "size": 1618929,
+  "sha256": "4e04b80d5caba107d46ad70d303ab3fce153e7b2a65f393eaa54b1c3d7761169",
+  "file_count": 7,
+  "content": {
+    "schema_version": 1,
+    "name": "code-knowledge-builder-obsidian",
+    "version": "0.9.1",
+    "distribution": "obsidian-plugin",
+    "category": "plugin",
+    "requires": {
+      "knowledge_base": "CKB output with machine/knowledge.sqlite",
+      "core_package": "installed separately"
+    },
+    "bundled_core": false,
+    "bundled_offline_runtime": false,
+    "agent_deploy": {
+      "standalone": "python deploy.py deploy --vault VAULT",
+      "core": "ckb.py obsidian-plugin register/deploy/status/remove",
+      "auto_deploy_after_registration": true
+    },
+    "files": [
+      {
+        "path": "main.js",
+        "size": 5241339,
+        "sha256": "2d970a59005d380aeaee48bc890a34db84385903e4a7486cd8c4bf87bfcb5471"
+      },
+      {
+        "path": "manifest.json",
+        "size": 330,
+        "sha256": "fc1d050c93f7e8fa92a9d00108d65716df7fd62b50c65197001843c265fd0669"
+      },
+      {
+        "path": "styles.css",
+        "size": 203516,
+        "sha256": "93d56f173a101f3952809218f6449e9475bd96935ab9896023c5cfacdf753ffa"
+      },
+      {
+        "path": "LICENSE",
+        "size": 1055,
+        "sha256": "3bed3331b7048bac17cf50e249d560ccc9508c970da8d7b9283bf4f2e633a91d"
+      },
+      {
+        "path": "NOTICE.md",
+        "size": 1033,
+        "sha256": "7dac0be65e112184642025994fa5527e7d216b2761e16a297a34207eae2ce383"
+      },
+      {
+        "path": "build-record.json",
+        "size": 6664,
+        "sha256": "9257f3dd99dd8c1d53619a95ac41d9817f40a4edbaf65a9fdbd2f36008420210"
+      },
+      {
+        "path": "deploy.py",
+        "size": 7180,
+        "sha256": "04e2956b81665ed19fc24d67e51d69da7ee53b07547bf1c93d60708da28b1020"
+      }
+    ],
+    "upstream_commit": "f4bbba7fd326cbc68a6c8f0edfea6d14ea9ba0ac"
+  }
+}

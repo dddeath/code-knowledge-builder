@@ -28,8 +28,8 @@ PDF 是项目设计、论文和外部资料的主要载体。仅把整份文档�
 
 ## 相关知识页
 
-- [[extract_pdf 与 PdfExtractionError 的协作实现]]
-- [[ingest_reference 与 _root 的协作实现]]
+- [[validate_pdf_extraction 与 PdfExtractionError 的协作实现]]
+- [[ingest_web_reference 与 _root 的协作实现]]
 
 ## 源码入口
 

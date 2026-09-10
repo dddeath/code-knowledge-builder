@@ -1,0 +1,351 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "question": "LLM Wiki 快速检索性能、固定候选、批量读取与源码链接缓存",
+  "profile": "fast",
+  "budget": 2400,
+  "estimated_tokens": 1780,
+  "terms": [
+    "批量读取与源码链接缓存",
+    "快速检索性能",
+    "wiki",
+    "固定候选",
+    "llm",
+    "与源码",
+    "取与源",
+    "固定候",
+    "定候选",
+    "快速检",
+    "批量读",
+    "接缓存",
+    "检索性",
+    "源码链",
+    "码链接",
+    "索性能",
+    "读取与",
+    "速检索",
+    "量读取",
+    "链接缓",
+    "与源",
+    "候选",
+    "取与",
+    "固定",
+    "定候",
+    "快速",
+    "性能",
+    "批量",
+    "接缓",
+    "检索",
+    "源码",
+    "码链",
+    "索性",
+    "缓存",
+    "读取",
+    "速检",
+    "量读",
+    "链接"
+  ],
+  "anchors": [
+    "llm"
+  ],
+  "seed_entity_ids": [
+    "file-2c8f153ca4a95dd6a16660b796b0f71a",
+    "file-4495d44b119d503f947c50a55d9fbd8a",
+    "ent-4646f1e941ee507e9c9d712fb2cbaf8f",
+    "ent-1545fd62b21e56c89c0baee68941405c",
+    "ent-e17f5d2169c85528b819e5bb900d5e4a"
+  ],
+  "selected_entities": [
+    {
+      "entity_id": "file-2c8f153ca4a95dd6a16660b796b0f71a",
+      "name": "machine_knowledge.py",
+      "qualified_name": "scripts/ckb_core/machine_knowledge.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/machine_knowledge.py",
+      "start_line": 1,
+      "end_line": 1458,
+      "human_page_title": "retrieve_machine 与 estimated_tokens 的协作实现",
+      "human_page_file": "pages/retrieve_machine 与 estimated_tokens 的协作实现.md",
+      "display_mode": "page",
+      "score": 105.51106383,
+      "score_breakdown": {
+        "entity-fts": 3.57271863,
+        "graph": 0.09300965,
+        "metadata": 52.0,
+        "section-fts": 1.84533554,
+        "term": 48.0
+      },
+      "reasons": [
+        "确定性词项 `候选`",
+        "确定性词项 `固定`",
+        "确定性词项 `固定候`",
+        "确定性词项 `定候`",
+        "确定性词项 `定候选`",
+        "确定性词项 `批量`",
+        "确定性词项 `批量读`",
+        "确定性词项 `检索`",
+        "确定性词项 `缓存`",
+        "确定性词项 `读取`",
+        "确定性词项 `量读`",
+        "确定性词项 `量读取`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文职责",
+        "中文含义"
+      ]
+    },
+    {
+      "entity_id": "file-4495d44b119d503f947c50a55d9fbd8a",
+      "name": "showcase.py",
+      "qualified_name": "scripts/ckb_core/showcase.py",
+      "kind": "file",
+      "source_path": "scripts/ckb_core/showcase.py",
+      "start_line": 1,
+      "end_line": 173,
+      "human_page_title": "package_showcase 与 _parse_sample 的协作实现",
+      "human_page_file": "pages/package_showcase 与 _parse_sample 的协作实现.md",
+      "display_mode": "page",
+      "score": 92.91869573,
+      "score_breakdown": {
+        "entity-fts": 13.77314623,
+        "graph": 5.36830951,
+        "metadata": 32.0,
+        "section-fts": 33.77724,
+        "term": 8.0
+      },
+      "reasons": [
+        "确定性词项 `wiki`",
+        "确定性词项 `源码`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文职责",
+        "什么时候需要修改",
+        "中文含义"
+      ]
+    },
+    {
+      "entity_id": "ent-4646f1e941ee507e9c9d712fb2cbaf8f",
+      "name": "_wiki_document",
+      "qualified_name": "_wiki_document",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/pipeline.py",
+      "start_line": 2107,
+      "end_line": 2183,
+      "human_page_title": "status 与 _load_state 的协作实现",
+      "human_page_file": "pages/status 与 _load_state 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 84.2553086,
+      "score_breakdown": {
+        "entity-fts": 12.34776239,
+        "graph": 0.04206514,
+        "metadata": 30.0,
+        "section-fts": 31.86548108,
+        "term": 10.0
+      },
+      "reasons": [
+        "确定性词项 `wiki`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "ent-1545fd62b21e56c89c0baee68941405c",
+      "name": "relink_preserved_notes",
+      "qualified_name": "relink_preserved_notes",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/migration.py",
+      "start_line": 468,
+      "end_line": 562,
+      "human_page_title": "audit_migration 与 _entity_key 的协作实现",
+      "human_page_file": "pages/audit_migration 与 _entity_key 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 79.71260301,
+      "score_breakdown": {
+        "entity-fts": 15.71418169,
+        "graph": 0.06058144,
+        "metadata": 12.0,
+        "section-fts": 43.93783987,
+        "term": 8.0
+      },
+      "reasons": [
+        "确定性词项 `wiki`",
+        "确定性词项 `链接`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "ent-ddaba33e40a75ec9890e6f1ddaab3bc0",
+      "name": "SourceLinkRenderer",
+      "qualified_name": "SourceLinkRenderer",
+      "kind": "class",
+      "source_path": "scripts/ckb_core/source_links.py",
+      "start_line": 17,
+      "end_line": 81,
+      "human_page_title": "SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现",
+      "human_page_file": "pages/SourceLinkRenderer.uri 与 SourceLinkRenderer 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 46.72773894,
+      "score_breakdown": {
+        "entity-fts": 7.96541015,
+        "graph": 0.00483421,
+        "metadata": 10.0,
+        "section-fts": 4.75749457,
+        "term": 24.0
+      },
+      "reasons": [
+        "确定性词项 `源码`",
+        "确定性词项 `源码链`",
+        "确定性词项 `码链`",
+        "确定性词项 `码链接`",
+        "确定性词项 `缓存`",
+        "确定性词项 `链接`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": [
+        "中文作用",
+        "来源核对"
+      ]
+    },
+    {
+      "entity_id": "file-c0595d1c9a375d2aac139a22771881b7",
+      "name": "test_migration.py",
+      "qualified_name": "tests/test_migration.py",
+      "kind": "file",
+      "source_path": "tests/test_migration.py",
+      "start_line": 1,
+      "end_line": 181,
+      "human_page_title": "MigrationTest 等测试场景",
+      "human_page_file": "pages/MigrationTest 等测试场景.md",
+      "display_mode": "page",
+      "score": 28.49948946,
+      "score_breakdown": {
+        "entity-fts": 16.62415839,
+        "metadata": 32.0,
+        "section-fts": 11.2317689,
+        "term": 8.0,
+        "test-discount": -39.35643783
+      },
+      "reasons": [
+        "确定性词项 `wiki`",
+        "确定性词项 `链接`",
+        "机器实体全文命中",
+        "中文章节全文命中",
+        "文件、标识符和中文职责确定性匹配",
+        "实现定位查询对测试实体应用固定折扣"
+      ],
+      "sections": [
+        "中文职责",
+        "中文含义",
+        "什么时候需要修改",
+        "来源核对"
+      ]
+    },
+    {
+      "entity_id": "ent-458cb845e51e53939443160deca1c23c",
+      "name": "audit_obsidian",
+      "qualified_name": "audit_obsidian",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/obsidian.py",
+      "start_line": 101,
+      "end_line": 133,
+      "human_page_title": "prepare_vault 与 install_obsidian 的协作实现",
+      "human_page_file": "pages/prepare_vault 与 install_obsidian 的协作实现.md",
+      "display_mode": "appendix",
+      "score": 22.4013157,
+      "score_breakdown": {
+        "graph": 0.00029781,
+        "section-fts": 22.40101789
+      },
+      "reasons": [
+        "中文章节全文命中",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": []
+    },
+    {
+      "entity_id": "ent-5a8f05aa0e7953a7aaeb8e3e5aa13269",
+      "name": "retrieve",
+      "qualified_name": "retrieve",
+      "kind": "function",
+      "source_path": "scripts/ckb_core/agent_index.py",
+      "start_line": 440,
+      "end_line": 568,
+      "human_page_title": "retrieve",
+      "human_page_file": "pages/retrieve.md",
+      "display_mode": "page",
+      "score": 22.3190524,
+      "score_breakdown": {
+        "graph": 1.64630469,
+        "section-fts": 16.67274771,
+        "term": 4.0
+      },
+      "reasons": [
+        "确定性词项 `源码`",
+        "中文章节全文命中",
+        "查询相关种子的确定性图扩展"
+      ],
+      "sections": []
+    }
+  ],
+  "related_documents": [
+    {
+      "document_id": "note:analysis:LLM Wiki 快速检索性能验证（5.1.2）",
+      "title": "LLM Wiki 快速检索性能验证（5.1.2）",
+      "kind": "analysis",
+      "human_file": "analysis/LLM Wiki 快速检索性能验证（5.1.2）.md"
+    },
+    {
+      "document_id": "note:analysis:自动同步与 LLM Wiki 后续待办",
+      "title": "自动同步与 LLM Wiki 后续待办",
+      "kind": "analysis",
+      "human_file": "analysis/自动同步与 LLM Wiki 后续待办.md"
+    },
+    {
+      "document_id": "note:sessions:LLM Wiki 快速检索验证与 Hook 会话记录",
+      "title": "LLM Wiki 快速检索验证与 Hook 会话记录",
+      "kind": "session",
+      "human_file": "sessions/LLM Wiki 快速检索验证与 Hook 会话记录.md"
+    },
+    {
+      "document_id": "note:analysis:Code Knowledge Builder 5.0.0 特性总览",
+      "title": "Code Knowledge Builder 5.0.0 特性总览",
+      "kind": "analysis",
+      "human_file": "analysis/Code Knowledge Builder 5.0.0 特性总览.md"
+    }
+  ],
+  "retrieval_stats": {
+    "scored_entities": 344,
+    "overscan_limit": 32,
+    "materialized_candidates": 32,
+    "selected_entities": 8,
+    "budgeted_entity_limit": 8,
+    "selected_source_paths": 8,
+    "batched_entity_queries": 2,
+    "source_link_cache_entries": 8,
+    "static_cache_hit": false
+  },
+  "pack": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260827-173144-903216-01.md",
+  "record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260827-173144-903216-01.json",
+  "retrieval": "sqlite-exact-fts5-sections-deterministic-weighted-graph",
+  "deterministic": true,
+  "source_grounded": true,
+  "grep_fallback_required": false
+}

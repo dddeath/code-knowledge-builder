@@ -3,20 +3,46 @@
   "pack_id": "migrated-page-review-pack-0036",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-03T22:06:06Z",
+  "reviewed_at_utc": "2026-09-10T03:34:36Z",
   "reviews": [
     {
-      "entity_id": "file-d571d505aa725eefbe04411079bf7789",
+      "entity_id": "ent-5ac5c29343cd5fc59e62a5db93b87989",
       "classification": "page",
-      "owner_page_id": "file-d571d505aa725eefbe04411079bf7789",
-      "source_path": "scripts/ckb_core/session_stdio.py",
-      "start_line": 1,
-      "end_line": 1459,
+      "owner_page_id": "ent-5ac5c29343cd5fc59e62a5db93b87989",
+      "source_path": "scripts/ckb_core/reference_documents.py",
+      "start_line": 402,
+      "end_line": 640,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 `150a1ce8ea3f` 中 `scripts/ckb_core/session_stdio.py` 第 1-1459 行的源码摘录，文件、符号与行范围一致。",
-      "meaning_zh": "`scripts/ckb_core/session_stdio.py` 页面汇总该文件在固定提交中的职责、入口与可审阅源码范围。",
-      "role_zh": "负责会话级 stdio 服务的首次激活、租约续用、关闭与资源释放。",
-      "change_when_zh": "当 `scripts/ckb_core/session_stdio.py` 的职责、命令入口、数据契约或主要符号变化时，应更新本页并重跑对应测试。"
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0021审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "该函数在本地响应快照和显式联网请求之间要求恰选一种输入，先完成响应与正文提取核验，再归档原始 HTML、提取证据、来源清单和待审模板；相同来源内容幂等返回，变化必须指向最新已审阅修订。",
+      "role_zh": "它把网页获取适配器接入参考资料生命周期，记录最终地址、时间、状态及原文和正文双哈希，并标记不同地址下的重复内容。导入结束仍停在 Agent 审阅门，不直接生成已审阅主张。",
+      "change_when_zh": "两种输入模式的参数边界、网页幂等键、显式修订条件、归档失败清理或获取证据字段变化时修改此函数，并验证网络失败未归档、重复导入和内容漂移分支。"
+    },
+    {
+      "entity_id": "file-96dbbbcc8e9d5fb18b08a5e2dfba2fe8",
+      "classification": "page",
+      "owner_page_id": "file-96dbbbcc8e9d5fb18b08a5e2dfba2fe8",
+      "source_path": "scripts/ckb_core/reference_inputs.py",
+      "start_line": 1,
+      "end_line": 566,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0021审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "该模块准备本地参考文件和显式网页快照，区分无网络的静态输入与有界实时获取，并提取带原始 HTML 行范围的正文片段，保留导航排除区域和请求响应证据。",
+      "role_zh": "它提供参考导入前的输入适配合同、网页内存快照及提取归档核验；地址、响应状态、类型、编码和大小先校验，原始响应与正文分别计算哈希，具体主张由参考审阅层验证。",
+      "change_when_zh": "适配器字段、网页获取限制、响应头保留规则、正文排除和分段算法或提取复读校验变化时修改此模块，并核对静态输入不联网以及片段来源范围保持一致。"
+    },
+    {
+      "entity_id": "ent-eb86029f00d756a184e0d3d2db4bba29",
+      "classification": "page",
+      "owner_page_id": "ent-eb86029f00d756a184e0d3d2db4bba29",
+      "source_path": "scripts/ckb_core/reference_inputs.py",
+      "start_line": 468,
+      "end_line": 528,
+      "status": "agent-reviewed",
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0021审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "该函数重新打开指定参考的网页提取清单及正文文件，核对受管路径、清单和正文哈希，并在原始响应存在时逐片段检查编号、行范围和原文摘要，再以片段正文重建正文摘要。",
+      "role_zh": "它为网页主张审阅和参考层审计提供提取一致性检查，返回有效提取或错误列表；原始响应存在性和完整原文哈希还需要外层参考审计核验，此函数不重新运行正文提取算法。",
+      "change_when_zh": "网页提取路径、正文文件命名、片段行范围、摘要绑定或就绪状态要求变化时修改此函数，并验证缺失文件、重复片段、原文行漂移和正文重建不一致。"
     }
   ]
 }

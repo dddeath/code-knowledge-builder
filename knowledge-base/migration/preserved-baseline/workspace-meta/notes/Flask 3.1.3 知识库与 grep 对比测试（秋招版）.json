@@ -3,29 +3,43 @@
   "status": "agent-reviewed",
   "kind": "analysis",
   "title": "Flask 3.1.3 知识库与 grep 对比测试（秋招版）",
-  "file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\human\\analysis\\Flask 3.1.3 知识库与 grep 对比测试（秋招版）.md",
-  "compatibility_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\markdown\\analysis\\Flask 3.1.3 知识库与 grep 对比测试（秋招版）.md",
+  "file": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\human\\analysis\\Flask 3.1.3 知识库与 grep 对比测试（秋招版）.md",
+  "compatibility_file": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\markdown\\analysis\\Flask 3.1.3 知识库与 grep 对比测试（秋招版）.md",
   "linked_pages": [
-    "keyword_provider_config 与 parser 的协作实现",
+    "keyword_provider_config 与 keyword_fallback_options 的协作实现",
     "preflight 与 git 的协作实现",
-    "CodeKnowledgeBuilderTests 等测试场景",
+    "invoke 等测试场景（test_ckb 测试）",
     "AutomationTest.register 等测试场景",
-    "MigrationTest 等测试场景",
-    "main 等测试场景（provider_integration 测试）",
-    "ingest_event 与 default_registry_path 的协作实现",
+    "git 等测试场景（test_migration 测试）",
+    "execute 等测试场景",
+    "review_automation 与 default_registry_path 的协作实现",
     "main 相关实现"
   ],
   "source_links": [
-    "[打开源码：scripts/ckb.py 第 104 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:104:1)  `scripts/ckb.py:104-112`",
-    "[打开源码：scripts/ckb_core/gitrepo.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/gitrepo.py:1:1)  `scripts/ckb_core/gitrepo.py:1-417`",
-    "[打开源码：tests/test_ckb.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_ckb.py:1:1)  `tests/test_ckb.py:1-1152`",
-    "[打开源码：tests/test_automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_automation.py:1:1)  `tests/test_automation.py:1-801`",
-    "[打开源码：tests/test_migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_migration.py:1:1)  `tests/test_migration.py:1-194`",
-    "[打开源码：tests/provider_integration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/provider_integration.py:1:1)  `tests/provider_integration.py:1-252`",
-    "[打开源码：scripts/ckb_core/automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation.py:1:1)  `scripts/ckb_core/automation.py:1-1632`",
+    "[打开源码：scripts/ckb.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb.py:1:1)  `scripts/ckb.py:1-1850`",
+    "[打开源码：scripts/ckb_core/gitrepo.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/gitrepo.py:1:1)  `scripts/ckb_core/gitrepo.py:1-476`",
+    "[打开源码：tests/test_ckb.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_ckb.py:1:1)  `tests/test_ckb.py:1-2499`",
+    "[打开源码：tests/test_automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_automation.py:1:1)  `tests/test_automation.py:1-1001`",
+    "[打开源码：tests/test_migration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/test_migration.py:1:1)  `tests/test_migration.py:1-250`",
+    "[打开源码：tests/provider_integration.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/tests/provider_integration.py:1:1)  `tests/provider_integration.py:1-339`",
+    "[打开源码：scripts/ckb_core/automation.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/ckb_core/automation.py:1:1)  `scripts/ckb_core/automation.py:1-1783`",
     "[打开源码：scripts/make_source_patch.py 第 1 行](vscode://file/E:/knowledge_builder/self-workspace/source/scripts/make_source_patch.py:1:1)  `scripts/make_source_patch.py:1-47`"
   ],
-  "query_record": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\machine\\agent-packs\\pack-20260828-131848-942443-01.json",
-  "updated_at_utc": "2026-08-28T13:19:36Z",
-  "obsidian_uri": "obsidian://open?path=E%3A%5Cknowledge_builder%5Cself-workspace%5Cknowledge-base%5Cmarkdown%5Canalysis%5CFlask%203.1.3%20%E7%9F%A5%E8%AF%86%E5%BA%93%E4%B8%8E%20grep%20%E5%AF%B9%E6%AF%94%E6%B5%8B%E8%AF%95%EF%BC%88%E7%A7%8B%E6%8B%9B%E7%89%88%EF%BC%89.md"
+  "query_record": "E:\\knowledge_builder\\self-workspace\\knowledge-base.staging-4617928a6757\\machine\\agent-packs\\pack-20260828-131848-942443-01.json",
+  "updated_at_utc": "2026-09-10T03:13:49Z",
+  "obsidian_uri": "obsidian://open?path=E%3A%5Cknowledge_builder%5Cself-workspace%5Cknowledge-base.staging-4617928a6757%5Cmarkdown%5Canalysis%5CFlask%203.1.3%20%E7%9F%A5%E8%AF%86%E5%BA%93%E4%B8%8E%20grep%20%E5%AF%B9%E6%AF%94%E6%B5%8B%E8%AF%95%EF%BC%88%E7%A7%8B%E6%8B%9B%E7%89%88%EF%BC%89.md",
+  "human_output_contract": {
+    "status": "legacy-content-checked",
+    "v3_validated": false
+  },
+  "record_id": "work-record-121569c034bf58119f105c50dcc50109",
+  "created_at_utc": "2026-08-28T13:19:36Z",
+  "body_sha256": "4deaaffec03fa8505b83c58662e994d08518358874dc1e7c8bf8432e9165f30f",
+  "replacement": {
+    "operation_id": "record-replace-ae8fef65d3705e57b0101d6251ff5230",
+    "replaced_at_utc": "2026-09-10T03:13:49Z",
+    "previous_page_sha256": "6b69f6b30c7c3caf07355308488b633fa5b11d10c2a23b5f1d09e2d20b8cee30",
+    "previous_body_sha256": "6b69f6b30c7c3caf07355308488b633fa5b11d10c2a23b5f1d09e2d20b8cee30",
+    "body_sha256": "4deaaffec03fa8505b83c58662e994d08518358874dc1e7c8bf8432e9165f30f"
+  }
 }

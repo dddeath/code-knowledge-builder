@@ -111,7 +111,7 @@ class PackageReleaseTests(unittest.TestCase):
             with zipfile.ZipFile(archive) as plugin_zip:
                 self.assertEqual(list(PACKAGE_RELEASE.PLUGIN_FILES), plugin_zip.namelist())
                 manifest = json.loads(plugin_zip.read("manifest.json"))
-                self.assertEqual("0.8.0", manifest["version"])
+                self.assertEqual("0.9.1", manifest["version"])
                 self.assertIn("deploy.py", plugin_zip.namelist())
                 self.assertNotIn("SKILL.md", plugin_zip.namelist())
 

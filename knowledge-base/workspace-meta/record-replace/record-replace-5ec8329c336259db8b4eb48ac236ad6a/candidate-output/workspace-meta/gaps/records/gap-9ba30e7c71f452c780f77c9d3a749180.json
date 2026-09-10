@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "gap_id": "gap-9ba30e7c71f452c780f77c9d3a749180",
+  "kind": "insufficient-evidence",
+  "status": "resolved",
+  "summary_zh": "当前有效记录“中文检索确定性词项合并审计”仍引用 machine/agent-packs/pack-20260831-200233-512167-01.json。该原阅读包在当前知识库、保留历史归档、现有备份和发布 Git 历史中未找到。其他十份可恢复的原包已逐字节恢复，这份不伪造。当前正文保持不变；迁移仍受明确证据缺失阻塞。待用户决定是否允许保留正文并通过正式记录流程显式修复来源元数据，区分历史证据缺口与后续源码复核，不把新查询伪装成原查询。",
+  "evidence_paths": [
+    "machine/agent-reviews/20260906-missing-active-evidence.json"
+  ],
+  "created_at_utc": "2026-09-06T03:17:41Z",
+  "updated_at_utc": "2026-09-06T04:38:40Z",
+  "resolution_zh": "用户已确认执行历史证据修复。通过正式 record 追加流程保留原记录正文，并把当前来源元数据绑定到2026年9月6日新的核验阅读包。追加段落明确原2026年8月31日阅读包仍缺失，新查询不作为历史原证据，旧指标仅保留历史适用边界。当前源码和数据库中功能存在已独立核验；原文前缀及双镜像一致。关闭的是失效活跃引用的修复任务，不声称找回原阅读包。",
+  "resolution_evidence_paths": [
+    "machine/agent-reviews/20260906-history-repair-result.json"
+  ]
+}

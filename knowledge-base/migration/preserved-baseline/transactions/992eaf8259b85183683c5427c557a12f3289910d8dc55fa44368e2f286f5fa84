@@ -1,0 +1,228 @@
+{
+  "schema_version": 1,
+  "operation_id": "record-replace-38c0a1ccf945545f9530f17dbda9a046",
+  "operation": "record-replace",
+  "status": "completed",
+  "output": "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+  "kind": "analysis",
+  "title": "秋招学习导航 v2",
+  "created_at_utc": "2026-09-09T16:25:23Z",
+  "rollback_manifest": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-38c0a1ccf945545f9530f17dbda9a046\\manifest.json",
+  "rollback_argv": [
+    "C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe",
+    "E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py",
+    "record-rollback",
+    "--out",
+    "E:\\knowledge_builder\\self-workspace\\knowledge-base",
+    "--manifest",
+    "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-38c0a1ccf945545f9530f17dbda9a046\\manifest.json"
+  ],
+  "rollback_command": "& 'C:\\Users\\19739\\.codex\\cache\\code-knowledge-builder\\runtime\\win-x64\\win-x64-2.1.0\\python\\python.exe' 'E:\\knowledge_builder\\self-workspace\\source\\scripts\\ckb.py' 'record-rollback' '--out' 'E:\\knowledge_builder\\self-workspace\\knowledge-base' '--manifest' 'E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-38c0a1ccf945545f9530f17dbda9a046\\manifest.json'",
+  "roles": [
+    {
+      "name": "human-note",
+      "kind": "file",
+      "path": "human/analysis/秋招学习导航 v2.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "bdca121b8dd811975d6ed6e3d3149ded1a3d73d69c0dff2913849d4ff7b3ebc9",
+        "size": 13648,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-38c0a1ccf945545f9530f17dbda9a046\\backup\\files\\human\\analysis\\秋招学习导航 v2.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "44754c94810d4d0639bc2ef9ebaa529d8fac0db32b58931b92ac07bfedcabfcb",
+        "size": 11888,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-38c0a1ccf945545f9530f17dbda9a046\\staging\\files\\human\\analysis\\秋招学习导航 v2.md"
+      }
+    },
+    {
+      "name": "markdown-note",
+      "kind": "file",
+      "path": "markdown/analysis/秋招学习导航 v2.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "bdca121b8dd811975d6ed6e3d3149ded1a3d73d69c0dff2913849d4ff7b3ebc9",
+        "size": 13648,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-38c0a1ccf945545f9530f17dbda9a046\\backup\\files\\markdown\\analysis\\秋招学习导航 v2.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "44754c94810d4d0639bc2ef9ebaa529d8fac0db32b58931b92ac07bfedcabfcb",
+        "size": 11888,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-38c0a1ccf945545f9530f17dbda9a046\\staging\\files\\markdown\\analysis\\秋招学习导航 v2.md"
+      }
+    },
+    {
+      "name": "note-metadata",
+      "kind": "file",
+      "path": "workspace-meta/notes/秋招学习导航 v2.json",
+      "baseline": {
+        "exists": true,
+        "sha256": "1a1d5a4327471bab17bc8a6deaf4a68eab4d4e79650aaee18913f1ede3399dd6",
+        "size": 3134,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-38c0a1ccf945545f9530f17dbda9a046\\backup\\files\\workspace-meta\\notes\\秋招学习导航 v2.json"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "b19a3fa433721f49f908c7b01bde6641056035d1118236a23b507291ad40f4be",
+        "size": 1648,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-38c0a1ccf945545f9530f17dbda9a046\\staging\\files\\workspace-meta\\notes\\秋招学习导航 v2.json"
+      }
+    },
+    {
+      "name": "human-records",
+      "kind": "file",
+      "path": "human/RECORDS.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "eecace54a33560a81922c23de5e7c04bab0b8029b47e5ba2f269ccbfdf7fb486",
+        "size": 23832,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-38c0a1ccf945545f9530f17dbda9a046\\backup\\files\\human\\RECORDS.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "eecace54a33560a81922c23de5e7c04bab0b8029b47e5ba2f269ccbfdf7fb486",
+        "size": 23832,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-38c0a1ccf945545f9530f17dbda9a046\\staging\\files\\human\\RECORDS.md"
+      }
+    },
+    {
+      "name": "markdown-records",
+      "kind": "file",
+      "path": "markdown/RECORDS.md",
+      "baseline": {
+        "exists": true,
+        "sha256": "eecace54a33560a81922c23de5e7c04bab0b8029b47e5ba2f269ccbfdf7fb486",
+        "size": 23832,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-38c0a1ccf945545f9530f17dbda9a046\\backup\\files\\markdown\\RECORDS.md"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "eecace54a33560a81922c23de5e7c04bab0b8029b47e5ba2f269ccbfdf7fb486",
+        "size": 23832,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-38c0a1ccf945545f9530f17dbda9a046\\staging\\files\\markdown\\RECORDS.md"
+      }
+    },
+    {
+      "name": "work-record-index-audit",
+      "kind": "file",
+      "path": "workspace-meta/work-record-index-audit.json",
+      "baseline": {
+        "exists": true,
+        "sha256": "313f483c43558aa8587d2c28a21f094c6b27074c9cdde441ddcb8c9b45d3217f",
+        "size": 217,
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-38c0a1ccf945545f9530f17dbda9a046\\backup\\files\\workspace-meta\\work-record-index-audit.json"
+      },
+      "modified": {
+        "exists": true,
+        "sha256": "313f483c43558aa8587d2c28a21f094c6b27074c9cdde441ddcb8c9b45d3217f",
+        "size": 217,
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-38c0a1ccf945545f9530f17dbda9a046\\staging\\files\\workspace-meta\\work-record-index-audit.json"
+      }
+    },
+    {
+      "name": "agent-index-note",
+      "kind": "sqlite-logical",
+      "path": "agent-index.sqlite",
+      "selector": "秋招学习导航 v2",
+      "baseline": {
+        "sha256": "328522ffa7d943b4d075a0c2fabe532a74b9a698a8b7a61b662a608aeee0b082",
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-38c0a1ccf945545f9530f17dbda9a046\\backup\\agent-index-note.json"
+      },
+      "modified": {
+        "sha256": "ad8e0f1efa14cc0829f25e02c45a9d9204ed405bc55c08ac14b03077a36213e4",
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-38c0a1ccf945545f9530f17dbda9a046\\staging\\agent-index-note.json"
+      }
+    },
+    {
+      "name": "machine-knowledge-note",
+      "kind": "sqlite-logical",
+      "path": "machine/knowledge.sqlite",
+      "selector": "note:analysis:秋招学习导航 v2",
+      "baseline": {
+        "sha256": "f80cc290e76452e39614eeaed439ca21b53602221958248bb48f9455780d3887",
+        "backup": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-38c0a1ccf945545f9530f17dbda9a046\\backup\\machine-knowledge-note.json"
+      },
+      "modified": {
+        "sha256": "b07c1cad83c74921ac34079ba65ee0dc8970e55de95ac7d704399d07fbe3e2cb",
+        "candidate": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\record-replace\\record-replace-38c0a1ccf945545f9530f17dbda9a046\\staging\\machine-knowledge-note.json"
+      }
+    }
+  ],
+  "prepared_at_utc": "2026-09-09T16:25:25Z",
+  "record_id": "work-record-2f46925c0d0f5d518a2c4acbb56fde6c",
+  "relative_note": "analysis/秋招学习导航 v2.md",
+  "explicit_evidence_replacement": true,
+  "linked_pages": [
+    "retrieve_machine 与 estimated_tokens 的协作实现"
+  ],
+  "body_sha256": "ab47966b3977e2a9bca45101482c772201065db71bb075cc1ad41b82dc3001a3",
+  "candidate_audit": {
+    "status": "passed",
+    "note_errors": [],
+    "work_record_index": {
+      "status": "passed",
+      "record_count": 74,
+      "linked_record_count": 74,
+      "section_counts": {
+        "analysis": 19,
+        "changes": 39,
+        "pitfalls": 0,
+        "experiments": 9,
+        "sessions": 7
+      },
+      "errors": []
+    }
+  },
+  "promotion_order": [
+    "human-note",
+    "markdown-note",
+    "note-metadata",
+    "human-records",
+    "markdown-records",
+    "work-record-index-audit",
+    "agent-index-note",
+    "machine-knowledge-note"
+  ],
+  "completed_at_utc": "2026-09-09T16:25:26Z",
+  "verification": {
+    "status": "passed",
+    "role_errors": [],
+    "note_errors": [],
+    "work_record_index": {
+      "status": "passed",
+      "record_count": 74,
+      "linked_record_count": 74,
+      "section_counts": {
+        "analysis": 19,
+        "changes": 39,
+        "pitfalls": 0,
+        "experiments": 9,
+        "sessions": 7
+      },
+      "errors": []
+    },
+    "agent_index": {
+      "schema_version": 1,
+      "status": "passed",
+      "path": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\agent-index.sqlite",
+      "integrity": "ok",
+      "counts": {
+        "pages": 251,
+        "symbols": 2090,
+        "edges": 2007,
+        "terms": 29007,
+        "notes": 74
+      },
+      "projection_format": "markdown",
+      "errors": []
+    }
+  },
+  "operation_journal": {
+    "status": "passed",
+    "event_id": "operation-c2062f7c5ead55fb8ac2f69ee57b3966",
+    "idempotent": false,
+    "journal": "E:\\knowledge_builder\\self-workspace\\knowledge-base\\workspace-meta\\operations\\2026-09-09.jsonl"
+  }
+}

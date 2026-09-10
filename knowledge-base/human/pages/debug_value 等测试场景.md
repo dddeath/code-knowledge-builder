@@ -16,10 +16,6 @@
 
 - 可从 [[tests 职责导览]] 进入本页。
 
-## 相关测试
-
-- [[CodeKnowledgeBuilderTests 等测试场景]]
-
 ## 内部细节
 
 <details><summary>查看本页收纳的 1 个辅助实现</summary>

@@ -1,0 +1,171 @@
+{
+  "schema_version": 1,
+  "study_id": "ckb-obsidian-tag-real-vault-v1",
+  "status": "frozen",
+  "frozen_before_run": true,
+  "source": {
+    "expected_commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+    "expected_complete_sha256": "9041926a8f411bc4a066036535abe41008a435420839520b51e0960714d40e3b",
+    "expected_vault_tree_sha256": "cd879d26cf9d0a7f5c98ee322653b25d3725148e1c3cd1bbf9215112df536c97",
+    "expected_machine_sha256": "7d67e4098b6f69c7315ac0acf4a8a76549a04dd91f34408f27dce8e2fd471632",
+    "expected_counts": {
+      "files": 360,
+      "markdown_files": 336,
+      "bytes": 9445505,
+      "pages": 251,
+      "entities": 2090,
+      "relations": 8152,
+      "machine_projected_pages": 246
+    }
+  },
+  "conditions": [
+    "no_tag",
+    "machine_tag",
+    "confirmed_tag"
+  ],
+  "execution": {
+    "entry_page": "INDEX.md",
+    "step_budget": 2,
+    "task_order": [
+      "T01",
+      "T02",
+      "T03",
+      "T04",
+      "T05",
+      "T06",
+      "T07",
+      "T08",
+      "T09",
+      "T10",
+      "T11",
+      "T12"
+    ],
+    "candidate_order": "casefolded-page-path",
+    "baseline_route": "directed-wikilink-shortest-path",
+    "tag_route": "global-tag-pane-then-casefolded-candidates",
+    "orphan_scope_prefixes": [
+      "pages"
+    ],
+    "as_of": "2026-09-05T00:00:00Z"
+  },
+  "claim_boundary": {
+    "automation": "system-navigation-proxy-only",
+    "human": "pending-human-validation"
+  },
+  "tasks": [
+    {
+      "task_id": "T01",
+      "prompt_zh": "定位 Obsidian vault 审计入口。",
+      "target": "pages/audit_obsidian.md",
+      "tag": "导航/主题/obsidian审计",
+      "machine_candidates": [
+        {"page": "pages/audit_obsidian.md", "decision": "confirmed", "duplicate_last_vote": false},
+        {"page": "pages/CkbError.md", "decision": "tied", "duplicate_last_vote": false}
+      ]
+    },
+    {
+      "task_id": "T02",
+      "prompt_zh": "定位机器层检索实现。",
+      "target": "pages/retrieve_machine.md",
+      "tag": "导航/主题/机器检索",
+      "machine_candidates": [
+        {"page": "pages/retrieve_machine.md", "decision": "confirmed", "duplicate_last_vote": false},
+        {"page": "pages/record_note.md", "decision": "candidate", "duplicate_last_vote": false}
+      ]
+    },
+    {
+      "task_id": "T03",
+      "prompt_zh": "定位资料摄取实现。",
+      "target": "pages/ingest_reference.md",
+      "tag": "导航/主题/资料摄取",
+      "machine_candidates": [
+        {"page": "pages/ingest_reference.md", "decision": "confirmed", "duplicate_last_vote": false},
+        {"page": "pages/audit_feedback.md", "decision": "opposed", "duplicate_last_vote": false}
+      ]
+    },
+    {
+      "task_id": "T04",
+      "prompt_zh": "定位 tag 状态机测试。",
+      "target": "pages/TagNavigationStateMachineTests.md",
+      "tag": "导航/主题/tag状态机",
+      "machine_candidates": [
+        {"page": "pages/TagNavigationStateMachineTests.md", "decision": "confirmed", "duplicate_last_vote": false},
+        {"page": "pages/CanvasGraphTests.md", "decision": "tied", "duplicate_last_vote": false}
+      ]
+    },
+    {
+      "task_id": "T05",
+      "prompt_zh": "定位管理会话绑定实现。",
+      "target": "pages/bind_conversation.md",
+      "tag": "导航/主题/管理会话",
+      "machine_candidates": [
+        {"page": "pages/bind_conversation.md", "decision": "confirmed", "duplicate_last_vote": false},
+        {"page": "pages/audit_gap_register.md", "decision": "candidate", "duplicate_last_vote": false}
+      ]
+    },
+    {
+      "task_id": "T06",
+      "prompt_zh": "定位关键词 provider 运行入口。",
+      "target": "pages/run_keyword_provider.md",
+      "tag": "导航/主题/关键词provider",
+      "machine_candidates": [
+        {"page": "pages/run_keyword_provider.md", "decision": "confirmed", "duplicate_last_vote": false},
+        {"page": "pages/audit_migration.md", "decision": "opposed", "duplicate_last_vote": false}
+      ]
+    },
+    {
+      "task_id": "T07",
+      "prompt_zh": "定位 Graphify 查询实现。",
+      "target": "pages/query_graph.md",
+      "tag": "导航/主题/graph查询",
+      "machine_candidates": [
+        {"page": "pages/query_graph.md", "decision": "confirmed", "duplicate_last_vote": false}
+      ]
+    },
+    {
+      "task_id": "T08",
+      "prompt_zh": "定位事实新鲜度状态机测试。",
+      "target": "pages/FactFreshnessStateMachineTest.md",
+      "tag": "导航/主题/事实新鲜度",
+      "machine_candidates": [
+        {"page": "pages/FactFreshnessStateMachineTest.md", "decision": "confirmed", "duplicate_last_vote": true}
+      ]
+    },
+    {
+      "task_id": "T09",
+      "prompt_zh": "定位 Obsidian 插件注册实现。",
+      "target": "pages/register_obsidian_plugin.md",
+      "tag": "导航/主题/插件注册",
+      "machine_candidates": [
+        {"page": "pages/register_obsidian_plugin.md", "decision": "confirmed", "duplicate_last_vote": false}
+      ]
+    },
+    {
+      "task_id": "T10",
+      "prompt_zh": "定位人类层同步实现。",
+      "target": "pages/sync_human_layer.md",
+      "tag": "导航/主题/人类层同步",
+      "machine_candidates": [
+        {"page": "pages/sync_human_layer.md", "decision": "confirmed", "duplicate_last_vote": false}
+      ]
+    },
+    {
+      "task_id": "T11",
+      "prompt_zh": "定位输出契约审计实现。",
+      "target": "pages/audit_output_contract.md",
+      "tag": "导航/主题/输出契约",
+      "machine_candidates": [
+        {"page": "pages/audit_output_contract.md", "decision": "confirmed", "duplicate_last_vote": false}
+      ]
+    },
+    {
+      "task_id": "T12",
+      "prompt_zh": "定位本地源码链接生成实现。",
+      "target": "pages/SourceLinkRenderer.uri.md",
+      "tag": "导航/主题/源码链接",
+      "machine_candidates": [
+        {"page": "pages/SourceLinkRenderer.uri.md", "decision": "confirmed", "duplicate_last_vote": false}
+      ]
+    }
+  ]
+}

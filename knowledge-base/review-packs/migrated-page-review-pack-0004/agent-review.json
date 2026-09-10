@@ -3,20 +3,33 @@
   "pack_id": "migrated-page-review-pack-0004",
   "kind": "page-review",
   "reviewer": "Agent（经精确源码证据迁移）",
-  "reviewed_at_utc": "2026-09-03T22:05:11Z",
+  "reviewed_at_utc": "2026-09-10T03:33:58Z",
   "reviews": [
     {
-      "entity_id": "file-6cdfa8a21e315ca4922daaeb3e450b66",
+      "entity_id": "ent-d0d3b28e76cb51e6af02a32be170c997",
       "classification": "page",
-      "owner_page_id": "file-6cdfa8a21e315ca4922daaeb3e450b66",
+      "owner_page_id": "ent-d0d3b28e76cb51e6af02a32be170c997",
       "source_path": "scripts/ckb.py",
-      "start_line": 1,
-      "end_line": 1780,
+      "start_line": 996,
+      "end_line": 1838,
       "status": "agent-reviewed",
-      "evidence_note": "已核对固定提交 19152b227ccf 中 `scripts/ckb.py` 第 1 至 1780 行；摘录与 Git blob c26b11f23637 一致。",
-      "meaning_zh": "文件 `scripts/ckb.py`负责解析 CKB 命令行输入并把请求分派到检索、迁移、参考资料和管理能力。",
-      "role_zh": "它属于所有 Harness 调用 CKB 的统一公开入口，当前说明只覆盖所列固定源码范围。",
-      "change_when_zh": "当公开命令、参数合同、退出状态或子系统入口变化时，应同步复查本页及其直接关联测试。"
+      "evidence_note": "复用66adf511暂存区已通过的delta-page-review-pack-0004审阅；已重读最终快照文件，核对同路径、Git blob、声明身份、精确字节范围及审阅形状一致。",
+      "meaning_zh": "解析一个 CLI 请求并调用相应核心能力，输出结果；审阅待办、审计失败、输入失败和新鲜度状态各按分支返回不同退出码。",
+      "role_zh": "将 argparse 命名空间转换为核心函数参数，并在检索命令中选择会话复用、完整机器库或旧索引路径。页面候选文稿异常返回结构化失败，Hook 异常另写 stderr；迁移、参考资料和审计分支不把待审状态当作完成。",
+      "change_when_zh": "调整任何公开命令的状态、参数或返回结构时，应同时核对 parser 与分派分支；重点联动会话检索、关键词回退、迁移待审退出码、Hook 非阻塞约定及页面候选文稿输入错误处理。"
+    },
+    {
+      "entity_id": "file-e3ac2b7052a25dc394dfc65287d25128",
+      "classification": "page",
+      "owner_page_id": "file-e3ac2b7052a25dc394dfc65287d25128",
+      "source_path": "scripts/ckb_core/__init__.py",
+      "start_line": 1,
+      "end_line": 5,
+      "status": "agent-reviewed",
+      "evidence_note": "Agent 已重新打开固定源码 `scripts/ckb_core/__init__.py` 第 1 至 5 行，核对 `scripts/ckb_core/__init__.py` 的签名、分支和数据流后写出本条简体中文说明。",
+      "meaning_zh": "`scripts/ckb_core/__init__.py` 是 `scripts/ckb_core/__init__.py` 中负责汇总并提供scripts/ckb_core/__init__.py 所属模块的局部职责的文件入口。",
+      "role_zh": "它按源码所示的参数、条件分支和数据结构完成汇总并提供scripts/ckb_core/__init__.py 所属模块的局部职责，并把确定结果交给调用方或后续审计、索引、投影阶段。",
+      "change_when_zh": "当scripts/ckb_core/__init__.py 的职责的输入格式、状态规则、错误处理或输出契约变化时，需要修改该代码单元并复核对应测试。"
     }
   ]
 }

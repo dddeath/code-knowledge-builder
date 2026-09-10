@@ -43,13 +43,13 @@
 ## 相关知识页
 
 - [[package_showcase 与 _parse_sample 的协作实现]]
-- [[finalize 与 _replace_output_prefix 的协作实现]]
-- [[audit_migration 与 _entity_key 的协作实现]]
-- [[MigrationTest 等测试场景]]
+- [[audit_global 与 _replace_output_prefix 的协作实现]]
+- [[migrate_output 与 _entity_key 的协作实现]]
+- [[git 等测试场景（test_migration 测试）]]
 - [[audit_obsidian 与 prepare_vault 的协作实现]]
 - [[AutomationTest.register 等测试场景]]
-- [[query_graph 与 _networkx_modules 的协作实现]]
-- [[retrieve 与 _tokens 的协作实现]]
+- [[project_graphify 与 _networkx_modules 的协作实现]]
+- [[build_agent_index 与 _tokens 的协作实现]]
 
 ## 源码入口
 

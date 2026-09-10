@@ -11,7 +11,16 @@ from urllib.parse import quote
 
 from .common import CkbError, json_load, json_write, path_inside, safe_rmtree, safe_title, sha256_file, stable_id, utc_now
 from .machine_knowledge import contains_chinese_narrative
-from .reference_inputs import LOCAL_FILE_ADAPTER_ID
+from .reference_inputs import (
+    DEFAULT_WEB_MAX_RESPONSE_BYTES,
+    DEFAULT_WEB_TIMEOUT_SECONDS,
+    LOCAL_FILE_ADAPTER_ID,
+    WEB_INPUT_ADAPTER_ID,
+    archive_web_extraction,
+    fetch_web_snapshot,
+    prepare_static_web_snapshot,
+    validate_web_extraction,
+)
 from .reference_pdf import (
     DEFAULT_MAX_PDF_BYTES,
     DEFAULT_MAX_PDF_PAGES,
@@ -390,6 +399,247 @@ def ingest_reference(
     return result
 
 
+def ingest_web_reference(
+    output: Path,
+    title: str,
+    origin: str,
+    license_name: str,
+    *,
+    snapshot: Path | None = None,
+    url: str | None = None,
+    requested_url: str | None = None,
+    final_url: str | None = None,
+    retrieved_at_utc: str | None = None,
+    status_code: int | None = None,
+    content_type: str | None = None,
+    response_headers: dict[str, str | list[str]] | None = None,
+    author: str | None = None,
+    revision_of: str | None = None,
+    source_root: Path | None = None,
+    timeout_seconds: int = DEFAULT_WEB_TIMEOUT_SECONDS,
+    max_response_bytes: int = DEFAULT_WEB_MAX_RESPONSE_BYTES,
+    accept_language: str | None = None,
+    user_agent: str = "Code-Knowledge-Builder/web-snapshot-v1",
+) -> dict[str, Any]:
+    """Archive one explicit Web capture and stop at the ordinary Agent review gate."""
+
+    output = _validate_output(output)
+    title = title.strip()
+    origin = origin.strip()
+    if not title or not origin:
+        raise CkbError("reference title and origin are required")
+    license_name = _validate_license(license_name)
+    if (snapshot is None) == (url is None):
+        raise CkbError("choose exactly one Web input mode: snapshot or url")
+    if snapshot is not None:
+        snapshot = snapshot.resolve()
+        if source_root is not None and not path_inside(snapshot, source_root.resolve()):
+            raise CkbError(f"Web snapshot is outside --source-root: {snapshot}")
+        if path_inside(snapshot, _root(output)):
+            raise CkbError("Web snapshot must not be an existing managed reference artifact")
+        missing = [
+            name
+            for name, value in (
+                ("requested_url", requested_url),
+                ("final_url", final_url),
+                ("retrieved_at_utc", retrieved_at_utc),
+                ("status_code", status_code),
+                ("content_type", content_type),
+            )
+            if value is None
+        ]
+        if missing:
+            raise CkbError(f"provided Web snapshot is missing metadata: {', '.join(missing)}")
+        prepared = prepare_static_web_snapshot(
+            snapshot,
+            requested_url=str(requested_url),
+            final_url=str(final_url),
+            retrieved_at_utc=str(retrieved_at_utc),
+            status_code=int(status_code),
+            content_type=str(content_type),
+            response_headers=response_headers,
+            max_response_bytes=max_response_bytes,
+        )
+    else:
+        if any(value is not None for value in (requested_url, final_url, retrieved_at_utc, status_code, content_type, response_headers)):
+            raise CkbError("live Web fetch derives response metadata and does not accept provided snapshot metadata")
+        prepared = fetch_web_snapshot(
+            str(url),
+            timeout_seconds=timeout_seconds,
+            max_response_bytes=max_response_bytes,
+            accept_language=accept_language,
+            user_agent=user_agent,
+        )
+
+    digest = str(prepared.provenance["raw_snapshot_sha256"])
+    capture_final_url = str(prepared.provenance["final_url"])
+    existing = _manifests(output)
+    same_key = [
+        item
+        for item in existing
+        if str(item.get("title", "")).casefold() == title.casefold()
+        and str(item.get("origin", "")).casefold() == origin.casefold()
+    ]
+    title_conflicts = [
+        item
+        for item in existing
+        if str(item.get("title", "")).casefold() == title.casefold()
+        and str(item.get("origin", "")).casefold() != origin.casefold()
+        and item.get("status") != "superseded"
+    ]
+    if title_conflicts:
+        raise CkbError(f"active reference title must be unique: {title}; existing={title_conflicts[0]['reference_id']}")
+    for item in same_key:
+        item_capture = item.get("web_capture") or {}
+        if (
+            item.get("source_type") == "web"
+            and item.get("source_sha256") == digest
+            and item.get("license") == license_name
+            and item_capture.get("final_url") == capture_final_url
+        ):
+            return {
+                "schema_version": REFERENCE_SCHEMA_VERSION,
+                "status": item["status"],
+                "reference_id": item["reference_id"],
+                "idempotent": True,
+                "manifest": str((_root(output) / "manifests" / f"{item['reference_id']}.json").resolve()),
+                "review_template": item.get("review_template"),
+                "acquisition_mode": item_capture.get("acquisition_mode"),
+                "final_url": item_capture.get("final_url"),
+                "next": "reference review" if item.get("status") == "pending-agent-review" else None,
+            }
+    latest = max(same_key, key=lambda item: int(item.get("revision", 1)), default=None)
+    if latest:
+        if not revision_of:
+            raise CkbError(
+                f"Web snapshot drift detected for {capture_final_url}; pass --revision-of {latest['reference_id']} to create a reviewed revision"
+            )
+        if revision_of != latest["reference_id"]:
+            raise CkbError(f"--revision-of must name the latest reference revision: {latest['reference_id']}")
+        if latest.get("status") != "agent-reviewed":
+            raise CkbError("a new Web snapshot revision requires the previous revision to be agent-reviewed")
+    elif revision_of:
+        raise CkbError("--revision-of was provided but no previous Web reference exists for this title and origin")
+
+    duplicate_content = next(
+        (
+            item
+            for item in existing
+            if item.get("source_type") == "web"
+            and item.get("source_sha256") == digest
+            and (item.get("web_capture") or {}).get("final_url") != capture_final_url
+        ),
+        None,
+    )
+    reference_id = stable_id("reference", title.casefold(), origin.casefold(), capture_final_url, digest)
+    root = _root(output)
+    for name in ("raw", "manifests", "review-templates", "reviews", "transactions", "extractions"):
+        (root / name).mkdir(parents=True, exist_ok=True)
+    revision = int(latest.get("revision", 1)) + 1 if latest else 1
+    raw_path = root / "raw" / f"{safe_title(title)}--r{revision}.html"
+    extraction_root = root / "extractions" / reference_id
+    raw_path.write_bytes(prepared.raw_bytes)
+    try:
+        extraction = archive_web_extraction(prepared, reference_id, raw_path, extraction_root)
+    except Exception:
+        raw_path.unlink(missing_ok=True)
+        if extraction_root.exists():
+            safe_rmtree(extraction_root, root / "extractions")
+        raise
+
+    review_template_path = root / "review-templates" / f"{reference_id}.json"
+    manifest_path = root / "manifests" / f"{reference_id}.json"
+    manifest = {
+        "schema_version": REFERENCE_SCHEMA_VERSION,
+        "reference_id": reference_id,
+        "status": "pending-agent-review",
+        "title": title,
+        "origin": origin,
+        "author": (author or "").strip() or None,
+        "license": license_name,
+        "copy_permission": "full-text",
+        "source_type": "web",
+        "source_suffix": ".html",
+        "source_file": str(raw_path.resolve()),
+        "source_relative": raw_path.relative_to(output).as_posix(),
+        "source_sha256": digest,
+        "source_size": len(prepared.raw_bytes),
+        "input_adapter": WEB_INPUT_ADAPTER_ID,
+        "web_capture": prepared.provenance,
+        "body_snapshot_sha256": extraction["body_snapshot_sha256"],
+        "duplicate_content_of": duplicate_content.get("reference_id") if duplicate_content else None,
+        "revision": revision,
+        "supersedes": latest["reference_id"] if latest else None,
+        "review_template": str(review_template_path.resolve()),
+        "review_file": None,
+        "human_file": None,
+        "extraction_file": extraction["manifest"],
+        "extraction_sha256": extraction["manifest_sha256"],
+        "extraction_status": extraction["status"],
+        "ingested_at_utc": utc_now(),
+    }
+    template = {
+        "schema_version": REFERENCE_SCHEMA_VERSION,
+        "reference_id": reference_id,
+        "status": "pending-agent-review",
+        "title": title,
+        "source_file": str(raw_path.resolve()),
+        "source_sha256": digest,
+        "source_type": "web",
+        "extraction_file": extraction["manifest"],
+        "web_provenance": {
+            key: prepared.provenance[key]
+            for key in ("acquisition_mode", "requested_url", "final_url", "retrieved_at_utc", "status_code", "content_type")
+        },
+        "claim_locator_contract": {
+            "fragment_id": "exact-fragment-from-web-extraction-manifest",
+            "start_line": "one-based-inclusive-archived-html-line",
+            "end_line": "one-based-inclusive-archived-html-line",
+            "source_text": "exact-archived-html-line-range",
+        },
+        "summary_zh": "",
+        "claims": [],
+    }
+    json_write(manifest_path, manifest)
+    json_write(review_template_path, template)
+    transaction = {
+        "schema_version": 1,
+        "reference_id": reference_id,
+        "status": "pending-agent-review",
+        "created_files": [str(raw_path.resolve()), str(manifest_path.resolve()), str(review_template_path.resolve())],
+        "created_roots": [str(extraction_root.resolve())],
+        "baseline_reference_ids": [item["reference_id"] for item in existing],
+    }
+    json_write(root / "transactions" / f"{reference_id}.json", transaction)
+    from .machine_knowledge import build_machine_knowledge
+
+    build_machine_knowledge(output)
+    _set_marker(output, "pending-agent-review", {"reference_id": reference_id, "review_template": str(review_template_path.resolve())})
+    return {
+        "schema_version": REFERENCE_SCHEMA_VERSION,
+        "status": "pending-agent-review",
+        "reference_id": reference_id,
+        "revision": revision,
+        "idempotent": False,
+        "acquisition_mode": prepared.provenance["acquisition_mode"],
+        "source": str(raw_path.resolve()),
+        "manifest": str(manifest_path.resolve()),
+        "review_template": str(review_template_path.resolve()),
+        "final_url": capture_final_url,
+        "retrieved_at_utc": prepared.provenance["retrieved_at_utc"],
+        "raw_snapshot_sha256": digest,
+        "body_snapshot_sha256": extraction["body_snapshot_sha256"],
+        "duplicate_content_of": manifest["duplicate_content_of"],
+        "extraction": {
+            "status": extraction["status"],
+            "fragment_count": extraction["fragment_count"],
+            "manifest": extraction["manifest"],
+            "body_snapshot": extraction["body_snapshot"],
+        },
+        "next": "reference review",
+    }
+
+
 def write_reference_review_template(output: Path, reference_id: str, target: Path) -> dict[str, Any]:
     output = _validate_output(output)
     _path, manifest = _manifest(output, reference_id)
@@ -408,7 +658,14 @@ def _source_lines(manifest: dict[str, Any]) -> list[str]:
     raw = Path(str(manifest["source_file"])).read_bytes()
     if __import__("hashlib").sha256(raw).hexdigest() != manifest.get("source_sha256"):
         raise CkbError(f"reference source drifted: {manifest['reference_id']}")
-    return raw.decode("utf-8-sig").replace("\r\n", "\n").replace("\r", "\n").split("\n")
+    charset = "utf-8-sig"
+    if manifest.get("source_type") == "web":
+        charset = str((manifest.get("web_capture") or {}).get("charset") or "utf-8")
+    try:
+        text = raw.decode(charset)
+    except (LookupError, UnicodeDecodeError) as exc:
+        raise CkbError(f"reference source encoding drifted: {manifest['reference_id']}: {exc}") from exc
+    return text.replace("\r\n", "\n").replace("\r", "\n").split("\n")
 
 
 def _validate_pdf_claims(output: Path, manifest: dict[str, Any], claims: list[Any]) -> None:
@@ -440,6 +697,32 @@ def _validate_pdf_claims(output: Path, manifest: dict[str, Any], claims: list[An
             raise CkbError(f"reference claim {index} source_text does not exactly match the preserved PDF page range")
 
 
+def _validate_web_claims(output: Path, manifest: dict[str, Any], claims: list[Any]) -> None:
+    extraction, errors = validate_web_extraction(output, manifest, require_ready=True)
+    if errors or extraction is None:
+        raise CkbError(f"Web reference extraction is not reviewable: {errors[:5]}")
+    fragments = {str(item["fragment_id"]): item for item in extraction["fragments"]}
+    lines = _source_lines(manifest)
+    for index, claim in enumerate(claims):
+        if not isinstance(claim, dict):
+            raise CkbError(f"reference claim {index} must be an object")
+        if not contains_chinese_narrative(claim.get("claim_zh")) or not contains_chinese_narrative(claim.get("evidence_note")):
+            raise CkbError(f"reference claim {index} requires Chinese claim_zh and evidence_note")
+        fragment_id = str(claim.get("fragment_id") or "")
+        if fragment_id not in fragments:
+            raise CkbError(f"reference claim {index} requires an exact Web extraction fragment_id")
+        start = claim.get("start_line")
+        end = claim.get("end_line")
+        if not isinstance(start, int) or not isinstance(end, int) or start < 1 or end < start or end > len(lines):
+            raise CkbError(f"reference claim {index} has an invalid inclusive line range")
+        fragment_range = fragments[fragment_id]["source_range"]
+        if start < int(fragment_range["start_line"]) or end > int(fragment_range["end_line"]):
+            raise CkbError(f"reference claim {index} line range must remain within one extracted Web fragment")
+        expected = "\n".join(lines[start - 1 : end]).strip()
+        if not expected or str(claim.get("source_text") or "").strip() != expected:
+            raise CkbError(f"reference claim {index} source_text does not exactly match the preserved Web snapshot line range")
+
+
 def _validate_review(output: Path, manifest: dict[str, Any], review: dict[str, Any]) -> None:
     if review.get("schema_version") != REFERENCE_SCHEMA_VERSION:
         raise CkbError("reference review schema_version mismatch")
@@ -454,6 +737,9 @@ def _validate_review(output: Path, manifest: dict[str, Any], review: dict[str, A
         raise CkbError("reference review requires at least one source-grounded claim")
     if manifest.get("source_type") == "pdf":
         _validate_pdf_claims(output, manifest, claims)
+        return
+    if manifest.get("source_type") == "web":
+        _validate_web_claims(output, manifest, claims)
         return
     lines = _source_lines(manifest)
     for index, claim in enumerate(claims):
@@ -506,12 +792,19 @@ def _render_reference_page(manifest: dict[str, Any], review: dict[str, Any]) -> 
             label = f"原文第 {start} 行" if start == end else f"原文第 {start}–{end} 行"
             uri = _source_uri(raw, start)
         lines.append(f"- {str(claim['claim_zh']).strip()}（[{label}]({uri})）")
+    lines.extend(["", "## 来源", "", f"- 资料来源：{manifest['origin']}"])
+    if manifest.get("source_type") == "web":
+        capture = manifest["web_capture"]
+        lines.extend(
+            [
+                f"- [最终 URL]({capture['final_url']})",
+                f"- 获取时间：{capture['retrieved_at_utc']}",
+                f"- HTTP 状态：{capture['status_code']}",
+                f"- Content-Type：{capture['content_type']}",
+            ]
+        )
     lines.extend(
         [
-            "",
-            "## 来源",
-            "",
-            f"- 资料来源：{manifest['origin']}",
             f"- 作者或组织：{manifest.get('author') or '来源中未单列'}",
             f"- 许可：{manifest['license']}",
             f"- [打开归档原文]({_pdf_source_uri(raw) if manifest.get('source_type') == 'pdf' else _source_uri(raw)})",
@@ -531,7 +824,65 @@ def _active_reviewed(manifests: list[dict[str, Any]]) -> list[dict[str, Any]]:
     )
 
 
-def project_references(output: Path) -> dict[str, Any]:
+def relocate_reference_paths(output: Path, old_output: str, new_output: str) -> list[str]:
+    """Rebind local metadata only after verifying the existing extraction digest."""
+    from .pipeline import _replace_output_prefix
+
+    root = _root(output)
+    manifests = {path: json_load(path) for path in sorted((root / "manifests").glob("*.json"))}
+    prefixes = {old_output}
+    # source_relative is the archive identity. It also recovers legacy manifests
+    # whose absolute source links still name an earlier, already removed staging.
+    for manifest in manifests.values():
+        relative = str(manifest.get("source_relative") or "").replace("\\", "/")
+        if not relative:
+            continue
+        local = (output / relative).resolve()
+        if not path_inside(local, root / "raw") or not local.is_file():
+            raise CkbError(f"reference archived source is missing or outside raw: {relative}")
+        if sha256_file(local) != manifest.get("source_sha256"):
+            raise CkbError(f"reference archived source drift before relocation: {manifest['reference_id']}")
+        stored = str(manifest.get("source_file") or "").replace("\\", "/")
+        if stored.endswith("/" + relative):
+            prefixes.add(stored[:-(len(relative) + 1)])
+
+    def rebind(document: Any) -> Any:
+        for prefix in sorted(prefixes, key=len, reverse=True):
+            document = _replace_output_prefix(document, prefix, new_output)
+        return document
+
+    extractions: dict[Path, Path] = {}
+    for path, manifest in manifests.items():
+        if not manifest.get("extraction_file"):
+            continue
+        local = Path(rebind(manifest["extraction_file"]))
+        if not path_inside(local.resolve(), root / "extractions"):
+            raise CkbError(f"reference extraction path is outside the managed source layer: {local}")
+        if not local.is_file() or sha256_file(local) != manifest.get("extraction_sha256"):
+            raise CkbError(f"reference extraction drift before relocation: {manifest['reference_id']}")
+        extractions[path] = local
+    rewritten: list[str] = []
+    for path in sorted(root.rglob("*.json")):
+        if path.relative_to(root).parts[:1] == ("raw",):
+            continue
+        document = json_load(path)
+        updated = rebind(document)
+        if updated != document:
+            json_write(path, updated)
+            rewritten.append(path.relative_to(output).as_posix())
+    for manifest_path, extraction_path in extractions.items():
+        manifest = json_load(manifest_path)
+        digest = sha256_file(extraction_path)
+        if manifest.get("extraction_sha256") != digest:
+            manifest["extraction_sha256"] = digest
+            json_write(manifest_path, manifest)
+            relative = manifest_path.relative_to(output).as_posix()
+            if relative not in rewritten:
+                rewritten.append(relative)
+    return sorted(rewritten)
+
+
+def _project_reference_pages(output: Path) -> dict[str, Any]:
     output = _validate_output(output)
     root = _root(output)
     manifests = _manifests(output)
@@ -602,6 +953,11 @@ def project_references(output: Path) -> dict[str, Any]:
         "projected_at_utc": utc_now(),
     }
     json_write(previous_path, projection)
+    return projection
+
+
+def project_references(output: Path) -> dict[str, Any]:
+    projection = _project_reference_pages(output)
     from .pipeline import refresh_human_navigation
 
     refresh_human_navigation(output)
@@ -675,6 +1031,20 @@ def reference_machine_records(output: Path) -> dict[str, Any]:
                             "fragment_id": fragment["fragment_id"],
                         }
                     )
+        elif manifest.get("source_type") == "web":
+            extraction, extraction_errors = validate_web_extraction(output, manifest, require_ready=True)
+            if extraction_errors or extraction is None:
+                continue
+            sections = [
+                {
+                    "heading": f"网页正文第 {fragment['source_range']['start_line']}–{fragment['source_range']['end_line']} 行 · {fragment['structure']}",
+                    "content": fragment["text"],
+                    "start_line": fragment["source_range"]["start_line"],
+                    "end_line": fragment["source_range"]["end_line"],
+                    "fragment_id": fragment["fragment_id"],
+                }
+                for fragment in extraction["fragments"]
+            ]
         else:
             lines = _source_lines(manifest)
             sections = _reference_sections(lines, manifest["source_type"])
@@ -723,6 +1093,50 @@ def _reference_sections(lines: list[str], source_type: str) -> list[dict[str, An
     return result
 
 
+def _web_capture_errors(manifest: dict[str, Any]) -> list[dict[str, Any]]:
+    reference_id = str(manifest.get("reference_id") or "")
+    capture = manifest.get("web_capture")
+    if not isinstance(capture, dict):
+        return [{"reason": "reference-web-capture-missing", "reference_id": reference_id}]
+    errors: list[dict[str, Any]] = []
+    required = {
+        "acquisition_mode", "network_access", "requested_url", "final_url", "retrieved_at_utc", "status_code",
+        "content_type", "media_type", "charset", "response_headers", "response_size", "raw_snapshot_sha256",
+        "body_snapshot_sha256", "redirect_chain", "max_response_bytes",
+    }
+    missing = sorted(required - set(capture))
+    if missing:
+        errors.append({"reason": "reference-web-capture-fields", "reference_id": reference_id, "missing": missing})
+        return errors
+    mode = capture.get("acquisition_mode")
+    expected_network = "explicit" if mode == "live-url-fetch" else "not-used" if mode == "provided-static-snapshot" else None
+    if expected_network is None or capture.get("network_access") != expected_network:
+        errors.append({"reason": "reference-web-acquisition-mode", "reference_id": reference_id})
+    for field in ("requested_url", "final_url"):
+        value = str(capture.get(field) or "")
+        if not re.match(r"^https?://[^/\s]+", value, re.IGNORECASE):
+            errors.append({"reason": "reference-web-url", "reference_id": reference_id, "field": field})
+    if not re.match(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$", str(capture.get("retrieved_at_utc") or "")):
+        errors.append({"reason": "reference-web-retrieved-at", "reference_id": reference_id})
+    status_code = capture.get("status_code")
+    if not isinstance(status_code, int) or status_code < 200 or status_code > 299:
+        errors.append({"reason": "reference-web-status", "reference_id": reference_id})
+    if capture.get("media_type") not in {"text/html", "application/xhtml+xml"}:
+        errors.append({"reason": "reference-web-content-type", "reference_id": reference_id})
+    headers = capture.get("response_headers")
+    if not isinstance(headers, dict) or not headers.get("content-type"):
+        errors.append({"reason": "reference-web-response-headers", "reference_id": reference_id})
+    if capture.get("raw_snapshot_sha256") != manifest.get("source_sha256"):
+        errors.append({"reason": "reference-web-raw-hash", "reference_id": reference_id})
+    if capture.get("body_snapshot_sha256") != manifest.get("body_snapshot_sha256"):
+        errors.append({"reason": "reference-web-body-hash", "reference_id": reference_id})
+    if capture.get("response_size") != manifest.get("source_size"):
+        errors.append({"reason": "reference-web-response-size", "reference_id": reference_id})
+    if not isinstance(capture.get("redirect_chain"), list):
+        errors.append({"reason": "reference-web-redirect-chain", "reference_id": reference_id})
+    return errors
+
+
 def audit_references(output: Path) -> dict[str, Any]:
     output = _validate_output(output)
     root = _root(output)
@@ -734,7 +1148,7 @@ def audit_references(output: Path) -> dict[str, Any]:
         reference_id = str(manifest.get("reference_id") or "")
         source = Path(str(manifest.get("source_file") or ""))
         source_relative = str(manifest.get("source_relative") or "")
-        if manifest.get("source_type") == "pdf" and not _managed_path(output, source, source_relative, root / "raw"):
+        if manifest.get("source_type") in {"pdf", "web"} and not _managed_path(output, source, source_relative, root / "raw"):
             errors.append({"reason": "reference-source-path", "reference_id": reference_id, "path": str(source)})
             continue
         if not source.is_file():
@@ -744,11 +1158,14 @@ def audit_references(output: Path) -> dict[str, Any]:
             errors.append({"reason": "reference-source-drift", "reference_id": reference_id})
         try:
             _validate_license(str(manifest.get("license") or ""))
-            _decode_source(
-                source,
-                pdf_max_bytes=int(manifest.get("pdf_max_bytes") or DEFAULT_MAX_PDF_BYTES),
-                pdf_max_pages=int(manifest.get("pdf_max_pages") or DEFAULT_MAX_PDF_PAGES),
-            )
+            if manifest.get("source_type") == "web":
+                _source_lines(manifest)
+            else:
+                _decode_source(
+                    source,
+                    pdf_max_bytes=int(manifest.get("pdf_max_bytes") or DEFAULT_MAX_PDF_BYTES),
+                    pdf_max_pages=int(manifest.get("pdf_max_pages") or DEFAULT_MAX_PDF_PAGES),
+                )
         except CkbError as exc:
             errors.append({"reason": "reference-source-invalid", "reference_id": reference_id, "detail": str(exc)})
         if manifest.get("source_type") == "pdf":
@@ -758,7 +1175,15 @@ def audit_references(output: Path) -> dict[str, Any]:
                 require_ready=manifest.get("status") in {"agent-reviewed", "superseded"},
             )
             errors.extend(extraction_errors)
-        if manifest.get("source_type") == "pdf":
+        if manifest.get("source_type") == "web":
+            errors.extend(_web_capture_errors(manifest))
+            _extraction, extraction_errors = validate_web_extraction(
+                output,
+                manifest,
+                require_ready=manifest.get("status") in {"agent-reviewed", "superseded"},
+            )
+            errors.extend(extraction_errors)
+        if manifest.get("source_type") in {"pdf", "web"}:
             review_template = Path(str(manifest.get("review_template") or ""))
             expected_template = (root / "review-templates" / f"{reference_id}.json").resolve()
             if review_template.resolve() != expected_template or not review_template.is_file():
@@ -801,6 +1226,14 @@ def audit_references(output: Path) -> dict[str, Any]:
             errors.append({"reason": "reference-page-mirror", "path": relative})
         elif not contains_chinese_narrative(left.read_text(encoding="utf-8")) or LONG_HEX.search(left.read_text(encoding="utf-8")):
             errors.append({"reason": "reference-page-human-contract", "path": relative})
+    for manifest in active:
+        page = output / "human" / str(manifest.get("human_file") or "")
+        review_path = Path(str(manifest.get("review_file") or ""))
+        if page.is_file() and review_path.is_file():
+            expected = _render_reference_page(manifest, json_load(review_path))
+            if page.read_text(encoding="utf-8") != expected:
+                errors.append({"reason": "reference-page-stale-source-links-or-content",
+                               "reference_id": manifest["reference_id"]})
     left_index = output / "markdown" / REFERENCE_INDEX
     right_index = output / "human" / REFERENCE_INDEX
     if active and (not left_index.is_file() or not right_index.is_file() or left_index.read_bytes() != right_index.read_bytes()):
@@ -855,6 +1288,7 @@ def list_references(output: Path, status: str = "all") -> dict[str, Any]:
                 for key in (
                     "reference_id", "status", "title", "origin", "license", "revision", "supersedes",
                     "source_type", "extraction_status", "page_count", "pending_pages", "human_file",
+                    "body_snapshot_sha256", "duplicate_content_of", "web_capture",
                 )
             }
             for item in records
@@ -869,7 +1303,7 @@ def rollback_reference(output: Path, reference_id: str) -> dict[str, Any]:
         raise CkbError(f"rollback the active superseding revision first: {manifest['superseded_by']}")
     root = _root(output)
     source = Path(str(manifest.get("source_file") or ""))
-    if manifest.get("source_type") == "pdf" and not _managed_path(
+    if manifest.get("source_type") in {"pdf", "web"} and not _managed_path(
         output,
         source,
         str(manifest.get("source_relative") or ""),

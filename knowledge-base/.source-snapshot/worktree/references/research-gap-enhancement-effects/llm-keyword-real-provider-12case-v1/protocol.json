@@ -1,0 +1,278 @@
+{
+  "schema_version": 1,
+  "status": "frozen",
+  "frozen_before_run": true,
+  "benchmark": "ckb-keyword-real-provider-12case-v1",
+  "source_protocol": "tests/fixtures/chinese-retrieval-effects/protocol.json",
+  "source_protocol_sha256": "529d20785b949288003753bb0914fd520d89d25fb953da61ec292b72654fdcc8",
+  "corpus": {
+    "repository_commit": "19152b227ccf687e7e4d89337d421c22a4e1a75f",
+    "graph_sha256": "7815a59ab8a71905e91762fd3477d8e29d40cb79dd157775a399d076b71d9262",
+    "machine_schema_version": "3",
+    "copy_mode": "sqlite-backup-and-human-mirror"
+  },
+  "provider": {
+    "adapter": "tests/fixtures/keyword_provider.py",
+    "mode": "codex-cli",
+    "name": "codex-cli",
+    "model": "gpt-5.6-luna",
+    "version": "real-12case-v1",
+    "adapter_timeout_seconds": 180.0,
+    "cli_timeout_seconds": 150.0,
+    "retries": 0,
+    "usage_source": "codex-exec-turn.completed",
+    "cost_source": "not-reported-by-provider-cli"
+  },
+  "runs": {
+    "baseline": 1,
+    "real_provider_cold": 1,
+    "real_provider_hot": 1
+  },
+  "invocation_contract": {
+    "default": "不传 fallback 选项时不启动 Provider",
+    "allow": "仅确定性结果为 needs-source-read 时启动 Provider",
+    "force": "显式 force 时不论确定性状态均启动 Provider",
+    "allow_needs_source_read_probe": "星际织网不存在术语"
+  },
+  "fault_probes": [
+    {
+      "id": "fault-irrelevant",
+      "mode": "irrelevant-output",
+      "question_id": "q07",
+      "expected_failure_type": null
+    },
+    {
+      "id": "fault-timeout",
+      "mode": "timeout",
+      "question_id": "q08",
+      "expected_failure_type": "timeout"
+    },
+    {
+      "id": "fault-invalid-json",
+      "mode": "invalid-json",
+      "question_id": "q09",
+      "expected_failure_type": "invalid-json"
+    },
+    {
+      "id": "fault-empty-output",
+      "mode": "empty-output",
+      "question_id": "q10",
+      "expected_failure_type": "invalid-output"
+    },
+    {
+      "id": "fault-out-of-bounds",
+      "mode": "too-many-keywords",
+      "question_id": "q11",
+      "expected_failure_type": "invalid-output"
+    },
+    {
+      "id": "fault-missing-credentials",
+      "mode": "missing-credentials",
+      "question_id": "q12",
+      "expected_failure_type": "missing-credentials"
+    }
+  ],
+  "metrics": [
+    "recall_at_8",
+    "mrr_at_8",
+    "ndcg_at_8",
+    "input_terms",
+    "provider_output_terms",
+    "validated_terms",
+    "provider_latency_ms",
+    "additional_latency_ms",
+    "input_tokens",
+    "output_tokens",
+    "cache_hit",
+    "provider_process_starts"
+  ],
+  "quality_interpretation": {
+    "effect": "只用 12 次真实 Provider 冷调用与同题确定性基线比较；故障注入不计入效果均值。",
+    "failure": "超时、非 JSON、空词项、越界词项和凭据缺失必须保留原状态与原排序。",
+    "irrelevant": "schema 合法但无关的词项单列，要求检索不阻塞且 Recall@8 不下降。",
+    "not_configured": "未提供 Provider 可执行文件时标记 not-executed、actual_calls=0，不生成效果结论。",
+    "cost": "Provider CLI 未返回账单金额；记录 token，cost_usd 保持 null。"
+  },
+  "questions": [
+    {
+      "id": "q01",
+      "question": "调整 retrieve_machine 的 FTS5 权重和 fast 两跳图传播",
+      "relevance": [
+        {
+          "source_path": "scripts/ckb_core/machine_knowledge.py",
+          "symbol": "retrieve_machine",
+          "grade": 3
+        }
+      ],
+      "coverage": [
+        "chinese-natural-language",
+        "source-identifier"
+      ]
+    },
+    {
+      "id": "q02",
+      "question": "修复未明确应用 code-knowledge-builder Skill 时仍记录 Hook 事件",
+      "relevance": [
+        {
+          "source_path": "scripts/ckb_core/automation.py",
+          "symbol": "ingest_event",
+          "grade": 3
+        }
+      ],
+      "coverage": [
+        "chinese-natural-language",
+        "source-identifier"
+      ]
+    },
+    {
+      "id": "q03",
+      "question": "修改 Claude 与 OpenCode 的跨 Harness Hook 配置生成模板",
+      "relevance": [
+        {
+          "source_path": "scripts/ckb_core/automation_integrations.py",
+          "symbol": "render_integration",
+          "grade": 3
+        }
+      ],
+      "coverage": [
+        "chinese-natural-language",
+        "source-identifier"
+      ]
+    },
+    {
+      "id": "q04",
+      "question": "修改增量迁移时 exact blob 复用集合的审计规则",
+      "relevance": [
+        {
+          "source_path": "scripts/ckb_core/migration.py",
+          "symbol": "audit_migration",
+          "grade": 3
+        }
+      ],
+      "coverage": [
+        "chinese-natural-language",
+        "source-identifier"
+      ]
+    },
+    {
+      "id": "q05",
+      "question": "修改兼容 Agent 页面索引的构建与 FTS 查询",
+      "relevance": [
+        {
+          "source_path": "scripts/ckb_core/agent_index.py",
+          "symbol": "build_agent_index",
+          "grade": 3
+        }
+      ],
+      "coverage": [
+        "chinese-natural-language",
+        "source-identifier"
+      ]
+    },
+    {
+      "id": "q06",
+      "question": "修改机器知识同步到中文人类 Obsidian 页面投影",
+      "relevance": [
+        {
+          "source_path": "scripts/ckb_core/knowledge_layers.py",
+          "symbol": "sync_human_layer",
+          "grade": 3
+        }
+      ],
+      "coverage": [
+        "chinese-natural-language",
+        "source-identifier"
+      ]
+    },
+    {
+      "id": "q07",
+      "question": "调整 Graphify 社区聚类与查询子图输出",
+      "relevance": [
+        {
+          "source_path": "scripts/ckb_core/graphify_core.py",
+          "symbol": "query_graph",
+          "grade": 3
+        }
+      ],
+      "coverage": [
+        "chinese-natural-language",
+        "source-identifier"
+      ]
+    },
+    {
+      "id": "q08",
+      "question": "修改知识页点击源码时的 VS Code URI 和行号",
+      "relevance": [
+        {
+          "source_path": "scripts/ckb_core/source_links.py",
+          "symbol": "ensure_local_openers",
+          "grade": 3
+        }
+      ],
+      "coverage": [
+        "chinese-natural-language",
+        "source-identifier"
+      ]
+    },
+    {
+      "id": "q09",
+      "question": "调整页面配置中的每文件关键页上限和上下文预算",
+      "relevance": [
+        {
+          "source_path": "scripts/ckb_core/page_config.py",
+          "symbol": "load_page_config",
+          "grade": 3
+        }
+      ],
+      "coverage": [
+        "chinese-natural-language",
+        "source-identifier"
+      ]
+    },
+    {
+      "id": "q10",
+      "question": "修改 full 私有运行时部署和 remove 回滚流程",
+      "relevance": [
+        {
+          "source_path": "scripts/ckb_core/runtime.py",
+          "symbol": "deploy",
+          "grade": 3
+        }
+      ],
+      "coverage": [
+        "chinese-natural-language",
+        "source-identifier"
+      ]
+    },
+    {
+      "id": "q11",
+      "question": "修改 C++ 与 Python 展示样例的 Wiki 打包输出",
+      "relevance": [
+        {
+          "source_path": "scripts/ckb_core/showcase.py",
+          "symbol": "package_showcase",
+          "grade": 3
+        }
+      ],
+      "coverage": [
+        "chinese-natural-language",
+        "source-identifier"
+      ]
+    },
+    {
+      "id": "q12",
+      "question": "修改 Tree-sitter 解析文件和命名实体清单",
+      "relevance": [
+        {
+          "source_path": "scripts/ckb_core/parsers.py",
+          "symbol": "parse_file",
+          "grade": 3
+        }
+      ],
+      "coverage": [
+        "chinese-natural-language",
+        "source-identifier"
+      ]
+    }
+  ]
+}

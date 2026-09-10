@@ -45,8 +45,8 @@
 ## 相关知识页
 
 - [[record_note]]
-- [[retrieve_machine]]
-- [[start_session]]
+- [[build_machine_knowledge 与 estimated_tokens 的协作实现]]
+- [[finish_session 与 _session_directory 的协作实现]]
 
 ## 源码入口
 

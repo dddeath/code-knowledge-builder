@@ -1,0 +1,811 @@
+{
+  "benchmark": "ckb-reference-pdf-real-ocr-fidelity-v1",
+  "bindings": {
+    "fixture": {
+      "declared_documents": true,
+      "documents": true,
+      "ground_truth_sha256": true
+    },
+    "implementation": {
+      "adapter_sha256": true,
+      "baseline_commit": true,
+      "implementation_sha256": true
+    },
+    "runtime": {
+      "onnxruntime": true,
+      "pdftoppm": true,
+      "pypdf": true,
+      "python": true,
+      "rapidocr_onnxruntime": true
+    }
+  },
+  "contract_failures": [],
+  "diagnostic_checks": {
+    "corrupt-pdf": true,
+    "ocr-empty-output": true,
+    "ocr-page-limit": true,
+    "ocr-timeout": true,
+    "ocr-tool-missing": true
+  },
+  "diagnostics": [
+    {
+      "case": "ocr-tool-missing",
+      "expected_reason": "ocr-adapter-failed",
+      "matched": true,
+      "observed_reason": "ocr-adapter-failed",
+      "stderr": "ocr-tool-missing: rapidocr_onnxruntime",
+      "stderr_contains": "ocr-tool-missing: rapidocr_onnxruntime"
+    },
+    {
+      "case": "ocr-timeout",
+      "expected_reason": "ocr-timeout",
+      "matched": true,
+      "observed_reason": "ocr-timeout"
+    },
+    {
+      "case": "ocr-empty-output",
+      "expected_reason": "ocr-text-below-usable-threshold",
+      "matched": true,
+      "observed_reason": "ocr-text-below-usable-threshold",
+      "output_sha256": "483df6692656b537f87ad52144170288dc8d8c81e141f4cb3542446bbfa16db2"
+    },
+    {
+      "attempted_pages": 1,
+      "case": "ocr-page-limit",
+      "expected_reason": "ocr-page-limit",
+      "matched": true,
+      "observed_reason": "ocr-page-limit"
+    },
+    {
+      "case": "corrupt-pdf",
+      "expected_reason": "corrupt or unsupported PDF source",
+      "matched": true,
+      "observed_reason": "corrupt or unsupported PDF source (PdfStreamError): Stream has ended unexpectedly"
+    }
+  ],
+  "ingest_checks": {
+    "hybrid": {
+      "audit_passed": true,
+      "exit_status_4": true,
+      "methods_match": true,
+      "source_copy_exact": true,
+      "status_ready": true
+    },
+    "native": {
+      "audit_passed": true,
+      "exit_status_4": true,
+      "methods_match": true,
+      "source_copy_exact": true,
+      "status_ready": true
+    },
+    "scanned": {
+      "audit_passed": true,
+      "exit_status_4": true,
+      "methods_match": true,
+      "source_copy_exact": true,
+      "status_ready": true
+    }
+  },
+  "ingests": {
+    "hybrid": {
+      "archived_source_sha256": "376a3beedd89135547a61a07dcce266402ed3c1b8c3ad007d08afb2bc608748b",
+      "audit_errors": [],
+      "command": "reference ingest",
+      "exit_status": 4,
+      "input": "tests/fixtures/reference-pdf-ocr/hybrid-native-scanned.pdf",
+      "ocr_enabled": true,
+      "page_count": 2,
+      "pages": [
+        {
+          "confidence": "high",
+          "fragments": [
+            {
+              "page_number": 1,
+              "structure": "heading",
+              "structure_confidence": "low",
+              "text": "CKB OCR REFERENCE | CODE PAGE",
+              "warnings": [
+                "heading-inferred-from-short-line"
+              ]
+            },
+            {
+              "page_number": 1,
+              "structure": "heading",
+              "structure_confidence": "low",
+              "text": "扫描 OCR 基准 / Scan OCR Benchmark",
+              "warnings": [
+                "heading-inferred-from-short-line"
+              ]
+            },
+            {
+              "page_number": 1,
+              "structure": "paragraph",
+              "structure_confidence": "medium",
+              "text": "中英文混排 Mixed Chinese and English 2026.",
+              "warnings": []
+            },
+            {
+              "page_number": 1,
+              "structure": "heading",
+              "structure_confidence": "low",
+              "text": "  def normalize(items):",
+              "warnings": [
+                "heading-inferred-from-short-line"
+              ]
+            },
+            {
+              "page_number": 1,
+              "structure": "heading",
+              "structure_confidence": "low",
+              "text": "      total = sum(x[\"value\"] for x in items)",
+              "warnings": [
+                "heading-inferred-from-short-line"
+              ]
+            },
+            {
+              "page_number": 1,
+              "structure": "heading",
+              "structure_confidence": "low",
+              "text": "      return {\"count\": len(items), \"total\": total}",
+              "warnings": [
+                "heading-inferred-from-short-line"
+              ]
+            },
+            {
+              "page_number": 1,
+              "structure": "heading",
+              "structure_confidence": "low",
+              "text": "                         FIXTURE ONLY | Page 1 / 2",
+              "warnings": [
+                "heading-inferred-from-short-line"
+              ]
+            }
+          ],
+          "method": "native",
+          "ocr": {
+            "confidence_score": null,
+            "metadata": {},
+            "output_sha256": null,
+            "status": "not-needed"
+          },
+          "page_number": 1,
+          "reason": null,
+          "status": "extracted",
+          "text": "CKB OCR REFERENCE | CODE PAGE\n\n扫描 OCR 基准 / Scan OCR Benchmark\n\n中英文混排 Mixed Chinese and English 2026.\n\n\n\n\n\n  def normalize(items):\n\n      total = sum(x[\"value\"] for x in items)\n\n      return {\"count\": len(items), \"total\": total}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n                         FIXTURE ONLY | Page 1 / 2",
+          "text_sha256": "704a00de3e9afbcb2a99e3bc89809b1eed9ef5451d2017334b9d41442cc798b2"
+        },
+        {
+          "confidence": "high",
+          "fragments": [
+            {
+              "page_number": 2,
+              "structure": "paragraph",
+              "structure_confidence": "medium",
+              "text": "CKB OCR REFERENCE 丨 TABLE PAGE\n跨行表格／Multi-lineTable",
+              "warnings": []
+            },
+            {
+              "page_number": 2,
+              "structure": "table",
+              "structure_confidence": "medium",
+              "text": "模块 Module            状态 Status         说明Note\nparser                 READY               保留页码\n                                          page 2\nocr                   CHECK               code+ table\ntrace                 PASS               source-page=2",
+              "warnings": [
+                "layout-derived-table-boundary",
+                "wrapped-table-row-inferred"
+              ]
+            },
+            {
+              "page_number": 2,
+              "structure": "heading",
+              "structure_confidence": "low",
+              "text": "FIXTURE ONLY|Page 2／ 2",
+              "warnings": [
+                "heading-inferred-from-short-line"
+              ]
+            }
+          ],
+          "method": "ocr",
+          "ocr": {
+            "confidence_score": 0.982077,
+            "metadata": {
+              "detection_count": 16,
+              "engine": {
+                "adapter_id": "ckb-real-rapidocr-poppler-v1",
+                "name": "rapidocr_onnxruntime",
+                "onnxruntime_version": "1.29.0",
+                "version": "1.4.4"
+              },
+              "renderer": {
+                "dpi": 250,
+                "name": "pdftoppm",
+                "path": "C:\\Users\\19739\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\poppler\\Library\\bin\\pdftoppm.exe"
+              }
+            },
+            "output_sha256": "b9cee0a8fdcf37e7243627351a749adf5b23c45866862431357b5165557882cc",
+            "status": "completed"
+          },
+          "page_number": 2,
+          "reason": null,
+          "status": "extracted",
+          "text": "CKB OCR REFERENCE 丨 TABLE PAGE\n跨行表格／Multi-lineTable\n\n模块 Module            状态 Status         说明Note\nparser                 READY               保留页码\n                                          page 2\nocr                   CHECK               code+ table\ntrace                 PASS               source-page=2\n\nFIXTURE ONLY|Page 2／ 2",
+          "text_sha256": "21895f314398c99d4d0db1aa810e076365ad34f673789651d4be33dfaacdb172"
+        }
+      ],
+      "reference_id": "reference-811b63f803f95399bae8955d9465defe",
+      "source_sha256": "376a3beedd89135547a61a07dcce266402ed3c1b8c3ad007d08afb2bc608748b",
+      "status": "ready"
+    },
+    "native": {
+      "archived_source_sha256": "36a8239d450634f94ea2ac179e6cd00f1bbfc1b67b6faa8c9ca22a2afb50fbef",
+      "audit_errors": [],
+      "command": "reference ingest",
+      "exit_status": 4,
+      "input": "tests/fixtures/reference-pdf-ocr/native-code-table-mixed.pdf",
+      "ocr_enabled": false,
+      "page_count": 2,
+      "pages": [
+        {
+          "confidence": "high",
+          "fragments": [
+            {
+              "page_number": 1,
+              "structure": "heading",
+              "structure_confidence": "low",
+              "text": "CKB OCR REFERENCE | CODE PAGE",
+              "warnings": [
+                "heading-inferred-from-short-line"
+              ]
+            },
+            {
+              "page_number": 1,
+              "structure": "heading",
+              "structure_confidence": "low",
+              "text": "扫描 OCR 基准 / Scan OCR Benchmark",
+              "warnings": [
+                "heading-inferred-from-short-line"
+              ]
+            },
+            {
+              "page_number": 1,
+              "structure": "paragraph",
+              "structure_confidence": "medium",
+              "text": "中英文混排 Mixed Chinese and English 2026.",
+              "warnings": []
+            },
+            {
+              "page_number": 1,
+              "structure": "heading",
+              "structure_confidence": "low",
+              "text": "  def normalize(items):",
+              "warnings": [
+                "heading-inferred-from-short-line"
+              ]
+            },
+            {
+              "page_number": 1,
+              "structure": "heading",
+              "structure_confidence": "low",
+              "text": "      total = sum(x[\"value\"] for x in items)",
+              "warnings": [
+                "heading-inferred-from-short-line"
+              ]
+            },
+            {
+              "page_number": 1,
+              "structure": "heading",
+              "structure_confidence": "low",
+              "text": "      return {\"count\": len(items), \"total\": total}",
+              "warnings": [
+                "heading-inferred-from-short-line"
+              ]
+            },
+            {
+              "page_number": 1,
+              "structure": "heading",
+              "structure_confidence": "low",
+              "text": "                         FIXTURE ONLY | Page 1 / 2",
+              "warnings": [
+                "heading-inferred-from-short-line"
+              ]
+            }
+          ],
+          "method": "native",
+          "ocr": {
+            "confidence_score": null,
+            "metadata": {},
+            "output_sha256": null,
+            "status": "not-needed"
+          },
+          "page_number": 1,
+          "reason": null,
+          "status": "extracted",
+          "text": "CKB OCR REFERENCE | CODE PAGE\n\n扫描 OCR 基准 / Scan OCR Benchmark\n\n中英文混排 Mixed Chinese and English 2026.\n\n\n\n\n\n  def normalize(items):\n\n      total = sum(x[\"value\"] for x in items)\n\n      return {\"count\": len(items), \"total\": total}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n                         FIXTURE ONLY | Page 1 / 2",
+          "text_sha256": "704a00de3e9afbcb2a99e3bc89809b1eed9ef5451d2017334b9d41442cc798b2"
+        },
+        {
+          "confidence": "high",
+          "fragments": [
+            {
+              "page_number": 2,
+              "structure": "heading",
+              "structure_confidence": "low",
+              "text": "CKB OCR REFERENCE | TABLE PAGE",
+              "warnings": [
+                "heading-inferred-from-short-line"
+              ]
+            },
+            {
+              "page_number": 2,
+              "structure": "heading",
+              "structure_confidence": "low",
+              "text": "跨行表格 / Multi-line Table",
+              "warnings": [
+                "heading-inferred-from-short-line"
+              ]
+            },
+            {
+              "page_number": 2,
+              "structure": "heading",
+              "structure_confidence": "low",
+              "text": " 模块 Module             状态 Status          说明 Note",
+              "warnings": [
+                "heading-inferred-from-short-line"
+              ]
+            },
+            {
+              "page_number": 2,
+              "structure": "heading",
+              "structure_confidence": "low",
+              "text": " parser                READY              保留页码",
+              "warnings": [
+                "heading-inferred-from-short-line"
+              ]
+            },
+            {
+              "page_number": 2,
+              "structure": "heading",
+              "structure_confidence": "low",
+              "text": "                                          page 2",
+              "warnings": [
+                "heading-inferred-from-short-line"
+              ]
+            },
+            {
+              "page_number": 2,
+              "structure": "heading",
+              "structure_confidence": "low",
+              "text": " ocr                   CHECK              code + table",
+              "warnings": [
+                "heading-inferred-from-short-line"
+              ]
+            },
+            {
+              "page_number": 2,
+              "structure": "heading",
+              "structure_confidence": "low",
+              "text": " trace                 PASS               source-page=2",
+              "warnings": [
+                "heading-inferred-from-short-line"
+              ]
+            },
+            {
+              "page_number": 2,
+              "structure": "heading",
+              "structure_confidence": "low",
+              "text": "                            FIXTURE ONLY | Page 2 / 2",
+              "warnings": [
+                "heading-inferred-from-short-line"
+              ]
+            }
+          ],
+          "method": "native",
+          "ocr": {
+            "confidence_score": null,
+            "metadata": {},
+            "output_sha256": null,
+            "status": "not-needed"
+          },
+          "page_number": 2,
+          "reason": null,
+          "status": "extracted",
+          "text": "CKB OCR REFERENCE | TABLE PAGE\n\n跨行表格 / Multi-line Table\n\n\n\n\n\n\n 模块 Module             状态 Status          说明 Note\n\n\n\n parser                READY              保留页码\n\n                                          page 2\n\n\n ocr                   CHECK              code + table\n\n\n\n trace                 PASS               source-page=2\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n                            FIXTURE ONLY | Page 2 / 2",
+          "text_sha256": "5a27efde90c58d7aef0b73020349c6bdd6a85acf05943c31a0eb2484b61627eb"
+        }
+      ],
+      "reference_id": "reference-50e1be53ad6051aab6363aba871dba92",
+      "source_sha256": "36a8239d450634f94ea2ac179e6cd00f1bbfc1b67b6faa8c9ca22a2afb50fbef",
+      "status": "ready"
+    },
+    "scanned": {
+      "archived_source_sha256": "80119dccf7d371f1b2602078b36dab963424a46ed8a73d1d9fb580d54bd7dd1d",
+      "audit_errors": [],
+      "command": "reference ingest",
+      "exit_status": 4,
+      "input": "tests/fixtures/reference-pdf-ocr/scanned-code-table-mixed.pdf",
+      "ocr_enabled": true,
+      "page_count": 2,
+      "pages": [
+        {
+          "confidence": "high",
+          "fragments": [
+            {
+              "page_number": 1,
+              "structure": "paragraph",
+              "structure_confidence": "medium",
+              "text": "CKB OCR REFERENCE|CODE PAGE\n扫描OCR 基准／ScanOCR Benchmark\n中英文混排 Mixed Chinese and English 2026.",
+              "warnings": []
+            },
+            {
+              "page_number": 1,
+              "structure": "code",
+              "structure_confidence": "medium",
+              "text": "def normalize(items) :\n    total = sum(x[\"value\"] for x in items)\n    return {\"count\": len(items), \"total\": total}",
+              "warnings": [
+                "layout-derived-code-boundary"
+              ]
+            },
+            {
+              "page_number": 1,
+              "structure": "heading",
+              "structure_confidence": "low",
+              "text": "FIXTURE ONLY|Page 1 / 2",
+              "warnings": [
+                "heading-inferred-from-short-line"
+              ]
+            }
+          ],
+          "method": "ocr",
+          "ocr": {
+            "confidence_score": 0.954225,
+            "metadata": {
+              "detection_count": 7,
+              "engine": {
+                "adapter_id": "ckb-real-rapidocr-poppler-v1",
+                "name": "rapidocr_onnxruntime",
+                "onnxruntime_version": "1.29.0",
+                "version": "1.4.4"
+              },
+              "renderer": {
+                "dpi": 250,
+                "name": "pdftoppm",
+                "path": "C:\\Users\\19739\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\poppler\\Library\\bin\\pdftoppm.exe"
+              }
+            },
+            "output_sha256": "6030b642e133ec238ea9889295c49ffa574058bb70b8833d3d6429ccea252fc1",
+            "status": "completed"
+          },
+          "page_number": 1,
+          "reason": null,
+          "status": "extracted",
+          "text": "CKB OCR REFERENCE|CODE PAGE\n扫描OCR 基准／ScanOCR Benchmark\n中英文混排 Mixed Chinese and English 2026.\n\ndef normalize(items) :\n    total = sum(x[\"value\"] for x in items)\n    return {\"count\": len(items), \"total\": total}\n\nFIXTURE ONLY|Page 1 / 2",
+          "text_sha256": "483d8154c59f6a0b60e75825201012c2e1c26b11d7598e39cc5f709fbcae895c"
+        },
+        {
+          "confidence": "high",
+          "fragments": [
+            {
+              "page_number": 2,
+              "structure": "paragraph",
+              "structure_confidence": "medium",
+              "text": "CKB OCR REFERENCE 丨 TABLE PAGE\n跨行表格／Multi-lineTable",
+              "warnings": []
+            },
+            {
+              "page_number": 2,
+              "structure": "table",
+              "structure_confidence": "medium",
+              "text": "模块 Module            状态 Status         说明Note\nparser                 READY               保留页码\n                                          page 2\nocr                   CHECK               code+ table\ntrace                 PASS               source-page=2",
+              "warnings": [
+                "layout-derived-table-boundary",
+                "wrapped-table-row-inferred"
+              ]
+            },
+            {
+              "page_number": 2,
+              "structure": "heading",
+              "structure_confidence": "low",
+              "text": "FIXTURE ONLY|Page 2／ 2",
+              "warnings": [
+                "heading-inferred-from-short-line"
+              ]
+            }
+          ],
+          "method": "ocr",
+          "ocr": {
+            "confidence_score": 0.982077,
+            "metadata": {
+              "detection_count": 16,
+              "engine": {
+                "adapter_id": "ckb-real-rapidocr-poppler-v1",
+                "name": "rapidocr_onnxruntime",
+                "onnxruntime_version": "1.29.0",
+                "version": "1.4.4"
+              },
+              "renderer": {
+                "dpi": 250,
+                "name": "pdftoppm",
+                "path": "C:\\Users\\19739\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\poppler\\Library\\bin\\pdftoppm.exe"
+              }
+            },
+            "output_sha256": "b9cee0a8fdcf37e7243627351a749adf5b23c45866862431357b5165557882cc",
+            "status": "completed"
+          },
+          "page_number": 2,
+          "reason": null,
+          "status": "extracted",
+          "text": "CKB OCR REFERENCE 丨 TABLE PAGE\n跨行表格／Multi-lineTable\n\n模块 Module            状态 Status         说明Note\nparser                 READY               保留页码\n                                          page 2\nocr                   CHECK               code+ table\ntrace                 PASS               source-page=2\n\nFIXTURE ONLY|Page 2／ 2",
+          "text_sha256": "21895f314398c99d4d0db1aa810e076365ad34f673789651d4be33dfaacdb172"
+        }
+      ],
+      "reference_id": "reference-87ee6759ec2651ff80a87c59ca3271d1",
+      "source_sha256": "80119dccf7d371f1b2602078b36dab963424a46ed8a73d1d9fb580d54bd7dd1d",
+      "status": "ready"
+    }
+  },
+  "measured_at_utc": "2026-09-05T00:00:00Z",
+  "metrics": {
+    "code_fidelity": {
+      "exact_line_recall": 0.666667,
+      "expected_indentation": [
+        0,
+        4,
+        4
+      ],
+      "expected_lines": [
+        "def normalize(items):",
+        "    total = sum(x[\"value\"] for x in items)",
+        "    return {\"count\": len(items), \"total\": total}"
+      ],
+      "indentation_accuracy": 1.0,
+      "observed_indentation": [
+        0,
+        4,
+        4
+      ],
+      "observed_lines": [
+        "def normalize(items) :",
+        "    total = sum(x[\"value\"] for x in items)",
+        "    return {\"count\": len(items), \"total\": total}"
+      ],
+      "symbol_sequence_accuracy": 1.0
+    },
+    "source_page_locator": {
+      "accuracy": 1.0,
+      "checks": [
+        {
+          "expected_page": 1,
+          "marker": "normalize(items)",
+          "matched": true,
+          "observed_pages": [
+            1
+          ]
+        },
+        {
+          "expected_page": 2,
+          "marker": "source-page=2",
+          "matched": true,
+          "observed_pages": [
+            2
+          ]
+        }
+      ],
+      "hybrid_expected_methods": [
+        "native",
+        "ocr"
+      ],
+      "hybrid_methods_match": true,
+      "hybrid_observed_methods": [
+        "native",
+        "ocr"
+      ]
+    },
+    "table_structure": {
+      "cell_checks": {
+        "CHECK": true,
+        "PASS": true,
+        "READY": true,
+        "code + table": true,
+        "ocr": true,
+        "page 2": true,
+        "parser": true,
+        "source-page=2": true,
+        "trace": true,
+        "保留页码": true,
+        "模块 Module": true,
+        "状态 Status": true,
+        "说明 Note": true
+      },
+      "cell_recall": 1.0,
+      "column_order_accuracy": 1.0,
+      "fragment_structures": [
+        "paragraph",
+        "table",
+        "heading"
+      ],
+      "row_alignment_accuracy": 1.0,
+      "row_checks": [
+        {
+          "cells": [
+            "parser",
+            "READY",
+            "保留页码"
+          ],
+          "column_order": true,
+          "line_index": 4,
+          "marker": "parser",
+          "same_line": true
+        },
+        {
+          "cells": [
+            "ocr",
+            "CHECK",
+            "code + table"
+          ],
+          "column_order": true,
+          "line_index": 6,
+          "marker": "ocr",
+          "same_line": true
+        },
+        {
+          "cells": [
+            "trace",
+            "PASS",
+            "source-page=2"
+          ],
+          "column_order": true,
+          "line_index": 7,
+          "marker": "trace",
+          "same_line": true
+        }
+      ],
+      "table_fragment_detected": true,
+      "wrapped_cell_continuation": true
+    },
+    "text_coverage": {
+      "checks": [
+        {
+          "expected": "CKB OCR REFERENCE | CODE PAGE",
+          "matched": true,
+          "page_number": 1
+        },
+        {
+          "expected": "扫描 OCR 基准 / Scan OCR Benchmark",
+          "matched": true,
+          "page_number": 1
+        },
+        {
+          "expected": "中英文混排 Mixed Chinese and English 2026.",
+          "matched": true,
+          "page_number": 1
+        },
+        {
+          "expected": "def normalize(items):",
+          "matched": true,
+          "page_number": 1
+        },
+        {
+          "expected": "    total = sum(x[\"value\"] for x in items)",
+          "matched": true,
+          "page_number": 1
+        },
+        {
+          "expected": "    return {\"count\": len(items), \"total\": total}",
+          "matched": true,
+          "page_number": 1
+        },
+        {
+          "expected": "FIXTURE ONLY | Page 1 / 2",
+          "matched": true,
+          "page_number": 1
+        },
+        {
+          "expected": "CKB OCR REFERENCE | TABLE PAGE",
+          "matched": true,
+          "page_number": 2
+        },
+        {
+          "expected": "跨行表格 / Multi-line Table",
+          "matched": true,
+          "page_number": 2
+        },
+        {
+          "expected": "模块 Module",
+          "matched": true,
+          "page_number": 2
+        },
+        {
+          "expected": "状态 Status",
+          "matched": true,
+          "page_number": 2
+        },
+        {
+          "expected": "说明 Note",
+          "matched": true,
+          "page_number": 2
+        },
+        {
+          "expected": "parser",
+          "matched": true,
+          "page_number": 2
+        },
+        {
+          "expected": "READY",
+          "matched": true,
+          "page_number": 2
+        },
+        {
+          "expected": "保留页码",
+          "matched": true,
+          "page_number": 2
+        },
+        {
+          "expected": "page 2",
+          "matched": true,
+          "page_number": 2
+        },
+        {
+          "expected": "ocr",
+          "matched": true,
+          "page_number": 2
+        },
+        {
+          "expected": "CHECK",
+          "matched": true,
+          "page_number": 2
+        },
+        {
+          "expected": "code + table",
+          "matched": true,
+          "page_number": 2
+        },
+        {
+          "expected": "trace",
+          "matched": true,
+          "page_number": 2
+        },
+        {
+          "expected": "PASS",
+          "matched": true,
+          "page_number": 2
+        },
+        {
+          "expected": "source-page=2",
+          "matched": true,
+          "page_number": 2
+        },
+        {
+          "expected": "FIXTURE ONLY | Page 2 / 2",
+          "matched": true,
+          "page_number": 2
+        }
+      ],
+      "expected_items": 23,
+      "matched_items": 23,
+      "recall": 1.0
+    }
+  },
+  "quality_gate_evaluations": {
+    "code_exact_lines": true,
+    "code_indentation": true,
+    "code_symbols": true,
+    "hybrid_methods": true,
+    "source_page_locator": true,
+    "table_cells": true,
+    "table_columns": true,
+    "table_fragment": true,
+    "table_rows": true,
+    "table_wrapped_cell": true,
+    "text_coverage": true
+  },
+  "quality_gate_failures": [],
+  "runtime": {
+    "onnxruntime": "1.29.0",
+    "pdftoppm": "26.07.0",
+    "pypdf": "6.16.2",
+    "python": "3.12.14",
+    "rapidocr_onnxruntime": "1.4.4"
+  },
+  "schema_version": 1,
+  "source_commit": "1ed6e84f83fa3e5cebaf9370cd601fb1d1346563",
+  "status": "measured"
+}

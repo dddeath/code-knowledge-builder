@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "database_sha256": "4242278fbd10372e1b02c6bed896e44c3ecf60436551e2a20a06caea378b0d1c",
+  "database_bytes": 14671872,
+  "sqlite_integrity": "ok",
+  "active_documents": 2090,
+  "content_vectors": 2090,
+  "projection": {
+    "documents": 2090,
+    "documents_digest": "0f52c028d49ba08afcc0285a71dcbc4dc6706b5a88d0aada3ebf3ce8d87227ef",
+    "mapping_sha256": "192bb703cd9662b81e662fda456c53fa050eb96f9deafcf2716d8be5517d5074",
+    "projection_sha256": "73db340a552f2861b80bfb3da543a9ebf92f65f55f658fe7e1ca61d86bc84ea8",
+    "projection_bytes": 665693
+  },
+  "build": {
+    "schema_version": 1,
+    "kind": "qmd-build",
+    "identity": {
+      "package_name": "@tobilu/qmd",
+      "package_version": "2.8.3",
+      "build_commit": "facd35e",
+      "node_version": "v24.19.0"
+    },
+    "collection": "ckb-qmd-fixed-v1",
+    "expected_documents": 2090,
+    "indexed_documents": 2090,
+    "update": {
+      "collections": 1,
+      "indexed": 2090,
+      "updated": 0,
+      "unchanged": 0,
+      "removed": 0,
+      "skipped": 0,
+      "needsEmbedding": 2090
+    },
+    "embed": {
+      "docsProcessed": 2090,
+      "chunksEmbedded": 2090,
+      "errors": 0,
+      "failures": [],
+      "durationMs": 74309
+    },
+    "status": {
+      "totalDocuments": 2090,
+      "needsEmbedding": 0,
+      "hasVectorIndex": true,
+      "collections": [
+        {
+          "name": "ckb-qmd-fixed-v1",
+          "path": "E:\\knowledge_builder\\self-workspace\\worktrees\\qmd-fixed-three-arm-benchmark\\prototypes\\ckb-semantic-vector-benchmark\\.runs\\qmd-fixed-v2\\index\\qmd\\corpus",
+          "pattern": "*.md",
+          "documents": 2090,
+          "lastUpdated": "2026-09-04T18:49:07.985Z"
+        }
+      ]
+    },
+    "wall_ms": 130089.4786
+  },
+  "build_resource": {
+    "exit_status": 0,
+    "wall_seconds": 131.0589129,
+    "peak_rss_bytes": 3098050560,
+    "peak_extra_child_processes": 1,
+    "network_connections": [],
+    "stderr": ""
+  },
+  "runtime": {
+    "status": "verified-real-local-model-and-runtime",
+    "package_name": "@tobilu/qmd",
+    "package_version": "2.8.3",
+    "package_git_head": "facd35e01359e59d938bc9418e93fb9318addee3",
+    "package_build_commit": "facd35e",
+    "package_dist_integrity": "sha512-zjfVwrObPB618B6x8SdhlGv/tX9OxRHsbQnr5DUtBvqPK6HGQ27lM+9/BAY5okpjrHVnW56hLyDkqoTcsrVLzA==",
+    "package_lock_sha256": "bfb414b3cc44cc8e5c0ab5ec2fe06388dcd2827857d12542c20f0976048f17c0",
+    "node_version": "v24.19.0",
+    "model_name": "embeddinggemma-300M-Q8_0.gguf",
+    "model_repository": "ggml-org/embeddinggemma-300M-GGUF",
+    "model_revision": "0f741b5a6585bd53aeb15cd1372c56f2a0f65e12",
+    "model_bytes": 333590944,
+    "model_sha256": "b5ce9d77a3fc4b3b39ccb5643c36777911cc4eb46a66962eadfa3f5f60490d63",
+    "adapter_sha256": "2caa3d5b496e77743854cc806efe642a0f2b9f01f6eed10fea82f6ff63ae1001"
+  },
+  "candidate_depth": 2090,
+  "postprocess": "score descending then entity_id; source_path deduplicate; common 2400-token budget; top 8"
+}

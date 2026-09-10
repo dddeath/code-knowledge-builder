@@ -271,31 +271,36 @@ def validate_provider_response(
     for name, expected in identity.items():
         if value.get(name) != expected:
             raise CkbError(f"keyword provider {name} does not match the request configuration")
+    keywords = _bounded_strings(
+        value.get("keywords"),
+        name="keywords",
+        maximum_items=MAX_KEYWORDS,
+        maximum_chars=MAX_KEYWORD_CHARS,
+        pattern=_KEYWORD_TEXT,
+    )
+    anchors = _bounded_strings(
+        value.get("anchors"),
+        name="anchors",
+        maximum_items=MAX_ANCHORS,
+        maximum_chars=MAX_ANCHOR_CHARS,
+        pattern=_ANCHOR_TEXT,
+    )
+    rewrites = _bounded_strings(
+        value.get("rewrites"),
+        name="rewrites",
+        maximum_items=MAX_REWRITES,
+        maximum_chars=MAX_REWRITE_CHARS,
+        pattern=_REWRITE_TEXT,
+    )
+    if not any((keywords, anchors, rewrites)):
+        raise CkbError("keyword provider passed response must contain at least one candidate")
     return {
         "schema_version": KEYWORD_FALLBACK_SCHEMA_VERSION,
         "status": "passed",
         **identity,
-        "keywords": _bounded_strings(
-            value.get("keywords"),
-            name="keywords",
-            maximum_items=MAX_KEYWORDS,
-            maximum_chars=MAX_KEYWORD_CHARS,
-            pattern=_KEYWORD_TEXT,
-        ),
-        "anchors": _bounded_strings(
-            value.get("anchors"),
-            name="anchors",
-            maximum_items=MAX_ANCHORS,
-            maximum_chars=MAX_ANCHOR_CHARS,
-            pattern=_ANCHOR_TEXT,
-        ),
-        "rewrites": _bounded_strings(
-            value.get("rewrites"),
-            name="rewrites",
-            maximum_items=MAX_REWRITES,
-            maximum_chars=MAX_REWRITE_CHARS,
-            pattern=_REWRITE_TEXT,
-        ),
+        "keywords": keywords,
+        "anchors": anchors,
+        "rewrites": rewrites,
         "usage": _usage(value.get("usage")),
     }
 

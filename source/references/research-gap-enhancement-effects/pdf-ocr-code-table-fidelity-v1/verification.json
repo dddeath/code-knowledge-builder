@@ -1,0 +1,137 @@
+{
+  "artifacts": {
+    "modified": {
+      "baseline_sha256": "37e53c43ae40406f0420417a4178557a4f86a0e5a6dfb2eb026009bca5f39a07",
+      "modified_sha256": "72a4a9bf7bac14f9bd4d534c4cdfb434f85723337f2d171f402b3c524401d1d4",
+      "path": "scripts/ckb_core/reference_pdf.py"
+    },
+    "patch": {
+      "path": "references/research-gap-enhancement-effects/pdf-ocr-code-table-fidelity-v1/implementation.patch",
+      "scope": "baseline 到交付时 substantive tree；排除 implementation.patch、verification.json 和 rollback.ps1 三个证据角色自身",
+      "sha256": "51cab40bb928588831b5e2640e104549c6e315996d80749a5f0f79bfa7b3a8be"
+    },
+    "protocol": {
+      "path": "tests/fixtures/research-gap-enhancement-effects/pdf-ocr-code-table-fidelity-v1.json",
+      "sha256": "244801f1ac67faa11b96499277532b82a985295308f06024060dbbab240e938a"
+    },
+    "raw_result": {
+      "path": "references/research-gap-enhancement-effects/pdf-ocr-code-table-fidelity-v1/raw-results.json",
+      "sha256": "bc68e59969e620346156eb1838b354b2f0ddf282e28b4f2c635426426dff8d4e"
+    },
+    "report": {
+      "path": "references/research-gap-enhancement-effects/pdf-ocr-code-table-fidelity-v1/report.json",
+      "sha256": "ce4e6072890fa9a505a70ef15d0324339e417a0e3369c931dbb5c1a49ce13239"
+    },
+    "rollback": {
+      "path": "references/research-gap-enhancement-effects/pdf-ocr-code-table-fidelity-v1/rollback.ps1",
+      "sha256": "60ef454687a69e4b5ead4fa181ab2924e9cf36c42b57b59da952f03fe2049361"
+    }
+  },
+  "baseline_commit": "fcad08af3dac7ecf341f2833c1bfc8f352131a3b",
+  "baseline_modified_probe": {
+    "command": "& C:\\Users\\19739\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe C:\\Users\\19739\\Documents\\Codex\\2026-09-05\\ocr\\work\\final-probe-001\\probe.py C:\\Users\\19739\\Documents\\Codex\\2026-09-05\\ocr\\work\\final-probe-001 E:\\knowledge_builder\\self-workspace\\worktrees\\real-ocr-code-table-fidelity",
+    "exit_status": 0,
+    "input": "包含三列、一个缩进续行的同一表格文本；同一空白扫描 PDF；同一带 engine 元数据的 OCR 适配器输出。",
+    "literal_output": "{\"baseline\": {\"commit\": \"fcad08af3dac7ecf341f2833c1bfc8f352131a3b\", \"ocr_evidence_fields\": [\"accepted\", \"confidence_score\", \"elapsed_seconds\", \"status\", \"text_metrics\"], \"wrapped_table_structure\": \"paragraph\", \"wrapped_table_warnings\": []}, \"modified\": {\"engine_name\": \"probe\", \"ocr_evidence_fields\": [\"accepted\", \"confidence_score\", \"elapsed_seconds\", \"metadata\", \"output_file\", \"output_sha256\", \"status\", \"text_metrics\"], \"output_sha256_length\": 64, \"wrapped_table_structure\": \"table\", \"wrapped_table_warnings\": [\"layout-derived-table-boundary\", \"wrapped-table-row-inferred\"]}}"
+  },
+  "branch": "codex/real-ocr-code-table-fidelity",
+  "failure_samples": {
+    "corrupt-pdf": "corrupt or unsupported PDF source (PdfStreamError): Stream has ended unexpectedly",
+    "ocr-empty-output": "ocr-text-below-usable-threshold",
+    "ocr-page-limit": "ocr-page-limit; attempted_pages=1",
+    "ocr-timeout": "ocr-timeout",
+    "ocr-tool-missing": "ocr-adapter-failed; stderr=ocr-tool-missing: rapidocr_onnxruntime"
+  },
+  "incremental_review_fixes": {
+    "classification_counterexample": {
+      "modified_aligned_code": "code",
+      "modified_wrapped_table": "table",
+      "previous_aligned_code": "table",
+      "previous_commit": "c59a2c5fa618d04c8fd2495563262bd85bdc29a6",
+      "previous_wrapped_table": "table"
+    },
+    "legacy_schema_v1": {
+      "behavior_zh": "同时缺少 output_file 与 output_sha256 的旧 schema v1 保持可审阅，不补造哈希，并明确标记新证据不可用。",
+      "reason": "legacy-schema-v1-ocr-output-evidence-not-recorded",
+      "reference_audit_errors": [],
+      "reference_audit_status": "pending-agent-review",
+      "status": "legacy-unavailable",
+      "validation_errors": []
+    },
+    "new_output_evidence": {
+      "drift_reason": "reference-pdf-ocr-output-drift",
+      "drift_status": "failed",
+      "verified_status": "verified"
+    }
+  },
+  "live_benchmark": {
+    "command": "& $env:CKB_TEST_PYTHON tests\\benchmark_reference_pdf_ocr_fidelity.py --protocol tests\\fixtures\\research-gap-enhancement-effects\\pdf-ocr-code-table-fidelity-v1.json --raw references\\research-gap-enhancement-effects\\pdf-ocr-code-table-fidelity-v1\\raw-results.json --report references\\research-gap-enhancement-effects\\pdf-ocr-code-table-fidelity-v1\\report.json",
+    "environment": {
+      "CKB_PDFTOPPM": "C:\\Users\\19739\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\poppler\\Library\\bin\\pdftoppm.exe",
+      "CKB_TEST_PYTHON": "C:\\Users\\19739\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+      "CKB_TEST_PYTHONPATH": "C:\\Users\\19739\\Documents\\Codex\\2026-09-05\\ocr\\work\\rapidocr-runtime",
+      "PYTHONPATH": "C:\\Users\\19739\\Documents\\Codex\\2026-09-05\\ocr\\work\\rapidocr-runtime;E:\\knowledge_builder\\self-workspace\\worktrees\\real-ocr-code-table-fidelity\\scripts;E:\\knowledge_builder\\self-workspace\\worktrees\\real-ocr-code-table-fidelity\\tests"
+    },
+    "exit_status": 0,
+    "inputs": [
+      "tests/fixtures/reference-pdf-ocr/native-code-table-mixed.pdf",
+      "tests/fixtures/reference-pdf-ocr/scanned-code-table-mixed.pdf",
+      "tests/fixtures/reference-pdf-ocr/hybrid-native-scanned.pdf"
+    ],
+    "literal_output": "{\"contract_failures\": [], \"quality_gate_failures\": [], \"raw\": \"E:\\\\knowledge_builder\\\\self-workspace\\\\worktrees\\\\real-ocr-code-table-fidelity\\\\references\\\\research-gap-enhancement-effects\\\\pdf-ocr-code-table-fidelity-v1\\\\raw-results.json\", \"report\": \"E:\\\\knowledge_builder\\\\self-workspace\\\\worktrees\\\\real-ocr-code-table-fidelity\\\\references\\\\research-gap-enhancement-effects\\\\pdf-ocr-code-table-fidelity-v1\\\\report.json\", \"status\": \"measured\"}\nEXIT_STATUS=0\n{\"source_commit\":\"1ed6e84f83fa3e5cebaf9370cd601fb1d1346563\",\"text_coverage\":1.0,\"code_exact_lines\":0.666667,\"table_rows\":1.0,\"table_fragment\":true,\"contract_failures\":\"\",\"quality_failures\":\"\"}"
+  },
+  "measured_results": {
+    "code_fidelity": {
+      "exact_line_recall": 0.666667,
+      "exact_lines": "2/3",
+      "indentation_accuracy": 1.0,
+      "observed_difference": "第一行被识别为 def normalize(items) :，冒号前多出一个空格。",
+      "symbol_sequence_accuracy": 1.0
+    },
+    "source_page_locator": {
+      "accuracy": 1.0,
+      "hybrid_methods": [
+        "native",
+        "ocr"
+      ]
+    },
+    "table_structure": {
+      "cell_recall": 1.0,
+      "column_order_accuracy": 1.0,
+      "row_alignment_accuracy": 1.0,
+      "table_fragment_detected": true,
+      "wrapped_cell_continuation": true
+    },
+    "text_coverage": {
+      "expected_items": 23,
+      "matched_items": 23,
+      "recall": 1.0
+    }
+  },
+  "patch_replay": {
+    "command": "git checkout --detach fcad08af3dac7ecf341f2833c1bfc8f352131a3b; git apply --unidiff-zero --check --index implementation.patch; git apply --unidiff-zero --index implementation.patch; compare 16 normalized Git blobs with the delivery substantive tree; git apply --unidiff-zero -R --check --index implementation.patch; git apply --unidiff-zero -R --index implementation.patch; git diff --cached --quiet fcad08af3dac7ecf341f2833c1bfc8f352131a3b --",
+    "exit_status": 0,
+    "literal_output": "{\"patch_apply_exit\":0,\"substantive_file_count\":16,\"applied_blobs_match_current\":true,\"patch_reverse_exit\":0,\"reversed_tree_matches_baseline\":true}"
+  },
+  "regression": {
+    "command": "& $env:CKB_TEST_PYTHON -m unittest tests.test_reference_pdf tests.test_reference_pdf_effect_benchmark tests.test_reference_pdf_ocr_fidelity_benchmark -v",
+    "exit_status": 0,
+    "literal_output": "Ran 17 tests in 104.790s\n\nOK (skipped=1)\nEXIT_STATUS=0",
+    "skip_reason": "真实 OCR 全链重放由独立 live_benchmark 命令执行；默认回归中的同一长测用例保持 opt-in。"
+  },
+  "rollback_replay": {
+    "command": "& rollback.ps1 -Repository C:\\Users\\19739\\Documents\\Codex\\2026-09-05\\ocr\\work\\rollback-verify-003 -Apply",
+    "exit_status": 0,
+    "literal_output": "{\"status\":\"rolled-back\",\"baseline\":\"fcad08af3dac7ecf341f2833c1bfc8f352131a3b\",\"rollback_commit\":\"dd34b1d6c51f8500c59f9eac7ba9e4e670655a13\",\"tree_matches_baseline\":true}\nROLLBACK_TREE_DIFF_EXIT=0\nROLLBACK_STATUS="
+  },
+  "schema_version": 1,
+  "scope_checks": {
+    "default_dependency_files_changed": false,
+    "merge_performed": false,
+    "readme_changed": false,
+    "remote_push_performed": false,
+    "stable_knowledge_base_changed": false
+  },
+  "status": "passed",
+  "verified_feature_tip": "1ed6e84f83fa3e5cebaf9370cd601fb1d1346563"
+}

@@ -14,17 +14,4 @@
 
 ## 谁会来到这里
 
-- [[ReferencePdfEffectBenchmarkTests]] 会使用这里提供的行为。
 - [[module_name 与 estimated_tokens 的协作实现]] 汇总了本页。
-- [[run_benchmark 等测试场景]] 会使用这里提供的行为。
-
-## 相关测试
-
-- [[CodeKnowledgeBuilderTests]]
-- [[CodeKnowledgeBuilderTests 等测试场景]]
-- [[MigrationTest]]
-- [[PageFanoutBenchmarkTests]]
-- [[PdfReferenceExtractionTests 等测试场景]]
-- [[RecordReplaceTests]]
-
-> 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。

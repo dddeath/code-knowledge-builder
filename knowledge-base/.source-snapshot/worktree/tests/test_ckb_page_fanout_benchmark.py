@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import copy
-import inspect
+import hashlib
 import json
 from pathlib import Path
 import shutil
@@ -26,7 +26,8 @@ from ckb_core.human_page_templates import (
     get_human_page_template,
 )
 from ckb_core.page_config import DEFAULT_PAGE_CONFIG
-from ckb_core.reference_documents import project_references
+from ckb_core.reference_documents import _project_reference_pages
+from ckb_core.common import json_write
 
 
 class PageFanoutBenchmarkTests(unittest.TestCase):
@@ -181,7 +182,46 @@ class PageFanoutBenchmarkTests(unittest.TestCase):
         self.assertEqual(DEFAULT_PAGE_CONFIG["page_limits"], expected["default_page_limits"])
         self.assertEqual(DEFAULT_PAGE_CONFIG["relation_limits"], expected["default_relation_limits"])
         self.assertEqual(1, expected["reference_page_limit_per_source"])
-        self.assertIn('"page_limit_per_source": 1', inspect.getsource(project_references))
+        output = self.workspace / "reference-projection"
+        for vault in ("human", "markdown"):
+            (output / vault).mkdir(parents=True)
+        json_write(output / "state.json", {})
+        # Exercise real projection and review validation: multiple claims must
+        # stay on one page per active source, not become one page per claim.
+        active = {"reference-one": "工程资料", "reference-two": "运行资料"}
+        for reference_id, title in {**active, "reference-old": "旧版资料", "reference-pending": "待审资料"}.items():
+            raw = output / "references/raw" / (reference_id + ".txt")
+            raw.parent.mkdir(parents=True, exist_ok=True)
+            source_lines = ["固定来源记录输入条件。", "固定来源说明处理结果。", "固定来源明确适用边界。"]
+            raw.write_text("\n".join(source_lines) + "\n", encoding="utf-8")
+            digest = hashlib.sha256(raw.read_bytes()).hexdigest()
+            review = output / "references/reviews" / (reference_id + ".json")
+            json_write(review, {
+                "schema_version": 1, "reference_id": reference_id, "status": "agent-reviewed",
+                "source_sha256": digest, "summary_zh": "资料分别说明输入、结果与适用边界。",
+                "claims": [{"claim_zh": text, "source_text": text, "start_line": index,
+                            "end_line": index, "evidence_note": "已核对对应归档原文行。"}
+                           for index, text in enumerate(source_lines, 1)],
+            })
+            status = "agent-reviewed" if reference_id in active else "superseded" if reference_id == "reference-old" else "pending-agent-review"
+            json_write(output / "references/manifests" / (reference_id + ".json"), {
+                "reference_id": reference_id, "title": title, "status": status,
+                "source_type": "text", "source_file": str(raw), "source_sha256": digest,
+                "review_file": str(review), "revision": 1, "origin": "本地固定测试资料", "license": "CC0-1.0",
+            })
+        projected = _project_reference_pages(output)
+        self.assertEqual(set(active), {page["reference_id"] for page in projected["pages"]})
+        self.assertEqual(2, projected["page_count"])
+        self.assertEqual(1, projected["page_limit_per_source"])
+        self.assertEqual(2, len(list((output / "human/references").glob("*.md"))))
+        for page in projected["pages"]:
+            human = output / "human" / page["file"]
+            self.assertEqual(human.read_bytes(), (output / "markdown" / page["file"]).read_bytes())
+            for text in source_lines:
+                self.assertIn(text, human.read_text(encoding="utf-8"))
+        repeated = _project_reference_pages(output)
+        self.assertEqual(projected["pages"], repeated["pages"])
+        self.assertEqual(2, len(list((output / "human/references").glob("*.md"))))
         reference_contract = get_human_page_template("reference")
         self.assertEqual("reference", reference_contract.page_type)
         self.assertLessEqual(contract["fanout_policy"]["max_links_per_page"], reference_contract.source_link_budget.maximum)

@@ -14,23 +14,10 @@
 
 ## 相关代码
 
-- 实现时会用到 [[search_terms 与 _split_camel 的协作实现]]。
+- 与 [[search_terms 与 _split_camel 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 
 ## 谁会来到这里
 
-- [[ChineseRetrievalEffectRetestFixtureTests]] 会使用这里提供的行为。
-- [[QueryTermsTests]] 会使用这里提供的行为。
-- [[retrieve]] 会使用这里提供的行为。
-- [[run_failure_probe 等测试场景]] 会使用这里提供的行为。
+- 与 [[build_agent_index 与 _tokens 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
+- 与 [[build_machine_knowledge 与 estimated_tokens 的协作实现]] 存在待核验的词法关联；是否调用或依赖需查看源码。
 - [[search_terms 与 _split_camel 的协作实现]] 汇总了本页。
-
-## 相关测试
-
-- [[AgentProtocolBatchApplyTests]]
-- [[AgentProtocolBatchApplyTests 等测试场景]]
-- [[AutomationTest.register 等测试场景]]
-- [[ChineseRetrievalEffectRetestFixtureTests]]
-- [[CodeKnowledgeBuilderTests]]
-- [[CodeKnowledgeBuilderTests 等测试场景]]
-
-> 还有更远的协作细节保存在机器审计层；遇到具体任务时可用图查询继续缩小范围。
