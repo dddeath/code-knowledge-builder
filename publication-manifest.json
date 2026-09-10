@@ -26,7 +26,7 @@
     "source": "delivery/source-files.json",
     "source_sha256": "730095e038def2c9d30872becbc3db2793afac96440156dda3856210c120f09d",
     "knowledge": "delivery/knowledge-files.json",
-    "knowledge_sha256": "300808f3cbb69754bae4299fdde16559430b6d7c85d142d67485493d6cff223a"
+    "knowledge_sha256": "2a6ad07f493c0842e468c41f49cfa09d7095921117ed744f57cdd5f4d30e485e"
   },
   "lfs_patterns": [
     "*.zip",
@@ -162,7 +162,7 @@
   "local_verification": {
     "status": "passed",
     "path": "delivery/local-release-20260910-verification.json",
-    "sha256": "6098e14c4ce5bc35a5ccd8e4d67869ffbf8e23c503f05bb589f38d1714a2c38b"
+    "sha256": "410fd877bdb0f1584b1aa4a2e254ea38a322fe95cdc50c70834ef47704a6d690"
   },
   "remote_clone_verification": {
     "verification_phase": "after-push-before-release-publication",

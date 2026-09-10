@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
 import sqlite3
 from typing import Any
@@ -32,6 +33,9 @@ def load(path: Path) -> dict[str, Any]:
 
 
 def file_inventory(root: Path) -> dict[str, dict[str, Any]]:
+    # Enumerate the same complete tree at short and long Windows checkout roots.
+    if os.name == "nt" and not str(root).startswith("\\\\?\\"):
+        root = Path("\\\\?\\" + str(root.resolve()))
     return {
         path.relative_to(root).as_posix(): {"size": path.stat().st_size, "sha256": sha256(path)}
         for path in sorted(root.rglob("*"))
